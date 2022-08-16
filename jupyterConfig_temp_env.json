@@ -1,0 +1,10 @@
+{
+  "launchCmd":["p6Env/bin/python", "-m", "ipykernel_launcher", "-f"],
+  "connectionFilePath": "/tmp/phong-kernel4.json",
+  "timeOut": {
+    "processInitTimeOut":50000,
+    "processStopTimeout":50000,
+    "connectionFileWriteTimeout":50000,
+    "serviceInitTimeOut":50000
+  }
+}

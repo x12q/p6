@@ -1,0 +1,184 @@
+{
+  "configuration": {
+    "status": "WARN",
+    "name": "MyConfig",
+    "packages": "org.apache.logging.log4j.test",
+    "appenders": {
+      "appender": [
+        {
+          "name": "RF_renderLog",
+          "type": "RollingFile",
+          "filePattern": "log/render-%d{dd-MM-yyyy}-%i.txt",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          },
+          "Policies": {
+            "TimeBasedTriggeringPolicy": {
+              "interval":1
+            }
+          }
+        },
+        {
+          "name": "RF_MsgApiCommon_Appender",
+          "type": "RollingFile",
+          "filePattern": "log/msgApi-%d{dd-MM-yyyy}-%i.txt",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          },
+          "Policies": {
+            "TimeBasedTriggeringPolicy": {
+              "interval":1
+            }
+          }
+        },
+        {
+          "name": "RF_RepService_Appender",
+          "type": "RollingFile",
+          "filePattern": "log/repService-%d{dd-MM-yyyy}-%i.txt",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          },
+          "Policies": {
+            "TimeBasedTriggeringPolicy": {
+              "interval":1
+            }
+          }
+        },
+        {
+          "name": "RF_Script_AppenderInFolder",
+          "type": "RollingFile",
+          "filePattern": "log/script/$${date:yyyy}/$${date:MM}/script-%d{dd-MM-yyyy}-%i.txt",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          },
+          "Policies": {
+            "TimeBasedTriggeringPolicy": {
+              "interval":1
+            }
+          }
+        },
+        {
+          "name": "RF_Script_Appender",
+          "type": "RollingFile",
+          "filePattern": "log/script-%d{dd-MM-yyyy}-%i.txt",
+          "PatternLayout": {
+            "pattern": "%msg%n"
+          },
+          "Policies": {
+            "TimeBasedTriggeringPolicy": {
+              "interval":1
+            }
+          }
+        },
+        {
+          "name": "RF_Common_Appender",
+          "type": "RollingFile",
+          "filePattern": "log/commonLog-%d{dd-MM-yyyy}-%i.txt",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          },
+          "Policies": {
+            "TimeBasedTriggeringPolicy": {
+              "interval":1
+            }
+          }
+        },
+        {
+          "name": "consoleAppender",
+          "type": "Console",
+          "target": "SYSTEM_OUT",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          }
+        },
+        {
+          "name": "CS_Script_Appender",
+          "type": "Console",
+          "target": "SYSTEM_OUT",
+          "PatternLayout": {
+            "pattern": "%msg%n"
+          }
+        },
+        {
+          "name": "F_Common_Appender",
+          "type": "File",
+          "fileName": "log/commonLog.txt",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          }
+        },
+        {
+          "name": "F_Script_Appender",
+          "type": "File",
+          "fileName": "log/script_log.txt",
+          "PatternLayout": {
+            "pattern": "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+          }
+        }
+      ]
+    },
+    "loggers": {
+      "logger": [
+        {
+          "name": "renderLogger",
+          "level": "debug",
+          "additivity": true
+        },
+        {
+          "name": "msgApiCommonLogger",
+          "level": "trace",
+          "AppenderRef": [
+            {
+              "ref": "RF_MsgApiCommon_Appender"
+            }
+          ],
+          "additivity": true
+        },
+        {
+          "name": "repServiceLogger",
+          "level": "trace",
+          "AppenderRef": [
+            {
+              "ref": "RF_RepService_Appender"
+            }
+          ],
+          "additivity": false
+        },
+        {
+          "name": "commonLogger",
+          "level": "trace",
+          "AppenderRef": [
+            {
+              "ref": "RF_Common_Appender"
+            }
+          ],
+          "additivity": true
+        },
+        {
+          "name": "scriptLogger",
+          "level": "info",
+          "AppenderRef": [
+            {
+              "ref": "RF_Script_Appender"
+            },
+            {
+              "ref": "CS_Script_Appender"
+            }
+          ],
+          "additivity": false
+        }
+      ],
+      "root": {
+        "level": "trace",
+        "AppenderRef": [
+          {
+            "ref": "consoleAppender"
+          },
+          {
+            "ref": "F_Common_Appender"
+          }
+        ]
+      }
+    }
+  }
+}

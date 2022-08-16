@@ -1,0 +1,101 @@
+package com.emeraldblast.p6.ui.app.state
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.emeraldblast.p6.app.action.range.RangeId
+import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.document.cell.address.CellAddress
+import com.emeraldblast.p6.app.document.cell.d.Cell
+import com.emeraldblast.p6.app.document.range.LazyRangeFactory
+import com.emeraldblast.p6.app.document.range.Range
+import com.emeraldblast.p6.app.document.range.address.RangeAddress
+import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
+import com.emeraldblast.p6.app.document.workbook.Workbook
+import com.emeraldblast.p6.app.document.workbook.WorkbookKey
+import com.emeraldblast.p6.app.document.worksheet.Worksheet
+import com.emeraldblast.p6.common.exception.error.ErrorReport
+import com.emeraldblast.p6.di.state.app_state.WbContainerMs
+import com.emeraldblast.p6.ui.common.compose.Ms
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.andThen
+import com.github.michaelbull.result.flatMap
+import com.github.michaelbull.result.map
+import javax.inject.Inject
+
+class DocumentContainerImp @Inject constructor(
+    @WbContainerMs override val globalWbContMs: Ms<WorkbookContainer>,
+    private val lazyRangeFactory: LazyRangeFactory,
+) : DocumentContainer {
+
+    override var globalWbCont: WorkbookContainer by globalWbContMs
+
+    override fun getWorkbook(workbookKey: WorkbookKey): Workbook? {
+        return this.globalWbCont.getWb(workbookKey)
+    }
+
+    override fun getWorksheetRs(wbKey: WorkbookKey, wsName: String): Result<Worksheet, ErrorReport> {
+        return this.getWorkbookRs(wbKey).andThen { wb -> wb.getWsRs(wsName) }
+    }
+
+    override fun getWorksheet(wbKey: WorkbookKey, wsName: String): Worksheet? {
+        return getWorksheetRs(wbKey, wsName).component1()
+    }
+
+    override fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range? {
+        return this.getRangeRs(wbKey, wsName, rangeAddress).component1()
+    }
+
+    override fun getLazyRange(
+        wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress
+    ): Range? {
+        return getLazyRangeRs(wbKey, wsName, rangeAddress).component1()
+    }
+
+    override fun getLazyRangeRs(
+        wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress
+    ): Rs<Range, ErrorReport> {
+        val rt = this.getWorkbookRs(wbKey).flatMap { wb ->
+            wb.getWsRs(wsName).map { ws ->
+                lazyRangeFactory.create(
+                    rangeAddress, ws.nameMs, wb.keyMs
+                )
+            }
+        }
+        return rt
+    }
+
+
+    override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Result<Cell, ErrorReport> {
+        return this.getWorksheetRs(wbKey, wsName).andThen { it.getCellOrDefaultRs(cellAddress) }
+    }
+
+    override fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
+        return this.getCellRs(wbKey, wsName, cellAddress).component1()
+    }
+
+    override fun replaceWb(newWb: Workbook): DocumentContainer {
+        globalWbCont = globalWbCont.overwriteWB(newWb)
+        return this
+    }
+
+    override fun getWorkbookRs(wbKey: WorkbookKey): Result<Workbook, ErrorReport> {
+        return this.globalWbCont.getWbRs(wbKey)
+    }
+
+    override fun getRangeRsById(rangeId: RangeId): Result<Range, ErrorReport> {
+        val rt = this.getWorkbookRs(rangeId.wbKey).andThen { wb ->
+            wb.getWsRs(rangeId.wsName).andThen { ws ->
+                ws.range(rangeId.rangeAddress)
+            }
+        }
+        return rt
+    }
+
+    override fun getRangeRs(
+        wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress
+    ): Result<Range, ErrorReport> {
+        val rt = this.getWorksheetRs(wbKey, wsName).andThen { ws -> ws.range(rangeAddress) }
+        return rt
+    }
+
+}

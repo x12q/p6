@@ -1,0 +1,152 @@
+package com.emeraldblast.p6.ui.app.state
+
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
+import com.emeraldblast.p6.app.document.workbook.Workbook
+import com.emeraldblast.p6.app.document.workbook.WorkbookKey
+import com.emeraldblast.p6.common.exception.error.ErrorReport
+import com.emeraldblast.p6.di.state.app_state.AppWindowStateListMs
+import com.emeraldblast.p6.di.state.app_state.WbStateContMs
+import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory
+import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContainer
+import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
+import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
+import com.emeraldblast.p6.ui.window.focus_state.WindowFocusState
+import com.emeraldblast.p6.ui.window.state.WindowState
+import com.emeraldblast.p6.ui.window.state.WindowStateFactory
+import com.emeraldblast.p6.ui.window.state.WindowStateFactory.Companion.createDefault
+import com.github.michaelbull.result.*
+import javax.inject.Inject
+
+
+class StateContainerImp @Inject constructor(
+    @AppWindowStateListMs
+    override val windowStateMsListMs: Ms<List<Ms<WindowState>>>,
+    @WbStateContMs
+    override val globalWbStateContMs: Ms<WorkbookStateContainer>,
+    val windowStateFactory: WindowStateFactory,
+    private val wbStateFactory: WorkbookStateFactory,
+//    @RangeSelectorStateMs
+//    override val rangeSelectorStateMs: Ms<RangeSelectorState>,
+) : StateContainer {
+//    override var rangeSelectorState: RangeSelectorState by rangeSelectorStateMs
+
+    override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
+    override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
+
+    private fun hasStateFor(wbKey: WorkbookKey): Boolean {
+        return this.getWorkbookState(wbKey) != null
+    }
+
+    /**
+     * Get a set of states related to a workbook key
+     */
+    override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2> {
+        val windowStateMsRs = this.getWindowStateMsByWbKeyRs(workbookKey)
+        val rt = windowStateMsRs.flatMap { windowstateMs ->
+            getWorkbookStateMsRs(workbookKey).flatMap {
+                QueryByWorkbookKeyResult2(
+                    windowStateMs = windowstateMs,
+                    workbookStateMs = it
+                ).toOk()
+            }
+        }
+        return rt
+    }
+
+
+    override fun addWbStateFor(wb: Workbook): StateContainer {
+        if (this.hasStateFor(wb.key)) {
+            return this
+        } else {
+            val newState = wbStateFactory.create(ms(wb))
+            globalWbStateCont = globalWbStateCont.addWbState(ms(newState))
+            return this
+        }
+    }
+
+    private val windowStateMap: Map<String, Ms<WindowState>>
+        get() {
+            return windowStateMsList.associateBy { it.value.id }
+        }
+    // ================//
+
+    override fun addWbStateFor(wbKey: WorkbookKey): StateContainer {
+       TODO()
+        return this
+    }
+
+    override fun createNewWindowStateMs(): Pair<StateContainer, Ms<WindowState>> {
+        val newWindowState: Ms<WindowState> = ms(
+            windowStateFactory.createDefault()
+        )
+        val newAppState = this.addWindowState(newWindowState)
+        return Pair(newAppState, newWindowState)
+    }
+
+    override fun createNewWindowStateMs(windowId: String): Pair<StateContainer, Ms<WindowState>> {
+        val newWindowState: Ms<WindowState> = ms(
+            windowStateFactory.createDefault(id = windowId)
+        )
+        val newAppState = this.addWindowState(newWindowState)
+        return Pair(newAppState, newWindowState)
+    }
+
+    override fun removeWindowState(windowState: Ms<WindowState>): StateContainer {
+        windowStateMsList = windowStateMsList - windowState
+        return this
+    }
+
+    override fun removeWindowState(windowId: String): StateContainer {
+        windowStateMsList = windowStateMsList.filter { it.value.id != windowId }
+        return this
+    }
+
+    override fun addWindowState(windowState: Ms<WindowState>): StateContainer {
+        windowStateMsList = windowStateMsList + windowState
+        return this
+    }
+
+
+    override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
+        return windowStateMap[windowId]
+    }
+
+    override fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>? {
+        return this.getWsStateMs(wbKey, wsName)?.value?.cursorStateMs
+    }
+
+    override fun getWorkbookStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
+        return this.globalWbStateCont.getWbStateMsRs(wbKey)
+    }
+
+    override fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>> {
+        return this.getWorkbookStateRs(wbKey).flatMap { it.getWorksheetStateMsRs(wsName) }
+    }
+
+    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport> {
+        val w = this.windowStateMsList.firstOrNull { it.value.containWbKey(wbKey) }
+        if (w != null) {
+            return Ok(w)
+        } else {
+            return Err(AppStateErrors.InvalidWindowState.report1(wbKey))
+        }
+    }
+
+    override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, ErrorReport> {
+        return this.getWindowStateMsByWbKeyRs(wbKey).map {
+            it.value.focusStateMs
+        }
+    }
+
+    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+}

@@ -1,0 +1,5 @@
+
+conda install ipython
+conda install ipykernel ( for ipykernel_launcher)
+
+this installation does not include jupyter
