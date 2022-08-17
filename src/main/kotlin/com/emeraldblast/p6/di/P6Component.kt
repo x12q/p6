@@ -9,6 +9,7 @@ import com.emeraldblast.p6.app.action.cell.cell_update.applier.CellUpdateApplier
 import com.emeraldblast.p6.app.communication.event.P6EventTable
 import com.emeraldblast.p6.app.action.app.AppRM
 import com.emeraldblast.p6.app.action.cell.CellRM
+import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.emeraldblast.p6.app.action.window.WindowAction
 import com.emeraldblast.p6.app.action.workbook.WorkbookAction
 import com.emeraldblast.p6.app.action.workbook.WorkbookEventApplier
@@ -216,6 +217,8 @@ interface P6Component {
     fun cellViewAction(): CellViewAction
     @P6Singleton
     fun makeDisplayText(): MakeCellEditorDisplayText
+    @P6Singleton
+     fun openCellEditorAction(): OpenCellEditorAction
 
     @Component.Builder
     interface Builder {

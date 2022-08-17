@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.ui.app.state
 
+import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
 import com.emeraldblast.p6.app.common.Rs
 import com.emeraldblast.p6.app.action.range.RangeId
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
@@ -26,6 +27,7 @@ interface DocumentContainer {
 
     fun getWorksheetRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport>
     fun getWorksheet(wbKey: WorkbookKey, wsName: String): Worksheet?
+    fun getWorksheet(wbws:WithWbWs): Worksheet?
 
     fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
     fun getRangeRsById(rangeId: RangeId): Rs<Range, ErrorReport>

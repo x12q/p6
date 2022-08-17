@@ -7,6 +7,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
 import com.emeraldblast.p6.app.command.Commands
 import com.emeraldblast.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
 import com.emeraldblast.p6.app.common.utils.PKeyEvent
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
@@ -26,7 +27,11 @@ class CellEditorActionImp @Inject constructor(
     private val cellViewAction: CellViewAction,
     private val cursorAction: CursorAction,
     private val makeDisplayText: MakeCellEditorDisplayText,
-) : CellEditorAction, MakeCellEditorDisplayText by makeDisplayText {
+    private val open: OpenCellEditorAction,
+) : CellEditorAction,
+    MakeCellEditorDisplayText by makeDisplayText,
+    OpenCellEditorAction by open
+{
 
     private var appState by appStateMs
     private var cellEditorState by appState.cellEditorStateMs
@@ -121,7 +126,7 @@ class CellEditorActionImp @Inject constructor(
         editorState = editorState.clearAllText().close()
     }
 
-    override fun onTextChange(newText: String, ) {
+    override fun updateText(newText: String, ) {
         var editorState by appState.cellEditorStateMs
         if (editorState.isActive) {
             editorState = editorState
@@ -129,7 +134,7 @@ class CellEditorActionImp @Inject constructor(
         }
     }
 
-    override fun onTextFieldChange(newTextField: TextFieldValue) {
+    override fun updateTextField(newTextField: TextFieldValue) {
         var editorState by appState.cellEditorStateMs
         if (editorState.isActive) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
@@ -175,7 +180,6 @@ class CellEditorActionImp @Inject constructor(
     @OptIn(ExperimentalComposeUiApi::class)
     override fun handleKeyboardEvent(keyEvent: PKeyEvent): Boolean {
         var editorState by appState.cellEditorStateMs
-        ///
         if (editorState.isActive) {
             when (keyEvent.key) {
                 Key.Enter -> {

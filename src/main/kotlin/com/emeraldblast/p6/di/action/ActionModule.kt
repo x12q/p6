@@ -14,7 +14,8 @@ import dagger.Binds
         WorkbookActionModule::class,
         WorksheetActionModule::class,
         RangeActionModule::class,
-        WindowActionModule::class
+        WindowActionModule::class,
+        CellEditorActionModule::class,
     ]
 )
 interface ActionModule {

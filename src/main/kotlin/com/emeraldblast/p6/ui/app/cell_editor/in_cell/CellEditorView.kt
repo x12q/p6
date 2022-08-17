@@ -9,17 +9,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.build.DebugFunctions.debug
-import com.emeraldblast.p6.app.common.utils.PKeyEvent
 import com.emeraldblast.p6.app.common.utils.PKeyEvent.Companion.toPKeyEvent
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.common.view.UseP6TextSelectionColor
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun CellEditorView(
@@ -45,7 +42,7 @@ fun CellEditorView(
             BasicTextField(
                 value = state.displayText,
                 onValueChange = {
-                    action.onTextFieldChange(it)
+                    action.updateTextField(it)
                 },
                 modifier = Modifier
                     .focusRequester(fc)

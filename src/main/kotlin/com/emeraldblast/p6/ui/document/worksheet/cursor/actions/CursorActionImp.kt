@@ -4,13 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.*
+import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
 import com.emeraldblast.p6.app.action.range.RangeApplier
 import com.emeraldblast.p6.app.action.range.RangeRM
 import com.emeraldblast.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
 import com.emeraldblast.p6.app.action.range.RangeId
 import com.emeraldblast.p6.app.action.range.paste_range.PasteRangeRequest2
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
-import com.emeraldblast.p6.app.document.cell.CellErrors
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddresses
@@ -24,8 +25,6 @@ import com.emeraldblast.p6.app.common.utils.PKeyEvent
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerState
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.unwrapError
 import javax.inject.Inject
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -35,6 +34,7 @@ class CursorActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     private val rangeRM: RangeRM,
     private val rangeApplier: RangeApplier,
+    private val openCellEditor: OpenCellEditorAction
 ) : CursorAction {
 
     private var appState by appStateMs
@@ -123,7 +123,7 @@ class CursorActionImp @Inject constructor(
                                 true
                             }
                             Key.F2 -> {
-                                f2(wsStateMs.value)
+                                f2(wsStateMs.value.id)
                                 true
                             }
                             Key.DirectionUp -> {
@@ -678,32 +678,8 @@ class CursorActionImp @Inject constructor(
         wsAction.makeSliderFollowCursor(cursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
     }
 
-    override fun f2(wsState: WorksheetState) {
-        val ws = wsState.worksheet
-        var cursorState by wsState.cursorStateMs
-        var cellEditorState by appState.cellEditorStateMs
-        if(!cellEditorState.isActive){
-            val cellRs = ws.getCellOrDefaultRs(cursorState.mainCell)
-            val q by lazy { appState.queryStateByWorkbookKey(cursorState.id.wbKey) }
-            val fcsMs = appState.getFocusStateMsByWbKey(wsState.wbKey)
-            if (cellRs is Ok) {
-                val cell = cellRs.value
-                if (cell.isEditable) {
-                    if(fcsMs!=null){
-                        fcsMs.value =fcsMs.value.focusOnEditor()
-                    }
-                    val cellText = cell.content.editableContent
-                    cellEditorState = cellEditorState
-                        .setCurrentText(cellText)
-                        .setEditTarget(cursorState.mainCell)
-                        .open(cursorState.idMs)
-                } else {
-                    errorRouter.toWindow(CellErrors.NotEditable.report(cell.address), q.windowState.id)
-                }
-            } else {
-                errorRouter.toWindow(cellRs.unwrapError(), q.windowState.id)
-            }
-        }
+    override fun f2(wsState: WithWbWs) {
+        openCellEditor.openCellEditor(wsState)
     }
 
     override fun delete(cursorState: CursorState) {

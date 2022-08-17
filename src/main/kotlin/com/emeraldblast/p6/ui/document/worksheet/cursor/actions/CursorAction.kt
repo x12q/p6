@@ -1,11 +1,13 @@
 package com.emeraldblast.p6.ui.document.worksheet.cursor.actions
 
 import androidx.compose.ui.input.key.KeyEvent
+import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
 import com.emeraldblast.p6.app.common.utils.PKeyEvent
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerState
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
+import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateId
 
 
 interface CursorAction {
@@ -13,7 +15,7 @@ interface CursorAction {
     /**
      * f2 key
      */
-    fun f2(wsState: WorksheetState)
+    fun f2(wsState: WithWbWs)
 
 
     /**
