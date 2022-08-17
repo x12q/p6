@@ -11,6 +11,14 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 interface RestoreWindowFocusState {
     fun restoreCellEditorAndCursorState():Rse<Unit>
     fun restoreAllWsFocusIfAllow():Rse<Unit>
+
+    /**
+     * if range selector is allowed, focus on editor, otherwise focus on cursor, free focus on editor
+     */
     fun setFocusConsideringRangeSelectorAllWindow():Rse<Unit>
+
+    /**
+     * if range selector is allowed, focus on editor, otherwise focus on cursor, free focus on editor
+     */
     fun setFocusStateConsideringRangeSelector(wbKey: WorkbookKey): Rse<Unit>
 }

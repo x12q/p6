@@ -49,7 +49,7 @@ internal class FileMenuActionImpTest {
 
     @Test
     fun `saveWorkbook when path is valid`() {
-        val validPathKey = TestSample.wbk1.copy(path=Path.of("sample/path"))
+        val validPathKey = TestSample.wbk1.setPath(Path.of("sample/path"))
         assertNotNull(windowState.activeWorkbookStateMs)
         windowStateMs.value = windowState.replaceWorkbookKey(TestSample.wbk1,validPathKey)
 

@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.document.worksheet
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.common.table.TableCR
 import com.emeraldblast.p6.app.common.table.ImmutableTableCR
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
@@ -27,8 +27,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 
 data class WorksheetImp(
-    override val nameMs: Ms<String>,
-    override val wbKeySt: St<WorkbookKey>,
+    override val idMs: Ms<WorksheetId>,
     override val table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
     override val rangeConstraint: RangeConstraint = R.worksheetValue.defaultRangeConstraint,
 ) : Worksheet {
@@ -50,6 +49,25 @@ data class WorksheetImp(
             )
         }
     }
+
+    constructor(
+        nameMs: Ms<String>,
+        wbKeySt: St<WorkbookKey>,
+        table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
+        rangeConstraint: RangeConstraint = R.worksheetValue.defaultRangeConstraint,
+    ) : this(
+        idMs = ms(
+            WorksheetIdImp(
+                wsNameMs = nameMs,
+                wbKeyMs = wbKeySt,
+            )
+        ),
+        table = table,
+        rangeConstraint = rangeConstraint
+    )
+
+    override val nameMs: Ms<String> get() = idMs.value.wsNameMs
+    override val wbKeySt: St<WorkbookKey> get() = idMs.value.wbKeyMs
 
     override fun equals(other: Any?): Boolean {
         if (other is Worksheet) {
@@ -81,6 +99,8 @@ data class WorksheetImp(
         return this
     }
 
+    override var id: WorksheetId by idMs
+
     override fun range(address: RangeAddress): Result<Range, ErrorReport> {
         if (this.rangeConstraint.contains(address)) {
             return Ok(
@@ -98,16 +118,10 @@ data class WorksheetImp(
     override val wbKey: WorkbookKey
         get() = wbKeySt.value
 
-    override val stateIdSt: St<WorksheetId> = derivedStateOf {
-        WorksheetIdImp(
-            wsNameMs = this.nameMs,
-            wbKeyMs = this.wbKeySt
-        )
-    }
-
 
     override fun setWbKeySt(wbKeySt: St<WorkbookKey>): Worksheet {
-        return this.copy(wbKeySt = wbKeySt)
+        this.idMs.value =this.idMs.value.pointToWbKeyMs(wbKeySt)
+        return this
     }
 
     override val name: String get() = nameMs.value

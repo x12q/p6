@@ -26,7 +26,7 @@ import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.emeraldblast.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
-import com.emeraldblast.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp2
+import com.emeraldblast.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateFactory
@@ -115,12 +115,9 @@ data class WorkbookStateImp @AssistedInject constructor(
         }
     }
 
-    private val wbStateId get() = WorkbookIdImp(wb.keyMs)
-
     override val sheetTabBarState: SheetTabBarState
-        get() = SheetTabBarStateImp2(
+        get() = SheetTabBarStateImp(
             activeSheetPointerMs = activeSheetPointerMs,
-            workbookId = wbStateId,
             wbMs = wbMs
         )
 

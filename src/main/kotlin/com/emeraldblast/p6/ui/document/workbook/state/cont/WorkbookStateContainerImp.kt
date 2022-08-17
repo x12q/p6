@@ -6,7 +6,6 @@ import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookId
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.github.michaelbull.result.Err
@@ -24,10 +23,6 @@ data class WorkbookStateContainerImp constructor(
         return this.m.values.firstOrNull{it.value.wbKey == wbKey}
     }
 
-    override fun getWbStateMs(wbId: WorkbookId): Ms<WorkbookState>? {
-        TODO("Not yet implemented")
-    }
-
     override val allStatesMs: List<Ms<WorkbookState>>
         get() = this.m.values.toList()
 
@@ -39,16 +34,8 @@ data class WorkbookStateContainerImp constructor(
         return getWbStateRs(wbKey).component1()
     }
 
-    override fun getWbState(wbId: WorkbookId): WorkbookState? {
-        TODO("Not yet implemented")
-    }
-
     override fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
         return getWbStateMsRs(wbKey).map { it.value }
-    }
-
-    override fun getWbStateRs(wbId: WorkbookId): Rse<WorkbookState> {
-        TODO("Not yet implemented")
     }
 
     override fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
@@ -56,10 +43,6 @@ data class WorkbookStateContainerImp constructor(
         return w?.let { Ok(it) } ?: Err(WorkbookStateContainerErrors.WorkbookStateNotExist.report(
             "workbook state for key ${wbKey} does not exist"
         ))
-    }
-
-    override fun getWbStateMsRs(wbId: WorkbookId): Rse<Ms<WorkbookState>> {
-        TODO("Not yet implemented")
     }
 
     override fun addWbState(wbStateMs: Ms<WorkbookState>): WorkbookStateContainer {

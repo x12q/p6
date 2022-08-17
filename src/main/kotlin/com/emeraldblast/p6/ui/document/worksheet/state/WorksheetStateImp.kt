@@ -189,7 +189,7 @@ data class WorksheetStateImp @AssistedInject constructor(
 
     override fun setWsMs(wsMs: Ms<Worksheet>): WorksheetState {
         val newState= this.copy(wsMs = wsMs)
-        val newWsStateIdSt = wsMs.value.stateIdSt
+        val newWsStateIdSt = wsMs.value.idMs
         cursorState.id = cursorState.id.setWsStateIdSt(newWsStateIdSt)
         rowRulerStateMs.value = rowRulerState.setWsIdSt(newWsStateIdSt)
         colRulerStateMs.value = colRulerState.setWsIdSt(newWsStateIdSt)

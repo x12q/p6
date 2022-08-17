@@ -26,19 +26,17 @@ interface Worksheet : WithSize {
 
     fun reRun():Worksheet
 
-    /**
-     * return a range derived from this worksheet
-     */
-    fun range(address: RangeAddress): Result<Range,ErrorReport>
-
-    val wbKeySt:St<WorkbookKey>
-    val wbKey:WorkbookKey
-    val stateIdSt:St<WorksheetId>
-
-    fun setWbKeySt(wbKeySt:St<WorkbookKey>):Worksheet
+    val idMs:Ms<WorksheetId>
+    var id:WorksheetId
 
     val nameMs:Ms<String>
     val name:String
+
+    val wbKeySt:St<WorkbookKey>
+    val wbKey:WorkbookKey
+    fun setWbKeySt(wbKeySt:St<WorkbookKey>):Worksheet
+
+
 
     val table: TableCR<Int, Int, Ms<Cell>>
     val cells:List<Cell> get()=cellMsList.map{it.value}
@@ -47,6 +45,11 @@ interface Worksheet : WithSize {
     override val size:Int get() = table.itemCount
 
     fun toProto():WorksheetProto
+
+    /**
+     * return a range derived from this worksheet
+     */
+    fun range(address: RangeAddress): Result<Range,ErrorReport>
 
     fun updateCellValue(cellAddress: CellAddress,value:Any?): Result<Worksheet, ErrorReport>
     fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent):Result<Worksheet, ErrorReport>

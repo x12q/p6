@@ -27,7 +27,7 @@ interface WorksheetStateFactory {
         @Assisted("4")
         colRulerStateMs: Ms<RulerState> = ms(
             RulerStateImp(
-                wsIdSt = wsMs.value.stateIdSt,
+                wsIdSt = wsMs.value.idMs,
                 dimen = RulerType.Col,
                 sliderMs = sliderMs,
 
@@ -36,7 +36,7 @@ interface WorksheetStateFactory {
         @Assisted("5")
         rowRulerStateMs: Ms<RulerState> = ms(
             RulerStateImp(
-                wsIdSt = wsMs.value.stateIdSt,
+                wsIdSt = wsMs.value.idMs,
                 dimen = RulerType.Row,
                 sliderMs = sliderMs
             )
@@ -59,7 +59,7 @@ interface WorksheetStateFactory {
             cursorStateFactory: CursorStateFactory,
         ): WorksheetState {
             val worksheet = worksheetMs.value
-            val wsIdMs: St<WorksheetId> = worksheet.stateIdSt
+            val wsIdMs: St<WorksheetId> = worksheet.idMs
             val cursorAddress: Ms<CursorStateId> = ms(
                 CursorIdImp(wsIdMs)
             )

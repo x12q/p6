@@ -14,8 +14,6 @@ import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookId
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookIdImp
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
 import org.mockito.kotlin.mock
@@ -29,7 +27,6 @@ class WorksheetStateImpTest {
     lateinit var wb0: Workbook
     lateinit var wb1: Workbook
     lateinit var worksheetIDMs: St<WorksheetId>
-    lateinit var workbookIdMs: Ms<WorkbookId>
 
     @BeforeTest
     fun b() {
@@ -87,11 +84,6 @@ class WorksheetStateImpTest {
                 }
             )
 
-        )
-        workbookIdMs = ms(
-            WorkbookIdImp(
-                wbKeyMs = wb0.keyMs,
-            )
         )
 
         val testSample = TestSample()

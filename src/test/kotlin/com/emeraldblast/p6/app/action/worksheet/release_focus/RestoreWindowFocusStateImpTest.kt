@@ -46,8 +46,10 @@ class RestoreWindowFocusStateImpTest {
     fun setFocusConsideringRangeSelector() {
         val wbk = testSample.wbKey2Ms.value
         appState.cellEditorState = appState.cellEditorState.open(mock())
-        appState.cellEditorState = appState.cellEditorState
+        appState.cellEditorState = appState.cellEditorState.setCurrentText("=")
+
         action.setFocusStateConsideringRangeSelector(wbk)
+
         appState.windowStateMsList.withIndex().forEach {(i,wds) ->
             if(wds.value.wbKeySet.contains(wbk)){
                 val f = wds.value.focusState

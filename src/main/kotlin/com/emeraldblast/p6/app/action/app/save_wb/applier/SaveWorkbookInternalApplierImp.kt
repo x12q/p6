@@ -28,7 +28,7 @@ class SaveWorkbookInternalApplierImp @Inject constructor(
         val savedPath = Path.of(path)
         if (workbookKey.path != savedPath) {
             val oldWb: Workbook? = wbCont.getWb(workbookKey)
-            val newWbKey: WorkbookKey = workbookKey.copy(path = savedPath, name = savedPath.fileName.toString())
+            val newWbKey: WorkbookKey = workbookKey.setPath(savedPath).setName(savedPath.fileName.toString())
             appState.queryStateByWorkbookKey(workbookKey).ifOk {
                 val windowState: WindowState by it.windowStateMs
                 val wbState: WorkbookState by it.workbookStateMs

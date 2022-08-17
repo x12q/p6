@@ -2,6 +2,7 @@ package com.emeraldblast.p6.ui.document.worksheet.state
 
 import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
+import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 
 /**
@@ -9,12 +10,12 @@ import com.emeraldblast.p6.ui.common.compose.St
  */
 interface WorksheetId: WithWbWs {
     val wbKeyMs:St<WorkbookKey>
-    val wsNameMs:St<String>
+    val wsNameMs:Ms<String>
 
     /**
      * Point this id to a different ws
      */
-    fun pointToWsNameMs(wsNameMs:St<String>): WorksheetId
+    fun pointToWsNameMs(wsNameMs: Ms<String>): WorksheetId
     /**
      * Point this id to a different wb
      */
