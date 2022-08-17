@@ -9,6 +9,7 @@ import com.emeraldblast.p6.proto.DocProtos.WorkbookProto
 import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookId
 import com.github.michaelbull.result.Result
 
 /**
@@ -24,6 +25,9 @@ interface Workbook : WithSize{
 
     val keyMs:Ms<WorkbookKey>
     var key: WorkbookKey
+
+//    val idMs:Ms<WorkbookId>
+//    var id:WorkbookId
 
     val worksheetMapMs:Map<Ms<String>,Ms<Worksheet>>
     val worksheetMsList: List<Ms<Worksheet>>

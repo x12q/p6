@@ -7,11 +7,11 @@ import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider
-import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateId
+import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 
 interface RulerState: WithWbWs {
-    val wsIdSt:St<WorksheetStateId>
-    fun setWsIdSt(wsIdSt:St<WorksheetStateId>):RulerState
+    val wsIdSt:St<WorksheetId>
+    fun setWsIdSt(wsIdSt:St<WorksheetId>):RulerState
     val dimen: RulerType
     val sliderMs: Ms<GridSlider>
 

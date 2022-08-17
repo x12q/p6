@@ -4,10 +4,10 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.Ms
 
 /**
- * TODO the use of this class can be retired
+ * contain information that can be used to querying workbooks and workbook states from the central app state
  */
-interface WorkbookStateID {
+interface WorkbookId {
     val wbKeyMs:Ms<WorkbookKey>
     val wbKey: WorkbookKey
-    fun setWbKey(key:WorkbookKey): WorkbookStateID
+    fun setWbKey(key:WorkbookKey): WorkbookId
 }

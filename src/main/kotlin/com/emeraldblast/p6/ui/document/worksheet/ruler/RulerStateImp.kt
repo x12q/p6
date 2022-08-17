@@ -8,10 +8,10 @@ import com.emeraldblast.p6.ui.common.compose.*
 import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider
-import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateId
+import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 
 data class RulerStateImp constructor(
-    override val wsIdSt:St<WorksheetStateId>,
+    override val wsIdSt:St<WorksheetId>,
     override val dimen: RulerType,
     override val sliderMs: Ms<GridSlider>,
     override val defaultItemSize: Int = if (dimen == RulerType.Col) R.size.value.defaultColumnWidth else R.size.value.defaultRowHeight,
@@ -21,7 +21,7 @@ data class RulerStateImp constructor(
     private val itemSizeMapMs: Ms<Map<Int, Int>> = ms(emptyMap()),
     override val resizerLayoutMap: Map<Int, LayoutCoordinates> = emptyMap(),
 ) : RulerState {
-    override fun setWsIdSt(wsIdSt: St<WorksheetStateId>): RulerState {
+    override fun setWsIdSt(wsIdSt: St<WorksheetId>): RulerState {
         return this.copy(wsIdSt=wsIdSt)
     }
 

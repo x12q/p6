@@ -7,15 +7,15 @@ import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.emeraldblast.p6.ui.document.workbook.sheet_tab.tab.SheetTabState
 import com.emeraldblast.p6.ui.document.workbook.sheet_tab.tab.SheetTabStateImp
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateID
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookId
 
 
 data class SheetTabBarStateImp constructor(
-    private val workbookStateIDMs: Ms<WorkbookStateID>,
+    private val workbookIdMs: Ms<WorkbookId>,
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
     private val wbContMs:Ms<WorkbookContainer>,
 ) : SheetTabBarState {
-    private val wb get()= wbContMs.value.getWb(workbookStateIDMs.value.wbKey)
+    private val wb get()= wbContMs.value.getWb(workbookIdMs.value.wbKey)
     override val tabStateList: List<SheetTabState> get() = wb?.worksheets?.map {
         SheetTabStateImp(
             sheetName = it.name,

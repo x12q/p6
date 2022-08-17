@@ -2,6 +2,7 @@ package com.emeraldblast.p6.app.action.worksheet.action2
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
+import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
@@ -12,6 +13,7 @@ import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
 interface WorksheetAction2 {
 
     fun makeMouseDragSelectionIfPossible(wsState: WorksheetState,mousePosition: Offset, offset:Offset = Offset(0F,0F))
+
     fun stopDragSelection(wsState: WorksheetState)
 
     fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoordinates: LayoutCoordinates,wsState: WorksheetState)
@@ -22,15 +24,10 @@ interface WorksheetAction2 {
     fun determineSlider(wsState: WorksheetState)
 
     //============================
-    fun makeSliderFollowCursor(
-        newCursor: CursorState,
-    )
 
     fun makeSliderFollowCursor(
         newCursor: CursorState,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs,
     )
     fun clickOnCell(cellAddress: CellAddress, cursorStateMs: Ms<CursorState>)
     fun startDragSelection(wsState: WorksheetState,mousePosition: Offset, offset: Offset = Offset(0F,0F) )

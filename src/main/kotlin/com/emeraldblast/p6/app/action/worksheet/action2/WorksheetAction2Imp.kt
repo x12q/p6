@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
+import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
 import com.emeraldblast.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddresses
@@ -22,34 +23,34 @@ class WorksheetAction2Imp @Inject constructor(
 ) : WorksheetAction2 {
     private var appState by appStateMs
 
-    override fun makeSliderFollowCursor(newCursor: CursorState) {
-        val wsMs = appState.getCursorStateMs(newCursor)
-    }
-
     override fun makeSliderFollowCursor(
         newCursor: CursorState,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs,
     ) {
-        val oldSlider = wsStateMs.value.slider
-        val newSlider = oldSlider.move(newCursor)
-        if (newSlider != oldSlider) {
-            var wsState by wsStateMs
-            var colRulerState by colRulerStateMs
-            var rowRulerState by rowRulerStateMs
+        val wsStateMs: Ms<WorksheetState>? = appState.getWsStateMs(wbws)
+        if(wsStateMs!=null){
 
-            wsState = wsState.setTopLeftCell(newSlider.topLeftCell).setSlider(newSlider)
-            // x: clear all cached layout coors whenever slider moves to prevent memory from overflowing.
-            this.removeAllCellLayoutCoor(wsState)
+            val oldSlider = wsStateMs.value.slider
+            val newSlider = oldSlider.move(newCursor)
+            if (newSlider != oldSlider) {
+                val colRulerStateMs: Ms<RulerState> = wsStateMs.value.colRulerStateMs
+                val rowRulerStateMs: Ms<RulerState> = wsStateMs.value.rowRulerStateMs
+                val wsState by wsStateMs
+                val colRulerState by colRulerStateMs
+                val rowRulerState by rowRulerStateMs
 
-            colRulerState = colRulerState
-                .clearItemLayoutCoorsMap()
-                .clearResizerLayoutCoorsMap()
+                wsStateMs.value = wsState.setTopLeftCell(newSlider.topLeftCell).setSlider(newSlider)
+                // x: clear all cached layout coors whenever slider moves to prevent memory from overflowing.
+                this.removeAllCellLayoutCoor(wsState)
 
-            rowRulerState = rowRulerState
-                .clearItemLayoutCoorsMap()
-                .clearResizerLayoutCoorsMap()
+                colRulerStateMs.value = colRulerState
+                    .clearItemLayoutCoorsMap()
+                    .clearResizerLayoutCoorsMap()
+
+                rowRulerStateMs.value = rowRulerState
+                    .clearItemLayoutCoorsMap()
+                    .clearResizerLayoutCoorsMap()
+            }
         }
     }
 

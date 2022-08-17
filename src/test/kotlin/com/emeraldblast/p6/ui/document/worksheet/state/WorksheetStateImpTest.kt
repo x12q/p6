@@ -14,8 +14,8 @@ import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateID
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateIDImp
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookId
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookIdImp
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
 import org.mockito.kotlin.mock
@@ -28,8 +28,8 @@ class WorksheetStateImpTest {
     lateinit var wsState: WorksheetStateImp
     lateinit var wb0: Workbook
     lateinit var wb1: Workbook
-    lateinit var worksheetStateIDMs: St<WorksheetStateId>
-    lateinit var workbookStateIDMs: Ms<WorkbookStateID>
+    lateinit var worksheetIDMs: St<WorksheetId>
+    lateinit var workbookIdMs: Ms<WorkbookId>
 
     @BeforeTest
     fun b() {
@@ -88,8 +88,8 @@ class WorksheetStateImpTest {
             )
 
         )
-        workbookStateIDMs = ms(
-            WorkbookStateIDImp(
+        workbookIdMs = ms(
+            WorkbookIdImp(
                 wbKeyMs = wb0.keyMs,
             )
         )
@@ -98,8 +98,8 @@ class WorksheetStateImpTest {
         val p6Comp = testSample.p6Comp
         val wsStateFactory = testSample.p6Comp.worksheetStateFactory()
         testSample.wbContMs.value = testSample.wbContMs.value.addOrOverWriteWb(wb0).addOrOverWriteWb(wb1)
-        val wssIdMs: Ms<WorksheetStateId> = ms(
-            WorksheetStateIdImp(
+        val wssIdMs: Ms<WorksheetId> = ms(
+            WorksheetIdImp(
                 wsNameMs = "Sheet1".toMs(),
                 wbKeyMs = wb0.keyMs
             )
@@ -111,16 +111,16 @@ class WorksheetStateImpTest {
             cursorStateMs = ms(
                 CursorStateImp
                     .default2(
-                        worksheetStateIDMs = wssIdMs
+                        worksheetIDMs = wssIdMs
                     )
             )
         ) as WorksheetStateImp
-        worksheetStateIDMs = wsState.idMs
+        worksheetIDMs = wsState.idMs
     }
 
     @Test
     fun `effects of changing ws state id`() {
-        val wsId by worksheetStateIDMs
+        val wsId by worksheetIDMs
         val nn = ms("new name")
         val newWsId= wsId.pointToWsNameMs(nn)
         assertEquals(nn.value, newWsId.wsName)

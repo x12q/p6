@@ -39,70 +39,75 @@ class CursorActionImp @Inject constructor(
 
     private var appState by appStateMs
 
-    override fun pasteRange(cursorState: CursorState) {
-        val req = PasteRangeRequest2(
-            rangeId = RangeId(
-                rangeAddress = cursorState.mainRange ?: RangeAddress(cursorState.mainCell),
-                wbKey = cursorState.id.wbKey,
-                wsName = cursorState.id.wsName,
-            ),
-            windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
-        )
-        val out = rangeRM.pasteRange2(req)
-        out?.let {
-            rangeApplier.applyPasteRange(it)
+    override fun pasteRange(wbws: WithWbWs) {
+        val cursorState = appState.getCursorState(wbws)
+        if(cursorState!=null){
+            val req = PasteRangeRequest2(
+                rangeId = RangeId(
+                    rangeAddress = cursorState.mainRange ?: RangeAddress(cursorState.mainCell),
+                    wbKey = cursorState.id.wbKey,
+                    wsName = cursorState.id.wsName,
+                ),
+                windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
+            )
+            val out = rangeRM.pasteRange2(req)
+            out?.let {
+                rangeApplier.applyPasteRange(it)
+            }
         }
     }
 
-    override fun rangeToClipboard2(cursorState: CursorState) {
-        val mergeAllCursorState = cursorState.attemptToMergeAllIntoOne()
-        if (mergeAllCursorState.fragmentedCells.isNotEmpty() || mergeAllCursorState.fragmentedRanges.isNotEmpty()) {
-            // raise error
-            errorRouter.toWindow(WorksheetErrors.CantCopyOnFragmentedSelection, cursorState.id.wbKey)
-        } else {
-            val targetRange = mergeAllCursorState.mainRange
-            if (targetRange != null) {
-                wsAction.rangeToClipboard(
-                    RangeToClipboardRequest(
-                        rangeId = RangeId(
-                            rangeAddress = targetRange,
-                            wbKey = cursorState.id.wbKey,
-                            wsName = cursorState.id.wsName
-                        ),
-                        windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
-                    )
-                )
-
+    override fun rangeToClipboard2(wbws: WithWbWs) {
+        val cursorState: CursorState? = appState.getCursorState(wbws)
+        if(cursorState!=null){
+            val mergeAllCursorState = cursorState.attemptToMergeAllIntoOne()
+            if (mergeAllCursorState.fragmentedCells.isNotEmpty() || mergeAllCursorState.fragmentedRanges.isNotEmpty()) {
+                // raise error
+                errorRouter.toWindow(WorksheetErrors.CantCopyOnFragmentedSelection, cursorState.id.wbKey)
             } else {
-                wsAction.rangeToClipboard(
-                    RangeToClipboardRequest(
-                        rangeId = RangeId(
-                            rangeAddress = RangeAddress(cursorState.mainCell),
-                            wbKey = cursorState.id.wbKey,
-                            wsName = cursorState.id.wsName
-                        ),
-                        windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
+                val targetRange = mergeAllCursorState.mainRange
+                if (targetRange != null) {
+                    wsAction.rangeToClipboard(
+                        RangeToClipboardRequest(
+                            rangeId = RangeId(
+                                rangeAddress = targetRange,
+                                wbKey = cursorState.id.wbKey,
+                                wsName = cursorState.id.wsName
+                            ),
+                            windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
+                        )
                     )
-                )
+
+                } else {
+                    wsAction.rangeToClipboard(
+                        RangeToClipboardRequest(
+                            rangeId = RangeId(
+                                rangeAddress = RangeAddress(cursorState.mainCell),
+                                wbKey = cursorState.id.wbKey,
+                                wsName = cursorState.id.wsName
+                            ),
+                            windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
+                        )
+                    )
+                }
             }
         }
     }
 
     override fun handleKeyboardEvent(
         keyEvent: PKeyEvent,
-        cursorState: CursorState,
+        wbws: WithWbWs,
     ): Boolean {
-        val wsState = appState.getWsState(
-            cursorState.id.wbKey, cursorState.id.wsName
-        )
+        val wsState = appState.getWsState(wbws)
         if (wsState != null) {
+            val cursorState by wsState.cursorStateMs
             return if (keyEvent.type == KeyEventType.KeyDown) {
                 if (keyEvent.isCtrlPressedAlone) {
                     handleKeyWithCtrlDown(keyEvent, cursorState)
                 } else if (keyEvent.isShiftPressedAlone) {
                     handleKeyboardEventWhenShiftDown(keyEvent, cursorState)
                 } else if (keyEvent.isCtrlShiftPressed) {
-                    handleKeyWithCtrlShift(keyEvent, wsState)
+                    handleKeyWithCtrlShift(keyEvent, wbws)
                 } else {
 
                     val wsStateMs =
@@ -127,27 +132,27 @@ class CursorActionImp @Inject constructor(
                                 true
                             }
                             Key.DirectionUp -> {
-                                up(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                                up(wbws)
                                 true
                             }
                             Key.DirectionDown -> {
-                                down(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                                down(wbws)
                                 true
                             }
                             Key.DirectionLeft -> {
-                                left(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                                left(wbws)
                                 true
                             }
                             Key.DirectionRight -> {
-                                right(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                                right(wbws)
                                 true
                             }
                             Key.Home -> {
-                                this.home(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                                this.home(wbws)
                                 true
                             }
                             Key.MoveEnd -> {
-                                this.end(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                                this.end(wbws)
                                 true
                             }
                             else -> false
@@ -168,34 +173,34 @@ class CursorActionImp @Inject constructor(
 
     private fun handleKeyboardEventWhenShiftDown(
         keyEvent: PKeyEvent,
-        cursorState: CursorState,
+        wbws: WithWbWs
     ): Boolean {
         if (keyEvent.isShiftPressedAlone) {
 
-            val wsStateMs = appState.getWsStateMs(cursorState.id.wbKey, cursorState.id.wsName)
-            val cursorStateMs = appState.getCursorStateMs(cursorState.id.wbKey, cursorState.id.wsName)
+            val wsStateMs = appState.getWsStateMs(wbws)
+            val cursorStateMs = appState.getCursorStateMs(wbws)
             val colRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.colRulerStateMs
             val rowRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.rowRulerStateMs
             if (wsStateMs != null && cursorStateMs != null && colRulerStateMs != null && rowRulerStateMs != null) {
                 return when (keyEvent.key) {
                     Key.DirectionUp -> {
-                        shiftUp(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                        shiftUp(wbws)
                         true
                     }
                     Key.DirectionDown -> {
-                        shiftDown(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                        shiftDown(wbws)
                         true
                     }
                     Key.DirectionLeft -> {
-                        shiftLeft(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                        shiftLeft(wbws)
                         true
                     }
                     Key.DirectionRight -> {
-                        shiftRight(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
+                        shiftRight(wbws)
                         true
                     }
                     Key.Spacebar -> {
-                        shiftSpace(cursorStateMs, wsStateMs.value)
+                        selectWholeRow(wbws)
                         true
                     }
                     else -> false
@@ -209,23 +214,23 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun handleKeyWithCtrlShift(keyEvent: PKeyEvent, wsState: WorksheetState): Boolean {
+    private fun handleKeyWithCtrlShift(keyEvent: PKeyEvent, wbws: WithWbWs): Boolean {
         if (keyEvent.isCtrlShiftPressed) {
             return when (keyEvent.key) {
                 Key.DirectionUp -> {
-                    ctrlShiftUp(wsState)
+                    ctrlShiftUp(wbws)
                     true
                 }
                 Key.DirectionDown -> {
-                    ctrlShiftDown(wsState)
+                    ctrlShiftDown(wbws)
                     true
                 }
                 Key.DirectionLeft -> {
-                    ctrlShiftLeft(wsState)
+                    ctrlShiftLeft(wbws)
                     true
                 }
                 Key.DirectionRight -> {
-                    ctrlShiftRight(wsState)
+                    ctrlShiftRight(wbws)
                     true
                 }
                 else -> false
@@ -235,49 +240,54 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun handleKeyWithCtrlDown(keyEvent: PKeyEvent, cursorState: CursorState): Boolean {
-        if (keyEvent.isCtrlPressedAlone) {
-            val wsStateMs = appState.getWsStateMs(cursorState.id.wbKey, cursorState.id.wsName)
-            val cursorStateMs = appState.getCursorStateMs(cursorState.id.wbKey, cursorState.id.wsName)
-            val colRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.colRulerStateMs
-            val rowRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.rowRulerStateMs
-            if (wsStateMs != null && cursorStateMs != null && colRulerStateMs != null && rowRulerStateMs != null) {
-                return when (keyEvent.key) {
-                    Key.V -> {
-                        pasteRange(wsStateMs.value.cursorState)
-                        true
+    private fun handleKeyWithCtrlDown(keyEvent: PKeyEvent, wbws: WithWbWs): Boolean {
+        val cursorState = appState.getCursorState(wbws)
+        if (cursorState != null) {
+            if (keyEvent.isCtrlPressedAlone) {
+                val wsStateMs = appState.getWsStateMs(cursorState.id.wbKey, cursorState.id.wsName)
+                val cursorStateMs = appState.getCursorStateMs(cursorState.id.wbKey, cursorState.id.wsName)
+                val colRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.colRulerStateMs
+                val rowRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.rowRulerStateMs
+                if (wsStateMs != null && cursorStateMs != null && colRulerStateMs != null && rowRulerStateMs != null) {
+                    return when (keyEvent.key) {
+                        Key.V -> {
+                            pasteRange(wsStateMs.value.cursorState)
+                            true
+                        }
+                        Key.C -> {
+                            rangeToClipboard2(cursorState)
+                            true
+                        }
+                        Key.Z -> {
+                            undo(cursorState)
+                            true
+                        }
+                        Key.DirectionUp -> {
+                            ctrlUp(wbws)
+                            true
+                        }
+                        Key.DirectionDown -> {
+                            ctrlDown(wbws)
+                            true
+                        }
+                        Key.DirectionRight -> {
+                            ctrlRight(wbws)
+                            true
+                        }
+                        Key.DirectionLeft -> {
+                            ctrlLeft(wbws)
+                            true
+                        }
+                        Key.Spacebar -> {
+                            selectWholeCol(wbws)
+                            true
+                        }
+                        else -> false
                     }
-                    Key.C -> {
-                        rangeToClipboard2(cursorState)
-                        true
-                    }
-                    Key.Z -> {
-                        undo(cursorState)
-                        true
-                    }
-                    Key.DirectionUp -> {
-                        ctrlUp(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
-                        true
-                    }
-                    Key.DirectionDown -> {
-                        ctrlDown(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
-                        true
-                    }
-                    Key.DirectionRight -> {
-                        ctrlRight(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
-                        true
-                    }
-                    Key.DirectionLeft -> {
-                        ctrlLeft(cursorStateMs, wsStateMs, colRulerStateMs, rowRulerStateMs)
-                        true
-                    }
-                    Key.Spacebar -> {
-                        ctrlSpace(wsStateMs.value)
-                        true
-                    }
-                    else -> false
-                }
 
+                } else {
+                    return false
+                }
             } else {
                 return false
             }
@@ -287,115 +297,115 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun home(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        val wsState by wsStateMs
-        val cursorState by cursorStateMs
-        val targetCell = CellAddress(wsState.firstCol, cursorState.mainCell.rowIndex)
-        val newCursorState = cursorState.setAnchorCell(targetCell).removeAllExceptAnchorCell()
-        wsAction.makeSliderFollowCursor(newCursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getWsStateMs(wbws)?.also { wsStateMs ->
+            val wsState by wsStateMs
+            val cursorState by wsState.cursorStateMs
+            val targetCell = CellAddress(wsState.firstCol, cursorState.mainCell.rowIndex)
+            val newCursorState = cursorState.setAnchorCell(targetCell).removeAllExceptAnchorCell()
+            wsAction.makeSliderFollowCursor(newCursorState, wbws)
+        }
     }
 
     override fun end(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        val wsState by wsStateMs
-        val cursorState by cursorStateMs
-        val targetCell = CellAddress(wsState.lastCol, cursorState.mainCell.rowIndex)
-        val newCursorState = cursorState.setAnchorCell(targetCell).removeAllExceptAnchorCell()
-        cursorStateMs.value = newCursorState
-        wsAction.makeSliderFollowCursor(newCursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getWsStateMs(wbws)?.also { wsStateMs ->
+            val wsState by wsStateMs
+            val cursorState by wsState.cursorStateMs
+            val targetCell = CellAddress(wsState.lastCol, cursorState.mainCell.rowIndex)
+            val newCursorState = cursorState.setAnchorCell(targetCell).removeAllExceptAnchorCell()
+            wsState.cursorStateMs.value = newCursorState
+            wsAction.makeSliderFollowCursor(newCursorState, wbws)
+        }
     }
 
-    private fun ctrlUpNoUpdate(cursorState: CursorState, wsState: WorksheetState): CursorState? {
+    private fun ctrlUpNoUpdate(wbws: WithWbWs): CursorState? {
         // go to the nearest non-empty cell on the same col of anchor cell
-        val worksheet = wsState.worksheet
-        if (worksheet != null) {
+        val rt = appState.getWsState(wbws)?.let { wsState: WorksheetState ->
+            val cursorState: CursorState by wsState.cursorStateMs
+            val worksheet = wsState.worksheet
             val mainCell: CellAddress = cursorState.mainCell
             val colIndex = mainCell.colIndex
             val rowIndex = mainCell.rowIndex
             val row = worksheet.getCol(colIndex).map { it.address.rowIndex }.filter { it < rowIndex }.maxOrNull()
             if (row != null) {
-                return cursorState.setAnchorCell(CellAddress(colIndex, row))
+                cursorState.setAnchorCell(CellAddress(colIndex, row))
             } else {
-                return cursorState
+                cursorState
                     .setAnchorCell(CellAddress(colIndex, wsState.firstRow)).removeAllExceptAnchorCell()
             }
         }
-        return null
+        return rt
     }
 
-    override fun ctrlUp(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
-    ) {
-        // go to the nearest non-empty cell on the same col of anchor cell
-        val cursorState by cursorStateMs
-        val newCursorState = ctrlUpNoUpdate(cursorState, wsStateMs.value)
-        if (newCursorState != null) {
-            cursorStateMs.value = newCursorState
-            wsAction.makeSliderFollowCursor(newCursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+    override fun ctrlUp(wbws: WithWbWs) {
+        appState.getWsStateMs(wbws)?.also { wsStateMs ->
+            val cursorStateMs = wsStateMs.value.cursorStateMs
+            // go to the nearest non-empty cell on the same col of anchor cell
+            val cursorState by cursorStateMs
+            val newCursorState = ctrlUpNoUpdate(wbws)
+            if (newCursorState != null) {
+                cursorStateMs.value = newCursorState
+                wsAction.makeSliderFollowCursor(newCursorState, wbws)
+            }
         }
     }
 
-    private fun ctrlDownNoUpdate(cursorState: CursorState, wsState: WorksheetState): CursorState? {
-        val worksheet = wsState.worksheet
-        if (worksheet != null) {
+    private fun ctrlDownNoUpdate(wbws: WithWbWs): CursorState? {
+        val rt = appState.getWsState(wbws)?.let { wsState: WorksheetState ->
+            val cursorState: CursorState by wsState.cursorStateMs
+            val worksheet = wsState.worksheet
             val mainCell: CellAddress = cursorState.mainCell
             val colIndex = mainCell.colIndex
             val rowIndex = mainCell.rowIndex
             val row = worksheet.getCol(colIndex).map { it.address.rowIndex }.filter { it > rowIndex }.minOrNull()
             if (row != null) {
-                return cursorState.setAnchorCell(CellAddress(colIndex, row))
+                cursorState.setAnchorCell(CellAddress(colIndex, row))
             } else {
-                return cursorState
+                cursorState
                     .setAnchorCell(CellAddress(colIndex, wsState.lastRow))
                     .removeAllExceptAnchorCell()
             }
         }
-        return null
+        return rt
     }
 
     override fun ctrlDown(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        val newCursor = ctrlDownNoUpdate(cursorStateMs.value, wsStateMs.value)
-        if (newCursor != null) {
-            cursorStateMs.value = newCursor
-            wsAction.makeSliderFollowCursor(newCursor, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getWsStateMs(wbws)?.also { wsStateMs ->
+            val cursorStateMs = wsStateMs.value.cursorStateMs
+            val newCursor = ctrlDownNoUpdate(wbws)
+            if (newCursor != null) {
+                cursorStateMs.value = newCursor
+                wsAction.makeSliderFollowCursor(newCursor, wbws)
+            }
         }
     }
 
     override fun ctrlRight(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        val newCursorState = ctrlRightNoUpdate(cursorStateMs.value, wsStateMs.value)
-        if (newCursorState != null) {
-            cursorStateMs.value = newCursorState
-            wsAction.makeSliderFollowCursor(newCursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getWsStateMs(wbws)?.also { wsStateMs ->
+            val cursorStateMs = wsStateMs.value.cursorStateMs
+            val newCursorState = ctrlRightNoUpdate(wbws)
+            if (newCursorState != null) {
+                cursorStateMs.value = newCursorState
+                wsAction.makeSliderFollowCursor(newCursorState, wbws)
+            }
         }
     }
 
     /**
      * produce a new cursor state without updating any ms
      */
-    private fun ctrlRightNoUpdate(cursorState: CursorState, wsState: WorksheetState): CursorState? {
-        val worksheet = wsState.worksheet
-        if (worksheet != null) {
+    private fun ctrlRightNoUpdate(wbws: WithWbWs): CursorState? {
+        val cursorState: CursorState? = appState.getCursorState(wbws)
+        val wsState: WorksheetState? = appState.getWsState(wbws)
+        if (cursorState != null && wsState != null) {
+            val worksheet = wsState.worksheet
             val mainCell: CellAddress = cursorState.mainCell
             val colIndex = mainCell.colIndex
             val rowIndex = mainCell.rowIndex
@@ -415,44 +425,21 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlShiftLeft(wsState: WorksheetState) {
-        var cursorState by wsState.cursorStateMs
-        val cell1 = cursorState.mainCell
-        val minCol = cursorState.minCol
-        if (minCol != null) {
-            val anchor2 = this.ctrlLeftNoUpdate(
-                cursorState.setAnchorCell(CellAddress(minCol, cell1.rowIndex)),
-                wsState
-            ).mainCell
-            val minRow = cursorState.minRow
-            val maxRow = cursorState.maxRow
-
-            if (minRow != null && maxRow != null) {
-                val cell3 = CellAddress(cell1.colIndex, minRow)
-                val cell4 = CellAddress(cell1.colIndex, maxRow)
-                cursorState = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
-                    RangeAddress(listOf(cell1, cell3, cell4, anchor2))
-                )
-            }
-        }
-    }
-
-    override fun ctrlShiftRight(wsState: WorksheetState) {
-        var cursorState by wsState.cursorStateMs
-        val cell1 = cursorState.mainCell
-        val maxCol = cursorState.maxCol
-        if (maxCol != null) {
-            val anchor2 = this.ctrlRightNoUpdate(
-                cursorState.setAnchorCell(CellAddress(maxCol, cell1.rowIndex)), wsState
-            )?.mainCell
-            if (anchor2 != null) {
+    override fun ctrlShiftLeft(wbws: WithWbWs) {
+        val wsState: WorksheetState? = appState.getWsState(wbws)
+        if (wsState != null) {
+            val cursorState by wsState.cursorStateMs
+            val cell1 = cursorState.mainCell
+            val minCol = cursorState.minCol
+            if (minCol != null) {
+                val anchor2 = (this.ctrlLeftNoUpdate(wbws) ?: cursorState).mainCell
                 val minRow = cursorState.minRow
                 val maxRow = cursorState.maxRow
 
                 if (minRow != null && maxRow != null) {
                     val cell3 = CellAddress(cell1.colIndex, minRow)
                     val cell4 = CellAddress(cell1.colIndex, maxRow)
-                    cursorState = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                    wsState.cursorStateMs.value = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
                         RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                     )
                 }
@@ -460,66 +447,91 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlShiftUp(wsState: WorksheetState) {
-        var cursorState by wsState.cursorStateMs
-        val cell1 = cursorState.mainCell
-        val minRow = cursorState.minRow
-        if (minRow != null) {
-            val anchor2 = this.ctrlUpNoUpdate(
-                cursorState.setAnchorCell(CellAddress(cell1.colIndex, minRow)),
-                wsState
-            )?.mainCell
-            if (anchor2 != null) {
-                val maxCol = cursorState.maxCol
-                val minCol = cursorState.minCol
-                if (maxCol != null && minCol != null) {
-                    val cell3 = CellAddress(maxCol, cell1.rowIndex)
-                    val cell4 = CellAddress(minCol, cell1.rowIndex)
-                    cursorState = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
-                        RangeAddress(listOf(cell1, cell3, cell4, anchor2))
-                    )
+    override fun ctrlShiftRight(wbws: WithWbWs) {
+        appState.getWsState(wbws)?.also { wsState: WorksheetState ->
+            val cursorState by wsState.cursorStateMs
+            val cell1 = cursorState.mainCell
+            val maxCol = cursorState.maxCol
+            if (maxCol != null) {
+                val anchor2 = this.ctrlRightNoUpdate(wbws)?.mainCell
+                if (anchor2 != null) {
+                    val minRow = cursorState.minRow
+                    val maxRow = cursorState.maxRow
+
+                    if (minRow != null && maxRow != null) {
+                        val cell3 = CellAddress(cell1.colIndex, minRow)
+                        val cell4 = CellAddress(cell1.colIndex, maxRow)
+                        wsState.cursorStateMs.value =
+                            cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                                RangeAddress(listOf(cell1, cell3, cell4, anchor2))
+                            )
+                    }
                 }
             }
         }
     }
 
-    override fun ctrlShiftDown(wsState: WorksheetState) {
-        var cursorState by wsState.cursorStateMs
-        val cell1 = cursorState.mainCell
-        val maxRow = cursorState.maxRow
-        if (maxRow != null) {
-            val anchor2 = this.ctrlDownNoUpdate(
-                cursorState.setAnchorCell(CellAddress(cell1.colIndex, maxRow)), wsState
-            )?.mainCell
-            if (anchor2 != null) {
-                val maxCol = cursorState.maxCol
-                val minCol = cursorState.minCol
-                if (maxCol != null && minCol != null) {
-                    val cell3 = CellAddress(maxCol, cell1.rowIndex)
-                    val cell4 = CellAddress(minCol, cell1.rowIndex)
-                    cursorState = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
-                        RangeAddress(listOf(cell1, cell3, cell4, anchor2))
-                    )
+    override fun ctrlShiftUp(wbws: WithWbWs) {
+        appState.getWsState(wbws)?.also { wsState: WorksheetState ->
+            val cursorState by wsState.cursorStateMs
+            val cell1 = cursorState.mainCell
+            val minRow = cursorState.minRow
+            if (minRow != null) {
+                val anchor2 = this.ctrlUpNoUpdate(wbws)?.mainCell
+                if (anchor2 != null) {
+                    val maxCol = cursorState.maxCol
+                    val minCol = cursorState.minCol
+                    if (maxCol != null && minCol != null) {
+                        val cell3 = CellAddress(maxCol, cell1.rowIndex)
+                        val cell4 = CellAddress(minCol, cell1.rowIndex)
+                        wsState.cursorStateMs.value =
+                            cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                                RangeAddress(listOf(cell1, cell3, cell4, anchor2))
+                            )
+                    }
                 }
             }
         }
-
     }
 
-    override fun ctrlLeft(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
-    ) {
-        val newCursor = this.ctrlLeftNoUpdate(cursorStateMs.value, wsStateMs.value)
-        cursorStateMs.value = newCursor
-        wsAction.makeSliderFollowCursor(newCursor, wsStateMs, colRulerStateMs, rowRulerStateMs)
+    override fun ctrlShiftDown(wbws: WithWbWs) {
+        appState.getWsState(wbws)?.also { wsState: WorksheetState ->
+            var cursorState by wsState.cursorStateMs
+            val cell1 = cursorState.mainCell
+            val maxRow = cursorState.maxRow
+            if (maxRow != null) {
+                val anchor2 = this.ctrlDownNoUpdate(
+                    cursorState.setAnchorCell(CellAddress(cell1.colIndex, maxRow))
+                )?.mainCell
+                if (anchor2 != null) {
+                    val maxCol = cursorState.maxCol
+                    val minCol = cursorState.minCol
+                    if (maxCol != null && minCol != null) {
+                        val cell3 = CellAddress(maxCol, cell1.rowIndex)
+                        val cell4 = CellAddress(minCol, cell1.rowIndex)
+                        cursorState = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                            RangeAddress(listOf(cell1, cell3, cell4, anchor2))
+                        )
+                    }
+                }
+            }
+
+        }
     }
 
-    private fun ctrlLeftNoUpdate(cursorState: CursorState, wsState: WorksheetState): CursorState {
-        val worksheet = wsState.worksheet
-        if (worksheet != null) {
+    override fun ctrlLeft(wbws: WithWbWs) {
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            this.ctrlLeftNoUpdate(wbws)?.also { newCursor ->
+                cursorStateMs.value = newCursor
+                wsAction.makeSliderFollowCursor(newCursor, wbws)
+            }
+        }
+    }
+
+    private fun ctrlLeftNoUpdate(wbws: WithWbWs): CursorState? {
+        val rt = appState.getWsState(wbws)?.let { wsState: WorksheetState ->
+            val cursorState: CursorState by wsState.cursorStateMs
+            val worksheet = wsState.worksheet
             val mainCell: CellAddress = cursorState.mainCell
             val anchorColIndex = mainCell.colIndex
             val anchoRowIndex = mainCell.rowIndex
@@ -528,173 +540,171 @@ class CursorActionImp @Inject constructor(
                 .filter { it < anchorColIndex }
                 .maxOrNull()
             if (col != null) {
-                return cursorState.setAnchorCell(CellAddress(col, anchoRowIndex))
+                cursorState.setAnchorCell(CellAddress(col, anchoRowIndex))
             } else {
-                return cursorState
+                cursorState
                     .setAnchorCell(CellAddress(wsState.firstCol, anchoRowIndex))
                     .removeAllExceptAnchorCell()
             }
-        } else {
-            return cursorState
+        }
+        return rt
+    }
+
+    override fun selectWholeCol(wbws: WithWbWs) {
+        val wsStateMs = appState.getWsStateMs(wbws)
+        if (wsStateMs != null) {
+            val wsState by wsStateMs
+            val cursorStateMs = wsStateMs.value.cursorStateMs
+            val cursorState by cursorStateMs
+            val selectCols: List<Int> = cursorState.colFromFragCells
+            val colFromRange: List<IntRange> = cursorState.colFromRange
+            var newCursor = cursorState
+            newCursor = newCursor.addFragRanges(
+                selectCols.map { col ->
+                    RangeAddresses.wholeCol(col)
+                }
+            ).addFragRanges(
+                colFromRange.map { colRange ->
+                    RangeAddress(
+                        CellAddress(colRange.first, wsState.firstRow),
+                        CellAddress(colRange.last, wsState.lastRow)
+                    )
+                }
+            )
+            cursorStateMs.value = newCursor
         }
     }
 
-    override fun ctrlSpace(wsState: WorksheetState) {
-        var cursorState by wsState.cursorStateMs
-        val selectCols: List<Int> = cursorState.colFromFragCells
-        val colFromRange: List<IntRange> = cursorState.colFromRange
-        var newCursor = cursorState
-        newCursor = newCursor.addFragRanges(
-            selectCols.map { col ->
-                RangeAddresses.wholeCol(col)
+    override fun selectWholeRow(wbws: WithWbWs) {
+        val wsStateMs = appState.getWsStateMs(wbws)
+        if (wsStateMs != null) {
+            val wsState by wsStateMs
+            val cursorStateMs = wsStateMs.value.cursorStateMs
+            var cursorState: CursorState by cursorStateMs
+            val selectRows: List<Int> = cursorState.allFragCells.map { it.rowIndex }
+            val rowFromRange: List<IntRange> = cursorState.allRanges.map {
+                it.rowRange
             }
-        ).addFragRanges(
-            colFromRange.map { colRange ->
-                RangeAddress(
-                    CellAddress(colRange.first, wsState.firstRow),
-                    CellAddress(colRange.last, wsState.lastRow)
-                )
-            }
-        )
-        cursorState = newCursor
-    }
+            var newCursor = cursorState
 
-    override fun shiftSpace(cursorStateMs: Ms<CursorState>, wsState: WorksheetState) {
-        var cursorState: CursorState by cursorStateMs
-        val selectRows: List<Int> = cursorState.allFragCells.map { it.rowIndex }
-        val rowFromRange: List<IntRange> = cursorState.allRanges.map {
-            it.rowRange
+            newCursor = newCursor.addFragRanges(
+                selectRows.map { row ->
+                    RangeAddresses.wholeRow(row)
+                }
+            ).addFragRanges(
+                rowFromRange.map { rowRange ->
+                    RangeAddress(
+                        CellAddress(wsState.firstCol, rowRange.first),
+                        CellAddress(wsState.lastCol, rowRange.last)
+                    )
+                }
+            )
+            cursorState = newCursor
         }
-        var newCursor = cursorState
-
-        newCursor = newCursor.addFragRanges(
-            selectRows.map { row ->
-                RangeAddresses.wholeRow(row)
-            }
-        ).addFragRanges(
-            rowFromRange.map { rowRange ->
-                RangeAddress(
-                    CellAddress(wsState.firstCol, rowRange.first),
-                    CellAddress(wsState.lastCol, rowRange.last)
-                )
-            }
-        )
-        cursorState = newCursor
     }
 
     override fun up(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs,
     ) {
-        cursorStateMs.value = cursorStateMs.value.up()
-        wsAction.makeSliderFollowCursor(cursorStateMs.value, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            cursorStateMs.value = cursorStateMs.value.up()
+            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+        }
     }
 
     override fun down(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs,
     ) {
-        cursorStateMs.value = cursorStateMs.value.down()
-        wsAction.makeSliderFollowCursor(cursorStateMs.value, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            cursorStateMs.value = cursorStateMs.value.down()
+            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+        }
     }
 
     override fun left(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        cursorStateMs.value = cursorStateMs.value.left()
-        wsAction.makeSliderFollowCursor(cursorStateMs.value, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            cursorStateMs.value = cursorStateMs.value.left()
+            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+        }
     }
 
-    override fun right(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
-    ) {
-        cursorStateMs.value = cursorStateMs.value.right()
-        wsAction.makeSliderFollowCursor(cursorStateMs.value, wsStateMs, colRulerStateMs, rowRulerStateMs)
+    override fun right(wbws: WithWbWs) {
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            cursorStateMs.value = cursorStateMs.value.right()
+            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+        }
     }
 
-    override fun shiftUp(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
-    ) {
-        var cursorState by cursorStateMs
-        val mainCell = cursorState.mainCell
-        val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
-        cursorState = cursorState.removeAllFragmentedCells()
-            .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.upOneRow()))
-        wsAction.makeSliderFollowCursor(cursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+    override fun shiftUp(wbws: WithWbWs) {
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            var cursorState by cursorStateMs
+            val mainCell = cursorState.mainCell
+            val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
+            cursorState = cursorState.removeAllFragmentedCells()
+                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.upOneRow()))
+            wsAction.makeSliderFollowCursor(cursorState, wbws)
+        }
+
     }
 
     override fun shiftDown(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        var cursorState by cursorStateMs
-        val mainCell = cursorState.mainCell
-        val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
-        cursorState = cursorState.removeAllFragmentedCells()
-            .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.downOneRow()))
-        wsAction.makeSliderFollowCursor(cursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            var cursorState by cursorStateMs
+            val mainCell = cursorState.mainCell
+            val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
+            cursorState = cursorState.removeAllFragmentedCells()
+                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.downOneRow()))
+            wsAction.makeSliderFollowCursor(cursorState, wbws)
+        }
     }
 
     override fun shiftLeft(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        var cursorState by cursorStateMs
-        val mainCell = cursorState.mainCell
-        val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
-        cursorState = cursorState.removeAllFragmentedCells()
-            .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.leftOneCol()))
-        wsAction.makeSliderFollowCursor(cursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            var cursorState by cursorStateMs
+            val mainCell = cursorState.mainCell
+            val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
+            cursorState = cursorState.removeAllFragmentedCells()
+                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.leftOneCol()))
+            wsAction.makeSliderFollowCursor(cursorState, wbws)
+        }
     }
 
     override fun shiftRight(
-        cursorStateMs: Ms<CursorState>,
-        wsStateMs: Ms<WorksheetState>,
-        colRulerStateMs: Ms<RulerState>,
-        rowRulerStateMs: Ms<RulerState>
+        wbws: WithWbWs
     ) {
-        var cursorState by cursorStateMs
-        val mainCell = cursorState.mainCell
-        val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
-        cursorState = cursorState.removeAllFragmentedCells()
-            .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.rightOneCol()))
-        wsAction.makeSliderFollowCursor(cursorState, wsStateMs, colRulerStateMs, rowRulerStateMs)
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            var cursorState by cursorStateMs
+            val mainCell = cursorState.mainCell
+            val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
+            cursorState = cursorState.removeAllFragmentedCells()
+                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.rightOneCol()))
+            wsAction.makeSliderFollowCursor(cursorState, wbws)
+        }
     }
 
-    override fun f2(wsState: WithWbWs) {
-        openCellEditor.openCellEditor(wsState)
+    override fun f2(wbws: WithWbWs) {
+        openCellEditor.openCellEditor(wbws)
     }
 
-    override fun delete(cursorState: CursorState) {
-        val req = DeleteMultiRequest2(
-            wbKey = cursorState.id.wbKey,
-            wsName = cursorState.id.wsName,
-            windowId = null
-        )
-        wsAction.deleteMulti2(req)
+    override fun delete(wbws: WithWbWs) {
+        appState.getCursorState(wbws)?.also { cursorState: CursorState ->
+            val req = DeleteMultiRequest2(
+                wbKey = cursorState.id.wbKey,
+                wsName = cursorState.id.wsName,
+                windowId = null
+            )
+            wsAction.deleteMulti2(req)
+        }
     }
 
-    override fun undo(cursorState: CursorState) {
-        this.appState.queryStateByWorkbookKey(
-            cursorState.id.wbKey
-        ).ifOk {
+    override fun undo(wbws: WithWbWs) {
+        this.appState.queryStateByWorkbookKey(wbws.wbKey).ifOk {
             val commandStack by it.workbookState.commandStackMs
             val command = commandStack.pop()
             if (command != null) {

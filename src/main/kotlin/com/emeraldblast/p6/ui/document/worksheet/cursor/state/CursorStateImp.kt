@@ -13,7 +13,7 @@ import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorStateImp
 import com.emeraldblast.p6.ui.document.worksheet.state.RangeConstraint
-import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateId
+import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 import dagger.assisted.AssistedInject
 import com.emeraldblast.p6.di.state.ws.*
 import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
@@ -64,10 +64,10 @@ data class CursorStateImp @AssistedInject constructor(
         }
 
         fun default2(
-            worksheetStateIDMs: Ms<WorksheetStateId>,
+            worksheetIDMs: Ms<WorksheetId>,
         ): CursorStateImp {
             return default(
-                ms(CursorIdImp(wsStateIDMs = worksheetStateIDMs))
+                ms(CursorIdImp(wsStateIDMs = worksheetIDMs))
             )
         }
 

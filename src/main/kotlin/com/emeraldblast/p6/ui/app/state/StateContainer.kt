@@ -27,6 +27,7 @@ interface StateContainer {
 
     val globalWbStateContMs:Ms<WorkbookStateContainer>
     var globalWbStateCont: WorkbookStateContainer
+
     fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2>
     /**
      * create and add a new wb state for [wb] if it yet to have a state of its own

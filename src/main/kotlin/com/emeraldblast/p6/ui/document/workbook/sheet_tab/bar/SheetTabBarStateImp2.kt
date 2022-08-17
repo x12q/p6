@@ -2,17 +2,16 @@ package com.emeraldblast.p6.ui.document.workbook.sheet_tab.bar
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.emeraldblast.p6.ui.document.workbook.sheet_tab.tab.SheetTabState
 import com.emeraldblast.p6.ui.document.workbook.sheet_tab.tab.SheetTabStateImp
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateID
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookId
 
 
 data class SheetTabBarStateImp2 constructor(
-    private val workbookStateID: WorkbookStateID,
+    private val workbookId: WorkbookId,
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
     private val wbMs:Ms<Workbook>,
 ) : SheetTabBarState {

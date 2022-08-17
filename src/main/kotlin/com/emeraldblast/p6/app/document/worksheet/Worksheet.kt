@@ -17,7 +17,7 @@ import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.document.worksheet.state.RangeConstraint
-import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateId
+import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
@@ -33,7 +33,7 @@ interface Worksheet : WithSize {
 
     val wbKeySt:St<WorkbookKey>
     val wbKey:WorkbookKey
-    val stateIdSt:St<WorksheetStateId>
+    val stateIdSt:St<WorksheetId>
 
     fun setWbKeySt(wbKeySt:St<WorkbookKey>):Worksheet
 

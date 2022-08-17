@@ -148,10 +148,14 @@ class CursorAndCellEditorTest {
         assertEquals("=1+A3", cellEditorState.displayText.text)
         assertFalse(cellEditorState.allowRangeSelector)
 
-        // x: another case
+        // x: another case: moving from allow range selector to not allow by typing in a not tolerated character
         cellEditorAction.updateText("=1+A3+")
         assertTrue(cellEditorState.allowRangeSelector)
+        assertNull(cellEditorState.rangeSelectorText)
+        assertEquals("=1+A3+", cellEditorState.displayText.text)
+        assertEquals("=1+A3+", cellEditorState.currentText)
 
+        // x: simulate typing "1" into the cell editor
         cellEditorAction.updateText("=1+A3+1")
         assertFalse(cellEditorState.allowRangeSelector)
         assertNull(cellEditorState.rangeSelectorText?.text)

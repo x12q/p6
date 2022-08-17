@@ -22,8 +22,8 @@ import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider
  */
 interface WorksheetState  {
 
-    val idMs: St<WorksheetStateId>
-    val id:WorksheetStateId
+    val idMs: St<WorksheetId>
+    val id:WorksheetId
 
     val topLeftCell:CellAddress
     fun setTopLeftCell(c:CellAddress): WorksheetState

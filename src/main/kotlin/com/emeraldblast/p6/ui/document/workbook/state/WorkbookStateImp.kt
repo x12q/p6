@@ -87,8 +87,8 @@ data class WorkbookStateImp @AssistedInject constructor(
                 activeSheetPointerMs = activeSheetPointerMs,
                 worksheetStateListMs = wbMs.value.worksheetMsList.map { wsMs ->
                     val ws by wsMs
-                    val wsIdMs: Ms<WorksheetStateId> = ms(
-                        WorksheetStateIdImp(
+                    val wsIdMs: Ms<WorksheetId> = ms(
+                        WorksheetIdImp(
                             wsNameMs = ws.nameMs,
                             wbKeyMs = wbMs.value.keyMs,
                         )
@@ -115,12 +115,12 @@ data class WorkbookStateImp @AssistedInject constructor(
         }
     }
 
-    private val wbStateId get() = WorkbookStateIDImp(wb.keyMs)
+    private val wbStateId get() = WorkbookIdImp(wb.keyMs)
 
     override val sheetTabBarState: SheetTabBarState
         get() = SheetTabBarStateImp2(
             activeSheetPointerMs = activeSheetPointerMs,
-            workbookStateID = wbStateId,
+            workbookId = wbStateId,
             wbMs = wbMs
         )
 

@@ -3,9 +3,9 @@ package com.emeraldblast.p6.ui.document.worksheet.slider
 import com.emeraldblast.p6.app.document.cell.address.CellAddresses
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateID
+import com.emeraldblast.p6.ui.document.workbook.state.WorkbookId
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateImp
-import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateId
+import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -20,10 +20,10 @@ internal class GridSliderImpTest {
         visibleColRange = IntRange(5, 10),
         visibleRowRange = IntRange(3, 20),
     )
-    val workbookStateID = ms(mock<WorkbookStateID>(){
+    val workbookId = ms(mock<WorkbookId>(){
         whenever(it.wbKey) doReturn WorkbookKey("")
     })
-    val worksheetStateID = ms(mock<WorksheetStateId>(){
+    val worksheetID = ms(mock<WorksheetId>(){
         whenever(it.wsName) doReturn ""
     })
 
@@ -39,7 +39,7 @@ internal class GridSliderImpTest {
     @Test
     fun move() {
         // cursor on left-most col
-        val cursor = CursorStateImp.default2(worksheetStateID).setAnchorCell(
+        val cursor = CursorStateImp.default2(worksheetID).setAnchorCell(
             CellAddresses.fromIndices(gridSlider.firstVisibleCol - 1, 2)
         )
         val m1 = gridSlider.move(cursor)
@@ -49,7 +49,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleRowRange, m1.visibleRowRange)
 
         // cursor on right-most col
-        val cursor2 = CursorStateImp.default2(worksheetStateID).setAnchorCell(
+        val cursor2 = CursorStateImp.default2(worksheetID).setAnchorCell(
             CellAddresses.fromIndices(gridSlider.lastVisibleCol + 1, 2)
         )
         val m2 = gridSlider.move(cursor2)
@@ -59,7 +59,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleRowRange, m2.visibleRowRange)
 
         // cursor on bot row
-        val cursor3 = CursorStateImp.default2(worksheetStateID).setAnchorCell(
+        val cursor3 = CursorStateImp.default2(worksheetID).setAnchorCell(
             CellAddresses.fromIndices(5, gridSlider.lastVisibleRow + 1)
         )
         val m3 = gridSlider.move(cursor3)
@@ -69,7 +69,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleColRange, m3.visibleColRange)
 
         // cursor on top row
-        val cursor4 = CursorStateImp.default2(worksheetStateID).setAnchorCell(
+        val cursor4 = CursorStateImp.default2(worksheetID).setAnchorCell(
             CellAddresses.fromIndices(5, gridSlider.firstVisibleRow - 1)
         )
         val m4 = gridSlider.move(cursor4)

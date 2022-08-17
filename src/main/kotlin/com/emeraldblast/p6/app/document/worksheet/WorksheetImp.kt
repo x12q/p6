@@ -98,8 +98,8 @@ data class WorksheetImp(
     override val wbKey: WorkbookKey
         get() = wbKeySt.value
 
-    override val stateIdSt: St<WorksheetStateId> = derivedStateOf {
-        WorksheetStateIdImp(
+    override val stateIdSt: St<WorksheetId> = derivedStateOf {
+        WorksheetIdImp(
             wsNameMs = this.nameMs,
             wbKeyMs = this.wbKeySt
         )
