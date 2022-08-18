@@ -27,7 +27,7 @@ class RenameWorksheetActionImp @Inject constructor(
 
     override fun renameWorksheetRs(request: RenameWorksheetRequest): Result<Unit, ErrorReport> {
 
-        val wbStateMs = appState.getWorkbookStateMs(request.wbKey)
+        val wbStateMs = appState.getWbStateMs(request.wbKey)
         if(wbStateMs!=null){
             val command = object : BaseCommand() {
                 val req = request

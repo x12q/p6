@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
-import com.emeraldblast.p6.ui.action_table.WorkbookActionTable
+import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTable
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.window.state.WindowState

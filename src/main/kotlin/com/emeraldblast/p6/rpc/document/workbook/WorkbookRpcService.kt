@@ -84,7 +84,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
-            val ws = stateCont.getWorkbookState(wbk)?.activeSheetState?.worksheet
+            val ws = stateCont.getWbState(wbk)?.activeSheetState?.worksheet
             val rt = GetWorksheetResponse(ws)
             responseObserver.onNextAndComplete(rt.toProto())
         } else {

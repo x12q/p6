@@ -1,15 +1,9 @@
 package com.emeraldblast.p6.ui.window
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import com.emeraldblast.p6.app.common.utils.CoroutineUtils
 import com.emeraldblast.p6.app.common.utils.Loggers
@@ -17,7 +11,7 @@ import com.emeraldblast.p6.app.common.utils.PPath
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.oddity.OddMsg
 import com.emeraldblast.p6.app.oddity.OddityType
-import com.emeraldblast.p6.ui.action_table.WindowActionTable
+import com.emeraldblast.p6.ui.window.action.WindowActionTable
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.emeraldblast.p6.ui.document.workbook.WorkbookView
@@ -69,8 +63,8 @@ fun WindowView(
             WindowFrame(
                 menu = {
                     WindowMenu(
-                        fileMenuAction = windowActionTable.getFileMenuAction(),
-                        codeMenuAction = windowActionTable.getCodeMenuAction(),
+                        fileMenuAction = windowActionTable.fileMenuAction,
+                        codeMenuAction = windowActionTable.codeMenuAction,
                         windowState = windowState,
                     )
                 },
@@ -80,7 +74,7 @@ fun WindowView(
                 workbookTab = {
                     WorkbookTabBarView(
                         state = windowState.workbookTabBarState,
-                        wbTabBarActions = windowActionTable.getWbTabBarAction()
+                        wbTabBarActions = windowActionTable.wbTabBarAction
                     )
                 },
                 workbookView = {

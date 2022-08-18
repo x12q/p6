@@ -12,7 +12,6 @@ import com.emeraldblast.p6.app.action.cell.CellRM
 import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.emeraldblast.p6.app.action.window.WindowAction
 import com.emeraldblast.p6.app.action.workbook.WorkbookAction
-import com.emeraldblast.p6.app.action.workbook.WorkbookEventApplier
 import com.emeraldblast.p6.app.action.worksheet.WorksheetAction
 import com.emeraldblast.p6.app.action.worksheet.WorksheetApplier
 import com.emeraldblast.p6.app.action.worksheet.WorksheetRM
@@ -33,19 +32,23 @@ import com.emeraldblast.p6.message.api.connection.kernel_services.KernelServiceM
 import com.emeraldblast.p6.message.di.MessageApiComponent
 import com.emeraldblast.p6.rpc.P6RpcServer
 import com.emeraldblast.p6.translator.jvm_translator.CellLiteralParser
-import com.emeraldblast.p6.ui.action_table.*
 import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.action.AppAction
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
+import com.emeraldblast.p6.ui.app.action.AppActionTable
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.cell.action.CellViewAction
+import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTable
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory
+import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.emeraldblast.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.emeraldblast.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateFactory
+import com.emeraldblast.p6.ui.script_editor.action.CodeEditorActionTable
+import com.emeraldblast.p6.ui.window.action.WindowActionTable
 import com.emeraldblast.p6.ui.window.move_to_wb.MoveToWbAction
 import com.emeraldblast.p6.ui.window.state.WindowStateFactory
 import com.emeraldblast.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
@@ -150,8 +153,8 @@ interface P6Component {
     @WbContainerMs
     fun wbContainerMs(): Ms<WorkbookContainer>
 
-    @P6Singleton
-    fun workbookEventApplier(): WorkbookEventApplier
+//    @P6Singleton
+//    fun workbookEventApplier(): WorkbookEventApplier
 
 
     @P6Singleton

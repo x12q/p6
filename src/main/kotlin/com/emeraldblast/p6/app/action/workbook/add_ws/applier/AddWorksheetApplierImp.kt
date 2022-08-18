@@ -25,7 +25,7 @@ class AddWorksheetApplierImp @Inject constructor(
         val rt = res.andThen { addRs ->
             appState.globalWbCont = appState.globalWbCont.overwriteWB(addRs.newWb)
             stateCont = stateCont.addWbStateFor(addRs.newWb)
-            val wbMs=stateCont.getWorkbookStateMs(addRs.newWb.key)
+            val wbMs=stateCont.getWbStateMs(addRs.newWb.key)
             if(wbMs!=null){
                 wbMs.value = wbMs.value.refreshWsState()
             }

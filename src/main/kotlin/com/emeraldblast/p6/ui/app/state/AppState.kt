@@ -22,9 +22,6 @@ interface AppState :DocumentContainer,StateContainer{
     val cellEditorStateMs:Ms<CellEditorState>
     var cellEditorState: CellEditorState
 
-    @Deprecated("don't use, use translator cont directly")
-    fun getTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit>
-
     val stateContMs:Ms<StateContainer>
     var stateCont: StateContainer
     val windowStateFactory:WindowStateFactory
@@ -56,7 +53,6 @@ interface AppState :DocumentContainer,StateContainer{
     override fun replaceWb(newWb:Workbook):AppState
 
     override fun addWbStateFor(wb: Workbook): AppState
-    override fun addWbStateFor(wbKey: WorkbookKey): StateContainer
     override fun removeWindowState(windowState: Ms<WindowState>): AppState
     override fun removeWindowState(windowId: String): AppState
     override fun createNewWindowStateMs(): Pair<AppState, Ms<WindowState>>

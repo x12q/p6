@@ -33,7 +33,7 @@ class LoadWorkbookInternalApplierImpTest {
         val windowId = appStateMs.value.windowStateMsList[0].value.id
         val wb = WorkbookImp(WorkbookKey("Book3").toMs())
         logic.apply(windowId,wb)
-        assertNotNull(appState.getWorkbookState(wb.key))
+        assertNotNull(appState.getWbState(wb.key))
     }
 
     @Test

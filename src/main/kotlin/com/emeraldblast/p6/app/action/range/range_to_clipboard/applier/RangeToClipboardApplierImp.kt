@@ -14,11 +14,6 @@ class RangeToClipboardApplierImp @Inject constructor(
     private val baseApplier: BaseApplier,
     private val errorRouter: ErrorRouter,
 ) : RangeToClipboardApplier {
-    override fun applyRes(res: RangeToClipboardResponse?) {
-        baseApplier.applyRes(res){
-            internalApplier.apply(it.rangeId,it.windowId)
-        }
-    }
 
     override fun applyRes2(res: RseNav<RangeToClipboardResponse2>): RseNav<RangeToClipboardResponse2> {
         res.onFailure {

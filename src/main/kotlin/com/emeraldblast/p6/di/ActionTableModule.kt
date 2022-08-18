@@ -1,6 +1,15 @@
 package com.emeraldblast.p6.di
 
-import com.emeraldblast.p6.ui.action_table.*
+import com.emeraldblast.p6.ui.app.action.AppActionTable
+import com.emeraldblast.p6.ui.app.action.AppActionTableImp
+import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTable
+import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTableImp
+import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTable
+import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTableImp
+import com.emeraldblast.p6.ui.script_editor.action.CodeEditorActionTable
+import com.emeraldblast.p6.ui.script_editor.action.CodeEditorActionTableImp
+import com.emeraldblast.p6.ui.window.action.WindowActionTable
+import com.emeraldblast.p6.ui.window.action.WindowActionTableImp
 import dagger.Binds
 
 /**

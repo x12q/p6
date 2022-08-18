@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class CodeMenuActionImp @Inject constructor(
     private val windowAction: WindowAction,
-    private val appAction:AppAction,
+    private val appAction: AppAction,
     @MsKernelContextQualifier
     private val kernelContext: KernelContext,
 ) : CodeMenuAction {

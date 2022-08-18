@@ -12,23 +12,23 @@ interface ErrorRouter {
     /**
      * move an error to app
      */
-    fun toApp(errorReport: ErrorReport?)
+    fun publishToApp(errorReport: ErrorReport?)
 
     /**
      * route an error report to script editor window
      */
-    fun toScriptWindow(errorReport: ErrorReport?)
+    fun publishToScriptWindow(errorReport: ErrorReport?)
 
     /**
      * attempt to move an error to window
      */
-    fun toWindow(errorReport: ErrorReport?, windowId:String?)
-    fun toWindow(errorReport: ErrorReport?, workbookKey:WorkbookKey?)
+    fun publishToWindow(errorReport: ErrorReport?, windowId:String?)
+    fun publishToWindow(errorReport: ErrorReport?, workbookKey:WorkbookKey?)
 
     /**
      * Attempt to search for window state obj using both window id and workbook key
      */
-    fun toWindow(errorReport: ErrorReport?, windowId:String?,workbookKey:WorkbookKey?)
+    fun publishToWindow(errorReport: ErrorReport?, windowId:String?, workbookKey:WorkbookKey?)
     fun publish(errorReport:ErrorReportWithNavInfo)
     fun <T> publishIfPossible(resNav:RseNav<T>)
 }

@@ -22,25 +22,25 @@ class P6ResponseErrorHandlerImp @Inject constructor(
 
     override fun publishErrResponseOnWindow(p6Res: P6Response, workbookKey: WorkbookKey?) {
         this.extractErrorReport(p6Res) {
-            errorRouter.toWindow(it, workbookKey)
+            errorRouter.publishToWindow(it, workbookKey)
         }
     }
 
     override fun publishErrResponseOnWindow(p6Res: P6Response, windowId: String?, workbookKey: WorkbookKey?) {
         this.extractErrorReport(p6Res){
-            errorRouter.toWindow(it,windowId, workbookKey)
+            errorRouter.publishToWindow(it,windowId, workbookKey)
         }
     }
 
     override fun publishErrResponseOnApp(p6Res: P6Response) {
         this.extractErrorReport(p6Res) {
-            errorRouter.toApp(it)
+            errorRouter.publishToApp(it)
         }
     }
 
     override fun publishErrResponseOnWindow(p6Res: P6Response, windowId: String?) {
         this.extractErrorReport(p6Res) {
-            errorRouter.toWindow(it, windowId)
+            errorRouter.publishToWindow(it, windowId)
         }
     }
 

@@ -10,8 +10,7 @@ import com.emeraldblast.p6.app.action.worksheet.release_focus.RestoreWindowFocus
 /**
  * Action for use exclusively in a workbook view.
  * This act as an aggregation point and must not have any of its own action.
- * An action in this interface may operate on narrower or wider scope (cell scope, app scope),
- * and is not restrict only to workbook scope
+ * An action in this interface may operate on narrower or wider scope (cell scope, app scope), and is not restrict only to workbook scope
  */
 interface WorkbookAction :
     NewWorksheetAction,

@@ -25,7 +25,7 @@ class DeleteWorksheetInternalApplierImp @Inject constructor(
             appState = appState.replaceWb(newWB)
             // x: update wb state
             val wbKey = newWB.key
-            val wbStateMs = appState.getWorkbookStateMs(wbKey)
+            val wbStateMs = appState.getWbStateMs(wbKey)
             if(wbStateMs!=null){
                 val newWbState=wbStateMs.value.refresh().setNeedSave(true)
                 wbStateMs.value = newWbState

@@ -30,7 +30,7 @@ class P6FileLoaderImp @Inject constructor(
             val fileContent = P6FileProtos.P6FileContentProto.newBuilder().mergeFrom(p6File.content).build()
             val newWbKey = WorkbookKey(path.name,path)
             val newProto = fileContent.workbook.toBuilder().setWorkbookKey(newWbKey.toProto()).build()
-            val wb = newProto.toModel(appState::getTranslator)
+            val wb = newProto.toModel(appState.translatorContainer::getTranslator)
             return Ok(wb)
         } catch (e: Throwable) {
             return Err(CommonErrors.ExceptionError.report(e))

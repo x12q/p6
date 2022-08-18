@@ -19,15 +19,15 @@ class ErrorRouterImp @Inject constructor(
     private var codeEditorState by appState.codeEditorStateMs
     private var oddityContInCodeEditor by codeEditorState.oddityContainerMs
 
-    override fun toApp(errorReport: ErrorReport?) {
+    override fun publishToApp(errorReport: ErrorReport?) {
         appState.oddityContainer = appState.oddityContainer.addErrorReport(errorReport)
     }
 
-    override fun toScriptWindow(errorReport: ErrorReport?) {
+    override fun publishToScriptWindow(errorReport: ErrorReport?) {
         oddityContInCodeEditor = oddityContInCodeEditor.addErrorReport(errorReport)
     }
 
-    override fun toWindow(errorReport: ErrorReport?, windowId: String?) {
+    override fun publishToWindow(errorReport: ErrorReport?, windowId: String?) {
         if (windowId != null) {
             val windowStateMs = appState.getWindowStateMsById(windowId)
             if (windowStateMs != null) {
@@ -37,15 +37,15 @@ class ErrorRouterImp @Inject constructor(
                 windowStateMs.value.oddityContainer =
                     windowStateMs.value.oddityContainer.addErrorReport(er2)
             } else {
-                toApp(errorReport)
+                publishToApp(errorReport)
             }
         } else {
-            toApp(errorReport)
+            publishToApp(errorReport)
         }
 
     }
 
-    override fun toWindow(errorReport: ErrorReport?, workbookKey: WorkbookKey?) {
+    override fun publishToWindow(errorReport: ErrorReport?, workbookKey: WorkbookKey?) {
         if (workbookKey != null) {
             val windowStateMs = appState.getWindowStateMsByWbKey(workbookKey)
             if (windowStateMs != null) {
@@ -55,26 +55,26 @@ class ErrorRouterImp @Inject constructor(
                 windowStateMs.value.oddityContainer =
                     windowStateMs.value.oddityContainer.addErrorReport(errorReport)
             } else {
-                toApp(errorReport)
+                publishToApp(errorReport)
             }
         } else {
-            toApp(errorReport)
+            publishToApp(errorReport)
         }
     }
 
-    override fun toWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?) {
+    override fun publishToWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?) {
         val windowStateMs = windowId?.let { appState.getWindowStateMsById(it) }
             ?: workbookKey?.let { appState.getWindowStateMsByWbKey(it) }
         if (windowStateMs != null) {
             windowStateMs.value.oddityContainer =
                 windowStateMs.value.oddityContainer.addErrorReport(errorReport)
         } else {
-            toApp(errorReport)
+            publishToApp(errorReport)
         }
     }
 
     override fun publish(errorReport: ErrorReportWithNavInfo) {
-        this.toWindow(errorReport.errorReport, errorReport.windowId, errorReport.wbKey)
+        this.publishToWindow(errorReport.errorReport, errorReport.windowId, errorReport.wbKey)
     }
 
     override fun <T> publishIfPossible(resNav: RseNav<T>) {

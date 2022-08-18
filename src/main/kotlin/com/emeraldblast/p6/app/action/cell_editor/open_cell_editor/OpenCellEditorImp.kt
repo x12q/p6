@@ -53,10 +53,10 @@ class OpenCellEditorImp @Inject constructor(
                             .setEditTarget(cursorState.mainCell)
                             .open(cursorState.idMs)
                     } else {
-                        errorRouter.toWindow(CellErrors.NotEditable.report(cell.address), windowId)
+                        errorRouter.publishToWindow(CellErrors.NotEditable.report(cell.address), windowId)
                     }
                 }.onFailure {
-                    errorRouter.toWindow(it, windowId)
+                    errorRouter.publishToWindow(it, windowId)
                 }
             }
         }

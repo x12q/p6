@@ -34,7 +34,7 @@ class SetActiveWorksheetApplierImp @Inject constructor(
             }
 
             rs.newWbState?.also {
-                val wbStateMs = appState.getWorkbookStateMs(k)
+                val wbStateMs = appState.getWbStateMs(k)
                 if(wbStateMs!=null){
                     wbStateMs.value = it
 

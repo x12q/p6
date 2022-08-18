@@ -58,10 +58,6 @@ data class AppStateImp @Inject constructor(
     override var documentContainer by documentContainerMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
 
-    override fun getTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit> {
-        return this.translatorContainer.getTranslator(wbKey, wsName)
-    }
-
     override var stateCont by stateContMs
 
     override var activeWindowPointer: ActiveWindowPointer by activeWindowPointerMs
@@ -91,11 +87,6 @@ data class AppStateImp @Inject constructor(
 
     override fun replaceWb(newWb: Workbook): AppState {
         documentContainer = documentContainer.replaceWb(newWb)
-        return this
-    }
-
-    override fun addWbStateFor(wbKey: WorkbookKey): StateContainer {
-        stateCont = stateCont.addWbStateFor(wbKey)
         return this
     }
 

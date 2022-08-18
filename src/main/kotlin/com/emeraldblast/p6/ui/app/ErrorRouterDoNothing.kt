@@ -6,23 +6,23 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 
 class ErrorRouterDoNothing : ErrorRouter {
-    override fun toApp(errorReport: ErrorReport?) {
+    override fun publishToApp(errorReport: ErrorReport?) {
         println("do nothing")
     }
 
-    override fun toScriptWindow(errorReport: ErrorReport?) {
+    override fun publishToScriptWindow(errorReport: ErrorReport?) {
         println("do nothing")
     }
 
-    override fun toWindow(errorReport: ErrorReport?, windowId: String?) {
+    override fun publishToWindow(errorReport: ErrorReport?, windowId: String?) {
         println("do nothing")
     }
 
-    override fun toWindow(errorReport: ErrorReport?, workbookKey: WorkbookKey?) {
+    override fun publishToWindow(errorReport: ErrorReport?, workbookKey: WorkbookKey?) {
         println("do nothing")
     }
 
-    override fun toWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?) {
+    override fun publishToWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?) {
         println("do nothing")
     }
 

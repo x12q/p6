@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.common.utils.PKeyEvent.Companion.toPKeyEvent
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
-import com.emeraldblast.p6.ui.action_table.WorksheetActionTable
+import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.rms
 import com.emeraldblast.p6.ui.common.compose.toIntOffset
@@ -85,7 +85,7 @@ fun CursorView(
             } else {
                 IntOffset(0, 0)
             }
-            val editorAction = worksheetActionTable.getCellEditorAction()
+            val editorAction = worksheetActionTable.cellEditorAction
         MBox(modifier = Modifier
             .offset { editorOffset }){
             CellEditorView(

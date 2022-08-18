@@ -22,7 +22,7 @@ class NewWorksheetApplierImpTest{
         ts = TestSample()
         appStateMs = ts.appStateMs
         internalApplier = NewWorksheetInternalApplierImp(
-            appStateMs,ts.p6Comp.workbookStateFactory()
+            appStateMs,ts.p6Comp.errorRouter()
         )
         applier = NewWorksheetApplierImp(
             internalApplier, ts.p6Comp.errorRouter()

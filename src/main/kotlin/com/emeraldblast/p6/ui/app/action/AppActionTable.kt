@@ -1,4 +1,4 @@
-package com.emeraldblast.p6.ui.action_table
+package com.emeraldblast.p6.ui.app.action
 
 /**
  * Provide app-level-related actions.

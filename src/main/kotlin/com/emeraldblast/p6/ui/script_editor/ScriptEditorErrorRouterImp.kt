@@ -55,6 +55,6 @@ class ScriptEditorErrorRouterImp @Inject constructor(
     }
 
     override fun toApp(errorReport: ErrorReport) {
-        errorRouter.toApp(errorReport)
+        errorRouter.publishToApp(errorReport)
     }
 }

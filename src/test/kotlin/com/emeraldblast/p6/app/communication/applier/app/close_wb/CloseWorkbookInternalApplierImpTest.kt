@@ -3,7 +3,7 @@ package com.emeraldblast.p6.app.communication.applier.app.close_wb
 import com.emeraldblast.p6.app.action.app.close_wb.applier.CloseWorkbookInternalApplierImp
 import com.emeraldblast.p6.app.action.app.close_wb.CloseWorkbookResponse
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
-import com.emeraldblast.p6.ui.action_table.WorkbookActionTable
+import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTable
 import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.ErrorRouterImp
 import com.emeraldblast.p6.ui.app.state.AppState
@@ -44,22 +44,22 @@ class CloseWorkbookInternalApplierImpTest {
 
     @Test
     fun apply() {
-        assertNotNull(appState.getWorkbookStateMs(TestSample.wbk1))
+        assertNotNull(appState.getWbStateMs(TestSample.wbk1))
         assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
         applier.apply(res.wbKey,res.windowId)
-        assertNull(appState.getWorkbookStateMs(TestSample.wbk1))
+        assertNull(appState.getWbStateMs(TestSample.wbk1))
         assertNull(appState.globalWbCont.getWb(TestSample.wbk1))
     }
 
     @Test
     fun `apply null window id`() {
         val res = this.res.copy(windowId = null)
-        assertNotNull(appState.getWorkbookStateMs(TestSample.wbk1))
+        assertNotNull(appState.getWbStateMs(TestSample.wbk1))
         assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
 
         applier.apply(res.wbKey,null)
 
-        assertNull(appState.getWorkbookStateMs(TestSample.wbk1))
+        assertNull(appState.getWbStateMs(TestSample.wbk1))
         assertNull(appState.globalWbCont.getWb(TestSample.wbk1))
         assertNull(appState.globalWbStateCont.getWbStateMs(TestSample.wbk1))
     }
@@ -68,15 +68,15 @@ class CloseWorkbookInternalApplierImpTest {
     fun `apply null window id invalid workbook key`() {
         val res = this.res.copy(windowId = null, wbKey = WorkbookKey("invalid"))
 
-        assertNotNull(appState.getWorkbookStateMs(TestSample.wbk1))
-        assertNotNull(appState.getWorkbookStateMs(TestSample.wbk2))
+        assertNotNull(appState.getWbStateMs(TestSample.wbk1))
+        assertNotNull(appState.getWbStateMs(TestSample.wbk2))
         assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
         assertNotNull(appState.globalWbCont.getWb(TestSample.wbk2))
 
         applier.apply(res.wbKey,null)
 
-        assertNotNull(appState.getWorkbookStateMs(TestSample.wbk1))
-        assertNotNull(appState.getWorkbookStateMs(TestSample.wbk2))
+        assertNotNull(appState.getWbStateMs(TestSample.wbk1))
+        assertNotNull(appState.getWbStateMs(TestSample.wbk2))
         assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
         assertNotNull(appState.globalWbCont.getWb(TestSample.wbk2))
     }

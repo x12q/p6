@@ -33,10 +33,6 @@ interface StateContainer {
      * create and add a new wb state for [wb] if it yet to have a state of its own
      */
     fun addWbStateFor(wb: Workbook):StateContainer
-    /**
-     * create and add a new wb state for [wbKey] if it yet to have a state of its own
-     */
-    fun addWbStateFor(wbKey: WorkbookKey):StateContainer
 
     fun removeWindowState(windowState: Ms<WindowState>):StateContainer
     fun removeWindowState(windowId:String):StateContainer
@@ -44,18 +40,18 @@ interface StateContainer {
     fun createNewWindowStateMs(): Pair<StateContainer,Ms<WindowState>>
     fun createNewWindowStateMs(windowId: String): Pair<StateContainer,Ms<WindowState>>
 
-    fun getWorkbookStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>>
+    fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>>
 
-    fun getWorkbookStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
-        return getWorkbookStateMsRs(wbKey).map { it.value }
+    fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
+        return getWbStateMsRs(wbKey).map { it.value }
     }
 
-    fun getWorkbookStateMs(wbKey: WorkbookKey): Ms<WorkbookState>? {
-        return getWorkbookStateMsRs(wbKey).component1()
+    fun getWbStateMs(wbKey: WorkbookKey): Ms<WorkbookState>? {
+        return getWbStateMsRs(wbKey).component1()
     }
 
-    fun getWorkbookState(wbKey: WorkbookKey): WorkbookState? {
-        return getWorkbookStateMs(wbKey)?.value
+    fun getWbState(wbKey: WorkbookKey): WorkbookState? {
+        return getWbStateMs(wbKey)?.value
     }
 
     fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>>
@@ -118,7 +114,7 @@ interface StateContainer {
      * get cursor state ms of the active worksheet inside the workbook whose key is [wbKey]
      */
     fun getActiveCursorMs(wbKey: WorkbookKey):Ms<CursorState>?{
-        val rt=this.getWorkbookState(wbKey)?.let { wbState->
+        val rt=this.getWbState(wbKey)?.let { wbState->
             wbState.activeSheetState?.let {activeWsState->
                 activeWsState.cursorStateMs
             }

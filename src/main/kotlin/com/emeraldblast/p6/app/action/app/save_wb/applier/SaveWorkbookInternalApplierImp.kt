@@ -51,7 +51,7 @@ class SaveWorkbookInternalApplierImp @Inject constructor(
                 appState.codeEditorState = appState.codeEditorState.replaceWorkbookKey(oldWb.key, newWbKey)
             }
         } else {
-            appState.getWorkbookStateMs(workbookKey)?.also {
+            appState.getWbStateMs(workbookKey)?.also {
                 it.value = it.value.setNeedSave(false)
             }
         }

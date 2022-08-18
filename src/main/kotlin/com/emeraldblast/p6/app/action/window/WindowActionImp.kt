@@ -130,7 +130,7 @@ class WindowActionImp @Inject constructor(
         val targetWbIsDifferentFromTheWBInPath = wbKey.path != path
         if (wbAlreadyOpen && targetWbIsDifferentFromTheWBInPath) {
             val err = P6FileSaverErrors.WorkbookIsAlreadyOpenForEditing(path)
-            errorRouter.toWindow(err, windowId = windowId)
+            errorRouter.publishToWindow(err, windowId = windowId)
         } else {
             val request = SaveWorkbookRequest(
                 wbKey = wbKey,

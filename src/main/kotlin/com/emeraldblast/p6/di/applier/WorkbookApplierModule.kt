@@ -1,8 +1,6 @@
 package com.emeraldblast.p6.di.applier
 
 
-import com.emeraldblast.p6.app.action.workbook.WorkbookEventApplier
-import com.emeraldblast.p6.app.action.workbook.WorkbookEventApplierImp
 import com.emeraldblast.p6.app.action.workbook.add_ws.applier.AddWorksheetApplier
 import com.emeraldblast.p6.app.action.workbook.add_ws.applier.AddWorksheetApplierImp
 import com.emeraldblast.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetApplier
@@ -22,9 +20,9 @@ interface WorkbookApplierModule {
     @P6Singleton
     fun AddWsApplier(i: AddWorksheetApplierImp): AddWorksheetApplier
 
-    @Binds
-    @P6Singleton
-    fun WorkbookEventApplier(i: WorkbookEventApplierImp): WorkbookEventApplier
+//    @Binds
+//    @P6Singleton
+//    fun WorkbookEventApplier(i: WorkbookEventApplierImp): WorkbookEventApplier
     @Binds
     @P6Singleton
     fun DeleteWorksheetInternalApplier(i: DeleteWorksheetInternalApplierImp): DeleteWorksheetInternalApplier

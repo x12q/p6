@@ -6,7 +6,5 @@ import com.emeraldblast.p6.app.action.range.range_to_clipboard.RangeToClipboardR
 import com.emeraldblast.p6.app.common.RseNav
 
 interface RangeToClipboardApplier {
-    @Deprecated("old acr")
-    fun applyRes(res: RangeToClipboardResponse?)
     fun applyRes2(res: RseNav<RangeToClipboardResponse2>):RseNav<RangeToClipboardResponse2>
 }

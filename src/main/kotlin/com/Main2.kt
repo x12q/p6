@@ -181,7 +181,7 @@ fun main() {
 
                         for (windowStateMs in appState.windowStateMsList) {
                             val windowState = windowStateMs.value
-                            val windowAction = p6Comp3.windowActionTable().getWindowAction()
+                            val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
                             WindowView(
                                 state = windowState,

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.app_context.P6GlobalAccessPoint
 import com.emeraldblast.p6.app.common.utils.Loggers
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
-import com.emeraldblast.p6.ui.action_table.WorksheetActionTable
+import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.addTestTag
 import com.emeraldblast.p6.ui.common.view.BorderBox
@@ -46,7 +46,7 @@ fun WorksheetView(
     executionScope: CoroutineScope = P6GlobalAccessPoint.p6Component.executionScope(),
 ) {
     val ws: Worksheet = wsState.worksheet
-    val wsActions: WorksheetAction = worksheetActionTable.getWorksheetAction()
+    val wsActions: WorksheetAction = worksheetActionTable.worksheetAction
     val wsName = ws.name
     val cursorState: CursorState by wsState.cursorStateMs
     Surface(modifier = Modifier.onGloballyPositioned {
@@ -71,7 +71,7 @@ fun WorksheetView(
                         )
                     }
                     MBox {
-                        val colRulerAction = worksheetActionTable.getColRulerAction()
+                        val colRulerAction = worksheetActionTable.colRulerAction
                         Ruler(
                             state = wsState.colRulerState,
                             rulerAction = colRulerAction,
@@ -81,7 +81,7 @@ fun WorksheetView(
                 }
                 Row {
                     MBox {
-                        val rowRulerAction = worksheetActionTable.getRowRulerAction()
+                        val rowRulerAction = worksheetActionTable.rowRulerAction
                         Ruler(
                             //x: this is row ruler
                             state = wsState.rowRulerState,
@@ -106,7 +106,7 @@ fun WorksheetView(
                             enableTestTag = enableTestTag
                         )
                         MBox {
-                            val cursorAction = worksheetActionTable.getCursorAction()
+                            val cursorAction = worksheetActionTable.cursorAction
                             CursorView(
                                 state = wsState.cursorState,
                                 cellLayoutCoorsMap = wsState.cellLayoutCoorMap,

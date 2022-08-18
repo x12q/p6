@@ -15,7 +15,7 @@ import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.oddity.OddMsg
-import com.emeraldblast.p6.ui.action_table.CodeEditorActionTable
+import com.emeraldblast.p6.ui.script_editor.action.CodeEditorActionTable
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.common.compose.rms

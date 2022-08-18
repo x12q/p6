@@ -63,7 +63,7 @@ class CursorActionImp @Inject constructor(
             val mergeAllCursorState = cursorState.attemptToMergeAllIntoOne()
             if (mergeAllCursorState.fragmentedCells.isNotEmpty() || mergeAllCursorState.fragmentedRanges.isNotEmpty()) {
                 // raise error
-                errorRouter.toWindow(WorksheetErrors.CantCopyOnFragmentedSelection, cursorState.id.wbKey)
+                errorRouter.publishToWindow(WorksheetErrors.CantCopyOnFragmentedSelection, cursorState.id.wbKey)
             } else {
                 val targetRange = mergeAllCursorState.mainRange
                 if (targetRange != null) {

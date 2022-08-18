@@ -31,7 +31,7 @@ class StateContainerImp @Inject constructor(
     override val windowStateMsListMs: Ms<List<Ms<WindowState>>>,
     @WbStateContMs
     override val globalWbStateContMs: Ms<WorkbookStateContainer>,
-    val windowStateFactory: WindowStateFactory,
+    private val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
 ) : StateContainer {
 
@@ -39,7 +39,7 @@ class StateContainerImp @Inject constructor(
     override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
 
     private fun hasStateFor(wbKey: WorkbookKey): Boolean {
-        return this.getWorkbookState(wbKey) != null
+        return this.getWbState(wbKey) != null
     }
 
     /**
@@ -48,7 +48,7 @@ class StateContainerImp @Inject constructor(
     override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2> {
         val windowStateMsRs = this.getWindowStateMsByWbKeyRs(workbookKey)
         val rt = windowStateMsRs.flatMap { windowstateMs ->
-            getWorkbookStateMsRs(workbookKey).flatMap {
+            getWbStateMsRs(workbookKey).flatMap {
                 QueryByWorkbookKeyResult2(
                     windowStateMs = windowstateMs,
                     workbookStateMs = it
@@ -73,12 +73,6 @@ class StateContainerImp @Inject constructor(
         get() {
             return windowStateMsList.associateBy { it.value.id }
         }
-    // ================//
-
-    override fun addWbStateFor(wbKey: WorkbookKey): StateContainer {
-       TODO()
-        return this
-    }
 
     override fun createNewWindowStateMs(): Pair<StateContainer, Ms<WindowState>> {
         val newWindowState: Ms<WindowState> = ms(
@@ -120,12 +114,12 @@ class StateContainerImp @Inject constructor(
         return this.getWsStateMs(wbKey, wsName)?.value?.cursorStateMs
     }
 
-    override fun getWorkbookStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
+    override fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
         return this.globalWbStateCont.getWbStateMsRs(wbKey)
     }
 
     override fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>> {
-        return this.getWorkbookStateRs(wbKey).flatMap { it.getWorksheetStateMsRs(wsName) }
+        return this.getWbStateRs(wbKey).flatMap { it.getWorksheetStateMsRs(wsName) }
     }
 
     override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport> {

@@ -52,7 +52,7 @@ class ErrorApplierImp @Inject constructor(
 
     override fun <R : ScriptResponse> applyScriptResRs(res: R): Rse<R> {
         if (res.isError) {
-            errorRouter.toScriptWindow(res.errorReport)
+            errorRouter.publishToScriptWindow(res.errorReport)
             val z= res.errorReport ?: CommonErrors.Unknown.report("")
             return z.toErr()
         } else {
@@ -90,13 +90,13 @@ class ErrorApplierImp @Inject constructor(
     fun <R : ResponseWithWindowIdAndWorkbookKey> publishErr3Rs(res: R, event: P6Event): Rse<R> {
         if (res.isLegal().not()) {
             val err = P6EventErrors.IllegalStateError(event)
-            errorRouter.toWindow(err, res.windowId, res.wbKey)
+            errorRouter.publishToWindow(err, res.windowId, res.wbKey)
             return err.toErr()
         }
 
         val r = res.errorReport
         if (r!=null) {
-            errorRouter.toWindow(r, res.windowId, res.wbKey)
+            errorRouter.publishToWindow(r, res.windowId, res.wbKey)
             return r.toErr()
         }
         return Ok(res)
@@ -109,12 +109,12 @@ class ErrorApplierImp @Inject constructor(
     fun <R:ResponseWithWorkbookKeyTemplate>publishErr2Rs(res: R, event: P6Event): Rse<R>{
         if (res.isLegal().not()) {
             val err = P6EventErrors.IllegalStateError(event)
-            errorRouter.toWindow(err, res.wbKey)
+            errorRouter.publishToWindow(err, res.wbKey)
             return err.toErr()
         }
 
         if (res.isError) {
-            errorRouter.toWindow(res.errorReport, res.wbKey)
+            errorRouter.publishToWindow(res.errorReport, res.wbKey)
             return res.errorReport!!.toErr()
         }
         return Ok(res)

@@ -50,7 +50,7 @@ class RenameWorksheetInternalApplierImp
                     }
                     it.workbookStateMs.value = newWbState
                 } else {
-                    errorRouter.toWindow(renameRs.unwrapError(), it.windowState.id)
+                    errorRouter.publishToWindow(renameRs.unwrapError(), it.windowState.id)
                 }
             }
         }

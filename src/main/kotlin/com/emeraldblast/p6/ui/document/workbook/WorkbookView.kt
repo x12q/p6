@@ -12,7 +12,7 @@ import com.emeraldblast.p6.app.action.workbook.set_active_ws.SetActiveWorksheetR
 import com.emeraldblast.p6.app.common.utils.WorkbookUtils
 import com.emeraldblast.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.emeraldblast.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
-import com.emeraldblast.p6.ui.action_table.WorkbookActionTable
+import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTable
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.rms
@@ -36,7 +36,7 @@ fun WorkbookView(
     wbActionTable: WorkbookActionTable,
     focusState: WindowFocusState
 ) {
-    val wbAction: WorkbookAction = wbActionTable.getWbAction()
+    val wbAction: WorkbookAction = wbActionTable.wbAction
     val wb = wbState.wb
     val wbKey = wb.key
     MBox(modifier = Modifier.fillMaxSize()) {

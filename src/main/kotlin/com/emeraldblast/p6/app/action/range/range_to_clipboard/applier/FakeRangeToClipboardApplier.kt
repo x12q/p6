@@ -6,9 +6,6 @@ import com.emeraldblast.p6.app.common.RseNav
 import javax.inject.Inject
 
 class FakeRangeToClipboardApplier @Inject constructor() : RangeToClipboardApplier {
-    override fun applyRes(res: RangeToClipboardResponse?) {
-        println("Apply copy range to clipboard")
-    }
 
     override fun applyRes2(res: RseNav<RangeToClipboardResponse2>): RseNav<RangeToClipboardResponse2> {
         TODO("Not yet implemented")

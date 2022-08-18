@@ -31,7 +31,7 @@ class PasteRangeApplierImp @Inject constructor(
                 undo = {wbUpdateApplier.apply(reverseRes)}
             )
             if(wbKey!=null){
-                val commandStackMs=appState.getWorkbookState(wbKey)?.commandStackMs
+                val commandStackMs=appState.getWbState(wbKey)?.commandStackMs
                 if(commandStackMs!=null){
                     commandStackMs.value = commandStackMs.value.add(command)
                 }

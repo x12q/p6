@@ -17,7 +17,7 @@ class P6ResponseLegalityCheckerImp @Inject constructor(
         if (rs is Ok){
             return true
         }else{
-            errorRouter.toApp(rs.unwrapError())
+            errorRouter.publishToApp(rs.unwrapError())
             return false
         }
     }
