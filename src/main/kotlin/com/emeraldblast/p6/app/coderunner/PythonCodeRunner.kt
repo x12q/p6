@@ -19,7 +19,7 @@ import javax.inject.Inject
  * Accept a piece of Python code, then execute it by sending an execution message to IPython
  */
 class PythonCodeRunner @Inject constructor(
-    @com.emeraldblast.p6.di.Username
+    @Username
     val userName:String,
     val kernelContext:KernelContextReadOnly
 ) : CodeRunner {

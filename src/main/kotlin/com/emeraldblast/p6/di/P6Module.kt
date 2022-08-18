@@ -5,8 +5,8 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.emeraldblast.p6.app.app_context.AppContext
 import com.emeraldblast.p6.app.app_context.AppContextImp
-import com.emeraldblast.p6.app.code.BackEndCommander
-import com.emeraldblast.p6.app.code.BackEndCommanderImp
+import com.emeraldblast.p6.app.code.PythonCommander
+import com.emeraldblast.p6.app.code.PythonCommanderImp
 import com.emeraldblast.p6.app.coderunner.CodeRunner
 import com.emeraldblast.p6.app.coderunner.FakeCodeRunner
 import com.emeraldblast.p6.app.coderunner.PythonCodeRunner
@@ -91,7 +91,7 @@ interface P6Module {
 
     @Binds
     @P6Singleton
-    fun BackEndCommander(i: BackEndCommanderImp): BackEndCommander
+    fun BackEndCommander(i: PythonCommanderImp): PythonCommander
 
     @Binds
     @P6Singleton

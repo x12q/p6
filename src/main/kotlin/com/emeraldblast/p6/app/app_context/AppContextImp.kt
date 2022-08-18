@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.app_context
 
-import com.emeraldblast.p6.app.code.BackEndCommander
+import com.emeraldblast.p6.app.code.PythonCommander
 import com.emeraldblast.p6.app.coderunner.CodeRunner
 import com.emeraldblast.p6.di.Username
 import com.emeraldblast.p6.di.state.app_state.MsKernelContextQualifier
@@ -14,6 +14,6 @@ class AppContextImp @Inject constructor(
     @MsKernelContextQualifier
     override val kernelContext: KernelContext,
     override val codeRunner: CodeRunner,
-    override val backendCommander: BackEndCommander,
+    override val backendCommander: PythonCommander,
 ) : AppContext {
 }

@@ -2,7 +2,7 @@ package com.emeraldblast.p6.di
 
 import androidx.compose.ui.window.ApplicationScope
 import com.emeraldblast.p6.app.app_context.AppContext
-import com.emeraldblast.p6.app.code.BackEndCommander
+import com.emeraldblast.p6.app.code.PythonCommander
 import com.emeraldblast.p6.app.coderunner.CodeRunner
 import com.emeraldblast.p6.app.action.app.AppApplier
 import com.emeraldblast.p6.app.action.cell.cell_update.applier.CellUpdateApplier
@@ -179,7 +179,7 @@ interface P6Component {
     fun codeRunner(): CodeRunner
 
     @P6Singleton
-    fun backEndCommander(): BackEndCommander
+    fun backEndCommander(): PythonCommander
 
     @P6Singleton
     fun gson(): Gson
