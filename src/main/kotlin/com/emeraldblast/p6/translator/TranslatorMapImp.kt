@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.translator
 
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
@@ -26,6 +27,10 @@ data class TranslatorMapImp(
         return m[wbWsSt]
     }
 
+    override fun getTranslator(wbWs: WbWs): P6Translator<ExUnit>? {
+        return this.getTranslator(wbWs.wbKey,wbWs.wsName)
+    }
+
     override fun addTranslator(key: WbWsSt, translator: P6Translator<ExUnit>): TranslatorMap {
         val nm = m + (key to translator)
         return this.copy(m = nm)
@@ -40,7 +45,9 @@ data class TranslatorMapImp(
     }
 
     override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorMap {
-        val newM = m.filterKeys { it.wbKey != wbKey && it.wsName != wsName }
+        val newM = m.filterKeys {
+            !(it.wbKey == wbKey && it.wsName == wsName)
+        }
         return this.copy(m = newM)
     }
 
@@ -53,11 +60,17 @@ data class TranslatorMapImp(
         return this.copy(m = m - key)
     }
 
+    override fun removeTranslator(wbWs: WbWs): TranslatorMap {
+        return this.removeTranslator(wbWs.wbKey,wbWs.wsName)
+    }
+
     override fun removeTranslator(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
-        translator: P6Translator<ExUnit>
     ): TranslatorMap {
-        return this.copy(m = m.filterKeys { it.wbKey != wbKeySt && it.wsNameSt != wsNameSt })
+        val nm = m.filterKeys {
+            !(it.wbKeySt == wbKeySt && it.wsNameSt == wsNameSt)
+        }
+        return this.copy(m = nm)
     }
 }

@@ -2,8 +2,8 @@ package com.emeraldblast.p6.ui.app.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
-import com.emeraldblast.p6.app.common.utils.CapHashMap
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.di.state.app_state.InitSingleTranslatorMap
 import com.emeraldblast.p6.di.state.app_state.TranslatorMapMs
@@ -22,18 +22,45 @@ import javax.inject.Inject
  */
 class TranslatorContainerImp @Inject constructor(
     @TranslatorMapMs
-    val translatorMapMs: Ms<TranslatorMap>,
+    val attachedTranslatorMapMs: Ms<TranslatorMap>,
     @InitSingleTranslatorMap
-    private val singleTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,
+    private val independentTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,
     private val translatorFactory: JvmFormulaTranslatorFactory,
     private val visitorFactory: JvmFormulaVisitorFactory,
 ) : TranslatorContainer {
 
-    var tm: TranslatorMap by translatorMapMs
+    private var tm: TranslatorMap by attachedTranslatorMapMs
 
-    override fun getTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit> {
-        return this.getTranslator(WbWsSt(wbKeySt, wsNameSt))
+    override fun getTranslatorOrCreate(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit> {
+        return this.getTranslatorOrCreate(WbWsSt(wbKeySt, wsNameSt))
     }
+
+    override fun getTranslatorOrCreate(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit> {
+        val t1 = tm.getTranslator(wbKey, wsName)
+        if(t1!=null){
+            return t1
+        }else{
+            val newTrans = createOneOffTranslator(wbKey, wsName)
+            independentTranslatorMap.put((wbKey to wsName),newTrans)
+            return newTrans
+        }
+    }
+
+    override fun getTranslatorOrCreate(wbWsSt: WbWsSt): P6Translator<ExUnit> {
+        val t= tm.getTranslator(wbWsSt)
+        if(t!=null){
+            return t
+        }else{
+            val newTrans = translatorFactory.create(
+                visitor = visitorFactory.create(
+                    wbKeySt = wbWsSt.wbKeySt, wsNameSt = wbWsSt.wsNameSt
+                )
+            )
+            tm = tm.addTranslator(wbWsSt,newTrans)
+            return newTrans
+        }
+    }
+
 
     override fun createOneOffTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit> {
         val oneOffTranslator = translatorFactory.create(
@@ -43,12 +70,12 @@ class TranslatorContainerImp @Inject constructor(
     }
 
     override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorContainer {
-        translatorMapMs.value = translatorMapMs.value.removeTranslator(wbKey, wsName)
+        attachedTranslatorMapMs.value = attachedTranslatorMapMs.value.removeTranslator(wbKey, wsName)
         return this
     }
 
     override fun removeTranslator(wbKey: WorkbookKey): TranslatorContainer {
-        translatorMapMs.value = translatorMapMs.value.removeTranslator(wbKey)
+        attachedTranslatorMapMs.value = attachedTranslatorMapMs.value.removeTranslator(wbKey)
         return this
     }
 
@@ -66,30 +93,35 @@ class TranslatorContainerImp @Inject constructor(
         return this
     }
 
-    override fun getTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit> {
-        val t1 = tm.getTranslator(wbKey, wsName)
+    override fun getTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>? {
+        val t1 = this.tm.getTranslator(wbKeySt, wsNameSt)
         if(t1!=null){
             return t1
-        }else{
-            val newTrans = createOneOffTranslator(wbKey, wsName)
-            singleTranslatorMap.put((wbKey to wsName),newTrans)
-            return newTrans
         }
+        val t2=this.independentTranslatorMap.get(wbKeySt.value to wsNameSt.value)
+        return t2
     }
 
-    override fun getTranslator(wbWsSt: WbWsSt): P6Translator<ExUnit> {
-        val t= tm.getTranslator(wbWsSt)
-        if(t!=null){
-            return t
-        }else{
-            val newTrans = translatorFactory.create(
-                visitor = visitorFactory.create(
-                    wbKeySt = wbWsSt.wbKeySt, wsNameSt = wbWsSt.wsNameSt
-                )
-            )
-            tm = tm.addTranslator(wbWsSt,newTrans)
-            return newTrans
+    override fun getTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit>? {
+        val t1 = this.tm.getTranslator(wbKey, wsName)
+        if(t1!=null){
+            return t1
         }
+        val t2=this.independentTranslatorMap.get(wbKey to wsName)
+        return t2
+    }
+
+    override fun getTranslator(wbWsSt: WbWsSt): P6Translator<ExUnit>? {
+        val t1 = this.tm.getTranslator(wbWsSt)
+        if(t1!=null){
+            return t1
+        }
+        val t2=this.independentTranslatorMap.get(wbWsSt.wbKey to wbWsSt.wsName)
+        return t2
+    }
+
+    override fun getTranslator(wbWs: WbWs): P6Translator<ExUnit>? {
+        return this.getTranslator(wbWs.wbKey,wbWs.wsName)
     }
 
     override fun removeTranslator(key: WbWsSt): TranslatorContainer {
@@ -97,12 +129,16 @@ class TranslatorContainerImp @Inject constructor(
         return this
     }
 
+    override fun removeTranslator(wbWs: WbWs): TranslatorContainer {
+        tm = tm.removeTranslator(wbWs)
+        return this
+    }
+
     override fun removeTranslator(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
-        translator: P6Translator<ExUnit>
     ): TranslatorContainer {
-        tm = tm.removeTranslator(wbKeySt, wsNameSt, translator)
+        tm = tm.removeTranslator(wbKeySt, wsNameSt)
         return this
     }
 }

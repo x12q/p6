@@ -39,7 +39,7 @@ class SingleCellPaster @Inject constructor(
     private fun makeRangeCopyObj(rangeId: RangeId): RangeCopy? {
         val wbwsSt = appState.getWbWsSt(rangeId)
         if(wbwsSt!=null){
-            val translator = appState.translatorContainer.getTranslator(wbwsSt)
+            val translator = appState.translatorContainer.getTranslatorOrCreate(wbwsSt)
             val bytes = cl.getData(BinaryTransferable.binFlavor) as ByteArray
             val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
             return rangeCopy

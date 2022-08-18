@@ -36,6 +36,8 @@ import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.action.AppAction
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
+import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
+import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.emeraldblast.p6.ui.app.action.AppActionTable
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.common.compose.Ms
@@ -218,10 +220,14 @@ interface P6Component {
 
     @P6Singleton
     fun cellViewAction(): CellViewAction
+
     @P6Singleton
     fun makeDisplayText(): MakeCellEditorDisplayText
+
     @P6Singleton
-     fun openCellEditorAction(): OpenCellEditorAction
+    fun openCellEditorAction(): OpenCellEditorAction
+    fun translatorFactory(): JvmFormulaTranslatorFactory
+    fun visitorFactory(): JvmFormulaVisitorFactory
 
     @Component.Builder
     interface Builder {

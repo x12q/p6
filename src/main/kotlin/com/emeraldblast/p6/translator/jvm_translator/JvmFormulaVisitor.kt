@@ -195,7 +195,6 @@ class JvmFormulaVisitor @AssistedInject constructor(
     override fun visitRangeAsOneCellAddress(ctx: FormulaParser.RangeAsOneCellAddressContext): ExUnit.Func? {
         val cell0 = ctx.text
         if (cell0 != null) {
-//            val raUnit = RangeAddress(CellAddress(cell0)).exUnit()
             val raUnit = CellAddress(cell0).exUnit()
             val rt= ExUnit.Func(
                 funcName = P6FunctionDefinitions.getCellRs,

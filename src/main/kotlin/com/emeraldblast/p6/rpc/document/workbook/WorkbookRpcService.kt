@@ -163,7 +163,7 @@ class WorkbookRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val wbk = request.wbKey.toModel()
             val wsn = request.worksheet.name ?: ""
-            val translator = translatorContainer.getTranslator(wbk, wsn)
+            val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
             val wbkMsRs = documentCont.getWorkbookRs(wbKey = wbk)
             val rs = wbkMsRs.flatMap { wb ->
                 val req = request.toModel(wb.keyMs, translator)
