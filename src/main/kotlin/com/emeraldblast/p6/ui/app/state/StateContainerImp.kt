@@ -33,10 +33,7 @@ class StateContainerImp @Inject constructor(
     override val globalWbStateContMs: Ms<WorkbookStateContainer>,
     val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
-//    @RangeSelectorStateMs
-//    override val rangeSelectorStateMs: Ms<RangeSelectorState>,
 ) : StateContainer {
-//    override var rangeSelectorState: RangeSelectorState by rangeSelectorStateMs
 
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
     override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
