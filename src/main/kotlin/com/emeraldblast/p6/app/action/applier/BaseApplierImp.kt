@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.action.applier
 
-import com.emeraldblast.p6.app.common.Rs
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.Rs
+import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.noNav
 import com.emeraldblast.p6.app.communication.res_req_template.response.Response
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey

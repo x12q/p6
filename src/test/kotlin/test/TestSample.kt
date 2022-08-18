@@ -2,7 +2,7 @@ package test
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.Loggers
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
 import com.emeraldblast.p6.app.action.common_data_structure.ErrorIndicator

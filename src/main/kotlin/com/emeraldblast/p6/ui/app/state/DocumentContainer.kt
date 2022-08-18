@@ -2,7 +2,7 @@ package com.emeraldblast.p6.ui.app.state
 
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.action.range.RangeId
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.Cell
@@ -45,7 +45,7 @@ interface DocumentContainer {
     fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?
 
     fun getLazyRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress):Range?
-    fun getLazyRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress):Rs<Range, ErrorReport>
+    fun getLazyRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
 
     fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport>
     fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?

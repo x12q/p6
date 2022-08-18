@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.document.script
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.getOrThrow
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
 import com.emeraldblast.p6.app.common.utils.Utils.replaceKey

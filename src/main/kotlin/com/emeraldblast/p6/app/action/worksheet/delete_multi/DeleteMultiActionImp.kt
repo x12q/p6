@@ -7,7 +7,7 @@ import com.emeraldblast.p6.app.action.worksheet.delete_multi.applier.DeleteMulti
 import com.emeraldblast.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
 import com.emeraldblast.p6.app.action.worksheet.update_multi_cell.rm.UpdateMultiCellRM
 import com.emeraldblast.p6.app.command.BaseCommand
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.action.cell.cell_multi_update.CellMultiUpdateRequest
 import com.emeraldblast.p6.app.action.cell.cell_multi_update.CellUpdateContent
 import com.emeraldblast.p6.app.action.cell.cell_multi_update.CellUpdateEntry

@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.action.worksheet.delete_multi.DeleteMultiRequest2
 import com.emeraldblast.p6.app.action.worksheet.delete_multi.DeleteMultiResponse2
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.emeraldblast.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.emeraldblast.p6.app.action.worksheet.update_multi_cell.DeleteMultiRequest

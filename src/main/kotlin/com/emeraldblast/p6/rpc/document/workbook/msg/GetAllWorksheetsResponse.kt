@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.rpc.document.workbook.msg
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.proto.toProto
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.common.exception.error.ErrorReport
@@ -13,7 +13,7 @@ class GetAllWorksheetsResponse(
     val errorReport: ErrorReport? = null
 ) {
     companion object{
-        fun fromRs(rs:Rse<List<Worksheet>>):GetAllWorksheetsResponse{
+        fun fromRs(rs: Rse<List<Worksheet>>):GetAllWorksheetsResponse{
             return when (rs){
                 is Ok -> GetAllWorksheetsResponse(worksheets = rs.value)
                 is Err -> GetAllWorksheetsResponse(errorReport = rs.error)

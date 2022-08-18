@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.ui.window.state
 
-import com.emeraldblast.p6.app.common.Rse
-import com.emeraldblast.p6.app.common.WithSize
+import com.emeraldblast.p6.app.common.utils.Rse
+import com.emeraldblast.p6.app.common.utils.WithSize
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
@@ -57,7 +57,7 @@ interface WindowState : WithSize {
     fun removeWorkbookState(wbKey: WorkbookKey):WindowState
 
     fun addWbKey(wbKey: WorkbookKey):WindowState
-    fun addWbKeyRs(wbKey: WorkbookKey):Rse<WindowState>
+    fun addWbKeyRs(wbKey: WorkbookKey): Rse<WindowState>
 
     /**
      * point this window to a new set of workbook. Remove all the current wb of this window state

@@ -3,7 +3,7 @@ package com.emeraldblast.p6.ui.document.workbook.state
 import androidx.compose.runtime.MutableState
 import com.emeraldblast.p6.app.command.Command
 import com.emeraldblast.p6.app.command.CommandStack
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.document.script.ScriptContainer
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
@@ -23,7 +23,7 @@ interface WorkbookState {
     fun setWindowId(windowId:String?):WorkbookState
 
     fun overWriteWb(newWb:Workbook):WorkbookState
-    fun overWriteWbRs(newWb:Workbook):Rse<WorkbookState>
+    fun overWriteWbRs(newWb:Workbook): Rse<WorkbookState>
 
     val scriptContMs:Ms<ScriptContainer>
     var scriptCont:ScriptContainer

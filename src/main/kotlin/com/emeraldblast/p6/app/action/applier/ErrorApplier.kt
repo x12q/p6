@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.applier
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.emeraldblast.p6.app.communication.res_req_template.response.ScriptResponse
@@ -58,10 +58,10 @@ interface ErrorApplier {
     fun <R : ResponseWithWorkbookKeyTemplate> apply2Rs(
         res: R,
         event: P6Event,
-    ):Rse<R>
+    ): Rse<R>
 
     fun <R : ResponseWithWorkbookKeyTemplate> apply2Rs(
         res: R,
-    ):Rse<R>
+    ): Rse<R>
 
 }

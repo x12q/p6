@@ -1,6 +1,5 @@
 package com.emeraldblast.p6.app.common.utils
 
-import com.emeraldblast.p6.app.common.Rse
 import com.emeraldblast.p6.app.common.err.ErrorReportWithNavInfo
 import com.emeraldblast.p6.common.exception.error.CommonErrors
 import com.emeraldblast.p6.common.exception.error.ErrorReport
@@ -11,7 +10,7 @@ import com.github.michaelbull.result.get
 
 object ErrorUtils {
 
-    fun <T> Result<T, ErrorReportWithNavInfo>.noNav():Rse<T>{
+    fun <T> Result<T, ErrorReportWithNavInfo>.noNav(): Rse<T> {
         when(this){
             is Ok -> return this
             is Err -> return Err(this.error.errorReport)

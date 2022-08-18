@@ -2,8 +2,8 @@ package com.emeraldblast.p6.ui.script_editor.code_container
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.Rs
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rs
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.getOrThrow
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
 import com.emeraldblast.p6.app.document.script.*

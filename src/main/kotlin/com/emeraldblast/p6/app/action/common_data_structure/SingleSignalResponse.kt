@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.common_data_structure
 
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.proto.toModel
 import com.emeraldblast.p6.app.common.proto.toProto
 import com.emeraldblast.p6.common.exception.error.ErrorReport
@@ -19,7 +19,7 @@ open class SingleSignalResponse(
                 errorReport = proto.errorReport.toModel()
             )
         }
-        fun fromRs(rs:Rs<Any,ErrorReport>): SingleSignalResponse {
+        fun fromRs(rs: Rs<Any, ErrorReport>): SingleSignalResponse {
             val out = when (rs) {
                 is Ok -> {
                     SingleSignalResponse()

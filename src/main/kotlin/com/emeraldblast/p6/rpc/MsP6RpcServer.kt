@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.rpc
 
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.di.status_bar.RPCStatusItemStateQualifier
 import com.emeraldblast.p6.ui.common.compose.Ms

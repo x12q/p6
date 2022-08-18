@@ -1,7 +1,6 @@
 package com.emeraldblast.p6.rpc
 
-import com.emeraldblast.p6.app.common.Rs
-import com.emeraldblast.p6.app.common.utils.Utils
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.common.exception.error.CommonErrors
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.proto.rpc.app.service.AppServiceGrpc

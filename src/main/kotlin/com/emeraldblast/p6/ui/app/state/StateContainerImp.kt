@@ -3,8 +3,8 @@ package com.emeraldblast.p6.ui.app.state
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.Rs
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rs
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey

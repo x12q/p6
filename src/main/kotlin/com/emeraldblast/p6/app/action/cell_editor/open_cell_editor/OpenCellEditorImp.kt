@@ -3,7 +3,7 @@ package com.emeraldblast.p6.app.action.cell_editor.open_cell_editor
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.document.cell.CellErrors
 import com.emeraldblast.p6.app.document.cell.d.Cell
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
@@ -38,7 +38,7 @@ class OpenCellEditorImp @Inject constructor(
             val cursorState by cursorStateMs
             var cellEditorState by appState.cellEditorStateMs
             if(!cellEditorState.isActive){
-                val cursorMainCell:Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
+                val cursorMainCell: Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
                 val windowStateMs = appState.getWindowStateMsByWbKey(wsId.wbKey)
                 val windowId = windowStateMs?.value?.id
                 val fcsMs = windowStateMs?.value?.focusStateMs

@@ -1,16 +1,13 @@
 package com.emeraldblast.p6.translator.jvm_translator
 
-import com.emeraldblast.p6.app.common.Rs
-import com.emeraldblast.p6.app.common.utils.ErrorUtils.toErr
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.common.exception.error.CommonErrors
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractor
-import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

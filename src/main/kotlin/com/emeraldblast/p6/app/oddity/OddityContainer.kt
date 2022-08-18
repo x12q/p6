@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.oddity
 
-import com.emeraldblast.p6.app.common.WithSize
+import com.emeraldblast.p6.app.common.utils.WithSize
 import com.emeraldblast.p6.common.exception.error.ErrorHeader
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.ui.common.compose.Ms

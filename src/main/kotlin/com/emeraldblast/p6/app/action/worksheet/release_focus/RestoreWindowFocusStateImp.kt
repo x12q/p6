@@ -2,7 +2,7 @@ package com.emeraldblast.p6.app.action.worksheet.release_focus
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.ui.app.state.AppState

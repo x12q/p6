@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.app.restart_kernel.rm
 
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.FileUtil
 import com.emeraldblast.p6.app.action.common_data_structure.ErrorIndicator.Companion.toErrIndicator
 import com.emeraldblast.p6.app.action.app.restart_kernel.RestartKernelRequest

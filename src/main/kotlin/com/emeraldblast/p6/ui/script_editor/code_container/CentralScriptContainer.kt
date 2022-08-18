@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.ui.script_editor.code_container
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.document.script.ScriptEntry
 import com.emeraldblast.p6.app.document.script.ScriptEntryKey
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey

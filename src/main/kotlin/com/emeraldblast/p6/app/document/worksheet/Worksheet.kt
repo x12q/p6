@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.document.worksheet
 
-import com.emeraldblast.p6.app.common.WithSize
+import com.emeraldblast.p6.app.common.utils.WithSize
 import com.emeraldblast.p6.app.common.table.TableCR
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.Cell

@@ -9,14 +9,6 @@ import java.util.AbstractMap.SimpleEntry
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-@OptIn(ExperimentalContracts::class)
-fun Any?.nn(): Boolean {
-    contract {
-        returns(true) implies (this@nn != null)
-        returns(false) implies (this@nn == null)
-    }
-    return this@nn != null
-}
 /**
  * This object houses common utility functions
  */
@@ -25,10 +17,6 @@ object Utils {
     fun <T> StreamObserver<T>.onNextAndComplete(t:T){
         this.onNext(t)
         this.onCompleted()
-    }
-
-    fun String?.isLegalWbName():Boolean{
-        return !this.isNullOrEmpty()
     }
 
     /**
@@ -60,6 +48,9 @@ object Utils {
         }
     }
 
+    /**
+     * Find and replace a key inside a map, preserve order
+     */
     fun <K,V> Map<K, V>.replaceKey(oldKey:K,newKey:K):Map<K,V>{
         val oldVal = this.get(oldKey)
         if(oldVal!=null){
@@ -86,12 +77,20 @@ object Utils {
     fun readResource(path:String):String? {
         return this.javaClass.getResource(path)?.readText()
     }
+
+    /**
+     * Find an available socket port
+     */
     fun findSocketPort():Int{
         val socket = ServerSocket(0)
         val port = socket.localPort
         socket.close()
         return port
     }
+
+    /**
+     * copy a string to clipboard
+     */
     fun copyTextToClipboard(text: String) {
         Toolkit.getDefaultToolkit().systemClipboard
             .setContents(StringSelection(text), null)

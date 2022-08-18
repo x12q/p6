@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.worksheet.release_focus
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 
 /**
@@ -9,13 +9,13 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
  * - cursor is focused
  */
 interface RestoreWindowFocusState {
-    fun restoreCellEditorAndCursorState():Rse<Unit>
-    fun restoreAllWsFocusIfAllow():Rse<Unit>
+    fun restoreCellEditorAndCursorState(): Rse<Unit>
+    fun restoreAllWsFocusIfAllow(): Rse<Unit>
 
     /**
      * if range selector is allowed, focus on editor, otherwise focus on cursor, free focus on editor
      */
-    fun setFocusConsideringRangeSelectorAllWindow():Rse<Unit>
+    fun setFocusConsideringRangeSelectorAllWindow(): Rse<Unit>
 
     /**
      * if range selector is allowed, focus on editor, otherwise focus on cursor, free focus on editor

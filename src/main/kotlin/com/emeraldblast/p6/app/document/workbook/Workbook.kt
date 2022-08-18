@@ -1,8 +1,8 @@
 package com.emeraldblast.p6.app.document.workbook
 
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
-import com.emeraldblast.p6.app.common.Rse
-import com.emeraldblast.p6.app.common.WithSize
+import com.emeraldblast.p6.app.common.utils.Rse
+import com.emeraldblast.p6.app.common.utils.WithSize
 import com.emeraldblast.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.common.exception.error.ErrorReport
@@ -15,7 +15,7 @@ import com.github.michaelbull.result.Result
 /**
  * essentially a map of worksheet
  */
-interface Workbook : WithSize{
+interface Workbook : WithSize {
 
     fun reRun():Workbook
 
@@ -54,10 +54,10 @@ interface Workbook : WithSize{
     fun removeSheet(index: Int): Workbook
     fun removeSheet(name: String): Workbook
 
-    fun removeSheetRs(index: Int):Rse<Workbook>
+    fun removeSheetRs(index: Int): Rse<Workbook>
     fun removeSheetRs(name: String): Rse<Workbook>
 
-    fun addWsRs(ws: Worksheet):Rse<Workbook>
+    fun addWsRs(ws: Worksheet): Rse<Workbook>
 
     fun addSheetOrOverwrite(worksheet: Worksheet): Workbook
     fun addMultiSheetOrOverwrite(worksheetList: List<Worksheet>): Workbook

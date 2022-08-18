@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.rpc.document.workbook.msg
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.proto.toProto
 import com.emeraldblast.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
 import com.emeraldblast.p6.common.exception.error.ErrorReport

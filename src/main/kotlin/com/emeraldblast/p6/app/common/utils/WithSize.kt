@@ -1,4 +1,4 @@
-package com.emeraldblast.p6.app.common
+package com.emeraldblast.p6.app.common.utils
 
 import com.emeraldblast.p6.common.CanCheckEmpty
 

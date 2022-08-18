@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.document.cell.d
 
 import androidx.compose.runtime.getValue
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.common.exception.error.CommonErrors
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit

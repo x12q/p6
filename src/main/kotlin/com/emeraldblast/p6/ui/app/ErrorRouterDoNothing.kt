@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.ui.app
 
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.common.err.ErrorReportWithNavInfo
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport

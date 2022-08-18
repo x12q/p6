@@ -2,7 +2,7 @@ package com.emeraldblast.p6.app.action.app.set_wbkey.rm
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.rpc.document.workbook.msg.SetWbKeyRequest

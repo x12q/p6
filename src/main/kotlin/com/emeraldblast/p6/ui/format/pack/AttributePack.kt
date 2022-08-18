@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.ui.format.pack
 
-import com.emeraldblast.p6.app.common.WithSize
+import com.emeraldblast.p6.app.common.utils.WithSize
 import com.emeraldblast.p6.ui.format.FormatAttribute
 import com.emeraldblast.p6.ui.format.marked.MarkedAttribute
 

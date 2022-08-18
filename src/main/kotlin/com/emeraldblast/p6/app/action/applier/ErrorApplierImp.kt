@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.applier
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.communication.event.P6EventErrors
 import com.emeraldblast.p6.app.communication.event.P6EventTable
 import com.emeraldblast.p6.app.communication.event.P6EventTableImp
@@ -106,7 +106,7 @@ class ErrorApplierImp @Inject constructor(
         return this.publishErr2Rs(res,event) is Ok
     }
 
-    fun <R:ResponseWithWorkbookKeyTemplate>publishErr2Rs(res: R, event: P6Event): Rse<R>{
+    fun <R:ResponseWithWorkbookKeyTemplate>publishErr2Rs(res: R, event: P6Event): Rse<R> {
         if (res.isLegal().not()) {
             val err = P6EventErrors.IllegalStateError(event)
             errorRouter.publishToWindow(err, res.wbKey)

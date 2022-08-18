@@ -2,7 +2,7 @@ package com.emeraldblast.p6.app.action.workbook.delete_worksheet.applier
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
 import com.emeraldblast.p6.app.document.workbook.Workbook

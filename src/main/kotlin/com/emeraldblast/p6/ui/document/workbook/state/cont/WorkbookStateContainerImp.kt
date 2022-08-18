@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.ui.document.workbook.state.cont
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.getOrThrow
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey

@@ -1,8 +1,8 @@
 package com.emeraldblast.p6.ui.app.state
 
 import androidx.compose.runtime.MutableState
-import com.emeraldblast.p6.app.common.Rs
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rs
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
@@ -89,12 +89,12 @@ interface StateContainer {
         return this.getWindowStateMsByWbKeyRs(wbKey).component1()
     }
 
-    fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>,ErrorReport>
+    fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, ErrorReport>
     fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>?{
         return getFocusStateMsByWbKeyRs(wbKey).component1()
     }
 
-    fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>,ErrorReport>
+    fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport>
     fun getWindowStateMsById(windowId: String): Ms<WindowState>?{
         return getWindowStateMsByIdRs(windowId).component1()
     }

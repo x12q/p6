@@ -2,7 +2,7 @@ package com.emeraldblast.p6.ui.window.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.getOrThrow
 import com.emeraldblast.p6.app.common.utils.Utils.findAndReplace
 import com.emeraldblast.p6.di.state.app_state.MsKernelContextQualifier

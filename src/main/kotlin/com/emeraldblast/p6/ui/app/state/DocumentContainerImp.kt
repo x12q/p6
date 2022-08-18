@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.range.RangeId
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.Cell
 import com.emeraldblast.p6.app.document.range.LazyRangeFactory

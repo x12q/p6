@@ -12,13 +12,14 @@ object Workbooks {
     fun fromProtoBytes(data:ByteString,translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>):Workbook{
         return WorkbookProto.newBuilder().mergeFrom(data).build().toModel(translatorGetter)
     }
-//    fun fromProtoBytes(data:ByteString,translatorGetter:(wbKey:WorkbookKey,wsName:String)-> P6Translator<ExUnit>):Workbook{
-//        return WorkbookProto.newBuilder().mergeFrom(data).build().toModel(translatorGetter)
-//    }
+
     fun empty(name:String):Workbook{
         return WorkbookImp(keyMs = WorkbookKey(name).toMs())
     }
     fun empty(wbKey: WorkbookKey):Workbook{
         return WorkbookImp(keyMs = wbKey.toMs())
+    }
+    fun String?.isLegalWbName():Boolean{
+        return !this.isNullOrEmpty()
     }
 }

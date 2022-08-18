@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.document.range.address
 
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.CellLabelNumberSystem
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
@@ -23,7 +23,7 @@ object RangeAddresses {
     val singleWholeColAddressPattern = Regex("[a-zA-Z]+")
     val singleWholeRowAddressPattern = Regex("[1-9][0-9]*")
 
-    fun fromLabelRs(label:String):Rs<RangeAddress,ErrorReport>{
+    fun fromLabelRs(label:String): Rs<RangeAddress, ErrorReport> {
         val isNormalRange = rangeAddressPattern.matchEntire(label) != null
         if(isNormalRange){
             val splits = label.split(":")

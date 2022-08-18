@@ -2,7 +2,7 @@ package com.emeraldblast.p6.app.action.range.range_to_clipboard
 
 import com.emeraldblast.p6.app.action.range.range_to_clipboard.applier.RangeToClipboardApplier
 import com.emeraldblast.p6.app.action.range.range_to_clipboard.rm.CopyRangeToClipboardRM
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.RseNav
 import javax.inject.Inject
 
 class RangeToClipboardActionImp @Inject constructor(

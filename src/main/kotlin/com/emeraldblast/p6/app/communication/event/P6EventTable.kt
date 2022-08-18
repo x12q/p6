@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.communication.event
 
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.message.api.connection.service.zmq_services.msg.P6Event
 
 /**
@@ -15,6 +15,6 @@ interface P6EventTable{
     /**
      * find [P6Event] for an [obj], return a Rs
      */
-    fun findEventForRs(obj:Any):Rse<P6Event>
+    fun findEventForRs(obj:Any): Rse<P6Event>
 }
 

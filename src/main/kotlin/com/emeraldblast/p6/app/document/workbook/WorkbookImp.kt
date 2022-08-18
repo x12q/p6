@@ -3,12 +3,12 @@ package com.emeraldblast.p6.app.document.workbook
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
-import com.emeraldblast.p6.app.common.Rse
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.getOrThrow
-import com.emeraldblast.p6.app.common.utils.Utils.isLegalWbName
 import com.emeraldblast.p6.app.common.utils.WorkbookUtils
 import com.emeraldblast.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
+import com.emeraldblast.p6.app.document.workbook.Workbooks.isLegalWbName
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.app.document.worksheet.WorksheetImp
 import com.emeraldblast.p6.common.exception.error.ErrorHeader

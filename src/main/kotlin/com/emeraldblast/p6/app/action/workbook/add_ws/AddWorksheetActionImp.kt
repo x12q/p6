@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.action.workbook.add_ws
 
-import com.emeraldblast.p6.app.common.Rse
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.Rse
+import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.noNav
 import com.emeraldblast.p6.app.action.workbook.add_ws.applier.AddWorksheetApplier
 import com.emeraldblast.p6.app.action.workbook.add_ws.rm.AddWorksheetRM
@@ -14,8 +14,8 @@ class AddWorksheetActionImp @Inject constructor(
     val applier: AddWorksheetApplier,
 ) : AddWorksheetAction {
     override fun addWorksheetRs(request: AddWorksheetRequest): Rse<AddWorksheetResponse> {
-        val res:RseNav<AddWorksheetResponse> = rm.makeAddWsRequest(request)
-        val rt:RseNav<AddWorksheetResponse> = applier.applyAddWs(res)
+        val res: RseNav<AddWorksheetResponse> = rm.makeAddWsRequest(request)
+        val rt: RseNav<AddWorksheetResponse> = applier.applyAddWs(res)
         return rt.noNav()
     }
 }

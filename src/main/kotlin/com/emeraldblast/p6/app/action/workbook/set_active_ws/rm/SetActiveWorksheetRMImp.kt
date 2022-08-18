@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.emeraldblast.p6.app.action.workbook.set_active_ws.SetActiveWorksheetResponse2
 import com.emeraldblast.p6.app.action.workbook.set_active_ws.SetActiveWorksheetWithIndexRequest
-import com.emeraldblast.p6.app.common.RseNav
+import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.ui.app.state.AppState

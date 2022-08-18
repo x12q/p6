@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.document.cell.address
 
-import com.emeraldblast.p6.app.common.Rs
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.CellLabelNumberSystem
 import com.emeraldblast.p6.app.document.cell.CellErrors
 import com.emeraldblast.p6.common.exception.error.ErrorReport
@@ -26,7 +26,7 @@ object CellAddresses {
     // A1, A2
     val labelPattern: Pattern = Pattern.compile("[A-Za-z]+[1-9][0-9]*")
 
-    fun fromLabelRs(label:String): Rs<CellAddress,ErrorReport> {
+    fun fromLabelRs(label:String): Rs<CellAddress, ErrorReport> {
         if(labelPattern.matcher(label).matches()){
             // extract col and row index from the label
             var colLabel = ""
