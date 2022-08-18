@@ -8,6 +8,13 @@ import com.emeraldblast.p6.ui.common.compose.St
 data class TranslatorMapImp(
     private val m: Map<WbWsSt, P6Translator<ExUnit>> = emptyMap(),
 ) : TranslatorMap, Map<WbWsSt, P6Translator<ExUnit>> by m {
+    override fun getTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>? {
+        val k = m.keys
+            .firstOrNull { it.wbKeySt == wbKeySt && it.wsNameSt == wsNameSt }
+        val rt = k?.let { m[k] }
+        return rt
+    }
+
     override fun getTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit>? {
         val k = m.keys
             .firstOrNull { it.wbKey == wbKey && it.wsName == wsName }
@@ -17,10 +24,6 @@ data class TranslatorMapImp(
 
     override fun getTranslator(wbWsSt: WbWsSt): P6Translator<ExUnit>? {
         return m[wbWsSt]
-    }
-
-    override fun addTranslator(wbKey: WorkbookKey, wsName: String, translator: P6Translator<ExUnit>): TranslatorMap {
-        throw UnsupportedOperationException()
     }
 
     override fun addTranslator(key: WbWsSt, translator: P6Translator<ExUnit>): TranslatorMap {
@@ -44,5 +47,17 @@ data class TranslatorMapImp(
     override fun removeTranslator(wbKey: WorkbookKey): TranslatorMap {
         val newM = m.filterKeys { it.wbKey != wbKey }
         return this.copy(m = newM)
+    }
+
+    override fun removeTranslator(key: WbWsSt): TranslatorMap {
+        return this.copy(m = m - key)
+    }
+
+    override fun removeTranslator(
+        wbKeySt: St<WorkbookKey>,
+        wsNameSt: St<String>,
+        translator: P6Translator<ExUnit>
+    ): TranslatorMap {
+        return this.copy(m = m.filterKeys { it.wbKey != wbKeySt && it.wsNameSt != wsNameSt })
     }
 }

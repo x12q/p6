@@ -1,18 +1,22 @@
 package com.emeraldblast.p6.di.state.app_state
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.emeraldblast.p6.app.common.utils.CapHashMap
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.script.ScriptContainer
 import com.emeraldblast.p6.app.document.script.ScriptContainerImp
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainerImp2
+import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.oddity.OddityContainer
 import com.emeraldblast.p6.app.oddity.OddityContainerImp
 import com.emeraldblast.p6.di.P6Singleton
 import com.emeraldblast.p6.message.api.connection.kernel_context.KernelContext
 import com.emeraldblast.p6.message.api.connection.kernel_context.KernelStatus
+import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.translator.TranslatorMap
 import com.emeraldblast.p6.translator.TranslatorMapImp
+import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.app.ActiveWindowPointer
 import com.emeraldblast.p6.ui.app.ActiveWindowPointerImp
 import com.emeraldblast.p6.ui.app.state.*
@@ -210,6 +214,12 @@ interface AppStateModule {
         @TranslatorMapMs
         fun TranslatorMapMs(): Ms<TranslatorMap> {
             return ms(TranslatorMapImp())
+        }
+
+        @Provides
+        @InitSingleTranslatorMap
+        fun InitSingleTranslatorMap(): Map<Pair<WorkbookKey,String>,P6Translator<ExUnit>> {
+            return CapHashMap(30)
         }
 
         @Provides

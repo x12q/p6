@@ -45,8 +45,6 @@ class WorkbookRpcService @Inject constructor(
 //    @AppStateMs
 //    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
-    private val translatorFactory: JvmFormulaTranslatorFactory,
-    private val visitorFactory: JvmFormulaVisitorFactory,
     private val globalAction: GlobalAction,
     @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
@@ -165,12 +163,7 @@ class WorkbookRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val wbk = request.wbKey.toModel()
             val wsn = request.worksheet.name ?: ""
-            val translator = translatorContainer.getTranslator(wbk, wsn) ?: translatorFactory.create(
-                visitor =visitorFactory.create(
-                    wbk.toSt(),
-                    wsn.toSt()
-                )
-            )
+            val translator = translatorContainer.getTranslator(wbk, wsn)
             val wbkMsRs = documentCont.getWorkbookRs(wbKey = wbk)
             val rs = wbkMsRs.flatMap { wb ->
                 val req = request.toModel(wb.keyMs, translator)

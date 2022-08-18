@@ -71,7 +71,7 @@ class RangeRangePasterImp @Inject constructor(
     private fun getRangeCopyFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
         val wbwsSt: WbWsSt? = appState.getWbWsSt(wbKey, wsName)
         if(wbwsSt!=null){
-            val translator = appState.translatorContainer.getTranslatorOrCreate(wbwsSt)
+            val translator = appState.translatorContainer.getTranslator(wbwsSt)
             val bytes = clipboard.getData(BinaryTransferable.binFlavor) as ByteArray
             val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
             return rangeCopy

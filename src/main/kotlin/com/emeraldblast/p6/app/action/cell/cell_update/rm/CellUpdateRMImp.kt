@@ -47,7 +47,7 @@ class CellUpdateRMImp @Inject constructor(
             if (wsMsRs is Ok) {
                 val wsMs: Ms<Worksheet> = wsMsRs.value
                 val ws:Worksheet = wsMs.value
-                val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
+                val translator: P6Translator<ExUnit> = translatorCont.getTranslator(ws.id)
                 val newCellContent:CellContent = makeContent(request, translator)
                 val updateWsRs = ws.updateCellContentRs(request.cellAddress, newCellContent)
                 val rt:CellUpdateResponse = updateWsRs.mapBoth(

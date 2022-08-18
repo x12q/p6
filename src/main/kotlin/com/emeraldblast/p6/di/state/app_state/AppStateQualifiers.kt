@@ -20,6 +20,11 @@ annotation class TranslatorMapMs
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
+annotation class InitSingleTranslatorMap
+
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class AppStateMs
 
 @Qualifier

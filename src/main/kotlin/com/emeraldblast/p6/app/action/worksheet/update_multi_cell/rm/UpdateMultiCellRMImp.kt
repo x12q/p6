@@ -34,7 +34,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         val rs = appState.getWorkbookRs(req.wbKey).andThen { wb->
             wb.getWsRs(req.wsName).andThen { ws->
                 var newWs = ws
-                val translator = translatorCont.getTranslatorOrCreate(ws.id)
+                val translator = translatorCont.getTranslator(ws.id)
                 for(entry: CellUpdateEntry in req.cellUpdateList){
                     val cellRs = ws.getCellOrDefaultRs(entry.cellAddress)
                     if(cellRs is Ok){

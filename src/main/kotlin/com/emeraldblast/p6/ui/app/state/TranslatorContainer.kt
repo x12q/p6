@@ -13,15 +13,32 @@ import com.emeraldblast.p6.ui.common.compose.St
  * A mutation layer over [TranslatorMap]
  */
 interface TranslatorContainer : TranslatorMap {
-    /**
-     * Attempt to get a translator, if such translator does not exist, create a new one, append the new one to the current container and return it.
-     */
-    fun getTranslatorOrCreate(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>
+
+    override fun getTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit>
+
+    override fun getTranslator(wbWsSt: WbWsSt): P6Translator<ExUnit>
 
     /**
-     * Attempt to get a translator, if such translator does not exist, create a new one, append the new one to the current container and return it.
+     * Create a one-off translator that is used once then discarded.
      */
-    fun getTranslatorOrCreate(wbWsSt:WbWsSt): P6Translator<ExUnit>
+    fun createOneOffTranslator(wbKey: WorkbookKey,wsName: String):P6Translator<ExUnit>
     override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorContainer
     override fun removeTranslator(wbKey: WorkbookKey): TranslatorContainer
+    override fun addTranslator(key: WbWsSt, translator: P6Translator<ExUnit>): TranslatorContainer
+
+    override fun addTranslator(
+        wbKeySt: St<WorkbookKey>,
+        wsNameSt: St<String>,
+        translator: P6Translator<ExUnit>
+    ): TranslatorContainer
+
+    override fun removeTranslator(key: WbWsSt): TranslatorContainer
+
+    override fun removeTranslator(
+        wbKeySt: St<WorkbookKey>,
+        wsNameSt: St<String>,
+        translator: P6Translator<ExUnit>
+    ): TranslatorContainer
+
+    override fun getTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>
 }

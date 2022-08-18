@@ -32,7 +32,7 @@ class RenameWorksheetInternalApplierImp
             val wb = wbState.wb
             if (oldName != newName) {
                 // x: rename the sheet in wb
-                val renameRs = wb.renameWsRs(oldName, newName, translatorCont::getTranslatorOrCreate)
+                val renameRs = wb.renameWsRs(oldName, newName, translatorCont::getTranslator)
                 if (renameRs is Ok) {
                     val newWb: Workbook = renameRs.value
                     // x: rename ws state
