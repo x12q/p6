@@ -2,7 +2,7 @@ package com.emeraldblast.p6.app.communication.event.data_structure.range.paste_r
 
 import com.emeraldblast.p6.app.action.range.paste_range.PasteRangeRequest
 import com.emeraldblast.p6.app.communication.event.P6Events
-import com.emeraldblast.p6.app.action.common_data_structure.WbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsImp
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import kotlin.test.Test
@@ -13,7 +13,7 @@ class PasteRangeRequestTest {
     fun toP6Msg() {
         val req = PasteRangeRequest(
             anchorCell = CellAddress("A1"),
-            wbWs = WbWs(
+            wbWs = WbWsImp(
                 wbKey = WorkbookKey(""),
                 wsName = "ASD"
             ),

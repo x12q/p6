@@ -5,7 +5,7 @@ import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
 import com.emeraldblast.p6.app.document.worksheet.WsNameGenerator
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import java.util.regex.Pattern
 import javax.inject.Inject
 import com.github.michaelbull.result.Result

@@ -21,7 +21,7 @@ class CreateNewWorkbookResponseTest {
 
         val o = CreateNewWorkbookResponse.fromProtoBytes(
             data = proto.toByteString(),
-            translatorGetter = TestSample::mockTranslatorGetter
+            translatorGetter = TestSample::mockTranslatorGetter3
         )
         assertEquals(false, o.isError)
         assertNull(o.errorReport)
@@ -38,7 +38,7 @@ class CreateNewWorkbookResponseTest {
 
         val o = CreateNewWorkbookResponse.fromProtoBytes(
             data = proto.toByteString(),
-            translatorGetter = TestSample::mockTranslatorGetter
+            translatorGetter = TestSample::mockTranslatorGetter3
         )
         assertEquals(false, o.isError)
         assertNull(o.errorReport)
@@ -56,7 +56,7 @@ class CreateNewWorkbookResponseTest {
 
         val o = CreateNewWorkbookResponse.fromProtoBytes(
             data = proto.toByteString(),
-            translatorGetter = TestSample::mockTranslatorGetter
+            translatorGetter = TestSample::mockTranslatorGetter3
         )
         assertEquals(true, o.isError)
         assertNotNull(o.errorReport)

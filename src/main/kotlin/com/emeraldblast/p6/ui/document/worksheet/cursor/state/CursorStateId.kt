@@ -1,13 +1,13 @@
 package com.emeraldblast.p6.ui.document.worksheet.cursor.state
 
 import androidx.compose.runtime.State
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWsSt
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 
 /**
  * For identifying a cursor
  */
-interface CursorStateId : WithWbWsSt{
+interface CursorStateId : WbWsSt{
     val wsStateIDMs: State<WorksheetId>
     fun setWsStateIdSt(wsStateIDSt: State<WorksheetId>):CursorStateId
     fun isSame(another:CursorStateId):Boolean{

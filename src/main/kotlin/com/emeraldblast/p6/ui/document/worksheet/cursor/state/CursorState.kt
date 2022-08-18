@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.ui.document.worksheet.cursor.state
 
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWsSt
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.ui.common.compose.Ms
@@ -11,7 +11,7 @@ import com.emeraldblast.p6.ui.document.worksheet.state.RangeConstraint
 /**
  * State of cell cursor
  */
-interface CursorState : WithWbWsSt {
+interface CursorState : WbWsSt {
     val idMs:Ms<CursorStateId>
     var id:CursorStateId
 

@@ -20,7 +20,8 @@ import com.emeraldblast.p6.translator.formula.P6FunctionDefinitionsImp
 import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toSt
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import kotlin.test.*
@@ -105,8 +106,8 @@ class JvmFormulaTranslator_Integration_Test {
         translator = JvmFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
             visitor = JvmFormulaVisitor(
-                wbKey = wbKey,
-                wsName = wsName,
+                wbKeySt = wbKey.toSt(),
+                wsNameSt = wsName.toSt(),
                 functionMap = functionMap
             )
         )

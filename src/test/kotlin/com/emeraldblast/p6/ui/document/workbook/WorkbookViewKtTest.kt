@@ -4,7 +4,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import com.emeraldblast.p6.app.document.workbook.WorkbookImp
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.WorksheetImp
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.rms
 import org.junit.Rule
 import org.junit.Test

@@ -9,7 +9,7 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookImp
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.WorksheetImp
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
 import org.mockito.kotlin.mock
 import test.TestSample

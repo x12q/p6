@@ -2,7 +2,7 @@ package com.emeraldblast.p6.app.action.cell_editor.open_cell_editor
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.common.Rse
 import com.emeraldblast.p6.app.document.cell.CellErrors
 import com.emeraldblast.p6.app.document.cell.d.Cell
@@ -31,7 +31,7 @@ class OpenCellEditorImp @Inject constructor(
     val appState by appStateMs
     val docCont by docContSt
     val stateCont by stateContMs
-    override fun openCellEditor(wsId: WithWbWs) {
+    override fun openCellEditor(wsId: WbWs) {
         val ws = docCont.getWorksheet(wsId)
         val cursorStateMs = stateCont.getCursorStateMs(wsId)
         if(ws!=null && cursorStateMs!=null){

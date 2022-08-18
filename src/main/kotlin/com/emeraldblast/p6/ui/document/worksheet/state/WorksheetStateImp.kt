@@ -62,7 +62,7 @@ data class WorksheetStateImp @AssistedInject constructor(
     override val idMs: St<WorksheetId> = derivedStateOf<WorksheetId> {
         WorksheetIdImp(
             wsNameMs = worksheet.nameMs,
-            wbKeyMs = worksheet.wbKeySt
+            wbKeySt = worksheet.wbKeySt
         )
     }
     override val id: WorksheetId by idMs

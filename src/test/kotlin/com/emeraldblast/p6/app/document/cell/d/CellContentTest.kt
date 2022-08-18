@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.document.cell.d
 
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import kotlin.test.*
 
 class CellContentTest {

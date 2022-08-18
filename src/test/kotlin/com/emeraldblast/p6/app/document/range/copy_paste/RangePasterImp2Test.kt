@@ -7,7 +7,7 @@ import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.app.document.workbook.WorkbookImp
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.WorksheetImp
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
 import kotlin.test.*
 class RangePasterImp2Test {
@@ -43,7 +43,7 @@ class RangePasterImp2Test {
             wbKey = wbk,
             wsName = "S1"
         )
-        val rs = RangeRangePasterImp.paste(rangeCopy,target,wb)
+        val rs = RangeRangePasterImp.pasteRs(rangeCopy,target,wb)
         assertTrue { rs is Ok }
         val wb2 = rs.component1()!!
         val s2 = wb2.worksheets[0]

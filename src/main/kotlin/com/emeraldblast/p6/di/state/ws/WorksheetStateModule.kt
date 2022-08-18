@@ -6,7 +6,7 @@ import com.emeraldblast.p6.app.document.range.address.RangeAddresses
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp

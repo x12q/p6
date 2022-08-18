@@ -11,6 +11,7 @@ import com.emeraldblast.p6.translator.formula.P6FunctionDefinitions
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
 import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toSt
 import com.github.michaelbull.result.Ok
 import kotlin.test.*
 import kotlin.math.pow
@@ -48,8 +49,8 @@ class JvmFormulaTranslatorTest {
         translator = JvmFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
             visitor = JvmFormulaVisitor(
-                wbKey = wbKey,
-                wsName = wsName,
+                wbKeySt = wbKey.toSt(),
+                wsNameSt = wsName.toSt(),
                 functionMap= functionMap
             )
         )

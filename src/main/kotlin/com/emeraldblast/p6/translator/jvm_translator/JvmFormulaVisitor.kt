@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.translator.jvm_translator
 
+import androidx.compose.runtime.getValue
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.address.CellAddresses
 import com.emeraldblast.p6.app.document.range.address.RangeAddress
@@ -11,16 +12,20 @@ import com.emeraldblast.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.emeraldblast.p6.formula.translator.antlr.FormulaParser
 import com.emeraldblast.p6.translator.formula.P6FunctionDefinitions
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
+import com.emeraldblast.p6.ui.common.compose.St
 import com.github.michaelbull.result.Ok
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.antlr.v4.runtime.tree.ParseTree
 
 class JvmFormulaVisitor @AssistedInject constructor(
-    @Assisted private val wbKey: WorkbookKey,
-    @Assisted private val wsName: String,
+    @Assisted("1") private val wbKeySt: St<WorkbookKey>,
+    @Assisted("2") private val wsNameSt: St<String>,
     private val functionMap: FunctionMap
 ) : FormulaBaseVisitor<ExUnit>() {
+
+     private val wbKey: WorkbookKey by wbKeySt
+     private val wsName: String by wsNameSt
 
     private val wbKeyExUnit = wbKey.exUnit()
     private val wsNameExUnit = wsName.exUnit()

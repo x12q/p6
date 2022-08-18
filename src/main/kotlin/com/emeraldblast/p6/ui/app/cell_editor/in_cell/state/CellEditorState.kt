@@ -1,8 +1,8 @@
 package com.emeraldblast.p6.ui.app.cell_editor.in_cell.state
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsImp
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.Ms
@@ -45,10 +45,10 @@ interface CellEditorState {
 
     val targetWbKey: WorkbookKey? get() = targetCursorId?.wbKey
     val targetWsName: String? get() = targetCursorId?.wsName
-    val targetWbWs: WithWbWs?
+    val targetWbWs: WbWs?
         get() {
             if (targetWbKey != null && targetWsName != null) {
-                return WbWs(targetWbKey!!, targetWsName!!)
+                return WbWsImp(targetWbKey!!, targetWsName!!)
             } else {
                 return null
             }

@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.range.paste_range
 
-import com.emeraldblast.p6.app.action.common_data_structure.WbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsImp
 import com.emeraldblast.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKeyAndWindowId
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
@@ -9,7 +9,7 @@ import com.google.protobuf.ByteString
 
 class PasteRangeRequest(
     val anchorCell: CellAddress,
-    val wbWs: WbWs,
+    val wbWs: WbWsImp,
     override val windowId: String?
 ): RequestToP6WithWorkbookKeyAndWindowId {
     fun toProto():PasteRangeRequestProto{

@@ -7,7 +7,7 @@ import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.ErrorRouterImp
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test

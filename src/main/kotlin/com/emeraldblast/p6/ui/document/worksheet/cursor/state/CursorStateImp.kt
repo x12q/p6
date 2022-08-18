@@ -16,7 +16,7 @@ import com.emeraldblast.p6.ui.document.worksheet.state.RangeConstraint
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 import dagger.assisted.AssistedInject
 import com.emeraldblast.p6.di.state.ws.*
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.St
 import dagger.assisted.Assisted
 

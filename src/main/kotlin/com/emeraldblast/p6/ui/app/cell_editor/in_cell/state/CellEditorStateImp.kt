@@ -12,7 +12,7 @@ import com.emeraldblast.p6.di.state.app_state.DefaultNullCellAddress
 import com.emeraldblast.p6.di.state.app_state.NullTextFieldValue
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.CellEditorUtils
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.emeraldblast.p6.ui.common.compose.St
 import javax.inject.Inject

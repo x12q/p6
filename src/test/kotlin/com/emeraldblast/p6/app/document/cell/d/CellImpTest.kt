@@ -2,7 +2,7 @@ package com.emeraldblast.p6.app.document.cell.d
 
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.CellValue.Companion.toCellValue
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import kotlin.test.*
 class CellImpTest {
 

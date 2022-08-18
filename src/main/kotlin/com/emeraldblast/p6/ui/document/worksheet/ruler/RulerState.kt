@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.ui.document.worksheet.ruler
 
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
@@ -9,7 +9,7 @@ import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 
-interface RulerState: WithWbWs {
+interface RulerState: WbWs {
     val wsIdSt:St<WorksheetId>
     fun setWsIdSt(wsIdSt:St<WorksheetId>):RulerState
     val dimen: RulerType

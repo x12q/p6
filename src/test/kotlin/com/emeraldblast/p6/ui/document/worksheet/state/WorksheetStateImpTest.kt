@@ -11,7 +11,7 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.app.document.worksheet.WorksheetImp
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateImp
@@ -93,7 +93,7 @@ class WorksheetStateImpTest {
         val wssIdMs: Ms<WorksheetId> = ms(
             WorksheetIdImp(
                 wsNameMs = "Sheet1".toMs(),
-                wbKeyMs = wb0.keyMs
+                wbKeySt = wb0.keyMs
             )
         )
         wsState = wsStateFactory.createRefresh(
@@ -126,7 +126,7 @@ class WorksheetStateImpTest {
 
         assertEquals(newWsMs,wsState2.wsMs)
         assertEquals(newWsMs.value.nameMs,wsState2.id.wsNameMs)
-        assertEquals(newWsMs.value.wbKeySt,wsState2.id.wbKeyMs)
+        assertEquals(newWsMs.value.wbKeySt,wsState2.id.wbKeySt)
         assertEquals(newWsMs.value.wbKeySt.value, wsState2.cursorState.id.wbKey)
 
         assertEquals(newWsMs.value.nameMs.value,wsState2.rowRulerState.wsName)

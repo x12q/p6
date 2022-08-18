@@ -18,7 +18,7 @@ class LoadWorkbookResponseTest{
             .build()
         val r = LoadWorkbookResponse.fromProtoBytes(
             data = proto.toByteString(),
-            translatorGetter = TestSample::mockTranslatorGetter
+            translatorGetter = TestSample::mockTranslatorGetter3
         )
         assertEquals(proto.isError,r.isError)
         assertNotNull(r.errorReport)
@@ -34,7 +34,7 @@ class LoadWorkbookResponseTest{
             .build()
         val r = LoadWorkbookResponse.fromProtoBytes(
             data = proto.toByteString(),
-            translatorGetter = TestSample::mockTranslatorGetter
+            translatorGetter = TestSample::mockTranslatorGetter3
         )
         assertEquals(proto.isError,r.isError)
         assertNull(r.errorReport)

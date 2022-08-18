@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.*
 import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.range.RangeApplier
 import com.emeraldblast.p6.app.action.range.RangeRM
 import com.emeraldblast.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
@@ -39,7 +39,7 @@ class CursorActionImp @Inject constructor(
 
     private var appState by appStateMs
 
-    override fun pasteRange(wbws: WithWbWs) {
+    override fun pasteRange(wbws: WbWs) {
         val cursorState = appState.getCursorState(wbws)
         if(cursorState!=null){
             val req = PasteRangeRequest2(
@@ -57,7 +57,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun rangeToClipboard2(wbws: WithWbWs) {
+    override fun rangeToClipboard2(wbws: WbWs) {
         val cursorState: CursorState? = appState.getCursorState(wbws)
         if(cursorState!=null){
             val mergeAllCursorState = cursorState.attemptToMergeAllIntoOne()
@@ -96,7 +96,7 @@ class CursorActionImp @Inject constructor(
 
     override fun handleKeyboardEvent(
         keyEvent: PKeyEvent,
-        wbws: WithWbWs,
+        wbws: WbWs,
     ): Boolean {
         val wsState = appState.getWsState(wbws)
         if (wsState != null) {
@@ -173,7 +173,7 @@ class CursorActionImp @Inject constructor(
 
     private fun handleKeyboardEventWhenShiftDown(
         keyEvent: PKeyEvent,
-        wbws: WithWbWs
+        wbws: WbWs
     ): Boolean {
         if (keyEvent.isShiftPressedAlone) {
 
@@ -214,7 +214,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun handleKeyWithCtrlShift(keyEvent: PKeyEvent, wbws: WithWbWs): Boolean {
+    private fun handleKeyWithCtrlShift(keyEvent: PKeyEvent, wbws: WbWs): Boolean {
         if (keyEvent.isCtrlShiftPressed) {
             return when (keyEvent.key) {
                 Key.DirectionUp -> {
@@ -240,7 +240,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun handleKeyWithCtrlDown(keyEvent: PKeyEvent, wbws: WithWbWs): Boolean {
+    private fun handleKeyWithCtrlDown(keyEvent: PKeyEvent, wbws: WbWs): Boolean {
         val cursorState = appState.getCursorState(wbws)
         if (cursorState != null) {
             if (keyEvent.isCtrlPressedAlone) {
@@ -297,7 +297,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun home(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getWsStateMs(wbws)?.also { wsStateMs ->
             val wsState by wsStateMs
@@ -309,7 +309,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun end(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getWsStateMs(wbws)?.also { wsStateMs ->
             val wsState by wsStateMs
@@ -321,7 +321,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun ctrlUpNoUpdate(wbws: WithWbWs): CursorState? {
+    private fun ctrlUpNoUpdate(wbws: WbWs): CursorState? {
         // go to the nearest non-empty cell on the same col of anchor cell
         val rt = appState.getWsState(wbws)?.let { wsState: WorksheetState ->
             val cursorState: CursorState by wsState.cursorStateMs
@@ -340,7 +340,7 @@ class CursorActionImp @Inject constructor(
         return rt
     }
 
-    override fun ctrlUp(wbws: WithWbWs) {
+    override fun ctrlUp(wbws: WbWs) {
         appState.getWsStateMs(wbws)?.also { wsStateMs ->
             val cursorStateMs = wsStateMs.value.cursorStateMs
             // go to the nearest non-empty cell on the same col of anchor cell
@@ -353,7 +353,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun ctrlDownNoUpdate(wbws: WithWbWs): CursorState? {
+    private fun ctrlDownNoUpdate(wbws: WbWs): CursorState? {
         val rt = appState.getWsState(wbws)?.let { wsState: WorksheetState ->
             val cursorState: CursorState by wsState.cursorStateMs
             val worksheet = wsState.worksheet
@@ -373,7 +373,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun ctrlDown(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getWsStateMs(wbws)?.also { wsStateMs ->
             val cursorStateMs = wsStateMs.value.cursorStateMs
@@ -386,7 +386,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun ctrlRight(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getWsStateMs(wbws)?.also { wsStateMs ->
             val cursorStateMs = wsStateMs.value.cursorStateMs
@@ -401,7 +401,7 @@ class CursorActionImp @Inject constructor(
     /**
      * produce a new cursor state without updating any ms
      */
-    private fun ctrlRightNoUpdate(wbws: WithWbWs): CursorState? {
+    private fun ctrlRightNoUpdate(wbws: WbWs): CursorState? {
         val cursorState: CursorState? = appState.getCursorState(wbws)
         val wsState: WorksheetState? = appState.getWsState(wbws)
         if (cursorState != null && wsState != null) {
@@ -425,7 +425,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlShiftLeft(wbws: WithWbWs) {
+    override fun ctrlShiftLeft(wbws: WbWs) {
         val wsState: WorksheetState? = appState.getWsState(wbws)
         if (wsState != null) {
             val cursorState by wsState.cursorStateMs
@@ -447,7 +447,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlShiftRight(wbws: WithWbWs) {
+    override fun ctrlShiftRight(wbws: WbWs) {
         appState.getWsState(wbws)?.also { wsState: WorksheetState ->
             val cursorState by wsState.cursorStateMs
             val cell1 = cursorState.mainCell
@@ -471,7 +471,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlShiftUp(wbws: WithWbWs) {
+    override fun ctrlShiftUp(wbws: WbWs) {
         appState.getWsState(wbws)?.also { wsState: WorksheetState ->
             val cursorState by wsState.cursorStateMs
             val cell1 = cursorState.mainCell
@@ -494,7 +494,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlShiftDown(wbws: WithWbWs) {
+    override fun ctrlShiftDown(wbws: WbWs) {
         appState.getWsState(wbws)?.also { wsState: WorksheetState ->
             var cursorState by wsState.cursorStateMs
             val cell1 = cursorState.mainCell
@@ -519,7 +519,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlLeft(wbws: WithWbWs) {
+    override fun ctrlLeft(wbws: WbWs) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             this.ctrlLeftNoUpdate(wbws)?.also { newCursor ->
                 cursorStateMs.value = newCursor
@@ -528,7 +528,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun ctrlLeftNoUpdate(wbws: WithWbWs): CursorState? {
+    private fun ctrlLeftNoUpdate(wbws: WbWs): CursorState? {
         val rt = appState.getWsState(wbws)?.let { wsState: WorksheetState ->
             val cursorState: CursorState by wsState.cursorStateMs
             val worksheet = wsState.worksheet
@@ -550,7 +550,7 @@ class CursorActionImp @Inject constructor(
         return rt
     }
 
-    override fun selectWholeCol(wbws: WithWbWs) {
+    override fun selectWholeCol(wbws: WbWs) {
         val wsStateMs = appState.getWsStateMs(wbws)
         if (wsStateMs != null) {
             val wsState by wsStateMs
@@ -575,7 +575,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun selectWholeRow(wbws: WithWbWs) {
+    override fun selectWholeRow(wbws: WbWs) {
         val wsStateMs = appState.getWsStateMs(wbws)
         if (wsStateMs != null) {
             val wsState by wsStateMs
@@ -604,7 +604,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun up(
-        wbws: WithWbWs,
+        wbws: WbWs,
     ) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.up()
@@ -613,7 +613,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun down(
-        wbws: WithWbWs,
+        wbws: WbWs,
     ) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.down()
@@ -622,7 +622,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun left(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.left()
@@ -630,14 +630,14 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun right(wbws: WithWbWs) {
+    override fun right(wbws: WbWs) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.right()
             wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
         }
     }
 
-    override fun shiftUp(wbws: WithWbWs) {
+    override fun shiftUp(wbws: WbWs) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             var cursorState by cursorStateMs
             val mainCell = cursorState.mainCell
@@ -650,7 +650,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun shiftDown(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             var cursorState by cursorStateMs
@@ -663,7 +663,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun shiftLeft(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             var cursorState by cursorStateMs
@@ -676,7 +676,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun shiftRight(
-        wbws: WithWbWs
+        wbws: WbWs
     ) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             var cursorState by cursorStateMs
@@ -688,11 +688,11 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun f2(wbws: WithWbWs) {
+    override fun f2(wbws: WbWs) {
         openCellEditor.openCellEditor(wbws)
     }
 
-    override fun delete(wbws: WithWbWs) {
+    override fun delete(wbws: WbWs) {
         appState.getCursorState(wbws)?.also { cursorState: CursorState ->
             val req = DeleteMultiRequest2(
                 wbKey = cursorState.id.wbKey,
@@ -703,7 +703,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun undo(wbws: WithWbWs) {
+    override fun undo(wbws: WbWs) {
         this.appState.queryStateByWorkbookKey(wbws.wbKey).ifOk {
             val commandStack by it.workbookState.commandStackMs
             val command = commandStack.pop()

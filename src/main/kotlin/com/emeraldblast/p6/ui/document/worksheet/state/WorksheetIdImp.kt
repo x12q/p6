@@ -7,17 +7,20 @@ import com.emeraldblast.p6.ui.common.compose.St
 
 data class WorksheetIdImp(
     override val wsNameMs: Ms<String>,
-    override val wbKeyMs: St<WorkbookKey>,
+    override val wbKeySt: St<WorkbookKey>,
 ) : WorksheetId {
     override val wsName: String by wsNameMs
+    override val wsNameSt: St<String>
+        get() = wsNameMs
+
     override fun pointToWsNameMs(wsNameMs: Ms<String>): WorksheetId {
         return this.copy(wsNameMs = wsNameMs)
     }
 
-    override fun pointToWbKeyMs(wbKeyMs: St<WorkbookKey>): WorksheetId {
-        return this.copy(wbKeyMs = wbKeyMs)
+    override fun pointToWbKeySt(wbKeyMs: St<WorkbookKey>): WorksheetId {
+        return this.copy(wbKeySt = wbKeyMs)
     }
 
     override val wbKey: WorkbookKey
-        get() = wbKeyMs.value
+        get() = wbKeySt.value
 }

@@ -3,7 +3,7 @@ package com.emeraldblast.p6.ui.app.state
 import androidx.compose.runtime.MutableState
 import com.emeraldblast.p6.app.common.Rs
 import com.emeraldblast.p6.app.common.Rse
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
@@ -68,19 +68,19 @@ interface StateContainer {
         return getWsStateMs(wbKey, wsName)?.value
     }
 
-    fun getWsStateMsRs(wbws: WithWbWs): Rse<Ms<WorksheetState>> {
+    fun getWsStateMsRs(wbws: WbWs): Rse<Ms<WorksheetState>> {
         return this.getWsStateMsRs(wbws.wbKey, wbws.wsName)
     }
 
-    fun getWsStateRs(wbws: WithWbWs): Rse<WorksheetState> {
+    fun getWsStateRs(wbws: WbWs): Rse<WorksheetState> {
         return getWsStateMsRs(wbws.wbKey, wbws.wsName).map { it.value }
     }
 
-    fun getWsStateMs(wbws: WithWbWs): Ms<WorksheetState>? {
+    fun getWsStateMs(wbws: WbWs): Ms<WorksheetState>? {
         return getWsStateMsRs(wbws.wbKey, wbws.wsName).component1()
     }
 
-    fun getWsState(wbws: WithWbWs): WorksheetState? {
+    fun getWsState(wbws: WbWs): WorksheetState? {
         return getWsStateMs(wbws.wbKey, wbws.wsName)?.value
     }
 
@@ -103,10 +103,10 @@ interface StateContainer {
     fun getCursorState(wbKey: WorkbookKey, wsName: String): CursorState? {
         return getCursorStateMs(wbKey, wsName)?.value
     }
-    fun getCursorStateMs(wbws: WithWbWs): Ms<CursorState>?{
+    fun getCursorStateMs(wbws: WbWs): Ms<CursorState>?{
         return this.getCursorStateMs(wbws.wbKey,wbws.wsName)
     }
-    fun getCursorState(wbws: WithWbWs): CursorState? {
+    fun getCursorState(wbws: WbWs): CursorState? {
         return this.getCursorStateMs(wbws.wbKey,wbws.wsName)?.value
     }
 

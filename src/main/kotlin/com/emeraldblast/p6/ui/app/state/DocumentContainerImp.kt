@@ -2,7 +2,8 @@ package com.emeraldblast.p6.ui.app.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.range.RangeId
 import com.emeraldblast.p6.app.common.Rs
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
@@ -29,6 +30,13 @@ class DocumentContainerImp @Inject constructor(
 ) : DocumentContainer {
 
     override var globalWbCont: WorkbookContainer by globalWbContMs
+    override fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt? {
+        return this.getWorksheet(wbKey, wsName)?.id
+    }
+
+    override fun getWbWsSt(wbWs: WbWs): WbWsSt? {
+        return this.getWorksheet(wbWs)?.id
+    }
 
     override fun getWorkbook(workbookKey: WorkbookKey): Workbook? {
         return this.globalWbCont.getWb(workbookKey)
@@ -42,7 +50,7 @@ class DocumentContainerImp @Inject constructor(
         return getWorksheetRs(wbKey, wsName).component1()
     }
 
-    override fun getWorksheet(wbws: WithWbWs): Worksheet? {
+    override fun getWorksheet(wbws: WbWs): Worksheet? {
         return getWorksheet(wbws.wbKey, wbws.wsName)
     }
 

@@ -1,26 +1,28 @@
 package com.emeraldblast.p6.app.action.common_data_structure
 
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
-import com.emeraldblast.p6.app.document.workbook.toModel
-import com.emeraldblast.p6.proto.DocProtos.WsWbProto
+import com.emeraldblast.p6.ui.common.compose.St
 
-data class WbWs(
-    override val wbKey:WorkbookKey,
-    override val wsName:String
-) : WithWbWs {
-    companion object{
-        fun WsWbProto.toModel(): WbWs {
-            return WbWs(
-                wbKey = this.workbookKey.toModel(),
-                wsName = this.worksheetName
-            )
-        }
-    }
+interface WbWs{
+    val wbKey: WorkbookKey
+    val wsName:String
+}
 
-    fun toProto():WsWbProto{
-        return WsWbProto.newBuilder()
-            .setWorkbookKey(this.wbKey.toProto())
-            .setWorksheetName(this.wsName)
-            .build()
-    }
+fun WbWs(wbKey: WorkbookKey,
+         wsName:String):WbWs{
+    return WbWsImp(wbKey, wsName)
+}
+
+interface WbWsSt:WbWs{
+    val wbKeySt: St<WorkbookKey>
+    val wsNameSt:St<String>
+    override val wbKey: WorkbookKey
+        get() = wbKeySt.value
+    override val wsName: String
+        get() = wsNameSt.value
+}
+
+data class WbWsStImp(override val wbKeySt: St<WorkbookKey>, override val wsNameSt: St<String>):WbWsSt
+fun WbWsSt(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>):WbWsSt{
+    return WbWsStImp(wbKeySt, wsNameSt)
 }

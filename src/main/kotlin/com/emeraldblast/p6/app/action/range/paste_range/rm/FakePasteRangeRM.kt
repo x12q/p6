@@ -6,7 +6,7 @@ import com.emeraldblast.p6.app.action.range.paste_range.PasteRangeRequest2
 import com.emeraldblast.p6.app.action.range.paste_range.PasteRangeResponse
 import com.emeraldblast.p6.app.document.workbook.WorkbookImp
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import javax.inject.Inject
 
 class FakePasteRangeRM @Inject constructor(): PasteRangeRM {

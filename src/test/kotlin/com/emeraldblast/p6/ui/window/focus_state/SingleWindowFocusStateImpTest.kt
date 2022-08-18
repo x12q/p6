@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.ui.window.focus_state
 
 
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import kotlin.test.*
 
 class SingleWindowFocusStateImpTest {

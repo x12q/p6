@@ -29,36 +29,45 @@ class SingleCellPaster @Inject constructor(
 
     override fun paste(targetRangeId: RangeId): Result<Workbook, ErrorReport> {
         try {
-            val rangeCopy: RangeCopy = this.makeRangeCopyObj(targetRangeId)
+            val rangeCopy: RangeCopy? = this.makeRangeCopyObj(targetRangeId)
             return this.paste(rangeCopy, targetRangeId)
         } catch (e: Throwable) {
             return CommonErrors.ExceptionError.report(e).toErr()
         }
     }
 
-    private fun makeRangeCopyObj(rangeId: RangeId): RangeCopy {
-        val translator = appState.translatorContainer.getTranslator(rangeId.wbKey, rangeId.wsName)
-        val bytes = cl.getData(BinaryTransferable.binFlavor) as ByteArray
-        val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
-        return rangeCopy
+    private fun makeRangeCopyObj(rangeId: RangeId): RangeCopy? {
+        val wbwsSt = appState.getWbWsSt(rangeId)
+        if(wbwsSt!=null){
+            val translator = appState.translatorContainer.getTranslatorOrCreate(wbwsSt)
+            val bytes = cl.getData(BinaryTransferable.binFlavor) as ByteArray
+            val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
+            return rangeCopy
+        } else{
+            return null
+        }
     }
 
-    private fun paste(range: RangeCopy, target: RangeId): Result<Workbook, ErrorReport> {
+    private fun paste(range: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
         val rt = appState.getWorkbookRs(target.wbKey)
-            .andThen { wb ->
-                wb.getWsRs(target.wsName).map {
-                    var tws = it
-                    for (cell in range.cells) {
-                        val newCellAddress =
-                            cell.address.shift(
-                                range.rangeId.rangeAddress.topLeft,
-                                target.rangeAddress.topLeft
-                            )
-                        val newCell = cell.setAddress(newCellAddress)
-                        tws = tws.addOrOverwrite(newCell)
+            .flatMap { wb ->
+                if(range!=null){
+                    wb.getWsRs(target.wsName).map {
+                        var tws = it
+                        for (cell in range.cells) {
+                            val newCellAddress =
+                                cell.address.shift(
+                                    range.rangeId.rangeAddress.topLeft,
+                                    target.rangeAddress.topLeft
+                                )
+                            val newCell = cell.setAddress(newCellAddress)
+                            tws = tws.addOrOverwrite(newCell)
+                        }
+                        val newWb = wb.addSheetOrOverwrite(tws)
+                        newWb
                     }
-                    val newWb = wb.addSheetOrOverwrite(tws)
-                    newWb
+                }else{
+                    Ok(wb)
                 }
             }
         return rt

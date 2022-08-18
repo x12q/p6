@@ -20,7 +20,7 @@ import com.emeraldblast.p6.di.state.wb.DefaultScriptContMs
 import com.emeraldblast.p6.di.state.wb.DefaultWsStateList
 import com.emeraldblast.p6.di.state.ws.DefaultActiveWorksheetPointer
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
@@ -90,7 +90,7 @@ data class WorkbookStateImp @AssistedInject constructor(
                     val wsIdMs: Ms<WorksheetId> = ms(
                         WorksheetIdImp(
                             wsNameMs = ws.nameMs,
-                            wbKeyMs = wbMs.value.keyMs,
+                            wbKeySt = wbMs.value.keyMs,
                         )
                     )
                     val isEditingMs = false.toMs()

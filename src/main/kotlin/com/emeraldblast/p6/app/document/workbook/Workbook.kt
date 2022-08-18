@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.app.document.workbook
 
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.common.Rse
 import com.emeraldblast.p6.app.common.WithSize
 import com.emeraldblast.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
@@ -65,10 +66,10 @@ interface Workbook : WithSize{
      * for renaming a worksheet inside a workbook. This include checking the legality of the new worksheet name (illegal name format, name collision)
      */
     fun renameWsRs(oldName: String, newName: String,
-                   translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>
+                   translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
     ): Result<Workbook, ErrorReport>
     fun renameWsRs(index: Int, newName: String,
-                   translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>
+                   translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>
     ): Result<Workbook, ErrorReport>
 
     fun moveWs(targetIndex: Int, toIndex: Int): Result<Workbook, ErrorReport>

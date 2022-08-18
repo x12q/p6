@@ -1,6 +1,7 @@
 package com.emeraldblast.p6.ui.app.state
 
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.common.Rs
 import com.emeraldblast.p6.app.action.range.RangeId
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
@@ -19,15 +20,25 @@ import com.emeraldblast.p6.ui.common.compose.Ms
  */
 interface DocumentContainer {
 
+
     val globalWbContMs: Ms<WorkbookContainer>
     var globalWbCont: WorkbookContainer
+
+    /**
+     * @return [WbWsSt] from an existing worksheet, null if such worksheet does not exist
+     */
+    fun getWbWsSt(wbKey: WorkbookKey,wsName: String):WbWsSt?
+    /**
+     * @return [WbWsSt] from an existing worksheet, null if such worksheet does not exist
+     */
+    fun getWbWsSt(wbWs: WbWs):WbWsSt?
 
     fun getWorkbookRs(wbKey: WorkbookKey): Rs<Workbook, ErrorReport>
     fun getWorkbook(workbookKey: WorkbookKey):Workbook?
 
     fun getWorksheetRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport>
     fun getWorksheet(wbKey: WorkbookKey, wsName: String): Worksheet?
-    fun getWorksheet(wbws:WithWbWs): Worksheet?
+    fun getWorksheet(wbws:WbWs): Worksheet?
 
     fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
     fun getRangeRsById(rangeId: RangeId): Rs<Range, ErrorReport>

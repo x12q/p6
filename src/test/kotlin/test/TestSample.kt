@@ -6,6 +6,7 @@ import com.emeraldblast.p6.app.common.Rs
 import com.emeraldblast.p6.app.common.utils.Loggers
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
 import com.emeraldblast.p6.app.action.common_data_structure.ErrorIndicator
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.di.DaggerP6Component
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.CellImp
@@ -27,7 +28,8 @@ import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.St
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
@@ -75,6 +77,12 @@ class TestSample {
         }
 
         fun mockTranslatorGetter(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit> {
+            return mockTranslator
+        }
+        fun mockTranslatorGetter2(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit> {
+            return mockTranslator
+        }
+        fun mockTranslatorGetter3(wbwsSt:WbWsSt): P6Translator<ExUnit> {
             return mockTranslator
         }
     }

@@ -13,7 +13,7 @@ data class CursorIdImp(
     }
 
     override val wbKeySt: St<WorkbookKey>
-        get() = wsStateIDMs.value.wbKeyMs
+        get() = wsStateIDMs.value.wbKeySt
     override val wsNameSt: St<String>
         get() = wsStateIDMs.value.wsNameMs
 }

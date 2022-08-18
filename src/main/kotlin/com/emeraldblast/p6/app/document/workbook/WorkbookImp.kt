@@ -2,6 +2,7 @@ package com.emeraldblast.p6.app.document.workbook
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.common.Rse
 import com.emeraldblast.p6.app.common.utils.ErrorUtils.getOrThrow
 import com.emeraldblast.p6.app.common.utils.Utils.isLegalWbName
@@ -17,7 +18,7 @@ import com.emeraldblast.p6.proto.DocProtos.WorksheetProto
 import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.github.michaelbull.result.*
 import kotlin.collections.fold
@@ -33,13 +34,14 @@ data class WorkbookImp(
     override val worksheets: List<Worksheet> get() = worksheetMsList.map { it.value }
 
     companion object {
-        fun WorkbookProto.toModel(translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>): Workbook {
+        fun WorkbookProto.toModel(translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>): Workbook {
             val wbKey = workbookKey.toModel()
             val wbKeyMs = ms(wbKey)
             val sheets = mutableListOf<Worksheet>()
             for (sheet: WorksheetProto in worksheetList) {
-                val translator = translatorGetter(wbKey, sheet.name)
-                val newSheet = WorksheetImp(nameMs = ms(sheet.name), wbKeySt = wbKeyMs).withNewData(sheet, translator)
+                val nameMs = ms(sheet.name)
+                val translator = translatorGetter(WbWsSt(wbKeyMs,nameMs))
+                val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs).withNewData(sheet, translator)
                 sheets.add(newSheet)
             }
             return WorkbookImp(keyMs = wbKey.toMs()).addMultiSheetOrOverwrite(sheets)
@@ -186,7 +188,7 @@ data class WorkbookImp(
     override fun renameWsRs(
         oldName: String,
         newName: String,
-        translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>
+        translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
     ): Result<Workbook, ErrorReport> {
         val wsMs = this.getWsMs(oldName)
         if (wsMs!=null) {
@@ -198,7 +200,7 @@ data class WorkbookImp(
                 }
                 if (!this.containSheet(newName)) {
                     val oldWorkSheet = wsMs.value
-                    val newWorksheet = oldWorkSheet.setWsName(newName, translatorGetter(this.key, newName))
+                    val newWorksheet = oldWorkSheet.setWsName(newName, translatorGetter(oldWorkSheet.id))
                     wsMs.value = newWorksheet
                     return Ok(this)
                 } else {
@@ -213,13 +215,13 @@ data class WorkbookImp(
     override fun renameWsRs(
         index: Int,
         newName: String,
-        translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>
+        translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
     ): Result<Workbook, ErrorReport> {
         val oldWsMs = this.getWsMs(index)
 
         if (oldWsMs != null) {
             val oldWorksheet = oldWsMs.value
-            val newWorksheet = oldWorksheet.setWsName(newName, translatorGetter(this.key, newName))
+            val newWorksheet = oldWorksheet.setWsName(newName, translatorGetter(oldWorksheet.id))
             oldWsMs.value = newWorksheet
             return Ok(this)
         } else {

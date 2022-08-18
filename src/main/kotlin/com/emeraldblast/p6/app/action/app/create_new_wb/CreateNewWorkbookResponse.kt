@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.app.action.app.create_new_wb
 
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.common.proto.toModel
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey
 import com.emeraldblast.p6.app.document.workbook.Workbook
@@ -20,7 +21,7 @@ data class CreateNewWorkbookResponse(
     companion object {
         fun fromProtoBytes(
             data: ByteString,
-            translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>
+            translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>
         ): CreateNewWorkbookResponse {
             val proto = CreateNewWorkbookResponseProto.newBuilder().mergeFrom(data).build()
             return CreateNewWorkbookResponse(

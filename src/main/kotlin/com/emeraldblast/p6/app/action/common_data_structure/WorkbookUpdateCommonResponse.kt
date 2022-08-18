@@ -24,13 +24,13 @@ open class WorkbookUpdateCommonResponse(
     companion object {
         fun fromProtoBytes(
             data: ByteString,
-            translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>
+            translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
         ): WorkbookUpdateCommonResponse {
             return WorkbookUpdateCommonResponseProto.newBuilder().mergeFrom(data).build().toModel(translatorGetter)
         }
 
         fun WorkbookUpdateCommonResponseProto.toModel(
-            translatorGetter: (wbKey: WorkbookKey, wsName: String) -> P6Translator<ExUnit>
+            translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
         ): WorkbookUpdateCommonResponse {
             return WorkbookUpdateCommonResponse(
                 errorReport = if (this.hasErrorReport()) errorReport.toModel() else null,

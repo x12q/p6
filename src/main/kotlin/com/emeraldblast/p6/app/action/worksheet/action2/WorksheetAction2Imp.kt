@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddresses
@@ -25,7 +25,7 @@ class WorksheetAction2Imp @Inject constructor(
 
     override fun makeSliderFollowCursor(
         newCursor: CursorState,
-        wbws: WithWbWs,
+        wbws: WbWs,
     ) {
         val wsStateMs: Ms<WorksheetState>? = appState.getWsStateMs(wbws)
         if(wsStateMs!=null){

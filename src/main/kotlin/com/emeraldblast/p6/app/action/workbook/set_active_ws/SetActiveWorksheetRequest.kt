@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.workbook.set_active_ws
 
-import com.emeraldblast.p6.app.action.common_data_structure.WithWbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.workbook.toModel
@@ -15,7 +15,7 @@ class SetActiveWorksheetWithIndexRequest(
 class SetActiveWorksheetRequest(
     override val wbKey: WorkbookKey,
     override val wsName: String,
-) : RequestToP6WithWorkbookKey,WithWbWs {
+) : RequestToP6WithWorkbookKey,WbWs {
     override fun toProtoBytes(): ByteString {
         return this.toProto().toByteString()
     }

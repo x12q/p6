@@ -2,12 +2,10 @@ package test.integration
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.CellContentImp
 import com.emeraldblast.p6.app.document.cell.d.CellImp
 import com.emeraldblast.p6.app.document.cell.d.CellValue
-import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.app.document.workbook.WorkbookImp
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.WorksheetImp
@@ -16,9 +14,9 @@ import com.emeraldblast.p6.translator.formula.P6FunctionDefinitionsImp
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslator
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitor
 import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toSt
 import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import test.TestSample
 import kotlin.test.*
 
@@ -48,8 +46,8 @@ class IntegrationTest {
         val wsName = "S1"
         val translator = JvmFormulaTranslator(
             visitor = JvmFormulaVisitor(
-                wbKey = wbKey.value,
-                wsName = wsName,
+                wbKeySt = wbKey.value.toSt(),
+                wsNameSt = wsName.toSt(),
                 functionMap = FunctionMapImp(P6FunctionDefinitionsImp(appMs).functionMap)
             ),
             treeExtractor = TreeExtractorImp()

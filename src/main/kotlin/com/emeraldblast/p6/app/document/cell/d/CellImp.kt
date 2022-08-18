@@ -7,7 +7,7 @@ import com.emeraldblast.p6.proto.DocProtos
 import com.emeraldblast.p6.proto.DocProtos.CellProto
 import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import java.util.*
 
 data class CellImp(
@@ -19,9 +19,10 @@ data class CellImp(
         fun CellProto.toModel(translator: P6Translator<ExUnit>): Cell {
             if(this.hasFormula() && this.formula.isNotEmpty()){
                 val transRs = translator.translate(formula)
+                val content = CellContentImp.fromTransRs(transRs,formula)
                 return CellImp(
                     address = address.toModel(),
-                    content = CellContentImp.fromTransRs(transRs,formula)
+                    content = content
                 )
             }else{
                 return CellImp(

@@ -17,7 +17,7 @@ import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.app.state.TranslatorContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.mapBoth
@@ -34,7 +34,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         val rs = appState.getWorkbookRs(req.wbKey).andThen { wb->
             wb.getWsRs(req.wsName).andThen { ws->
                 var newWs = ws
-                val translator = translatorCont.getTranslator(wb.key,ws.name)
+                val translator = translatorCont.getTranslatorOrCreate(ws.id)
                 for(entry: CellUpdateEntry in req.cellUpdateList){
                     val cellRs = ws.getCellOrDefaultRs(entry.cellAddress)
                     if(cellRs is Ok){

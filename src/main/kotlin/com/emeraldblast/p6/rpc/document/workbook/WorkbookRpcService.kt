@@ -26,10 +26,13 @@ import com.emeraldblast.p6.proto.rpc.workbook.service.WorkbookServiceGrpc
 import com.emeraldblast.p6.rpc.document.workbook.msg.*
 import com.emeraldblast.p6.rpc.document.workbook.msg.AddWorksheetRequest.Companion.toModel
 import com.emeraldblast.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg.Companion.toModel
+import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
+import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.emeraldblast.p6.ui.app.state.DocumentContainer
 import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.app.state.TranslatorContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toSt
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
@@ -42,6 +45,8 @@ class WorkbookRpcService @Inject constructor(
 //    @AppStateMs
 //    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
+    private val translatorFactory: JvmFormulaTranslatorFactory,
+    private val visitorFactory: JvmFormulaVisitorFactory,
     private val globalAction: GlobalAction,
     @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
@@ -159,7 +164,13 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.wbKey.toModel()
-            val translator = translatorContainer.getTranslator(wbk, request.worksheet.name)
+            val wsn = request.worksheet.name ?: ""
+            val translator = translatorContainer.getTranslator(wbk, wsn) ?: translatorFactory.create(
+                visitor =visitorFactory.create(
+                    wbk.toSt(),
+                    wsn.toSt()
+                )
+            )
             val wbkMsRs = documentCont.getWorkbookRs(wbKey = wbk)
             val rs = wbkMsRs.flatMap { wb ->
                 val req = request.toModel(wb.keyMs, translator)

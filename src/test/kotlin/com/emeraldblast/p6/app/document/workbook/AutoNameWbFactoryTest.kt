@@ -1,11 +1,9 @@
 package com.emeraldblast.p6.app.document.workbook
 
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
-import com.emeraldblast.p6.app.document.wb_container.WorkbookContainerImp2
 import com.emeraldblast.p6.app.document.worksheet.WsNameGeneratorImp
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import org.junit.Test
 
 import org.junit.Assert.*

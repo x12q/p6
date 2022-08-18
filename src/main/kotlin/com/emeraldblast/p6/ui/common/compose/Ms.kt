@@ -1,7 +1,6 @@
 package com.emeraldblast.p6.ui.common.compose
 
 import androidx.compose.runtime.*
-import com.github.michaelbull.result.Ok
 
 typealias Ms<T> = MutableState<T>
 typealias St<T> = State<T>
@@ -35,8 +34,11 @@ fun <T> rms(f: () -> T): Ms<T> {
     return remember { mutableStateOf(f()) }
 }
 
-object MsUtils {
+object StateUtils {
     fun <T : Any?> T.toMs(): Ms<T> {
+        return ms(this)
+    }
+    fun <T : Any?> T.toSt(): St<T> {
         return ms(this)
     }
 }

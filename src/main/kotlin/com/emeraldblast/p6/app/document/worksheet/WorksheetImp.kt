@@ -59,7 +59,7 @@ data class WorksheetImp(
         idMs = ms(
             WorksheetIdImp(
                 wsNameMs = nameMs,
-                wbKeyMs = wbKeySt,
+                wbKeySt = wbKeySt,
             )
         ),
         table = table,
@@ -67,7 +67,7 @@ data class WorksheetImp(
     )
 
     override val nameMs: Ms<String> get() = idMs.value.wsNameMs
-    override val wbKeySt: St<WorkbookKey> get() = idMs.value.wbKeyMs
+    override val wbKeySt: St<WorkbookKey> get() = idMs.value.wbKeySt
 
     override fun equals(other: Any?): Boolean {
         if (other is Worksheet) {
@@ -120,7 +120,7 @@ data class WorksheetImp(
 
 
     override fun setWbKeySt(wbKeySt: St<WorkbookKey>): Worksheet {
-        this.idMs.value =this.idMs.value.pointToWbKeyMs(wbKeySt)
+        this.idMs.value =this.idMs.value.pointToWbKeySt(wbKeySt)
         return this
     }
 

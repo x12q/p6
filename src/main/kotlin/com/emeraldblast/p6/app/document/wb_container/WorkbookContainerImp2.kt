@@ -10,7 +10,7 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.di.state.app_state.WbStateContMs
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory

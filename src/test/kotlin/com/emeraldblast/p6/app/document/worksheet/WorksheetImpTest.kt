@@ -9,7 +9,7 @@ import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddresses
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.MsUtils.toMs
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test
