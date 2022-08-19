@@ -1,6 +1,8 @@
 package com.emeraldblast.p6.ui.document.worksheet.state
 
 import androidx.compose.ui.layout.LayoutCoordinates
+import com.emeraldblast.p6.app.action.common_data_structure.WbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
@@ -20,15 +22,13 @@ import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider
  * provide method to lookup cell state + ms
  * store + expose ms object of cell state
  */
-interface WorksheetState  {
+interface WorksheetState :WbWsSt {
 
     val idMs: St<WorksheetId>
     val id:WorksheetId
 
     val topLeftCell:CellAddress
     fun setTopLeftCell(c:CellAddress): WorksheetState
-
-    val wbKey: WorkbookKey
 
     val colResizeBarStateMs: Ms<ResizeBarState>
     val colResizeBarState: ResizeBarState get() = colResizeBarStateMs.value

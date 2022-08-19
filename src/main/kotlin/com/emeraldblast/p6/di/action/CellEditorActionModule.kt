@@ -2,6 +2,8 @@ package com.emeraldblast.p6.di.action
 
 import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorImp
+import com.emeraldblast.p6.app.action.worksheet.action2.UpdateRangeSelectorText
+import com.emeraldblast.p6.app.action.worksheet.action2.UpdateRangeSelectorTextImp
 import com.emeraldblast.p6.di.P6Singleton
 import dagger.Binds
 
@@ -10,4 +12,8 @@ interface CellEditorActionModule {
     @Binds
     @P6Singleton
     fun OpenCellEditor(i:OpenCellEditorImp): OpenCellEditorAction
+
+    @Binds
+    @P6Singleton
+    fun UpdateRangeSelectorText(i: UpdateRangeSelectorTextImp):UpdateRangeSelectorText
 }

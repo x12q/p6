@@ -70,7 +70,7 @@ class CellEditorActionImp @Inject constructor(
         if (ws != null && wbKey != null && wsName != null && editTarget != null) {
             // x: execute the formula in the editor
             val cell = ws.getCellOrNull(editTarget)
-            val codeText = editorState.rangeSelectorText?.text ?: editorState.currentText
+            val codeText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
 
             val reverseRequest = if (cell?.formula != null) {
                 CellUpdateRequest(
@@ -154,7 +154,7 @@ class CellEditorActionImp @Inject constructor(
                                     editorState.targetCell?.let { editTarget ->
                                         cursorStateMs.value = cursorStateMs.value
                                             .removeAllExceptAnchorCell()
-                                            .setAnchorCell(editTarget)
+                                            .setMainCell(editTarget)
                                     }
                                 }
                             }

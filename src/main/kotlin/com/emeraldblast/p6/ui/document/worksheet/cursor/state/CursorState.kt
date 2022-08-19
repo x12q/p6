@@ -87,7 +87,7 @@ interface CursorState : WbWsSt {
     /**
      * point the cursor to a new cell
      */
-    fun setAnchorCell(newCellAddress: CellAddress): CursorState
+    fun setMainCell(newCellAddress: CellAddress): CursorState
 
 
     /**

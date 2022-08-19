@@ -12,7 +12,7 @@ import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateId
 interface CellEditorState {
 
     /**
-     * move [rangeSelectorText]'s content to [currentTextField], then nullify [rangeSelectorText]
+     * move [rangeSelectorTextField]'s content to [currentTextField], then nullify [rangeSelectorTextField]
      */
     fun stopGettingRangeAddress():CellEditorState
 
@@ -54,12 +54,14 @@ interface CellEditorState {
             }
         }
 
-    val displayText: TextFieldValue
+    val displayTextField: TextFieldValue
+    val displayText: String
 
     /**
-     * [rangeSelectorText] = [currentText] + range address that produced by the cursor denoted by [rangeSelectorCursorId]. The content of [rangeSelectorText] will be moved into [currentText] when the range selector is done with its work
+     * [rangeSelectorTextField] = [currentText] + range address that produced by the cursor denoted by [rangeSelectorCursorId]. The content of [rangeSelectorTextField] will be moved into [currentText] when the range selector is done with its work
      */
-    val rangeSelectorText: TextFieldValue?
+    val rangeSelectorTextField: TextFieldValue?
+    val rangeSelectorText: String?
     fun setRangeSelectorText(newTextField: TextFieldValue?): CellEditorState
 
     /**
@@ -77,6 +79,8 @@ interface CellEditorState {
 
     val isActiveMs: Ms<Boolean>
     val isActive: Boolean
+
+    val isActiveAndAllowRangeSelector:Boolean
 
     /**
      * open cell editor at cursor denoted by [cursorIdMs]

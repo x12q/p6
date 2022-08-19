@@ -80,7 +80,7 @@ class WorkbookStateImpTest {
     fun setWorkbook() {
         val sheet1_1State:Ms<WorksheetState>? = wbState.getWorksheetStateMs(wb0.getWs(0)!!.name)
         assertNotNull(sheet1_1State)
-        sheet1_1State.value.cursorStateMs.value = sheet1_1State.value.cursorState.setAnchorCell(CellAddress("B9"))
+        sheet1_1State.value.cursorStateMs.value = sheet1_1State.value.cursorState.setMainCell(CellAddress("B9"))
         val cursor1_1 = sheet1_1State.value.cursorState
         val oldTabBarState = wbState.sheetTabBarState
         val wbState2 = wbState.setWorkbookKeyAndRefreshState(wb1.key)

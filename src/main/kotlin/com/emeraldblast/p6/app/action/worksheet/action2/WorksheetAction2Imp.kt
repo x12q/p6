@@ -5,6 +5,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
+import com.emeraldblast.p6.app.action.worksheet.click_on_cell.ClickOnCell
 import com.emeraldblast.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddresses
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class WorksheetAction2Imp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
-) : WorksheetAction2 {
+    private val mouseOnWsAction:MouseOnWorksheetAction,
+) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction {
     private var appState by appStateMs
 
     override fun makeSliderFollowCursor(
@@ -28,7 +30,7 @@ class WorksheetAction2Imp @Inject constructor(
         wbws: WbWs,
     ) {
         val wsStateMs: Ms<WorksheetState>? = appState.getWsStateMs(wbws)
-        if(wsStateMs!=null){
+        if (wsStateMs != null) {
 
             val oldSlider = wsStateMs.value.slider
             val newSlider = oldSlider.move(newCursor)
@@ -73,101 +75,6 @@ class WorksheetAction2Imp @Inject constructor(
                     wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddress(cellAddress) }
             }
         }
-    }
-
-    /**
-     * when click on a cell, remove all previous selection, then assign the clicked cell as the new anchor cell
-     */
-    override fun clickOnCell(cellAddress: CellAddress, cursorStateMs: Ms<CursorState>) {
-        var cursorState by cursorStateMs
-        var cellEditorState by cursorState.cellEditorStateMs
-        if (cellEditorState.isActive) {
-            if (!cellEditorState.allowRangeSelector) {
-                cellEditorState = cellEditorState.clearAllText().close()
-                cursorState = cursorState
-                    .removeMainRange()
-                    .removeAllFragmentedCells()
-                    .removeAllSelectedFragRange()
-                    .setAnchorCell(cellAddress)
-            } else {
-                //do nothing
-            }
-        } else {
-            cursorState = cursorState
-                .removeMainRange()
-                .removeAllFragmentedCells()
-                .removeAllSelectedFragRange()
-                .setAnchorCell(cellAddress)
-        }
-    }
-
-
-    override fun stopDragSelection(wsState: WorksheetState) {
-        var selectRect by wsState.selectRectStateMs
-        selectRect = selectRect.hide().deactivate()
-    }
-
-    override fun makeMouseDragSelectionIfPossible(
-        wsState: WorksheetState,
-        currentCellMouseOn: CellAddress,
-    ) {
-        var cursorState by wsState.cursorStateMs
-        val newRange = RangeAddresses.fromManyCells(listOf(currentCellMouseOn, cursorState.mainCell))
-        val newCursorState = cursorState.setMainRange(newRange)
-        cursorState = newCursorState
-    }
-
-    override fun makeMouseDragSelectionIfPossible(wsState: WorksheetState, mousePosition: Offset, offset: Offset) {
-        var selectRect by wsState.selectRectStateMs
-        var cursorState by wsState.cursorStateMs
-        if (selectRect.isActive) {
-            selectRect = selectRect.setMovingPoint(mousePosition).show()
-            val currentCellMouseOn = wsState.cellLayoutCoorMap.entries.firstOrNull { (_, layout) ->
-                val cellRect = layout.boundInWindow
-                cellRect.contains(mousePosition)
-            }?.key
-            if (currentCellMouseOn != null) {
-                makeMouseDragSelectionIfPossible(wsState,currentCellMouseOn)
-            }
-        }
-    }
-
-    override fun startDragSelection(
-        wsState: WorksheetState,
-        anchorCell: CellAddress
-    ) {
-        var cursorState by wsState.cursorStateMs
-        val cellEditorState by cursorState.cellEditorStateMs
-        restoreWindowFocusState.setFocusStateConsideringRangeSelector(wsState.wbKey)
-        val c1 = cellEditorState.isActive && !cellEditorState.allowRangeSelector
-        if (c1) {
-            return
-        } else {
-            cursorState = cursorState
-                .setAnchorCell(anchorCell)
-                .removeMainRange()
-                .removeAllSelectedFragRange()
-                .removeAllFragmentedCells()
-        }
-    }
-
-    override fun startDragSelection(
-        wsState: WorksheetState,
-        mousePosition: Offset, offset: Offset,
-
-        ) {
-        var selectRect by wsState.selectRectStateMs
-        selectRect = selectRect
-            .setAnchorPoint(mousePosition)
-            .activate()
-        for ((cellAddress, layout) in wsState.cellLayoutCoorMap) {
-            val cellRect = layout.boundInWindow
-            if (cellRect.contains(selectRect.anchorPoint)) {
-                startDragSelection(wsState, cellAddress)
-                break
-            }
-        }
-
     }
 
     override fun addCellLayoutCoor(

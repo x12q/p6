@@ -303,7 +303,7 @@ class CursorActionImp @Inject constructor(
             val wsState by wsStateMs
             val cursorState by wsState.cursorStateMs
             val targetCell = CellAddress(wsState.firstCol, cursorState.mainCell.rowIndex)
-            val newCursorState = cursorState.setAnchorCell(targetCell).removeAllExceptAnchorCell()
+            val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptAnchorCell()
             wsAction.makeSliderFollowCursor(newCursorState, wbws)
         }
     }
@@ -315,7 +315,7 @@ class CursorActionImp @Inject constructor(
             val wsState by wsStateMs
             val cursorState by wsState.cursorStateMs
             val targetCell = CellAddress(wsState.lastCol, cursorState.mainCell.rowIndex)
-            val newCursorState = cursorState.setAnchorCell(targetCell).removeAllExceptAnchorCell()
+            val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptAnchorCell()
             wsState.cursorStateMs.value = newCursorState
             wsAction.makeSliderFollowCursor(newCursorState, wbws)
         }
@@ -331,10 +331,10 @@ class CursorActionImp @Inject constructor(
             val rowIndex = mainCell.rowIndex
             val row = worksheet.getCol(colIndex).map { it.address.rowIndex }.filter { it < rowIndex }.maxOrNull()
             if (row != null) {
-                cursorState.setAnchorCell(CellAddress(colIndex, row))
+                cursorState.setMainCell(CellAddress(colIndex, row))
             } else {
                 cursorState
-                    .setAnchorCell(CellAddress(colIndex, wsState.firstRow)).removeAllExceptAnchorCell()
+                    .setMainCell(CellAddress(colIndex, wsState.firstRow)).removeAllExceptAnchorCell()
             }
         }
         return rt
@@ -362,10 +362,10 @@ class CursorActionImp @Inject constructor(
             val rowIndex = mainCell.rowIndex
             val row = worksheet.getCol(colIndex).map { it.address.rowIndex }.filter { it > rowIndex }.minOrNull()
             if (row != null) {
-                cursorState.setAnchorCell(CellAddress(colIndex, row))
+                cursorState.setMainCell(CellAddress(colIndex, row))
             } else {
                 cursorState
-                    .setAnchorCell(CellAddress(colIndex, wsState.lastRow))
+                    .setMainCell(CellAddress(colIndex, wsState.lastRow))
                     .removeAllExceptAnchorCell()
             }
         }
@@ -414,10 +414,10 @@ class CursorActionImp @Inject constructor(
                 .filter { it > colIndex }
                 .minOrNull()
             if (col != null) {
-                return cursorState.setAnchorCell(CellAddress(col, rowIndex))
+                return cursorState.setMainCell(CellAddress(col, rowIndex))
             } else {
                 return cursorState
-                    .setAnchorCell(CellAddress(wsState.lastCol, rowIndex))
+                    .setMainCell(CellAddress(wsState.lastCol, rowIndex))
                     .removeAllExceptAnchorCell()
             }
         } else {
@@ -439,7 +439,7 @@ class CursorActionImp @Inject constructor(
                 if (minRow != null && maxRow != null) {
                     val cell3 = CellAddress(cell1.colIndex, minRow)
                     val cell4 = CellAddress(cell1.colIndex, maxRow)
-                    wsState.cursorStateMs.value = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                    wsState.cursorStateMs.value = cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
                         RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                     )
                 }
@@ -462,7 +462,7 @@ class CursorActionImp @Inject constructor(
                         val cell3 = CellAddress(cell1.colIndex, minRow)
                         val cell4 = CellAddress(cell1.colIndex, maxRow)
                         wsState.cursorStateMs.value =
-                            cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                            cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
                                 RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                             )
                     }
@@ -485,7 +485,7 @@ class CursorActionImp @Inject constructor(
                         val cell3 = CellAddress(maxCol, cell1.rowIndex)
                         val cell4 = CellAddress(minCol, cell1.rowIndex)
                         wsState.cursorStateMs.value =
-                            cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                            cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
                                 RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                             )
                     }
@@ -501,7 +501,7 @@ class CursorActionImp @Inject constructor(
             val maxRow = cursorState.maxRow
             if (maxRow != null) {
                 val anchor2 = this.ctrlDownNoUpdate(
-                    cursorState.setAnchorCell(CellAddress(cell1.colIndex, maxRow))
+                    cursorState.setMainCell(CellAddress(cell1.colIndex, maxRow))
                 )?.mainCell
                 if (anchor2 != null) {
                     val maxCol = cursorState.maxCol
@@ -509,7 +509,7 @@ class CursorActionImp @Inject constructor(
                     if (maxCol != null && minCol != null) {
                         val cell3 = CellAddress(maxCol, cell1.rowIndex)
                         val cell4 = CellAddress(minCol, cell1.rowIndex)
-                        cursorState = cursorState.setAnchorCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                        cursorState = cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
                             RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                         )
                     }
@@ -540,10 +540,10 @@ class CursorActionImp @Inject constructor(
                 .filter { it < anchorColIndex }
                 .maxOrNull()
             if (col != null) {
-                cursorState.setAnchorCell(CellAddress(col, anchoRowIndex))
+                cursorState.setMainCell(CellAddress(col, anchoRowIndex))
             } else {
                 cursorState
-                    .setAnchorCell(CellAddress(wsState.firstCol, anchoRowIndex))
+                    .setMainCell(CellAddress(wsState.firstCol, anchoRowIndex))
                     .removeAllExceptAnchorCell()
             }
         }
