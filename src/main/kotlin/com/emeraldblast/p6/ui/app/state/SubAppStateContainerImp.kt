@@ -138,6 +138,11 @@ class SubAppStateContainerImp @Inject constructor(
     }
 
     override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport> {
-        TODO("Not yet implemented")
+        val w = windowStateMsList.firstOrNull { it.value.id == windowId }
+        if(w!=null){
+            return w.toOk()
+        }else{
+            return Err(AppStateErrors.InvalidWindowState.report2(windowId))
+        }
     }
 }

@@ -31,7 +31,7 @@ class UpdateMultiCellRMImp @Inject constructor(
     private var appState by appStateMs
     override fun cellMultiUpdate(request: CellMultiUpdateRequest): CellMultiUpdateResponse? {
         val req = request
-        val rs = appState.getWorkbookRs(req.wbKey).andThen { wb->
+        val rs = appState.getWbRs(req.wbKey).andThen { wb->
             wb.getWsRs(req.wsName).andThen { ws->
                 var newWs = ws
                 val translator = translatorCont.getTranslatorOrCreate(ws.id)

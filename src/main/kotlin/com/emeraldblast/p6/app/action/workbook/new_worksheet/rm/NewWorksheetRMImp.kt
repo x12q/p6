@@ -22,7 +22,7 @@ class NewWorksheetRMImp @Inject constructor(
 
     override fun newWorksheet2(request: CreateNewWorksheetRequest): RseNav<CreateNewWorksheetResponse2> {
         val wbk = request.wbKey
-        val wbrs = appState.getWorkbookRs(wbk)
+        val wbrs = appState.getWbRs(wbk)
         val rt = wbrs.mapBoth(
             success = { wb ->
                 val canAdd = request.newWorksheetName?.let { !wb.containSheet(it) } ?: true

@@ -65,8 +65,8 @@ interface AppStateModule {
 
     @Binds
     @P6Singleton
-    @StateContainerSt
-    fun StateContainerSt(@StateContainerMs i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
+    @SubAppStateContainerSt
+    fun StateContainerSt(@SubAppStateContainerMs i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
 
     @Binds
     fun TranslatorContainer(i:TranslatorContainerImp):TranslatorContainer
@@ -91,6 +91,19 @@ interface AppStateModule {
     fun ScriptTreeAction(i: ScriptTreeActionImp): ScriptTreeAction
 
     companion object {
+        @Provides
+        @P6Singleton
+        @StateContainerMs
+        fun StateContainerMs(i:StateContainerImp):Ms<StateContainer>{
+            return ms(i)
+        }
+
+        @Provides
+        @P6Singleton
+        @StateContainerSt
+        fun StateContainerSt(@StateContainerMs i:Ms<StateContainer>):St<StateContainer>{
+            return i
+        }
 
         @Provides
         @P6Singleton
@@ -108,8 +121,8 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @StateContainerMs
-        fun StateContainerMs(i:SubAppStateContainer):Ms<SubAppStateContainer>{
+        @SubAppStateContainerMs
+        fun SubAppStateContainerMs(i:SubAppStateContainer):Ms<SubAppStateContainer>{
             return ms(i)
         }
 

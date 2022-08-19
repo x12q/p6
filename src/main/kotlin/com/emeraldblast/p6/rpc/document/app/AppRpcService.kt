@@ -29,7 +29,7 @@ class AppRpcService @Inject constructor(
     ) {
         val o = if (request.hasWbKey()) {
             val wbKey = request.wbKey.toModel()
-            val rs = appState.getWorkbookRs(wbKey)
+            val rs = appState.getWbRs(wbKey)
             val response = when (rs) {
                 is Ok -> WorkbookKeyWithErrorResponseProto.newBuilder()
                     .setWbKey(request.wbKey)

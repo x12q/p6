@@ -27,7 +27,7 @@ class DeleteMultiRMImp @Inject constructor(
         val wbk = request.wbKey
         val wsn = request.wsName
 
-        val rt = appState.getWorkbookRs(wbk).flatMap { wb ->
+        val rt = appState.getWbRs(wbk).flatMap { wb ->
             wb.getWsRs(wsn).flatMap { ws ->
                 appState.getWsStateRs(wbk, wsn).flatMap { wsState ->
                     val ranges = wsState.cursorState.allRanges
@@ -60,7 +60,7 @@ class DeleteMultiRMImp @Inject constructor(
 
     override fun deleteMulti(request: DeleteMultiRequest): DeleteMultiResponse? {
         val wbk = request.wbKey
-        val wbRs = appState.getWorkbookRs(wbk)
+        val wbRs = appState.getWbRs(wbk)
         val rt = wbRs.mapBoth(
             success = { wb ->
                 val wsRs = wb.getWsRs(request.wsName)

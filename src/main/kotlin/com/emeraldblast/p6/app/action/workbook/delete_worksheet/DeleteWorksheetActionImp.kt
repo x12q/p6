@@ -34,7 +34,7 @@ class DeleteWorksheetActionImp @Inject constructor(
                     if (request.wsName != null) {
                         return applier.applyResRs(request.wsName, res)
                     } else {
-                        return appState.getWorkbookRs(request.wbKey)
+                        return appState.getWbRs(request.wbKey)
                             .andThen { wb ->
                                 wb.getWsRs(request.wsIndex!!)
                             }.andThen {ws->

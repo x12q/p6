@@ -14,7 +14,7 @@ class CreateNewWorkbookInternalApplierImp @Inject constructor(
 ) : CreateNewWorkbookInternalApplier {
 
     private var appState by appStateMs
-    private var stateCont by appState.stateContMs
+    private var stateCont by appState.subAppStateContMs
     private var scriptCont by appState.centralScriptContainerMs
     private var globalWbCont by appState.globalWbContMs
     private var globalWbStateCont by appState.globalWbStateContMs

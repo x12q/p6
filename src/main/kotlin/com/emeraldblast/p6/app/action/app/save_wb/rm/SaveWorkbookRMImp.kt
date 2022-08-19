@@ -21,7 +21,7 @@ class SaveWorkbookRMImp @Inject constructor(
     var appState by appStateMs
     override fun saveWb(request: SaveWorkbookRequest): SaveWorkbookResponse? {
         println("save rm")
-        val wbRs = appState.getWorkbookRs(request.wbKey)
+        val wbRs = appState.getWbRs(request.wbKey)
         when (wbRs) {
             is Ok ->{
                 val saveRs=saver.save(wbRs.value, Path(request.path))

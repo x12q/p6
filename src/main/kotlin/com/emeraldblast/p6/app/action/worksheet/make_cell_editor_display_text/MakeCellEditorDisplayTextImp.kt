@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.emeraldblast.p6.app.document.range.address.RangeAddress
-import com.emeraldblast.p6.di.state.app_state.StateContainerSt
+import com.emeraldblast.p6.di.state.app_state.SubAppStateContainerSt
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.common.compose.St
@@ -12,7 +12,7 @@ import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import javax.inject.Inject
 
 class MakeCellEditorDisplayTextImp @Inject constructor(
-    @StateContainerSt
+    @SubAppStateContainerSt
     val stateContSt:St<@JvmSuppressWildcards SubAppStateContainer>
 ) : MakeCellEditorDisplayText {
 

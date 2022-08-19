@@ -8,7 +8,7 @@ import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.Ma
 import com.emeraldblast.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
-import com.emeraldblast.p6.di.state.app_state.StateContainerSt
+import com.emeraldblast.p6.di.state.app_state.SubAppStateContainerSt
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class ClickOnCellImp @Inject constructor(
     @AppStateMs
     private val appStateMs: Ms<AppState>,
-    @StateContainerSt
+    @SubAppStateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val makeDisplayText: MakeCellEditorDisplayText,

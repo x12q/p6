@@ -33,15 +33,15 @@ interface DocumentContainer {
      */
     fun getWbWsSt(wbWs: WbWs):WbWsSt?
 
-    fun getWorkbookRs(wbKey: WorkbookKey): Rs<Workbook, ErrorReport>
-    fun getWorkbook(workbookKey: WorkbookKey):Workbook?
+    fun getWbRs(wbKey: WorkbookKey): Rs<Workbook, ErrorReport>
+    fun getWb(wbKey: WorkbookKey):Workbook?
 
-    fun getWorksheetRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport>
-    fun getWorksheet(wbKey: WorkbookKey, wsName: String): Worksheet?
-    fun getWorksheet(wbws:WbWs): Worksheet?
+    fun getWsRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport>
+    fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet?
+    fun getWs(wbws:WbWs): Worksheet?
 
     fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
-    fun getRangeRsById(rangeId: RangeId): Rs<Range, ErrorReport>
+    fun getRangeRs(rangeId: RangeId): Rs<Range, ErrorReport>
     fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?
 
     fun getLazyRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress):Range?

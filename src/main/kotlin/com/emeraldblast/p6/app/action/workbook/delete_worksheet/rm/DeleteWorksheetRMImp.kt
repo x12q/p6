@@ -35,7 +35,7 @@ class DeleteWorksheetRMImp @Inject constructor(
     }
 
      private fun deleteWorksheetRs(wbKey: WorkbookKey, wsName: String): Rse<Workbook> {
-        val wbRs = appState.getWorkbookRs(wbKey)
+        val wbRs = appState.getWbRs(wbKey)
         val rt = wbRs.flatMap { wb ->
             wb.removeSheetRs(wsName).map { it.reRun() }
         }
@@ -43,7 +43,7 @@ class DeleteWorksheetRMImp @Inject constructor(
     }
 
     private fun deleteWorksheetRs(wbKey: WorkbookKey, wsIndex: Int): Rse<Workbook> {
-        val wbRs = appState.getWorkbookRs(wbKey)
+        val wbRs = appState.getWbRs(wbKey)
         val rt = wbRs.flatMap { wb ->
             wb.removeSheetRs(wsIndex).map { it.reRun() }
         }

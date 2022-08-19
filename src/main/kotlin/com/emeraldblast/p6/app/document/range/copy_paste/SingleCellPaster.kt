@@ -49,7 +49,7 @@ class SingleCellPaster @Inject constructor(
     }
 
     private fun paste(range: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
-        val rt = appState.getWorkbookRs(target.wbKey)
+        val rt = appState.getWbRs(target.wbKey)
             .flatMap { wb ->
                 if(range!=null){
                     wb.getWsRs(target.wsName).map {

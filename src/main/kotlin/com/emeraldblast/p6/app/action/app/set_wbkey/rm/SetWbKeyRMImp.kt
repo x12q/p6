@@ -21,7 +21,7 @@ class SetWbKeyRMImp @Inject constructor(
     override fun setWbKeyRequest(req: SetWbKeyRequest): RseNav<SetWbKeyResponse> {
         val oldKey = req.wbKey
         val newKey = req.newWbKey
-        val z = appState.getWorkbookRs(oldKey).flatMap { oldWb->
+        val z = appState.getWbRs(oldKey).flatMap { oldWb->
             val newWb = oldWb.setKey(newKey)
             val newWbState = appState
                 .getWbStateMs(oldKey)
