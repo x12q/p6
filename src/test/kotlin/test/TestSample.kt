@@ -1,5 +1,6 @@
 package test
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.common.utils.Rs
@@ -27,6 +28,7 @@ import com.emeraldblast.p6.message.di.MessageApiComponent
 import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.app.state.AppState
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
@@ -249,6 +251,10 @@ class TestSample {
     fun sampleAppStateMs(wbCont: WorkbookContainer): Ms<AppState> {
         appState.globalWbCont = wbCont
         return appStateMs
+    }
+
+    fun stateContMs(): MutableState<StateContainer> {
+        return p6Comp.stateContMs()
     }
 }
 

@@ -5,24 +5,25 @@ import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.action.app.close_wb.CloseWorkbookRequest
 import com.emeraldblast.p6.app.action.app.close_wb.CloseWorkbookResponse
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
+import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.app.state.AppStateErrors
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.*
 import javax.inject.Inject
 
 class CloseWorkbookRMImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>
+    @StateContainerMs val stateContMs:Ms<StateContainer>
 ) : CloseWorkbookRM {
-    private var appState by appStateMs
-    private var globalWbCont by appState.globalWbContMs
-    private var globalWbStateCont by appState.globalWbStateContMs
+    private var stateCont by stateContMs
+    private var globalWbStateCont by stateCont.globalWbStateContMs
     override fun closeWb(request: CloseWorkbookRequest): CloseWorkbookResponse? {
         val windowStateMs: Ms<WindowState>? = if (request.windowId != null) {
-            appState.getWindowStateMsById(request.windowId)
+            stateCont.getWindowStateMsById(request.windowId)
         } else {
-            appState.getWindowStateMsByWbKey(request.wbKey)
+            stateCont.getWindowStateMsByWbKey(request.wbKey)
         }
         if (windowStateMs != null) {
             var windowState by windowStateMs

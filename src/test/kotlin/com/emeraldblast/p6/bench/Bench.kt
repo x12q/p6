@@ -1,6 +1,10 @@
 package com.emeraldblast.p6.bench
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import com.emeraldblast.p6.ui.app.state.AppStateImp
+import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.ms
 import dagger.multibindings.ClassKey
 import dagger.multibindings.StringKey
@@ -37,14 +41,25 @@ class Bench {
         return z != null
     }
 
+    interface A{
+        fun doWork():Int
+    }
+    class AImp(val a:Int):A{
+        override fun doWork(): Int {
+            return a
+        }
+    }
+
+    class BImp(
+        val aMs:MutableState<A>
+    ):A by aMs.value{
+        // any way to avoid writing this boilerplate?
+//        override fun doWork(): Int = aMs.value.doWork()
+    }
 
     @Test
     fun z() {
-//        val ts = TestSample()
-////        val z = (ts.p6Comp.appStateMs().value as AppStateImp).l1
-////        val z = ts.p6Comp.l1()
-//        val z = ts.p6Comp.q().l1
-//        println(z.size)
+
     }
 
 

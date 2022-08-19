@@ -68,12 +68,11 @@ data class AppStateImp @Inject constructor(
     override val cellEditorStateMs: Ms<CellEditorState>,
 ) : AppState {
 
-    private val docCont by docContMs
+    override var docCont by docContMs
     override var stateCont by subAppStateContMs
     override var translatorContainer: TranslatorContainer by translatorContMs
     override val globalWbContMs: Ms<WorkbookContainer>
         get() = docCont.globalWbContMs
-    override var documentContainer by docContMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
     override val windowStateMsListMs: Ms<List<Ms<WindowState>>>
         get() = subAppStateContMs.value.windowStateMsListMs
@@ -188,7 +187,7 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun replaceWb(newWb: Workbook): AppState {
-        documentContainer = documentContainer.replaceWb(newWb)
+        docCont = docCont.replaceWb(newWb)
         return this
     }
 

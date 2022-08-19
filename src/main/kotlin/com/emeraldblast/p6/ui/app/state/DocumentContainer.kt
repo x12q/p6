@@ -20,7 +20,6 @@ import com.emeraldblast.p6.ui.common.compose.Ms
  */
 interface DocumentContainer {
 
-
     val globalWbContMs: Ms<WorkbookContainer>
     var globalWbCont: WorkbookContainer
 

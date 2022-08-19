@@ -5,33 +5,35 @@ import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.common.utils.RseNav
 import com.emeraldblast.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
+import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.rpc.document.workbook.msg.SetWbKeyRequest
 import com.emeraldblast.p6.rpc.document.workbook.msg.SetWbKeyResponse
 import com.emeraldblast.p6.ui.app.state.AppState
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.github.michaelbull.result.*
 import javax.inject.Inject
 
 class SetWbKeyRMImp @Inject constructor(
-    @AppStateMs
-    private val appStateMs: Ms<AppState>
+    @StateContainerMs val stateContMs:Ms<StateContainer>,
 ) : SetWbKeyRM {
-    private var appState by appStateMs
+
+    private var stateCont by stateContMs
 
     override fun setWbKeyRequest(req: SetWbKeyRequest): RseNav<SetWbKeyResponse> {
         val oldKey = req.wbKey
         val newKey = req.newWbKey
-        val z = appState.getWbRs(oldKey).flatMap { oldWb->
+        val z = stateCont.getWbRs(oldKey).flatMap { oldWb->
             val newWb = oldWb.setKey(newKey)
-            val newWbState = appState
+            val newWbState = stateCont
                 .getWbStateMs(oldKey)
                 ?.value
                 ?.setWorkbookKey(newKey)
-            val newWbStateCont = appState.globalWbStateCont.replaceKey(oldKey,newKey)
+            val newWbStateCont = stateCont.globalWbStateCont.replaceKey(oldKey,newKey)
 
-            val windowStateMs = appState.getWindowStateMsByWbKey(oldKey)
+            val windowStateMs = stateCont.getWindowStateMsByWbKey(oldKey)
             val newWindowState = windowStateMs?.value?.replaceWorkbookKey(oldKey,newKey)
-            val newCentralScriptCont = appState.centralScriptContainer.replaceWbKey(oldKey,newKey)
+            val newCentralScriptCont = stateCont.centralScriptContainer.replaceWbKey(oldKey,newKey)
             val rt = SetWbKeyResponse(
                 oldWbKey = oldKey,
                 newWb= newWb,

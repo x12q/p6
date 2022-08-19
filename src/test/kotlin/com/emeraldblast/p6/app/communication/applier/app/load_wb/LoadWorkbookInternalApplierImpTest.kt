@@ -25,7 +25,7 @@ class LoadWorkbookInternalApplierImpTest {
         testSample = TestSample()
         appStateMs = testSample.sampleAppStateMs()
         errorRouter = ErrorRouterImp(appStateMs)
-        logic = LoadWorkbookInternalApplierImp(appStateMs,)
+        logic = LoadWorkbookInternalApplierImp(testSample.stateContMs())
     }
 
     @Test

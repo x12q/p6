@@ -10,7 +10,6 @@ import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.emeraldblast.p6.ui.script_editor.state.CodeEditorState
 import com.emeraldblast.p6.ui.window.state.WindowState
-import com.emeraldblast.p6.ui.window.state.WindowStateFactory
 
 /**
  * A fixed point in the app, holding all the state
@@ -21,7 +20,6 @@ interface AppState : DocumentContainer, SubAppStateContainer {
 
     val subAppStateContMs: Ms<SubAppStateContainer>
     var stateCont: SubAppStateContainer
-//    val windowStateFactory: WindowStateFactory
 
     val centralScriptContainerMs: Ms<CentralScriptContainer>
     var centralScriptContainer: CentralScriptContainer
@@ -46,7 +44,6 @@ interface AppState : DocumentContainer, SubAppStateContainer {
      */
     fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult
 
-
     override fun replaceWb(newWb: Workbook): AppState
 
     override fun addWbStateFor(wb: Workbook): AppState
@@ -57,7 +54,7 @@ interface AppState : DocumentContainer, SubAppStateContainer {
     override fun addWindowState(windowState: Ms<WindowState>): AppState
 
     val docContMs: Ms<DocumentContainer>
-    var documentContainer: DocumentContainer
+    var docCont: DocumentContainer
     var translatorContainer: TranslatorContainer
     val translatorContMs: Ms<TranslatorContainer>
 }
