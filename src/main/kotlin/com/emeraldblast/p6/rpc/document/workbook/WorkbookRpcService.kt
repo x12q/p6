@@ -27,7 +27,7 @@ import com.emeraldblast.p6.rpc.document.workbook.msg.*
 import com.emeraldblast.p6.rpc.document.workbook.msg.AddWorksheetRequest.Companion.toModel
 import com.emeraldblast.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg.Companion.toModel
 import com.emeraldblast.p6.ui.app.state.DocumentContainer
-import com.emeraldblast.p6.ui.app.state.StateContainer
+import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.app.state.TranslatorContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.github.michaelbull.result.Err
@@ -46,7 +46,7 @@ class WorkbookRpcService @Inject constructor(
     @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
     @StateContainerMs
-    private val stateContMs: Ms<StateContainer>
+    private val stateContMs: Ms<SubAppStateContainer>
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
     //    private var appState by appStateMs

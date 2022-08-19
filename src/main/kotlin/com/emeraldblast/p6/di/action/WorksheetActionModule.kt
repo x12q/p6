@@ -4,12 +4,12 @@ import com.emeraldblast.p6.app.action.worksheet.WorksheetAction
 import com.emeraldblast.p6.app.action.worksheet.WorksheetActionImp
 import com.emeraldblast.p6.app.action.worksheet.WorksheetApplier
 import com.emeraldblast.p6.app.action.worksheet.WorksheetApplierImp
-import com.emeraldblast.p6.app.action.worksheet.action2.MouseOnWorksheetAction
-import com.emeraldblast.p6.app.action.worksheet.action2.MouseOnWorksheetActionImp
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActionImp
 import com.emeraldblast.p6.app.action.worksheet.action2.WorksheetAction2
 import com.emeraldblast.p6.app.action.worksheet.action2.WorksheetAction2Imp
-import com.emeraldblast.p6.app.action.worksheet.click_on_cell.ClickOnCell
-import com.emeraldblast.p6.app.action.worksheet.click_on_cell.ClickOnCellImp
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellImp
 import com.emeraldblast.p6.app.action.worksheet.delete_multi.DeleteMultiAction
 import com.emeraldblast.p6.app.action.worksheet.delete_multi.DeleteMultiActionImp
 import com.emeraldblast.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier

@@ -15,8 +15,8 @@ import com.emeraldblast.p6.app.action.workbook.WorkbookAction
 import com.emeraldblast.p6.app.action.worksheet.WorksheetAction
 import com.emeraldblast.p6.app.action.worksheet.WorksheetApplier
 import com.emeraldblast.p6.app.action.worksheet.WorksheetRM
-import com.emeraldblast.p6.app.action.worksheet.action2.MouseOnWorksheetAction
-import com.emeraldblast.p6.app.action.worksheet.click_on_cell.ClickOnCell
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.emeraldblast.p6.di.action.ActionModule
 import com.emeraldblast.p6.di.state.app_state.AppStateModule
 import com.emeraldblast.p6.di.state.app_state.AppStateMs

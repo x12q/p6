@@ -7,7 +7,6 @@ import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
-import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContainer
@@ -19,9 +18,9 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 
 /**
- * An abstraction layer providing functions for looking up view states
+ * An abstraction layer providing functions for looking up view states that is under app
  */
-interface StateContainer {
+interface SubAppStateContainer {
 
     val windowStateMsListMs: Ms<List<Ms<WindowState>>>
     var windowStateMsList: List<MutableState<WindowState>>
@@ -33,13 +32,13 @@ interface StateContainer {
     /**
      * create and add a new wb state for [wb] if it yet to have a state of its own
      */
-    fun addWbStateFor(wb: Workbook):StateContainer
+    fun addWbStateFor(wb: Workbook):SubAppStateContainer
 
-    fun removeWindowState(windowState: Ms<WindowState>):StateContainer
-    fun removeWindowState(windowId:String):StateContainer
-    fun addWindowState(windowState: Ms<WindowState>):StateContainer
-    fun createNewWindowStateMs(): Pair<StateContainer,Ms<WindowState>>
-    fun createNewWindowStateMs(windowId: String): Pair<StateContainer,Ms<WindowState>>
+    fun removeWindowState(windowState: Ms<WindowState>):SubAppStateContainer
+    fun removeWindowState(windowId:String):SubAppStateContainer
+    fun addWindowState(windowState: Ms<WindowState>):SubAppStateContainer
+    fun createNewWindowStateMs(): Pair<SubAppStateContainer,Ms<WindowState>>
+    fun createNewWindowStateMs(windowId: String): Pair<SubAppStateContainer,Ms<WindowState>>
 
     fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>>
 

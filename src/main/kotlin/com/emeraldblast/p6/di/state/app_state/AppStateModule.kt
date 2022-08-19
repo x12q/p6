@@ -66,7 +66,7 @@ interface AppStateModule {
     @Binds
     @P6Singleton
     @StateContainerSt
-    fun StateContainerSt(@StateContainerMs i:Ms<StateContainer>):St<StateContainer>
+    fun StateContainerSt(@StateContainerMs i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
 
     @Binds
     fun TranslatorContainer(i:TranslatorContainerImp):TranslatorContainer
@@ -75,7 +75,7 @@ interface AppStateModule {
     fun DocumentContainer(i:DocumentContainerImp):DocumentContainer
 
     @Binds
-    fun StateContainer(i: StateContainerImp):StateContainer
+    fun StateContainer(i: SubAppStateContainerImp):SubAppStateContainer
 
     @Binds
     @P6Singleton
@@ -109,7 +109,7 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         @StateContainerMs
-        fun StateContainerMs(i:StateContainer):Ms<StateContainer>{
+        fun StateContainerMs(i:SubAppStateContainer):Ms<SubAppStateContainer>{
             return ms(i)
         }
 

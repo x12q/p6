@@ -4,8 +4,6 @@ import androidx.compose.runtime.MutableState
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.oddity.OddityContainer
-import com.emeraldblast.p6.translator.P6Translator
-import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.app.ActiveWindowPointer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
@@ -17,13 +15,13 @@ import com.emeraldblast.p6.ui.window.state.WindowStateFactory
 /**
  * A fixed point in the app, holding all the state
  */
-interface AppState :DocumentContainer,StateContainer{
+interface AppState :DocumentContainer,SubAppStateContainer{
 
     val cellEditorStateMs:Ms<CellEditorState>
     var cellEditorState: CellEditorState
 
-    val stateContMs:Ms<StateContainer>
-    var stateCont: StateContainer
+    val stateContMs:Ms<SubAppStateContainer>
+    var stateCont: SubAppStateContainer
     val windowStateFactory:WindowStateFactory
 
     val centralScriptContainerMs:Ms<CentralScriptContainer>

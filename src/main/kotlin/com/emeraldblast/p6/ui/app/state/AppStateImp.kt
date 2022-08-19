@@ -11,8 +11,6 @@ import com.emeraldblast.p6.app.oddity.OddityContainer
 import com.emeraldblast.p6.app.oddity.OddityContainerImp
 import com.emeraldblast.p6.di.False
 import com.emeraldblast.p6.di.state.app_state.*
-import com.emeraldblast.p6.translator.P6Translator
-import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.ui.app.ActiveWindowPointer
 import com.emeraldblast.p6.ui.app.ActiveWindowPointerImp
 import com.emeraldblast.p6.ui.common.compose.Ms
@@ -44,7 +42,7 @@ data class AppStateImp @Inject constructor(
     override val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
     @StateContainerMs
-    override val stateContMs: Ms<StateContainer>,
+    override val stateContMs: Ms<SubAppStateContainer>,
     @DocumentContainerMs
     override val documentContainerMs: Ms<DocumentContainer>,
     @TranslatorContainerMs
@@ -52,7 +50,7 @@ data class AppStateImp @Inject constructor(
     @CellEditorStateMs
     override val cellEditorStateMs: Ms<CellEditorState>,
 ) : AppState,
-    StateContainer by stateContMs.value,
+    SubAppStateContainer by stateContMs.value,
     DocumentContainer by documentContainerMs.value {
     override var translatorContainer: TranslatorContainer by translatorContainerMs
     override var documentContainer by documentContainerMs

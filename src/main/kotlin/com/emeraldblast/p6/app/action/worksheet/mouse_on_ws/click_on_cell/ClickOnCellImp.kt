@@ -1,18 +1,16 @@
-package com.emeraldblast.p6.app.action.worksheet.click_on_cell
+package com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.click_on_cell
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
-import com.emeraldblast.p6.app.action.worksheet.action2.UpdateRangeSelectorText
+import com.emeraldblast.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
 import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
 import com.emeraldblast.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
-import com.emeraldblast.p6.di.state.app_state.CellEditorStateMs
 import com.emeraldblast.p6.di.state.app_state.StateContainerSt
-import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.emeraldblast.p6.ui.app.state.AppState
-import com.emeraldblast.p6.ui.app.state.StateContainer
+import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import javax.inject.Inject
@@ -21,7 +19,7 @@ class ClickOnCellImp @Inject constructor(
     @AppStateMs
     private val appStateMs: Ms<AppState>,
     @StateContainerSt
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val makeDisplayText: MakeCellEditorDisplayText,
     private val updateRangeSelectorText: UpdateRangeSelectorText,

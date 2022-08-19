@@ -12,7 +12,7 @@ import com.emeraldblast.p6.di.state.app_state.StateContainerSt
 import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.app.state.DocumentContainer
-import com.emeraldblast.p6.ui.app.state.StateContainer
+import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.github.michaelbull.result.onFailure
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class OpenCellEditorImp @Inject constructor(
     @StateContainerSt
-    val stateContMs:St<@JvmSuppressWildcards StateContainer>,
+    val stateContMs:St<@JvmSuppressWildcards SubAppStateContainer>,
     @DocumentContainerSt
     val docContSt:St<@JvmSuppressWildcards DocumentContainer>,
     @AppStateMs

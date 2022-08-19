@@ -1,4 +1,4 @@
-package com.emeraldblast.p6.app.action.worksheet.action2
+package com.emeraldblast.p6.app.action.cell_editor.update_range_selector_text
 
 fun interface UpdateRangeSelectorText {
     fun updateRangeSelectorText()

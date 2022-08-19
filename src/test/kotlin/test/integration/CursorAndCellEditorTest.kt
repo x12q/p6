@@ -8,8 +8,8 @@ import androidx.compose.ui.input.key.KeyEventType
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsImp
 import com.emeraldblast.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
-import com.emeraldblast.p6.app.action.worksheet.action2.MouseOnWorksheetAction
-import com.emeraldblast.p6.app.action.worksheet.click_on_cell.ClickOnCell
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.emeraldblast.p6.app.common.utils.PKeyEvent
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddress

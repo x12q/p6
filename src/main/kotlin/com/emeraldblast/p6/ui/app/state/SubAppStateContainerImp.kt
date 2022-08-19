@@ -11,7 +11,6 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.di.state.app_state.AppWindowStateListMs
 import com.emeraldblast.p6.di.state.app_state.WbStateContMs
-import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
@@ -27,14 +26,14 @@ import com.github.michaelbull.result.*
 import javax.inject.Inject
 
 
-class StateContainerImp @Inject constructor(
+class SubAppStateContainerImp @Inject constructor(
     @AppWindowStateListMs
     override val windowStateMsListMs: Ms<List<Ms<WindowState>>>,
     @WbStateContMs
     override val globalWbStateContMs: Ms<WorkbookStateContainer>,
     private val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
-) : StateContainer {
+) : SubAppStateContainer {
 
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
     override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
@@ -60,7 +59,7 @@ class StateContainerImp @Inject constructor(
     }
 
 
-    override fun addWbStateFor(wb: Workbook): StateContainer {
+    override fun addWbStateFor(wb: Workbook): SubAppStateContainer {
         if (this.hasStateFor(wb.key)) {
             return this
         } else {
@@ -75,7 +74,7 @@ class StateContainerImp @Inject constructor(
             return windowStateMsList.associateBy { it.value.id }
         }
 
-    override fun createNewWindowStateMs(): Pair<StateContainer, Ms<WindowState>> {
+    override fun createNewWindowStateMs(): Pair<SubAppStateContainer, Ms<WindowState>> {
         val newWindowState: Ms<WindowState> = ms(
             windowStateFactory.createDefault()
         )
@@ -83,7 +82,7 @@ class StateContainerImp @Inject constructor(
         return Pair(newAppState, newWindowState)
     }
 
-    override fun createNewWindowStateMs(windowId: String): Pair<StateContainer, Ms<WindowState>> {
+    override fun createNewWindowStateMs(windowId: String): Pair<SubAppStateContainer, Ms<WindowState>> {
         val newWindowState: Ms<WindowState> = ms(
             windowStateFactory.createDefault(id = windowId)
         )
@@ -91,17 +90,17 @@ class StateContainerImp @Inject constructor(
         return Pair(newAppState, newWindowState)
     }
 
-    override fun removeWindowState(windowState: Ms<WindowState>): StateContainer {
+    override fun removeWindowState(windowState: Ms<WindowState>): SubAppStateContainer {
         windowStateMsList = windowStateMsList - windowState
         return this
     }
 
-    override fun removeWindowState(windowId: String): StateContainer {
+    override fun removeWindowState(windowId: String): SubAppStateContainer {
         windowStateMsList = windowStateMsList.filter { it.value.id != windowId }
         return this
     }
 
-    override fun addWindowState(windowState: Ms<WindowState>): StateContainer {
+    override fun addWindowState(windowState: Ms<WindowState>): SubAppStateContainer {
         windowStateMsList = windowStateMsList + windowState
         return this
     }
