@@ -11,7 +11,6 @@ import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
 
 interface WorksheetAction2 : MouseOnWorksheetAction{
 
-
     fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoordinates: LayoutCoordinates,wsState: WorksheetState)
 
     /**
@@ -26,14 +25,14 @@ interface WorksheetAction2 : MouseOnWorksheetAction{
     fun scroll(x:Int,y:Int, wsState: WorksheetState)
     fun removeCellLayoutCoor(cellAddress: CellAddress, wsState: WorksheetState)
     fun removeAllCellLayoutCoor(wsState: WorksheetState)
-    fun ctrlClickSelectCell(cellAddress: CellAddress, wsState: WorksheetState)
+
     fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsState: WorksheetState)
-    fun shiftClickSelectRange(cellAddress: CellAddress, wsState: WorksheetState)
     fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsState: WorksheetState)
 
 }
 
 interface MouseOnWorksheetAction:ClickOnCell{
+    fun ctrlClickSelectCell(cellAddress: CellAddress, cursorLoc: WbWs)
     fun startDragSelection(wbws: WbWs, mousePosition: Offset, offset: Offset = Offset(0F,0F))
     fun startDragSelection(wbws: WbWs, anchorCell: CellAddress)
     fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, currentCellMouseOn: CellAddress)
@@ -41,5 +40,6 @@ interface MouseOnWorksheetAction:ClickOnCell{
     fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, mousePosition: Offset, offset:Offset = Offset(0F,0F))
 
     fun stopDragSelection(cursorLocation: WbWs)
+    fun shiftClickSelectRange(cellAddress: CellAddress, cursorLoc: WbWs)
 }
 

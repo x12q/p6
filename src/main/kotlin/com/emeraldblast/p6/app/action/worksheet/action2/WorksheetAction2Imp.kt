@@ -99,7 +99,6 @@ class WorksheetAction2Imp @Inject constructor(
             wsStateMs.value = wsState
                 .removeCellLayoutCoor(cellAddress)
         }
-
     }
 
     override fun removeAllCellLayoutCoor(wsState: WorksheetState) {
@@ -110,43 +109,8 @@ class WorksheetAction2Imp @Inject constructor(
             it.value = wsState
                 .removeAllCellLayoutCoor()
         }
-
     }
 
-
-    override fun ctrlClickSelectCell(cellAddress: CellAddress, wsState: WorksheetState) {
-        var cursorState by wsState.cursorStateMs
-        if (cellAddress != cursorState.mainCell) {
-            if (cursorState.isPointingTo(cellAddress)) {
-                var newCursor = cursorState
-                if (cellAddress in newCursor.fragmentedCells) {
-                    newCursor = newCursor.removeFragCell(cellAddress)
-                }
-                if (newCursor.mainRange?.contains(cellAddress) == true) {
-                    val brokenRanges = newCursor.mainRange?.removeCell(cellAddress) ?: emptyList()
-                    newCursor = newCursor
-                        .removeMainRange()
-                        .addFragRanges(brokenRanges)
-                }
-                for (range in newCursor.fragmentedRanges) {
-                    val brokenRanges = range.removeCell(cellAddress)
-                    newCursor = newCursor
-                        .removeFragRange(range)
-                        .addFragRanges(brokenRanges)
-                }
-                cursorState = newCursor
-            } else {
-                cursorState = cursorState.addFragCell(cellAddress)
-            }
-        }
-    }
-
-    override fun shiftClickSelectRange(cellAddress: CellAddress, wsState: WorksheetState) {
-        var cursorState by wsState.cursorStateMs
-        if (cellAddress != cursorState.mainCell) {
-            cursorState = cursorState.setMainRange(RangeAddresses.from2Cells(cellAddress, cursorState.mainCell))
-        }
-    }
 
     override fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsState: WorksheetState) {
         val wsStateMs = appState.getWsStateMs(

@@ -34,6 +34,112 @@ class CursorAndCellEditorTest {
     }
 
     @Test
+    fun `Shift click while range selector is activated`(){
+        val wbk = testSample.wbKey1Ms.value
+        val wbk2 = testSample.wbKey2Ms.value
+        val wds = appState.getWindowStateMsByWbKey(wbk)
+        val wsn1 = testSample.wsn1
+        val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
+        var cellEditorState by appState.cellEditorStateMs
+        val mouseOnWsAction: MouseOnWorksheetAction = testSample.p6Comp.mouseOnWsAction()
+
+        assertNotNull(wds)
+        assertNotNull(cursor1Ms)
+        val cellEditorAction: CellEditorAction = testSample.p6Comp.cellEditorAction()
+
+        // x: open cell editor on a worksheet
+        val cursorLoc = WbWs(wbk, wsn1)
+        cellEditorAction.openCellEditor(cursorLoc)
+
+        cellEditorState = cellEditorState.setCurrentText("=1+")
+        assertTrue(cellEditorState.allowRangeSelector)
+
+        // x: click
+        val c = CellAddress("B5")
+        mouseOnWsAction.clickOnCell(c,cursorLoc)
+        val rangeSelector by appState.getCursorStateMs(cellEditorState.rangeSelectorCursorId!!)!!
+        val c2 = CellAddress("K9")
+        mouseOnWsAction.shiftClickSelectRange(c2,cursorLoc)
+        val r = RangeAddress(c,c2)
+        assertEquals(r, rangeSelector.mainRange)
+        val t = "=1+${r.rawLabel}"
+        assertEquals(t,cellEditorState.rangeSelectorText)
+        assertEquals(t,cellEditorState.displayText)
+        assertEquals("=1+",cellEditorState.currentText)
+    }
+
+
+    @Test
+    fun `tes ctrl click while range selector is NOT active but editor is active`(){
+        val wbk = testSample.wbKey1Ms.value
+        val wds = appState.getWindowStateMsByWbKey(wbk)
+        val wsn1 = testSample.wsn1
+        val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
+        var cellEditorState by appState.cellEditorStateMs
+        val mouseOnWsAction: MouseOnWorksheetAction = testSample.p6Comp.mouseOnWsAction()
+
+        assertNotNull(wds)
+        assertNotNull(cursor1Ms)
+        val cellEditorAction: CellEditorAction = testSample.p6Comp.cellEditorAction()
+
+        // x: open cell editor on a worksheet
+        val cursorLoc = WbWs(wbk, wsn1)
+        cellEditorAction.openCellEditor(cursorLoc)
+
+        cellEditorState = cellEditorState.setCurrentText("=123")
+        val rangeSelectorId = cellEditorState.rangeSelectorCursorId
+        assertNotNull(rangeSelectorId)
+
+        // x: ctrl click
+        val c = CellAddress("B5")
+        mouseOnWsAction.ctrlClickSelectCell(c,cursorLoc)
+        assertFalse { cellEditorState.isActive }
+        assertEquals(listOf(c),appState.getCursorState(rangeSelectorId)?.fragmentedCells?.toList())
+    }
+
+    @Test
+    fun `tes ctrl click while range selector is active`(){
+        val wbk = testSample.wbKey1Ms.value
+        val wbk2 = testSample.wbKey2Ms.value
+        val wds = appState.getWindowStateMsByWbKey(wbk)
+        val wsn1 = testSample.wsn1
+        val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
+        var cellEditorState by appState.cellEditorStateMs
+        val mouseOnWsAction: MouseOnWorksheetAction = testSample.p6Comp.mouseOnWsAction()
+
+        assertNotNull(wds)
+        assertNotNull(cursor1Ms)
+        val cellEditorAction: CellEditorAction = testSample.p6Comp.cellEditorAction()
+
+        // x: open cell editor on a worksheet
+        val cursorLoc = WbWs(wbk, wsn1)
+        cellEditorAction.openCellEditor(cursorLoc)
+
+        cellEditorState = cellEditorState.setCurrentText("=1+")
+        assertTrue(cellEditorState.allowRangeSelector)
+
+        // x: click
+        val c = CellAddress("B5")
+        mouseOnWsAction.clickOnCell(c,cursorLoc)
+        val expectedText = "=1+${c.toRawLabel()}"
+        val rangeSelector by appState.getCursorStateMs(cellEditorState.rangeSelectorCursorId!!)!!
+        fun test(){
+            assertEquals(expectedText,cellEditorState.displayText)
+            assertEquals(expectedText,cellEditorState.rangeSelectorText)
+            assertNull(rangeSelector.mainRange)
+            assertEquals(c, rangeSelector.mainCell)
+            assertTrue(rangeSelector.fragmentedRanges.isEmpty())
+            assertTrue(rangeSelector.fragmentedCells.isEmpty())
+        }
+        test()
+
+        // x: ctrl click
+        mouseOnWsAction.ctrlClickSelectCell(CellAddress("K9"),cursorLoc)
+        test()
+
+    }
+
+    @Test
     fun `test using range selector with dragging mouse on different sheet`() {
         val wbk = testSample.wbKey1Ms.value
         val wbk2 = testSample.wbKey2Ms.value
@@ -54,7 +160,7 @@ class CursorAndCellEditorTest {
         cellEditorState = cellEditorState.setCurrentText("=1+")
         assertTrue(cellEditorState.allowRangeSelector)
 
-        // x: start draggin on I16
+        // x: start dragging on I16
         val cursorLoc2 = WbWs(wbk2,wsn1)
         val c = CellAddress("I16")
         mouseOnWsAction.startDragSelection(cursorLoc2, c)
