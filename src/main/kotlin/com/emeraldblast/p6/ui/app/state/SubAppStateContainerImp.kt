@@ -12,6 +12,7 @@ import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.di.state.app_state.AppWindowStateListMs
 import com.emeraldblast.p6.di.state.app_state.WbStateContMs
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -33,7 +34,7 @@ class SubAppStateContainerImp @Inject constructor(
     override val globalWbStateContMs: Ms<WorkbookStateContainer>,
     private val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
-) : SubAppStateContainer {
+) : AbsSubAppStateContainer() {
 
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
     override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
@@ -105,21 +106,16 @@ class SubAppStateContainerImp @Inject constructor(
         return this
     }
 
-
     override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
         return windowStateMap[windowId]
     }
 
-    override fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>? {
-        return this.getWsStateMs(wbKey, wsName)?.value?.cursorStateMs
+    override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {
+        return this.globalWbStateCont.getWbStateMsRs(wbKeySt)
     }
 
     override fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
         return this.globalWbStateCont.getWbStateMsRs(wbKey)
-    }
-
-    override fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>> {
-        return this.getWbStateRs(wbKey).flatMap { it.getWorksheetStateMsRs(wsName) }
     }
 
     override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport> {
@@ -128,12 +124,6 @@ class SubAppStateContainerImp @Inject constructor(
             return Ok(w)
         } else {
             return Err(AppStateErrors.InvalidWindowState.report1(wbKey))
-        }
-    }
-
-    override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, ErrorReport> {
-        return this.getWindowStateMsByWbKeyRs(wbKey).map {
-            it.value.focusStateMs
         }
     }
 

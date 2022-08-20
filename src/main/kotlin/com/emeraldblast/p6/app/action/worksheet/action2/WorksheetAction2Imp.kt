@@ -8,7 +8,9 @@ import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActi
 import com.emeraldblast.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
+import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.ui.app.state.AppState
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.wrap
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
@@ -20,7 +22,10 @@ class WorksheetAction2Imp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val mouseOnWsAction: MouseOnWorksheetAction,
+    @StateContainerMs val stateContMs: Ms<StateContainer>,
 ) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction {
+
+    private var stateCont by stateContMs
     private var appState by appStateMs
 
     override fun makeSliderFollowCursor(
@@ -129,41 +134,42 @@ class WorksheetAction2Imp @Inject constructor(
             it.value = wsState
                 .setwsLayoutCoorWrapper(newLayoutCoordinates.wrap())
         }
-
     }
 
-    override fun determineSlider(wsState: WorksheetState) {
-        val currentSlider = wsState.slider
-        val availableSize = wsState.cellGridLayoutCoorWrapper?.size
-        val newSlider = if (availableSize != null) {
-            val limitWidth = availableSize.width.value
-            val limitHeight = availableSize.height.value
+    override fun determineSliderSize(wbws: WbWs) {
+        stateCont.getWsState(wbws)?.also { wsState->
+            val currentSlider = wsState.slider
+            val availableSize = wsState.cellGridLayoutCoorWrapper?.size
+            val newSlider = if (availableSize != null) {
+                val limitWidth = availableSize.width.value
+                val limitHeight = availableSize.height.value
 
-            val fromCol = wsState.topLeftCell.colIndex
-            var toCol = fromCol
-            var accumWidth = 0F
-            while (accumWidth < limitWidth) {
-                accumWidth += wsState.getColumnWidthOrDefault(toCol)
-                toCol += 1
+                val fromCol = wsState.topLeftCell.colIndex
+                var toCol = fromCol
+                var accumWidth = 0F
+                while (accumWidth < limitWidth) {
+                    accumWidth += wsState.getColumnWidthOrDefault(toCol)
+                    toCol += 1
+                }
+
+                val fromRow = wsState.topLeftCell.rowIndex
+                var toRow = fromRow
+                var accumHeight = 0F
+                while (accumHeight < limitHeight) {
+                    accumHeight += wsState.getRowHeightOrDefault(toRow)
+                    toRow += 1
+                }
+
+                val newSlider = currentSlider
+                    .setVisibleRowRange(fromRow..maxOf(toRow - 1, fromRow))
+                    .setVisibleColRange(fromCol..maxOf(toCol - 1, fromCol))
+                newSlider
+            } else {
+                null
             }
-
-            val fromRow = wsState.topLeftCell.rowIndex
-            var toRow = fromRow
-            var accumHeight = 0F
-            while (accumHeight < limitHeight) {
-                accumHeight += wsState.getRowHeightOrDefault(toRow)
-                toRow += 1
+            if (newSlider != null) {
+                wsState.sliderMs.value = newSlider
             }
-
-            val newSlider = currentSlider
-                .setVisibleRowRange(fromRow..maxOf(toRow - 1, fromRow))
-                .setVisibleColRange(fromCol..maxOf(toCol - 1, fromCol))
-            newSlider
-        } else {
-            null
-        }
-        if (newSlider != null) {
-            wsState.sliderMs.value = newSlider
         }
     }
 }

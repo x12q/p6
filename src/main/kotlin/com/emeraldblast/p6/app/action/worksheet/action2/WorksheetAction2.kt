@@ -12,11 +12,6 @@ interface WorksheetAction2 : MouseOnWorksheetAction {
 
     fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoordinates: LayoutCoordinates,wsState: WorksheetState)
 
-    /**
-     * Compute the slider from the currently available space
-     */
-    fun determineSlider(wsState: WorksheetState)
-
     fun makeSliderFollowCursor(
         newCursor: CursorState,
         wbws: WbWs,
@@ -28,5 +23,9 @@ interface WorksheetAction2 : MouseOnWorksheetAction {
     fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsState: WorksheetState)
     fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsState: WorksheetState)
 
+    /**
+     * Compute the slider from the currently available space
+     */
+    fun determineSliderSize(wbws: WbWs)
 }
 

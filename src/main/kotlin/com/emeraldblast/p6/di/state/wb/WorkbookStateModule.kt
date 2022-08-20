@@ -1,10 +1,12 @@
 package com.emeraldblast.p6.di.state.wb
 
+import androidx.compose.runtime.MutableState
 import com.emeraldblast.p6.app.command.CommandStack
 import com.emeraldblast.p6.app.command.CommandStacks
 import com.emeraldblast.p6.app.document.script.ScriptContainer
 import com.emeraldblast.p6.app.document.script.ScriptContainerImp
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
 import dagger.Binds
@@ -29,9 +31,9 @@ interface WorkbookStateModule {
             return ms(CommandStacks.stdCommandStack())
         }
         @Provides
-        @DefaultWsStateList
-        fun z():List<Ms<WorksheetState>>{
-            return emptyList()
+        @DefaultWsStateMap
+        fun z():Map<St<String>, MutableState<WorksheetState>>{
+            return emptyMap()
         }
     }
 

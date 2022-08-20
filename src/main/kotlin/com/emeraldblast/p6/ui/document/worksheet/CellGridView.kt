@@ -75,7 +75,7 @@ fun CellGridView(
                 wsActions.stopDragSelection(wsState)
             }
     ) {
-        wsActions.determineSlider(wsState)
+        wsActions.determineSliderSize(wsState)
         Row(
             modifier = Modifier.wrapContentSize(
                 unbounded = true,

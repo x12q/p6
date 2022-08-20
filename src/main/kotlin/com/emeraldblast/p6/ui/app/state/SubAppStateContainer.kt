@@ -8,6 +8,7 @@ import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
@@ -40,49 +41,30 @@ interface SubAppStateContainer {
     fun createNewWindowStateMs(): Pair<SubAppStateContainer,Ms<WindowState>>
     fun createNewWindowStateMs(windowId: String): Pair<SubAppStateContainer,Ms<WindowState>>
 
+    fun getWbStateMsRs(wbKeySt:St<WorkbookKey>): Rse<Ms<WorkbookState>>
+    fun getWbStateMs(wbKeySt:St<WorkbookKey>):Ms<WorkbookState>?
+    fun getWbStateRs(wbKeySt:St<WorkbookKey>): Rse<WorkbookState>
+    fun getWbState(wbKeySt:St<WorkbookKey>):WorkbookState?
+
     fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>>
+    fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState>
+    fun getWbStateMs(wbKey: WorkbookKey): Ms<WorkbookState>?
+    fun getWbState(wbKey: WorkbookKey): WorkbookState?
 
-    fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
-        return getWbStateMsRs(wbKey).map { it.value }
-    }
-
-    fun getWbStateMs(wbKey: WorkbookKey): Ms<WorkbookState>? {
-        return getWbStateMsRs(wbKey).component1()
-    }
-
-    fun getWbState(wbKey: WorkbookKey): WorkbookState? {
-        return getWbStateMs(wbKey)?.value
-    }
+    fun getWsStateMsRs(wbKeySt:St <WorkbookKey>, wsNameSt:St<String> ): Rse<Ms<WorksheetState>>
+    fun getWsStateRs(wbKeySt:St <WorkbookKey>, wsNameSt:St<String> ): Rse<WorksheetState>
+    fun getWsStateMs(wbKeySt:St <WorkbookKey>, wsNameSt:St<String> ): Ms<WorksheetState>?
+    fun getWsState(wbKeySt:St <WorkbookKey>, wsNameSt:St<String> ): WorksheetState?
 
     fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>>
+    fun getWsStateRs(wbKey: WorkbookKey, wsName: String): Rse<WorksheetState>
+    fun getWsStateMs(wbKey: WorkbookKey, wsName: String): Ms<WorksheetState>?
+    fun getWsState(wbKey: WorkbookKey, wsName: String): WorksheetState?
 
-    fun getWsStateRs(wbKey: WorkbookKey, wsName: String): Rse<WorksheetState> {
-        return getWsStateMsRs(wbKey, wsName).map { it.value }
-    }
-
-    fun getWsStateMs(wbKey: WorkbookKey, wsName: String): Ms<WorksheetState>? {
-        return getWsStateMsRs(wbKey, wsName).component1()
-    }
-
-    fun getWsState(wbKey: WorkbookKey, wsName: String): WorksheetState? {
-        return getWsStateMs(wbKey, wsName)?.value
-    }
-
-    fun getWsStateMsRs(wbws: WbWs): Rse<Ms<WorksheetState>> {
-        return this.getWsStateMsRs(wbws.wbKey, wbws.wsName)
-    }
-
-    fun getWsStateRs(wbws: WbWs): Rse<WorksheetState> {
-        return getWsStateMsRs(wbws.wbKey, wbws.wsName).map { it.value }
-    }
-
-    fun getWsStateMs(wbws: WbWs): Ms<WorksheetState>? {
-        return getWsStateMsRs(wbws.wbKey, wbws.wsName).component1()
-    }
-
-    fun getWsState(wbws: WbWs): WorksheetState? {
-        return getWsStateMs(wbws.wbKey, wbws.wsName)?.value
-    }
+    fun getWsStateMsRs(wbws: WbWs): Rse<Ms<WorksheetState>>
+    fun getWsStateRs(wbws: WbWs): Rse<WorksheetState>
+    fun getWsStateMs(wbws: WbWs): Ms<WorksheetState>?
+    fun getWsState(wbws: WbWs): WorksheetState?
 
     fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport>
     fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>? {
@@ -100,25 +82,12 @@ interface SubAppStateContainer {
     }
 
     fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>?
-    fun getCursorState(wbKey: WorkbookKey, wsName: String): CursorState? {
-        return getCursorStateMs(wbKey, wsName)?.value
-    }
-    fun getCursorStateMs(wbws: WbWs): Ms<CursorState>?{
-        return this.getCursorStateMs(wbws.wbKey,wbws.wsName)
-    }
-    fun getCursorState(wbws: WbWs): CursorState? {
-        return this.getCursorStateMs(wbws.wbKey,wbws.wsName)?.value
-    }
+    fun getCursorState(wbKey: WorkbookKey, wsName: String): CursorState?
+    fun getCursorStateMs(wbws: WbWs): Ms<CursorState>?
+    fun getCursorState(wbws: WbWs): CursorState?
 
     /**
      * get cursor state ms of the active worksheet inside the workbook whose key is [wbKey]
      */
-    fun getActiveCursorMs(wbKey: WorkbookKey):Ms<CursorState>?{
-        val rt=this.getWbState(wbKey)?.let { wbState->
-            wbState.activeSheetState?.let {activeWsState->
-                activeWsState.cursorStateMs
-            }
-        }
-        return rt
-    }
+    fun getActiveCursorMs(wbKey: WorkbookKey):Ms<CursorState>?
 }

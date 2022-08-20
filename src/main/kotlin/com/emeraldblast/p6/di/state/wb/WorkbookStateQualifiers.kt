@@ -8,7 +8,7 @@ annotation class DefaultCommandStack
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DefaultWsStateList
+annotation class DefaultWsStateMap
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)

@@ -24,7 +24,7 @@ class RangeToClipboardInternalApplierImpTest {
     private val cursorState: CursorState
         get()= appState
         .getWbState(TestSample.wbk1)
-        ?.getWorksheetState("Sheet1")
+        ?.getWsState("Sheet1")
         ?.cursorState!!
     lateinit var errorRouter:ErrorRouter
     lateinit var testSample: TestSample

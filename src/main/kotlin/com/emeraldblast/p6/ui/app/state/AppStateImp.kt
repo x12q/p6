@@ -30,6 +30,7 @@ import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
@@ -66,7 +67,7 @@ data class AppStateImp @Inject constructor(
     override val translatorContMs: Ms<TranslatorContainer>,
     @CellEditorStateMs
     override val cellEditorStateMs: Ms<CellEditorState>,
-) : AppState {
+) : AppState,AbsSubAppStateContainer() {
 
     override var docCont by docContMs
     override var stateCont by subAppStateContMs
@@ -216,6 +217,10 @@ data class AppStateImp @Inject constructor(
         val p = stateCont.createNewWindowStateMs(windowId)
         stateCont = p.first
         return Pair(this, p.second)
+    }
+
+    override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {
+        return this.subAppStateContMs.value.getWbStateMsRs(wbKeySt)
     }
 
     override fun addWindowState(windowState: Ms<WindowState>): AppState {

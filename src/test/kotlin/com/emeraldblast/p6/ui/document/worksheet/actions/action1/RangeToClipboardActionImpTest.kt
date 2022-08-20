@@ -25,7 +25,7 @@ internal class RangeToClipboardActionImpTest {
     fun beforeTest() {
         testSample = TestSample()
         appStateMs = testSample.sampleAppStateMs()
-        wsStateMs = appStateMs.value.queryStateByWorkbookKey(TestSample.wbk1).workbookStateMs.value.getWorksheetStateMs("Sheet1")!!
+        wsStateMs = appStateMs.value.queryStateByWorkbookKey(TestSample.wbk1).workbookStateMs.value.getWsStateMs("Sheet1")!!
         wsRequestMaker = mock()
         cellRM = mock()
         wsHandler = mock()

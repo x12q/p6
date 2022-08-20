@@ -5,6 +5,7 @@ import com.emeraldblast.p6.app.common.utils.ErrorUtils.getOrThrow
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -14,10 +15,9 @@ import com.github.michaelbull.result.map
 
 data class WorkbookStateContainerImp constructor(
     private val wbStateFactory: WorkbookStateFactory,
-    val m: Map<Ms<WorkbookKey>, Ms<WorkbookState>> = emptyMap(),
+    val m: Map<St<WorkbookKey>, Ms<WorkbookState>> = emptyMap(),
     private val pseudoVar:Boolean = false,
-) : WorkbookStateContainer, Map<Ms<WorkbookKey>, Ms<WorkbookState>> by m {
-
+) : AbsWorkbookStateContainer(), Map<St<WorkbookKey>, Ms<WorkbookState>> by m {
 
     override fun getWbStateMs(wbKey: WorkbookKey): Ms<WorkbookState>? {
         return this.m.values.firstOrNull{it.value.wbKey == wbKey}
@@ -30,18 +30,17 @@ data class WorkbookStateContainerImp constructor(
         get() = allStatesMs.map{it.value}
 
 
-    override fun getWbState(wbKey: WorkbookKey): WorkbookState? {
-        return getWbStateRs(wbKey).component1()
-    }
-
-    override fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
-        return getWbStateMsRs(wbKey).map { it.value }
-    }
-
     override fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
         val w = this.m.values.firstOrNull{it.value.wbKey==wbKey}
         return w?.let { Ok(it) } ?: Err(WorkbookStateContainerErrors.WorkbookStateNotExist.report(
             "workbook state for key ${wbKey} does not exist"
+        ))
+    }
+
+    override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {
+        val w = this.m[wbKeySt]
+        return w?.let { Ok(it) } ?: Err(WorkbookStateContainerErrors.WorkbookStateNotExist.report(
+            "workbook state for key ${wbKeySt.value} does not exist"
         ))
     }
 
@@ -84,10 +83,6 @@ data class WorkbookStateContainerImp constructor(
         return this
     }
 
-    override fun containWbKey(wbKey: WorkbookKey): Boolean {
-        return this.getWbStateMs(wbKey)!=null
-    }
-
     override fun createNewWbStateRs(wb: Workbook): Rse<WorkbookStateContainer> {
         if(this.containWbKey(wb.key)){
             return WorkbookStateContainerErrors.WorkbookStateAlreadyExist.report("Can't create new workbook state for ${wb.key} because a state for such key already exist").toErr()
@@ -95,9 +90,5 @@ data class WorkbookStateContainerImp constructor(
             val newWbState = wbStateFactory.create(ms(wb))
             return Ok(this.addWbState(ms(newWbState)))
         }
-    }
-
-    override fun createNewWbState(wb: Workbook): WorkbookStateContainer {
-        return this.createNewWbStateRs(wb).getOrThrow()
     }
 }

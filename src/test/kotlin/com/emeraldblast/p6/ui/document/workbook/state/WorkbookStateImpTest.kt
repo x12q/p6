@@ -78,7 +78,7 @@ class WorkbookStateImpTest {
 
     @Test
     fun setWorkbook() {
-        val sheet1_1State:Ms<WorksheetState>? = wbState.getWorksheetStateMs(wb0.getWs(0)!!.name)
+        val sheet1_1State:Ms<WorksheetState>? = wbState.getWsStateMs(wb0.getWs(0)!!.name)
         assertNotNull(sheet1_1State)
         sheet1_1State.value.cursorStateMs.value = sheet1_1State.value.cursorState.setMainCell(CellAddress("B9"))
         val cursor1_1 = sheet1_1State.value.cursorState
@@ -88,7 +88,7 @@ class WorkbookStateImpTest {
         assertEquals(2, l2.size)
         assertEquals(wb1, wbState2.wb)
 
-        val sheet11NewState = wbState2.getWorksheetStateMs(wb1.getWs(0)!!.name)
+        val sheet11NewState = wbState2.getWsStateMs(wb1.getWs(0)!!.name)
         assertNotNull(sheet11NewState)
         val newCursor11 = sheet11NewState.value.cursorState
 

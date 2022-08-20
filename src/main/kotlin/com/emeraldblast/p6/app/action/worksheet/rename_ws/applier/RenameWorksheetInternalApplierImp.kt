@@ -36,7 +36,7 @@ class RenameWorksheetInternalApplierImp
                 if (renameRs is Ok) {
                     val newWb: Workbook = renameRs.value
                     // x: rename ws state
-                    val sheetStateMs: Ms<WorksheetState>? = wbState.getWorksheetStateMs(oldName)
+                    val sheetStateMs: Ms<WorksheetState>? = wbState.getWsStateMs(oldName)
                     if (sheetStateMs != null) {
                         newWb.getWsMsRs(newName).onSuccess { newWs->
                             sheetStateMs.value = sheetStateMs.value.setWsMs(newWs)
