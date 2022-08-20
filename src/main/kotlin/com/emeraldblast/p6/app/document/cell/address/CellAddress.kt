@@ -21,6 +21,9 @@ interface CellAddress : GenericCellAddress<Int, Int> {
     override val colIndex: Int
     override val rowIndex: Int
 
+    val isColFixed:Boolean
+    val isRowFixed:Boolean
+
     /**
      * Shift this address using the vector defined by: [oldAnchorCell] --> [newAnchorCell].
      * See the test for more detail

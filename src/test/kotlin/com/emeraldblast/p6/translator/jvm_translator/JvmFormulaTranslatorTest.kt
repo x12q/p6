@@ -115,6 +115,17 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate get range from sheet`() {
         val inputMap = mapOf(
+
+            "=\$A\$1" to ExUnit.Func(
+                funcName = P6FunctionDefinitions.getRangeRs,
+                args = listOf(
+                    wbKey.exUnit(),
+                    wsName.exUnit(),
+                    RangeAddress("A1:A1").exUnit()
+                ),
+                functionMap = functionMap
+            ),
+
             "=A1:B3" to ExUnit.Func(
                 funcName = P6FunctionDefinitions.getRangeRs,
                 args = listOf(

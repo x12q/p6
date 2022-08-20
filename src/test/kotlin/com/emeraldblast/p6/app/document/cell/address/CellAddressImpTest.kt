@@ -11,6 +11,11 @@ class CellAddressImpTest {
         c1 = CellAddressImp(5, 9)
     }
     @Test
+    fun `create cell address from label`(){
+
+    }
+
+    @Test
     fun shiftRelative(){
         val c= CellAddressImp(3,10)
         val c2 = c.shift(CellAddress("A1"), CellAddress("A3"))

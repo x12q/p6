@@ -6,7 +6,12 @@ import com.emeraldblast.p6.proto.DocProtos
  * Standard implementation of CellAddress.
  * col and row index cannot go lower than 1, but has no upper bound
  */
-data class CellAddressImp constructor(override val colIndex: Int, override val rowIndex: Int) : CellAddress {
+data class CellAddressImp constructor(
+    override val colIndex: Int,
+    override val rowIndex: Int,
+    override val isColFixed: Boolean = false,
+    override val isRowFixed: Boolean = false
+) : CellAddress {
     override fun equals(other: Any?): Boolean {
         if (other is CellAddress) {
             return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex

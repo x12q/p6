@@ -10,47 +10,64 @@ import com.github.michaelbull.result.Ok
 import java.util.regex.Pattern
 
 object CellAddresses {
-    val InvalidCell = fromIndices(-1,-1)
-    val A1 = fromIndices(1,1)
-    fun fromIndices(colIndex:Int, rowIndex:Int): CellAddress {
-        return CellAddressImp(colIndex,rowIndex)
+    val InvalidCell = fromIndices(-1, -1)
+    val A1 = fromIndices(1, 1)
+    fun fromIndices(
+        colIndex: Int, rowIndex: Int,
+        isColFixed: Boolean = false,
+        isRowFixed: Boolean = false
+    ): CellAddress {
+        return CellAddressImp(colIndex, rowIndex, isColFixed, isRowFixed)
     }
 
-    fun firstOfCol(colIndex: Int):CellAddress{
-        return fromIndices(colIndex,1)
+    fun firstOfCol(colIndex: Int): CellAddress {
+        return fromIndices(colIndex, 1)
     }
 
-    fun firstOfRow(rowIndex: Int):CellAddress{
-        return fromIndices(1,rowIndex)
+    fun firstOfRow(rowIndex: Int): CellAddress {
+        return fromIndices(1, rowIndex)
     }
+
     // A1, A2
-    val labelPattern: Pattern = Pattern.compile("[A-Za-z]+[1-9][0-9]*")
+    val labelPattern: Pattern = Pattern.compile("[$]?[A-Za-z]+[$]?[1-9][0-9]*")
 
-    fun fromLabelRs(label:String): Rs<CellAddress, ErrorReport> {
-        if(labelPattern.matcher(label).matches()){
+    fun fromLabelRs(label: String): Rs<CellAddress, ErrorReport> {
+        if (labelPattern.matcher(label).matches()) {
             // extract col and row index from the label
             var colLabel = ""
             var rowLabel = ""
-            for (c in label){
-                if(c.isDigit()){
+            var fixedCol = false
+            var fixedRow = false
+            for ((i, c) in label.withIndex()) {
+                if (i == 0) {
+                    if (c == '$') {
+                        fixedCol = true
+                    }
+                }
+                if (i != 0) {
+                    if (c == '$') {
+                        fixedRow = true
+                    }
+                }
+                if (c.isDigit()) {
                     rowLabel += c
-                }else{
+                } else if (c.isLetter()) {
                     colLabel += c
                 }
             }
             val colIndex = CellLabelNumberSystem.labelToNumber(colLabel)
             val rowIndex = rowLabel.toInt()
-            val address = fromIndices(colIndex,rowIndex)
+            val address = fromIndices(colIndex, rowIndex, fixedCol, fixedRow)
             return Ok(address)
-        }else{
+        } else {
             return CellErrors.InvalidCellAddress.report(label).toErr()
         }
     }
 
 
-    fun fromLabel(label:String): CellAddress {
+    fun fromLabel(label: String): CellAddress {
         val rs = fromLabelRs(label)
-        when(rs){
+        when (rs) {
             is Ok -> return rs.value
             is Err -> throw InvalidLabelException(label)
         }
