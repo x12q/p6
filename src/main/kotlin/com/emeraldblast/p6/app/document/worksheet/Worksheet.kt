@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.app.document.worksheet
 
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.common.utils.WithSize
 import com.emeraldblast.p6.app.common.table.TableCR
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
@@ -22,7 +23,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 
-interface Worksheet : WithSize {
+interface Worksheet : WithSize,WbWsSt {
 
     fun reRun():Worksheet
 
@@ -32,8 +33,6 @@ interface Worksheet : WithSize {
     val nameMs:Ms<String>
     val name:String
 
-    val wbKeySt:St<WorkbookKey>
-    val wbKey:WorkbookKey
     fun setWbKeySt(wbKeySt:St<WorkbookKey>):Worksheet
 
 

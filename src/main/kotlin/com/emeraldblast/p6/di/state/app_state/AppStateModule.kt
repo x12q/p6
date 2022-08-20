@@ -6,7 +6,7 @@ import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.script.ScriptContainer
 import com.emeraldblast.p6.app.document.script.ScriptContainerImp
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
-import com.emeraldblast.p6.app.document.wb_container.WorkbookContainerImp2
+import com.emeraldblast.p6.app.document.wb_container.WorkbookContainerImp
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.oddity.OddityContainer
 import com.emeraldblast.p6.app.oddity.OddityContainerImp
@@ -182,7 +182,7 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         @WbContainerMs
-        fun WbContainer(wb:WorkbookContainerImp2): Ms<WorkbookContainer> {
+        fun WbContainer(wb:WorkbookContainerImp): Ms<WorkbookContainer> {
             return ms(wb)
         }
 

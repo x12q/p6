@@ -5,16 +5,25 @@ import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.St
 import java.nio.file.Path
 import com.github.michaelbull.result.Result
 interface WorkbookContainer {
     val wbList:List<Workbook>
 
+    fun getWb(wbKeySt:St<WorkbookKey>): Workbook?
+    fun getWbMs(wbKeySt:St<WorkbookKey>): Ms<Workbook>?
+    fun getWbRs(wbKeySt:St<WorkbookKey>): Result<Workbook,ErrorReport>
+    fun getWbMsRs(wbKeySt:St<WorkbookKey>): Result<Ms<Workbook>,ErrorReport>
+
     fun getWb(wbKey:WorkbookKey): Workbook?
     fun getWbMs(wbKey:WorkbookKey): Ms<Workbook>?
     fun getWbRs(wbKey:WorkbookKey): Result<Workbook,ErrorReport>
+    fun getWbMsRs(wbKey:WorkbookKey): Result<Ms<Workbook>,ErrorReport>
+
     fun getWb(path: Path):Workbook?
     fun getWbRs(path: Path):Result<Workbook,ErrorReport>
+    fun getWbMsRs(path: Path):Result<Ms<Workbook>,ErrorReport>
 
     fun addWb(wb: Workbook): WorkbookContainer
     fun addWbRs(wb: Workbook):Result<WorkbookContainer,ErrorReport>

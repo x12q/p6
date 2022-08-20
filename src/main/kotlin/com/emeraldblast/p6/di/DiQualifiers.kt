@@ -2,16 +2,22 @@ package com.emeraldblast.p6.di
 
 import javax.inject.Qualifier
 
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class NullInt
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class False
+
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class FalseMs
+
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class True()
+
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class TrueMs

@@ -38,7 +38,7 @@ internal class GridSliderImpTest {
         val cursor = CursorStateImp.default2(worksheetID).setMainCell(
             CellAddresses.fromIndices(gridSlider.firstVisibleCol - 1, 2)
         )
-        val m1 = gridSlider.move(cursor)
+        val m1 = gridSlider.followCursor(cursor)
         assertNotNull(m1)
         assertEquals(gridSlider.firstVisibleCol - 1, m1.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol - 1, m1.lastVisibleCol)
@@ -48,7 +48,7 @@ internal class GridSliderImpTest {
         val cursor2 = CursorStateImp.default2(worksheetID).setMainCell(
             CellAddresses.fromIndices(gridSlider.lastVisibleCol + 1, 2)
         )
-        val m2 = gridSlider.move(cursor2)
+        val m2 = gridSlider.followCursor(cursor2)
         assertNotNull(m2)
         assertEquals(gridSlider.firstVisibleCol + 1, m2.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol + 1, m2.lastVisibleCol)
@@ -58,7 +58,7 @@ internal class GridSliderImpTest {
         val cursor3 = CursorStateImp.default2(worksheetID).setMainCell(
             CellAddresses.fromIndices(5, gridSlider.lastVisibleRow + 1)
         )
-        val m3 = gridSlider.move(cursor3)
+        val m3 = gridSlider.followCursor(cursor3)
         assertNotNull(m3)
         assertEquals(gridSlider.lastVisibleRow + 1, m3.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow + 1, m3.firstVisibleRow)
@@ -68,7 +68,7 @@ internal class GridSliderImpTest {
         val cursor4 = CursorStateImp.default2(worksheetID).setMainCell(
             CellAddresses.fromIndices(5, gridSlider.firstVisibleRow - 1)
         )
-        val m4 = gridSlider.move(cursor4)
+        val m4 = gridSlider.followCursor(cursor4)
         assertNotNull(m4)
         assertEquals(gridSlider.lastVisibleRow - 1, m4.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow - 1, m4.firstVisibleRow)

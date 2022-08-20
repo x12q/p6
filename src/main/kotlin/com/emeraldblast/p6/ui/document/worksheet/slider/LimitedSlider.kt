@@ -51,6 +51,22 @@ data class LimitedSlider @AssistedInject constructor(
     override val firstVisibleRow: Int get() = slider.firstVisibleRow
     override val lastVisibleRow: Int get() = slider.lastVisibleRow
     override val visibleRowRange: IntRange get() = slider.visibleRowRange
+    override val marginRow: Int? get() = slider.marginRow
+
+    override fun setMarginRow(i: Int?): GridSlider {
+        return this.copy(
+            slider = slider.setMarginRow(i)
+        )
+    }
+
+    override val marginCol: Int? get() = slider.marginCol
+
+    override fun setMarginCol(i: Int?): GridSlider {
+        return this.copy(
+            slider = slider.setMarginCol(i)
+        )
+    }
+
     override fun setVisibleRowRange(i: IntRange): GridSlider {
         if(i == this.visibleRowRange){
             return this

@@ -4,7 +4,7 @@ import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 
 abstract class BaseSlider:GridSlider {
-    override fun move(newCursorState: CursorState): GridSlider {
+    override fun followCursor(newCursorState: CursorState): GridSlider {
         val slider = this
         // move slider with cursor
         val newMainCell: CellAddress = newCursorState.mainCell

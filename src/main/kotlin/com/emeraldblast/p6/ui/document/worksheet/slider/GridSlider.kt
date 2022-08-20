@@ -22,6 +22,12 @@ interface GridSlider {
     val firstVisibleRow: Int
     val lastVisibleRow: Int
     val visibleRowRange: IntRange
+
+    val marginRow:Int?
+    fun setMarginRow(i:Int?):GridSlider
+    val marginCol:Int?
+    fun setMarginCol(i:Int?):GridSlider
+
     fun setVisibleRowRange(i:IntRange):GridSlider
 
     fun containCol(col: Int): Boolean {
@@ -68,5 +74,5 @@ interface GridSlider {
      * move slider in relative to a cursor.
      * @return a new slider, or itself if the slider does not move
      */
-    fun move(newCursorState: CursorState): GridSlider
+    fun followCursor(newCursorState: CursorState): GridSlider
 }

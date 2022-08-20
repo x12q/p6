@@ -10,6 +10,7 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.di.state.app_state.WbStateContMs
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
@@ -19,40 +20,39 @@ import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContaine
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.map
 import java.nio.file.Path
 import javax.inject.Inject
 import kotlin.io.path.absolute
 
-data class WorkbookContainerImp2 @Inject constructor(
+data class WorkbookContainerImp @Inject constructor(
     @WbStateContMs
     private val wbStateContMs: Ms<WorkbookStateContainer>,
     private val wbStateFactory: WorkbookStateFactory,
-) : BaseWorkbookContainer() {
+) : AbsWorkbookContainer() {
+
     private var wbStateCont: WorkbookStateContainer by wbStateContMs
-    override val wbList: List<Workbook> get() = wbStateCont.allStates.map { it.wb!! }
-    override fun getWbMs(wbKey: WorkbookKey): Ms<Workbook>? {
-        return this.wbStateCont.getWbState(wbKey)?.wbMs
+    override val wbList: List<Workbook> get() = wbStateCont.allStates.map { it.wb }
+
+    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Result<Ms<Workbook>, ErrorReport> {
+        return wbStateCont.getWbStateRs(wbKeySt).map { it.wbMs }
     }
 
-    private val map get() = wbList.associateBy { it.key }
-
-    override fun getWbRs(wbKey: WorkbookKey): Result<Workbook, ErrorReport> {
-        val wb = this.map[wbKey]
-        return wb?.let { Ok(wb) } ?: Err(WorkbookContainerErrors.InvalidWorkbook.report(wbKey))
+    override fun getWbMsRs(wbKey:WorkbookKey): Result<Ms<Workbook>,ErrorReport>{
+        return this.wbStateCont.getWbStateRs(wbKey).map { it.wbMs }
     }
 
-    override fun getWbRs(path: Path): Result<Workbook, ErrorReport> {
-        for (wb in this.wbList) {
-            if (wb.key.path?.absolute() == path.absolute()) {
-                return Ok(wb)
-            }
+    override fun getWbMsRs(path: Path): Result<Ms<Workbook>, ErrorReport> {
+        val rt:Ms<Workbook>? = this.wbStateCont.allStates.firstOrNull { it.wbKey.path?.absolute() == path.absolute() }?.wbMs
+        if (rt != null) {
+            return Ok(rt)
+        } else {
+            return Err(WorkbookContainerErrors.InvalidWorkbook.report(path))
         }
-        return Err(WorkbookContainerErrors.InvalidWorkbook.report(path))
     }
-
 
     override fun addWbRs(wb: Workbook): Result<WorkbookContainer, ErrorReport> {
-        if (wb.key in map.keys) {
+        if (this.wbStateCont.containWbKey(wb.key)) {
             return WorkbookContainerErrors.WorkbookAlreadyExist.report(wb.key).toErr()
         } else {
             val wbMs = ms(wb)
@@ -67,9 +67,9 @@ data class WorkbookContainerImp2 @Inject constructor(
     }
 
     override fun overwriteWBRs(wb: Workbook): Rse<WorkbookContainer> {
-        val wbStateMs = this.wbStateCont.getWbStateMs(wb.key)
+        val wbStateMs: Ms<WorkbookState>? = this.wbStateCont.getWbStateMs(wb.key)
         if (wbStateMs != null) {
-            val rs = wbStateMs.value.overWriteWbRs(wb)
+            val rs: Rse<WorkbookState> = wbStateMs.value.overWriteWbRs(wb)
             when (rs) {
                 is Ok -> {
                     wbStateMs.value = rs.value
@@ -84,11 +84,11 @@ data class WorkbookContainerImp2 @Inject constructor(
     }
 
     override fun addOrOverWriteWbRs(wb: Workbook): Rse<WorkbookContainer> {
-        val addRs=this.addWbRs(wb)
-        when(addRs) {
-            is Ok-> return addRs
+        val addRs = this.addWbRs(wb)
+        when (addRs) {
+            is Ok -> return addRs
             is Err -> {
-                val overWriteRs=this.overwriteWBRs(wb)
+                val overWriteRs = this.overwriteWBRs(wb)
                 return overWriteRs
             }
         }
@@ -122,7 +122,7 @@ data class WorkbookContainerImp2 @Inject constructor(
     }
 
     override fun replaceKeyRs(oldKey: WorkbookKey, newKey: WorkbookKey): Rse<WorkbookContainer> {
-        this.wbStateCont = this.wbStateCont.replaceKey(oldKey,newKey)
+        this.wbStateCont = this.wbStateCont.replaceKey(oldKey, newKey)
         return this.toOk()
     }
 }
