@@ -6,7 +6,9 @@ import com.emeraldblast.p6.app.action.app.save_wb.SaveWorkbookRequest
 import com.emeraldblast.p6.app.action.app.save_wb.SaveWorkbookResponse
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.app.file.saver.P6Saver
+import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.ui.app.state.AppState
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -15,13 +17,12 @@ import kotlin.io.path.Path
 
 class SaveWorkbookRMImp @Inject constructor(
     private val saver: P6Saver,
-    @AppStateMs
-    private val appStateMs: Ms<AppState>
+    @StateContainerMs val stateContMs:Ms<StateContainer>,
 ) : SaveWorkbookRM {
-    var appState by appStateMs
+    private var stateCont by stateContMs
     override fun saveWb(request: SaveWorkbookRequest): SaveWorkbookResponse? {
         println("save rm")
-        val wbRs = appState.getWorkbookRs(request.wbKey)
+        val wbRs = stateCont.getWbRs(request.wbKey)
         when (wbRs) {
             is Ok ->{
                 val saveRs=saver.save(wbRs.value, Path(request.path))

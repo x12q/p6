@@ -110,6 +110,11 @@ interface P6Module {
     fun TemplateRM2(i: TemplateRMSuspendImp): TemplateRMSuspend
     companion object {
 
+        @Provides
+        @NullInt
+        fun nullInt():Int?{
+            return null
+        }
 
         @Provides
         fun fq(): FocusRequester {

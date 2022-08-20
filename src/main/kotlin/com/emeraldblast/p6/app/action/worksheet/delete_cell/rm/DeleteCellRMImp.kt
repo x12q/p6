@@ -16,7 +16,7 @@ class DeleteCellRMImp @Inject constructor(
     var appState by appStateMs
     override fun deleteCell(request: DeleteCellRequest): DeleteCellResponse {
         val wbk = request.wbKey
-        val wbRs = appState.getWorkbookRs(wbk)
+        val wbRs = appState.getWbRs(wbk)
         val rt = wbRs.mapBoth(
             success = { wb ->
                 val wsRs = wb.getWsRs(request.wsName)

@@ -81,7 +81,7 @@ class RangeRangePasterImp @Inject constructor(
     }
 
     fun paste(rangeCopy: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
-        val rt = appState.getWorkbookRs(target.wbKey).flatMap { wb ->
+        val rt = appState.getWbRs(target.wbKey).flatMap { wb ->
             if(rangeCopy!=null){
                 pasteRs(rangeCopy, target, wb)
             }else{

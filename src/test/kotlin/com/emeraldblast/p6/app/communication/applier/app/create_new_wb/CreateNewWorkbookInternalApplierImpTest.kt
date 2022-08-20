@@ -33,7 +33,7 @@ class CreateNewWorkbookInternalApplierImpTest {
         testSample = TestSample()
         appStateMs = testSample.sampleAppStateMs()
         applier = CreateNewWorkbookInternalApplierImp(
-            appStateMs=appStateMs,
+            stateContMs = testSample.p6Comp.stateContMs()
         )
         windowStateMs =appStateMs.value.windowStateMsList[0]
         okRes = CreateNewWorkbookResponse(

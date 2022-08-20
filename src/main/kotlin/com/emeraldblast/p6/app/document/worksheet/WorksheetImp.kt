@@ -68,6 +68,8 @@ data class WorksheetImp(
 
     override val nameMs: Ms<String> get() = idMs.value.wsNameMs
     override val wbKeySt: St<WorkbookKey> get() = idMs.value.wbKeySt
+    override val wsNameSt: St<String>
+        get() = id.wsNameMs
 
     override fun equals(other: Any?): Boolean {
         if (other is Worksheet) {

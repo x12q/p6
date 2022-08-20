@@ -56,6 +56,14 @@ annotation class StateContainerSt
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
+annotation class SubAppStateContainerMs
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class SubAppStateContainerSt
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class DocumentContainerMs
 
 @Qualifier

@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.di
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
 import com.emeraldblast.p6.app.app_context.AppContext
 import com.emeraldblast.p6.app.code.PythonCommander
@@ -15,6 +16,8 @@ import com.emeraldblast.p6.app.action.workbook.WorkbookAction
 import com.emeraldblast.p6.app.action.worksheet.WorksheetAction
 import com.emeraldblast.p6.app.action.worksheet.WorksheetApplier
 import com.emeraldblast.p6.app.action.worksheet.WorksheetRM
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
+import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.emeraldblast.p6.di.action.ActionModule
 import com.emeraldblast.p6.di.state.app_state.AppStateModule
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
@@ -36,10 +39,12 @@ import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.action.AppAction
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
+import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.emeraldblast.p6.ui.app.action.AppActionTable
 import com.emeraldblast.p6.ui.app.state.AppState
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.cell.action.CellViewAction
 import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTable
@@ -228,6 +233,10 @@ interface P6Component {
     fun openCellEditorAction(): OpenCellEditorAction
     fun translatorFactory(): JvmFormulaTranslatorFactory
     fun visitorFactory(): JvmFormulaVisitorFactory
+    fun clickOnCellAction(): ClickOnCell
+    fun mouseOnWsAction(): MouseOnWorksheetAction
+    @StateContainerMs
+    fun stateContMs(): MutableState<StateContainer>
 
     @Component.Builder
     interface Builder {

@@ -40,7 +40,7 @@ fun CellEditorView(
     ) {
         UseP6TextSelectionColor {
             BasicTextField(
-                value = state.displayText,
+                value = state.displayTextField,
                 onValueChange = {
                     action.updateTextField(it)
                 },

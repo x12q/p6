@@ -31,7 +31,7 @@ class CloseWorkbookInternalApplierImpTest {
         errorRouter = ErrorRouterImp(appStateMs)
         applier = CloseWorkbookInternalApplierImp(
             appStateMs = appStateMs,
-            wbActionTable = mock<WorkbookActionTable>()
+            stateContMs = testSample.p6Comp.stateContMs()
         )
         val windowId = appStateMs.value.windowStateMsList[0].value.id
         res = CloseWorkbookResponse(

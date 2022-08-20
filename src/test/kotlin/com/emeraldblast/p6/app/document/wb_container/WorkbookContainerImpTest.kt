@@ -8,7 +8,7 @@ import test.TestSample
 import kotlin.test.*
 
 class WorkbookContainerImpTest{
-    lateinit var cont: WorkbookContainerImp2
+    lateinit var cont: WorkbookContainerImp
     lateinit var wb1: Workbook
     lateinit var wb2: Workbook
     lateinit var wb3: Workbook
@@ -25,7 +25,7 @@ class WorkbookContainerImpTest{
         val wbsContMs=testSample.appState.globalWbStateContMs
         wbsContMs.value =wbsContMs.value.removeAll().createNewWbState(wb1).createNewWbState(wb2).createNewWbState(wb3)
 
-        cont = WorkbookContainerImp2(testSample.appState.globalWbStateContMs,testSample.p6Comp.workbookStateFactory())
+        cont = WorkbookContainerImp(testSample.appState.globalWbStateContMs,testSample.p6Comp.workbookStateFactory())
     }
 
 

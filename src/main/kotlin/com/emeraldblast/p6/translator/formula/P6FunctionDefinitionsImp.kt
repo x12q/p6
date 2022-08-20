@@ -23,7 +23,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
     internal val documentFunctions = listOf(
         object : AbstractFunctionDef() {
             override val name: String = P6FunctionDefinitions.getSheetRs
-            override val function: KFunction<Any> = appState::getWorksheetRs
+            override val function: KFunction<Any> = appState::getWsRs
         },
         object : AbstractFunctionDef() {
             override val name: String = P6FunctionDefinitions.getRangeRs

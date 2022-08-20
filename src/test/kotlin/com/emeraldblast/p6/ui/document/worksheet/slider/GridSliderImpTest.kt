@@ -1,5 +1,6 @@
 package com.emeraldblast.p6.ui.document.worksheet.slider
 
+import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.address.CellAddresses
 import com.emeraldblast.p6.ui.common.compose.ms
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateImp
@@ -19,7 +20,7 @@ internal class GridSliderImpTest {
         visibleRowRange = IntRange(3, 20),
     )
 
-    val worksheetID = ms(mock<WorksheetId>(){
+    val wsId = ms(mock<WorksheetId>() {
         whenever(it.wsName) doReturn ""
     })
 
@@ -33,42 +34,91 @@ internal class GridSliderImpTest {
     }
 
     @Test
-    fun move() {
-        // cursor on left-most col
-        val cursor = CursorStateImp.default2(worksheetID).setAnchorCell(
-            CellAddresses.fromIndices(gridSlider.firstVisibleCol - 1, 2)
+    fun `followCursor with margin`() {
+        val gridSlider = GridSliderImp(
+            visibleColRange = IntRange(5, 10),
+            visibleRowRange = IntRange(3, 20),
+            marginRow = 20,
+            marginCol = 10,
         )
-        val m1 = gridSlider.move(cursor)
+        // x: cursor on left-most col
+        val cursor = CursorStateImp.default2(wsId)
+            .setMainCell(CellAddress(gridSlider.firstVisibleCol - 1, 2))
+        val m1 = gridSlider.followCursor(cursor)
+        assertNotNull(m1)
+        assertEquals(gridSlider.firstVisibleCol - 1, m1.firstVisibleCol)
+        assertEquals(gridSlider.lastVisibleCol - 1, m1.lastVisibleCol)
+        assertEquals(gridSlider.visibleRowRange, m1.visibleRowRange)
+
+        // x: cursor on the margin col
+        val cursor2 = CursorStateImp.default2(wsId).setMainCell(
+            CellAddress(gridSlider.lastVisibleCol, 2)
+        )
+        val m2 = gridSlider.followCursor(cursor2)
+        assertNotNull(m2)
+        assertEquals(gridSlider.firstVisibleCol + 1, m2.firstVisibleCol)
+        assertEquals(gridSlider.lastVisibleCol + 1, m2.lastVisibleCol)
+        assertEquals(gridSlider.visibleRowRange, m2.visibleRowRange)
+
+        // x: cursor on margin row
+        val cursor3 = CursorStateImp.default2(wsId).setMainCell(
+            CellAddress(5, gridSlider.lastVisibleRow)
+        )
+        val m3 = gridSlider.followCursor(cursor3)
+        assertNotNull(m3)
+        assertEquals(gridSlider.lastVisibleRow + 1, m3.lastVisibleRow)
+        assertEquals(gridSlider.firstVisibleRow + 1, m3.firstVisibleRow)
+        assertEquals(gridSlider.visibleColRange, m3.visibleColRange)
+
+        // x: cursor on top row
+        val cursor4 = CursorStateImp.default2(wsId).setMainCell(
+            CellAddress(5, gridSlider.firstVisibleRow - 1)
+        )
+        val m4 = gridSlider.followCursor(cursor4)
+        assertNotNull(m4)
+        assertEquals(gridSlider.lastVisibleRow - 1, m4.lastVisibleRow)
+        assertEquals(gridSlider.firstVisibleRow - 1, m4.firstVisibleRow)
+        assertEquals(gridSlider.visibleColRange, m4.visibleColRange)
+    }
+
+
+    @Test
+    fun `followCursor no margin`() {
+        // cursor on left-most col
+        val cursor = CursorStateImp.default2(wsId).setMainCell(
+            CellAddress(gridSlider.firstVisibleCol - 1, 2)
+        )
+        val m1 = gridSlider.followCursor(cursor)
         assertNotNull(m1)
         assertEquals(gridSlider.firstVisibleCol - 1, m1.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol - 1, m1.lastVisibleCol)
         assertEquals(gridSlider.visibleRowRange, m1.visibleRowRange)
 
         // cursor on right-most col
-        val cursor2 = CursorStateImp.default2(worksheetID).setAnchorCell(
-            CellAddresses.fromIndices(gridSlider.lastVisibleCol + 1, 2)
+        val cursor2 = CursorStateImp.default2(wsId).setMainCell(
+            CellAddress(gridSlider.lastVisibleCol + 1, 2)
         )
-        val m2 = gridSlider.move(cursor2)
+        val m2 = gridSlider.followCursor(cursor2)
         assertNotNull(m2)
         assertEquals(gridSlider.firstVisibleCol + 1, m2.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol + 1, m2.lastVisibleCol)
         assertEquals(gridSlider.visibleRowRange, m2.visibleRowRange)
 
         // cursor on bot row
-        val cursor3 = CursorStateImp.default2(worksheetID).setAnchorCell(
-            CellAddresses.fromIndices(5, gridSlider.lastVisibleRow + 1)
+        val cursor3 = CursorStateImp.default2(wsId).setMainCell(
+            CellAddress(5, gridSlider.lastVisibleRow + 1)
         )
-        val m3 = gridSlider.move(cursor3)
+        val m3 = gridSlider.followCursor(cursor3)
         assertNotNull(m3)
         assertEquals(gridSlider.lastVisibleRow + 1, m3.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow + 1, m3.firstVisibleRow)
         assertEquals(gridSlider.visibleColRange, m3.visibleColRange)
 
         // cursor on top row
-        val cursor4 = CursorStateImp.default2(worksheetID).setAnchorCell(
-            CellAddresses.fromIndices(5, gridSlider.firstVisibleRow - 1)
+        val cursor4 = CursorStateImp.default2(wsId).setMainCell(
+            CellAddress(5, gridSlider.firstVisibleRow - 1)
         )
-        val m4 = gridSlider.move(cursor4)
+        val m4 = gridSlider.followCursor(cursor4)
         assertNotNull(m4)
         assertEquals(gridSlider.lastVisibleRow - 1, m4.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow - 1, m4.firstVisibleRow)

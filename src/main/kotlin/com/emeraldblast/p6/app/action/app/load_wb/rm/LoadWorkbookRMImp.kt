@@ -15,10 +15,7 @@ import kotlin.io.path.Path
 
 class LoadWorkbookRMImp @Inject constructor(
     private val loader: P6FileLoader,
-    @AppStateMs
-    private val appStateMs: Ms<AppState>
 ) : LoadWorkbookRM {
-    var appState by appStateMs
     override fun loadWb(request: LoadWorkbookRequest): LoadWorkbookResponse? {
         println("load rm")
         val loadRs = loader.load(Path(request.path))

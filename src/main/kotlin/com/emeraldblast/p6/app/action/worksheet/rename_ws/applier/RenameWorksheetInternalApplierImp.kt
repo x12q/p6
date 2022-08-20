@@ -22,7 +22,7 @@ class RenameWorksheetInternalApplierImp
     private val errorRouter: ErrorRouter,
 ) : RenameWorksheetInternalApplier {
     var appState by appStateMs
-    val translatorContainerMs: Ms<TranslatorContainer> = appState.translatorContainerMs
+    val translatorContainerMs: Ms<TranslatorContainer> = appState.translatorContMs
     var translatorCont by translatorContainerMs
 
     override fun apply(wbKey: WorkbookKey, oldName: String, newName: String) {
@@ -36,7 +36,7 @@ class RenameWorksheetInternalApplierImp
                 if (renameRs is Ok) {
                     val newWb: Workbook = renameRs.value
                     // x: rename ws state
-                    val sheetStateMs: Ms<WorksheetState>? = wbState.getWorksheetStateMs(oldName)
+                    val sheetStateMs: Ms<WorksheetState>? = wbState.getWsStateMs(oldName)
                     if (sheetStateMs != null) {
                         newWb.getWsMsRs(newName).onSuccess { newWs->
                             sheetStateMs.value = sheetStateMs.value.setWsMs(newWs)

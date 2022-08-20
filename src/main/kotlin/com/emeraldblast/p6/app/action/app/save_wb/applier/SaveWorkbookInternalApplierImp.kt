@@ -5,7 +5,9 @@ import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
+import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.ui.app.state.AppState
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.window.state.WindowState
@@ -14,9 +16,11 @@ import javax.inject.Inject
 
 class SaveWorkbookInternalApplierImp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
+    @StateContainerMs val stateContMs:Ms<StateContainer>,
 ) : SaveWorkbookInternalApplier {
+    private var stateCont by stateContMs
     var appState by appStateMs
-    private var wbCont by appState.globalWbContMs
+    private var wbCont by stateCont.globalWbContMs
 
     /**
      * - update wb key in wb cont
@@ -51,7 +55,7 @@ class SaveWorkbookInternalApplierImp @Inject constructor(
                 appState.codeEditorState = appState.codeEditorState.replaceWorkbookKey(oldWb.key, newWbKey)
             }
         } else {
-            appState.getWbStateMs(workbookKey)?.also {
+            stateCont.getWbStateMs(workbookKey)?.also {
                 it.value = it.value.setNeedSave(false)
             }
         }

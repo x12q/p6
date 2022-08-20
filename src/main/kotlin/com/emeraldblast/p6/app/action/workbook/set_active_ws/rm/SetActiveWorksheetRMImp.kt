@@ -46,7 +46,7 @@ class SetActiveWorksheetRMImp @Inject constructor(
 
     override fun setActiveWsWithIndex(request: SetActiveWorksheetWithIndexRequest): RseNav<SetActiveWorksheetResponse2> {
         val wbk = request.wbKey
-        val wbNameRs = appState.getWorkbookRs(wbk).flatMap { it.getWsRs(request.wsIndex) }.mapError { it.withNav(wbKey =wbk) }
+        val wbNameRs = appState.getWbRs(wbk).flatMap { it.getWsRs(request.wsIndex) }.mapError { it.withNav(wbKey =wbk) }
         val z = wbNameRs.flatMap {
             val req = SetActiveWorksheetRequest(wbk,it.name)
             setActiveWs(req)

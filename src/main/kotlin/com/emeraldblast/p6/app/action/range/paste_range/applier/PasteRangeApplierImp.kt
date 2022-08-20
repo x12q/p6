@@ -22,7 +22,7 @@ class PasteRangeApplierImp @Inject constructor(
             val reverseRes = WorkbookUpdateCommonResponse(
                 errorReport = null,
                 wbKey = wbKey,
-                newWorkbook = wbKey?.let{appState.getWorkbook(it)},
+                newWorkbook = wbKey?.let{appState.getWb(it)},
                 windowId = res.windowId
             )
 

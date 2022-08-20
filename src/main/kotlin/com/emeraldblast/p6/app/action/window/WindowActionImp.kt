@@ -15,10 +15,10 @@ import com.emeraldblast.p6.app.action.app.create_new_wb.NewWorkbookAction
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
-import com.emeraldblast.p6.di.state.app_state.StateContainerMs
+import com.emeraldblast.p6.di.state.app_state.SubAppStateContainerMs
 import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.state.AppState
-import com.emeraldblast.p6.ui.app.state.StateContainer
+import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.file.P6FileLoaderErrors
 import com.emeraldblast.p6.ui.file.P6FileSaverErrors
@@ -37,7 +37,7 @@ class WindowActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     private val kernelAction: KernelAction,
     private val closeWbAction: CloseWbAction,
-    @StateContainerMs private val stateContMs:Ms<StateContainer>,
+    @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>,
     private val newWbAct:NewWorkbookAction,
 ) : WindowAction, KernelAction by kernelAction {
     private var stateCont by stateContMs

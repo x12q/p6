@@ -42,7 +42,7 @@ class NewWorksheetApplierImpTest{
         val q = appState.queryStateByWorkbookKey(wbk)
         assertTrue { q.isOk }
         assertNotNull(q.workbookStateMs.value.wb.getWs(wsName))
-        assertNotNull(q.workbookStateMs.value.getWorksheetStateMs(wsName))
+        assertNotNull(q.workbookStateMs.value.getWsStateMs(wsName))
     }
     @Test
     fun `applyNewWorksheet err`() {
@@ -55,7 +55,7 @@ class NewWorksheetApplierImpTest{
         val q = appState.queryStateByWorkbookKey(wbk)
         assertTrue { q.isOk }
         assertNull(q.workbookStateMs.value.wb.getWs(wsName))
-        assertNull(q.workbookStateMs.value.getWorksheetState(wsName))
+        assertNull(q.workbookStateMs.value.getWsState(wsName))
         assertTrue { q.oddityContainerMs.value.isEmpty().not() }
         val reportedError = q.oddityContainerMs.value.oddList.first().errorReport
         assertTrue { reportedError.isType(TestSample.sampleErrorReport) }

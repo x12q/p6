@@ -46,7 +46,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
             windowStateMs = it.windowStateMs
         }
         applier = WorkbookUpdateCommonApplierImp(
-            appStateMs = appStateMs,
+            stateContMs = testSample.stateContMs(),
             baseApplier = BaseApplierImp(ErrorApplierImp(ErrorRouterImp(appStateMs)), mock<ErrorRouter>())
         )
     }

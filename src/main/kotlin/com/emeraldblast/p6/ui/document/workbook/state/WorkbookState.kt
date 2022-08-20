@@ -8,6 +8,7 @@ import com.emeraldblast.p6.app.document.script.ScriptContainer
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.emeraldblast.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState
@@ -21,6 +22,7 @@ interface WorkbookState {
      */
     val windowId:String?
     fun setWindowId(windowId:String?):WorkbookState
+    val wsStateMap: Map<St<String>, MutableState<WorksheetState>>
 
     fun overWriteWb(newWb:Workbook):WorkbookState
     fun overWriteWbRs(newWb:Workbook): Rse<WorkbookState>
@@ -82,16 +84,20 @@ interface WorkbookState {
      */
     val activeSheetStateMs: MutableState<WorksheetState>?
         get() = activeSheetPointer.wsName?.let {
-            getWorksheetStateMs(it)
+            getWsStateMs(it)
         }
     val activeSheetState: WorksheetState? get() = activeSheetStateMs?.value
 
     /**
      * get worksheet state by sheet name
      */
-    fun getWorksheetState(sheetName: String): WorksheetState?
-    fun getWorksheetStateMs(sheetName: String): Ms<WorksheetState>?
-    fun getWorksheetStateMsRs(sheetName: String): Rse<Ms<WorksheetState>>
+    fun getWsState(sheetName: String): WorksheetState?
+    fun getWsStateMs(sheetName: String): Ms<WorksheetState>?
+    fun getWsStateMsRs(sheetName: String): Rse<Ms<WorksheetState>>
+
+    fun getWsState(wsNameSt: St<String>): WorksheetState?
+    fun getWsStateMs(wsNameSt: St<String>): Ms<WorksheetState>?
+    fun getWsStateMsRs(wsNameSt: St<String>): Rse<Ms<WorksheetState>>
 
     /**
      * set active worksheet by name

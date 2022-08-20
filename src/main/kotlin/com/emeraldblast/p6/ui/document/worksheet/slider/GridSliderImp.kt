@@ -3,6 +3,7 @@ package com.emeraldblast.p6.ui.document.worksheet.slider
 import com.emeraldblast.p6.app.common.utils.MathUtils
 import com.emeraldblast.p6.app.common.utils.add
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
+import com.emeraldblast.p6.di.NullInt
 import com.emeraldblast.p6.di.state.ws.DefaultVisibleColRange
 import com.emeraldblast.p6.di.state.ws.DefaultVisibleRowRange
 import javax.inject.Inject
@@ -15,6 +16,10 @@ data class GridSliderImp @Inject constructor(
     override val visibleColRange: IntRange,
     @DefaultVisibleRowRange
     override val visibleRowRange: IntRange,
+    @NullInt
+    override val marginRow: Int? = null,
+    @NullInt
+    override val marginCol: Int? = null,
 ) : BaseSlider() {
     override val topLeftCell: CellAddress get() = CellAddress(this.firstVisibleCol, this.firstVisibleRow)
     override val firstVisibleCol: Int get() = visibleColRange.first
@@ -29,6 +34,9 @@ data class GridSliderImp @Inject constructor(
 
     override val firstVisibleRow: Int get() = visibleRowRange.first
     override val lastVisibleRow: Int get() = visibleRowRange.last
+    override fun setMarginRow(i: Int?): GridSlider = this.copy(marginRow = i)
+    override fun setMarginCol(i: Int?): GridSlider = this.copy(marginCol = i)
+
     override fun setVisibleRowRange(i: IntRange): GridSlider {
         if (i == this.visibleRowRange) {
             return this

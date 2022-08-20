@@ -19,7 +19,7 @@ class AddWorksheetRMImp @Inject constructor(
     private var appState by appStateMs
     override fun makeAddWsRequest(req: AddWorksheetRequest): RseNav<AddWorksheetResponse> {
         val wbk = req.wbKey
-        val rs = appState.getWorkbookRs(wbk).flatMap { wb ->
+        val rs = appState.getWbRs(wbk).flatMap { wb ->
             wb.addWsRs(req.worksheet).flatMap {
                 Ok(AddWorksheetResponse(it.reRun()))
             }

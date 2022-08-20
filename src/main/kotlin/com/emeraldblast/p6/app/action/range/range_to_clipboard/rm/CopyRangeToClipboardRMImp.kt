@@ -22,7 +22,7 @@ class CopyRangeToClipboardRMImp @Inject constructor(
 
     override fun copyRangeToClipboard2(request: RangeToClipboardRequest): RseNav<RangeToClipboardResponse2> {
         val rt = appState
-            .getRangeRsById(request.rangeId)
+            .getRangeRs(request.rangeId)
             .flatMap { range ->
                 val copyRs = this.copier.copyRange(range)
                 copyRs

@@ -4,19 +4,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.app.document.workbook.Workbook
+import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.ui.app.state.AppState
+import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import java.util.*
 import javax.inject.Inject
 
 class LoadWorkbookInternalApplierImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>
+    @StateContainerMs val stateContMs:Ms<StateContainer>,
 ) : LoadWorkbookInternalApplier {
-    private var appState by appStateMs
-    private var stateCont by appState.stateContMs
-    private var scriptCont by appState.centralScriptContainerMs
-    private var globalWbCont by appState.globalWbContMs
-    private var globalWbStateCont by appState.globalWbStateContMs
+    private var stateCont by stateContMs
+    private var globalWbCont by stateCont.globalWbContMs
+    private var globalWbStateCont by stateCont.globalWbStateContMs
 
     override fun apply(windowId: String?, workbook: Workbook?) {
         val windowStateMs = windowId?.let { stateCont.getWindowStateMsById(it) }
@@ -33,8 +33,8 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
             } else {
                 // x: designated window does not exist => create a new window for the loaded workbook with the provided window id
                 val newWindowId = windowId ?: UUID.randomUUID().toString()
-                val (newAppState, newWindowStateMs) = stateCont.createNewWindowStateMs(newWindowId)
-                stateCont = newAppState
+                val (newStateCont, newWindowStateMs) = stateCont.createNewWindowStateMs(newWindowId)
+                stateCont = newStateCont
                 globalWbStateCont.getWbStateMs(wb.key)?.also {
                     it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
                 }

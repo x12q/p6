@@ -61,7 +61,14 @@ interface CursorState : WbWsSt {
      */
     val mainRange: RangeAddress?
 
+    /**
+     * fragmented cell set, not including the main cell
+     */
     val fragmentedCells: Set<CellAddress>
+
+    /**
+     * fragmented range set, not including the main range
+     */
     val fragmentedRanges: Set<RangeAddress>
 
     /**
@@ -87,7 +94,7 @@ interface CursorState : WbWsSt {
     /**
      * point the cursor to a new cell
      */
-    fun setAnchorCell(newCellAddress: CellAddress): CursorState
+    fun setMainCell(newCellAddress: CellAddress): CursorState
 
 
     /**

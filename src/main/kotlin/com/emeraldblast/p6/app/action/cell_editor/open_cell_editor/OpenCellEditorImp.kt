@@ -8,11 +8,11 @@ import com.emeraldblast.p6.app.document.cell.CellErrors
 import com.emeraldblast.p6.app.document.cell.d.Cell
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.di.state.app_state.DocumentContainerSt
-import com.emeraldblast.p6.di.state.app_state.StateContainerSt
+import com.emeraldblast.p6.di.state.app_state.SubAppStateContainerSt
 import com.emeraldblast.p6.ui.app.ErrorRouter
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.app.state.DocumentContainer
-import com.emeraldblast.p6.ui.app.state.StateContainer
+import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.github.michaelbull.result.onFailure
@@ -20,8 +20,8 @@ import com.github.michaelbull.result.onSuccess
 import javax.inject.Inject
 
 class OpenCellEditorImp @Inject constructor(
-    @StateContainerSt
-    val stateContMs:St<@JvmSuppressWildcards StateContainer>,
+    @SubAppStateContainerSt
+    val stateContMs:St<@JvmSuppressWildcards SubAppStateContainer>,
     @DocumentContainerSt
     val docContSt:St<@JvmSuppressWildcards DocumentContainer>,
     @AppStateMs
@@ -32,7 +32,7 @@ class OpenCellEditorImp @Inject constructor(
     val docCont by docContSt
     val stateCont by stateContMs
     override fun openCellEditor(wsId: WbWs) {
-        val ws = docCont.getWorksheet(wsId)
+        val ws = docCont.getWs(wsId)
         val cursorStateMs = stateCont.getCursorStateMs(wsId)
         if(ws!=null && cursorStateMs!=null){
             val cursorState by cursorStateMs

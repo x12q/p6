@@ -23,7 +23,7 @@ class PasteRangeRMImp @Inject constructor(
     private var appState by appStateMs
 
     override fun pasteRange(request: PasteRangeRequest): PasteRangeResponse? {
-        val wsState = appState.getWbState(request.wbWs.wbKey)?.getWorksheetState(request.wbWs.wsName)
+        val wsState = appState.getWbState(request.wbWs.wbKey)?.getWsState(request.wbWs.wsName)
         if(wsState!=null){
             val target = RangeId(
                 rangeAddress = RangeAddress(request.anchorCell),
@@ -57,7 +57,7 @@ class PasteRangeRMImp @Inject constructor(
     }
 
     override fun pasteRange2(request: PasteRangeRequest2): PasteRangeResponse? {
-        val wsState = appState.getWbState(request.wbKey)?.getWorksheetState(request.wsName)
+        val wsState = appState.getWbState(request.wbKey)?.getWsState(request.wsName)
         if(wsState!=null){
             val target = RangeId(
                 rangeAddress = request.rangeId.rangeAddress,

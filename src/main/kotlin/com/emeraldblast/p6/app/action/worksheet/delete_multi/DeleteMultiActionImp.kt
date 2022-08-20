@@ -42,7 +42,7 @@ class DeleteMultiActionImp @Inject constructor(
     private fun createCommand(request: DeleteMultiRequest2){
         val k = request.wbKey
         val n = request.wsName
-        val ws = appState.getWorksheet(k,n)
+        val ws = appState.getWs(k,n)
         if (ws != null) {
             val cursorState = appState.getCursorState(k,n)
             if(cursorState!=null){

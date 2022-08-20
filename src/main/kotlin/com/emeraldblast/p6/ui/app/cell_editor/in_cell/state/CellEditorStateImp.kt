@@ -33,7 +33,7 @@ data class CellEditorStateImp @Inject constructor(
     @CellEditorInitCursorIdSt
     override val rangeSelectorCursorIdSt: St<@JvmSuppressWildcards CursorStateId>? = null,
     @NullTextFieldValue
-    override val rangeSelectorText: TextFieldValue? = null,
+    override val rangeSelectorTextField: TextFieldValue? = null,
 ) : CellEditorState {
     companion object {
         fun defaultForTest(): CellEditorStateImp {
@@ -47,8 +47,8 @@ data class CellEditorStateImp @Inject constructor(
     }
 
     private fun moveTextFromRangeSelectorTextToCurrentText(): CellEditorState {
-        if (rangeSelectorText != null) {
-            return this.setCurrentText(rangeSelectorText.text).setRangeSelectorText(null)
+        if (rangeSelectorTextField != null) {
+            return this.setCurrentText(rangeSelectorTextField.text).setRangeSelectorText(null)
         } else {
             return this
         }
@@ -61,6 +61,8 @@ data class CellEditorStateImp @Inject constructor(
         }
 
     override val isActive: Boolean by isActiveMs
+    override val isActiveAndAllowRangeSelector: Boolean
+        get() = isActive && allowRangeSelector
     override val currentText: String get() = currentTextField.text
 
     override val rangeSelectorCursorId: CursorStateId?
@@ -77,18 +79,22 @@ data class CellEditorStateImp @Inject constructor(
         return this.copy(targetCell = newCellAddress)
     }
 
-    override val displayText: TextFieldValue
+    override val displayTextField: TextFieldValue
         get() {
             if (this.isActive) {
-                if (this.rangeSelectorText != null) {
-                    return this.rangeSelectorText
+                if (this.rangeSelectorTextField != null) {
+                    return this.rangeSelectorTextField
                 }
             }
             return this.currentTextField
         }
+    override val displayText: String
+        get() = displayTextField.text
+    override val rangeSelectorText: String?
+        get() = rangeSelectorTextField?.text
 
     override fun setRangeSelectorText(newTextField: TextFieldValue?): CellEditorState {
-        return this.copy(rangeSelectorText = newTextField)
+        return this.copy(rangeSelectorTextField = newTextField)
     }
 
     /**

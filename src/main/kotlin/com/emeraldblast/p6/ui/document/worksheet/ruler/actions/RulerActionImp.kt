@@ -50,13 +50,13 @@ class RulerActionImp @Inject constructor(
                     cursorState = cursorState
                         .removeAllExceptAnchorCell()
                         .selectWholeCol(itemIndex)
-                        .setAnchorCell(CellAddresses.firstOfCol(itemIndex))
+                        .setMainCell(CellAddresses.firstOfCol(itemIndex))
                 }
                 RulerType.Row -> {
                     cursorState = cursorState
                         .removeAllExceptAnchorCell()
                         .selectWholeRow(itemIndex)
-                        .setAnchorCell(CellAddresses.firstOfRow(itemIndex))
+                        .setMainCell(CellAddresses.firstOfRow(itemIndex))
                 }
             }
         }
@@ -246,7 +246,7 @@ class RulerActionImp @Inject constructor(
                     } else {
                         cursorState.mainCell
                     }
-                    cursorState = cursorState.setMainRange(mergedRange).setAnchorCell(newAnchorCell)
+                    cursorState = cursorState.setMainRange(mergedRange).setMainCell(newAnchorCell)
                 } else {
                     cursorState = cursorState.removeMainRange()
                 }

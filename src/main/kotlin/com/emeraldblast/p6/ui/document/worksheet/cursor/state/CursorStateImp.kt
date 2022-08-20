@@ -226,7 +226,7 @@ data class CursorStateImp @AssistedInject constructor(
         val newCellAddress = mainCell.upOneRow()
         if (rangeConstraint.contains(newCellAddress)) {
             return this
-                .setAnchorCell(newCellAddress)
+                .setMainCell(newCellAddress)
                 .removeAllExceptAnchorCell()
         } else {
             return this
@@ -237,7 +237,7 @@ data class CursorStateImp @AssistedInject constructor(
         val newCellAddress = mainCell.downOneRow()
         if (rangeConstraint.contains(newCellAddress)) {
             return this
-                .setAnchorCell(newCellAddress)
+                .setMainCell(newCellAddress)
                 .removeAllExceptAnchorCell()
         } else {
             return this
@@ -248,7 +248,7 @@ data class CursorStateImp @AssistedInject constructor(
         val newCellAddress = mainCell.leftOneCol()
         if (rangeConstraint.contains(newCellAddress)) {
             return this
-                .setAnchorCell(newCellAddress)
+                .setMainCell(newCellAddress)
                 .removeAllExceptAnchorCell()
         } else {
             return this
@@ -259,14 +259,14 @@ data class CursorStateImp @AssistedInject constructor(
         val newCellAddress = mainCell.rightOneCol()
         if (rangeConstraint.contains(newCellAddress)) {
             return this
-                .setAnchorCell(newCellAddress)
+                .setMainCell(newCellAddress)
                 .removeAllExceptAnchorCell()
         } else {
             return this
         }
     }
 
-    override fun setAnchorCell(newCellAddress: CellAddress): CursorState {
+    override fun setMainCell(newCellAddress: CellAddress): CursorState {
         if (rangeConstraint.contains(newCellAddress) && mainCell != newCellAddress) {
             return this.copy(mainCell = newCellAddress)
         } else {

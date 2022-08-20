@@ -16,7 +16,7 @@ class RangeToClipboardInternalApplierImp @Inject constructor(
         // find the correct cursor state ms
         val cursorStateMs = appState
             .getWbState(rangeId.wbKey)
-            ?.getWorksheetState(rangeId.wsName)
+            ?.getWsState(rangeId.wsName)
             ?.cursorStateMs
         if(cursorStateMs!=null){
             cursorStateMs.value =cursorStateMs.value.setClipboardRange(

@@ -18,7 +18,7 @@ import com.emeraldblast.p6.app.document.workbook.toModel
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.di.state.app_state.DocumentContainerMs
-import com.emeraldblast.p6.di.state.app_state.StateContainerMs
+import com.emeraldblast.p6.di.state.app_state.SubAppStateContainerMs
 import com.emeraldblast.p6.proto.CommonProtos
 import com.emeraldblast.p6.proto.DocProtos
 import com.emeraldblast.p6.proto.rpc.workbook.*
@@ -27,7 +27,7 @@ import com.emeraldblast.p6.rpc.document.workbook.msg.*
 import com.emeraldblast.p6.rpc.document.workbook.msg.AddWorksheetRequest.Companion.toModel
 import com.emeraldblast.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg.Companion.toModel
 import com.emeraldblast.p6.ui.app.state.DocumentContainer
-import com.emeraldblast.p6.ui.app.state.StateContainer
+import com.emeraldblast.p6.ui.app.state.SubAppStateContainer
 import com.emeraldblast.p6.ui.app.state.TranslatorContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.github.michaelbull.result.Err
@@ -45,8 +45,8 @@ class WorkbookRpcService @Inject constructor(
     private val globalAction: GlobalAction,
     @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
-    @StateContainerMs
-    private val stateContMs: Ms<StateContainer>
+    @SubAppStateContainerMs
+    private val stateContMs: Ms<SubAppStateContainer>
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
     //    private var appState by appStateMs
@@ -63,7 +63,7 @@ class WorkbookRpcService @Inject constructor(
             val wbk = req.wbKey
             val wsName = req.wsName
             val wsIndex = req.wsIndex
-            val wb = documentCont.getWorkbook(wbk)
+            val wb = documentCont.getWb(wbk)
             val ws = if (wsName != null) {
                 wb?.getWs(wsName)
             } else if (wsIndex != null) {
@@ -131,7 +131,7 @@ class WorkbookRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
             val wsRs: Rse<List<Worksheet>> = documentCont
-                .getWorkbookRs(wbk).map { it.worksheets }
+                .getWbRs(wbk).map { it.worksheets }
             val rt = GetAllWorksheetsResponse.fromRs(wsRs)
             responseObserver.onNextAndComplete(rt.toProto())
         } else {
@@ -161,7 +161,7 @@ class WorkbookRpcService @Inject constructor(
             val wbk = request.wbKey.toModel()
             val wsn = request.worksheet.name ?: ""
             val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
-            val wbkMsRs = documentCont.getWorkbookRs(wbKey = wbk)
+            val wbkMsRs = documentCont.getWbRs(wbKey = wbk)
             val rs = wbkMsRs.flatMap { wb ->
                 val req = request.toModel(wb.keyMs, translator)
                 val rs: Rs<AddWorksheetResponse, ErrorReport> = globalAction.addWorksheetRs(req)
@@ -221,7 +221,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbKey = request.toModel()
-            val wb = documentCont.getWorkbook(wbKey)
+            val wb = documentCont.getWb(wbKey)
             responseObserver.onNext(Int64Value.of((wb?.size ?: 0).toLong()))
             responseObserver.onCompleted()
         } else {
