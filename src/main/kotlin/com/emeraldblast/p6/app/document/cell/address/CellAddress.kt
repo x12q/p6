@@ -9,6 +9,9 @@ import com.emeraldblast.p6.proto.DocProtos
 fun CellAddress(col: Int, row: Int): CellAddress {
     return CellAddresses.fromIndices(col, row)
 }
+fun CellAddress(colCR:CR,rowCR:CR):CellAddress{
+    return CellAddresses.fromCR(colCR, rowCR)
+}
 
 /**
  * factory method to create a standard cell address from a cell label
@@ -21,14 +24,17 @@ interface CellAddress : GenericCellAddress<Int, Int> {
     override val colIndex: Int
     override val rowIndex: Int
 
-    val isColFixed:Boolean
-    val isRowFixed:Boolean
+    val colCR:CR
+    val rowCR:CR
+
+    val isColFixed: Boolean
+    val isRowFixed: Boolean
 
     /**
      * Shift this address using the vector defined by: [oldAnchorCell] --> [newAnchorCell].
      * See the test for more detail
      */
-    fun shift(oldAnchorCell:CellAddress, newAnchorCell:CellAddress):CellAddress
+    fun shift(oldAnchorCell: CellAddress, newAnchorCell: CellAddress): CellAddress
     fun increaseRowBy(v: Int): CellAddress
     fun increaseColBy(v: Int): CellAddress
 
@@ -63,19 +69,22 @@ interface CellAddress : GenericCellAddress<Int, Int> {
 
     fun toRawLabel(): String {
         val colLabel: String = CellLabelNumberSystem.numberToLabel(colIndex)
-        return "${colLabel}${rowIndex}"
+        return "${if(isColFixed)"\$" else "" }${colLabel}${if(isRowFixed)"\$" else "" }${rowIndex}"
     }
 
     fun toLabel(): String {
-        val colLabel: String = CellLabelNumberSystem.numberToLabel(colIndex)
-        return "@${colLabel}${rowIndex}"
+        return toRawLabel()
     }
 
     fun toProto(): DocProtos.CellAddressProto
+
     fun isValid(): Boolean {
         return this.colIndex >= 1 && this.rowIndex >= 1
     }
-    fun isNotValid():Boolean{
+
+    fun isNotValid(): Boolean {
         return !this.isValid()
     }
+
+    fun isSame(other: CellAddress): Boolean
 }

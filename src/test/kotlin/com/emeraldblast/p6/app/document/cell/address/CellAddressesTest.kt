@@ -9,10 +9,14 @@ internal class CellAddressesTest {
     fun `create cell address from label`() {
         val inputMap = mapOf(
             "A1" to CellAddressImp(1, 1, false, false),
+            "a1" to CellAddressImp(1, 1, false, false),
             "\$A1" to CellAddressImp(1, 1, true, false),
+            "\$a1" to CellAddressImp(1, 1, true, false),
             "\$A$1" to CellAddressImp(1, 1, true, true),
+            "\$a$1" to CellAddressImp(1, 1, true, true),
 
             "RR123" to CellAddressImp(486,123),
+            "rr123" to CellAddressImp(486,123),
             "RR$123" to CellAddressImp(486,123,false,true),
             "\$RR$123" to CellAddressImp(486,123,true,true),
         )

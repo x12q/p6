@@ -7,15 +7,30 @@ import com.emeraldblast.p6.proto.DocProtos
  * col and row index cannot go lower than 1, but has no upper bound
  */
 data class CellAddressImp constructor(
-    override val colIndex: Int,
-    override val rowIndex: Int,
-    override val isColFixed: Boolean = false,
-    override val isRowFixed: Boolean = false
+    override val colCR: CR,
+    override val rowCR: CR,
 ) : CellAddress {
+
+    constructor(
+        colIndex: Int,
+        rowIndex: Int,
+        isColFixed: Boolean = false,
+        isRowFixed: Boolean = false
+    ) : this(colCR = CR(colIndex, isColFixed), rowCR = CR(rowIndex, isRowFixed))
+
+    override val colIndex: Int = colCR.n
+    override val rowIndex: Int = rowCR.n
+    override val isColFixed: Boolean = colCR.isFixed
+    override val isRowFixed: Boolean = rowCR.isFixed
+
+    override fun isSame(other: CellAddress): Boolean {
+        return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex
+    }
+
     override fun equals(other: Any?): Boolean {
-        if (other is CellAddress) {
-            return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex
-        } else {
+        if(other is CellAddress){
+            return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex && this.isColFixed == other.isColFixed && this.isRowFixed == other.isRowFixed
+        }else{
             return false
         }
     }
@@ -23,9 +38,11 @@ data class CellAddressImp constructor(
     override fun shift(oldAnchorCell: CellAddress, newAnchorCell: CellAddress): CellAddress {
         val colDif = newAnchorCell.colIndex - oldAnchorCell.colIndex
         val rowDif = newAnchorCell.rowIndex - oldAnchorCell.rowIndex
+        val colIndex = this.colIndex + colDif
+        val rowIndex = this.rowIndex + rowDif
         return this.copy(
-            colIndex = this.colIndex + colDif,
-            rowIndex = this.rowIndex + rowDif
+           colCR = colCR.copy(n=colIndex),
+            rowCR = rowCR.copy(n=rowIndex)
         )
     }
 
@@ -36,7 +53,7 @@ data class CellAddressImp constructor(
             return this
         } else {
             val newRow = maxOf(this.rowIndex + v, 1)
-            return this.copy(rowIndex = newRow)
+            return this.copy(rowCR=rowCR.copy(n=newRow))
         }
     }
 
@@ -47,7 +64,7 @@ data class CellAddressImp constructor(
             return this
         } else {
             val newCol = maxOf(this.colIndex + v, 1)
-            return this.copy(colIndex = newCol)
+            return this.copy(colCR = colCR.copy(n=newCol))
         }
     }
 
@@ -63,8 +80,10 @@ data class CellAddressImp constructor(
     }
 
     override fun hashCode(): Int {
-        var result = colIndex.hashCode()
-        result = 31 * result + rowIndex.hashCode()
+        var result = colIndex
+        result = 31 * result + rowIndex
+        result = 31 * result + isColFixed.hashCode()
+        result = 31 * result + isRowFixed.hashCode()
         return result
     }
 }

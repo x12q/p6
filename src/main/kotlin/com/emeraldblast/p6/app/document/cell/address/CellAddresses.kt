@@ -12,6 +12,23 @@ import java.util.regex.Pattern
 object CellAddresses {
     val InvalidCell = fromIndices(-1, -1)
     val A1 = fromIndices(1, 1)
+    fun maxOf(cr1:CR, cr2:CR):CR{
+        if(cr1.n >= cr2.n){
+            return cr1
+        }else{
+            return cr2
+        }
+    }
+    fun minOf(cr1:CR, cr2:CR):CR{
+        if(cr1.n <= cr2.n){
+            return cr1
+        }else{
+            return cr2
+        }
+    }
+    fun fromCR(colCR:CR,rowCR:CR):CellAddress{
+        return CellAddressImp(colCR, rowCR)
+    }
     fun fromIndices(
         colIndex: Int, rowIndex: Int,
         isColFixed: Boolean = false,

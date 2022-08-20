@@ -3,6 +3,7 @@ package com.emeraldblast.p6.app.document.range.address
 import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.CellLabelNumberSystem
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk
+import com.emeraldblast.p6.app.document.cell.address.CR
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.address.CellAddresses
 import com.emeraldblast.p6.app.document.cell.address.toModel
@@ -16,12 +17,14 @@ import com.github.michaelbull.result.Ok
 object RangeAddresses {
 
     val InvalidRange = RangeAddressImp(CellAddresses.InvalidCell,CellAddresses.InvalidCell)
-    // A1:B2
-    val rangeAddressPattern = Regex("[a-zA-Z]+[1-9][0-9]*:[a-zA-Z]+[1-9][0-9]*")
-    // whole col / whole row : A:A , 123: 233
-    val wholeRangeAddressPattern = Regex("([a-zA-Z]+|[1-9][0-9]*):([a-zA-Z]+|[1-9][0-9]*)")
-    val singleWholeColAddressPattern = Regex("[a-zA-Z]+")
-    val singleWholeRowAddressPattern = Regex("[1-9][0-9]*")
+    // A1:B2, $A1:B$2, $A$1:$B$2
+    val rangeAddressPattern = Regex("[$]?[a-zA-Z]+[$]?[1-9][0-9]*:[$]?[a-zA-Z]+[$]?[1-9][0-9]*")
+
+    // whole col : A:A, $A:$A, A:$A, $A:A
+    // whole row : 123:233, $123:$123, $123:123, 123:$123
+    val wholeRangeAddressPattern = Regex("([$]?[a-zA-Z]+|[$]?[1-9][0-9]*):([$]?[a-zA-Z]+|[$]?[1-9][0-9]*)")
+    val singleWholeColAddressPattern = Regex("[$]?[a-zA-Z]+")
+    val singleWholeRowAddressPattern = Regex("[$]?[1-9][0-9]*")
 
     fun fromLabelRs(label:String): Rs<RangeAddress, ErrorReport> {
         val isNormalRange = rangeAddressPattern.matchEntire(label) != null
@@ -34,8 +37,8 @@ object RangeAddresses {
         val isWholeRange = wholeRangeAddressPattern.matchEntire(label)!=null
         if(isWholeRange){
             val splits = label.split(":")
-            val firstPart = splits[0]
-            val lastPart = splits[1]
+            val firstPart:String = splits[0]
+            val lastPart:String = splits[1]
 
             val firstPartIsCol = singleWholeColAddressPattern.matchEntire(firstPart)!=null
             val firstPartIsRow = singleWholeRowAddressPattern.matchEntire(firstPart)!=null
@@ -44,24 +47,33 @@ object RangeAddresses {
             val lastPartIsRow = singleWholeRowAddressPattern.matchEntire(lastPart)!=null
 
             if(firstPartIsCol && lastPartIsCol){
-                val firstColIndex = CellLabelNumberSystem.labelToNumber(firstPart)
-                val lastColIndex = CellLabelNumberSystem.labelToNumber(lastPart)
-
-                val first = minOf(firstColIndex,lastColIndex)
-                val last = maxOf(firstColIndex,lastColIndex)
-                return RangeAddress(
-                    CellAddress(first,1),
-                    CellAddress(last,R.worksheetValue.rowLimit)
-                ).toOk()
+                val firstColCR = CR.fromLabel(firstPart)
+                val lastColCR = CR.fromLabel(lastPart)
+                if(firstColCR==null || lastColCR==null){
+                    return RangeErrors.InvalidRangeAddress.report(label).toErr()
+                }else{
+                    val firstCR= CellAddresses.minOf(firstColCR,lastColCR)
+                    val lastCR = CellAddresses.maxOf(firstColCR,lastColCR)
+                    val rt= RangeAddress(
+                        CellAddress(firstCR,CR(1,firstCR.isFixed)),
+                        CellAddress(lastCR,CR(R.worksheetValue.rowLimit,lastCR.isFixed))
+                    ).toOk()
+                    return rt
+                }
             }else if(firstPartIsRow && lastPartIsRow){
-                val fp = firstPart.toInt()
-                val lp = lastPart.toInt()
-                val first = minOf(fp,lp)
-                val last = maxOf(fp,lp)
-                return RangeAddress(
-                    CellAddress(1, first),
-                    CellAddress(R.worksheetValue.colLimit, last)
-                ).toOk()
+                val fp = CR.fromLabel(firstPart)
+                val lp = CR.fromLabel(lastPart)
+                if(fp==null || lp == null){
+                    return RangeErrors.InvalidRangeAddress.report(label).toErr()
+                }else{
+                    val first = CellAddresses.minOf(fp,lp)
+                    val last = CellAddresses.maxOf(fp,lp)
+
+                    return RangeAddress(
+                        CellAddress(CR(1,first.isFixed), first),
+                        CellAddress(CR(R.worksheetValue.colLimit,last.isFixed), last)
+                    ).toOk()
+                }
             }else{
                 return RangeErrors.InvalidRangeAddress.report(label).toErr()
             }
@@ -104,13 +116,13 @@ object RangeAddresses {
     }
 
     fun from2Cells(address1: CellAddress, address2: CellAddress): RangeAddress {
-        val firstAddress = CellAddresses.fromIndices(
-            colIndex = minOf(address1.colIndex, address2.colIndex),
-            rowIndex = minOf(address1.rowIndex, address2.rowIndex)
+        val firstAddress = CellAddresses.fromCR(
+            colCR =CellAddresses.minOf(address1.colCR, address2.colCR),
+            rowCR =CellAddresses.minOf(address1.rowCR, address2.rowCR)
         )
-        val lastAddress = CellAddresses.fromIndices(
-            colIndex = maxOf(address1.colIndex, address2.colIndex),
-            rowIndex = maxOf(address1.rowIndex, address2.rowIndex)
+        val lastAddress = CellAddresses.fromCR(
+            colCR = CellAddresses.maxOf(address1.colCR, address2.colCR),
+            rowCR = CellAddresses.maxOf(address1.rowCR, address2.rowCR)
         )
         return RangeAddressImp(firstAddress, lastAddress)
     }
