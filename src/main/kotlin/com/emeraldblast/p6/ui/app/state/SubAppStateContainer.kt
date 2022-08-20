@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
@@ -55,6 +56,11 @@ interface SubAppStateContainer {
     fun getWsStateRs(wbKeySt:St <WorkbookKey>, wsNameSt:St<String> ): Rse<WorksheetState>
     fun getWsStateMs(wbKeySt:St <WorkbookKey>, wsNameSt:St<String> ): Ms<WorksheetState>?
     fun getWsState(wbKeySt:St <WorkbookKey>, wsNameSt:St<String> ): WorksheetState?
+
+    fun getWsStateMsRs(wbwsSt: WbWsSt): Rse<Ms<WorksheetState>>
+    fun getWsStateRs(wbwsSt: WbWsSt): Rse<WorksheetState>
+    fun getWsStateMs(wbwsSt: WbWsSt): Ms<WorksheetState>?
+    fun getWsState(wbwsSt: WbWsSt): WorksheetState?
 
     fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>>
     fun getWsStateRs(wbKey: WorkbookKey, wsName: String): Rse<WorksheetState>

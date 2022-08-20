@@ -3,6 +3,7 @@ package com.emeraldblast.p6.ui.app.state
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.common.utils.ResultUtils.toOk

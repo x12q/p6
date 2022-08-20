@@ -1,6 +1,7 @@
 package com.emeraldblast.p6.ui.app.state
 
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
+import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
@@ -15,6 +16,23 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
+
+    override fun getWsStateMsRs(wbwsSt: WbWsSt): Rse<Ms<WorksheetState>> {
+        return this.getWsStateMsRs(wbwsSt.wbKeySt,wbwsSt.wsNameSt)
+    }
+
+    override fun getWsStateRs(wbwsSt: WbWsSt): Rse<WorksheetState> {
+        return getWsStateMsRs(wbwsSt).map { it.value }
+    }
+
+    override fun getWsStateMs(wbwsSt: WbWsSt): Ms<WorksheetState>? {
+        return getWsStateMsRs(wbwsSt).component1()
+    }
+
+    override fun getWsState(wbwsSt: WbWsSt): WorksheetState? {
+        return getWsStateMs(wbwsSt)?.value
+    }
+
     override fun getWsStateMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<WorksheetState>> {
         return this.getWbStateRs(wbKeySt).flatMap {
             it.getWsStateMsRs(wsNameSt)
