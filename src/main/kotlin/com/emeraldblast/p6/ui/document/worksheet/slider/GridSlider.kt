@@ -12,23 +12,26 @@ interface GridSlider {
     /**
      * The top-left of a grid. This is the root of the slider
      */
-    val topLeftCell:CellAddress
+    val topLeftCell: CellAddress
 
     val firstVisibleCol: Int
     val lastVisibleCol: Int
     val visibleColRange: IntRange
-    fun setVisibleColRange(i:IntRange):GridSlider
+    val visibleColRangeExcludeMargin: IntRange
+    val lastVisibleColNotMargin: Int
+    fun setVisibleColRange(i: IntRange): GridSlider
 
     val firstVisibleRow: Int
     val lastVisibleRow: Int
     val visibleRowRange: IntRange
+    val visibleRowRangeExcludeMargin: IntRange
 
-    val marginRow:Int?
-    fun setMarginRow(i:Int?):GridSlider
-    val marginCol:Int?
-    fun setMarginCol(i:Int?):GridSlider
+    val marginRow: Int?
+    fun setMarginRow(i: Int?): GridSlider
+    val marginCol: Int?
+    fun setMarginCol(i: Int?): GridSlider
 
-    fun setVisibleRowRange(i:IntRange):GridSlider
+    fun setVisibleRowRange(i: IntRange): GridSlider
 
     fun containCol(col: Int): Boolean {
         return col in visibleColRange
@@ -41,6 +44,8 @@ interface GridSlider {
     fun containAddress(cellAddress: CellAddress): Boolean {
         return containCol(cellAddress.colIndex) && containRow(cellAddress.rowIndex)
     }
+
+    fun containAddressNotMargin(cellAddress: CellAddress): Boolean
 
     fun containAddress(col: Int, row: Int): Boolean {
         return containCol(col) && containRow(row)
@@ -75,4 +80,5 @@ interface GridSlider {
      * @return a new slider, or itself if the slider does not move
      */
     fun followCursor(newCursorState: CursorState): GridSlider
+    val lastVisibleRowNotMargin: Int
 }
