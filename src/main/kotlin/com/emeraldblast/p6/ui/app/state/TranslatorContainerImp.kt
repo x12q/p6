@@ -12,6 +12,7 @@ import com.emeraldblast.p6.translator.TranslatorMap
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitorFactory
+import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitorFactory2
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toSt
@@ -26,7 +27,7 @@ class TranslatorContainerImp @Inject constructor(
     @InitSingleTranslatorMap
     private val independentTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,
     private val translatorFactory: JvmFormulaTranslatorFactory,
-    private val visitorFactory: JvmFormulaVisitorFactory,
+    private val visitorFactory: JvmFormulaVisitorFactory2,
 ) : TranslatorContainer {
 
     private var tm: TranslatorMap by attachedTranslatorMapMs

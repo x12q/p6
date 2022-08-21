@@ -42,6 +42,7 @@ import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.Ma
 import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitorFactory
+import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitorFactory2
 import com.emeraldblast.p6.ui.app.action.AppActionTable
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.app.state.StateContainer
@@ -233,6 +234,8 @@ interface P6Component {
     fun openCellEditorAction(): OpenCellEditorAction
     fun translatorFactory(): JvmFormulaTranslatorFactory
     fun visitorFactory(): JvmFormulaVisitorFactory
+    fun visitorFactory2(): JvmFormulaVisitorFactory2
+
     fun clickOnCellAction(): ClickOnCell
     fun mouseOnWsAction(): MouseOnWorksheetAction
     @StateContainerMs

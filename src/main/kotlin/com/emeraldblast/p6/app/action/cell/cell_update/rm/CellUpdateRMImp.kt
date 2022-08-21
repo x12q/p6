@@ -28,8 +28,6 @@ import javax.inject.Inject
 class CellUpdateRMImp @Inject constructor(
     @AppStateMs val appStateMs: Ms<AppState>,
     @TranslatorContainerMs val translatorContainerMs: Ms<TranslatorContainer>,
-    private val translatorFactory: JvmFormulaTranslatorFactory,
-    private val visitorFactory: JvmFormulaVisitorFactory,
 ) : CellUpdateRM {
 
     var appState by appStateMs

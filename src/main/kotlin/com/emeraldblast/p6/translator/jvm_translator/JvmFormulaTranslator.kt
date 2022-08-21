@@ -8,6 +8,7 @@ import com.emeraldblast.p6.translator.P6Translator
 import com.emeraldblast.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -20,7 +21,9 @@ class JvmFormulaTranslator @AssistedInject constructor(
 
     override fun translate(formula: String): Rs<ExUnit, ErrorReport> {
         val treeRs = treeExtractor.extractTree(formula)
-        val visitRs = treeRs.map { visitor.visit(it) }
+        val visitRs = treeRs.map { it->
+            visitor.visit(it)
+        }
         if (visitRs is Ok) {
             val e = visitRs.value
             if (e != null) {

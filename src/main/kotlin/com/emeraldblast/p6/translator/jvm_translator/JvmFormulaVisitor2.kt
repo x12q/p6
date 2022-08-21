@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.translator.jvm_translator
 
 import androidx.compose.runtime.getValue
-import com.emeraldblast.p6.app.common.utils.path.PPaths
+import com.emeraldblast.p6.app.common.utils.Rse
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.address.CellAddresses
 import com.emeraldblast.p6.app.document.range.address.RangeAddress
@@ -14,13 +14,13 @@ import com.emeraldblast.p6.formula.translator.antlr.FormulaParser
 import com.emeraldblast.p6.translator.formula.P6FunctionDefinitions
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
 import com.emeraldblast.p6.ui.common.compose.St
-import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.antlr.v4.runtime.tree.ParseTree
 import java.nio.file.Path
 
-class JvmFormulaVisitor @AssistedInject constructor(
+class JvmFormulaVisitor2 @AssistedInject constructor(
     @Assisted("1") private val wbKeySt: St<WorkbookKey>,
     @Assisted("2") private val wsNameSt: St<String>,
     private val functionMap: FunctionMap
@@ -29,114 +29,115 @@ class JvmFormulaVisitor @AssistedInject constructor(
     private val wbKey: WorkbookKey by wbKeySt
     private val wsName: String by wsNameSt
 
-    private val wbKeyExUnit = wbKey.exUnit()
-    private val wsNameExUnit = wsName.exUnit()
+    private val wbKeyExUnit get() = wbKey.exUnit()
+    private val wsNameExUnit get() = wsName.exUnit()
 
     override fun visit(tree: ParseTree?): ExUnit? {
         return super.visit(tree)
     }
 
     override fun visitZFormula(ctx: FormulaParser.ZFormulaContext?): ExUnit? {
-        val rt = ctx?.expr()?.let { this.visit(it) }
+        val rt = this.visit(ctx?.expr())
         return rt
     }
 
     override fun visitFunCall(ctx: FormulaParser.FunCallContext?): ExUnit? {
-        return ctx?.functionCall()?.let {
-            this.visit(it)
-        }
+        return this.visit(ctx?.functionCall())
     }
 
     override fun visitLiteral(ctx: FormulaParser.LiteralContext?): ExUnit? {
-        return ctx?.lit()?.let {
-            this.visitLit(it)
-        }
+        return this.visitLit(ctx?.lit())
     }
 
     override fun visitUnSubExpr(ctx: FormulaParser.UnSubExprContext?): ExUnit? {
         val op = ctx?.op
         when (op?.type) {
             FormulaParser.SUB -> {
-                val exUnit = ctx.expr()?.let { this.visit(it) }
-                if (exUnit != null) {
-                    val rt = ExUnit.UnarySubtract(exUnit)
-                    return rt
-                } else {
-                    return null
-                }
+                val exUnit: ExUnit? = this.visit(ctx.expr())
+                val rt: ExUnit? = exUnit?.let { ExUnit.UnarySubtract(it) }
+                return rt
             }
+            else -> return null
         }
-        return null
     }
 
     override fun visitParenExpr(ctx: FormulaParser.ParenExprContext?): ExUnit? {
         return this.visit(ctx?.expr())
     }
 
-    override fun visitPowExpr(ctx: FormulaParser.PowExprContext): ExUnit? {
-        val expr0 = this.visit(ctx.expr(0))
-        val expr1 = this.visit(ctx.expr(1))
-        if (expr0 != null && expr1 != null) {
-            return ExUnit.PowerBy(expr0, expr1)
-        } else {
-            return null
+    override fun visitPowExpr(ctx: FormulaParser.PowExprContext?): ExUnit? {
+        val v = ctx?.let {
+            val expr0 = this.visit(ctx.expr(0))
+            val expr1 = this.visit(ctx.expr(1))
+            if (expr0 != null && expr1 != null) {
+                ExUnit.PowerBy(expr0, expr1)
+            } else {
+                null
+            }
         }
+        return v
     }
 
-    override fun visitMulDivModExpr(ctx: FormulaParser.MulDivModExprContext): ExUnit? {
-        val expr0 = this.visit(ctx.expr(0))
-        val expr1 = this.visit(ctx.expr(1))
-        val op = ctx.op
-        if (expr0 != null && expr1 != null) {
-            when (op?.type) {
-                FormulaParser.MUL -> {
-                    return ExUnit.MultiplyOperator(expr0, expr1)
+    override fun visitMulDivModExpr(ctx: FormulaParser.MulDivModExprContext?): ExUnit? {
+        val rt = ctx?.let {
+            val expr0 = this.visit(ctx.expr(0))
+            val expr1 = this.visit(ctx.expr(1))
+            if (expr0 != null && expr1 != null) {
+                val op = ctx.op
+                val r = when (op?.type) {
+                    FormulaParser.MUL -> {
+                        ExUnit.MultiplyOperator(expr0, expr1)
+                    }
+                    FormulaParser.DIV -> {
+                        ExUnit.Div(expr0, expr1)
+                    }
+                    else -> null
                 }
-                FormulaParser.DIV -> {
-                    return ExUnit.Div(expr0, expr1)
-                }
-                else -> return null
+                r
+            } else {
+                null
             }
-        } else {
-            return null
         }
+        return rt
     }
 
-    override fun visitAddSubExpr(ctx: FormulaParser.AddSubExprContext): ExUnit? {
-        val expr0 = this.visit(ctx.expr(0))
-        val expr1 = this.visit(ctx.expr(1))
-        val op = ctx.op
-        if (expr0 != null && expr1 != null) {
-            when (op?.type) {
-                FormulaParser.ADD -> {
-                    return ExUnit.AddOperator(expr0, expr1)
+    override fun visitAddSubExpr(ctx: FormulaParser.AddSubExprContext?): ExUnit? {
+        val rt = ctx?.let {
+            val expr0 = this.visit(ctx.expr(0))
+            val expr1 = this.visit(ctx.expr(1))
+            val v: ExUnit? = if (expr0 != null && expr1 != null) {
+                val op = ctx.op
+                when (op?.type) {
+                    FormulaParser.ADD -> {
+                        ExUnit.AddOperator(expr0, expr1)
+                    }
+                    FormulaParser.SUB -> {
+                        ExUnit.MinusOperator(expr0, expr1)
+                    }
+                    else -> null
                 }
-                FormulaParser.SUB -> {
-                    return ExUnit.MinusOperator(expr0, expr1)
-                }
-                else -> return null
-            }
-        } else {
-            return null
+            } else null
+            v
         }
+        return rt
     }
     //==
 
     override fun visitSheetPrefix(ctx: FormulaParser.SheetPrefixContext?): ExUnit? {
-        val e1 = ctx?.sheetName()?.let { this.visitSheetName(it) }
-        if(e1!=null){
+        val e1 = this.visitSheetName(ctx?.sheetName())
+        if (e1 != null) {
             return e1
         }
-        val e2 = ctx?.sheetNameWithSpace()?.let { this.visitSheetNameWithSpace(it) }
+        val e2 = this.visitSheetNameWithSpace(ctx?.sheetNameWithSpace())
         return e2
     }
 
     override fun visitSheetNameWithSpace(ctx: FormulaParser.SheetNameWithSpaceContext?): ExUnit? {
-        return ctx?.withSpaceId()?.let { this.visitWithSpaceId(it) }
+        return this.visitWithSpaceId(ctx?.withSpaceId())
     }
 
     override fun visitSheetName(ctx: FormulaParser.SheetNameContext?): ExUnit? {
-        val exUnit = ctx?.noSpaceId()?.let { this.visitNoSpaceId(it) }
+        val exUnit = this.visitNoSpaceId(ctx?.noSpaceId())
         return exUnit
     }
 
@@ -145,68 +146,69 @@ class JvmFormulaVisitor @AssistedInject constructor(
     }
 
     override fun visitWithSpaceId(ctx: FormulaParser.WithSpaceIdContext?): ExUnit? {
-        return ctx?.text?.let { extractFromSingleQuote(it) }?.exUnit()
+        return ctx?.text?.let{extractFromSingleQuote(it)}?.exUnit()
     }
 
-    //==
     override fun visitWbPrefix(ctx: FormulaParser.WbPrefixContext?): ExUnit? {
-       val rt1=ctx?.wbPrefixNoPath()?.let { visitWbPrefixNoPath(it) }
+        val rt1 = visitWbPrefixNoPath(ctx?.wbPrefixNoPath())
         if (rt1 != null) {
             return rt1
         }
-        val rt2 = ctx?.wbPrefixWithPath()?.let { visitWbPrefixWithPath(it) }
+        val rt2 = visitWbPrefixWithPath(ctx?.wbPrefixWithPath())
         return rt2
     }
 
     override fun visitWbPrefixNoPath(ctx: FormulaParser.WbPrefixNoPathContext?): ExUnit? {
-        val wbNameExUnit = ctx?.wbName()?.let { this.visitWbName(it) }
-        val wbName: String? = wbNameExUnit?.run()?.component1() as String?
+        val wbNameExUnitRs = this.visitWbName(ctx?.wbName())
+        val wbName: String? = wbNameExUnitRs?.run()?.component1() as String?
         val wbk: WorkbookKey? = wbName?.let { WorkbookKey(it) }
         val rt = wbk?.exUnit()
         return rt
     }
 
     override fun visitWbPrefixWithPath(ctx: FormulaParser.WbPrefixWithPathContext?): ExUnit? {
-        val wbNameExUnit = ctx?.wbName()?.let { this.visitWbName(it) }
-        val wbName: String? = wbNameExUnit?.run()?.component1() as String?
+        val wbNameExUnitRs: ExUnit? = this.visitWbName(ctx?.wbName())
+        val wbName: String? = wbNameExUnitRs?.run()?.component1() as String?
         val wbk: WorkbookKey? = wbName?.let {
-            val wbPathExUnit = ctx?.wbPath()?.let { this.visitWbPath(it) }
+            val wbPathExUnit = this.visitWbPath(ctx?.wbPath())
             val wbPath: Path? = (wbPathExUnit?.run()?.component1() as String?)?.let { Path.of(it) }
             WorkbookKey(wbName, wbPath)
         }
         val rt = wbk?.exUnit()
         return rt
     }
-    //==
 
-    override fun visitWbPath(ctx: FormulaParser.WbPathContext): ExUnit? {
-        return extractFromSingleQuote(ctx.text).exUnit()
+    override fun visitWbPath(ctx: FormulaParser.WbPathContext?): ExUnit? {
+        return ctx?.text?.let { extractFromSingleQuote(it).exUnit() }
     }
 
-    override fun visitWbName(ctx: FormulaParser.WbNameContext): ExUnit? {
-        if (ctx.wbNameNoSpace() != null) {
+    override fun visitWbName(ctx: FormulaParser.WbNameContext?): ExUnit? {
+        if (ctx?.wbNameNoSpace() != null) {
             return this.visitWbNameNoSpace(ctx.wbNameNoSpace())
-        } else {
+        } else if (ctx?.wbNameWithSpace() != null) {
             return this.visitWbNameWithSpace(ctx.wbNameWithSpace())
+        } else {
+            return null
         }
     }
 
-    override fun visitWbNameNoSpace(ctx: FormulaParser.WbNameNoSpaceContext): ExUnit? {
-        return ctx.text.exUnit()
+    override fun visitWbNameNoSpace(ctx: FormulaParser.WbNameNoSpaceContext?): ExUnit? {
+        return ctx?.text?.exUnit()
     }
 
-    override fun visitWbNameWithSpace(ctx: FormulaParser.WbNameWithSpaceContext): ExUnit? {
-        val text = ctx.text
-        return extractFromSingleQuote(text).exUnit()
+    override fun visitWbNameWithSpace(ctx: FormulaParser.WbNameWithSpaceContext?): ExUnit? {
+        val text: String? = ctx?.text
+        return text?.let { extractFromSingleQuote(it) }?.exUnit()
     }
 
-    override fun visitFullRangeAddressExpr(ctx: FormulaParser.FullRangeAddressExprContext): ExUnit? {
-        val wbExUnit = ctx.wbPrefix()?.let { this.visitWbPrefix(it) } ?: wbKeyExUnit
-        val wsExUnit = ctx.sheetPrefix()?.let { this.visitSheetPrefix(it) }
-        val rangeAddressContext = ctx.rangeAddress()
-        val ra:String? = rangeAddressContext.text
-        if(ra!=null && wsExUnit!=null){
-            val cellAddressRs = CellAddresses.fromLabelRs(ra)
+    override fun visitFullRangeAddressExpr(ctx: FormulaParser.FullRangeAddressExprContext?): ExUnit? {
+        val wbExUnit: ExUnit = this.visitWbPrefix(ctx?.wbPrefix()) ?: wbKeyExUnit
+        val wsExUnitRs: ExUnit = this.visitSheetPrefix(ctx?.sheetPrefix()) ?: wsNameExUnit
+        val wsExUnit: ExUnit = wsExUnitRs
+        val rangeAddressContext = ctx?.rangeAddress()
+        val rangeAddress: String? = rangeAddressContext?.text
+        if (rangeAddress != null) {
+            val cellAddressRs: Rse<CellAddress> = CellAddresses.fromLabelRs(rangeAddress)
             if (cellAddressRs is Ok) {
                 val raUnit = cellAddressRs.value.exUnit()
                 return ExUnit.Func(
@@ -216,9 +218,9 @@ class JvmFormulaVisitor @AssistedInject constructor(
                 )
             }
 
-            val rangeAddressRs = RangeAddresses.fromLabelRs(ra)
+            val rangeAddressRs: Rse<RangeAddress> = RangeAddresses.fromLabelRs(rangeAddress)
             if (rangeAddressRs is Ok) {
-                val raUnit = rangeAddressRs.value.exUnit()
+                val raUnit: ExUnit = rangeAddressRs.value.exUnit()
                 return ExUnit.Func(
                     P6FunctionDefinitions.getRangeRs,
                     args = listOf(wbExUnit, wsExUnit, raUnit),
@@ -229,15 +231,19 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return null
     }
 
-    override fun visitFunctionCall(ctx: FormulaParser.FunctionCallContext): ExUnit? {
-        val functionName = ctx.functionName().text
+    override fun visitFunctionCall(ctx: FormulaParser.FunctionCallContext?): ExUnit? {
+        val functionName = ctx?.functionName()?.text
         if (functionName != null) {
-            val args = ctx.expr()?.map {
-                this.visit(it)
-            }?.filterNotNull() ?: emptyList()
+            val eLis = mutableListOf<ExUnit>()
+            for (e in ctx.expr()) {
+                val eRs = this.visit(e)
+                if (eRs != null) {
+                    eLis.add(eRs)
+                }
+            }
             return ExUnit.Func(
                 funcName = functionName,
-                args = args,
+                args = eLis,
                 functionMap = functionMap
             )
         } else {
@@ -245,15 +251,16 @@ class JvmFormulaVisitor @AssistedInject constructor(
         }
     }
 
-    override fun visitFunctionName(ctx: FormulaParser.FunctionNameContext): ExUnit? {
-        return ctx.text?.let {
+
+    override fun visitFunctionName(ctx: FormulaParser.FunctionNameContext?): ExUnit? {
+        return ctx?.text?.let {
             ExUnit.StrUnit(it)
         }
     }
 
-    override fun visitRangeAsPairCellAddress(ctx: FormulaParser.RangeAsPairCellAddressContext): ExUnit? {
-        val cell0 = ctx.cellAddress(0).text
-        val cell1 = ctx.cellAddress(1).text
+    override fun visitRangeAsPairCellAddress(ctx: FormulaParser.RangeAsPairCellAddressContext?): ExUnit? {
+        val cell0 = ctx?.cellAddress(0)?.text
+        val cell1 = ctx?.cellAddress(1)?.text
         if (cell0 != null && cell1 != null) {
             val raUnit = RangeAddress(CellAddress(cell0), CellAddress(cell1)).exUnit()
             return ExUnit.Func(
@@ -266,8 +273,8 @@ class JvmFormulaVisitor @AssistedInject constructor(
         }
     }
 
-    override fun visitRangeAsOneCellAddress(ctx: FormulaParser.RangeAsOneCellAddressContext): ExUnit.Func? {
-        val cell0 = ctx.text
+    override fun visitRangeAsOneCellAddress(ctx: FormulaParser.RangeAsOneCellAddressContext?): ExUnit? {
+        val cell0 = ctx?.text
         if (cell0 != null) {
             val raUnit = CellAddress(cell0).exUnit()
             val rt = ExUnit.Func(
@@ -295,7 +302,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         }
     }
 
-    override fun visitRangeAsRowAddress(ctx: FormulaParser.RangeAsRowAddressContext?): ExUnit.Func? {
+    override fun visitRangeAsRowAddress(ctx: FormulaParser.RangeAsRowAddressContext?): ExUnit? {
         val rowAddress = ctx?.text
         if (rowAddress != null) {
             val raUnit = RangeAddress(rowAddress).exUnit()
@@ -313,11 +320,11 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return this.visit(ctx?.rangeAddress())
     }
 
-    override fun visitLit(ctx: FormulaParser.LitContext): ExUnit? {
-        val floatNode = ctx.FLOAT_NUMBER()
-        val intNode = ctx.INT()
-        val textNode = ctx.STRING()
-        val boolNode = ctx.BOOLEAN()
+    override fun visitLit(ctx: FormulaParser.LitContext?): ExUnit? {
+        val floatNode = ctx?.FLOAT_NUMBER()
+        val intNode = ctx?.INT()
+        val textNode = ctx?.STRING()
+        val boolNode = ctx?.BOOLEAN()
 
         if (boolNode != null) {
             when (boolNode.text) {

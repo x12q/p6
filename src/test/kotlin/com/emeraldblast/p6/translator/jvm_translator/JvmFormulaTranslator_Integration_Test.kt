@@ -105,7 +105,7 @@ class JvmFormulaTranslator_Integration_Test {
         )
         translator = JvmFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
-            visitor = JvmFormulaVisitor(
+            visitor = JvmFormulaVisitor2(
                 wbKeySt = wbKey.toSt(),
                 wsNameSt = wsName.toSt(),
                 functionMap = functionMap
@@ -117,8 +117,8 @@ class JvmFormulaTranslator_Integration_Test {
     fun `translate call functions on real app`() {
         val inputMap: Map<String, Result<Any, ErrorReport>> = mapOf(
             "=A1" to appStateMs.value.getCellRs(wbKey, wsName, CellAddress("A1")),
-            "=Sheet2!A1:B3" to appStateMs.value.getRangeRs(wbKey, "Sheet2", RangeAddress("A1:B3")),
-            "='Sheet 13'!A1:B3" to appStateMs.value.getRangeRs(wbKey, "Sheet 13", RangeAddress("A1:B3")),
+            "=A1:B3@Sheet2" to appStateMs.value.getRangeRs(wbKey, "Sheet2", RangeAddress("A1:B3")),
+            "=A1:B3@'Sheet 13'" to appStateMs.value.getRangeRs(wbKey, "Sheet 13", RangeAddress("A1:B3")),
             "=SUM(A1:C3)" to Ok(1.0 + 2 + 3),
             "=SUM(A1:D4)" to Err(FormulaErrors.InvalidFunctionArgument.report("")),
         )

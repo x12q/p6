@@ -269,20 +269,20 @@ interface ExUnit {
             return Ok(v as Double)
         }
     }
-
     data class IntNum(val _v: Int) : NumberUnit(_v) {
         override fun run(): Result<Int, ErrorReport> {
             return Ok(this.v as Int)
         }
     }
-
-    data class StrUnit(val v: String) : ExUnit {
+    @JvmInline
+    value class StrUnit(val v: String) : ExUnit {
         override fun run(): Result<String, ErrorReport> {
             return Ok(v)
         }
     }
 
-    data class BoolUnit(val v: Boolean) : ExUnit {
+    @JvmInline
+    value class BoolUnit(val v: Boolean) : ExUnit {
         override fun run(): Result<Boolean, ErrorReport> {
             return Ok(v)
         }

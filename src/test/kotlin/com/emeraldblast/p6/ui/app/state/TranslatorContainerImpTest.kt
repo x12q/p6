@@ -27,7 +27,7 @@ internal class TranslatorContainerImpTest {
             attachedTranslatorMapMs = TranslatorMapImp().toMs(),
             independentTranslatorMap = mutableMapOf(),
             translatorFactory = ts.p6Comp.translatorFactory(),
-            visitorFactory = ts.p6Comp.visitorFactory()
+            visitorFactory = ts.p6Comp.visitorFactory2()
         )
     }
 

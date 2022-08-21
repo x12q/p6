@@ -13,6 +13,7 @@ import com.emeraldblast.p6.translator.formula.FunctionMapImp
 import com.emeraldblast.p6.translator.formula.P6FunctionDefinitionsImp
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslator
 import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitor
+import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitor2
 import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toSt
@@ -45,7 +46,7 @@ class IntegrationTest {
         val wbKey = WorkbookKey("b1").toMs()
         val wsName = "S1"
         val translator = JvmFormulaTranslator(
-            visitor = JvmFormulaVisitor(
+            visitor = JvmFormulaVisitor2(
                 wbKeySt = wbKey.value.toSt(),
                 wsNameSt = wsName.toSt(),
                 functionMap = FunctionMapImp(P6FunctionDefinitionsImp(appMs).functionMap)

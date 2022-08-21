@@ -6,6 +6,7 @@ package com.emeraldblast.p6.translator.formula
 interface P6FunctionDefinitions {
 
     companion object {
+        val getWbRs = "__getWbRs"
         /**
          * name of internal function for getting sheets
          */
