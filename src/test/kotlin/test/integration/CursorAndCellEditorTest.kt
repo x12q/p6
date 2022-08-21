@@ -10,7 +10,7 @@ import com.emeraldblast.p6.app.action.common_data_structure.WbWsImp
 import com.emeraldblast.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.emeraldblast.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
-import com.emeraldblast.p6.app.common.utils.PKeyEvent
+import com.emeraldblast.p6.app.common.utils.key_event.PKeyEvent
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction

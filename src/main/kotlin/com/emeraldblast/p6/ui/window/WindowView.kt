@@ -7,7 +7,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.window.Window
 import com.emeraldblast.p6.app.common.utils.CoroutineUtils
 import com.emeraldblast.p6.app.common.utils.Loggers
-import com.emeraldblast.p6.app.common.utils.PPath
+import com.emeraldblast.p6.app.common.utils.path.PPath
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.oddity.OddMsg
 import com.emeraldblast.p6.app.oddity.OddityType
@@ -16,6 +16,8 @@ import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.emeraldblast.p6.ui.document.workbook.WorkbookView
 import com.emeraldblast.p6.app.action.window.WindowAction
+import com.emeraldblast.p6.app.common.utils.path.PPathImp
+import com.emeraldblast.p6.app.common.utils.path.PPaths
 import com.emeraldblast.p6.ui.window.file_dialog.FileDialog
 import com.emeraldblast.p6.ui.window.formula_bar.FormulaBar
 import com.emeraldblast.p6.ui.window.kernel_dialog.ConnectToKernelDialog
@@ -108,7 +110,7 @@ fun WindowView(
             FileDialog("Open workbook", true,
                 onResult = { path ->
                     launchOnMain {
-                        windowAction.loadWorkbook(path?.let { PPath(it) }, state.id)
+                        windowAction.loadWorkbook(path?.let { PPaths.PPath(it) }, state.id)
                         windowAction.closeLoadFileDialog(state.id)
                     }
                 })

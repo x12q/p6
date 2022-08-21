@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.communication.event.data_structure.workbook_event
 
-import com.emeraldblast.p6.app.common.proto.toProto
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toProto
 import com.emeraldblast.p6.app.action.app.save_wb.SaveWorkbookResponse
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.workbook.toModel

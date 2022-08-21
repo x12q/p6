@@ -1,5 +1,6 @@
-package com.emeraldblast.p6.app.common.utils
+package com.emeraldblast.p6.app.common.utils.file_util
 
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import java.nio.file.Path
 

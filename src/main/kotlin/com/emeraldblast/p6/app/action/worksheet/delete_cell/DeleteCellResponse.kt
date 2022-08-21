@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.action.worksheet.delete_cell
 
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
-import com.emeraldblast.p6.app.common.proto.toModel
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toModel
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.address.toModel

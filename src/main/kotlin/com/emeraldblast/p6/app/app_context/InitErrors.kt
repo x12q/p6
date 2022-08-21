@@ -1,6 +1,5 @@
 package com.emeraldblast.p6.app.app_context
 
-import com.emeraldblast.p6.app.common.utils.ErrorUtils.toErr
 import com.emeraldblast.p6.common.exception.error.ErrorHeader
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.github.michaelbull.result.Err

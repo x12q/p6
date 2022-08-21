@@ -10,7 +10,7 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
 /**
- * This object houses common utility functions
+ * This object houses common utility functions that operate on base types such as Boolean, List
  */
 object Utils {
 

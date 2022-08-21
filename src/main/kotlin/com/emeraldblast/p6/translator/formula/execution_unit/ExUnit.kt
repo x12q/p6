@@ -1,6 +1,5 @@
 package com.emeraldblast.p6.translator.formula.execution_unit
 
-import com.emeraldblast.p6.app.common.utils.ErrorUtils.toErr
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.Cell
 import com.emeraldblast.p6.app.document.range.Range

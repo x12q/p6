@@ -2,7 +2,7 @@ package com.emeraldblast.p6.rpc.document.app
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.emeraldblast.p6.app.common.proto.toProto
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toProto
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainerErrors
 import com.emeraldblast.p6.app.document.workbook.toModel
 import com.emeraldblast.p6.common.exception.error.CommonErrors

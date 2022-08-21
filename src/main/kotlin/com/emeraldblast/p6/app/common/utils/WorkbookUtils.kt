@@ -3,7 +3,7 @@ package com.emeraldblast.p6.app.common.utils
 import java.util.regex.Pattern
 
 /**
- * This object houses utility functions that are related to workbooks
+ * This object houses utility functions and objects that are related to workbooks
  */
 object WorkbookUtils {
     private val defaultSheetNamePattern = Pattern.compile("Sheet(([1-9]+[0-9]*)|[0-9])")

@@ -1,5 +1,6 @@
-package com.emeraldblast.p6.app.common.utils
+package com.emeraldblast.p6.app.common.utils.file_util
 
+import com.emeraldblast.p6.app.common.utils.Rs
 import com.emeraldblast.p6.common.exception.error.CommonErrors
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.github.michaelbull.result.Ok
@@ -14,6 +15,5 @@ class FileUtilImp @Inject constructor(): FileUtil {
         }catch (e:Throwable){
             return CommonErrors.ExceptionError.report("Encounter exception when trying to read file:${path}",e).toErr()
         }
-
     }
 }

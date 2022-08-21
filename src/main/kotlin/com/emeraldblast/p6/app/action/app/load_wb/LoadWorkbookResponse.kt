@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.action.app.load_wb
 
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
-import com.emeraldblast.p6.app.common.proto.toModel
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toModel
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookImp.Companion.toModel

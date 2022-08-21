@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.ui.document.worksheet.cursor.actions
 
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
-import com.emeraldblast.p6.app.common.utils.PKeyEvent
+import com.emeraldblast.p6.app.common.utils.key_event.PKeyEvent
 
 
 interface CursorAction {

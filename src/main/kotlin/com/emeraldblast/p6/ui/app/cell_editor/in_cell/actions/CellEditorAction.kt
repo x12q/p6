@@ -3,7 +3,7 @@ package com.emeraldblast.p6.ui.app.cell_editor.in_cell.actions
 import androidx.compose.ui.text.input.TextFieldValue
 import com.emeraldblast.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.emeraldblast.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
-import com.emeraldblast.p6.app.common.utils.PKeyEvent
+import com.emeraldblast.p6.app.common.utils.key_event.PKeyEvent
 
 interface CellEditorAction : MakeCellEditorDisplayText, OpenCellEditorAction {
 

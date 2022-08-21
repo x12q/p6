@@ -3,7 +3,7 @@ package test.test_implementation
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
-import com.emeraldblast.p6.app.common.utils.AbstractPKeyEvent
+import com.emeraldblast.p6.app.common.utils.key_event.AbsPKeyEvent
 
 class MockPKeyEvent(
     override val key: Key,
@@ -14,7 +14,7 @@ class MockPKeyEvent(
     private val isRangeSelectorToleratedKey: Boolean? = null,
     private val isRangeSelectorNavKey: Boolean? = null,
     private val isRangeSelectorNonNavKey: Boolean? = null,
-) : AbstractPKeyEvent() {
+) : AbsPKeyEvent() {
     override val keyEvent: KeyEvent get() = throw UnsupportedOperationException("mock key event does support getting the real key event")
 
     override fun isRangeSelectorToleratedKey(): Boolean {

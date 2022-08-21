@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.app.common.utils.PKeyEvent.Companion.toPKeyEvent
+import com.emeraldblast.p6.app.common.utils.key_event.PKeyEvent.Companion.toPKeyEvent
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper

@@ -10,8 +10,8 @@ import com.emeraldblast.p6.app.code.PythonCommanderImp
 import com.emeraldblast.p6.app.coderunner.CodeRunner
 import com.emeraldblast.p6.app.coderunner.FakeCodeRunner
 import com.emeraldblast.p6.app.coderunner.PythonCodeRunner
-import com.emeraldblast.p6.app.common.utils.FileUtil
-import com.emeraldblast.p6.app.common.utils.FileUtilImp
+import com.emeraldblast.p6.app.common.utils.file_util.FileUtil
+import com.emeraldblast.p6.app.common.utils.file_util.FileUtilImp
 import com.emeraldblast.p6.app.common.utils.Utils
 import com.emeraldblast.p6.app.action.request_maker.*
 import com.emeraldblast.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueue

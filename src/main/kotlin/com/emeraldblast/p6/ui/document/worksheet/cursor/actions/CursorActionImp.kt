@@ -21,7 +21,7 @@ import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.app.action.worksheet.WorksheetAction
 import com.emeraldblast.p6.app.action.worksheet.delete_multi.DeleteMultiRequest2
-import com.emeraldblast.p6.app.common.utils.PKeyEvent
+import com.emeraldblast.p6.app.common.utils.key_event.PKeyEvent
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerState
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState

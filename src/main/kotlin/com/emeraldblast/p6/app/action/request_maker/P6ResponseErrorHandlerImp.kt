@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.request_maker
 
-import com.emeraldblast.p6.app.common.proto.toModel
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toModel
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.message.api.connection.service.zmq_services.msg.P6Response

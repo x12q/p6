@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.communication.event.data_structure.app_event
 
-import com.emeraldblast.p6.app.common.proto.toProto
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toProto
 import com.emeraldblast.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
 import com.emeraldblast.p6.common.exception.error.CommonErrors
 import com.emeraldblast.p6.proto.AppEventProtos.CreateNewWorkbookResponseProto

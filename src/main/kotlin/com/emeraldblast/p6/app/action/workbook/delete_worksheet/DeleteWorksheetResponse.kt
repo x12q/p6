@@ -1,8 +1,8 @@
 package com.emeraldblast.p6.app.action.workbook.delete_worksheet
 
 import com.emeraldblast.p6.app.common.utils.Rse
-import com.emeraldblast.p6.app.common.proto.toModel
-import com.emeraldblast.p6.app.common.proto.toProto
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toModel
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toProto
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.emeraldblast.p6.app.document.workbook.Workbook
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey

@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.communication.request_maker.app.restart_kernel
 
-import com.emeraldblast.p6.app.common.utils.FileUtil
+import com.emeraldblast.p6.app.common.utils.file_util.FileUtil
 import com.emeraldblast.p6.app.action.app.restart_kernel.rm.RestartKernelRMImp
 import com.emeraldblast.p6.app.action.app.restart_kernel.RestartKernelRequest
 import com.emeraldblast.p6.message.api.connection.kernel_context.KernelConfig

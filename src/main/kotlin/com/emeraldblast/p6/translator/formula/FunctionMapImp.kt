@@ -1,6 +1,5 @@
 package com.emeraldblast.p6.translator.formula
 
-import com.emeraldblast.p6.app.common.utils.ErrorUtils.toErr
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.translator.formula.execution_unit.ExUnitErrors
 import com.github.michaelbull.result.Ok

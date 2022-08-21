@@ -1,7 +1,7 @@
 package com.emeraldblast.p6.app.communication.event.data_structure.workbook_event
 
-import com.emeraldblast.p6.app.common.proto.toModel
-import com.emeraldblast.p6.app.common.proto.toProto
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toModel
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toProto
 import com.emeraldblast.p6.app.action.app.load_wb.LoadWorkbookResponse
 import com.emeraldblast.p6.common.exception.error.ErrorHeader
 import com.emeraldblast.p6.proto.AppEventProtos.LoadWorkbookResponseProto

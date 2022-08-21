@@ -3,7 +3,7 @@ package com.emeraldblast.p6.app.action.window
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ApplicationScope
-import com.emeraldblast.p6.app.common.utils.PPath
+import com.emeraldblast.p6.app.common.utils.path.PPath
 import com.emeraldblast.p6.app.action.app.AppApplier
 import com.emeraldblast.p6.app.action.app.close_wb.CloseWorkbookRequest
 import com.emeraldblast.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest

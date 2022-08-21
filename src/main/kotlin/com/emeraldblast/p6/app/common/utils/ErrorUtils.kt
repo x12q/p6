@@ -16,12 +16,6 @@ object ErrorUtils {
             is Err -> return Err(this.error.errorReport)
         }
     }
-    /**
-     * wrap an [ErrorReport] inside an [Err]
-     */
-    fun ErrorReport.toErr(): Err<ErrorReport> {
-        return Err(this)
-    }
 
     /**
      * return the wrapped value if a [Result] is ok, otherwise throw the [ErrorReport] as an exception

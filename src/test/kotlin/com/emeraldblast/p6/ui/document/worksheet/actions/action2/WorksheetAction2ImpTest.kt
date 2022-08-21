@@ -5,8 +5,8 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.action.worksheet.action2.WorksheetAction2Imp
-import com.emeraldblast.p6.app.common.utils.add
-import com.emeraldblast.p6.app.common.utils.dif
+import com.emeraldblast.p6.app.common.utils.IntRangeUtils.add
+import com.emeraldblast.p6.app.common.utils.IntRangeUtils.dif
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.address.CellAddresses
 import com.emeraldblast.p6.app.document.workbook.Workbook

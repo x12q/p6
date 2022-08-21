@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.app.close_wb
 
-import com.emeraldblast.p6.app.common.proto.toModel
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toModel
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.workbook.toModel

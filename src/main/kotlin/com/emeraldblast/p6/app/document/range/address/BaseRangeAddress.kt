@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.document.range.address
 
-import com.emeraldblast.p6.app.common.utils.dif
+import com.emeraldblast.p6.app.common.utils.IntRangeUtils.dif
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.RangeCopy
 

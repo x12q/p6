@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.ui.file
 
-import com.emeraldblast.p6.app.common.utils.PPath
+import com.emeraldblast.p6.app.common.utils.path.PPath
 import com.emeraldblast.p6.common.exception.error.ErrorHeader
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 

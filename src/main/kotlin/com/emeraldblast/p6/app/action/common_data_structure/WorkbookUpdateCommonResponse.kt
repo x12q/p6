@@ -1,6 +1,6 @@
 package com.emeraldblast.p6.app.action.common_data_structure
 
-import com.emeraldblast.p6.app.common.proto.toModel
+import com.emeraldblast.p6.app.common.proto.ProtoUtils.toModel
 import com.emeraldblast.p6.app.communication.event.WithP6EventLookupClazz
 import com.emeraldblast.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.emeraldblast.p6.app.document.workbook.Workbook

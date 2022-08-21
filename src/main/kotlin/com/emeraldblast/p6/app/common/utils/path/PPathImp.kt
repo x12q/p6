@@ -1,24 +1,12 @@
-package com.emeraldblast.p6.app.common.utils
+package com.emeraldblast.p6.app.common.utils.path
 
 import java.nio.file.Path
 import kotlin.io.path.exists
 import kotlin.io.path.isReadable
 import kotlin.io.path.isRegularFile
 
-/**
- * An interface wrap around Path. The reason is that it is very hard to mock Path directly
- */
-interface PPath {
-    fun isRegularFile():Boolean
-    fun isReadable():Boolean
-    fun exists():Boolean
-    fun toAbsolutePath():PPath
-    val path:Path
-}
+data class PPathImp(override val path: Path): PPath {
 
-fun PPath(path: Path):PPathImp = PPathImp(path)
-
-data class PPathImp(override val path: Path):PPath{
     override fun isRegularFile(): Boolean {
         return path.isRegularFile()
     }
