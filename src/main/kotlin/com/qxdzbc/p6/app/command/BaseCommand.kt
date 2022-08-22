@@ -1,0 +1,20 @@
+package com.qxdzbc.p6.app.command
+
+abstract class BaseCommand : Command {
+    override fun reverse(): Command {
+        val r= this
+        return object: Command {
+            override fun reverse(): Command {
+                return r
+            }
+
+            override fun run() {
+                return r.undo()
+            }
+
+            override fun undo() {
+                return r.run()
+            }
+        }
+    }
+}
