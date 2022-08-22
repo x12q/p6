@@ -1,10 +1,10 @@
 package test.test_implementation
 
-import com.emeraldblast.p6.formula.translator.antlr.FormulaBaseVisitor
-import com.emeraldblast.p6.translator.formula.execution_unit.ExUnit
-import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslator
-import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
-import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
+import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
+import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslator
+import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
+import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 
 //val translatorFactory: JvmFormulaTranslatorFactory,
 //val visitorFactory: JvmFormulaVisitorFactory,

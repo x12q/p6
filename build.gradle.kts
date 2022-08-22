@@ -36,7 +36,7 @@ tasks {
 }
 
 
-group = "com.emeraldblast.p6.app"
+group = "com.qxdzbc.p6.app"
 version = "1.0"
 
 repositories {
@@ -73,11 +73,11 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended-desktop
     implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.1.1")
 
-    implementation("com.emeraldblast.p6:message-api:${p6Version}")
-    implementation("com.emeraldblast.p6:p6-common:${p6Version}")
-    implementation("com.emeraldblast.p6:p6-proto:${p6Version}")
-    implementation("com.emeraldblast.p6:p6-antlr:${p6Version}")
-//    implementation("com.emeraldblast.p6:p6-formula-lib:${p6Version}")
+    implementation("com.qxdzbc.p6:message-api:${p6Version}")
+    implementation("com.qxdzbc.p6:p6-common:${p6Version}")
+    implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
+    implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
+//    implementation("com.qxdzbc.p6:p6-formula-lib:${p6Version}")
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.17.2")

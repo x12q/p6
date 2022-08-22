@@ -3,7 +3,7 @@ package test.test_implementation
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
-import com.emeraldblast.p6.app.common.utils.key_event.AbsPKeyEvent
+import com.qxdzbc.p6.app.common.utils.key_event.AbsPKeyEvent
 
 class MockPKeyEvent(
     override val key: Key,
