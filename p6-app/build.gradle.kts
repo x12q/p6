@@ -30,13 +30,10 @@ tasks {
         kotlinOptions { jvmTarget = jvmVersion }
         sourceCompatibility = jvmVersion
     }
-//    compileJava{
-//        this.targetCompatibility = "15"
-//    }
 }
 
 
-group = "com.qxdzbc.p6.app"
+group = "com.qxdzbc.p6"
 version = "1.0"
 
 repositories {
@@ -61,8 +58,6 @@ val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 dependencies {
-//    implementation("net.sf.py4j:py4j:0.10.9.5")
-
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 
     implementation("com.fifesoft:rsyntaxtextarea:3.2.0")
@@ -75,6 +70,8 @@ dependencies {
     implementation("com.qxdzbc.p6:p6-common:${p6Version}")
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
+    implementation("com.qxdzbc.p6:p6-common-compose:${p6Version}")
+//    implementation(project(":p6-common-compose"))
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.17.2")
