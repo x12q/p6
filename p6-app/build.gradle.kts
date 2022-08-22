@@ -55,14 +55,13 @@ repositories {
 val protocolBufferVersion = "3.19.4"
 val kotlinGRPCVersion = "1.2.1"
 val grpcVersion = "1.41.0"
-//val dagger2Version = "2.38.1"
 val dagger2Version = "2.43.1"
 val composeTestVersion = "1.1.1"
 val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 dependencies {
-    implementation("net.sf.py4j:py4j:0.10.9.5")
+//    implementation("net.sf.py4j:py4j:0.10.9.5")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 
@@ -70,14 +69,12 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutineVersion")
-    // https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended-desktop
     implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.1.1")
 
     implementation("com.qxdzbc.p6:message-api:${p6Version}")
     implementation("com.qxdzbc.p6:p6-common:${p6Version}")
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
-//    implementation("com.qxdzbc.p6:p6-formula-lib:${p6Version}")
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.17.2")
@@ -103,9 +100,6 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:${grpcVersion}")
     implementation("io.grpc:grpc-netty-shaded:${grpcVersion}")
     testImplementation("io.grpc:grpc-testing:${grpcVersion}")
-
-
-
 
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-inline:${mockitoVersion}")

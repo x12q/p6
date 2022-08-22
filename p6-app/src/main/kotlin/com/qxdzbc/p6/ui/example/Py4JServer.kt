@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.example
 
-import py4j.GatewayServer
+//import py4j.GatewayServer
 
 
 data class A(
@@ -34,8 +34,8 @@ interface MyAny {
 
 fun main() {
     val app = AppZ()
-    val gatewayServer = GatewayServer(app)
-    println(A::class.qualifiedName)
-    gatewayServer.start()
-    println("Gateway Server Started")
+//    val gatewayServer = GatewayServer(app)
+//    println(A::class.qualifiedName)
+//    gatewayServer.start()
+//    println("Gateway Server Started")
 }
