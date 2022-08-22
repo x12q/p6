@@ -21,13 +21,13 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.MBox
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    testApp {
+    TestApp {
         val text = rms("")
         val topOffset = rms(0)
         val rightOffset = rms(0)

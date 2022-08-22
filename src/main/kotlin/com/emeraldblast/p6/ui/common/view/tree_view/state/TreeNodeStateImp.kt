@@ -1,8 +1,8 @@
 package com.emeraldblast.p6.ui.common.view.tree_view.state
 
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import java.util.*
 
 data class TreeNodeStateImp(

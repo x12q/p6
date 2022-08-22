@@ -12,8 +12,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
 
 
 /**
@@ -58,7 +58,7 @@ fun SingleCursorNavigableColumn(
 }
 
 fun main() {
-    testApp {
+    TestApp {
         val l = remember { (1..6).toList() }
         SingleCursorNavigableColumn(3, l.size - 1) { currentIndex ->
             for ((id, i) in l.withIndex()) {

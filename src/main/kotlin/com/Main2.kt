@@ -27,9 +27,9 @@ import com.emeraldblast.p6.message.di.DaggerMessageApiComponent
 import com.emeraldblast.p6.message.di.MessageApiComponent
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.Ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
-import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.common.compose.rms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState

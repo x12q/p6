@@ -3,7 +3,7 @@ package com.emeraldblast.p6.ui.document.worksheet.state
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateFactory

@@ -32,7 +32,7 @@ import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookState
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
 import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContainer

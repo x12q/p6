@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.common.view.BoolBackgroundBox
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.BorderStyle

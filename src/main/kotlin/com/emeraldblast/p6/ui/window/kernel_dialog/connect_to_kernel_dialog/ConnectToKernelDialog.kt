@@ -3,7 +3,6 @@ package com.emeraldblast.p6.ui.window.kernel_dialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
@@ -17,13 +16,11 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.DirTextField
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.common.view.dialog.Dialogs
-import kotlinx.coroutines.async
-import kotlinx.coroutines.job
 
 @Composable
 fun ConnectToKernelDialog(
@@ -158,7 +155,7 @@ fun ConnectToKernelDialog(
 
 
 fun main() {
-    testApp {
+    TestApp {
         ConnectToKernelDialog(
 
         )

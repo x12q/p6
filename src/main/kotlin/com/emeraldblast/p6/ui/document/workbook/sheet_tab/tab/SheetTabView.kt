@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.common.view.BoolBackgroundBox
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.BorderStyle

@@ -2,13 +2,14 @@ package com.emeraldblast.p6.ui.common.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.boundsInWindow
-import androidx.compose.ui.layout.positionInWindow
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapperImp
 
-fun LayoutCoordinates.wrap():LayoutCoorWrapper{
-    return LayoutCoorWrapperImp(this)
-}
-object LayoutCoorsFunctions{
+
+object LayoutCoorsUtils{
+    fun LayoutCoordinates.wrap(): LayoutCoorWrapper {
+        return LayoutCoorWrapperImp(this)
+    }
     fun LayoutCoordinates?.ifAttached(f:(lc:LayoutCoordinates)->Unit) {
         if (this != null && this.isAttached) {
             f(this)

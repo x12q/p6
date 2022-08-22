@@ -16,8 +16,8 @@ import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.*
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
-import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.document.cell.state.CellState
 import com.emeraldblast.p6.ui.document.cell.state.CellStateImp
@@ -65,7 +65,7 @@ fun EmptyCellView(
 }
 
 
-fun main() = testApp {
+fun main() = TestApp {
     val address = CellAddress(1, 1)
     Column {
         Box(modifier = Modifier.size(R.size.value.defaultCellSize).border(1.dp, Color.Black)) {

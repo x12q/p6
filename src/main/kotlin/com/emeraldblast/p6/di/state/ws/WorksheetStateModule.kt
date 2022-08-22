@@ -4,10 +4,10 @@ import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddresses
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.emeraldblast.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.emeraldblast.p6.ui.document.worksheet.resize_bar.ResizeBarState

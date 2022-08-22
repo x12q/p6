@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.oddity.OddMsg
 import com.emeraldblast.p6.ui.script_editor.action.CodeEditorActionTable
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.common.compose.rms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.BorderStyle
 import com.emeraldblast.p6.ui.common.view.MBox

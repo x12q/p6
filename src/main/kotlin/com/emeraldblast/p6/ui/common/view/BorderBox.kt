@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.build.BuildConfig
 import com.emeraldblast.p6.app.build.BuildVariant
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import java.util.*
 
 enum class BorderStyle {
@@ -121,7 +121,7 @@ fun BorderBox(
     }
 }
 
-fun main() = testApp {
+fun main() = TestApp {
     val size = DpSize(200.dp, 100.dp)
     Column(modifier = Modifier.padding(20.dp)) {
         MBox(modifier = Modifier.size(size).border(10.dp, Color.Black)){

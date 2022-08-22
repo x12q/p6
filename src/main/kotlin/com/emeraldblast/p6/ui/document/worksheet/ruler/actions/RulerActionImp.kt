@@ -10,7 +10,7 @@ import com.emeraldblast.p6.app.document.range.address.RangeAddress
 import com.emeraldblast.p6.app.document.range.address.RangeAddresses
 import com.emeraldblast.p6.di.state.app_state.AppStateMs
 import com.emeraldblast.p6.ui.app.state.AppState
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerState
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerType

@@ -1,9 +1,9 @@
 package com.emeraldblast.p6.app.common.utils.key_event
 
 import androidx.compose.ui.input.key.*
-import com.emeraldblast.p6.ui.common.compose.isCtrlPressedAlone
-import com.emeraldblast.p6.ui.common.compose.isCtrlShiftPressed
-import com.emeraldblast.p6.ui.common.compose.isShiftPressedAlone
+import com.emeraldblast.p6.ui.common.compose.KeyEventUtils.isCtrlPressedAlone
+import com.emeraldblast.p6.ui.common.compose.KeyEventUtils.isCtrlShiftPressed
+import com.emeraldblast.p6.ui.common.compose.KeyEventUtils.isShiftPressedAlone
 
 data class PKeyEventImp(override val keyEvent: KeyEvent) : AbsPKeyEvent() {
     override val key: Key

@@ -13,7 +13,7 @@ import com.emeraldblast.p6.di.state.app_state.StateContainerMs
 import com.emeraldblast.p6.ui.app.state.AppState
 import com.emeraldblast.p6.ui.app.state.StateContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.wrap
+import com.emeraldblast.p6.ui.common.compose.LayoutCoorsUtils.wrap
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerState
 import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider

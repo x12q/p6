@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 
 /**
  * X button to close a window
@@ -26,7 +26,7 @@ fun XButton(
 }
 
 fun main() {
-    testApp {
+    TestApp {
         XButton()
     }
 }

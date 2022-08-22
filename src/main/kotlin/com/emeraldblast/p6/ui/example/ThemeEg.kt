@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.theme.P6DarkColors
 import com.emeraldblast.p6.ui.theme.P6GrayColors
 
 fun main(){
-    testApp{
+    TestApp{
         Row{
             MaterialTheme(
                 colors = P6DarkColors

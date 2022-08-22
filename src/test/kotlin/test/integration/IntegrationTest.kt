@@ -17,7 +17,7 @@ import com.emeraldblast.p6.translator.jvm_translator.JvmFormulaVisitor2
 import com.emeraldblast.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toSt
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import test.TestSample
 import kotlin.test.*
 

@@ -10,11 +10,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 
 @OptIn(ExperimentalMaterialApi::class)
 fun main(){
-    testApp {
+    TestApp {
         AlertDialog(
             modifier =Modifier.height(300.dp).width(300.dp),
             onDismissRequest = {},

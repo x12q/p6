@@ -2,7 +2,7 @@ package com.emeraldblast.p6.ui.document.worksheet.select_rect
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import com.emeraldblast.p6.ui.common.compose.makeRect
+import com.emeraldblast.p6.ui.common.compose.RectUtils.makeRect
 
 data class SelectRectStateImp(
     override val isShow: Boolean = false,

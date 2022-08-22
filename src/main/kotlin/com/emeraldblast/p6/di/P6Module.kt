@@ -28,7 +28,7 @@ import com.emeraldblast.p6.ui.app.action.AppAction
 import com.emeraldblast.p6.ui.app.action.AppActionImp
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.kernel.KernelAction
 import com.emeraldblast.p6.ui.kernel.KernelActionImp
 import com.emeraldblast.p6.ui.script_editor.ScriptEditorErrorRouter

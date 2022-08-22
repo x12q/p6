@@ -5,6 +5,9 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.*
+import com.emeraldblast.p6.ui.common.compose.LayoutCoorsUtils.wrap
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider

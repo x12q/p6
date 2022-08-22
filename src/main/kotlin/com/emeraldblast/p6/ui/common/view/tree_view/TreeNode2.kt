@@ -15,11 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorsFunctions.ifAttached
+import com.emeraldblast.p6.ui.common.compose.LayoutCoorsUtils.ifAttached
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
-import com.emeraldblast.p6.ui.common.compose.wrap
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
+import com.emeraldblast.p6.ui.common.compose.LayoutCoorsUtils.wrap
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.common.view.tree_view.state.TreeNodeState
 import com.emeraldblast.p6.ui.common.view.tree_view.state.TreeNodeStateImp
@@ -191,7 +191,7 @@ fun TreeNode2(
 
 @OptIn(ExperimentalFoundationApi::class)
 private fun main() {
-    testApp(
+    TestApp(
         size = DpSize(100.dp, 300.dp)
     ) {
         val s: Ms<TreeNodeState> = rms(TreeNodeStateImp(isExpandable = true, isExpanded = false))

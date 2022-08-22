@@ -10,7 +10,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerType
 
@@ -74,7 +74,7 @@ fun ResizeBar(
 }
 
 fun main() {
-    testApp {
+    TestApp {
         MBox(modifier = Modifier.size(300.dp, 300.dp).border(1.dp, Color.Red)) {
             ResizeBar(
                 ResizeBarStateImp(

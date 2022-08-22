@@ -4,7 +4,7 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.oddity.OddityContainer
 import com.emeraldblast.p6.app.oddity.OddityContainerImp
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.window.file_dialog.state.FileDialogState
 import com.emeraldblast.p6.ui.window.file_dialog.state.FileDialogStateImp
 import com.emeraldblast.p6.ui.window.kernel_dialog.ShowDialogState

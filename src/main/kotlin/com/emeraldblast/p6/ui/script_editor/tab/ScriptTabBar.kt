@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.emeraldblast.p6.app.document.script.ScriptEntry
 import com.emeraldblast.p6.app.document.script.ScriptEntryKey
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.tab.MTabRow
 import com.emeraldblast.p6.ui.common.view.tab.Tabs
 import com.emeraldblast.p6.ui.script_editor.action.CodeEditorAction
@@ -44,7 +44,7 @@ fun ScriptTabBar(
 
 
 fun main() {
-    testApp {
+    TestApp {
         ScriptTabBar(
             codeEditorAction = CodeEditorActionDoNothing(),
             openedScripts = setOf(

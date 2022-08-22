@@ -20,9 +20,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.makeRect
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.MBox
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -31,7 +30,7 @@ fun main() {
         keySelector = { it },
         valueTransform = { "v${it}" }
     )
-    testApp {
+    TestApp {
         var mouseDown by rms(false)
         var text by rms("")
         var awtText by rms("")
@@ -74,7 +73,7 @@ fun main() {
                             }
 
                             if (mouseDown) {
-                                selectRec = makeRect(anchorPoint, movingPoint)
+                                selectRec = Rect(anchorPoint, movingPoint)
                                 for ((k, r) in posMap) {
                                     if (selectRec.intersect(r).isEmpty == false) {
                                         selectionMap = selectionMap + (k to true)

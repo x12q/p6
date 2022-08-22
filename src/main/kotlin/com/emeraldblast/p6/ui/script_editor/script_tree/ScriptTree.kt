@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorsFunctions.ifAttachedComposable
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.toIntOffset
+import com.emeraldblast.p6.ui.common.compose.LayoutCoorsUtils.ifAttachedComposable
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.OffsetUtils.toIntOffset
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.common.view.tree_view.TreeNode2
 import com.emeraldblast.p6.ui.script_editor.script_tree.action.ScriptTreeAction

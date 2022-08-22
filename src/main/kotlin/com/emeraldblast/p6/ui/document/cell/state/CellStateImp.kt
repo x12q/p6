@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.d.Cell
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.cell.state.format.*
 import com.emeraldblast.p6.ui.document.cell.state.format.cell.CellFormat
 

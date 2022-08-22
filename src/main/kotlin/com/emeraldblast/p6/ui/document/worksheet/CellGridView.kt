@@ -14,14 +14,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.addTestTag
-import com.emeraldblast.p6.ui.common.compose.isNonePressed
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.BorderStyle
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.document.cell.CellView
 import com.emeraldblast.p6.ui.document.cell.state.CellState
 import com.emeraldblast.p6.app.action.worksheet.WorksheetAction
+import com.emeraldblast.p6.ui.common.compose.OtherComposeFunctions.addTestTag
+import com.emeraldblast.p6.ui.common.compose.OtherComposeFunctions.isNonePressed
 import com.emeraldblast.p6.ui.document.cell.EmptyCellView
 import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRect
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetState

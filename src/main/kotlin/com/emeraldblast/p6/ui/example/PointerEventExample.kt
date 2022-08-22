@@ -16,15 +16,15 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.consumeAllPressed
-import com.emeraldblast.p6.ui.common.compose.hasPressedChanges
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.PointerEventUtils.consumeAllPressed
+import com.emeraldblast.p6.ui.common.compose.PointerEventUtils.hasPressedChanges
+import com.emeraldblast.p6.ui.common.compose.TestApp
 
 //import androidx.compose.ui.input.pointer.pointerInteropFilter
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    testApp(size = DpSize(300.dp, 300.dp)) {
+    TestApp(size = DpSize(300.dp, 300.dp)) {
         val focusRequester: FocusRequester = remember { FocusRequester() }
 
         Box(modifier = Modifier

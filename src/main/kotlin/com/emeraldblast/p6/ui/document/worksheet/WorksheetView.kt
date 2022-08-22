@@ -18,11 +18,11 @@ import com.emeraldblast.p6.app.common.utils.Loggers
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.addTestTag
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.BorderStyle
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.app.action.worksheet.WorksheetAction
+import com.emeraldblast.p6.ui.common.compose.OtherComposeFunctions.addTestTag
 import com.emeraldblast.p6.ui.document.worksheet.cursor.CursorView
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState
 import com.emeraldblast.p6.ui.document.worksheet.resize_bar.ResizeBar

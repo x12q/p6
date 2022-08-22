@@ -10,7 +10,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.rms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
 import com.emeraldblast.p6.ui.common.view.*
 
 object Dialogs {

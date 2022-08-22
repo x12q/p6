@@ -6,7 +6,7 @@ import com.emeraldblast.p6.app.document.script.*
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.common.view.tree_view.state.TreeNodeStateImp
 import test.TestSample
 import kotlin.test.*

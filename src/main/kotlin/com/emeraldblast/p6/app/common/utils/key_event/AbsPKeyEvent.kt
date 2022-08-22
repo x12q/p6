@@ -4,9 +4,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import com.emeraldblast.p6.app.common.utils.KeyUtils.isArrowKey
 import com.emeraldblast.p6.app.common.utils.KeyUtils.isSingleModifier
-import com.emeraldblast.p6.ui.common.compose.isCtrlPressedAlone
-import com.emeraldblast.p6.ui.common.compose.isCtrlShiftPressed
-import com.emeraldblast.p6.ui.common.compose.isShiftPressedAlone
+import com.emeraldblast.p6.ui.common.compose.KeyEventUtils.isCtrlPressedAlone
+import com.emeraldblast.p6.ui.common.compose.KeyEventUtils.isCtrlShiftPressed
+import com.emeraldblast.p6.ui.common.compose.KeyEventUtils.isShiftPressedAlone
 
 abstract class AbsPKeyEvent: PKeyEvent {
     override fun isRangeSelectorToleratedKey(): Boolean {

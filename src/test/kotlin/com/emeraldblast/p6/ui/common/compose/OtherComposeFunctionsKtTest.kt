@@ -2,6 +2,7 @@ package com.emeraldblast.p6.ui.common.compose
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import com.emeraldblast.p6.ui.common.compose.RectUtils.makeRect
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

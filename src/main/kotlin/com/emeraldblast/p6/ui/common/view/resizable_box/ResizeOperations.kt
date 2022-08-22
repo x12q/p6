@@ -7,7 +7,7 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorsFunctions.ifAttached
+import com.emeraldblast.p6.ui.common.compose.LayoutCoorsUtils.ifAttached
 import com.emeraldblast.p6.ui.common.compose.Ms
 
 sealed interface ResizeOperations {

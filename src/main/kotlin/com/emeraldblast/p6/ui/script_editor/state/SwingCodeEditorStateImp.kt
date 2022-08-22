@@ -10,7 +10,7 @@ import com.emeraldblast.p6.app.oddity.OddityContainer
 import com.emeraldblast.p6.app.oddity.OddityContainerImp
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.emeraldblast.p6.ui.script_editor.script_tree.state.ScriptTreeState
 import com.emeraldblast.p6.ui.script_editor.script_tree.state.ScriptTreeStateImp

@@ -13,7 +13,7 @@ import com.emeraldblast.p6.app.document.worksheet.WorksheetImp
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
 import com.emeraldblast.p6.ui.common.compose.St
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
 import org.mockito.kotlin.mock

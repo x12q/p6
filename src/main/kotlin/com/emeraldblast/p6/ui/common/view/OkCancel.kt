@@ -2,13 +2,12 @@ package com.emeraldblast.p6.ui.common.view
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 
 
 @Composable
@@ -50,7 +49,7 @@ fun OkCancel(
 
 
 fun main() {
-    testApp {
+    TestApp {
         OkCancel()
     }
 }

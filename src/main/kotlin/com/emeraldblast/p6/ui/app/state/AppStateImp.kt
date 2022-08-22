@@ -26,7 +26,7 @@ import com.emeraldblast.p6.di.state.app_state.*
 import com.emeraldblast.p6.ui.app.ActiveWindowPointer
 import com.emeraldblast.p6.ui.app.ActiveWindowPointerImp
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.emeraldblast.p6.ui.app.cell_editor.in_cell.state.CellEditorState

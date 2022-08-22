@@ -7,7 +7,7 @@ import com.emeraldblast.p6.app.document.script.ScriptEntry
 import com.emeraldblast.p6.app.document.script.ScriptEntryKey
 import com.emeraldblast.p6.app.document.wb_container.WorkbookContainer
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.script_editor.ScriptEditorErrorRouter
 import com.emeraldblast.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.emeraldblast.p6.ui.script_editor.state.CodeEditorState

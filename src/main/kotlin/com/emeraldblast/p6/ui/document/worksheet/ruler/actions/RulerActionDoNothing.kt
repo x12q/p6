@@ -1,9 +1,5 @@
 package com.emeraldblast.p6.ui.document.worksheet.ruler.actions
 
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.layout.LayoutCoordinates
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
-
 //open class RulerActionDoNothing : RulerAction {
 //    override fun clickRulerItem(itemIndex: Int) {
 //        println("Do nothing")

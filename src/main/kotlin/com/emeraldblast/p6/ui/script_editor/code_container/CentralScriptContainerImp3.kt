@@ -11,7 +11,7 @@ import com.emeraldblast.p6.app.document.wb_container.WorkbookContainerErrors
 import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.common.exception.error.ErrorReport
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.github.michaelbull.result.*
 

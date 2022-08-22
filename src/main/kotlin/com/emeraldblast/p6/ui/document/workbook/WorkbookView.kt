@@ -15,7 +15,7 @@ import com.emeraldblast.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.emeraldblast.p6.ui.document.workbook.action.WorkbookActionTable
 import com.emeraldblast.p6.ui.common.R
 import com.emeraldblast.p6.ui.common.compose.Ms
-import com.emeraldblast.p6.ui.common.compose.rms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.BorderStyle
 import com.emeraldblast.p6.ui.common.view.MBox

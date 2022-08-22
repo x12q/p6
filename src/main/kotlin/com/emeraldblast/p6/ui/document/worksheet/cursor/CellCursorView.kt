@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.common.utils.key_event.PKeyEvent.Companion.toPKeyEvent
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.ui.document.worksheet.action.WorksheetActionTable
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.toIntOffset
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.OffsetUtils.toIntOffset
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorFocusState

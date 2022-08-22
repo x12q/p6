@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import com.emeraldblast.p6.ui.app.state.AppStateImp
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.StateUtils.toMs
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import dagger.multibindings.ClassKey
 import dagger.multibindings.StringKey
 import org.zeromq.SocketType

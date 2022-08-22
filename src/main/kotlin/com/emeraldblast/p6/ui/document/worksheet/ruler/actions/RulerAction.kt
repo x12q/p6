@@ -2,7 +2,7 @@ package com.emeraldblast.p6.ui.document.worksheet.ruler.actions
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.document.worksheet.ruler.RulerState
 
 interface RulerAction {

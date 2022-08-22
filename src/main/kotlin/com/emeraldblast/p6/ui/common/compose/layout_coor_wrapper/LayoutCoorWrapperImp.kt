@@ -1,4 +1,4 @@
-package com.emeraldblast.p6.ui.common.compose
+package com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
@@ -8,7 +8,7 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.DpSize
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorsFunctions.ifAttachedComposable
+import com.emeraldblast.p6.ui.common.compose.SizeUtils.toDpSize
 
 class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : LayoutCoorWrapper {
     override val size: DpSize
@@ -40,7 +40,7 @@ class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : LayoutCoorW
         return layout.isAttached
     }
 
-    override fun ifAttached(f: (lc:LayoutCoorWrapper)->Unit) {
+    override fun ifAttached(f: (lc: LayoutCoorWrapper)->Unit) {
         if(this.layout.isAttached){
             f(this)
         }

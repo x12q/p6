@@ -1,4 +1,4 @@
-package com.emeraldblast.p6.ui.common.compose
+package com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
@@ -18,7 +18,7 @@ interface LayoutCoorWrapper {
     fun localToWindow(local:Offset):Offset
     fun windowToLocal(window:Offset):Offset
     fun isAttached():Boolean
-    fun ifAttached(f:(lc:LayoutCoorWrapper)->Unit)
+    fun ifAttached(f:(lc: LayoutCoorWrapper)->Unit)
     @Composable
-    fun ifAttachedComposable(f:@Composable (lc:LayoutCoorWrapper)->Unit)
+    fun ifAttachedComposable(f:@Composable (lc: LayoutCoorWrapper)->Unit)
 }

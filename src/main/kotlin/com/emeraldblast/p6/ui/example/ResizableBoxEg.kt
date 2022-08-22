@@ -17,16 +17,16 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
-import com.emeraldblast.p6.ui.common.compose.toIntOffset
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
+import com.emeraldblast.p6.ui.common.compose.OffsetUtils.toIntOffset
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.MBox
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    testApp(size = DpSize(300.dp, 300.dp)) {
+    TestApp(size = DpSize(300.dp, 300.dp)) {
 
         var width by rms(50.dp)
         var anchorWidth by rms(50.dp)

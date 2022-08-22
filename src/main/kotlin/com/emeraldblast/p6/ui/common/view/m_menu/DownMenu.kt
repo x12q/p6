@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.emeraldblast.p6.ui.common.compose.rms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
 
 @Composable
 fun DownMenu(

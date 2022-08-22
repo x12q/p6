@@ -2,7 +2,7 @@ package com.emeraldblast.p6.ui.document.worksheet.slider
 
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
 import com.emeraldblast.p6.app.document.cell.address.CellAddresses
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.emeraldblast.p6.ui.document.worksheet.state.WorksheetId
 import org.mockito.kotlin.doReturn

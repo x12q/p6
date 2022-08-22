@@ -1,12 +1,10 @@
 package com.emeraldblast.p6.ui.document.worksheet.state
 
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.emeraldblast.p6.app.action.common_data_structure.WbWs
 import com.emeraldblast.p6.app.action.common_data_structure.WbWsSt
 import com.emeraldblast.p6.app.document.cell.address.CellAddress
-import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.document.cell.state.CellState
@@ -45,17 +43,17 @@ interface WorksheetState :WbWsSt {
      * The layout coor of the cell grid
      */
     val cellGridLayoutCoorWrapperMs:Ms<LayoutCoorWrapper?>
-    val cellGridLayoutCoorWrapper:LayoutCoorWrapper?
+    val cellGridLayoutCoorWrapper: LayoutCoorWrapper?
     val cellGridLayoutCoors: LayoutCoordinates? get()=cellGridLayoutCoorWrapper?.layout
-    fun setCellGridLayoutCoorWrapper(i:LayoutCoorWrapper):WorksheetState
+    fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper):WorksheetState
 
     /**
      * The layout coor of the whole worksheet (including the grid + the ruler)
      */
     val wsLayoutCoorWrapperMs:Ms<LayoutCoorWrapper?>
-    val wsLayoutCoorWrapper:LayoutCoorWrapper?
+    val wsLayoutCoorWrapper: LayoutCoorWrapper?
     val wsLayoutCoors: LayoutCoordinates? get() = wsLayoutCoorWrapper?.layout
-    fun setwsLayoutCoorWrapper(i:LayoutCoorWrapper):WorksheetState
+    fun setwsLayoutCoorWrapper(i: LayoutCoorWrapper):WorksheetState
 
     val wsMs: Ms<Worksheet>
     val worksheet: Worksheet

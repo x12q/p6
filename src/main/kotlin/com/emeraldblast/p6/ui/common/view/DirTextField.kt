@@ -3,13 +3,10 @@ package com.emeraldblast.p6.ui.common.view
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.theme.P6DefaultTypoGraphy
 import com.emeraldblast.p6.ui.theme.P6GrayColors
 
@@ -40,7 +37,7 @@ fun DirTextField(
 }
 
 fun main() {
-    testApp {
+    TestApp {
         MaterialTheme(colors = P6GrayColors, typography = P6DefaultTypoGraphy) {
 //            DirTextField(
 //                "ABC",Modifier,true,

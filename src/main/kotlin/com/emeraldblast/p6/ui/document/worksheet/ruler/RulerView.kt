@@ -4,10 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -20,15 +17,14 @@ import com.emeraldblast.p6.app.build.DebugFunctions.debug
 import com.emeraldblast.p6.app.common.utils.CellLabelNumberSystem
 import com.emeraldblast.p6.app.common.utils.Loggers
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.*
+import com.emeraldblast.p6.ui.common.compose.LayoutCoorsUtils.wrap
+import com.emeraldblast.p6.ui.common.compose.OtherComposeFunctions.isNonePressed
+import com.emeraldblast.p6.ui.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.BorderStyle
 import com.emeraldblast.p6.ui.common.view.MBox
 import com.emeraldblast.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.emeraldblast.p6.ui.document.worksheet.slider.GridSlider
-import com.emeraldblast.p6.ui.document.worksheet.slider.GridSliders
-import com.emeraldblast.p6.ui.theme.P6Theme
-import com.emeraldblast.p6.ui.theme.ThemeType
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

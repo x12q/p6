@@ -10,12 +10,12 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.MBox
 
 // x: https://fonts.google.com/icons
 fun main(){
-    testApp(size= DpSize(100.dp,100.dp)){
+    TestApp(size= DpSize(100.dp,100.dp)){
         Row{
             IconButton(onClick = {
                 println("Clicked")

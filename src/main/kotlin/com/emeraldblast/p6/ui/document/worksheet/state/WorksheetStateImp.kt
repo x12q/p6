@@ -7,10 +7,10 @@ import com.emeraldblast.p6.app.document.workbook.WorkbookKey
 import com.emeraldblast.p6.app.document.worksheet.Worksheet
 import com.emeraldblast.p6.di.state.ws.*
 import com.emeraldblast.p6.ui.common.R
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
-import com.emeraldblast.p6.ui.common.compose.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
 import com.emeraldblast.p6.ui.document.cell.state.CellState
 import com.emeraldblast.p6.ui.document.cell.state.CellStateImp
 import com.emeraldblast.p6.ui.document.worksheet.cursor.state.CursorState

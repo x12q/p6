@@ -16,9 +16,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.emeraldblast.p6.app.build.DebugFunctions.debug
-import com.emeraldblast.p6.ui.common.compose.ms
-import com.emeraldblast.p6.ui.common.compose.rms
-import com.emeraldblast.p6.ui.common.compose.testApp
+import com.emeraldblast.p6.ui.common.compose.StateUtils.ms
+import com.emeraldblast.p6.ui.common.compose.StateUtils.rms
+import com.emeraldblast.p6.ui.common.compose.TestApp
 import com.emeraldblast.p6.ui.common.view.BorderBox
 import com.emeraldblast.p6.ui.common.view.MBox
 import java.util.*
@@ -129,7 +129,7 @@ fun ResizableBox(
 }
 
 private fun main() {
-    testApp(size = DpSize(300.dp, 300.dp)) {
+    TestApp(size = DpSize(300.dp, 300.dp)) {
         BorderBox(modifier = Modifier.fillMaxHeight()) {
             BorderBox (modifier = Modifier.align(Alignment.BottomCenter)){
                 ResizableBox(style = ResizeStyle.TOP, /*modifier = Modifier.fillMaxHeight()*/) { }

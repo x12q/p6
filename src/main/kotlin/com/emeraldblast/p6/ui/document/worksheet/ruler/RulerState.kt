@@ -2,7 +2,7 @@ package com.emeraldblast.p6.ui.document.worksheet.ruler
 
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.emeraldblast.p6.app.action.common_data_structure.WbWs
-import com.emeraldblast.p6.ui.common.compose.LayoutCoorWrapper
+import com.emeraldblast.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.emeraldblast.p6.ui.common.compose.Ms
 import com.emeraldblast.p6.ui.common.compose.St
 import com.emeraldblast.p6.ui.document.worksheet.select_rect.SelectRectState
