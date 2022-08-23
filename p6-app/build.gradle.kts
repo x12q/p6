@@ -70,8 +70,7 @@ dependencies {
     implementation("com.qxdzbc.p6:p6-common:${p6Version}")
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
-    implementation("com.qxdzbc.p6:p6-common-compose:${p6Version}")
-//    implementation(project(":p6-common-compose"))
+    implementation("com.qxdzbc:common-compose:${p6Version}")
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.17.2")
