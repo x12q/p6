@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.di.status_bar
 
 import com.qxdzbc.p6.di.P6Singleton
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarStateImp
 import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusItemState

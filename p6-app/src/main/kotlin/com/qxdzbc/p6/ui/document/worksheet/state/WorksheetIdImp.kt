@@ -2,8 +2,8 @@ package com.qxdzbc.p6.ui.document.worksheet.state
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 
 data class WorksheetIdImp(
     override val wsNameMs: Ms<String>,

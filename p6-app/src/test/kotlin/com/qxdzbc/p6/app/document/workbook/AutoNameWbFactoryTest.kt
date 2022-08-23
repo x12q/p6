@@ -2,8 +2,8 @@ package com.qxdzbc.p6.app.document.workbook
 
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.worksheet.WsNameGeneratorImp
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
 import org.junit.Test
 
 import org.junit.Assert.*

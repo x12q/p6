@@ -18,7 +18,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest2
 import com.qxdzbc.p6.app.common.utils.key_event.PKeyEvent

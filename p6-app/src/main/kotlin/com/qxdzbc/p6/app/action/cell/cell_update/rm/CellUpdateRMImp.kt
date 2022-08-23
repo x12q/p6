@@ -18,9 +18,9 @@ import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toSt
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toSt
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.mapBoth
 import javax.inject.Inject

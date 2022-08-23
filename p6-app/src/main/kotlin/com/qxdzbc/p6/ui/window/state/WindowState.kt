@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState

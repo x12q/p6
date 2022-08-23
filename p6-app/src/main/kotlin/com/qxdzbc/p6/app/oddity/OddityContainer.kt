@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.oddity
 import com.qxdzbc.p6.app.common.utils.WithSize
 import com.qxdzbc.p6.common.exception.error.ErrorHeader
 import com.qxdzbc.p6.common.exception.error.ErrorReport
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 
 interface OddityContainer : WithSize {
     val oddList: List<OddMsg>

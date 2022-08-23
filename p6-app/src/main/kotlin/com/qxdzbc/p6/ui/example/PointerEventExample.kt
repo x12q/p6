@@ -16,8 +16,8 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.PointerEventUtils.consumeAllPressed
-import com.qxdzbc.p6.ui.common.compose.PointerEventUtils.hasPressedChanges
+import com.qxdzbc.common.compose.PointerEventUtils.consumeAllPressed
+import com.qxdzbc.common.compose.PointerEventUtils.hasPressedChanges
 import com.qxdzbc.p6.ui.common.compose.TestApp
 
 //import androidx.compose.ui.input.pointer.pointerInteropFilter

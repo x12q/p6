@@ -8,7 +8,7 @@ import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfig
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelStatus
 import com.qxdzbc.p6.message.api.message.protocol.KernelConnectionFileContent
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
 import java.nio.file.Path
 import javax.inject.Inject

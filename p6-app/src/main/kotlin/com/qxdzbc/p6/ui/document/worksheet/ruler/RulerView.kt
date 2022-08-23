@@ -17,9 +17,9 @@ import com.qxdzbc.p6.app.build.DebugFunctions.debug
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.p6.ui.common.compose.LayoutCoorsUtils.wrap
-import com.qxdzbc.p6.ui.common.compose.OtherComposeFunctions.isNonePressed
-import com.qxdzbc.p6.ui.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
+import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
+import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.MBox

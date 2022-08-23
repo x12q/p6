@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.action.worksheet.delete_cell.DeleteCellResponse
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetResponse
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class WorksheetApplierImp @Inject constructor(

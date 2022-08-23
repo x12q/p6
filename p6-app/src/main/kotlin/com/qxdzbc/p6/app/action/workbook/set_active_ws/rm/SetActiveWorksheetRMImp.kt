@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.mapError

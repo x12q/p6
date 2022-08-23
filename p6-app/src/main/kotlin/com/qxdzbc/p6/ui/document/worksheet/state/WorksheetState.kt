@@ -4,9 +4,9 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState

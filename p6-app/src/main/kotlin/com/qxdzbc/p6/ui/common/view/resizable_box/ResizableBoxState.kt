@@ -5,9 +5,9 @@ import androidx.compose.ui.input.pointer.PointerEvent
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.LayoutCoorsUtils.ifAttached
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 
 data class ResizableBoxState(
     val isMouseDownMs: Ms<Boolean> = ms(false),

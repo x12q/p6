@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.cell_editor.in_cell.actions
 
 import androidx.compose.ui.focus.FocusRequester
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState

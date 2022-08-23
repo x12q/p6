@@ -21,9 +21,9 @@ import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.ActiveWindowPointerImp
 import com.qxdzbc.p6.ui.app.state.*
 //import com.qxdzbc.p6.ui.app.state.AppStateFactory
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainerImp

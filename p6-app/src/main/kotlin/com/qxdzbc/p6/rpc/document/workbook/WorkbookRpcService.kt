@@ -29,7 +29,7 @@ import com.qxdzbc.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg.Companion.to
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map

@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.github.michaelbull.result.flatMap
 import javax.inject.Inject

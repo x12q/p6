@@ -8,7 +8,7 @@ import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
 import com.qxdzbc.p6.rpc.document.workbook.msg.AddWorksheetResponse
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import javax.inject.Inject

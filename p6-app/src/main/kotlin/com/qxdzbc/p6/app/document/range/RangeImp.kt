@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.St
 
 data class RangeImp(
     val worksheet: Worksheet,

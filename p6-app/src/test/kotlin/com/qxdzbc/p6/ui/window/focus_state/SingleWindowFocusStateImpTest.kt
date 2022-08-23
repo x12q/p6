@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.window.focus_state
 
 
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toMs
 import kotlin.test.*
 
 class SingleWindowFocusStateImpTest {

@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import com.qxdzbc.p6.ui.window.state.WindowState

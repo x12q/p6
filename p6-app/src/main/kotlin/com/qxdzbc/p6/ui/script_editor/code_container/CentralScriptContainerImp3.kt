@@ -10,8 +10,8 @@ import com.qxdzbc.p6.app.document.script.*
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.common.exception.error.ErrorReport
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.github.michaelbull.result.*
 

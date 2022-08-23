@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.tab.SheetTabState
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.tab.SheetTabStateImp

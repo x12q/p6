@@ -19,10 +19,10 @@ import com.qxdzbc.p6.di.state.wb.DefaultCommandStack
 import com.qxdzbc.p6.di.state.wb.DefaultScriptContMs
 import com.qxdzbc.p6.di.state.wb.DefaultWsStateMap
 import com.qxdzbc.p6.di.state.ws.DefaultActiveWorksheetPointer
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.St
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState

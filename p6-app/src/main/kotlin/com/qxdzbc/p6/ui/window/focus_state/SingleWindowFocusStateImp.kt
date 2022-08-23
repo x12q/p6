@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.window.focus_state
 import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.di.TrueMs
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
 import javax.inject.Inject
 

@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toMs
 import javax.inject.Inject
 
 class FakeNewWbRM @Inject constructor(): CreateNewWbRM {

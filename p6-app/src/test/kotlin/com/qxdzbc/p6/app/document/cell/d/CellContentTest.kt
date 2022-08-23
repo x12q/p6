@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.document.cell.d
 
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toMs
 import kotlin.test.*
 
 class CellContentTest {

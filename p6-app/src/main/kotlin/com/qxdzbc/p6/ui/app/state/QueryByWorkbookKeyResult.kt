@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.app.state
 import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.p6.app.oddity.addError
 import com.qxdzbc.p6.common.exception.error.ErrorReport
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import kotlin.contracts.ExperimentalContracts

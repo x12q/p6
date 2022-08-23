@@ -13,9 +13,9 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory2
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toSt
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.toSt
 import javax.inject.Inject
 
 /**

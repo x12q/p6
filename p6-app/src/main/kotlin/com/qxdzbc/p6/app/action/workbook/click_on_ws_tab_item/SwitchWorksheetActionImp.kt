@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class SwitchWorksheetActionImp @Inject constructor(

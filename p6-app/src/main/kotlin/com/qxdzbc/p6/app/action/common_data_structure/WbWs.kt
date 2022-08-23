@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.action.common_data_structure
 
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.St
 
 interface WbWs{
     val wbKey: WorkbookKey

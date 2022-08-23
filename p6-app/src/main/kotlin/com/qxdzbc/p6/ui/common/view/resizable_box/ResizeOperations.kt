@@ -7,8 +7,8 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.p6.ui.common.compose.LayoutCoorsUtils.ifAttached
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
+import com.qxdzbc.common.compose.Ms
 
 sealed interface ResizeOperations {
     val icon: PointerIcon

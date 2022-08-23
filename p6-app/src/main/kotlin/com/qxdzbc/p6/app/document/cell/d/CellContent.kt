@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.document.cell.d
 
 import com.qxdzbc.p6.common.CanCheckEmpty
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 
 interface CellContent:CanCheckEmpty {
 

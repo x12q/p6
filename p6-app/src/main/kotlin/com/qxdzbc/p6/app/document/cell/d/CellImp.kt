@@ -7,7 +7,7 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toMs
 import java.util.*
 
 data class CellImp(

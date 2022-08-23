@@ -3,8 +3,8 @@ package com.qxdzbc.p6.ui.window.state
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.p6.app.oddity.OddityContainerImp
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
 import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState

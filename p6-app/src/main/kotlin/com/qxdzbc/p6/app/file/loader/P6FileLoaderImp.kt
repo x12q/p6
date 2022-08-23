@@ -10,7 +10,7 @@ import com.qxdzbc.p6.common.exception.error.CommonErrors
 import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.proto.P6FileProtos
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result

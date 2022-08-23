@@ -8,7 +8,7 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.DpSize
-import com.qxdzbc.p6.ui.common.compose.SizeUtils.toDpSize
+import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
 class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : LayoutCoorWrapper {
     override val size: DpSize

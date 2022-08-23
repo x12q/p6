@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonRespon
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeResponse
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class PasteRangeApplierImp @Inject constructor(

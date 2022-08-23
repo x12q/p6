@@ -15,8 +15,8 @@ import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.github.michaelbull.result.Err

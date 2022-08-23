@@ -2,9 +2,9 @@ package com.qxdzbc.p6.ui.document.worksheet.ruler
 
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId

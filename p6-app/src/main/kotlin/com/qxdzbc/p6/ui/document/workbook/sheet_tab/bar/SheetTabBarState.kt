@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar
 
 import com.qxdzbc.p6.app.common.utils.WithSize
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.tab.SheetTabState
 

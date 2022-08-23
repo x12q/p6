@@ -21,8 +21,8 @@ import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState

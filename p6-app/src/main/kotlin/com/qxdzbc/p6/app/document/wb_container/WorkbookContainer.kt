@@ -4,8 +4,8 @@ import com.qxdzbc.p6.app.common.utils.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.common.exception.error.ErrorReport
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import java.nio.file.Path
 import com.github.michaelbull.result.Result
 interface WorkbookContainer {

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.rpc
 import com.qxdzbc.p6.app.common.utils.Rs
 import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.di.status_bar.RPCStatusItemStateQualifier
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusItemState
 import com.github.michaelbull.result.Ok
 import javax.inject.Inject

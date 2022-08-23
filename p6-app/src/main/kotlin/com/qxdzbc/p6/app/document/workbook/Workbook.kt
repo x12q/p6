@@ -9,7 +9,7 @@ import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
 
 /**

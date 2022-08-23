@@ -2,8 +2,8 @@ package com.qxdzbc.common.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.qxdzbc.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapperImp
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapperImp
 
 
 object LayoutCoorsUtils{

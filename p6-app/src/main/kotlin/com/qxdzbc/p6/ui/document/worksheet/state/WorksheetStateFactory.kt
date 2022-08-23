@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.ui.document.worksheet.state
 
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.St
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory

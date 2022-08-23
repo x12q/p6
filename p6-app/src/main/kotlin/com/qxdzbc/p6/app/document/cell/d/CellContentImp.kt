@@ -5,9 +5,9 @@ import com.qxdzbc.p6.app.common.utils.Rs
 import com.qxdzbc.p6.common.exception.error.CommonErrors
 import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 

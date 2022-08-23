@@ -4,8 +4,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.rms
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.mock

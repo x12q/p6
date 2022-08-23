@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.app_context
 
 import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 
 /**
  * A global access point, this actually should not be used at all in any place other than the init code.

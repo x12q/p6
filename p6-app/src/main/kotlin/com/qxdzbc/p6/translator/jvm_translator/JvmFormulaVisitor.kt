@@ -13,7 +13,7 @@ import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.P6FunctionDefinitions
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.St
 import com.github.michaelbull.result.Ok
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

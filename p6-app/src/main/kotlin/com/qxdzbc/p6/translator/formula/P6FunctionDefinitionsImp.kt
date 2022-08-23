@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.execution_unit.ExecutionWay
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import javax.inject.Inject
 import kotlin.reflect.KFunction

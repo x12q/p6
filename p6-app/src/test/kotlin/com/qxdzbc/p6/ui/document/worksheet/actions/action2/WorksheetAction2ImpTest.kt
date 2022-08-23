@@ -11,8 +11,8 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider

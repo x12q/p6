@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookResponse
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import javax.inject.Inject

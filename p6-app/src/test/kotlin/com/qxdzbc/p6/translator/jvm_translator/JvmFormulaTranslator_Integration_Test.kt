@@ -19,9 +19,9 @@ import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.P6FunctionDefinitionsImp
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toSt
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toSt
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import kotlin.test.*

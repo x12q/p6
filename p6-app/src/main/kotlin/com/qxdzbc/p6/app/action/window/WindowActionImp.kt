@@ -19,7 +19,7 @@ import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
 import com.qxdzbc.p6.ui.file.P6FileSaverErrors
 import com.qxdzbc.p6.ui.kernel.KernelAction

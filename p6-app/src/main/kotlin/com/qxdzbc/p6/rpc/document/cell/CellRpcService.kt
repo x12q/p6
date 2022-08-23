@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.rpc.cell.CellServiceProtos.*
 import com.qxdzbc.p6.proto.rpc.cell.service.CellServiceGrpc
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import io.grpc.stub.StreamObserver
 import javax.inject.Inject
 

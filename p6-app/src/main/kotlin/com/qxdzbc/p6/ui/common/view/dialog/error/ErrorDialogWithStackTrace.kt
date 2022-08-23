@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.app.oddity.OddMsg
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.BorderStyle.Companion.debugAll

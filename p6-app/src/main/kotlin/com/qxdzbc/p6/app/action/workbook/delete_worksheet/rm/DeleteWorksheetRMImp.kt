@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg
 import com.qxdzbc.p6.rpc.document.workbook.WorkbookRpcMsgErrors
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import javax.inject.Inject

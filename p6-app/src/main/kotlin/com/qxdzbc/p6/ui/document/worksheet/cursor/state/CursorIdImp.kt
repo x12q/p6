@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.state
 
 import androidx.compose.runtime.State
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
 data class CursorIdImp(

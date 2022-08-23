@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRespons
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals

@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.rms
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 

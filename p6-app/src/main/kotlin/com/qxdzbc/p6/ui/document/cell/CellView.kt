@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.*
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.common.compose.TestApp
 import com.qxdzbc.p6.ui.common.view.MBox
 import com.qxdzbc.p6.ui.document.cell.state.CellState

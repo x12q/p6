@@ -5,8 +5,8 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.document.script.*
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.common.view.tree_view.state.TreeNodeStateImp
 import test.TestSample
 import kotlin.test.*

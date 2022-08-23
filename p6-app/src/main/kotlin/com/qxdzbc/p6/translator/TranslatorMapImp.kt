@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.St
 
 data class TranslatorMapImp(
     private val m: Map<WbWsSt, P6Translator<ExUnit>> = emptyMap(),

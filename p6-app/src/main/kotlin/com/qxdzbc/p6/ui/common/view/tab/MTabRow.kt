@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.TestApp
 
 @Composable

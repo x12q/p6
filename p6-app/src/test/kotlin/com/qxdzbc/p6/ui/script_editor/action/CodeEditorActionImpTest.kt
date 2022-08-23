@@ -1,8 +1,8 @@
 //package com.qxdzbc.p6.ui.script_editor.action
 //
 //import com.qxdzbc.p6.ui.script_editor.code_container.CodeContainer
-//import com.qxdzbc.p6.ui.common.compose.Ms
-//import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+//import com.qxdzbc.common.compose.Ms
+//import com.qxdzbc.common.compose.StateUtils.ms
 //import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 //import kotlinx.coroutines.GlobalScope
 //import org.mockito.kotlin.mock

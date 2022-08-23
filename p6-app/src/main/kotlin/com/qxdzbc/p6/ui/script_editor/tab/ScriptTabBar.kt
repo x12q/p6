@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.document.script.ScriptEntry
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.TestApp
 import com.qxdzbc.p6.ui.common.view.tab.MTabRow
 import com.qxdzbc.p6.ui.common.view.tab.Tabs

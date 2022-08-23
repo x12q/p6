@@ -16,8 +16,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.build.DebugFunctions.debug
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.MBox

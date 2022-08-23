@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.communication.applier.workbook
 
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import test.TestSample
 
 import kotlin.test.*

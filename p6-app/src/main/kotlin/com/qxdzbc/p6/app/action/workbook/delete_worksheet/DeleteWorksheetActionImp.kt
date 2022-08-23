@@ -11,7 +11,7 @@ import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.rpc.document.workbook.WorkbookRpcMsgErrors
 import com.qxdzbc.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen

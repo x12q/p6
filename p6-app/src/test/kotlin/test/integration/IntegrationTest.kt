@@ -15,9 +15,9 @@ import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslator
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitor
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitor2
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toSt
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toSt
+import com.qxdzbc.common.compose.StateUtils.ms
 import test.TestSample
 import kotlin.test.*
 

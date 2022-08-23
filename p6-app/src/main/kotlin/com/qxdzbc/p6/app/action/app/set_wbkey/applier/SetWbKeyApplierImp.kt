@@ -12,7 +12,7 @@ import com.qxdzbc.p6.rpc.document.workbook.msg.SetWbKeyResponse
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import javax.inject.Inject
 

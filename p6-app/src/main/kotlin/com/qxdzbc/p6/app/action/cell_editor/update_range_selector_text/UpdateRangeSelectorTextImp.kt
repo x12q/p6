@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
 import com.qxdzbc.p6.di.state.app_state.CellEditorStateMs
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class UpdateRangeSelectorTextImp @Inject constructor(

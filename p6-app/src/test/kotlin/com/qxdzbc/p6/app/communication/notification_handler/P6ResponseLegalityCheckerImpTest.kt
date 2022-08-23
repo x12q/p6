@@ -6,7 +6,7 @@ import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Messages
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.Status
 import com.qxdzbc.p6.ui.app.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.google.protobuf.ByteString
 import test.TestSample
 

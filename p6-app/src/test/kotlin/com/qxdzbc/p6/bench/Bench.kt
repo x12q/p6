@@ -3,9 +3,9 @@ package com.qxdzbc.p6.bench
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.ui.app.state.AppStateImp
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.ms
 import dagger.multibindings.ClassKey
 import dagger.multibindings.StringKey
 import org.zeromq.SocketType

@@ -13,7 +13,7 @@ import com.qxdzbc.p6.app.common.utils.key_event.PKeyEvent
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.cell.action.CellViewAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction

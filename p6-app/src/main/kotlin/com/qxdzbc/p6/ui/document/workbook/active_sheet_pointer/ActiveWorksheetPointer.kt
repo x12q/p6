@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer
 
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.common.compose.St
+import com.qxdzbc.common.compose.St
 
 
 interface ActiveWorksheetPointer {

@@ -16,8 +16,8 @@ import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.p6.app.oddity.OddityContainerImp
 import com.qxdzbc.p6.common.exception.error.ErrorReport
 import com.qxdzbc.p6.di.state.window.FocusStateMs
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory

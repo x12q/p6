@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResp
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import test.TestSample
 import kotlin.test.*

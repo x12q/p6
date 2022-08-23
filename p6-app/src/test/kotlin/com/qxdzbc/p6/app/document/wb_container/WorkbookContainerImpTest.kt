@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.document.wb_container
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toMs
 import test.TestSample
 import kotlin.test.*
 

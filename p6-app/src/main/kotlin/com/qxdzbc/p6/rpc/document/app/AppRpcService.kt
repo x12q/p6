@@ -11,7 +11,7 @@ import com.qxdzbc.p6.proto.rpc.app.AppServiceProtos
 import com.qxdzbc.p6.proto.rpc.app.service.AppServiceGrpc.AppServiceImplBase
 import com.qxdzbc.p6.proto.rpc.app.AppServiceProtos.*
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.grpc.stub.StreamObserver

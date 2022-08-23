@@ -20,8 +20,8 @@ import com.qxdzbc.p6.ui.common.view.MBox
 import com.qxdzbc.p6.ui.document.cell.CellView
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.ui.common.compose.OtherComposeFunctions.addTestTag
-import com.qxdzbc.p6.ui.common.compose.OtherComposeFunctions.isNonePressed
+import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
+import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.p6.ui.document.cell.EmptyCellView
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRect
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState

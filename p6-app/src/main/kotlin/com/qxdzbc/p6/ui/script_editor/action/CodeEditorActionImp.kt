@@ -10,7 +10,7 @@ import com.qxdzbc.p6.di.state.app_state.CodeEditorStateMs
 import com.qxdzbc.p6.app.document.script.ScriptEntry
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouter
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrors
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState

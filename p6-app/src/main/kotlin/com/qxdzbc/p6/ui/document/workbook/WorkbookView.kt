@@ -14,8 +14,8 @@ import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.MBox

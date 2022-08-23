@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock

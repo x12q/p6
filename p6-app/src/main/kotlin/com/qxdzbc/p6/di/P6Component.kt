@@ -46,7 +46,7 @@ import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory2
 import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.cell.action.CellViewAction
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory

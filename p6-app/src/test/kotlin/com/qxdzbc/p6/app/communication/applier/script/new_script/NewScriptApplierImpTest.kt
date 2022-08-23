@@ -6,8 +6,8 @@ import com.qxdzbc.p6.app.action.script.new_script.NewScriptNotification
 import com.qxdzbc.p6.app.document.script.ScriptEntry
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouter
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState

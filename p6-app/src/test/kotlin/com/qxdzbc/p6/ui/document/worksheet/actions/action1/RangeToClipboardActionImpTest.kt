@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.action.worksheet.WorksheetApplier
 import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardActionImp
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import org.mockito.kotlin.mock
 import test.TestSample

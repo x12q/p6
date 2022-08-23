@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMapImp
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.StateUtils.toMs
 import org.mockito.kotlin.mock
 import test.TestSample
 import kotlin.test.*

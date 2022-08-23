@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.window.menu.action
 
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.ui.window.state.WindowState

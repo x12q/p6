@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.di.state.app_state.CodeEditorStateMs
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorAction
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import javax.inject.Inject

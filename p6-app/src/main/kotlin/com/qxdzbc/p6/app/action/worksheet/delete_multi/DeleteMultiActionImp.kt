@@ -14,7 +14,7 @@ import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellUpdateEntry
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class DeleteMultiActionImp @Inject constructor(

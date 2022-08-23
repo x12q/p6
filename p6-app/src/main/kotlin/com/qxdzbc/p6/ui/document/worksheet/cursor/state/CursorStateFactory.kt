@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.state
 
-import com.qxdzbc.p6.ui.common.compose.Ms
+import com.qxdzbc.common.compose.Ms
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 

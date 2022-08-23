@@ -4,8 +4,8 @@ import com.qxdzbc.p6.di.state.app_state.WbContainerMs
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
 import com.qxdzbc.p6.common.exception.error.ErrorReport
-import com.qxdzbc.p6.ui.common.compose.Ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
 import java.util.regex.Pattern
 import javax.inject.Inject
 import com.github.michaelbull.result.Result

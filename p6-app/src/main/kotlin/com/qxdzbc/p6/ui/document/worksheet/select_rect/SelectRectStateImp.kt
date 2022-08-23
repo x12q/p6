@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.document.worksheet.select_rect
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import com.qxdzbc.p6.ui.common.compose.RectUtils.makeRect
+import com.qxdzbc.common.compose.RectUtils.makeRect
 
 data class SelectRectStateImp(
     override val isShow: Boolean = false,

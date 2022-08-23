@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.oddity.OddMsg
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTable
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.p6.ui.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.MBox
