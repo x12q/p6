@@ -10,7 +10,6 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.github.michaelbull.result.*
 import kotlin.math.pow
-import kotlin.reflect.KFunction
 
 /**
  * An ExUnit (execution unit) is a provider obj that when run will return something that can be stored by a Cell
@@ -324,15 +323,3 @@ interface ExUnit {
     }
 }
 
-/**
- * Define how a KFunction should be called. Most of the time, the default is ok
- */
-interface ExecutionWay {
-    fun execute(func: KFunction<Any>, args: Array<Any?>): Any
-
-    object Default : ExecutionWay {
-        override fun execute(func: KFunction<Any>, args: Array<Any?>): Any {
-            return func.call(*args)
-        }
-    }
-}

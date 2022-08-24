@@ -29,6 +29,6 @@ interface ErrorRouter {
      * Attempt to search for window state obj using both window id and workbook key
      */
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?, workbookKey:WorkbookKey?)
-    fun publish(errorReport:ErrorReportWithNavInfo)
+    fun publish(errorReport: ErrorReportWithNavInfo)
     fun <T> publishIfPossible(resNav: RseNav<T>)
 }

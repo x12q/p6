@@ -20,14 +20,16 @@ class P6FunctionDefinitionsImp @Inject constructor(
 
     private var appState by appStateMs
 
-    internal val documentFunctions = listOf(
+    /**
+     * A list of internal function for getting wb, ws, range, cell
+     */
+    private val documentFunctions = listOf(
         object : AbstractFunctionDef() {
             override val name: String = P6FunctionDefinitions.getSheetRs
             override val function: KFunction<Any> = appState::getWsRs
         },
         object : AbstractFunctionDef() {
             override val name: String = P6FunctionDefinitions.getRangeRs
-//            override val function: KFunction<Any> = appState::getRangeRs
             override val function: KFunction<Any> = appState::getLazyRangeRs
         },
         object : AbstractFunctionDef() {
@@ -36,6 +38,9 @@ class P6FunctionDefinitionsImp @Inject constructor(
         }
     )
 
+    /**
+     * A list of all available formula function
+     */
     internal val all = listOf<FunctionDef>(
         object : AbstractFunctionDef() {
             override val executionWay: ExecutionWay = object : ExecutionWay {
@@ -45,22 +50,22 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
 
             /**
-             * SUM accept a mix list of Cell, Range, and Number
+             * SUM accepts a mix list of Cell, Range, and Number, remember to check for type before doing anything
              */
             fun SUM(inputList: List<Any?>): Result<Double, ErrorReport> {
-                var d: Double = 0.0
+                var rt: Double = 0.0
                 if(inputList.isNotEmpty()){
                     val invalidArgumentReport = FormulaErrors.InvalidFunctionArgument.report("SUM function only accept numbers and numeric cells.").toErr()
                     for (obj in inputList) {
                         if(obj!=null){
                             when(obj){
                                 is Number ->{
-                                    d+=(obj.toDouble())
+                                    rt+=(obj.toDouble())
                                 }
                                 is Cell ->{
                                     val cv = obj.valueAfterRun
                                     try {
-                                        d += (cv as Double)
+                                        rt += (cv as Double)
                                     } catch (e: Throwable) {
                                         when (e) {
                                             is ClassCastException -> {
@@ -75,7 +80,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                                         val cv = cell.valueAfterRun
                                         if (cv != null) {
                                             try {
-                                                d += (cv as Double)
+                                                rt += (cv as Double)
                                             } catch (e: Throwable) {
                                                 when (e) {
                                                     is ClassCastException -> {
@@ -92,7 +97,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                         }
                     }
                 }
-                return Ok(d)
+                return Ok(rt)
             }
             override val name = "SUM"
             override val function: KFunction<Any> = ::SUM

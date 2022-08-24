@@ -67,11 +67,14 @@ dependencies {
     implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.1.1")
 
     implementation("com.qxdzbc.p6:p6-python-message-api:${p6Version}")
-    implementation("com.qxdzbc:err:${p6Version}")
-    implementation("com.qxdzbc:common:${p6Version}")
+
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
 //    implementation("com.qxdzbc:common-compose:${p6Version}")
+//    implementation("com.qxdzbc:err:${p6Version}")
+//    implementation("com.qxdzbc:common:${p6Version}")
+    implementation(project(":err"))
+    implementation(project(":common"))
     implementation(project(":common-compose"))
 
     implementation("org.slf4j:slf4j-api:1.7.36")
