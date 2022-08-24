@@ -16,7 +16,7 @@ import androidx.compose.ui.window.DialogState
 import com.qxdzbc.p6.ui.common.compose.TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 

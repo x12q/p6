@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.communication.event.data_structure.workbook_event
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookResponse
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.p6.proto.AppEventProtos.LoadWorkbookResponseProto
 import com.qxdzbc.p6.proto.DocProtos
 import test.TestSample

@@ -6,7 +6,7 @@ import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.execution_unit.ExecutionWay
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms

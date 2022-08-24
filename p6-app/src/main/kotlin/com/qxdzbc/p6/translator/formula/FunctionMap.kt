@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.translator.formula
 
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import kotlin.reflect.KFunction
 import com.github.michaelbull.result.Result
 

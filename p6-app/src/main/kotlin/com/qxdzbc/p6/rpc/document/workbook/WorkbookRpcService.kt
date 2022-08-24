@@ -2,7 +2,7 @@ package com.qxdzbc.p6.rpc.document.workbook
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.common.utils.Rs
+import com.qxdzbc.common.Rs
 
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.action.global.GlobalAction
@@ -13,10 +13,10 @@ import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetResponse2
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetWithIndexRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
 import com.qxdzbc.p6.proto.CommonProtos

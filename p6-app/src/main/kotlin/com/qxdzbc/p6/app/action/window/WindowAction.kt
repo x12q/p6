@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.action.window
 
-import com.qxdzbc.p6.app.common.utils.path.PPath
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.path.PPath
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope

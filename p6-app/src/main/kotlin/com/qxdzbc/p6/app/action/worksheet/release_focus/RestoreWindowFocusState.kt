@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.action.worksheet.release_focus
 
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**

@@ -90,7 +90,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
             val selectRect by wsState.selectRectStateMs
             if (selectRect.isActive) {
                 wsState.selectRectStateMs.value = selectRect.setMovingPoint(mousePosition).show()
-                val currentCellMouseOn = wsState.cellLayoutCoorMap.entries.firstOrNull { (_, layout) ->
+                val currentCellMouseOn:CellAddress? = wsState.cellLayoutCoorMap.entries.firstOrNull { (_, layout) ->
                     val cellRect = layout.boundInWindow
                     cellRect.contains(mousePosition)
                 }?.key

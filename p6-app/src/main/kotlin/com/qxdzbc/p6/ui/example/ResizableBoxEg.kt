@@ -21,7 +21,7 @@ import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.TestApp
 import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class)

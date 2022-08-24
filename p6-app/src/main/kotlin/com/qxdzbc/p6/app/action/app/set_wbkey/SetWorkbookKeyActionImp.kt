@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.action.app.set_wbkey
 
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.app.set_wbkey.applier.SetWbKeyApplier
 import com.qxdzbc.p6.app.action.app.set_wbkey.rm.SetWbKeyRM
 import com.qxdzbc.p6.rpc.document.workbook.msg.SetWbKeyRequest

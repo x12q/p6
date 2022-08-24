@@ -10,7 +10,7 @@ import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
-class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : LayoutCoorWrapper {
+data class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : LayoutCoorWrapper {
     override val size: DpSize
         get() = layout.size.toDpSize()
 

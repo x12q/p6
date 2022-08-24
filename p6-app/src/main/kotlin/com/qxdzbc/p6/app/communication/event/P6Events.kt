@@ -33,7 +33,7 @@ import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.DeleteMultiRequest
 import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.DeleteMultiResponse
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetResponse
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Event
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok

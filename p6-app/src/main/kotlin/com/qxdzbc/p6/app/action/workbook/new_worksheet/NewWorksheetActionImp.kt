@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet
 
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.app.common.utils.ErrorUtils.noNav
+import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfos.noNav
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.NewWorksheetRM

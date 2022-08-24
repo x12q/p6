@@ -8,8 +8,8 @@ import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.DeleteMultiResponse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.state.AppState

@@ -15,7 +15,7 @@ import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.PlaceHolder
 
 

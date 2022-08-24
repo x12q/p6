@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.document.workbook.state
 
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 
 object WorkbookStateErrors {
     val prefix = "WorkbookStateContainerErrors_"

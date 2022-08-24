@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.document.workbook.state
 import androidx.compose.runtime.MutableState
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.command.CommandStack
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.script.ScriptContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey

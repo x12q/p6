@@ -5,8 +5,8 @@ package com.qxdzbc.p6.ui.common.view.dialog
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.app.oddity.OddMsg
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.common.compose.TestApp
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 

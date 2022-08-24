@@ -5,6 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.qxdzbc.common.compose.view.MBox
 
 @Composable
 fun PlaceHolder(str: String) {

@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.format.pack
 
-import com.qxdzbc.p6.app.common.utils.WithSize
+import com.qxdzbc.common.WithSize
 import com.qxdzbc.p6.ui.format.FormatAttribute
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
 

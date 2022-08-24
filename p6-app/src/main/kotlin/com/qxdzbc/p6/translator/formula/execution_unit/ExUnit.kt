@@ -5,8 +5,8 @@ import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.CommonErrors
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.github.michaelbull.result.*
 import kotlin.math.pow

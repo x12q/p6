@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.action.request_maker
 
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
 import com.qxdzbc.p6.proto.CommonProtos.ErrorReportProto
 import com.qxdzbc.p6.ui.app.ErrorRouter

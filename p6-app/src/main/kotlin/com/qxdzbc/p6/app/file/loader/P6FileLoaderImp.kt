@@ -6,8 +6,8 @@ import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.CommonErrors
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.P6FileProtos
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms

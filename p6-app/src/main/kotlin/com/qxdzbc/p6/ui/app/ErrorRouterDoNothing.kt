@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.app
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 
 class ErrorRouterDoNothing : ErrorRouter {
     override fun publishToApp(errorReport: ErrorReport?) {

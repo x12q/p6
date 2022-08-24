@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.coderunner
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.di.Username
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContextReadOnly
 import com.qxdzbc.p6.message.api.message.protocol.data_interface_definition.Shell

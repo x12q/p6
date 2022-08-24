@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.common.exception.error.CommonErrors
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.proto.rpc.app.AppServiceProtos
 import com.qxdzbc.p6.proto.rpc.app.service.AppServiceGrpc.AppServiceImplBase

@@ -1,14 +1,14 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
-import com.qxdzbc.p6.app.common.utils.binary_copier.BinaryCopier
+import com.qxdzbc.common.copiers.binary_copier.BinaryCopier
 import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 import javax.inject.Inject
 
 class RangeCopierImp @Inject constructor(
-    private val binaryCopier:BinaryCopier
+    private val binaryCopier: BinaryCopier
 ) : RangeCopier {
     override fun copyRange(range: Range): Result<Range, ErrorReport> {
         val data = range.toRangeCopy().toProto().toByteArray()

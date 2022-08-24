@@ -2,9 +2,9 @@ package com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 
-import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
+import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState

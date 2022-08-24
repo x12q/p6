@@ -8,8 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.window.singleWindowApplication
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 
 /**
  * See console for detail

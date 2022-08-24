@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.code
 
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import java.util.regex.Pattern

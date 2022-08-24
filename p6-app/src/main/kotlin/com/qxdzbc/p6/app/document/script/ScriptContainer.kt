@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.document.script
 
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Result
 interface ScriptContainer :Map<String,String>{
     fun getScript(name: String): String?

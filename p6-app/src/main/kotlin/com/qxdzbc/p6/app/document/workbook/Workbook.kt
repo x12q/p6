@@ -1,11 +1,11 @@
 package com.qxdzbc.p6.app.document.workbook
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.common.utils.Rse
-import com.qxdzbc.p6.app.common.utils.WithSize
+import com.qxdzbc.common.Rse
+import com.qxdzbc.common.WithSize
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit

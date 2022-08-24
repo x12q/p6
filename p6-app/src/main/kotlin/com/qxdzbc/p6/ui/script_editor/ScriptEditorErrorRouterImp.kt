@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.script_editor
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.di.state.app_state.CodeEditorStateMs
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.message.sender.exception.SenderErrors
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.common.compose.Ms

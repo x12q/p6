@@ -2,10 +2,10 @@ package com.qxdzbc.p6.app.action.workbook.delete_worksheet
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.common.utils.Rs
+import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.rm.DeleteWorksheetRM
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 
 import com.qxdzbc.p6.rpc.document.workbook.WorkbookRpcMsgErrors

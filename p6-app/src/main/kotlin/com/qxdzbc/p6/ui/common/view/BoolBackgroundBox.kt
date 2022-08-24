@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.qxdzbc.common.compose.view.MBox
 
 /**
  * A box that has background color changes base on a boolean

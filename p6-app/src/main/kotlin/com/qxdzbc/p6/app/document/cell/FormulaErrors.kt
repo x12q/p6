@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.document.cell
 
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 
 /**
  * This object contains special ErrorReport that are only used for reporting errors encountered when running formulas in cells

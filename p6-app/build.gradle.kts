@@ -39,7 +39,6 @@ version = "1.0"
 repositories {
     google()
     mavenCentral()
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     mavenLocal()
     maven {
         url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev")
@@ -57,6 +56,7 @@ val composeTestVersion = "1.1.1"
 val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
+//val p6Version:String by rootProject.extra["p6Version"] as String
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 
@@ -66,11 +66,13 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutineVersion")
     implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.1.1")
 
-    implementation("com.qxdzbc.p6:message-api:${p6Version}")
-    implementation("com.qxdzbc.p6:p6-common:${p6Version}")
+    implementation("com.qxdzbc.p6:p6-python-message-api:${p6Version}")
+    implementation("com.qxdzbc:err:${p6Version}")
+    implementation("com.qxdzbc:common:${p6Version}")
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
-    implementation("com.qxdzbc:common-compose:${p6Version}")
+//    implementation("com.qxdzbc:common-compose:${p6Version}")
+    implementation(project(":common-compose"))
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.17.2")

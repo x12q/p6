@@ -13,6 +13,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import com.qxdzbc.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.compose.TestApp
 
 

@@ -20,7 +20,6 @@ version = "1.0"
 repositories {
     google()
     mavenCentral()
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     mavenLocal()
     maven {
         url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev")
@@ -33,8 +32,10 @@ val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 dependencies {
-    compileOnly(compose.desktop.currentOs)
-    implementation("com.qxdzbc.p6:p6-common:${p6Version}")
+    implementation(compose.desktop.currentOs)
+    implementation("com.qxdzbc:err:${p6Version}")
+    implementation("com.qxdzbc:common:${p6Version}")
+    implementation("com.michael-bull.kotlin-result:kotlin-result-jvm:1.1.12")
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-inline:${mockitoVersion}")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")

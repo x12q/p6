@@ -3,9 +3,9 @@ package test
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.common.utils.Rs
+import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.common.utils.Loggers
-import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
+import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.di.DaggerP6Component
@@ -20,8 +20,8 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfigImp
 import com.qxdzbc.p6.message.di.DaggerMessageApiComponent
 import com.qxdzbc.p6.message.di.MessageApiComponent

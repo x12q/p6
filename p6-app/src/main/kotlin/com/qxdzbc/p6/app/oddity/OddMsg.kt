@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.oddity
 
-import com.qxdzbc.p6.common.exception.error.CommonErrors
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 
 sealed interface OddMsg {
     val msg: String

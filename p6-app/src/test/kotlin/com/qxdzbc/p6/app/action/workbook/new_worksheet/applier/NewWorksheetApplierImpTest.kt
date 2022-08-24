@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.action.workbook.new_worksheet.applier
 
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
-import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
+import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err

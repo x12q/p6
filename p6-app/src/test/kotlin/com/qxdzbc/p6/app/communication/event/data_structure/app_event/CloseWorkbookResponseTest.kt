@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookResponse
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.common.exception.error.CommonErrors
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.proto.AppEventProtos.CloseWorkbookResponseProto
 import org.mockito.kotlin.mock
 import kotlin.test.*

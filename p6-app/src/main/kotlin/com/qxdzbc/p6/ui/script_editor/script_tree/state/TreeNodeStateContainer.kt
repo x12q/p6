@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.script_editor.script_tree.state
 
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.common.view.tree_view.state.TreeNodeState
 import com.github.michaelbull.result.Result

@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.command
 
-import com.qxdzbc.p6.common.HaveSize
+import com.qxdzbc.common.HaveSize
 
 /**
  * A stack of [Command]

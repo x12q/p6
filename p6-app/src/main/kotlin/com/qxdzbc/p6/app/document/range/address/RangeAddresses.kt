@@ -1,14 +1,14 @@
 package com.qxdzbc.p6.app.document.range.address
 
-import com.qxdzbc.p6.app.common.utils.Rs
+import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
-import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
+import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.document.cell.address.CR
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.range.RangeErrors
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressProto
 import com.qxdzbc.p6.ui.common.R
 import com.github.michaelbull.result.Ok

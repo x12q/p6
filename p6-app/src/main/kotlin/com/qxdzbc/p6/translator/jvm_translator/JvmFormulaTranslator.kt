@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.translator.jvm_translator
 
-import com.qxdzbc.p6.app.common.utils.Rs
-import com.qxdzbc.p6.common.exception.error.CommonErrors
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.Rs
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor

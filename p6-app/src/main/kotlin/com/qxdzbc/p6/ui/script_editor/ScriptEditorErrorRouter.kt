@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.script_editor
 
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 
 interface ScriptEditorErrorRouter {
     /**

@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.communication.event
 
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Event
 
 object P6EventErrors {

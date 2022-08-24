@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.action.worksheet.rename_ws.applier
 
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetResponse
 import com.github.michaelbull.result.map

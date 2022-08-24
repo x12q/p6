@@ -4,9 +4,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.IntRangeUtils.add
+import com.qxdzbc.common.IntRangeUtils.dif
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2Imp
-import com.qxdzbc.p6.app.common.utils.IntRangeUtils.add
-import com.qxdzbc.p6.app.common.utils.IntRangeUtils.dif
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.workbook.Workbook

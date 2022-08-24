@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusItemState
 
 @Composable

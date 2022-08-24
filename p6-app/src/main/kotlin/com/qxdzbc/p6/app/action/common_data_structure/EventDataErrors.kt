@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.action.common_data_structure
 
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 
 object EventDataErrors {
     val EVDTErr = "UI_EventDataErrors_"

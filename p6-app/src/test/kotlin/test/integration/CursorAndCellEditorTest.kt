@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
-import com.qxdzbc.p6.app.common.utils.key_event.PKeyEvent
+import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction

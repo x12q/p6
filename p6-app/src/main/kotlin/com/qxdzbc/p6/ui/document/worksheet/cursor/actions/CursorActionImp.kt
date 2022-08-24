@@ -21,7 +21,7 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest2
-import com.qxdzbc.p6.app.common.utils.key_event.PKeyEvent
+import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState

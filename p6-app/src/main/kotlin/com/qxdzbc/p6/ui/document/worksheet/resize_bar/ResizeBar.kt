@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.p6.ui.common.compose.TestApp
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 
 @Composable

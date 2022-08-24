@@ -6,8 +6,8 @@ import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.applier.RenameWorksheetApplier
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.rm.RenameWorksheetRM
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
-import com.qxdzbc.p6.common.exception.error.CommonErrors
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 
 import com.qxdzbc.p6.ui.app.state.AppState

@@ -4,8 +4,8 @@ import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookResponse
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.WorkbookProtos.SaveWorkbookResponseProto
 import kotlin.test.Test
 import kotlin.test.assertEquals

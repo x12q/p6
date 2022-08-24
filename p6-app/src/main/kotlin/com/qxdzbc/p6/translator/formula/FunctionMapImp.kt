@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.translator.formula
 
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result

@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.slider
 
 import com.qxdzbc.p6.app.common.utils.MathUtils
-import com.qxdzbc.p6.app.common.utils.IntRangeUtils.add
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.NullInt
 import com.qxdzbc.p6.di.state.ws.DefaultVisibleColRange

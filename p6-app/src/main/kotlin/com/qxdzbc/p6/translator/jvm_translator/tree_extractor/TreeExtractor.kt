@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.translator.jvm_translator.tree_extractor
 
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Result
 import org.antlr.v4.runtime.tree.ParseTree
 

@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.file
 
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import java.nio.file.Path
 
 object P6FileSaverErrors {

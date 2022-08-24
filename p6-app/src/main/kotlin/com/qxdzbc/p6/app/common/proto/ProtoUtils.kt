@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.common.proto
 
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.CommonProtos
 object ProtoUtils {
     fun CommonProtos.ErrorReportProto.toModel(): ErrorReport {

@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.document.cell
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 
 object CellErrors {
     val CellUIErr = "UI_CellErrors_"

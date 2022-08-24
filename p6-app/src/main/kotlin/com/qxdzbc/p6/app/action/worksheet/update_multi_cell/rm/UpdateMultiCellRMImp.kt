@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.action.worksheet.update_multi_cell.rm
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
+import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellMultiUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellMultiUpdateResponse

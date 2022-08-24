@@ -11,9 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.compose.key_event.PKeyEvent.Companion.toPKeyEvent
 import com.qxdzbc.p6.app.build.DebugFunctions.debug
-import com.qxdzbc.p6.app.common.utils.key_event.PKeyEvent.Companion.toPKeyEvent
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState

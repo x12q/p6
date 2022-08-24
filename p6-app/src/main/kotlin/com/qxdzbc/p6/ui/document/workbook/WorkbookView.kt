@@ -18,7 +18,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg

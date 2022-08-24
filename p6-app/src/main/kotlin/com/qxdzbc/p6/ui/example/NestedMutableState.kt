@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.common.compose.TestApp
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 
 data class BState(val b:Int,val b2:Int = 0)
 data class CState(val c:Int=3)

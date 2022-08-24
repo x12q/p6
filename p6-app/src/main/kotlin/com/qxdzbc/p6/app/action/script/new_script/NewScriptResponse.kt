@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.script.new_script
 import com.qxdzbc.p6.app.communication.event.WithP6EventLookupClazz
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponseInterface
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.google.protobuf.ByteString
 import kotlin.reflect.KClass
 

@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.communication.event.data_structure.app_event
 
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
-import com.qxdzbc.p6.common.exception.error.CommonErrors
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.proto.AppEventProtos.CreateNewWorkbookResponseProto
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import test.TestSample

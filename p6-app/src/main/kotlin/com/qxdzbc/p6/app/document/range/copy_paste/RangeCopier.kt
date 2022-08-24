@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
 import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Result
 
 interface RangeCopier {

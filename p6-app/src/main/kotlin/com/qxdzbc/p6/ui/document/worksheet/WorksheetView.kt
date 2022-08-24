@@ -20,7 +20,7 @@ import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
 import com.qxdzbc.p6.ui.document.worksheet.cursor.CursorView

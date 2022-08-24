@@ -4,12 +4,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.common.utils.Rs
-import com.qxdzbc.p6.app.common.utils.Rse
-import com.qxdzbc.p6.app.common.utils.ResultUtils.toOk
+import com.qxdzbc.common.Rs
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.app_state.AppWindowStateListMs
 import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.common.compose.Ms
@@ -25,6 +24,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.github.michaelbull.result.*
+import com.qxdzbc.common.ResultUtils.toOk
 import javax.inject.Inject
 
 

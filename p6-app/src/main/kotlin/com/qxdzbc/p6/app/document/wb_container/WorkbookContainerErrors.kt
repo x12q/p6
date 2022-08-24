@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.document.wb_container
 
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import java.nio.file.Path
 
 object WorkbookContainerErrors {

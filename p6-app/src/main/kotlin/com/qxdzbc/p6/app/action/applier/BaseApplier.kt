@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.app.action.applier
 
-import com.qxdzbc.p6.app.common.utils.Rs
+import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.communication.res_req_template.response.Response
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 
 interface BaseApplier:BaseApplier2 {
     fun <T : Response> applyRes(res: T?, onResOk: (res: T) -> Unit)

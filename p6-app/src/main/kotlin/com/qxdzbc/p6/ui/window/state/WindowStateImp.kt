@@ -2,9 +2,8 @@ package com.qxdzbc.p6.ui.window.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.common.utils.Rse
-import com.qxdzbc.p6.app.common.utils.ErrorUtils.getOrThrow
-import com.qxdzbc.p6.app.common.utils.Utils.findAndReplace
+import com.qxdzbc.common.Rse
+import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
 import com.qxdzbc.p6.di.state.app_state.WbStateContMs
@@ -14,7 +13,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.p6.app.oddity.OddityContainerImp
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.window.FocusStateMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -33,6 +32,7 @@ import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
+import com.qxdzbc.common.CollectionUtils.findAndReplace
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CompletableDeferred

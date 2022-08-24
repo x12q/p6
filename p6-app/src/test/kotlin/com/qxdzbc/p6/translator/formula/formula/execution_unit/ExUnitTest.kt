@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.translator.formula.formula.execution_unit
 
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.AbstractFunctionDef
 import com.qxdzbc.p6.translator.formula.FunctionDef
 import com.qxdzbc.p6.translator.formula.FunctionMapImp

@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.ui.file
 
-import com.qxdzbc.p6.app.common.utils.path.PPath
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.path.PPath
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 
 object P6FileLoaderErrors {
     val FILE_ERR ="UI_P6FileLoaderErrors_"

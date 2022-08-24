@@ -2,10 +2,10 @@ package com.qxdzbc.p6.ui.app.state
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.common.utils.Rs
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rs
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState

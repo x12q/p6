@@ -10,8 +10,6 @@ import com.qxdzbc.p6.app.code.PythonCommanderImp
 import com.qxdzbc.p6.app.coderunner.CodeRunner
 import com.qxdzbc.p6.app.coderunner.FakeCodeRunner
 import com.qxdzbc.p6.app.coderunner.PythonCodeRunner
-import com.qxdzbc.p6.app.common.utils.file_util.FileUtil
-import com.qxdzbc.p6.app.common.utils.file_util.FileUtilImp
 import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.app.action.request_maker.*
 import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueue
@@ -29,6 +27,8 @@ import com.qxdzbc.p6.ui.app.action.AppActionImp
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.file_util.FileUtil
+import com.qxdzbc.common.file_util.FileUtilImp
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import com.qxdzbc.p6.ui.kernel.KernelActionImp
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouter
@@ -50,10 +50,6 @@ interface P6Module {
     @Binds
     @P6Singleton
     fun KernelAction(i: KernelActionImp): KernelAction
-
-    @Binds
-    @P6Singleton
-    fun FileReader(i: FileUtilImp): FileUtil
 
     @Binds
     @P6Singleton
@@ -109,7 +105,11 @@ interface P6Module {
     @P6Singleton
     fun TemplateRM2(i: TemplateRMSuspendImp): TemplateRMSuspend
     companion object {
-
+        @Provides
+        @P6Singleton
+        fun FileUtil(): FileUtil {
+            return FileUtilImp()
+        }
         @Provides
         @NullInt
         fun nullInt():Int?{

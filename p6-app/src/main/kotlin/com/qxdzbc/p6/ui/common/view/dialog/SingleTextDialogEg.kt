@@ -4,7 +4,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.p6.ui.common.compose.TestApp
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 

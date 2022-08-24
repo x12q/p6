@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.p6.ui.common.compose.TestApp
 
@@ -30,7 +31,7 @@ fun BrowseButton(
             Box(modifier = Modifier.border(width = 1.dp, color = c, shape = R.shape.buttonShape)) {
                 Icon(
                     imageVector = Icons.Filled.MoreHoriz,
-                    contentDescription = "Show/hide stack trace",
+                    contentDescription = "Browse",
                     modifier = Modifier.align(Alignment.Center).padding(1.dp),
                     tint = c
                 )

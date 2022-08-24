@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.communication.event
 
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Event
 
 /**

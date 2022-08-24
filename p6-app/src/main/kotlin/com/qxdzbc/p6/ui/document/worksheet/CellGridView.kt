@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.document.cell.CellView
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction

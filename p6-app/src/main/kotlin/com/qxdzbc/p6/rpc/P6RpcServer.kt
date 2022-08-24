@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.rpc
 
-import com.qxdzbc.p6.app.common.utils.Rs
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.Rs
+import com.qxdzbc.common.error.ErrorReport
 import io.grpc.Server
 
 interface P6RpcServer {

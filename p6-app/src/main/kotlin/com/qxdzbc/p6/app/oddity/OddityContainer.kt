@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.oddity
 
-import com.qxdzbc.p6.app.common.utils.WithSize
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.WithSize
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 
 interface OddityContainer : WithSize {

@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.document.range
 
 import com.qxdzbc.p6.app.document.cell.CellErrors
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 
 object RangeErrors {
     val prefix = "UI_RangeErrors_"

@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttachedComposable
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
-import com.qxdzbc.p6.ui.common.view.MBox
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.tree_view.TreeNode2
 import com.qxdzbc.p6.ui.script_editor.script_tree.action.ScriptTreeAction
 import com.qxdzbc.p6.ui.script_editor.script_tree.state.ScriptTreeState

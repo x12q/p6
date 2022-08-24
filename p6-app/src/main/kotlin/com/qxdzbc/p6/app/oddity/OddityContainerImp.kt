@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.oddity
 
-import com.qxdzbc.p6.common.exception.error.CommonErrors
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import javax.inject.Inject
 
 fun ErrorReport.oddMsg():String{

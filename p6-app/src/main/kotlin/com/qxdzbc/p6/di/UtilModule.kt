@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.di
 
-import com.qxdzbc.p6.app.common.utils.binary_copier.BinaryCopier
-import com.qxdzbc.p6.app.common.utils.binary_copier.BinaryCopierImp
+import com.qxdzbc.common.copiers.binary_copier.BinaryCopier
+import com.qxdzbc.common.copiers.binary_copier.BinaryCopierImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import com.qxdzbc.p6.app.document.workbook.AutoNameWbFactory
 import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
@@ -25,10 +25,6 @@ interface UtilModule {
 
     @Binds
     @P6Singleton
-    fun BinaryCopier(i:BinaryCopierImp): BinaryCopier
-
-    @Binds
-    @P6Singleton
     fun P6Saver(i:P6SaverImp): P6Saver
 
     @Binds
@@ -49,6 +45,12 @@ interface UtilModule {
         @P6Singleton
         fun gson(): Gson {
             return Gson()
+        }
+
+        @Provides
+        @P6Singleton
+        fun BinaryCopier(): BinaryCopier{
+            return BinaryCopierImp()
         }
     }
 }

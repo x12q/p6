@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.translator.jvm_translator
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress

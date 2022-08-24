@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.ui.script_editor.code_container
 
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 
 object ScriptContainerErrors {
     val prefix = "UI_CodeContainerErrors_"

@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookInter
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.common.exception.error.CommonErrors
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms

@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.rpc.document.workbook.msg
 
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.rpc.workbook.WorkbooKServiceProtos
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok

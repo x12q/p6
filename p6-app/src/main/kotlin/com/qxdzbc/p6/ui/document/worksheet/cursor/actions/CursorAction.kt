@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.common.utils.key_event.PKeyEvent
+import com.qxdzbc.common.compose.key_event.PKeyEvent
 
 
 interface CursorAction {

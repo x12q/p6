@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.document.workbook
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import java.util.regex.Pattern

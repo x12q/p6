@@ -2,8 +2,6 @@
 # Project exclude paths
 /.gradle/
 /build/
-/gradlew
-/gradlew.bat
 /gradle
 gradle
 /.idea
@@ -46,7 +44,6 @@ build/
 
 ### VS Code ###
 .vscode/
-/.gradle/
 /.idea/
 
 ## bench

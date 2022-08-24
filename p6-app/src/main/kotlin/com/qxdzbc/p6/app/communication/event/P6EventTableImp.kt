@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.communication.event
 
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Event
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok

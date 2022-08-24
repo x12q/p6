@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
-import com.qxdzbc.p6.common.exception.error.ErrorHeader
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Err
 
 object ExUnitErrors {

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.cell_editor.open_cell_editor
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.common.utils.Rse
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.CellErrors
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.di.state.app_state.AppStateMs

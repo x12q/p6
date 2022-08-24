@@ -1,13 +1,13 @@
 package com.qxdzbc.p6.app.action.applier
 
-import com.qxdzbc.p6.app.common.utils.Rs
+import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.app.common.utils.ErrorUtils.noNav
+import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfos.noNav
 import com.qxdzbc.p6.app.communication.res_req_template.response.Response
 import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey
 import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.qxdzbc.p6.app.communication.res_req_template.response.ScriptResponse
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok

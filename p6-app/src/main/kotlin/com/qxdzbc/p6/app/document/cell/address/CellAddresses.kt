@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.app.document.cell.address
 
-import com.qxdzbc.p6.app.common.utils.Rs
+import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.CellErrors
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok

@@ -1,16 +1,16 @@
 package com.qxdzbc.p6.app.action.common_data_structure
 
-import com.qxdzbc.p6.app.common.utils.Rs
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.communication.res_req_template.IsError
 import com.qxdzbc.p6.app.communication.res_req_template.IsLegal
 import com.qxdzbc.p6.app.communication.res_req_template.WithErrorReport
-import com.qxdzbc.p6.common.exception.error.ErrorReport
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.CommonProtos.ErrorIndicatorProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.Rs
 
 data class ErrorIndicator(
     override val errorReport: ErrorReport?
