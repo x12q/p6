@@ -4,6 +4,7 @@ import com.qxdzbc.common.IntRangeUtils.dif
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
+import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
@@ -58,6 +59,17 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
         }
     }
 
+    override fun shift(
+        oldAnchorCell: GenericCellAddress<Int, Int>,
+        newAnchorCell: GenericCellAddress<Int, Int>
+    ): RangeAddress {
+        val tl=this.topLeft.shift(oldAnchorCell,newAnchorCell)
+        val br = this.botRight.shift(oldAnchorCell, newAnchorCell)
+        return this.copy(
+            topLeft = tl, botRight = br
+        )
+    }
+
     override val colRange: IntRange = topLeft.colIndex..botRight.colIndex
     override val rowRange: IntRange = topLeft.rowIndex..botRight.rowIndex
 
@@ -99,7 +111,7 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
             }
         }
 
-    override val label: String get() = "@${rawLabel}"
+    override val label: String get() = rawLabel
 
     override val rawLabel: String
         get() {
@@ -134,6 +146,28 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
         CellAddresses.fromIndices(colIndex = botRight.colIndex, rowIndex = topLeft.rowIndex)
     override val botLeft: CellAddress =
         CellAddresses.fromIndices(colIndex = topLeft.colIndex, rowIndex = botRight.rowIndex)
+
+    override fun setTopLeft(i: CellAddress): RangeAddress {
+        return this.copy(topLeft = i)
+    }
+
+    override fun setBotRight(i: CellAddress): RangeAddress {
+        return this.copy(botRight = i)
+    }
+
+    override fun lock(): RangeAddress {
+        return this.copy(
+            topLeft = topLeft.lock(),
+            botRight = botRight.lock()
+        )
+    }
+
+    override fun unLock(): RangeAddress {
+        return this.copy(
+            topLeft = topLeft.unlock(),
+            botRight = botRight.unlock()
+        )
+    }
 
     override fun removeCell(cellAddress: CellAddress): List<RangeAddress> {
         if (cellAddress in this) {

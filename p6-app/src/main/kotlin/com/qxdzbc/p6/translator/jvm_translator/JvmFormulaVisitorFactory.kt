@@ -6,7 +6,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 
 @AssistedFactory
-interface JvmFormulaVisitorFactory{
+interface JvmFormulaVisitorFactory {
     fun create(
         @Assisted("1") wbKeySt: St<WorkbookKey>,
         @Assisted("2") wsNameSt: St<String>

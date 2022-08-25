@@ -2,12 +2,11 @@ package com.qxdzbc.p6.translator.jvm_translator
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.document.cell.FormulaErrors
+import com.github.michaelbull.result.Err
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
 import com.qxdzbc.p6.app.document.cell.d.CellImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toCellValue
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -22,31 +21,37 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.toSt
-import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import kotlin.test.*
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.app.document.cell.FormulaErrors
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.app.document.workbook.Workbook
 import test.TestSample
 
 class JvmFormulaTranslator_Integration_Test {
-    lateinit var testSample: TestSample
+    lateinit var ts: TestSample
     lateinit var functionMap: FunctionMap
     lateinit var translator: JvmFormulaTranslator
-    val wbKey: WorkbookKey = TestSample.wbk1
-    val wsName = "Sheet1"
+    val wbKey: WorkbookKey get()=ts.wbKey1
+    val wsName get()=ts.wsn1
+
+    val wbKeySt get()=ts.wbKey1Ms
+    val wsNameSt get()=ts.appState.docCont.getWsNameSt(wbKeySt,wsName)!!
+
     lateinit var appStateMs: Ms<AppState>
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
-    val wbCont: WorkbookContainer get() = testSample.appState.globalWbContMs.value
+    val wbCont: WorkbookContainer get() = ts.appState.globalWbContMs.value
 
     @BeforeTest
     fun b() {
-        testSample = TestSample()
-        val wbl = listOf(
+        ts = TestSample()
+        val wbl:List<Workbook> = listOf(
             WorkbookImp(
-                keyMs = TestSample.wbk1.toMs(),
+                keyMs = ts.wbKey1Ms,
             ).addMultiSheetOrOverwrite(
                 listOf(
-                    WorksheetImp("Sheet1".toMs(), testSample.wbKey2Ms)
+                    WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms)
                         .addOrOverwrite(
                             CellImp(
                                 address = CellAddress("A1"),
@@ -70,27 +75,28 @@ class JvmFormulaTranslator_Integration_Test {
                                 content = CellContentImp("abc".toCellValue().toMs())
                             )
                         ),
-                    WorksheetImp("Sheet2".toMs(), testSample.wbKey2Ms)
+                    WorksheetImp("Sheet2".toMs(), ts.wbKey2Ms)
                 )
             ),
             WorkbookImp(
-                keyMs = testSample.wbKey2Ms,
+                keyMs = ts.wbKey2Ms,
             ).addMultiSheetOrOverwrite(
                 listOf<Worksheet>(
-                    WorksheetImp("Sheet1".toMs(), testSample.wbKey2Ms),
-                    WorksheetImp("Sheet2".toMs(), testSample.wbKey2Ms)
+                    WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms),
+                    WorksheetImp("Sheet2".toMs(), ts.wbKey2Ms)
                 )
             )
         )
 
-        var wbc by testSample.appState.globalWbContMs
+        ts.appState
+        var wbc:WorkbookContainer by ts.appState.globalWbContMs
         wbc = wbc.removeAll()
         wbc = wbl.fold(wbc) { acc, wb ->
             acc.addWb(wb)
         }
 
-        appStateMs = testSample.sampleAppStateMs(wbCont)
-        p6FunctDefs = P6FunctionDefinitionsImp(appStateMs)
+        appStateMs = ts.sampleAppStateMs(wbCont)
+        p6FunctDefs = P6FunctionDefinitionsImp(appStateMs, ts.appState.docContMs)
 
         fun add(n1: Int, n2: Int): Result<Int, ErrorReport> {
             return Ok(n1 + n2)
@@ -105,10 +111,11 @@ class JvmFormulaTranslator_Integration_Test {
         )
         translator = JvmFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
-            visitor = JvmFormulaVisitor2(
-                wbKeySt = wbKey.toSt(),
-                wsNameSt = wsName.toSt(),
-                functionMap = functionMap
+            visitor = JvmFormulaVisitor(
+                wbKeySt = wbKeySt,
+                wsNameSt = wsNameSt,
+                functionMap = functionMap,
+                docContMs = ts.appState.docContMs
             )
         )
     }
@@ -118,20 +125,23 @@ class JvmFormulaTranslator_Integration_Test {
         val inputMap: Map<String, Result<Any, ErrorReport>> = mapOf(
             "=A1" to appStateMs.value.getCellRs(wbKey, wsName, CellAddress("A1")),
             "=A1:B3@Sheet2" to appStateMs.value.getRangeRs(wbKey, "Sheet2", RangeAddress("A1:B3")),
-            "=A1:B3@'Sheet 13'" to appStateMs.value.getRangeRs(wbKey, "Sheet 13", RangeAddress("A1:B3")),
+            "=A1:B3@'Sheet not exist'" to appStateMs.value.getRangeRs(wbKey, "Sheet not exist", RangeAddress("A1:B3")),
             "=SUM(A1:C3)" to Ok(1.0 + 2 + 3),
             "=SUM(A1:D4)" to Err(FormulaErrors.InvalidFunctionArgument.report("")),
         )
         for ((i, expect) in inputMap) {
             val rs = translator.translate(i)
             assertTrue { rs is Ok }
-            val oRs = rs.component1()!!.run()
+            val u = rs.component1()
+            assertNotNull(u)
+            val oRs = u.run()
             if (expect is Ok) {
                 assertEquals(expect, oRs)
             } else {
                 val o = oRs.component2()!!
                 assertTrue(expect.component2()!!.isType(o))
             }
+//            assertEquals(i,"="+u.toFormula())
         }
     }
 }

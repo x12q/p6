@@ -4,17 +4,13 @@ import io.grpc.stub.StreamObserver
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 import java.net.ServerSocket
-import java.util.*
-import java.util.AbstractMap.SimpleEntry
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
 
 /**
  * This object houses common utility functions that operate on base types such as Boolean, List
  */
 object Utils {
 
-    fun <T> StreamObserver<T>.onNextAndComplete(t:T){
+    fun <T> StreamObserver<T>.onNextAndComplete(t: T) {
         this.onNext(t)
         this.onCompleted()
     }
@@ -22,22 +18,30 @@ object Utils {
     /**
      * Convert a boolean to "Yes"(true) or "No"(false)
      */
-    fun Boolean.toYN():String{
-        if(this){
+    fun Boolean.toYN(): String {
+        if (this) {
             return "Yes"
-        }else{
+        } else {
             return "No"
         }
     }
 
-    fun readResource(path:String):String? {
+    fun Boolean.toTF(): String {
+        if (this) {
+            return "TRUE"
+        } else {
+            return "FALSE"
+        }
+    }
+
+    fun readResource(path: String): String? {
         return this.javaClass.getResource(path)?.readText()
     }
 
     /**
      * Find an available socket port
      */
-    fun findSocketPort():Int{
+    fun findSocketPort(): Int {
         val socket = ServerSocket(0)
         val port = socket.localPort
         socket.close()

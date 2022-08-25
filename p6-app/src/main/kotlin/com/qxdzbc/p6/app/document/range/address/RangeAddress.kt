@@ -1,10 +1,12 @@
 package com.qxdzbc.p6.app.document.range.address
 
+import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressProto
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
-interface RangeAddress : RangeConstraint {
+interface RangeAddress : RangeConstraint, Shiftable {
 
     val cellIterator: Iterator<CellAddress>
 
@@ -16,7 +18,23 @@ interface RangeAddress : RangeConstraint {
     val topRight: CellAddress
     val botLeft: CellAddress
 
-    fun isValid():Boolean
+    fun setTopLeft(i:CellAddress):RangeAddress
+    fun setBotRight(i:CellAddress):RangeAddress
+
+    /**
+     * lock the whole range address
+     */
+    fun lock(): RangeAddress
+
+    /**
+     * unlock the whole range address
+     */
+    fun unLock(): RangeAddress
+
+    /**
+     * a valid range is a range consisting of only valid cells.
+     */
+    fun isValid(): Boolean
 
     /**
      * @return a [RangeAddress] representing the intersection of this and [otherRangeAddress], return null if they do not overlap
@@ -58,17 +76,22 @@ interface RangeAddress : RangeConstraint {
     /**
      * Expand this range with a [CellAddress].
      * The resulting range contains strictly only the original and the new cell.
-     * If that is not possible, return null
+     * If that is not possible, return null.
      */
     fun strictMerge(cellAddress: CellAddress): RangeAddress?
 
     /**
-     * Attempt to merge this range with another range into a new range that strictly contains the two original range, nothing else. Return null if unable to.
+     * Attempt to merge this range with another range into a new (rectangular) range that strictly contains the two original range, nothing else. Return null if unable to.
      */
     fun strictMerge(anotherRange: RangeAddress): RangeAddress?
 
     fun toProto(): RangeAddressProto
     fun getCellAddressCycle(cellAddress: CellAddress): CellAddress
+
+    override fun shift(
+        oldAnchorCell: GenericCellAddress<Int, Int>,
+        newAnchorCell: GenericCellAddress<Int, Int>
+    ): RangeAddress
 }
 
 /**
@@ -99,6 +122,6 @@ fun RangeAddress(colRange: IntRange, rowRange: IntRange): RangeAddress {
     )
 }
 
-fun RangeAddress(label:String): RangeAddress {
+fun RangeAddress(label: String): RangeAddress {
     return RangeAddresses.fromLabel(label)
 }

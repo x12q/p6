@@ -13,7 +13,6 @@ import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.P6FunctionDefinitionsImp
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslator
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitor
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitor2
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.toSt
@@ -23,12 +22,12 @@ import kotlin.test.*
 
 class IntegrationTest {
 
-    lateinit var testSample: TestSample
-    val appState get() = testSample.appState
+    lateinit var ts: TestSample
+    val appState get() = ts.appState
 
     @BeforeTest
     fun b() {
-        testSample = TestSample()
+        ts = TestSample()
     }
 
     /**
@@ -41,22 +40,23 @@ class IntegrationTest {
      */
     @Test
     fun `test cell auto cell computation update after removing cell`() {
-        val appMs = testSample.sampleAppStateMs()
+        val appMs = ts.sampleAppStateMs()
         var wbCont by appMs.value.globalWbContMs
-        val wbKey = WorkbookKey("b1").toMs()
-        val wsName = "S1"
+        val wbKeySt = WorkbookKey("Wb1").toMs()
+        val wsNameSt = "S1".toMs()
         val translator = JvmFormulaTranslator(
-            visitor = JvmFormulaVisitor2(
-                wbKeySt = wbKey.value.toSt(),
-                wsNameSt = wsName.toSt(),
-                functionMap = FunctionMapImp(P6FunctionDefinitionsImp(appMs).functionMap)
+            visitor = JvmFormulaVisitor(
+                wbKeySt = wbKeySt,
+                wsNameSt = wsNameSt,
+                functionMap = FunctionMapImp(P6FunctionDefinitionsImp(appMs,appMs.value.docContMs).functionMap),
+                appMs.value.docContMs
             ),
             treeExtractor = TreeExtractorImp()
         )
         val wb = WorkbookImp(
-            keyMs = wbKey,
+            keyMs = wbKeySt,
             worksheetMsList = listOf(
-                WorksheetImp("S1".toMs(), wbKeySt = wbKey).let { ws ->
+                WorksheetImp(wsNameSt, wbKeySt = wbKeySt).let { ws ->
                     ws.addOrOverwrite(
                         CellImp(
                             address = CellAddress("A1"),
@@ -90,17 +90,17 @@ class IntegrationTest {
                 }
             ).map { ms(it) }
         )
-        wbCont = wbCont.addWb(wb)!!
+        wbCont = wbCont.addWb(wb)
 
         val wb2 = wb.reRun()
-        assertEquals(6.0, wb2.getWs(wsName)!!.getCellOrNull(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
+        assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCellOrNull(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
 
 
-        val newWs = wb2.getWs(wsName)!!.removeCell(CellAddress("A2"))
+        val newWs = wb2.getWs(wsNameSt)!!.removeCell(CellAddress("A2"))
         val wb3 = wb2.addSheetOrOverwrite(newWs).reRun()
         wbCont = wbCont.overwriteWB(wb3)
         val wb4 = wb3.reRun()
 
-        assertEquals(4.0, wb4.getWs(wsName)!!.getCellOrNull(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
+        assertEquals(4.0, wb4.getWs(wsNameSt)!!.getCellOrNull(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
     }
 }

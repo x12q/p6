@@ -42,6 +42,7 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
+import java.nio.file.Path
 import javax.inject.Inject
 
 data class AppStateImp @Inject constructor(
@@ -99,24 +100,112 @@ data class AppStateImp @Inject constructor(
         return docCont.getWbWsSt(wbWs)
     }
 
+    override fun getWbKeySt(wbKey: WorkbookKey): St<WorkbookKey>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsNameSt(wbKey: WorkbookKey, wsName: String): St<String>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsNameSt(wbKeySt: St<WorkbookKey>, wsName: String): St<String>? {
+        TODO("Not yet implemented")
+    }
+
     override fun getWbRs(wbKey: WorkbookKey): Rs<Workbook, ErrorReport> {
         return docCont.getWbRs(wbKey)
+    }
+
+    override fun getWbRs(path: Path): Result<Workbook, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Result<Ms<Workbook>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbMsRs(wbKey: WorkbookKey): Result<Ms<Workbook>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbMsRs(path: Path): Result<Ms<Workbook>, ErrorReport> {
+        TODO("Not yet implemented")
     }
 
     override fun getWb(wbKey: WorkbookKey): Workbook? {
         return docCont.getWb(wbKey)
     }
 
+    override fun getWb(path: Path): Workbook? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbMs(wbKeySt: St<WorkbookKey>): Ms<Workbook>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbMs(wbKey: WorkbookKey): Ms<Workbook>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbRs(wbKeySt: St<WorkbookKey>): Result<Workbook, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
     override fun getWsRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport> {
         return docCont.getWsRs(wbKey, wsName)
+    }
+
+    override fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Worksheet, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsRs(wbwsSt: WbWsSt): Rs<Worksheet, ErrorReport> {
+        TODO("Not yet implemented")
     }
 
     override fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet? {
         return docCont.getWs(wbKey,wsName)
     }
 
+    override fun getWs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Worksheet? {
+        TODO("Not yet implemented")
+    }
+
     override fun getWs(wbws: WbWs): Worksheet? {
         return docCont.getWs(wbws)
+    }
+
+    override fun getWs(wbwsSt: WbWsSt): Worksheet? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsMsRs(wbwsSt: WbWsSt): Rs<Ms<Worksheet>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<Worksheet>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsMs(wbws: WbWs): Ms<Worksheet>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>? {
+        TODO("Not yet implemented")
     }
 
     override fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport> {
@@ -143,12 +232,32 @@ data class AppStateImp @Inject constructor(
         return docCont.getLazyRangeRs(wbKey, wsName, rangeAddress)
     }
 
+    override fun getLazyRangeRs(
+        wbKeySt: St<WorkbookKey>,
+        wsNameSt: St<String>,
+        rangeAddress: RangeAddress
+    ): Rs<Range, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
     override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport> {
         return docCont.getCellRs(wbKey, wsName, cellAddress)
     }
 
+    override fun getCellRs(
+        wbKeySt: St<WorkbookKey>,
+        wsNameSt: St<String>,
+        cellAddress: CellAddress
+    ): Rs<Cell, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
     override fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
         return docCont.getCell(wbKey, wsName, cellAddress)
+    }
+
+    override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {
+        TODO("Not yet implemented")
     }
 
     override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2> {

@@ -53,17 +53,17 @@ object CellAddresses {
             // extract col and row index from the label
             var colLabel = ""
             var rowLabel = ""
-            var fixedCol = false
-            var fixedRow = false
+            var lockCol = false
+            var lockRow = false
             for ((i, c) in label.withIndex()) {
                 if (i == 0) {
                     if (c == '$') {
-                        fixedCol = true
+                        lockCol = true
                     }
                 }
                 if (i != 0) {
                     if (c == '$') {
-                        fixedRow = true
+                        lockRow = true
                     }
                 }
                 if (c.isDigit()) {
@@ -74,7 +74,7 @@ object CellAddresses {
             }
             val colIndex = CellLabelNumberSystem.labelToNumber(colLabel)
             val rowIndex = rowLabel.toInt()
-            val address = fromIndices(colIndex, rowIndex, fixedCol, fixedRow)
+            val address = fromIndices(colIndex, rowIndex, lockCol, lockRow)
             return Ok(address)
         } else {
             return CellErrors.InvalidCellAddress.report(label).toErr()

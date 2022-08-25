@@ -8,9 +8,8 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import java.nio.file.Path
 import com.github.michaelbull.result.Result
-interface WorkbookContainer {
-    val wbList:List<Workbook>
 
+interface WorkbookGetter{
     fun getWb(wbKeySt:St<WorkbookKey>): Workbook?
     fun getWbMs(wbKeySt:St<WorkbookKey>): Ms<Workbook>?
     fun getWbRs(wbKeySt:St<WorkbookKey>): Result<Workbook,ErrorReport>
@@ -24,6 +23,10 @@ interface WorkbookContainer {
     fun getWb(path: Path):Workbook?
     fun getWbRs(path: Path):Result<Workbook,ErrorReport>
     fun getWbMsRs(path: Path):Result<Ms<Workbook>,ErrorReport>
+}
+
+interface WorkbookContainer : WorkbookGetter{
+    val wbList:List<Workbook>
 
     fun addWb(wb: Workbook): WorkbookContainer
     fun addWbRs(wb: Workbook):Result<WorkbookContainer,ErrorReport>

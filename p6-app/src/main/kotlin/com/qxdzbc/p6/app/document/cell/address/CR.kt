@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddresses
  */
 data class CR(
     val n: Int,
-    val isFixed: Boolean = false,
+    val isLocked: Boolean = false,
 ) : Number() {
     companion object {
         fun fromLabel(label: String): CR? {
@@ -38,8 +38,16 @@ data class CR(
         }
     }
 
+    fun lock():CR{
+        return this.copy(isLocked = true)
+    }
+
+    fun unlock():CR{
+        return this.copy(isLocked = false)
+    }
+
     fun toColLabel(): String {
-        if (isFixed) {
+        if (isLocked) {
             return "\$${CellLabelNumberSystem.numberToLabel(this.n)}"
         } else {
             return CellLabelNumberSystem.numberToLabel(this.n)

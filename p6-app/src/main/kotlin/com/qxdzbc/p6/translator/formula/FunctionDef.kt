@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.translator.formula
 
-import com.qxdzbc.p6.translator.formula.execution_unit.ExecutionWay
+import com.qxdzbc.p6.translator.formula.execution_unit.FunctionExecutor
 import kotlin.reflect.KFunction
 
 /**
@@ -9,5 +9,6 @@ import kotlin.reflect.KFunction
 interface FunctionDef {
     val name: String
     val function: KFunction<Any>
-    val executionWay:ExecutionWay?
+    val functionExecutor:FunctionExecutor?
+//    val functionFormulaConverter:FunctionFormulaConverter
 }

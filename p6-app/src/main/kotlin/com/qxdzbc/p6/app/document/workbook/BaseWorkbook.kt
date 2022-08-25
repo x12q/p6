@@ -4,6 +4,10 @@ import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.ResultUtils.toOk
+import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 
 abstract class BaseWorkbook : Workbook {
     override fun getWs(index: Int): Worksheet? {
@@ -23,7 +27,44 @@ abstract class BaseWorkbook : Workbook {
     }
 
     override fun getWsRs(name: String): Result<Worksheet, ErrorReport> {
-        val ws = worksheetMap[name]
+        val ws = worksheets.firstOrNull { it.name == name }
         return ws?.let { Ok(it) } ?: WorkbookErrors.InvalidWorksheet.report(name).toErr()
     }
+
+    override fun getWsMs(index: Int): Ms<Worksheet>? {
+        return worksheetMsList.getOrNull(index)
+    }
+
+    override fun getWsMs(name: String): Ms<Worksheet>? {
+        return worksheetMsList.firstOrNull { it.value.name == name }
+    }
+
+    override fun getWsMs(nameSt: St<String>): Ms<Worksheet>? {
+        return worksheetMapMs[nameSt]
+    }
+
+    override fun getWsMsRs(index: Int): Rse<Ms<Worksheet>> {
+        val ws = getWsMs(index)
+        return ws?.let { Ok(it) } ?: WorkbookErrors.InvalidWorksheet.report(index).toErr()
+    }
+
+    override fun getWsMsRs(name: String): Rse<Ms<Worksheet>> {
+        val ws = getWsMs(name)
+        return ws?.let { Ok(it) } ?: WorkbookErrors.InvalidWorksheet.report(name).toErr()
+    }
+
+    override fun getWsMsRs(nameSt: St<String>): Result<Ms<Worksheet>, ErrorReport> {
+        return getWsMs(nameSt)?.toOk()
+            ?: WorkbookErrors.InvalidWorksheet.report(nameSt.value).toErr()
+    }
+
+    override fun getWs(nameSt: St<String>): Worksheet? {
+        return worksheetMapMs[nameSt]?.value
+    }
+
+    override fun getWsRs(nameSt: St<String>): Result<Worksheet, ErrorReport> {
+        val rt:Result<Worksheet, ErrorReport> = worksheetMapMs[nameSt]?.value?.toOk() ?: WorkbookErrors.InvalidWorksheet.report(nameSt.value).toErr()
+        return rt
+    }
+
 }

@@ -40,7 +40,7 @@ data class WorkbookStateContainerImp constructor(
     override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {
         val w = this.m[wbKeySt]
         return w?.let { Ok(it) } ?: Err(WorkbookStateContainerErrors.WorkbookStateNotExist.report(
-            "workbook state for key ${wbKeySt.value} does not exist"
+            "workbook state for key ${wbKeySt} does not exist"
         ))
     }
 

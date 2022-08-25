@@ -313,7 +313,7 @@ class RangeAddressImpTest {
             botRight = CellAddresses.fromIndices(2, 3)
         )
         assertEquals("A1:B3", p.rawLabel)
-        assertEquals("@A1:B3", p.label)
+        assertEquals("A1:B3", p.label)
     }
 
     @Test
@@ -323,7 +323,7 @@ class RangeAddressImpTest {
             botRight = CellAddresses.fromIndices(2, R.worksheetValue.rowLimit)
         )
         assertEquals("A:B", p.rawLabel)
-        assertEquals("@A:B", p.label)
+        assertEquals("A:B", p.label)
     }
 
     @Test
@@ -333,7 +333,7 @@ class RangeAddressImpTest {
             botRight = CellAddresses.fromIndices(R.worksheetValue.colLimit, 5)
         )
         assertEquals("1:5", p.rawLabel)
-        assertEquals("@1:5", p.label)
+        assertEquals("1:5", p.label)
     }
 
     @Test

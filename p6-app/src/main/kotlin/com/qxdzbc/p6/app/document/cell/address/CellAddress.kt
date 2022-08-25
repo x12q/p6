@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.document.cell.address
 
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
+import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.proto.DocProtos
 
 /**
@@ -20,21 +21,31 @@ fun CellAddress(label: String): CellAddress {
     return CellAddresses.fromLabel(label)
 }
 
-interface CellAddress : GenericCellAddress<Int, Int> {
+interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
     override val colIndex: Int
     override val rowIndex: Int
 
     val colCR:CR
     val rowCR:CR
 
-    val isColFixed: Boolean
-    val isRowFixed: Boolean
+    val isColLocked: Boolean
+    fun setLockCol(i:Boolean):CellAddress
+    fun unlockCol():CellAddress
+    fun lockCol():CellAddress
+
+    val isRowLocked: Boolean
+    fun setLockRow(i:Boolean):CellAddress
+    fun unlockRow():CellAddress
+    fun lockRow():CellAddress
+
+    fun lock():CellAddress
+    fun unlock():CellAddress
 
     /**
      * Shift this address using the vector defined by: [oldAnchorCell] --> [newAnchorCell].
      * See the test for more detail
      */
-    fun shift(oldAnchorCell: CellAddress, newAnchorCell: CellAddress): CellAddress
+    override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): CellAddress
     fun increaseRowBy(v: Int): CellAddress
     fun increaseColBy(v: Int): CellAddress
 
@@ -69,7 +80,7 @@ interface CellAddress : GenericCellAddress<Int, Int> {
 
     fun toRawLabel(): String {
         val colLabel: String = CellLabelNumberSystem.numberToLabel(colIndex)
-        return "${if(isColFixed)"\$" else "" }${colLabel}${if(isRowFixed)"\$" else "" }${rowIndex}"
+        return "${if(isColLocked)"\$" else "" }${colLabel}${if(isRowLocked)"\$" else "" }${rowIndex}"
     }
 
     fun toLabel(): String {

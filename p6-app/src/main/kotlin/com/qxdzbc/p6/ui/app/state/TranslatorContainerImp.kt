@@ -12,7 +12,6 @@ import com.qxdzbc.p6.translator.TranslatorMap
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory2
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toSt
@@ -27,7 +26,7 @@ class TranslatorContainerImp @Inject constructor(
     @InitSingleTranslatorMap
     private val independentTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,
     private val translatorFactory: JvmFormulaTranslatorFactory,
-    private val visitorFactory: JvmFormulaVisitorFactory2,
+    private val visitorFactory: JvmFormulaVisitorFactory,
 ) : TranslatorContainer {
 
     private var tm: TranslatorMap by attachedTranslatorMapMs

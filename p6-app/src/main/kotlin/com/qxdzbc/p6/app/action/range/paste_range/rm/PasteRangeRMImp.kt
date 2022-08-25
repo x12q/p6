@@ -13,6 +13,7 @@ import com.qxdzbc.p6.app.document.range.copy_paste.RangePaster
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.mapBoth
+import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import javax.inject.Inject
 
 class PasteRangeRMImp @Inject constructor(

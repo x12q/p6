@@ -42,7 +42,6 @@ import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCell
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory2
 import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -233,8 +232,7 @@ interface P6Component {
     @P6Singleton
     fun openCellEditorAction(): OpenCellEditorAction
     fun translatorFactory(): JvmFormulaTranslatorFactory
-    fun visitorFactory(): JvmFormulaVisitorFactory
-    fun visitorFactory2(): JvmFormulaVisitorFactory2
+    fun visitorFactory2(): JvmFormulaVisitorFactory
 
     fun clickOnCellAction(): ClickOnCell
     fun mouseOnWsAction(): MouseOnWorksheetAction

@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.document.range.address
 
 import com.qxdzbc.common.Rs
-import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.document.cell.address.CR
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -55,8 +54,8 @@ object RangeAddresses {
                     val firstCR= CellAddresses.minOf(firstColCR,lastColCR)
                     val lastCR = CellAddresses.maxOf(firstColCR,lastColCR)
                     val rt= RangeAddress(
-                        CellAddress(firstCR,CR(1,firstCR.isFixed)),
-                        CellAddress(lastCR,CR(R.worksheetValue.rowLimit,lastCR.isFixed))
+                        CellAddress(firstCR,CR(1,firstCR.isLocked)),
+                        CellAddress(lastCR,CR(R.worksheetValue.rowLimit,lastCR.isLocked))
                     ).toOk()
                     return rt
                 }
@@ -70,8 +69,8 @@ object RangeAddresses {
                     val last = CellAddresses.maxOf(fp,lp)
 
                     return RangeAddress(
-                        CellAddress(CR(1,first.isFixed), first),
-                        CellAddress(CR(R.worksheetValue.colLimit,last.isFixed), last)
+                        CellAddress(CR(1,first.isLocked), first),
+                        CellAddress(CR(R.worksheetValue.colLimit,last.isLocked), last)
                     ).toOk()
                 }
             }else{

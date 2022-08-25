@@ -11,6 +11,7 @@ import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.compose.St
 
 /**
  * essentially a map of worksheet
@@ -39,9 +40,14 @@ interface Workbook : WithSize {
     fun getWsRs(index: Int): Result<Worksheet, ErrorReport>
 
     fun getWsMs(name: String): Ms<Worksheet>?
+    fun getWsMs(nameSt: St<String>): Ms<Worksheet>?
     fun getWsMsRs(name: String): Rse<Ms<Worksheet>>
+    fun getWsMsRs(nameSt: St<String>): Rse<Ms<Worksheet>>
+
     fun getWs(name: String): Worksheet?
+    fun getWs(nameSt: St<String>): Worksheet?
     fun getWsRs(name: String): Result<Worksheet, ErrorReport>
+    fun getWsRs(nameSt: St<String>): Result<Worksheet, ErrorReport>
 
     /**
      * trying to create a new worksheet inside this workbook.

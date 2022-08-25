@@ -20,8 +20,47 @@ data class CellAddressImp constructor(
 
     override val colIndex: Int = colCR.n
     override val rowIndex: Int = rowCR.n
-    override val isColFixed: Boolean = colCR.isFixed
-    override val isRowFixed: Boolean = rowCR.isFixed
+    override val isColLocked: Boolean = colCR.isLocked
+    override fun setLockCol(i: Boolean): CellAddress {
+        val ccr = colCR.copy(isLocked = i)
+        return this.copy(colCR = ccr)
+    }
+
+    override fun unlockCol(): CellAddress {
+        return this.setLockCol(false)
+    }
+
+    override fun lockCol(): CellAddress {
+        return this.setLockCol(true)
+    }
+
+    override val isRowLocked: Boolean = rowCR.isLocked
+    override fun setLockRow(i: Boolean): CellAddress {
+        val rcr = rowCR.copy(isLocked = i)
+        return this.copy(rowCR = rcr)
+    }
+
+    override fun unlockRow(): CellAddress {
+        return this.setLockRow(false)
+    }
+
+    override fun lockRow(): CellAddress {
+        return this.setLockRow(true)
+    }
+
+    override fun lock(): CellAddress {
+        return this.copy(
+            colCR = colCR.lock(),
+            rowCR = rowCR.lock()
+        )
+    }
+
+    override fun unlock(): CellAddress {
+        return this.copy(
+            colCR = colCR.unlock(),
+            rowCR = rowCR.unlock()
+        )
+    }
 
     override fun isSame(other: CellAddress): Boolean {
         return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex
@@ -29,13 +68,13 @@ data class CellAddressImp constructor(
 
     override fun equals(other: Any?): Boolean {
         if(other is CellAddress){
-            return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex && this.isColFixed == other.isColFixed && this.isRowFixed == other.isRowFixed
+            return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex && this.isColLocked == other.isColLocked && this.isRowLocked == other.isRowLocked
         }else{
             return false
         }
     }
 
-    override fun shift(oldAnchorCell: CellAddress, newAnchorCell: CellAddress): CellAddress {
+    override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): CellAddress {
         val colDif = newAnchorCell.colIndex - oldAnchorCell.colIndex
         val rowDif = newAnchorCell.rowIndex - oldAnchorCell.rowIndex
         val colIndex = this.colIndex + colDif
@@ -82,8 +121,8 @@ data class CellAddressImp constructor(
     override fun hashCode(): Int {
         var result = colIndex
         result = 31 * result + rowIndex
-        result = 31 * result + isColFixed.hashCode()
-        result = 31 * result + isRowFixed.hashCode()
+        result = 31 * result + isColLocked.hashCode()
+        result = 31 * result + isRowLocked.hashCode()
         return result
     }
 }
