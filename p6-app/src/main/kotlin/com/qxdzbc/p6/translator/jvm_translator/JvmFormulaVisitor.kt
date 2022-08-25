@@ -14,7 +14,7 @@ import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.FunctionMap
-import com.qxdzbc.p6.translator.formula.P6FunctionDefinitions
+import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
 import com.qxdzbc.p6.ui.app.state.DocumentContainer

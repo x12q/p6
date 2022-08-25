@@ -15,12 +15,11 @@ import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
-import com.qxdzbc.p6.translator.formula.P6FunctionDefinitionsImp
+import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitionsImp
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.StateUtils.toSt
 import com.github.michaelbull.result.Ok
 import kotlin.test.*
 import com.github.michaelbull.result.Result

@@ -2,8 +2,8 @@ package com.qxdzbc.p6.di
 
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
-import com.qxdzbc.p6.translator.formula.P6FunctionDefinitions
-import com.qxdzbc.p6.translator.formula.P6FunctionDefinitionsImp
+import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
+import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitionsImp
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import dagger.Binds

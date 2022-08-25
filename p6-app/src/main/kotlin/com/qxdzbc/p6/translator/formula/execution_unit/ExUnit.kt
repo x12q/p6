@@ -5,7 +5,6 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
 import com.qxdzbc.common.Rs
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
@@ -17,7 +16,7 @@ import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.translator.formula.FunctionDef
+import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import kotlin.math.pow
 import kotlin.reflect.KFunction
@@ -53,7 +52,7 @@ interface ExUnit : Shiftable {
             return this.copy(rangeAddress = rangeAddress.shift(oldAnchorCell, newAnchorCell))
         }
 
-        override fun toFormula(): String? {
+        override fun toFormula(): String {
             return rangeAddress.label
         }
 
@@ -86,12 +85,12 @@ interface ExUnit : Shiftable {
             return this
         }
 
-        override fun toFormula(): String? {
+        override fun toFormula(): String {
             val p = wbKeySt.value.path
             if (p != null) {
-                return "@${wbKeySt.value.name}@${p.toAbsolutePath()}"
+                return "@\'${wbKeySt.value.name}\'@\'${p.toAbsolutePath()}\'"
             } else {
-                return "@${wbKeySt.value.name}"
+                return "@\'${wbKeySt.value.name}\'"
             }
         }
 
@@ -536,8 +535,8 @@ interface ExUnit : Shiftable {
             return this
         }
 
-        override fun toFormula(): String? {
-            return "@\"${nameSt.value}\""
+        override fun toFormula(): String {
+            return "@\'${nameSt.value}\'"
         }
 
         override fun run(): Result<St<String>, ErrorReport> {
