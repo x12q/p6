@@ -82,11 +82,11 @@ data class CellEditorStateImp @Inject constructor(
     override val displayTextField: TextFieldValue
         get() {
             if (this.isActive) {
-                if (this.rangeSelectorTextField != null) {
-                    return this.rangeSelectorTextField
-                }
+                val rst:TextFieldValue = this.rangeSelectorTextField ?: return this.currentTextField
+                return rst
+            }else{
+                return this.currentTextField
             }
-            return this.currentTextField
         }
     override val displayText: String
         get() = displayTextField.text

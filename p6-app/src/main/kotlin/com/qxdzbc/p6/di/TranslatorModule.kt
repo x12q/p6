@@ -22,17 +22,17 @@ interface TranslatorModule {
     @Binds
     @P6Singleton
     @BackConverterForGetCell
-    fun f3(i: FunctionFormulaBackConverter_ForGetCell): FunctionFormulaBackConverter
+    fun BackConverterForGetCell(i: FunctionFormulaBackConverter_ForGetCell): FunctionFormulaBackConverter
 
     @Binds
     @P6Singleton
     @BackConverterForGetRange
-    fun f1(i: FunctionFormulaBackConverter_ForGetRangeAddress): FunctionFormulaBackConverter
+    fun BackConverterForGetRange(i: FunctionFormulaBackConverter_ForGetRangeAddress): FunctionFormulaBackConverter
 
     @Binds
     @P6Singleton
     @NormalBackConverter
-    fun f2(i: FunctionFormulaBackConverterNormal): FunctionFormulaBackConverter
+    fun NormalBackConverter(i: FunctionFormulaBackConverterNormal): FunctionFormulaBackConverter
 
     @Binds
     @P6Singleton

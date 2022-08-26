@@ -15,6 +15,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
+import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import org.mockito.kotlin.*
 import test.TestSample
@@ -31,6 +32,32 @@ class CursorAndCellEditorTest {
     @BeforeTest
     fun b() {
         testSample = TestSample()
+    }
+
+    @Test
+    fun `test selective formula convertion function`(){
+        val wbk = testSample.wbKey1Ms.value
+        val wbk2 = testSample.wbKey2Ms.value
+        val wds = appState.getWindowStateMsByWbKey(wbk)
+        val wsn1 = testSample.wsn1
+        val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
+        var cellEditorState by appState.cellEditorStateMs
+        val mouseOnWsAction: MouseOnWorksheetAction = testSample.p6Comp.mouseOnWsAction()
+
+        assertNotNull(wds)
+        assertNotNull(cursor1Ms)
+
+        val cellEditorAction: CellEditorAction = testSample.p6Comp.cellEditorAction()
+        cellEditorAction.openCellEditor(cursor1Ms.value)
+        cellEditorAction.updateText("=SUM(B2:C4)")
+        cellEditorAction.runFormula()
+        cellEditorAction.openCellEditor(cursor1Ms.value)
+        val formulaBar:FormulaBarState? = testSample.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
+
+        assertEquals("=SUM(B2:C4)",formulaBar?.text)
+
+        assertEquals("=SUM(B2:C4)",cellEditorState.currentText)
+
     }
 
     @Test

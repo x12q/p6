@@ -19,16 +19,15 @@ class MakeCellEditorDisplayTextImp @Inject constructor(
     private val stateCont by stateContSt
     /**
      * make text that is displayed on the cell editor UI.
-     * When the cell editor is extract cell address from the range selector, display text = current text + range-selector address
+     * When the cell editor is extracting cell address from the range selector, display text = current text + range-selector address,
      */
     override fun makeRangeSelectorText(editorState: CellEditorState): TextFieldValue {
-//        if(editorState.isGettingAddressFromRangeSelector){
         if(editorState.allowRangeSelector){
-            val rangeSelector = editorState.rangeSelectorCursorId?.let {
+            val rangeSelector:CursorState? = editorState.rangeSelectorCursorId?.let {
                 stateCont.getCursorState(it)
             }
-            val wsName = rangeSelector?.wsName
-            val rangeAddress = rangeSelector?.let { getSelectedRange(it) }
+            val wsName:String? = rangeSelector?.wsName
+            val rangeAddress:RangeAddress? = rangeSelector?.let { getSelectedRange(it) }
             if(wsName!=null && rangeAddress!=null){
                 val rangeStr:String = if(rangeAddress.isCell()){
                     rangeAddress.topLeft.toRawLabel()

@@ -47,7 +47,7 @@ class OpenCellEditorImp @Inject constructor(
                         if(fcsMs!=null){
                             fcsMs.value =fcsMs.value.focusOnEditor()
                         }
-                        val cellText = cell.content.editableContent
+                        val cellText = cell.editableValue(cursorState.wbKey,cursorState.wsName)
                         cellEditorState = cellEditorState
                             .setCurrentText(cellText)
                             .setEditTarget(cursorState.mainCell)
