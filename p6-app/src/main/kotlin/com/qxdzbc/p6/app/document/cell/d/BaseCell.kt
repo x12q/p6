@@ -1,6 +1,20 @@
 package com.qxdzbc.p6.app.document.cell.d
 
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+
 abstract class BaseCell : Cell {
+    override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
+        return content.formula(wbKey, wsName)
+    }
+
+    override fun editableValue(wbKey: WorkbookKey?, wsName: String): String {
+        if(this.isFormula){
+            return this.formula(wbKey, wsName) ?: ""
+        }else{
+            return this.cellValueAfterRun.editableValue ?: ""
+        }
+    }
+
     override val editableValue: String
         get() {
             if(this.isFormula){

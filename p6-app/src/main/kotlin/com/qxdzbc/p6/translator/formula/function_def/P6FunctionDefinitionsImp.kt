@@ -111,14 +111,16 @@ class P6FunctionDefinitionsImp @Inject constructor(
                                 }
                                 is Cell -> {
                                     val cv = obj.valueAfterRun
-                                    try {
-                                        rt += (cv as Double)
-                                    } catch (e: Throwable) {
-                                        when (e) {
-                                            is ClassCastException -> {
-                                                return invalidArgumentReport
+                                    if(cv!=null){
+                                        try {
+                                            rt += (cv as Double)
+                                        } catch (e: Throwable) {
+                                            when (e) {
+                                                is ClassCastException -> {
+                                                    return invalidArgumentReport
+                                                }
+                                                else -> return FormulaErrors.Unknown.report("Unknown error").toErr()
                                             }
-                                            else -> return FormulaErrors.Unknown.report("Unknown error").toErr()
                                         }
                                     }
                                 }

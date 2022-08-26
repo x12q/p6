@@ -11,7 +11,7 @@ class FormulaBarStateImp(
             if(wsState!=null){
                 val cellAddress = wsState.cursorState.mainCell
                 val cell = wsState.worksheet.getCellOrNull(cellAddress)
-                return cell?.editableValue?:""
+                return cell?.editableValue(wsState.wbKey, wsState.name) ?: ""
             }else{
                 return ""
             }

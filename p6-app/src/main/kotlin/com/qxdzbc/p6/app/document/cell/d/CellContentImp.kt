@@ -10,6 +10,7 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
  * A class that holds content (value and formula) of a cell.
@@ -22,6 +23,13 @@ data class CellContentImp(
     override val formula: String? get() =  exUnit?.toFormula()?.let {
         "="+it
     }
+
+    override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
+        return exUnit?.toFormulaSelective(wbKey, wsName)?.let {
+            "=" + it
+        }
+    }
+
     init {
         checkStateLegality()
     }

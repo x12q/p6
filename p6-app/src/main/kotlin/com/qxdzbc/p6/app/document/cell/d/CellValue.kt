@@ -7,6 +7,7 @@ import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
  * A class that holds the value (value only, not including the formula) of a cell

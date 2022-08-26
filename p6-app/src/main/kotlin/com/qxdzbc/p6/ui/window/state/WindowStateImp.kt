@@ -107,7 +107,7 @@ data class WindowStateImp @AssistedInject constructor(
     /**
      * special note: FormulaBarState is a fully derivative state, therefore it does not have a Ms<>
      */
-    override val formulaBarState: FormulaBarState = FormulaBarStateImp(this)
+    override val formulaBarState: FormulaBarState get()= FormulaBarStateImp(this)
     override fun containWbKey(wbKey: WorkbookKey): Boolean {
         return this.wbKeySet.contains(wbKey)
     }
