@@ -8,6 +8,14 @@ annotation class NullInt
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
+annotation class FunctionMapMs
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class FunctionMapSt
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class False
 
 @Qualifier

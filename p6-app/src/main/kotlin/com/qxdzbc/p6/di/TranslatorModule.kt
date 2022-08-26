@@ -1,5 +1,8 @@
 package com.qxdzbc.p6.di
 
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
@@ -21,9 +24,21 @@ interface TranslatorModule {
 
     companion object {
         @Provides
-        @P6Singleton
         fun FunctionMap(fd: P6FunctionDefinitions): FunctionMap {
             return FunctionMapImp(fd.functionMap)
+        }
+        @Provides
+        @P6Singleton
+        @FunctionMapMs
+        fun FunctionMapMs(fm:FunctionMap):Ms<FunctionMap> {
+            return fm.toMs()
+        }
+
+        @Provides
+        @P6Singleton
+        @FunctionMapSt
+        fun FunctionMapSt(i:Ms<FunctionMap>):St<FunctionMap> {
+            return i
         }
     }
 }

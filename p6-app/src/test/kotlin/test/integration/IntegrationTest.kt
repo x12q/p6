@@ -47,7 +47,7 @@ class IntegrationTest {
             visitor = JvmFormulaVisitor(
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
-                functionMap = FunctionMapImp(P6FunctionDefinitionsImp(appMs,appMs.value.docContMs).functionMap),
+                functionMapMs = FunctionMapImp(P6FunctionDefinitionsImp(appMs,appMs.value.docContMs).functionMap).toMs(),
                 appMs.value.docContMs
             ),
             treeExtractor = TreeExtractorImp()
@@ -81,7 +81,7 @@ class IntegrationTest {
                         CellImp(
                             address = CellAddress("C1"),
                             content = CellContentImp(
-                                formula = "=SUM(A1:A3)",
+//                                formula = "=SUM(A1:A3)",
                                 exUnit = translator.translate("=SUM(A1:A3)").component1()!!
                             )
                         )

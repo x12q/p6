@@ -33,7 +33,7 @@ class CellImpTest {
             address = CellAddress("A1"),
             content = CellContentImp(
                 cellValueMs = CellValue.empty.toMs(),
-                formula = null
+//                formula = null
             )
         )
         val proto = cell.toProto()

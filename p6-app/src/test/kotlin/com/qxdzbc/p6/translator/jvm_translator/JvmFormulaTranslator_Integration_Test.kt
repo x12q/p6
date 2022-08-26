@@ -30,7 +30,7 @@ import test.TestSample
 
 class JvmFormulaTranslator_Integration_Test {
     lateinit var ts: TestSample
-    lateinit var functionMap: FunctionMap
+    lateinit var functionMap: Ms<FunctionMap>
     lateinit var translator: JvmFormulaTranslator
     val wbKey: WorkbookKey get()=ts.wbKey1
     val wsName get()=ts.wsn1
@@ -107,13 +107,13 @@ class JvmFormulaTranslator_Integration_Test {
 
         functionMap = FunctionMapImp(
             p6FunctDefs.functionMap
-        )
+        ).toMs()
         translator = JvmFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
             visitor = JvmFormulaVisitor(
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
-                functionMap = functionMap,
+                functionMapMs = functionMap,
                 docContMs = ts.appState.docContMs
             )
         )

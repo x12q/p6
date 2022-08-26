@@ -17,10 +17,12 @@ import com.github.michaelbull.result.Ok
  */
 data class CellContentImp(
     override val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
-    override val formula: String? = null,
+
     private val exUnit: ExUnit? = null,
 ) : CellContent {
-
+    override val formula: String? get() =  exUnit?.toFormula()?.let {
+        "="+it
+    }
     init {
         checkStateLegality()
     }
@@ -58,12 +60,12 @@ data class CellContentImp(
         fun fromTransRs(rs: Rs<ExUnit, ErrorReport>, formula: String): CellContentImp {
             when (rs) {
                 is Ok -> return CellContentImp(
-                    formula = formula,
+//                    formula = formula,
                     exUnit = rs.value
                 )
                 is Err -> return CellContentImp(
                     cellValueMs = CellValue.fromTransError(rs.error).toMs(),
-                    formula = formula,
+//                    formula = formula,
                 )
             }
         }
@@ -116,16 +118,20 @@ data class CellContentImp(
             return cellValueAfterRun.displayStr
         }
 
-    override val isFormula: Boolean get() = formula != null && formula.isNotEmpty()
+    override val isFormula: Boolean get() {
+      val f = formula
+        return f!= null && f.isNotEmpty()
+    }
 
     override fun setFormula(newFormula: String): CellContent {
-        cellValueMs.value = CellValue.empty
-        return this.copy(formula = newFormula)
+//        cellValueMs.value = CellValue.empty
+//        return this.copy(formula = newFormula)
+        return this
     }
 
     override fun setValue(cv: CellValue): CellContent {
         cellValueMs.value = cv
-        return this.copy(formula = null)
+        return this.copy(exUnit = null)
     }
 
     override fun hashCode(): Int {

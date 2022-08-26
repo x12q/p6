@@ -6,30 +6,22 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
 import org.mockito.kotlin.mock
-import test.TestSample
 import kotlin.test.*
 
-internal class FunctionFormulaConverter_ForGetRangeAddressTest {
-    lateinit var ts:TestSample
+internal class FunctionFormulaConverterNormalTest {
 
-    @BeforeTest
-    fun b(){
-        ts = TestSample()
-
-    }
     @Test
     fun toFormula() {
-        val converter = FunctionFormulaConverter_ForGetRangeAddress()
+        val converter = FunctionFormulaConverterNormal()
         val u = ExUnit.Func(
             funcName = "qwe",
             args = listOf(
-                WorkbookKey("Wb1",null).toSt().exUnit(),
-                ExUnit.WsNameStUnit("Sheet1".toSt()),
+                1.exUnit(),
+                "QWE".exUnit(),
                 ExUnit.RangeAddressUnit(RangeAddress("B2:K9"))
             ),
             functionMapSt = mock()
         )
-        assertEquals("B2:K9@'Sheet1'@'Wb1'",converter.toFormula(u))
-
+        assertEquals("qwe(1, \"QWE\", B2:K9)",converter.toFormula(u))
     }
 }

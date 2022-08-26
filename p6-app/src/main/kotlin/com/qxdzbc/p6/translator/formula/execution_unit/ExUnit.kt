@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
+import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
@@ -568,9 +569,9 @@ interface ExUnit : Shiftable {
     data class Func(
         val funcName: String,
         val args: List<ExUnit>,
-        val functionMap: FunctionMap,
-        val isImplicit:Boolean = false,
+        val functionMapSt: St<FunctionMap>,
     ) : ExUnit {
+        val functionMap by functionMapSt
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -580,16 +581,9 @@ interface ExUnit : Shiftable {
         }
 
         override fun toFormula(): String? {
-//            functionMap.getFunc(funcName)?.let {
-//                funcDef->
-//                funcDef
-//            }
-
-            val argsStr = args.map { it.toFormula() }.filterNotNull().joinToString(", ")
-            if(isImplicit){
-                return argsStr
-            }else{
-                return "${funcName}(${argsStr})"
+            return functionMap.getFunc(funcName)?.let {
+                funcDef->
+                funcDef.functionFormulaConverter.toFormula(this)
             }
         }
 

@@ -17,6 +17,9 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.translator.formula.execution_unit.FunctionExecutor
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverter
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverterNormal
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverter_ForGetRangeAddress
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import javax.inject.Inject
@@ -56,6 +59,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
             override val name: String = P6FunctionDefinitions.getRangeRs
             override val function: KFunction<Rs<Range, ErrorReport>> = ::getLazyRangeRs
+            override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverter_ForGetRangeAddress()
         },
         object : AbstractFunctionDef() {
             fun getCellRs(
@@ -68,6 +72,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
 
             override val name: String = P6FunctionDefinitions.getCellRs
             override val function: KFunction<Rs<Cell, ErrorReport>> = ::getCellRs
+            override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverter_ForGetRangeAddress()
         }
     )
 
@@ -137,6 +142,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
 
             override val name = "SUM"
             override val function: KFunction<Result<Double, ErrorReport>> = ::SUM
+            override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
         },
     ) + documentFunctions
 

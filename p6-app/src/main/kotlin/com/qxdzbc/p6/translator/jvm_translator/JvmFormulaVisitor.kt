@@ -3,6 +3,7 @@ package com.qxdzbc.p6.translator.jvm_translator
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -10,6 +11,8 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.di.FunctionMapMs
+import com.qxdzbc.p6.di.FunctionMapSt
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
@@ -26,7 +29,8 @@ import java.nio.file.Path
 class JvmFormulaVisitor @AssistedInject constructor(
     @Assisted("1") private val wbKeySt: St<WorkbookKey>,
     @Assisted("2") private val wsNameSt: St<String>,
-    private val functionMap: FunctionMap,
+    @FunctionMapMs
+    private val functionMapMs:Ms<FunctionMap> ,
     @DocumentContainerSt
     private val docContMs: St<@JvmSuppressWildcards DocumentContainer>
 ) : FormulaBaseVisitor<ExUnit>() {
@@ -244,7 +248,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
                 return ExUnit.Func(
                     funcName = P6FunctionDefinitions.getCellRs,
                     args = listOf(wbKeyStExUnit, wsNameStUnit, raUnit),
-                    functionMap = functionMap,
+                    functionMapSt = functionMapMs,
 //                    isImplicit = true
                 )
             }
@@ -255,7 +259,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
                 return ExUnit.Func(
                     funcName = P6FunctionDefinitions.getRangeRs,
                     args = listOf(wbKeyStExUnit, wsNameStUnit, raUnit),
-                    functionMap = functionMap,
+                    functionMapSt = functionMapMs,
 //                    isImplicit = true
                 )
             }
@@ -277,7 +281,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             return ExUnit.Func(
                 funcName = functionName,
                 args = eLis,
-                functionMap = functionMap
+                functionMapSt = functionMapMs
             )
         } else {
             return null
@@ -299,7 +303,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             return ExUnit.Func(
                 funcName = P6FunctionDefinitions.getRangeRs,
                 args = listOf(wbKeyStExUnit, wsNameStExUnit, raUnit),
-                functionMap = functionMap,
+                functionMapSt = functionMapMs,
 //                isImplicit = true
             )
         } else {
@@ -314,7 +318,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val rt = ExUnit.Func(
                 funcName = P6FunctionDefinitions.getCellRs,
                 args = listOf(wbKeyExUnit, wsNameExUnit, raUnit),
-                functionMap = functionMap,
+                functionMapSt = functionMapMs,
 //                isImplicit = true
             )
             return rt
@@ -330,7 +334,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             return ExUnit.Func(
                 funcName = P6FunctionDefinitions.getRangeRs,
                 args = listOf(wbKeyStExUnit, wsNameStExUnit, raUnit),
-                functionMap = functionMap,
+                functionMapSt = functionMapMs,
 //                isImplicit = true
             )
         } else {
@@ -345,7 +349,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             return ExUnit.Func(
                 funcName = P6FunctionDefinitions.getRangeRs,
                 args = listOf(wbKeyStExUnit, wsNameStExUnit, raUnit),
-                functionMap = functionMap,
+                functionMapSt = functionMapMs,
 //                isImplicit = true
             )
         } else {

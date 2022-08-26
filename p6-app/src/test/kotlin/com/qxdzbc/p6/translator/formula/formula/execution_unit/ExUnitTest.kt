@@ -3,13 +3,19 @@ package com.qxdzbc.p6.translator.formula.formula.execution_unit
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.ResultUtils.toOk
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.translator.formula.function_def.AbstractFunctionDef
-import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
+import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
+import com.qxdzbc.p6.translator.formula.function_def.AbstractFunctionDef
+import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverter
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverterNormal
 import org.mockito.kotlin.mock
 import kotlin.reflect.KFunction
 import kotlin.test.Test
@@ -68,22 +74,33 @@ internal class ExUnitTest {
         fun toUpper(str: String): Result<String, ErrorReport> {
             return Ok(str.uppercase())
         }
+        fun someFunction(i:Int):Result<Int,ErrorReport>{
+            return i.toOk()
+        }
 
-        val fMap = FunctionMapImp(
+        val fMap: St<FunctionMap> = FunctionMapImp(
             m = mapOf(
                 "add" to object : AbstractFunctionDef() {
                     override val name: String
                         get() = "add"
                     override val function: KFunction<Any> = ::add
+                    override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
                 },
                 "toUpper" to object : AbstractFunctionDef() {
                     override val name: String
                         get() = "add"
                     override val function: KFunction<Any> = ::toUpper
+                    override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
                 },
-                "internalFunction" to mock<FunctionDef>()
+                "internalFunction" to mock<FunctionDef>(),
+                "someFunction" to object: AbstractFunctionDef() {
+                    override val name: String
+                        get() = "someFunction"
+                    override val function: KFunction<Any> = ::someFunction
+                    override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
+                }
             )
-        )
+        ).toMs()
 
         @Test
         fun run() {
@@ -92,7 +109,7 @@ internal class ExUnitTest {
                 args = listOf(
                     ExUnit.StrUnit("abc")
                 ),
-                functionMap = fMap
+                functionMapSt = fMap,
             )
             val out = u1.run()
             assertEquals(Ok("ABC"), out)
@@ -104,7 +121,7 @@ internal class ExUnitTest {
                     ExUnit.IntNum(3),
                     ExUnit.IntNum(4),
                 ),
-                functionMap = fMap
+                functionMapSt = fMap
             )
             assertEquals(Ok(7), u2.run())
             assertEquals("add(3, 4)", u2.toFormula())
@@ -126,14 +143,14 @@ internal class ExUnitTest {
                                     ExUnit.IntNum(2),
                                     ExUnit.IntNum(2),
                                 ),
-                                functionMap = fMap
+                                functionMapSt = fMap
                             ),
                         ),
-                        functionMap = fMap
+                        functionMapSt = fMap
                     ),
                     ExUnit.IntNum(5),
                 ),
-                functionMap = fMap
+                functionMapSt = fMap
             )
             assertEquals(Ok(3 + 2 + 2 + 5), u2.run())
             assertEquals("add(add(3, add(2, 2)), 5)", u2.toFormula())
@@ -147,7 +164,7 @@ internal class ExUnitTest {
                     ExUnit.Nothing,
                     ExUnit.IntNum(2),
                 ),
-                functionMap = fMap
+                functionMapSt = fMap
             )
             val rs = u2.run()
             assertTrue { rs is Err }
@@ -157,50 +174,52 @@ internal class ExUnitTest {
         fun toFormula() {
             val u = ExUnit.Func(
                 funcName = "someFunction",
-//                isImplicit = true,
                 args = listOf(
                     ExUnit.IntNum(23),
-                ), functionMap = fMap
+                ),
+                functionMapSt = fMap
             )
-            assertEquals("someFunction(23)",u.toFormula())
+            assertEquals("someFunction(23)", u.toFormula())
         }
     }
 
-    class RangeAddressUnit{
+    class RangeAddressUnit {
         val r = RangeAddress("A1:B2")
         val u = ExUnit.RangeAddressUnit(rangeAddress = r)
+
         @Test
-        fun shift(){
+        fun shift() {
             val from = CellAddress("F2")
             val toCell = CellAddress("Q9")
 
-            assertEquals(ExUnit.RangeAddressUnit(r.shift(from,toCell)),u.shift(from,toCell))
+            assertEquals(ExUnit.RangeAddressUnit(r.shift(from, toCell)), u.shift(from, toCell))
         }
 
         @Test
-        fun toFormula(){
+        fun toFormula() {
             assertEquals("A1:B2", u.toFormula())
         }
     }
-    class PrimitiveUnit{
+
+    class PrimitiveUnit {
         @Test
-        fun toFormula(){
-            assertEquals("TRUE",ExUnit.TRUE.toFormula())
-            assertEquals("FALSE",ExUnit.FALSE.toFormula())
-            assertEquals("1",ExUnit.IntNum(1).toFormula())
-            assertEquals(1.23.toString(),ExUnit.DoubleNum(1.23).toFormula())
-            assertEquals("\"abc\"",ExUnit.StrUnit("abc").toFormula())
+        fun toFormula() {
+            assertEquals("TRUE", ExUnit.TRUE.toFormula())
+            assertEquals("FALSE", ExUnit.FALSE.toFormula())
+            assertEquals("1", ExUnit.IntNum(1).toFormula())
+            assertEquals(1.23.toString(), ExUnit.DoubleNum(1.23).toFormula())
+            assertEquals("\"abc\"", ExUnit.StrUnit("abc").toFormula())
         }
 
         @Test
-        fun shift(){
+        fun shift() {
             val c1 = CellAddress("A1")
             val c2 = CellAddress("Q9")
-            assertEquals(ExUnit.TRUE,ExUnit.TRUE.shift(c1,c2))
-            assertEquals(ExUnit.FALSE,ExUnit.FALSE.shift(c1,c2))
-            assertEquals(ExUnit.IntNum(1),ExUnit.IntNum(1).shift(c1,c2))
-            assertEquals(ExUnit.DoubleNum(1.23),ExUnit.DoubleNum(1.23).shift(c1,c2))
-            assertEquals(ExUnit.StrUnit("abc"),ExUnit.StrUnit("abc").shift(c1,c2))
+            assertEquals(ExUnit.TRUE, ExUnit.TRUE.shift(c1, c2))
+            assertEquals(ExUnit.FALSE, ExUnit.FALSE.shift(c1, c2))
+            assertEquals(ExUnit.IntNum(1), ExUnit.IntNum(1).shift(c1, c2))
+            assertEquals(ExUnit.DoubleNum(1.23), ExUnit.DoubleNum(1.23).shift(c1, c2))
+            assertEquals(ExUnit.StrUnit("abc"), ExUnit.StrUnit("abc").shift(c1, c2))
         }
     }
 }
