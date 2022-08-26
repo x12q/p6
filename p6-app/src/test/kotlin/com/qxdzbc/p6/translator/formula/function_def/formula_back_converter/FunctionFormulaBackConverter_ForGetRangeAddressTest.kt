@@ -9,7 +9,7 @@ import org.mockito.kotlin.mock
 import test.TestSample
 import kotlin.test.*
 
-internal class FunctionFormulaConverter_ForGetRangeAddressTest {
+internal class FunctionFormulaBackConverter_ForGetRangeAddressTest {
     lateinit var ts:TestSample
 
     @BeforeTest
@@ -19,7 +19,7 @@ internal class FunctionFormulaConverter_ForGetRangeAddressTest {
     }
     @Test
     fun toFormula() {
-        val converter = FunctionFormulaConverter_ForGetRangeAddress()
+        val converter = FunctionFormulaBackConverter_ForGetRangeAddress()
         val u = ExUnit.Func(
             funcName = "qwe",
             args = listOf(
@@ -30,6 +30,23 @@ internal class FunctionFormulaConverter_ForGetRangeAddressTest {
             functionMapSt = mock()
         )
         assertEquals("B2:K9@'Sheet1'@'Wb1'",converter.toFormula(u))
+
+    }
+
+    @Test
+    fun toFormulaSelective() {
+        val converter = FunctionFormulaBackConverter_ForGetRangeAddress()
+        val u = ExUnit.Func(
+            funcName = "qwe",
+            args = listOf(
+                WorkbookKey("Wb1",null).toSt().exUnit(),
+                ExUnit.WsNameStUnit("Sheet1".toSt()),
+                ExUnit.RangeAddressUnit(RangeAddress("B2:K9"))
+            ),
+            functionMapSt = mock()
+        )
+        assertEquals("B2:K9@'Sheet1'",converter.toFormulaSelective(u, WorkbookKey("Wb1",null),null))
+        assertEquals("B2:K9",converter.toFormulaSelective(u, WorkbookKey("Wb1",null),"Sheet1"))
 
     }
 }

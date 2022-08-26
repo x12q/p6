@@ -15,7 +15,6 @@ interface CellContent:CanCheckEmpty {
     val editableContent: String
     val displayValue: String
     fun setValue(cv: CellValue): CellContent
-    fun setFormula(newFormula: String): CellContent
     val isFormula: Boolean
 }
 

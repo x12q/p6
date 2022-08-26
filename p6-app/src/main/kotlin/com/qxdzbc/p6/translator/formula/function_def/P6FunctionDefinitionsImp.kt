@@ -14,12 +14,13 @@ import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.di.BackConverterForGetCell
+import com.qxdzbc.p6.di.BackConverterForGetRange
+import com.qxdzbc.p6.di.NormalBackConverter
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.translator.formula.execution_unit.FunctionExecutor
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverter
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverterNormal
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverter_ForGetRangeAddress
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import javax.inject.Inject
@@ -28,6 +29,12 @@ import kotlin.reflect.KFunction
 class P6FunctionDefinitionsImp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     @DocumentContainerSt private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
+    @BackConverterForGetRange
+    private val f1:FunctionFormulaBackConverter,
+    @NormalBackConverter
+    private val f2: FunctionFormulaBackConverter,
+    @BackConverterForGetCell
+    private val f3:FunctionFormulaBackConverter
 ) : P6FunctionDefinitions {
 
     private var appState by appStateMs
@@ -59,7 +66,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
             override val name: String = P6FunctionDefinitions.getRangeRs
             override val function: KFunction<Rs<Range, ErrorReport>> = ::getLazyRangeRs
-            override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverter_ForGetRangeAddress()
+            override val functionFormulaConverter: FunctionFormulaBackConverter = f1
         },
         object : AbstractFunctionDef() {
             fun getCellRs(
@@ -72,7 +79,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
 
             override val name: String = P6FunctionDefinitions.getCellRs
             override val function: KFunction<Rs<Cell, ErrorReport>> = ::getCellRs
-            override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverter_ForGetRangeAddress()
+            override val functionFormulaConverter: FunctionFormulaBackConverter = f3
         }
     )
 
@@ -142,7 +149,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
 
             override val name = "SUM"
             override val function: KFunction<Result<Double, ErrorReport>> = ::SUM
-            override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
+            override val functionFormulaConverter: FunctionFormulaBackConverter = f2
         },
     ) + documentFunctions
 

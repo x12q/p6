@@ -3,40 +3,40 @@ package com.qxdzbc.p6.translator.jvm_translator
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
 import com.qxdzbc.p6.app.document.cell.d.CellImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toCellValue
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
+import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitionsImp
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.github.michaelbull.result.Ok
-import kotlin.test.*
-import com.github.michaelbull.result.Result
-import com.qxdzbc.p6.app.document.cell.FormulaErrors
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.workbook.Workbook
 import test.TestSample
+import kotlin.test.*
 
 class JvmFormulaTranslator_Integration_Test {
     lateinit var ts: TestSample
     lateinit var functionMap: Ms<FunctionMap>
     lateinit var translator: JvmFormulaTranslator
-    val wbKey: WorkbookKey get()=ts.wbKey1
-    val wsName get()=ts.wsn1
+    val wbKey: WorkbookKey get() = ts.wbKey1
+    val wsName get() = ts.wsn1
 
-    val wbKeySt get()=ts.wbKey1Ms
-    val wsNameSt get()=ts.appState.docCont.getWsNameSt(wbKeySt,wsName)!!
+    val wbKeySt get() = ts.wbKey1Ms
+    val wsNameSt get() = ts.appState.docCont.getWsNameSt(wbKeySt, wsName)!!
 
     lateinit var appStateMs: Ms<AppState>
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
@@ -45,7 +45,7 @@ class JvmFormulaTranslator_Integration_Test {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        val wbl:List<Workbook> = listOf(
+        val wbl: List<Workbook> = listOf(
             WorkbookImp(
                 keyMs = ts.wbKey1Ms,
             ).addMultiSheetOrOverwrite(
@@ -88,15 +88,19 @@ class JvmFormulaTranslator_Integration_Test {
         )
 
         ts.appState
-        var wbc:WorkbookContainer by ts.appState.globalWbContMs
+        var wbc: WorkbookContainer by ts.appState.globalWbContMs
         wbc = wbc.removeAll()
         wbc = wbl.fold(wbc) { acc, wb ->
             acc.addWb(wb)
         }
 
         appStateMs = ts.sampleAppStateMs(wbCont)
-        p6FunctDefs = P6FunctionDefinitionsImp(appStateMs, ts.appState.docContMs)
-
+        p6FunctDefs = P6FunctionDefinitionsImp(
+            appStateMs, ts.appState.docContMs,
+            f1 = ts.p6Comp.BackConverterForGetRange(),
+            f2 = ts.p6Comp.NormalBackConverter(),
+            f3 = ts.p6Comp.BackConverterForGetCell()
+        )
         fun add(n1: Int, n2: Int): Result<Int, ErrorReport> {
             return Ok(n1 + n2)
         }

@@ -2,6 +2,8 @@ package test.integration
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
 import com.qxdzbc.p6.app.document.cell.d.CellImp
@@ -14,10 +16,10 @@ import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitionsImp
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslator
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitor
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.StateUtils.ms
 import test.TestSample
-import kotlin.test.*
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class IntegrationTest {
 
@@ -47,7 +49,15 @@ class IntegrationTest {
             visitor = JvmFormulaVisitor(
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
-                functionMapMs = FunctionMapImp(P6FunctionDefinitionsImp(appMs,appMs.value.docContMs).functionMap).toMs(),
+                functionMapMs = FunctionMapImp(
+                    P6FunctionDefinitionsImp(
+                        appStateMs = appMs,
+                        docContSt = appMs.value.docContMs,
+                        f1 = ts.p6Comp.BackConverterForGetRange(),
+                        f2 = ts.p6Comp.NormalBackConverter(),
+                        f3 = ts.p6Comp.BackConverterForGetCell()
+                    ).functionMap
+                ).toMs(),
                 appMs.value.docContMs
             ),
             treeExtractor = TreeExtractorImp()

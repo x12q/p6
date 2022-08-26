@@ -17,7 +17,6 @@ import com.github.michaelbull.result.Ok
  */
 data class CellContentImp(
     override val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
-
     private val exUnit: ExUnit? = null,
 ) : CellContent {
     override val formula: String? get() =  exUnit?.toFormula()?.let {
@@ -121,12 +120,6 @@ data class CellContentImp(
     override val isFormula: Boolean get() {
       val f = formula
         return f!= null && f.isNotEmpty()
-    }
-
-    override fun setFormula(newFormula: String): CellContent {
-//        cellValueMs.value = CellValue.empty
-//        return this.copy(formula = newFormula)
-        return this
     }
 
     override fun setValue(cv: CellValue): CellContent {

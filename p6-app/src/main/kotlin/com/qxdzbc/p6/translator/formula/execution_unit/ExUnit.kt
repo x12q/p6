@@ -17,8 +17,8 @@ import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
 import com.qxdzbc.p6.translator.formula.FunctionMap
+import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
 import kotlin.math.pow
 import kotlin.reflect.KFunction
 
@@ -38,7 +38,13 @@ interface ExUnit : Shiftable {
     /**
      * convert exUnit to a formula
      */
-    fun toFormula(): String?
+    fun toFormula(
+    ): String?
+
+    fun toFormulaSelective(
+        wbKey: WorkbookKey? = null,
+        wsName: String? = null
+    ): String?
 
     /**
      * when this run, it returns something
@@ -57,6 +63,10 @@ interface ExUnit : Shiftable {
             return rangeAddress.label
         }
 
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+            return rangeAddress.label
+        }
+
         override fun run(): Result<RangeAddress, ErrorReport> {
             return Ok(rangeAddress)
         }
@@ -70,7 +80,11 @@ interface ExUnit : Shiftable {
             return this.copy(cellAddress = cellAddress.shift(oldAnchorCell, newAnchorCell))
         }
 
-        override fun toFormula(): String? {
+        override fun toFormula(): String {
+            return cellAddress.toLabel()
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
             return cellAddress.toLabel()
         }
 
@@ -78,6 +92,7 @@ interface ExUnit : Shiftable {
             return Ok(cellAddress)
         }
     }
+
     data class WbKeyStUnit(val wbKeySt: St<WorkbookKey>) : ExUnit {
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
@@ -95,30 +110,16 @@ interface ExUnit : Shiftable {
             }
         }
 
-        override fun run(): Result<St<WorkbookKey>, ErrorReport> {
-            return Ok(wbKeySt)
-        }
-    }
-
-    data class WbKeyUnit(val wbKey: WorkbookKey) : ExUnit {
-        override fun shift(
-            oldAnchorCell: GenericCellAddress<Int, Int>,
-            newAnchorCell: GenericCellAddress<Int, Int>
-        ): ExUnit {
-            return this
-        }
-
-        override fun toFormula(): String? {
-            val p = wbKey.path
-            if (p != null) {
-                return "@${wbKey.name}@${p.toAbsolutePath()}"
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+            if (wbKey == this.wbKeySt.value) {
+                return ""
             } else {
-                return "@${wbKey.name}"
+                return toFormula()
             }
         }
 
-        override fun run(): Result<WorkbookKey, ErrorReport> {
-            return Ok(wbKey)
+        override fun run(): Result<St<WorkbookKey>, ErrorReport> {
+            return Ok(wbKeySt)
         }
     }
 
@@ -131,6 +132,10 @@ interface ExUnit : Shiftable {
         }
 
         override fun toFormula(): String? {
+            return null
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
             return null
         }
 
@@ -171,15 +176,12 @@ interface ExUnit : Shiftable {
             return BoolUnit(this)
         }
 
-        fun WorkbookKey.exUnit(): WbKeyUnit {
-            return WbKeyUnit(this)
-        }
-        fun St<WorkbookKey>.exUnit():WbKeyStUnit{
+        fun St<WorkbookKey>.exUnit(): WbKeyStUnit {
             return WbKeyStUnit(this)
         }
 
         /**
-         * extract value from a variable [r1], if it is a cell, return the value inside, otherwise, return itself.
+         * extract value from a variable [r1], if it is a cell, return the value inside the cell, otherwise, return [r1] itself.
          * @param defaultValue: default value for when [r1] is a cell and empty
          */
         private fun extractR(r1: Any, defaultValue: Any = 0): Any {
@@ -217,6 +219,16 @@ interface ExUnit : Shiftable {
             val f2 = u1.toFormula()
             if (f1 != null && f2 != null) {
                 return "${f1} + ${f2}"
+            } else {
+                return null
+            }
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            if (f1 != null && f2 != null) {
+                return "${f1}  ${f2}"
             } else {
                 return null
             }
@@ -276,6 +288,16 @@ interface ExUnit : Shiftable {
             }
         }
 
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            if (f1 != null && f2 != null) {
+                return "${f1} - ${f2}"
+            } else {
+                return null
+            }
+        }
+
         override fun run(): Result<Double, ErrorReport> {
             val r1Rs = u1.run()
             val rt = r1Rs.andThen { r1 ->
@@ -320,6 +342,16 @@ interface ExUnit : Shiftable {
             }
         }
 
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            if (f1 != null && f2 != null) {
+                return "${f1} * ${f2}"
+            } else {
+                return null
+            }
+        }
+
         override fun run(): Result<Double, ErrorReport> {
             val r1Rs = u1.run()
             val rt = r1Rs.andThen { r1 ->
@@ -357,6 +389,16 @@ interface ExUnit : Shiftable {
         override fun toFormula(): String? {
             val f1 = u1.toFormula()
             val f2 = u1.toFormula()
+            if (f1 != null && f2 != null) {
+                return "${f1} / ${f2}"
+            } else {
+                return null
+            }
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u1.toFormulaSelective(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} / ${f2}"
             } else {
@@ -413,6 +455,16 @@ interface ExUnit : Shiftable {
             }
         }
 
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            if (f1 != null && f2 != null) {
+                return "${f1} ^ ${f2}"
+            } else {
+                return null
+            }
+        }
+
         override fun run(): Result<Double, ErrorReport> {
             val r1Rs = u1.run()
             val rt = r1Rs.andThen { r1 ->
@@ -445,6 +497,15 @@ interface ExUnit : Shiftable {
 
         override fun toFormula(): String? {
             val f1 = u.toFormula()
+            if (f1 != null) {
+                return "-${f1}"
+            } else {
+                return null
+            }
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u.toFormulaSelective(wbKey, wsName)
             if (f1 != null) {
                 return "-${f1}"
             } else {
@@ -487,7 +548,11 @@ interface ExUnit : Shiftable {
             return this
         }
 
-        override fun toFormula(): String? {
+        override fun toFormula(): String {
+            return _v.toString()
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
             return _v.toString()
         }
     }
@@ -504,8 +569,12 @@ interface ExUnit : Shiftable {
             return this
         }
 
-        override fun toFormula(): String? {
+        override fun toFormula(): String {
             return this._v.toString()
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+            return _v.toString()
         }
     }
 
@@ -518,7 +587,11 @@ interface ExUnit : Shiftable {
             return this
         }
 
-        override fun toFormula(): String? {
+        override fun toFormula(): String {
+            return "\"${v}\""
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
             return "\"${v}\""
         }
 
@@ -540,6 +613,14 @@ interface ExUnit : Shiftable {
             return "@\'${nameSt.value}\'"
         }
 
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+            if (wsName == nameSt.value) {
+                return ""
+            } else {
+                return toFormula()
+            }
+        }
+
         override fun run(): Result<St<String>, ErrorReport> {
             return Ok(nameSt)
         }
@@ -554,7 +635,11 @@ interface ExUnit : Shiftable {
             return this
         }
 
-        override fun toFormula(): String? {
+        override fun toFormula(): String {
+            return v.toTF()
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
             return v.toTF()
         }
 
@@ -581,16 +666,17 @@ interface ExUnit : Shiftable {
         }
 
         override fun toFormula(): String? {
-            return functionMap.getFunc(funcName)?.let {
-                funcDef->
-                funcDef.functionFormulaConverter.toFormula(this)
-            }
+            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormula(this)
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormulaSelective(this,wbKey,wsName)
         }
 
         @Suppress("UNCHECKED_CAST")
         override fun run(): Result<Any, ErrorReport> {
             val argValueRs: Array<Result<Any, ErrorReport>> = (args.map { it.run() }.toTypedArray())
-            val funcRs:Rs<FunctionDef,ErrorReport> = functionMap.getFuncRs(funcName)
+            val funcRs: Rs<FunctionDef, ErrorReport> = functionMap.getFuncRs(funcName)
             when (funcRs) {
                 is Ok -> {
                     val funcDef: FunctionDef = funcRs.value

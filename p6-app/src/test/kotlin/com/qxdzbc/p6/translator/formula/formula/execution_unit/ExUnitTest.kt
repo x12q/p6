@@ -14,8 +14,8 @@ import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.formula.function_def.AbstractFunctionDef
 import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverter
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaConverterNormal
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverter
+import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverterNormal
 import org.mockito.kotlin.mock
 import kotlin.reflect.KFunction
 import kotlin.test.Test
@@ -84,20 +84,20 @@ internal class ExUnitTest {
                     override val name: String
                         get() = "add"
                     override val function: KFunction<Any> = ::add
-                    override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
+                    override val functionFormulaConverter: FunctionFormulaBackConverter = FunctionFormulaBackConverterNormal()
                 },
                 "toUpper" to object : AbstractFunctionDef() {
                     override val name: String
                         get() = "add"
                     override val function: KFunction<Any> = ::toUpper
-                    override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
+                    override val functionFormulaConverter: FunctionFormulaBackConverter = FunctionFormulaBackConverterNormal()
                 },
                 "internalFunction" to mock<FunctionDef>(),
                 "someFunction" to object: AbstractFunctionDef() {
                     override val name: String
                         get() = "someFunction"
                     override val function: KFunction<Any> = ::someFunction
-                    override val functionFormulaConverter: FunctionFormulaConverter = FunctionFormulaConverterNormal()
+                    override val functionFormulaConverter: FunctionFormulaBackConverter = FunctionFormulaBackConverterNormal()
                 }
             )
         ).toMs()

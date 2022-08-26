@@ -27,8 +27,8 @@ import org.antlr.v4.runtime.tree.ParseTree
 import java.nio.file.Path
 
 class JvmFormulaVisitor @AssistedInject constructor(
-    @Assisted("1") private val wbKeySt: St<WorkbookKey>,
-    @Assisted("2") private val wsNameSt: St<String>,
+    @Assisted("1") private val wbKeySt: St< WorkbookKey>,
+    @Assisted("2") private val wsNameSt: St< String>,
     @FunctionMapMs
     private val functionMapMs:Ms<FunctionMap> ,
     @DocumentContainerSt
@@ -38,7 +38,6 @@ class JvmFormulaVisitor @AssistedInject constructor(
     private val wbKey: WorkbookKey by wbKeySt
     private val wsName: String by wsNameSt
 
-    private val wbKeyExUnit get() = wbKey.exUnit()
     private val wbKeyStExUnit = wbKeySt.exUnit()
 
     private val wsNameExUnit get() = wsName.exUnit()
@@ -317,9 +316,8 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val raUnit = CellAddress(cell0).exUnit()
             val rt = ExUnit.Func(
                 funcName = P6FunctionDefinitions.getCellRs,
-                args = listOf(wbKeyExUnit, wsNameExUnit, raUnit),
+                args = listOf(wbKeyStExUnit, wsNameExUnit, raUnit),
                 functionMapSt = functionMapMs,
-//                isImplicit = true
             )
             return rt
         } else {
