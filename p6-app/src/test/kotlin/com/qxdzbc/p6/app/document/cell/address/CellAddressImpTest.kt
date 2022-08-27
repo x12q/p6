@@ -10,13 +10,10 @@ class CellAddressImpTest {
     fun before(){
         c1 = CellAddressImp(5, 9)
     }
-    @Test
-    fun `create cell address from label`(){
 
-    }
 
     @Test
-    fun shiftRelative(){
+    fun shift(){
         val c= CellAddressImp(3,10)
         val c2 = c.shift(CellAddress("A1"), CellAddress("A3"))
         assertEquals(CellAddress(3,12),c2)
@@ -26,6 +23,13 @@ class CellAddressImpTest {
 
         val c4 = c.shift(CellAddress("C3"),CellAddress("A1"))
         assertEquals(CellAddress(1,8),c4)
+
+        val q = CellAddressImp(
+            colCR = CR(1,true),
+            rowCR = CR(2,true)
+        )
+        val q2 = q.shift(CellAddress("A1"),CellAddress("K9"))
+        assertEquals(q,q2)
     }
 
     @Test

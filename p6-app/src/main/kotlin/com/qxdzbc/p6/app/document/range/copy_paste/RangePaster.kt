@@ -10,8 +10,8 @@ import com.github.michaelbull.result.Result
  */
 interface RangePaster {
     /**
-     * paste whatever data in the clipboard into a range identified by [targetRangeId]
+     * paste whatever data in the clipboard into a range identified by [target]
      * @return a new [Workbook], or an [ErrorReport] if there are errors
      */
-    fun paste(targetRangeId: RangeId):Result<Workbook,ErrorReport>
+    fun paste(target: RangeId):Result<Workbook,ErrorReport>
 }

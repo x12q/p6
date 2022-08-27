@@ -6,7 +6,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.*
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.range.RangeApplier
 import com.qxdzbc.p6.app.action.range.RangeRM
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
 import com.qxdzbc.p6.app.action.range.RangeId
@@ -22,6 +21,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest2
 import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.p6.app.action.range.paste_range.applier.PasteRangeApplier
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
@@ -33,7 +33,7 @@ class CursorActionImp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val errorRouter: ErrorRouter,
     private val rangeRM: RangeRM,
-    private val rangeApplier: RangeApplier,
+    private val rangeApplier: PasteRangeApplier,
     private val openCellEditor: OpenCellEditorAction
 ) : CursorAction {
 
@@ -50,7 +50,7 @@ class CursorActionImp @Inject constructor(
                 ),
                 windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
             )
-            val out = rangeRM.pasteRange2(req)
+            val out = rangeRM.pasteRange(req)
             out?.let {
                 rangeApplier.applyPasteRange(it)
             }

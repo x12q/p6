@@ -10,6 +10,7 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
@@ -75,6 +76,17 @@ data class CellContentImp(
 //                    formula = formula,
                 )
             }
+        }
+    }
+
+    override fun shift(
+        oldAnchorCell: GenericCellAddress<Int, Int>,
+        newAnchorCell: GenericCellAddress<Int, Int>
+    ): CellContent {
+        if(exUnit!=null){
+           return this.copy(exUnit = exUnit.shift(oldAnchorCell, newAnchorCell))
+        }else{
+            return this
         }
     }
 

@@ -16,7 +16,7 @@ class PasteRangeApplierImp @Inject constructor(
     @AppStateMs private val appStateMs:Ms<AppState>,
 ) : PasteRangeApplier {
     private var appState by appStateMs
-    override fun applyRes(res: PasteRangeResponse?) {
+    override fun applyPasteRange(res: PasteRangeResponse?) {
         if(res!=null){
             val wbKey = res.wbKey
             val reverseRes = WorkbookUpdateCommonResponse(

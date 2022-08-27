@@ -10,11 +10,11 @@ class RangePasterImp @Inject constructor(
     val singleCellPaster: SingleCellPaster,
     val rangeRangePasterImp: RangeRangePasterImp,
 ) : RangePaster {
-    override fun paste(targetRangeId: RangeId): Result<Workbook, ErrorReport> {
-        if(targetRangeId.rangeAddress.isCell()){
-            return singleCellPaster.paste(targetRangeId)
+    override fun paste(target: RangeId): Result<Workbook, ErrorReport> {
+        if(target.rangeAddress.isCell()){
+            return singleCellPaster.paste(target)
         }else{
-            return rangeRangePasterImp.paste(targetRangeId)
+            return rangeRangePasterImp.paste(target)
         }
     }
 }

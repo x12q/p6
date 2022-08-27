@@ -8,6 +8,7 @@ import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import java.util.*
 
 data class CellImp(
@@ -33,6 +34,15 @@ data class CellImp(
                 )
             }
         }
+    }
+
+    override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): Cell {
+        val newAddress:CellAddress = address.shift(oldAnchorCell, newAnchorCell)
+        val newContent:CellContent = content.shift(oldAnchorCell, newAnchorCell)
+        return this.copy(
+            address=newAddress,
+            content = newContent
+        )
     }
 
     override fun reRun(): Cell {

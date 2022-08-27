@@ -8,6 +8,6 @@ class RangeApplierImp @Inject constructor(
     private val pasteRangeApplier: PasteRangeApplier
 ) : RangeApplier {
     override fun applyPasteRange(res: PasteRangeResponse) {
-        pasteRangeApplier.applyRes(res)
+        pasteRangeApplier.applyPasteRange(res)
     }
 }

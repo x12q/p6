@@ -67,21 +67,34 @@ data class CellAddressImp constructor(
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other is CellAddress){
+        if (other is CellAddress) {
             return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex && this.isColLocked == other.isColLocked && this.isRowLocked == other.isRowLocked
-        }else{
+        } else {
             return false
         }
     }
 
-    override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): CellAddress {
-        val colDif = newAnchorCell.colIndex - oldAnchorCell.colIndex
-        val rowDif = newAnchorCell.rowIndex - oldAnchorCell.rowIndex
-        val colIndex = this.colIndex + colDif
-        val rowIndex = this.rowIndex + rowDif
+    override fun shift(
+        oldAnchorCell: GenericCellAddress<Int, Int>,
+        newAnchorCell: GenericCellAddress<Int, Int>
+    ): CellAddress {
+        val newColCR: CR = if (colCR.isLocked) {
+            colCR
+        } else {
+            val colDif = newAnchorCell.colIndex - oldAnchorCell.colIndex
+            val colIndex = this.colIndex + colDif
+            colCR.copy(n = colIndex)
+        }
+        val newRowCR: CR = if (rowCR.isLocked) {
+            rowCR
+        } else {
+            val rowDif = newAnchorCell.rowIndex - oldAnchorCell.rowIndex
+            val rowIndex = this.rowIndex + rowDif
+            rowCR.copy(n = rowIndex)
+        }
         return this.copy(
-           colCR = colCR.copy(n=colIndex),
-            rowCR = rowCR.copy(n=rowIndex)
+            colCR = newColCR,
+            rowCR = newRowCR
         )
     }
 
@@ -92,7 +105,7 @@ data class CellAddressImp constructor(
             return this
         } else {
             val newRow = maxOf(this.rowIndex + v, 1)
-            return this.copy(rowCR=rowCR.copy(n=newRow))
+            return this.copy(rowCR = rowCR.copy(n = newRow))
         }
     }
 
@@ -103,7 +116,7 @@ data class CellAddressImp constructor(
             return this
         } else {
             val newCol = maxOf(this.colIndex + v, 1)
-            return this.copy(colCR = colCR.copy(n=newCol))
+            return this.copy(colCR = colCR.copy(n = newCol))
         }
     }
 

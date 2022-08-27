@@ -1,22 +1,35 @@
 package com.qxdzbc.p6.app.document.cell.d
 
+import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellProto
 
 
-interface Cell {
+interface Cell :Shiftable{
+    override fun shift(
+        oldAnchorCell: GenericCellAddress<Int, Int>,
+        newAnchorCell: GenericCellAddress<Int, Int>
+    ): Cell
 
     fun reRun(): Cell
 
+    /**
+     * A cell's address never changes, so no need for a Ms
+     */
     val address: CellAddress
     val content: CellContent
     val formula: String?
     fun formula(wbKey: WorkbookKey? = null, wsName: String? = null): String?
+
+    /**
+     * value to be displayed on the cell UI
+     */
     val displayValue: String
 
     /**
-     * a shortcut to the cell value store in [content]
+     * a shortcut to the [CellValue] store in [content]
      */
     val cellValueAfterRun: CellValue
     val currentCellValue: CellValue

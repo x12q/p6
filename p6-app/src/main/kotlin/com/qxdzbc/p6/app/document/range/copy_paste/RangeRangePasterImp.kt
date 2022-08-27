@@ -17,6 +17,12 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
+import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import java.awt.Toolkit
 import javax.inject.Inject
 
@@ -25,27 +31,30 @@ import javax.inject.Inject
  * Paste a range with clipboard source being a range
  */
 class RangeRangePasterImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>,
+    @StateContainerSt private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    @TranslatorContainerMs private val transContMs:Ms<TranslatorContainer>
 ) : RangePaster {
-    private var appState by appStateMs
+    val stateCont by stateContSt
 
     companion object {
-        private val clipboard = Toolkit.getDefaultToolkit().systemClipboard
-        fun pasteRs(rangeCopy: RangeCopy, target: RangeId, wb: Workbook): Result<Workbook, ErrorReport> {
+        fun pasteRs(source: RangeCopy, target: RangeId, wb: Workbook): Result<Workbook, ErrorReport> {
             return wb.getWsRs(target.wsName).map {
-                var tws = it
-                val sourceRangeAddress: RangeAddress = rangeCopy.rangeId.rangeAddress
+                var tws: Worksheet = it
+                val sourceRangeAddress: RangeAddress = source.rangeId.rangeAddress
                 val targetRangeAddress: RangeAddress = target.rangeAddress
                 val targetTopLeft: CellAddress = target.rangeAddress.topLeft
                 val sourceTopLeft: CellAddress = sourceRangeAddress.topLeft
                 for (col: Int in targetRangeAddress.colRange) {
                     for (row: Int in targetRangeAddress.rowRange) {
                         val targetCellAddress = CellAddress(col, row)
-                        val shiftedTarget: CellAddress = targetCellAddress.shift(targetTopLeft, sourceTopLeft)
-                        val sourceCellAddress: CellAddress = sourceRangeAddress.getCellAddressCycle(shiftedTarget)
-                        val sourceCell: Cell? = rangeCopy.cellTable.getElement(sourceCellAddress)
+                        // x: reverse shift to get the source address
+                        val shiftedSourceAddress: CellAddress = targetCellAddress.shift(targetTopLeft, sourceTopLeft)
+                        val sourceCellAddress: CellAddress = sourceRangeAddress.getCellAddressCycle(shiftedSourceAddress)
+                        val sourceCell: Cell? = source.cellTable.getElement(sourceCellAddress)
                         if (sourceCell != null) {
-                            val newCell = sourceCell.setAddress(targetCellAddress)
+                            val newCell = sourceCell
+//                                .shift(sourceCellAddress,targetTopLeft)
+                                .setAddress(targetCellAddress)
                             tws = tws.addOrOverwrite(newCell)
                         }
                     }
@@ -56,10 +65,10 @@ class RangeRangePasterImp @Inject constructor(
         }
     }
 
-    override fun paste(targetRangeId: RangeId): Result<Workbook, ErrorReport> {
+    override fun paste(target: RangeId): Result<Workbook, ErrorReport> {
         try {
-            val rangeCopy: RangeCopy? = getRangeCopyFromClipboard(targetRangeId.wbKey, targetRangeId.wsName)
-            return this.paste(rangeCopy, targetRangeId)
+            val rangeCopy: RangeCopy? = getRangeCopyFromClipboard(target.wbKey, target.wsName)
+            return this.paste(rangeCopy, target)
         } catch (e: Throwable) {
             return CommonErrors.ExceptionError.report(e).toErr()
         }
@@ -69,9 +78,10 @@ class RangeRangePasterImp @Inject constructor(
      * extract the range copy from the clipboard
      */
     private fun getRangeCopyFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
-        val wbwsSt: WbWsSt? = appState.getWbWsSt(wbKey, wsName)
+        val clipboard = Toolkit.getDefaultToolkit().systemClipboard
+        val wbwsSt: WbWsSt? = stateCont.getWbWsSt(wbKey, wsName)
         if(wbwsSt!=null){
-            val translator = appState.translatorContainer.getTranslatorOrCreate(wbwsSt)
+            val translator = transContMs.value.getTranslatorOrCreate(wbwsSt)
             val bytes = clipboard.getData(BinaryTransferable.binFlavor) as ByteArray
             val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
             return rangeCopy
@@ -80,8 +90,8 @@ class RangeRangePasterImp @Inject constructor(
         }
     }
 
-    fun paste(rangeCopy: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
-        val rt = appState.getWbRs(target.wbKey).flatMap { wb ->
+    private fun paste(rangeCopy: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
+        val rt:Result<Workbook,ErrorReport> = stateContSt.value.getWbRs(target.wbKey).flatMap { wb ->
             if(rangeCopy!=null){
                 pasteRs(rangeCopy, target, wb)
             }else{
