@@ -29,19 +29,24 @@ class MakeCellEditorDisplayTextImp @Inject constructor(
             }
             val wsName:String? = rangeSelector?.wsName
             val rangeAddress:RangeAddress? = rangeSelector?.let { getSelectedRange(it) }
-            val wbKey:WorkbookKey? = rangeSelector?.wbKey
-            if(wsName!=null && rangeAddress!=null && wbKey!=null){
+            val rangeSelectorWbKey:WorkbookKey? = rangeSelector?.wbKey
+            if(wsName!=null && rangeAddress!=null && rangeSelectorWbKey!=null){
                 val rangeStr:String = if(rangeAddress.isCell()){
                     rangeAddress.topLeft.toRawLabel()
                 }else{
                     rangeAddress.rawLabel
                 }
-                val isSameCursor = editorState.targetCursorId == editorState.rangeSelectorCursorId
+                val isSameCursor:Boolean = editorState.targetCursorId == editorState.rangeSelectorCursorId
                 val selectedRangeText=if(isSameCursor){
                     rangeStr
                 }else{
-                    val path = wbKey.path
-                    "${rangeStr}@${wsName}@${wbKey.name}"+ if(path!=null) "@${path.toAbsolutePath()}" else ""
+                    val sameWb = rangeSelectorWbKey == editorState.targetWbKey
+                    if(sameWb){
+                        "${rangeStr}@${wsName}"
+                    }else{
+                        val path = rangeSelectorWbKey.path
+                        "${rangeStr}@${wsName}@${rangeSelectorWbKey.name}"+ if(path!=null) "@${path.toAbsolutePath()}" else ""
+                    }
                 }
                 val currentText=editorState.currentTextField.text
                 val newText = currentText+selectedRangeText
