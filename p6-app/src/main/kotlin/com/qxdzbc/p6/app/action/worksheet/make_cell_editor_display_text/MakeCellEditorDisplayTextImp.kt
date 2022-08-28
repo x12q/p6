@@ -8,6 +8,7 @@ import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerSt
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import javax.inject.Inject
 
@@ -28,7 +29,8 @@ class MakeCellEditorDisplayTextImp @Inject constructor(
             }
             val wsName:String? = rangeSelector?.wsName
             val rangeAddress:RangeAddress? = rangeSelector?.let { getSelectedRange(it) }
-            if(wsName!=null && rangeAddress!=null){
+            val wbKey:WorkbookKey? = rangeSelector?.wbKey
+            if(wsName!=null && rangeAddress!=null && wbKey!=null){
                 val rangeStr:String = if(rangeAddress.isCell()){
                     rangeAddress.topLeft.toRawLabel()
                 }else{
@@ -38,7 +40,8 @@ class MakeCellEditorDisplayTextImp @Inject constructor(
                 val selectedRangeText=if(isSameCursor){
                     rangeStr
                 }else{
-                    "${wsName}!${rangeStr}"
+                    val path = wbKey.path
+                    "${rangeStr}@${wsName}@${wbKey.name}"+ if(path!=null) "@${path.toAbsolutePath()}" else ""
                 }
                 val currentText=editorState.currentTextField.text
                 val newText = currentText+selectedRangeText
