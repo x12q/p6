@@ -53,7 +53,7 @@ class RangeRangePasterImp @Inject constructor(
                         val sourceCell: Cell? = source.cellTable.getElement(sourceCellAddress)
                         if (sourceCell != null) {
                             val newCell = sourceCell
-//                                .shift(sourceCellAddress,targetTopLeft)
+                                .shift(sourceCellAddress,targetCellAddress)
                                 .setAddress(targetCellAddress)
                             tws = tws.addOrOverwrite(newCell)
                         }

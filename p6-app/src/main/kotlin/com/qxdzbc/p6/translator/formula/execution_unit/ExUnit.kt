@@ -216,7 +216,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormula(): String? {
             val f1 = u1.toFormula()
-            val f2 = u1.toFormula()
+            val f2 = u2.toFormula()
             if (f1 != null && f2 != null) {
                 return "${f1} + ${f2}"
             } else {
@@ -226,9 +226,9 @@ interface ExUnit : Shiftable {
 
         override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
             val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u2.toFormulaSelective(wbKey, wsName)
             if (f1 != null && f2 != null) {
-                return "${f1}  ${f2}"
+                return "${f1} + ${f2}"
             } else {
                 return null
             }
@@ -280,7 +280,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormula(): String? {
             val f1 = u1.toFormula()
-            val f2 = u1.toFormula()
+            val f2 = u2.toFormula()
             if (f1 != null && f2 != null) {
                 return "${f1} - ${f2}"
             } else {
@@ -290,7 +290,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
             val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u2.toFormulaSelective(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} - ${f2}"
             } else {
@@ -334,7 +334,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormula(): String? {
             val f1 = u1.toFormula()
-            val f2 = u1.toFormula()
+            val f2 = u2.toFormula()
             if (f1 != null && f2 != null) {
                 return "${f1} * ${f2}"
             } else {
@@ -344,7 +344,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
             val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u2.toFormulaSelective(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} * ${f2}"
             } else {
@@ -388,7 +388,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormula(): String? {
             val f1 = u1.toFormula()
-            val f2 = u1.toFormula()
+            val f2 = u2.toFormula()
             if (f1 != null && f2 != null) {
                 return "${f1} / ${f2}"
             } else {
@@ -398,7 +398,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
             val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u2.toFormulaSelective(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} / ${f2}"
             } else {
@@ -447,7 +447,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormula(): String? {
             val f1 = u1.toFormula()
-            val f2 = u1.toFormula()
+            val f2 = u2.toFormula()
             if (f1 != null && f2 != null) {
                 return "${f1} ^ ${f2}"
             } else {
@@ -457,7 +457,7 @@ interface ExUnit : Shiftable {
 
         override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
             val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u1.toFormulaSelective(wbKey, wsName)
+            val f2 = u2.toFormulaSelective(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} ^ ${f2}"
             } else {
