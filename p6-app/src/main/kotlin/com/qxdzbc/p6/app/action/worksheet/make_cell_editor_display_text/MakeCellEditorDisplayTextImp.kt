@@ -37,7 +37,7 @@ class MakeCellEditorDisplayTextImp @Inject constructor(
                     rangeAddress.rawLabel
                 }
                 val isSameCursor:Boolean = editorState.targetCursorId == editorState.rangeSelectorCursorId
-                val selectedRangeText=if(isSameCursor){
+                val selectedRangeText:String =if(isSameCursor){
                     rangeStr
                 }else{
                     val sameWb = rangeSelectorWbKey == editorState.targetWbKey

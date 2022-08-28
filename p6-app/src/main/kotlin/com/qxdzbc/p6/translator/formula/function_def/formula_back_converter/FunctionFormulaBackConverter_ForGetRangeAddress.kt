@@ -31,10 +31,25 @@ class FunctionFormulaBackConverter_ForGetRangeAddress @Inject constructor() : Fu
             val a2 = args[1]
             val a3 = args[2]
             if(a1 is ExUnit.WbKeyStUnit && a2 is ExUnit.WsNameStUnit && a3 is ExUnit.RangeAddressUnit){
-                val wb:String = a1.toFormulaSelective(wbKey, wsName)
-                val ws:String = a2.toFormulaSelective(wbKey, wsName)
-                val range:String = a3.toFormulaSelective(wbKey, wsName)
-                return range+ws+wb
+                val currentWbKey = a1.wbKeySt.value
+                val currentWsName = a2.nameSt.value
+                val cellAddress: String = a3.rangeAddress.label
+                if (currentWbKey == wbKey) {
+                    if (currentWsName == wsName) {
+                        return cellAddress
+                    } else {
+                        return cellAddress + a2.toFormula()
+                    }
+                } else {
+                    val wb: String = a1.toFormula()
+                    val ws: String = a2.toFormula()
+                    val cellAddress: String = a3.toFormula()
+                    return cellAddress + ws + wb
+                }
+//                val wb:String = a1.toFormulaSelective(wbKey, wsName)
+//                val ws:String = a2.toFormulaSelective(wbKey, wsName)
+//                val range:String = a3.toFormulaSelective(wbKey, wsName)
+//                return range+ws+wb
             }else{
                 return null
             }

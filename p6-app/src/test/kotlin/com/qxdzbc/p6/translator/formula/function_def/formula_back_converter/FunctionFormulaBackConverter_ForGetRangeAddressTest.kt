@@ -36,17 +36,19 @@ internal class FunctionFormulaBackConverter_ForGetRangeAddressTest {
     @Test
     fun toFormulaSelective() {
         val converter = FunctionFormulaBackConverter_ForGetRangeAddress()
+        val wbk1 = WorkbookKey("Wb1",null)
+        val wbk2 = WorkbookKey("Wb2",null)
         val u = ExUnit.Func(
             funcName = "qwe",
             args = listOf(
-                WorkbookKey("Wb1",null).toSt().exUnit(),
+                wbk1.toSt().exUnit(),
                 ExUnit.WsNameStUnit("Sheet1".toSt()),
                 ExUnit.RangeAddressUnit(RangeAddress("B2:K9"))
             ),
             functionMapSt = mock()
         )
-        assertEquals("B2:K9@'Sheet1'",converter.toFormulaSelective(u, WorkbookKey("Wb1",null),null))
-        assertEquals("B2:K9",converter.toFormulaSelective(u, WorkbookKey("Wb1",null),"Sheet1"))
-
+        assertEquals("B2:K9@'Sheet1'",converter.toFormulaSelective(u, wbk1,"Sheet2"))
+        assertEquals("B2:K9",converter.toFormulaSelective(u, wbk1,"Sheet1"))
+        assertEquals("B2:K9@'Sheet1'@'Wb1'",converter.toFormulaSelective(u, wbk2,"Sheet1"))
     }
 }
