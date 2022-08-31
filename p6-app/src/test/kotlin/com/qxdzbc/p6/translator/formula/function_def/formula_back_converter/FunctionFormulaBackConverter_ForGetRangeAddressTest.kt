@@ -15,7 +15,6 @@ internal class FunctionFormulaBackConverter_ForGetRangeAddressTest {
     @BeforeTest
     fun b(){
         ts = TestSample()
-
     }
     @Test
     fun toFormula() {

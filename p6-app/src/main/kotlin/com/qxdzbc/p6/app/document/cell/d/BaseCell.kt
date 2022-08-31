@@ -1,10 +1,24 @@
 package com.qxdzbc.p6.app.document.cell.d
 
+import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 abstract class BaseCell : Cell {
     override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
         return content.formula(wbKey, wsName)
+    }
+
+    override fun colorEditableValue(
+        colorProvider: ColorProvider,
+        wbKey: WorkbookKey?,
+        wsName: String
+    ): AnnotatedString {
+        if(this.isFormula){
+            return this.content.colorFormula(colorProvider,wbKey, wsName) ?: AnnotatedString("")
+        }else{
+            return AnnotatedString(this.cellValueAfterRun.editableValue ?: "")
+        }
     }
 
     override fun editableValue(wbKey: WorkbookKey?, wsName: String): String {

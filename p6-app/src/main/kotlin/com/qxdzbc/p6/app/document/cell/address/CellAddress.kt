@@ -2,6 +2,7 @@ package com.qxdzbc.p6.app.document.cell.address
 
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.Shiftable
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
 
 /**

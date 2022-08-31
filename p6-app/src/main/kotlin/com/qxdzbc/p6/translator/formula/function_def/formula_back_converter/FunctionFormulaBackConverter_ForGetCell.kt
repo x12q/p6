@@ -1,6 +1,11 @@
 package com.qxdzbc.p6.translator.formula.function_def.formula_back_converter
 
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import javax.inject.Inject
 
@@ -50,8 +55,8 @@ class FunctionFormulaBackConverter_ForGetCell @Inject constructor() : FunctionFo
                 } else {
                     val wb: String = a1.toFormula()
                     val ws: String = a2.toFormula()
-                    val cellAddress: String = a3.toFormula()
-                    return cellAddress + ws + wb
+                    val ca: String = a3.toFormula()
+                    return ca + ws + wb
                 }
             } else {
                 return null
@@ -59,5 +64,28 @@ class FunctionFormulaBackConverter_ForGetCell @Inject constructor() : FunctionFo
         } else {
             return null
         }
+    }
+
+    override fun toColorFormula(
+        u: ExUnit.Func,
+        colorProvider: ColorProvider,
+        wbKey: WorkbookKey?,
+        wsName: String?
+    ): AnnotatedString? {
+
+        val str = toFormulaSelective(u, wbKey, wsName)
+        val color = colorProvider.getColor(u)
+        val rt = str?.let {
+            buildAnnotatedString {
+                if (color != null) {
+                    withStyle(style = SpanStyle(color = color)) {
+                        append(it)
+                    }
+                } else {
+                    append(it)
+                }
+            }
+        }
+        return rt
     }
 }

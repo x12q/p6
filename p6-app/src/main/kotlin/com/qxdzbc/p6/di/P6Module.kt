@@ -3,6 +3,15 @@ package com.qxdzbc.p6.di
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.file_util.FileUtil
+import com.qxdzbc.common.file_util.FileUtilImp
+import com.qxdzbc.p6.app.action.P6ResponseLegalityChecker
+import com.qxdzbc.p6.app.action.P6ResponseLegalityCheckerImp
+import com.qxdzbc.p6.app.action.request_maker.*
+import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueue
+import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueueImp
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.code.PythonCommander
@@ -11,24 +20,19 @@ import com.qxdzbc.p6.app.coderunner.CodeRunner
 import com.qxdzbc.p6.app.coderunner.FakeCodeRunner
 import com.qxdzbc.p6.app.coderunner.PythonCodeRunner
 import com.qxdzbc.p6.app.common.utils.Utils
-import com.qxdzbc.p6.app.action.request_maker.*
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueue
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueueImp
 import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.communication.event.P6EventTableImp
-import com.qxdzbc.p6.app.action.P6ResponseLegalityChecker
-import com.qxdzbc.p6.app.action.P6ResponseLegalityCheckerImp
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
+import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.RandomColorProvider
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.file_util.FileUtil
-import com.qxdzbc.common.file_util.FileUtilImp
+import com.qxdzbc.p6.ui.common.color_generator.ColorGenerator
+import com.qxdzbc.p6.ui.common.color_generator.ColorGeneratorImp
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import com.qxdzbc.p6.ui.kernel.KernelActionImp
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouter
@@ -45,8 +49,17 @@ import com.qxdzbc.p6.app.action.request_maker.QueueRequestMaker as QueueRequestM
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class EmptyIntList
+
 @Module
 interface P6Module {
+    @Binds
+    @P6Singleton
+    fun ColorProvider(i: RandomColorProvider): ColorProvider
+
+    @Binds
+    @P6Singleton
+    fun ColorGenerator(i: ColorGeneratorImp): ColorGenerator
+
     @Binds
     @P6Singleton
     fun KernelAction(i: KernelActionImp): KernelAction
@@ -104,15 +117,17 @@ interface P6Module {
     @Binds
     @P6Singleton
     fun TemplateRM2(i: TemplateRMSuspendImp): TemplateRMSuspend
+
     companion object {
         @Provides
         @P6Singleton
         fun FileUtil(): FileUtil {
             return FileUtilImp()
         }
+
         @Provides
         @NullInt
-        fun nullInt():Int?{
+        fun nullInt(): Int? {
             return null
         }
 
@@ -132,15 +147,16 @@ interface P6Module {
         fun bTrue(): Boolean {
             return true
         }
+
         @Provides
         @FalseMs
-        fun falseMs():Ms<Boolean>{
+        fun falseMs(): Ms<Boolean> {
             return ms(false)
         }
 
         @Provides
         @TrueMs
-        fun trueMs():Ms<Boolean>{
+        fun trueMs(): Ms<Boolean> {
             return ms(true)
         }
 

@@ -1,6 +1,8 @@
 package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
@@ -12,6 +14,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 /**
  * A class that holds content (value and formula) of a cell.
@@ -28,6 +31,15 @@ data class CellContentImp(
     override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
         return exUnit?.toFormulaSelective(wbKey, wsName)?.let {
             "=" + it
+        }
+    }
+
+    override fun colorFormula(colorProvider: ColorProvider, wbKey: WorkbookKey?, wsName: String?): AnnotatedString? {
+        return exUnit?.toColorFormula(colorProvider,wbKey, wsName)?.let {
+            buildAnnotatedString {
+                append("=")
+                append(it)
+            }
         }
     }
 

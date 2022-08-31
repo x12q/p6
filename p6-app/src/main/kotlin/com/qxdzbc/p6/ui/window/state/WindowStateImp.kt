@@ -33,6 +33,7 @@ import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.CollectionUtils.findAndReplace
+import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CompletableDeferred
@@ -69,6 +70,7 @@ data class WindowStateImp @AssistedInject constructor(
     private val wbStateFactory: WorkbookStateFactory,
     @FocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,
+    override val colorProvider: ColorProvider,
 ) : BaseWindowState() {
     companion object {
         /**

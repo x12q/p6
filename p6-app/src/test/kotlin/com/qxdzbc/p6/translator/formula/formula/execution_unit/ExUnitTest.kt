@@ -48,6 +48,19 @@ internal class ExUnitTest {
     }
 
     class AddOperator {
+
+        @Test
+        fun getRange(){
+            val u = ExUnit.AddOperator(
+                ExUnit.CellAddressUnit(CellAddress("C3")),
+                ExUnit.CellAddressUnit(CellAddress("K3"))
+            )
+            assertEquals(
+                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
+                u.getRanges()
+            )
+        }
+
         @Test
         fun `run on number`() {
             val u = ExUnit.AddOperator(
@@ -64,6 +77,75 @@ internal class ExUnitTest {
             assertEquals(Ok("abcqwe"), u.run())
         }
 
+    }
+
+    class MinusOperator{
+        @Test
+        fun getRange(){
+            val u = ExUnit.MinusOperator(
+                ExUnit.CellAddressUnit(CellAddress("C3")),
+                ExUnit.CellAddressUnit(CellAddress("K3"))
+            )
+            assertEquals(
+                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
+                u.getRanges()
+            )
+        }
+    }
+
+    class MultiplyOperator{
+        @Test
+        fun getRange(){
+            val u = ExUnit.MinusOperator(
+                ExUnit.CellAddressUnit(CellAddress("C3")),
+                ExUnit.CellAddressUnit(CellAddress("K3"))
+            )
+            assertEquals(
+                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
+                u.getRanges()
+            )
+        }
+    }
+
+    class Div{
+        @Test
+        fun getRange(){
+            val u = ExUnit.Div(
+                ExUnit.CellAddressUnit(CellAddress("C3")),
+                ExUnit.CellAddressUnit(CellAddress("K3"))
+            )
+            assertEquals(
+                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
+                u.getRanges()
+            )
+        }
+    }
+
+    class PowerBy{
+        @Test
+        fun getRange(){
+            val u = ExUnit.PowerBy(
+                ExUnit.CellAddressUnit(CellAddress("C3")),
+                ExUnit.CellAddressUnit(CellAddress("K3"))
+            )
+            assertEquals(
+                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
+                u.getRanges()
+            )
+        }
+    }
+
+    class UnarySubtract{
+        @Test
+        fun getRange(){
+            val u = ExUnit.UnarySubtract(
+                ExUnit.CellAddressUnit(CellAddress("C3")),
+            )
+            assertEquals(
+                listOf(RangeAddress(CellAddress("C3"))),
+                u.getRanges()
+            )
+        }
     }
 
     internal class Func {
@@ -181,11 +263,35 @@ internal class ExUnitTest {
             )
             assertEquals("someFunction(23)", u.toFormula())
         }
+
+        @Test
+        fun getRange(){
+            val u = ExUnit.Func(
+                funcName = "Function",
+                args = listOf(
+                    ExUnit.MinusOperator(
+                        ExUnit.CellAddressUnit(CellAddress("C3")),
+                        ExUnit.CellAddressUnit(CellAddress("K3")),
+                    ),
+                    ExUnit.RangeAddressUnit(RangeAddress("M1:Q3"))
+                ),
+                functionMapSt = mock()
+            )
+            assertEquals(
+                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3")),RangeAddress("M1:Q3")),
+                u.getRanges()
+            )
+        }
     }
 
     class RangeAddressUnit {
         val r = RangeAddress("A1:B2")
         val u = ExUnit.RangeAddressUnit(rangeAddress = r)
+
+        @Test
+        fun getRanges(){
+            assertEquals(listOf(r),u.getRanges())
+        }
 
         @Test
         fun shift() {

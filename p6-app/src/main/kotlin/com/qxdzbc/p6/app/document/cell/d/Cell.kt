@@ -1,10 +1,12 @@
 package com.qxdzbc.p6.app.document.cell.d
 
+import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellProto
+import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 
 interface Cell :Shiftable{
@@ -35,6 +37,7 @@ interface Cell :Shiftable{
     val currentCellValue: CellValue
     val editableValue: String
     fun editableValue(wbKey: WorkbookKey?, wsName: String): String
+    fun colorEditableValue(colorProvider: ColorProvider, wbKey: WorkbookKey?, wsName: String): AnnotatedString
 
     /**
      * a shortcut to the value stored in [cellValueAfterRun]
