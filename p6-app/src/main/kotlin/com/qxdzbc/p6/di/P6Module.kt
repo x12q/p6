@@ -24,15 +24,12 @@ import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.communication.event.P6EventTableImp
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
-import com.qxdzbc.p6.ui.common.color_generator.RandomColorProvider
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.p6.ui.common.color_generator.ColorGenerator
-import com.qxdzbc.p6.ui.common.color_generator.ColorGeneratorImp
+import com.qxdzbc.p6.ui.common.color_generator.*
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import com.qxdzbc.p6.ui.kernel.KernelActionImp
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouter
@@ -54,11 +51,11 @@ annotation class EmptyIntList
 interface P6Module {
     @Binds
     @P6Singleton
-    fun ColorProvider(i: RandomColorProvider): ColorProvider
+    fun FormulaColorProvider(i:FormulaColorProviderImp): FormulaColorProvider
 
     @Binds
     @P6Singleton
-    fun ColorGenerator(i: ColorGeneratorImp): ColorGenerator
+    fun ColorGenerator(i: RandomColorGenerator): ColorGenerator
 
     @Binds
     @P6Singleton

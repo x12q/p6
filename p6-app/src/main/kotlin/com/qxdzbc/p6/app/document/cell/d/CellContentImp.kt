@@ -22,7 +22,7 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
  */
 data class CellContentImp(
     override val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
-    private val exUnit: ExUnit? = null,
+    override val exUnit: ExUnit? = null,
 ) : CellContent {
     override val formula: String? get() =  exUnit?.toFormula()?.let {
         "="+it

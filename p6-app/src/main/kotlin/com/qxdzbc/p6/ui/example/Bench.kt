@@ -17,15 +17,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.rpc.P6RpcServerImp
-import com.qxdzbc.p6.rpc.document.cell.MockCellService
-import com.qxdzbc.p6.rpc.document.workbook.MockWorkbookService
-import com.qxdzbc.p6.ui.common.color_generator.ColorGeneratorImp
+import com.qxdzbc.p6.ui.common.color_generator.RandomColorGenerator
 import com.qxdzbc.p6.ui.common.compose.TestApp
 
 fun main(){
     TestApp{
-        val cg = remember { ColorGeneratorImp() }
+        val cg = remember { RandomColorGenerator() }
         var color  by rms(cg.nextColor())
         val str:AnnotatedString = buildAnnotatedString {
             withStyle(style = SpanStyle(color = Color.Blue)) {

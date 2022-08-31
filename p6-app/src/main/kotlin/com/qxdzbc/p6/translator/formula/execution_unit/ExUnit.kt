@@ -32,6 +32,9 @@ import kotlin.reflect.KFunction
  * An ExUnit (execution unit) is an obj representing a formula, when it is run it will return something that can be stored by a Cell.
  */
 interface ExUnit : Shiftable, ColorKey {
+    fun getCellRangeExUnit():List<ExUnit>{
+        return emptyList()
+    }
     fun getRanges():List<RangeAddress>{
         return emptyList()
     }
@@ -81,6 +84,10 @@ interface ExUnit : Shiftable, ColorKey {
     fun run(): Result<Any, ErrorReport>
 
     data class RangeAddressUnit(val rangeAddress: RangeAddress) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return listOf(this)
+        }
+
         override fun getRanges(): List<RangeAddress> {
             return listOf(rangeAddress)
         }
@@ -88,7 +95,7 @@ interface ExUnit : Shiftable, ColorKey {
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
-        ): ExUnit {
+        ): RangeAddressUnit {
             return this.copy(rangeAddress = rangeAddress.shift(oldAnchorCell, newAnchorCell))
         }
 
@@ -106,6 +113,10 @@ interface ExUnit : Shiftable, ColorKey {
     }
 
     data class CellAddressUnit(val cellAddress: CellAddress) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return listOf(this)
+        }
+
         override fun getRanges(): List<RangeAddress> {
             return listOf(RangeAddress(cellAddress))
         }
@@ -241,6 +252,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "+" operator
      */
     data class AddOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
+        }
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -327,6 +341,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "-" operator
      */
     data class MinusOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
+        }
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
@@ -402,6 +419,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "*" operator
      */
     data class MultiplyOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
+        }
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
@@ -476,6 +496,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "/" operator
      */
     data class Div(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
+        }
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
@@ -556,6 +579,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "^" operator
      */
     data class PowerBy(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
+        }
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
@@ -630,6 +656,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for unary "-"
      */
     data class UnarySubtract(val u: ExUnit) : ExUnit {
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return u.getCellRangeExUnit()
+        }
         override fun getRanges(): List<RangeAddress> {
             return u.getRanges()
         }
@@ -819,6 +848,11 @@ interface ExUnit : Shiftable, ColorKey {
     ) : ExUnit {
 
         val functionMap by functionMapSt
+
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return args.flatMap { it.getCellRangeExUnit() }
+        }
+
         override fun getRanges(): List<RangeAddress> {
             return args.flatMap { it.getRanges() }
         }
@@ -839,6 +873,81 @@ interface ExUnit : Shiftable, ColorKey {
         ): ExUnit {
             val newArgs = args.map { it.shift(oldAnchorCell, newAnchorCell) }
             return this.copy(args = newArgs)
+        }
+
+        override fun toFormula(): String? {
+            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormula(this)
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormulaSelective(this, wbKey, wsName)
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        override fun run(): Result<Any, ErrorReport> {
+            val argValueRs: Array<Result<Any, ErrorReport>> = (args.map { it.run() }.toTypedArray())
+            val funcRs: Rs<FunctionDef, ErrorReport> = functionMap.getFuncRs(funcName)
+            when (funcRs) {
+                is Ok -> {
+                    val funcDef: FunctionDef = funcRs.value
+                    val func: KFunction<Any> = funcDef.function
+                    val functionExecutor: FunctionExecutor = funcDef.functionExecutor ?: FunctionExecutor.Default
+                    val errs: List<ErrorReport> =
+                        argValueRs.filterIsInstance<Err<ErrorReport>>().map { it.component2() }
+                    if (errs.isNotEmpty()) {
+                        return CommonErrors.MultipleErrors.report(errs).toErr()
+                    } else {
+                        val argValues: Array<Any?> = argValueRs
+                            .map { it.component1() }
+                            .toTypedArray()
+                        try {
+                            val funcOutput = functionExecutor.execute(func, argValues)
+                            return funcOutput as Result<Any, ErrorReport>
+                        } catch (e: Exception) {
+                            return CommonErrors.ExceptionError.report(e).toErr()
+                        }
+                    }
+                }
+                is Err -> {
+                    return funcRs
+                }
+            }
+        }
+    }
+
+    data class GetRange(
+        val funcName: String,
+        val wbKeyUnit : ExUnit.WbKeyStUnit ,
+        val wsNameUnit : ExUnit.WsNameStUnit,
+        val rangeAddressUnit : ExUnit.RangeAddressUnit,
+        val functionMapSt: St<FunctionMap>,
+    ) : ExUnit {
+
+        val functionMap by functionMapSt
+
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return listOf(this)
+        }
+
+        override fun getRanges(): List<RangeAddress> {
+            return listOf(rangeAddressUnit.rangeAddress)
+        }
+
+        override fun toColorFormula(
+            colorProvider: ColorProvider,
+            wbKey: WorkbookKey?,
+            wsName: String?
+        ): AnnotatedString? {
+            return functionMap.getFunc(funcName)
+                ?.functionFormulaConverter
+                ?.toColorFormula(this, colorProvider, wbKey, wsName)
+        }
+
+        override fun shift(
+            oldAnchorCell: GenericCellAddress<Int, Int>,
+            newAnchorCell: GenericCellAddress<Int, Int>
+        ): ExUnit {
+            return this.copy(rangeAddressUnit = rangeAddressUnit.shift(oldAnchorCell, newAnchorCell))
         }
 
         override fun toFormula(): String? {

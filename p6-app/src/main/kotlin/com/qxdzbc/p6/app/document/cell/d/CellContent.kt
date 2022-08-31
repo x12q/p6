@@ -6,6 +6,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 interface CellContent:CanCheckEmpty,Shiftable {
@@ -13,7 +14,7 @@ interface CellContent:CanCheckEmpty,Shiftable {
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
     ): CellContent
-
+    val exUnit: ExUnit?
     val cellValueMs:Ms<CellValue>
     val cellValueAfterRun: CellValue
     val currentCellValue: CellValue
