@@ -12,14 +12,13 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.FunctionMapMs
-import com.qxdzbc.p6.di.FunctionMapSt
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.FunctionMap
-import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -27,10 +26,10 @@ import org.antlr.v4.runtime.tree.ParseTree
 import java.nio.file.Path
 
 class JvmFormulaVisitor @AssistedInject constructor(
-    @Assisted("1") private val wbKeySt: St< WorkbookKey>,
-    @Assisted("2") private val wsNameSt: St< String>,
+    @Assisted("1") private val wbKeySt: St<WorkbookKey>,
+    @Assisted("2") private val wsNameSt: St<String>,
     @FunctionMapMs
-    private val functionMapMs:Ms<FunctionMap> ,
+    private val functionMapMs: Ms<FunctionMap>,
     @DocumentContainerSt
     private val docContMs: St<@JvmSuppressWildcards DocumentContainer>
 ) : FormulaBaseVisitor<ExUnit>() {
@@ -143,7 +142,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
     }
 
     override fun visitSheetNameWithSpace(ctx: FormulaParser.SheetNameWithSpaceContext?): ExUnit.WsNameStUnit? {
-        val u= this.visitWithSpaceId(ctx?.withSpaceId())
+        val u = this.visitWithSpaceId(ctx?.withSpaceId())
         val rt = u?.run()?.component1()?.toSt()?.let {
             ExUnit.WsNameStUnit(it)
         }
@@ -229,7 +228,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
 
         val wbkSt: St<WorkbookKey> = wbKeyStExUnit.run().component1() ?: wbKeySt
 
-        val wsNameStUnit: ExUnit.WsNameStUnit = this.visitSheetPrefix(ctx?.sheetPrefix())?.let {hypoWsNameStUnit->
+        val wsNameStUnit: ExUnit.WsNameStUnit = this.visitSheetPrefix(ctx?.sheetPrefix())?.let { hypoWsNameStUnit ->
             val k = hypoWsNameStUnit.run().component1()?.let { wsName ->
                 val z = docCont.getWsNameSt(wbkSt, wsName.value)?.let {
                     ExUnit.WsNameStUnit(it)
@@ -244,22 +243,22 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val cellAddressRs: Rse<CellAddress> = CellAddresses.fromLabelRs(rangeAddress)
             if (cellAddressRs is Ok) {
                 val raUnit = cellAddressRs.value.exUnit()
-                return ExUnit.Func(
+                return ExUnit.GetCell(
                     funcName = P6FunctionDefinitions.getCellRs,
-                    args = listOf(wbKeyStExUnit, wsNameStUnit, raUnit),
+                    wbKeyUnit = wbKeyStExUnit,
+                    wsNameUnit = wsNameStUnit,
+                    cellAddressUnit = raUnit,
                     functionMapSt = functionMapMs,
-//                    isImplicit = true
                 )
             }
 
             val rangeAddressRs: Rse<RangeAddress> = RangeAddresses.fromLabelRs(rangeAddress)
             if (rangeAddressRs is Ok) {
-                val raUnit: ExUnit = rangeAddressRs.value.exUnit()
-                return ExUnit.Func(
+                val raUnit = rangeAddressRs.value.exUnit()
+                return ExUnit.GetRange(
                     funcName = P6FunctionDefinitions.getRangeRs,
-                    args = listOf(wbKeyStExUnit, wsNameStUnit, raUnit),
+                    wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStUnit, rangeAddressUnit = raUnit,
                     functionMapSt = functionMapMs,
-//                    isImplicit = true
                 )
             }
         }
@@ -299,11 +298,10 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val cell1 = ctx?.cellAddress(1)?.text
         if (cell0 != null && cell1 != null) {
             val raUnit = RangeAddress(CellAddress(cell0), CellAddress(cell1)).exUnit()
-            return ExUnit.Func(
+            return ExUnit.GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
-                args = listOf(wbKeyStExUnit, wsNameStExUnit, raUnit),
+                wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStExUnit, rangeAddressUnit = raUnit,
                 functionMapSt = functionMapMs,
-//                isImplicit = true
             )
         } else {
             return null
@@ -314,9 +312,11 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val cell0 = ctx?.text
         if (cell0 != null) {
             val raUnit = CellAddress(cell0).exUnit()
-            val rt = ExUnit.Func(
+            val rt = ExUnit.GetCell(
                 funcName = P6FunctionDefinitions.getCellRs,
-                args = listOf(wbKeyStExUnit, wsNameExUnit, raUnit),
+                wbKeyUnit = wbKeyStExUnit,
+                wsNameUnit = wsNameStExUnit,
+                cellAddressUnit = raUnit,
                 functionMapSt = functionMapMs,
             )
             return rt
@@ -329,11 +329,10 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val colAddress = ctx?.text
         if (colAddress != null) {
             val raUnit = RangeAddress(colAddress).exUnit()
-            return ExUnit.Func(
+            return ExUnit.GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
-                args = listOf(wbKeyStExUnit, wsNameStExUnit, raUnit),
+                wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStExUnit, rangeAddressUnit = raUnit,
                 functionMapSt = functionMapMs,
-//                isImplicit = true
             )
         } else {
             return null
@@ -344,11 +343,10 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val rowAddress = ctx?.text
         if (rowAddress != null) {
             val raUnit = RangeAddress(rowAddress).exUnit()
-            return ExUnit.Func(
+            return ExUnit.GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
-                args = listOf(wbKeyStExUnit, wsNameStExUnit, raUnit),
+                wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStExUnit, rangeAddressUnit = raUnit,
                 functionMapSt = functionMapMs,
-//                isImplicit = true
             )
         } else {
             return null

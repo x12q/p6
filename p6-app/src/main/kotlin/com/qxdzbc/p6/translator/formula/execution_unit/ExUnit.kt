@@ -32,26 +32,28 @@ import kotlin.reflect.KFunction
  * An ExUnit (execution unit) is an obj representing a formula, when it is run it will return something that can be stored by a Cell.
  */
 interface ExUnit : Shiftable, ColorKey {
-    fun getCellRangeExUnit():List<ExUnit>{
+    fun getCellRangeExUnit(): List<ExUnit> {
         return emptyList()
     }
-    fun getRanges():List<RangeAddress>{
+
+    fun getRanges(): List<RangeAddress> {
         return emptyList()
     }
+
     fun toColorFormula(
         colorProvider: ColorProvider,
         wbKey: WorkbookKey?,
         wsName: String?
     ): AnnotatedString? {
-        val color:Color? = colorProvider.getColor(this)
-        val str:String?=toFormulaSelective(wbKey, wsName)
-        val rt:AnnotatedString? = str?.let{
+        val color: Color? = colorProvider.getColor(this)
+        val str: String? = toFormulaSelective(wbKey, wsName)
+        val rt: AnnotatedString? = str?.let {
             buildAnnotatedString {
-                if(color!=null){
+                if (color != null) {
                     withStyle(style = SpanStyle(color = color)) {
                         append(it)
                     }
-                }else{
+                } else {
                     append(it)
                 }
             }
@@ -124,7 +126,7 @@ interface ExUnit : Shiftable, ColorKey {
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
-        ): ExUnit {
+        ): CellAddressUnit {
             return this.copy(cellAddress = cellAddress.shift(oldAnchorCell, newAnchorCell))
         }
 
@@ -255,6 +257,7 @@ interface ExUnit : Shiftable, ColorKey {
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
+
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -276,13 +279,13 @@ interface ExUnit : Shiftable, ColorKey {
         ): AnnotatedString? {
             val f1 = u1.toColorFormula(colorProvider, wbKey, wsName)
             val f2 = u2.toColorFormula(colorProvider, wbKey, wsName)
-            if(f1!=null && f2!=null){
+            if (f1 != null && f2 != null) {
                 return buildAnnotatedString {
                     append(f1)
                     append("+")
                     append(f2)
                 }
-            }else{
+            } else {
                 return null
             }
         }
@@ -344,6 +347,7 @@ interface ExUnit : Shiftable, ColorKey {
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
+
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
@@ -355,16 +359,17 @@ interface ExUnit : Shiftable, ColorKey {
         ): AnnotatedString? {
             val f1 = u1.toColorFormula(colorProvider, wbKey, wsName)
             val f2 = u2.toColorFormula(colorProvider, wbKey, wsName)
-            if(f1!=null && f2!=null){
+            if (f1 != null && f2 != null) {
                 return buildAnnotatedString {
                     append(f1)
                     append("-")
                     append(f2)
                 }
-            }else{
+            } else {
                 return null
             }
         }
+
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -422,9 +427,11 @@ interface ExUnit : Shiftable, ColorKey {
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
+
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
+
         override fun toColorFormula(
             colorProvider: ColorProvider,
             wbKey: WorkbookKey?,
@@ -432,16 +439,17 @@ interface ExUnit : Shiftable, ColorKey {
         ): AnnotatedString? {
             val f1 = u1.toColorFormula(colorProvider, wbKey, wsName)
             val f2 = u2.toColorFormula(colorProvider, wbKey, wsName)
-            if(f1!=null && f2!=null){
+            if (f1 != null && f2 != null) {
                 return buildAnnotatedString {
                     append(f1)
                     append("*")
                     append(f2)
                 }
-            }else{
+            } else {
                 return null
             }
         }
+
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -499,6 +507,7 @@ interface ExUnit : Shiftable, ColorKey {
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
+
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
@@ -510,16 +519,17 @@ interface ExUnit : Shiftable, ColorKey {
         ): AnnotatedString? {
             val f1 = u1.toColorFormula(colorProvider, wbKey, wsName)
             val f2 = u2.toColorFormula(colorProvider, wbKey, wsName)
-            if(f1!=null && f2!=null){
+            if (f1 != null && f2 != null) {
                 return buildAnnotatedString {
                     append(f1)
                     append("/")
                     append(f2)
                 }
-            }else{
+            } else {
                 return null
             }
         }
+
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -582,6 +592,7 @@ interface ExUnit : Shiftable, ColorKey {
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
+
         override fun getRanges(): List<RangeAddress> {
             return u1.getRanges() + u2.getRanges()
         }
@@ -593,16 +604,17 @@ interface ExUnit : Shiftable, ColorKey {
         ): AnnotatedString? {
             val f1 = u1.toColorFormula(colorProvider, wbKey, wsName)
             val f2 = u2.toColorFormula(colorProvider, wbKey, wsName)
-            if(f1!=null && f2!=null){
+            if (f1 != null && f2 != null) {
                 return buildAnnotatedString {
                     append(f1)
                     append("^")
                     append(f2)
                 }
-            }else{
+            } else {
                 return null
             }
         }
+
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -659,6 +671,7 @@ interface ExUnit : Shiftable, ColorKey {
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u.getCellRangeExUnit()
         }
+
         override fun getRanges(): List<RangeAddress> {
             return u.getRanges()
         }
@@ -669,15 +682,16 @@ interface ExUnit : Shiftable, ColorKey {
             wsName: String?
         ): AnnotatedString? {
             val f1 = u.toColorFormula(colorProvider, wbKey, wsName)
-            if(f1!=null){
+            if (f1 != null) {
                 return buildAnnotatedString {
                     append("-")
                     append(f1)
                 }
-            }else{
+            } else {
                 return null
             }
         }
+
         override fun shift(
             oldAnchorCell: GenericCellAddress<Int, Int>,
             newAnchorCell: GenericCellAddress<Int, Int>
@@ -838,50 +852,11 @@ interface ExUnit : Shiftable, ColorKey {
         }
     }
 
-    /**
-     * [isImplicit]: an implicit function is a function that is disguised under non-function form, such as get range syntax.
-     */
-    data class Func(
-        val funcName: String,
-        val args: List<ExUnit>,
-        val functionMapSt: St<FunctionMap>,
-    ) : ExUnit {
 
-        val functionMap by functionMapSt
-
-        override fun getCellRangeExUnit(): List<ExUnit> {
-            return args.flatMap { it.getCellRangeExUnit() }
-        }
-
-        override fun getRanges(): List<RangeAddress> {
-            return args.flatMap { it.getRanges() }
-        }
-
-        override fun toColorFormula(
-            colorProvider: ColorProvider,
-            wbKey: WorkbookKey?,
-            wsName: String?
-        ): AnnotatedString? {
-            return functionMap.getFunc(funcName)
-                ?.functionFormulaConverter
-                ?.toColorFormula(this, colorProvider, wbKey, wsName)
-        }
-
-        override fun shift(
-            oldAnchorCell: GenericCellAddress<Int, Int>,
-            newAnchorCell: GenericCellAddress<Int, Int>
-        ): ExUnit {
-            val newArgs = args.map { it.shift(oldAnchorCell, newAnchorCell) }
-            return this.copy(args = newArgs)
-        }
-
-        override fun toFormula(): String? {
-            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormula(this)
-        }
-
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormulaSelective(this, wbKey, wsName)
-        }
+    abstract class BaseFunc : ExUnit {
+        abstract val functionMap: FunctionMap
+        abstract val args: List<ExUnit>
+        abstract val funcName: String
 
         @Suppress("UNCHECKED_CAST")
         override fun run(): Result<Any, ErrorReport> {
@@ -915,15 +890,152 @@ interface ExUnit : Shiftable, ColorKey {
         }
     }
 
-    data class GetRange(
-        val funcName: String,
-        val wbKeyUnit : ExUnit.WbKeyStUnit ,
-        val wsNameUnit : ExUnit.WsNameStUnit,
-        val rangeAddressUnit : ExUnit.RangeAddressUnit,
+    data class Func(
+        override val funcName: String,
+        override val args: List<ExUnit>,
         val functionMapSt: St<FunctionMap>,
-    ) : ExUnit {
+    ) : ExUnit, BaseFunc() {
 
-        val functionMap by functionMapSt
+        override val functionMap by functionMapSt
+
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return args.flatMap { it.getCellRangeExUnit() }
+        }
+
+        override fun getRanges(): List<RangeAddress> {
+            return args.flatMap { it.getRanges() }
+        }
+
+        override fun toColorFormula(
+            colorProvider: ColorProvider,
+            wbKey: WorkbookKey?,
+            wsName: String?
+        ): AnnotatedString {
+            val u = this
+            val argsStr = u.args.map { it.toColorFormula(colorProvider,wbKey, wsName) }.filterNotNull()
+            val rt= buildAnnotatedString {
+                append(u.funcName)
+                append("(")
+                argsStr.forEach {
+                    append(it)
+                    append(",")
+                }
+                append(")")
+            }
+            return rt
+        }
+
+        override fun shift(
+            oldAnchorCell: GenericCellAddress<Int, Int>,
+            newAnchorCell: GenericCellAddress<Int, Int>
+        ): ExUnit {
+            val newArgs = args.map { it.shift(oldAnchorCell, newAnchorCell) }
+            return this.copy(args = newArgs)
+        }
+
+        override fun toFormula(): String {
+            val u = this
+            val argsStr = u.args.map { it.toFormula() }.filterNotNull().joinToString(", ")
+            return "${u.funcName}(${argsStr})"
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+            val u = this
+            val argsStr = u.args.map { it.toFormulaSelective(wbKey, wsName) }.filterNotNull().joinToString(", ")
+            return "${u.funcName}(${argsStr})"
+        }
+    }
+
+    data class GetCell(
+        override val funcName: String,
+        val wbKeyUnit: WbKeyStUnit,
+        val wsNameUnit: WsNameStUnit,
+        val cellAddressUnit: CellAddressUnit,
+        val functionMapSt: St<FunctionMap>,
+    ) : ExUnit, BaseFunc() {
+
+        override val functionMap by functionMapSt
+        override val args: List<ExUnit>
+            get() = listOf(wbKeyUnit, wsNameUnit, cellAddressUnit)
+
+        override fun getCellRangeExUnit(): List<ExUnit> {
+            return listOf(this)
+        }
+
+        override fun getRanges(): List<RangeAddress> {
+            return this.cellAddressUnit.getRanges()
+        }
+
+        override fun toColorFormula(
+            colorProvider: ColorProvider,
+            wbKey: WorkbookKey?,
+            wsName: String?
+        ): AnnotatedString {
+            val str: String = toFormulaSelective(wbKey, wsName)
+            val color: Color? = colorProvider.getColor(this)
+            val rt: AnnotatedString = buildAnnotatedString {
+                    if (color != null) {
+                        withStyle(style = SpanStyle(color = color)) {
+                            append(str)
+                        }
+                    } else {
+                        append(str)
+                    }
+                }
+
+            return rt
+        }
+
+        override fun shift(
+            oldAnchorCell: GenericCellAddress<Int, Int>,
+            newAnchorCell: GenericCellAddress<Int, Int>
+        ): ExUnit {
+            return this.copy(cellAddressUnit = cellAddressUnit.shift(oldAnchorCell, newAnchorCell))
+        }
+
+        override fun toFormula(): String {
+            val a1 = wbKeyUnit
+            val a2 = wsNameUnit
+            val a3 = cellAddressUnit
+            val wb: String = a1.toFormula()
+            val ws: String = a2.toFormula()
+            val range: String = a3.toFormula()
+            return range + ws + wb
+        }
+
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+            val a1 = wbKeyUnit
+            val a2 = wsNameUnit
+            val a3 = cellAddressUnit
+            val currentWbKey = a1.wbKeySt.value
+            val currentWsName = a2.nameSt.value
+            val cellAddress: String = a3.cellAddress.toLabel()
+            if (currentWbKey == wbKey) {
+                if (currentWsName == wsName) {
+                    return cellAddress
+                } else {
+                    return cellAddress + a2.toFormula()
+                }
+            } else {
+                val wb: String = a1.toFormula()
+                val ws: String = a2.toFormula()
+                val ca: String = a3.toFormula()
+                return ca + ws + wb
+            }
+        }
+    }
+
+    data class GetRange(
+        override val funcName: String,
+        val wbKeyUnit: WbKeyStUnit,
+        val wsNameUnit: WsNameStUnit,
+        val rangeAddressUnit: RangeAddressUnit,
+        val functionMapSt: St<FunctionMap>,
+    ) : ExUnit, BaseFunc() {
+
+        override val functionMap by functionMapSt
+        override val args: List<ExUnit>
+            get() = listOf(wbKeyUnit, wsNameUnit, rangeAddressUnit)
 
         override fun getCellRangeExUnit(): List<ExUnit> {
             return listOf(this)
@@ -937,10 +1049,20 @@ interface ExUnit : Shiftable, ColorKey {
             colorProvider: ColorProvider,
             wbKey: WorkbookKey?,
             wsName: String?
-        ): AnnotatedString? {
-            return functionMap.getFunc(funcName)
-                ?.functionFormulaConverter
-                ?.toColorFormula(this, colorProvider, wbKey, wsName)
+        ): AnnotatedString {
+            val str: String = toFormulaSelective(wbKey, wsName)
+            val color: Color? = colorProvider.getColor(this)
+            val rt: AnnotatedString = buildAnnotatedString {
+                    if (color != null) {
+                        withStyle(style = SpanStyle(color = color)) {
+                            append(str)
+                        }
+                    } else {
+                        append(str)
+                    }
+                }
+
+            return rt
         }
 
         override fun shift(
@@ -950,42 +1072,34 @@ interface ExUnit : Shiftable, ColorKey {
             return this.copy(rangeAddressUnit = rangeAddressUnit.shift(oldAnchorCell, newAnchorCell))
         }
 
-        override fun toFormula(): String? {
-            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormula(this)
+        override fun toFormula(): String {
+            val a1 = wbKeyUnit
+            val a2 = wsNameUnit
+            val a3 = rangeAddressUnit
+            val wb: String = a1.toFormula()
+            val ws: String = a2.toFormula()
+            val range: String = a3.toFormula()
+            return range + ws + wb
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            return functionMap.getFunc(funcName)?.functionFormulaConverter?.toFormulaSelective(this, wbKey, wsName)
-        }
-
-        @Suppress("UNCHECKED_CAST")
-        override fun run(): Result<Any, ErrorReport> {
-            val argValueRs: Array<Result<Any, ErrorReport>> = (args.map { it.run() }.toTypedArray())
-            val funcRs: Rs<FunctionDef, ErrorReport> = functionMap.getFuncRs(funcName)
-            when (funcRs) {
-                is Ok -> {
-                    val funcDef: FunctionDef = funcRs.value
-                    val func: KFunction<Any> = funcDef.function
-                    val functionExecutor: FunctionExecutor = funcDef.functionExecutor ?: FunctionExecutor.Default
-                    val errs: List<ErrorReport> =
-                        argValueRs.filterIsInstance<Err<ErrorReport>>().map { it.component2() }
-                    if (errs.isNotEmpty()) {
-                        return CommonErrors.MultipleErrors.report(errs).toErr()
-                    } else {
-                        val argValues: Array<Any?> = argValueRs
-                            .map { it.component1() }
-                            .toTypedArray()
-                        try {
-                            val funcOutput = functionExecutor.execute(func, argValues)
-                            return funcOutput as Result<Any, ErrorReport>
-                        } catch (e: Exception) {
-                            return CommonErrors.ExceptionError.report(e).toErr()
-                        }
-                    }
+        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+            val a1 = wbKeyUnit
+            val a2 = wsNameUnit
+            val a3 = rangeAddressUnit
+            val currentWbKey = a1.wbKeySt.value
+            val currentWsName = a2.nameSt.value
+            val cellAddress: String = a3.rangeAddress.label
+            if (currentWbKey == wbKey) {
+                if (currentWsName == wsName) {
+                    return cellAddress
+                } else {
+                    return cellAddress + a2.toFormula()
                 }
-                is Err -> {
-                    return funcRs
-                }
+            } else {
+                val wb: String = a1.toFormula()
+                val ws: String = a2.toFormula()
+                val ca: String = a3.toFormula()
+                return ca + ws + wb
             }
         }
     }
