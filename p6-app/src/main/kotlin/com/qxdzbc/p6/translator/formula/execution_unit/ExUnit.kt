@@ -852,7 +852,6 @@ interface ExUnit : Shiftable, ColorKey {
         }
     }
 
-
     abstract class BaseFunc : ExUnit {
         abstract val functionMap: FunctionMap
         abstract val args: List<ExUnit>
@@ -916,10 +915,14 @@ interface ExUnit : Shiftable, ColorKey {
             val rt= buildAnnotatedString {
                 append(u.funcName)
                 append("(")
-                argsStr.forEach {
-                    append(it)
-                    append(",")
+
+                argsStr.withIndex().forEach {(i,a)->
+                    if(i!=0){
+                        append(",")
+                    }
+                    append(a)
                 }
+
                 append(")")
             }
             return rt
