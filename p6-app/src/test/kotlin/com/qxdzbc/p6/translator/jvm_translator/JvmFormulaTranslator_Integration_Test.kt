@@ -97,9 +97,6 @@ class JvmFormulaTranslator_Integration_Test {
         appStateMs = ts.sampleAppStateMs(wbCont)
         p6FunctDefs = P6FunctionDefinitionsImp(
             appStateMs, ts.appState.docContMs,
-            f1 = ts.p6Comp.BackConverterForGetRange(),
-            f2 = ts.p6Comp.NormalBackConverter(),
-            f3 = ts.p6Comp.BackConverterForGetCell()
         )
         fun add(n1: Int, n2: Int): Result<Int, ErrorReport> {
             return Ok(n1 + n2)

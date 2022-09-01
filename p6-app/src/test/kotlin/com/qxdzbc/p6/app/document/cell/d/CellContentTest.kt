@@ -10,7 +10,6 @@ class CellContentTest {
     fun run() {
         val c = CellContentImp(
             cellValueMs = CellValue.Companion.from(123).toMs(),
-//            formula = "=FALSE",
             exUnit = ExUnit.FALSE
         )
         val c2 = c.reRun()

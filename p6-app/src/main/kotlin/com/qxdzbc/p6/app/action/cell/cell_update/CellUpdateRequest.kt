@@ -10,6 +10,7 @@ data class CellUpdateRequest(
     override val wbKey: WorkbookKey,
     val wsName: String,
     val cellAddress: CellAddress,
+    //TODO valueAsStr is not used at all, remove it
     val valueAsStr: String?,
     val formula: String?=null,
     val cellValue:Any?=null,

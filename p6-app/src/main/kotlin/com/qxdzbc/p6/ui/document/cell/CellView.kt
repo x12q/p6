@@ -41,7 +41,7 @@ fun CellView(
     ) {
         if (cell != null) {
             Text(
-                cell.content.displayValue,
+                cell.displayValue,
                 modifier = textModifier
                     .align(state.alignment),
                 style = state.textStyle

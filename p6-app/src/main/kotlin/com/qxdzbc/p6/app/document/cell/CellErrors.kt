@@ -30,4 +30,12 @@ object CellErrors {
             )
         }
     }
+    object OverflowError{
+        val header = ErrorHeader("${CellUIErr}3","Overflowing")
+        fun report(detail:String?=null):ErrorReport{
+            return ErrorReport(
+                header= detail?.let { header.setDescription(detail) } ?: header
+            )
+        }
+    }
 }

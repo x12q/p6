@@ -20,7 +20,6 @@ internal class FunctionFormulaBackConverter_ForGetCellTest{
 
     @Test
     fun toFormula() {
-        val converter = FunctionFormulaBackConverter_ForGetCell()
         val u = ExUnit.Func(
             funcName = "qwe",
             args = listOf(
@@ -30,12 +29,11 @@ internal class FunctionFormulaBackConverter_ForGetCellTest{
             ),
             functionMapSt = mock()
         )
-        assertEquals("B2@'Sheet1'@'Wb1'",converter.toFormula(u))
+        assertEquals("B2@'Sheet1'@'Wb1'",u.toFormula())
     }
 
     @Test
     fun toFormulaSelective() {
-        val converter = FunctionFormulaBackConverter_ForGetCell()
         val wbk1 = WorkbookKey("Wb1",null)
         val wbk2 = WorkbookKey("Wb2",null)
         val u = ExUnit.Func(
@@ -47,8 +45,8 @@ internal class FunctionFormulaBackConverter_ForGetCellTest{
             ),
             functionMapSt = mock()
         )
-        assertEquals("B2@'Sheet1'", converter.toFormulaSelective(u, wbk1,"Sheet2"))
-        assertEquals("B2", converter.toFormulaSelective(u, wbk1,"Sheet1"))
-        assertEquals("B2@'Sheet1'@'Wb1'", converter.toFormulaSelective(u, wbk2,"Sheet1"))
+        assertEquals("B2@'Sheet1'", u.toFormulaSelective(wbk1,"Sheet2"))
+        assertEquals("B2", u.toFormulaSelective(wbk1,"Sheet1"))
+        assertEquals("B2@'Sheet1'@'Wb1'", u.toFormulaSelective( wbk2,"Sheet1"))
     }
 }

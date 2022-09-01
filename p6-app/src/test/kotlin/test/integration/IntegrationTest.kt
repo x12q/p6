@@ -53,9 +53,6 @@ class IntegrationTest {
                     P6FunctionDefinitionsImp(
                         appStateMs = appMs,
                         docContSt = appMs.value.docContMs,
-                        f1 = ts.p6Comp.BackConverterForGetRange(),
-                        f2 = ts.p6Comp.NormalBackConverter(),
-                        f3 = ts.p6Comp.BackConverterForGetCell()
                     ).functionMap
                 ).toMs(),
                 appMs.value.docContMs

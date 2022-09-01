@@ -19,8 +19,6 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverter
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverterNormal
 import test.TestSample
 import java.nio.file.Path
 import kotlin.reflect.KFunction
@@ -52,13 +50,11 @@ class JvmFormulaTranslatorTest {
                     override val name: String
                         get() = "add"
                     override val function: KFunction<Any> = ::add
-                    override val functionFormulaConverter: FunctionFormulaBackConverter = FunctionFormulaBackConverterNormal()
                 },
                 "toUpper" to object : AbstractFunctionDef() {
                     override val name: String
                         get() = "add"
                     override val function: KFunction<Any> = ::toUpper
-                    override val functionFormulaConverter: FunctionFormulaBackConverter = FunctionFormulaBackConverterNormal()
                 }
             )
         ).toMs()

@@ -12,11 +12,13 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.app.document.cell.CellErrors
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 /**
+ * Content = Formula + value
  * A class that holds content (value and formula) of a cell.
  * This implementation hold a mutable [CellValue] instance([cellValueMs]), whenever [cellValueAfterRun] is access, a new instance of cell value is computed. This is for auto formula computation
  */
@@ -43,10 +45,6 @@ data class CellContentImp(
         }
     }
 
-    init {
-        checkStateLegality()
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other is CellContent) {
             val c1 = currentCellValue == other.currentCellValue
@@ -57,22 +55,6 @@ data class CellContentImp(
         }
     }
 
-    private fun checkStateLegality() {
-        val c1 = (exUnit != null && formula.isNullOrEmpty())
-        val c2 = exUnit == null && formula?.isNotEmpty() == true
-        val formulaTranslatedOk = !this.cellValueMs.value.isTranslatorErr
-        if (formulaTranslatedOk) {
-            if (c1 || c2) {
-                throw IllegalStateException(
-                    "ExUnit and formula must either be null or not null at the same time if the formula is translated successfully.\n" +
-                            "formula = ${formula}\n" +
-                            "exUnit = ${if (exUnit == null) "null" else "not null"}\n" +
-                            "trans error = ${currentCellValue.isTranslatorErr}"
-                )
-            }
-        }
-    }
-
     companion object {
         /**
          * create a CellContent from a translation Rs
@@ -80,12 +62,10 @@ data class CellContentImp(
         fun fromTransRs(rs: Rs<ExUnit, ErrorReport>, formula: String): CellContentImp {
             when (rs) {
                 is Ok -> return CellContentImp(
-//                    formula = formula,
                     exUnit = rs.value
                 )
                 is Err -> return CellContentImp(
                     cellValueMs = CellValue.fromTransError(rs.error).toMs(),
-//                    formula = formula,
                 )
             }
         }
@@ -109,9 +89,18 @@ data class CellContentImp(
                     val cv: CellValue = CellValue.fromRs(exUnit.run())
                     cellValueMs.value = cv
                 } catch (e: Throwable) {
-                    cellValueMs.value = CellValue.from(
-                        CommonErrors.ExceptionError.report(e)
-                    )
+                    when(e){
+                        is StackOverflowError -> {
+                            cellValueMs.value = CellValue.from(
+                                CellErrors.OverflowError.report()
+                            )
+                        }
+                        else ->{
+                            cellValueMs.value = CellValue.from(
+                                CommonErrors.ExceptionError.report(e)
+                            )
+                        }
+                    }
                 }
             }
             return currentCellValue
@@ -120,7 +109,6 @@ data class CellContentImp(
 
 
     override fun reRun(): CellContent? {
-        checkStateLegality()
         if (this.exUnit == null && this.formula == null) {
             return null
         }
@@ -146,7 +134,8 @@ data class CellContentImp(
 
     override val displayValue: String
         get() {
-            return cellValueAfterRun.displayStr
+//            return cellValueAfterRun.displayStr
+            return currentCellValue.displayStr
         }
 
     override val isFormula: Boolean get() {

@@ -10,7 +10,6 @@ internal class FunctionFormulaBackConverterNormalTest {
 
     @Test
     fun toFormula() {
-        val converter = FunctionFormulaBackConverterNormal()
         val u = ExUnit.Func(
             funcName = "qwe",
             args = listOf(
@@ -20,6 +19,6 @@ internal class FunctionFormulaBackConverterNormalTest {
             ),
             functionMapSt = mock()
         )
-        assertEquals("qwe(1, \"QWE\", B2:K9)",converter.toFormula(u))
+        assertEquals("qwe(1, \"QWE\", B2:K9)",u.toFormula())
     }
 }
