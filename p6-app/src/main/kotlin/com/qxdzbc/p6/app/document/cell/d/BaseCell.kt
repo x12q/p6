@@ -22,7 +22,6 @@ abstract class BaseCell : Cell {
     }
 
     override fun editableValue(wbKey: WorkbookKey?, wsName: String): String {
-        println("H3")
         if(this.isFormula){
             return this.formula(wbKey, wsName) ?: ""
         }else{
@@ -32,7 +31,6 @@ abstract class BaseCell : Cell {
 
     override val editableValue: String
         get() {
-            println("H2")
             if(this.isFormula){
                 return this.formula ?: ""
             }else{
@@ -41,8 +39,6 @@ abstract class BaseCell : Cell {
         }
     override val formula: String? get() = content.formula
     override val displayValue: String get() {
-        // this
-        println("H1")
         try{
             return content.displayValue
         }catch (e:Throwable){
