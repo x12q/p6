@@ -7,10 +7,6 @@ import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitionsImp
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverter
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverterNormal
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverter_ForGetCell
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverter_ForGetRangeAddress
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import dagger.Binds
@@ -18,21 +14,6 @@ import dagger.Provides
 
 @dagger.Module
 interface TranslatorModule {
-
-    @Binds
-    @P6Singleton
-    @BackConverterForGetCell
-    fun BackConverterForGetCell(i: FunctionFormulaBackConverter_ForGetCell): FunctionFormulaBackConverter
-
-    @Binds
-    @P6Singleton
-    @BackConverterForGetRange
-    fun BackConverterForGetRange(i: FunctionFormulaBackConverter_ForGetRangeAddress): FunctionFormulaBackConverter
-
-    @Binds
-    @P6Singleton
-    @NormalBackConverter
-    fun NormalBackConverter(i: FunctionFormulaBackConverterNormal): FunctionFormulaBackConverter
 
     @Binds
     @P6Singleton

@@ -60,7 +60,6 @@ import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.google.gson.Gson
-import com.qxdzbc.p6.translator.formula.function_def.formula_back_converter.FunctionFormulaBackConverter
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
@@ -239,12 +238,6 @@ interface P6Component {
     fun mouseOnWsAction(): MouseOnWorksheetAction
     @StateContainerMs
     fun stateContMs(): MutableState<StateContainer>
-    @BackConverterForGetRange
-    fun BackConverterForGetRange(): FunctionFormulaBackConverter
-    @NormalBackConverter
-    fun NormalBackConverter(): FunctionFormulaBackConverter
-    @BackConverterForGetCell
-    fun BackConverterForGetCell(): FunctionFormulaBackConverter
 
     @Component.Builder
     interface Builder {

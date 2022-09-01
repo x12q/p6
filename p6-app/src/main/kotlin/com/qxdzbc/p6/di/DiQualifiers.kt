@@ -12,18 +12,6 @@ annotation class FunctionMapMs
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class NormalBackConverter
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class BackConverterForGetRange
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class BackConverterForGetCell
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
 annotation class FunctionMapSt
 
 @Qualifier
