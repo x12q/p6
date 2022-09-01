@@ -87,7 +87,7 @@ interface ExUnit : Shiftable, ColorKey {
 
     data class RangeAddressUnit(val rangeAddress: RangeAddress) : ExUnit {
         override fun getCellRangeExUnit(): List<ExUnit> {
-            return listOf(this)
+            return listOf()
         }
 
         override fun getRanges(): List<RangeAddress> {
@@ -116,7 +116,7 @@ interface ExUnit : Shiftable, ColorKey {
 
     data class CellAddressUnit(val cellAddress: CellAddress) : ExUnit {
         override fun getCellRangeExUnit(): List<ExUnit> {
-            return listOf(this)
+            return listOf()
         }
 
         override fun getRanges(): List<RangeAddress> {
@@ -859,32 +859,36 @@ interface ExUnit : Shiftable, ColorKey {
 
         @Suppress("UNCHECKED_CAST")
         override fun run(): Result<Any, ErrorReport> {
-            val argValueRs: Array<Result<Any, ErrorReport>> = (args.map { it.run() }.toTypedArray())
-            val funcRs: Rs<FunctionDef, ErrorReport> = functionMap.getFuncRs(funcName)
-            when (funcRs) {
-                is Ok -> {
-                    val funcDef: FunctionDef = funcRs.value
-                    val func: KFunction<Any> = funcDef.function
-                    val functionExecutor: FunctionExecutor = funcDef.functionExecutor ?: FunctionExecutor.Default
-                    val errs: List<ErrorReport> =
-                        argValueRs.filterIsInstance<Err<ErrorReport>>().map { it.component2() }
-                    if (errs.isNotEmpty()) {
-                        return CommonErrors.MultipleErrors.report(errs).toErr()
-                    } else {
-                        val argValues: Array<Any?> = argValueRs
-                            .map { it.component1() }
-                            .toTypedArray()
-                        try {
-                            val funcOutput = functionExecutor.execute(func, argValues)
-                            return funcOutput as Result<Any, ErrorReport>
-                        } catch (e: Exception) {
-                            return CommonErrors.ExceptionError.report(e).toErr()
+            try{
+                val argValueRs: Array<Result<Any, ErrorReport>> = (args.map { it.run() }.toTypedArray())
+                val funcRs: Rs<FunctionDef, ErrorReport> = functionMap.getFuncRs(funcName)
+                when (funcRs) {
+                    is Ok -> {
+                        val funcDef: FunctionDef = funcRs.value
+                        val func: KFunction<Any> = funcDef.function
+                        val functionExecutor: FunctionExecutor = funcDef.functionExecutor ?: FunctionExecutor.Default
+                        val errs: List<ErrorReport> =
+                            argValueRs.filterIsInstance<Err<ErrorReport>>().map { it.component2() }
+                        if (errs.isNotEmpty()) {
+                            return CommonErrors.MultipleErrors.report(errs).toErr()
+                        } else {
+                            val argValues: Array<Any?> = argValueRs
+                                .map { it.component1() }
+                                .toTypedArray()
+                            try {
+                                val funcOutput = functionExecutor.execute(func, argValues)
+                                return funcOutput as Result<Any, ErrorReport>
+                            } catch (e: Exception) {
+                                return CommonErrors.ExceptionError.report(e).toErr()
+                            }
                         }
                     }
+                    is Err -> {
+                        return funcRs
+                    }
                 }
-                is Err -> {
-                    return funcRs
-                }
+            }catch (e:Throwable){
+                return CommonErrors.ExceptionError.report(e).toErr()
             }
         }
     }

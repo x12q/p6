@@ -7,6 +7,7 @@ import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
@@ -121,19 +122,24 @@ data class CellValue constructor(
 
     val valueAfterRun: Any?
         get() {
-            val o = all.firstOrNull()
-            when (o) {
-                is Range -> {
-                    if (o.isCell) {
-                        val rt = o.cells[0].valueAfterRun
-                        return rt
-                    } else {
-                        return o
+            try{
+                val o = all.firstOrNull()
+                when (o) {
+                    is Range -> {
+                        if (o.isCell) {
+                            val rt = o.cells[0].valueAfterRun
+                            return rt
+                        } else {
+                            return o
+                        }
                     }
+                    is Cell -> return o.valueAfterRun
+                    else -> return o
                 }
-                is Cell -> return o.valueAfterRun
-                else -> return o
+            }catch (e:Throwable){
+                return CommonErrors.ExceptionError.report(e)
             }
+
         }
 
     val isBool get() = this.bool != null
