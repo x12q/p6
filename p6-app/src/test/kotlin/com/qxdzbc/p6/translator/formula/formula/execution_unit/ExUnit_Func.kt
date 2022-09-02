@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.translator.formula.function_def.formula_back_converter
+package com.qxdzbc.p6.translator.formula.formula.execution_unit
 
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
@@ -6,7 +6,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
 import org.mockito.kotlin.mock
 import kotlin.test.*
 
-internal class FunctionFormulaBackConverterNormalTest {
+internal class ExUnit_Func {
 
     @Test
     fun toFormula() {

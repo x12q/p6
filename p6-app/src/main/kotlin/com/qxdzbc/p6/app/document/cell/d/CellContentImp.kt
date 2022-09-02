@@ -134,7 +134,6 @@ data class CellContentImp(
 
     override val displayValue: String
         get() {
-//            return cellValueAfterRun.displayStr
             return currentCellValue.displayStr
         }
 
