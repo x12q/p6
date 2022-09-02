@@ -104,15 +104,29 @@ fun CursorView(
                     cursorAction.handleKeyboardEvent(keyEvent.toPKeyEvent(), state)
                 }
         )
-
+        val refRangeAndColor=cursorAction.getFormulaRangeAndColor(state)
         //x: draw a box over selected cells to indicate that they are selected
         for ((cellAddress, cellLayout) in cellLayoutCoorsMap) {
+            if (boundLayoutCoors != null && boundLayoutCoors!!.isAttached) {
+                val offset:Offset = boundLayoutCoors!!.windowToLocal(cellLayout.posInWindow)
+                for((range,color) in refRangeAndColor){
+                    if(cellAddress in range){
+                        MBox(
+                            modifier = Modifier
+                                .offset { offset.toIntOffset() }
+                                .size(cellLayout.size)
+                                .background(color.copy(alpha=0.3F))
+                        )
+                    }
+                }
+            }
+
             if (cellAddress != mainCell) {
                 //x: draw selection box over currently selected cell/range
                 if (state.isPointingTo(cellAddress)) {
                     val boundLayout = boundLayoutCoors
                     if (boundLayout != null && boundLayout.isAttached) {
-                        val offset = boundLayout.windowToLocal(cellLayout.posInWindow)
+                        val offset:Offset = boundLayout.windowToLocal(cellLayout.posInWindow)
                         MBox(
                             modifier = Modifier
                                 .offset { offset.toIntOffset() }

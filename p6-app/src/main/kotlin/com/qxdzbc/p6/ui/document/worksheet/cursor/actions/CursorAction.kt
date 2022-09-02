@@ -42,6 +42,6 @@ interface CursorAction {
     fun pasteRange(wbws: WbWs)
     fun rangeToClipboard(wbws: WbWs)
 
-    fun getFormulaRangeDrawInfo(wbws: WbWs):Map<RangeAddress,Color>
+    fun getFormulaRangeAndColor(wbws: WbWs):Map<RangeAddress,Color>
 }
 

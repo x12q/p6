@@ -29,11 +29,11 @@ class CursorActionImpTest {
             )
         )
         val wbws = WbWs(ts.wbKey1,ts.wsn1)
-        val r1 = cursorAction.getFormulaRangeDrawInfo(wbws)
+        val r1 = cursorAction.getFormulaRangeAndColor(wbws)
         assertTrue(r1.isEmpty())
         cursorAction.moveCursorTo(wbws,"B3")
         cellEditorAction.openCellEditor(wbws)
-        val r2 = cursorAction.getFormulaRangeDrawInfo(wbws)
+        val r2 = cursorAction.getFormulaRangeAndColor(wbws)
         assertTrue(r2.isNotEmpty())
 
         assertEquals(

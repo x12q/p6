@@ -14,27 +14,30 @@ import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.ui.document.cell.action.CellViewAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import javax.inject.Inject
 
 class CellEditorActionImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
     private val cellLiteralParser: CellLiteralParser,
     private val cellViewAction: CellViewAction,
     private val cursorAction: CursorAction,
     private val makeDisplayText: MakeCellEditorDisplayText,
-    private val open: OpenCellEditorAction,
+    private val openCellEditor: OpenCellEditorAction,
+    @StateContainerMs
+    private val stateContMs:Ms<StateContainer>
 ) : CellEditorAction,
     MakeCellEditorDisplayText by makeDisplayText,
-    OpenCellEditorAction by open
+    OpenCellEditorAction by openCellEditor
 {
 
-    private var appState by appStateMs
-    private var cellEditorState by appState.cellEditorStateMs
+    private var stateCont by stateContMs
+    var editorState by stateCont.cellEditorStateMs
 
     private fun isFormula(formula: String): Boolean {
         val script: String = formula.trim()
@@ -43,8 +46,7 @@ class CellEditorActionImp @Inject constructor(
     }
 
     override fun focus() {
-        var editorState by appState.cellEditorStateMs
-        val fcsMs = editorState.targetWbKey?.let { appState.getFocusStateMsByWbKey(it) }
+        val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
         if (fcsMs != null) {
             fcsMs.value = fcsMs.value.focusOnEditor()
         }
@@ -54,14 +56,14 @@ class CellEditorActionImp @Inject constructor(
         val wbKey = editorState.targetWbKey
         val wsName = editorState.targetWsName
         if (wbKey != null && wsName != null) {
-            return appState.getWsStateMs(wbKey, wsName)
+            return stateCont.getWsStateMs(wbKey, wsName)
         } else {
             return null
         }
     }
 
     override fun runFormula() {
-        val editorState by appState.cellEditorStateMs
+        val editorState by stateCont.cellEditorStateMs
         val wsStateMs = getWsState(editorState)
         val ws = wsStateMs?.value?.worksheet
         val wbKey = editorState.targetWbKey
@@ -108,8 +110,8 @@ class CellEditorActionImp @Inject constructor(
                 run = { cellViewAction.updateCell(request) },
                 undo = { cellViewAction.updateCell(reverseRequest) }
             )
-            appState.queryStateByWorkbookKey(wbKey).ifOk {
-                val cMs = it.workbookState.commandStackMs
+            stateCont.getWbState(wbKey)?.also {
+                val cMs = it.commandStackMs
                 cMs.value = cMs.value.add(command)
             }
             command.run()
@@ -118,8 +120,7 @@ class CellEditorActionImp @Inject constructor(
     }
 
     override fun closeEditor() {
-        var editorState by appState.cellEditorStateMs
-        val fcsMs = editorState.targetWbKey?.let { appState.getFocusStateMsByWbKey(it) }
+        val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
         if (fcsMs != null) {
             fcsMs.value = fcsMs.value.focusOnCursor()
         }
@@ -127,7 +128,7 @@ class CellEditorActionImp @Inject constructor(
     }
 
     override fun updateText(newText: String, ) {
-        var editorState by appState.cellEditorStateMs
+        var editorState by stateCont.cellEditorStateMs
         if (editorState.isActive) {
             editorState = editorState
                 .setCurrentText(newText)
@@ -135,7 +136,7 @@ class CellEditorActionImp @Inject constructor(
     }
 
     override fun updateTextField(newTextField: TextFieldValue) {
-        var editorState by appState.cellEditorStateMs
+        var editorState by stateCont.cellEditorStateMs
         if (editorState.isActive) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
             val newEditorState = editorState
@@ -150,7 +151,7 @@ class CellEditorActionImp @Inject constructor(
                     if (editorState.rangeSelectorIsSameAsTargetCursor) {
                         if (isFromAllow_To_Disallow) {
                             editorState.targetWbWs?.let { wbws ->
-                                appState.getCursorStateMs(wbws)?.let { cursorStateMs ->
+                                stateCont.getCursorStateMs(wbws)?.let { cursorStateMs ->
                                     editorState.targetCell?.let { editTarget ->
                                         cursorStateMs.value = cursorStateMs.value
                                             .removeAllExceptAnchorCell()
@@ -168,7 +169,7 @@ class CellEditorActionImp @Inject constructor(
     fun passKeyEventToRangeSelector(keyEvent: PKeyEvent, editorState: CellEditorState): Boolean {
         val wbws = editorState.rangeSelectorCursorId
         if (wbws != null) {
-            val rt = appState.getCursorState(wbws)?.let { cs: CursorState ->
+            val rt = stateCont.getCursorState(wbws)?.let { cs: CursorState ->
                 cursorAction.handleKeyboardEvent(keyEvent, cs)
             } ?: false
             return rt
@@ -179,7 +180,6 @@ class CellEditorActionImp @Inject constructor(
 
     @OptIn(ExperimentalComposeUiApi::class)
     override fun handleKeyboardEvent(keyEvent: PKeyEvent): Boolean {
-        var editorState by appState.cellEditorStateMs
         if (editorState.isActive) {
             when (keyEvent.key) {
                 Key.Enter -> {
@@ -197,7 +197,7 @@ class CellEditorActionImp @Inject constructor(
                             if(keyEvent.isRangeSelectorNavKey()){
                                 // x: generate rs text
                                 val rsText = makeDisplayText
-                                    .makeRangeSelectorText(appState.cellEditorState)
+                                    .makeRangeSelectorText(stateCont.cellEditorState)
                                 // x: update range selector text
                                 editorState = editorState.setRangeSelectorText(rsText)
                             }

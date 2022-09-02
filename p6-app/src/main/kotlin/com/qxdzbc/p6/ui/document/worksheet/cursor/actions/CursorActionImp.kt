@@ -104,7 +104,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun getFormulaRangeDrawInfo(wbws: WbWs): Map<RangeAddress, Color> {
+    override fun getFormulaRangeAndColor(wbws: WbWs): Map<RangeAddress, Color> {
         val cellEditorState by stateCont.cellEditorStateMs
         if(cellEditorState.isActive){
             val targetCell: Cell? = cellEditorState.targetCell?.let {
