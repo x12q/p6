@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -88,22 +89,22 @@ fun CursorView(
             )
         }
 
-
         // x: this is anchorCell
-
-        MBox(
-            modifier = Modifier
-                .then(modifier)
-                .focusRequester(fc)
-                .focusable(true)
-                .offset { anchorOffset }
-                .size(anchorSize)
-                .background(Color.Red.copy(alpha = 0.4F))
-                .then(if (enableTestTag) Modifier.testTag(makeCursorTestTag()) else Modifier)
-                .onPreviewKeyEvent { keyEvent ->
-                    cursorAction.handleKeyboardEvent(keyEvent.toPKeyEvent(), state)
-                }
-        )
+        if(!state.cellEditorState.isActive){
+            MBox(
+                modifier = Modifier
+                    .then(modifier)
+                    .focusRequester(fc)
+                    .focusable(true)
+                    .offset { anchorOffset }
+                    .size(anchorSize)
+                    .border(2.dp,Color.Blue)
+                    .then(if (enableTestTag) Modifier.testTag(makeCursorTestTag()) else Modifier)
+                    .onPreviewKeyEvent { keyEvent ->
+                        cursorAction.handleKeyboardEvent(keyEvent.toPKeyEvent(), state)
+                    }
+            )
+        }
         val refRangeAndColor=cursorAction.getFormulaRangeAndColor(state)
         //x: draw a box over selected cells to indicate that they are selected
         for ((cellAddress, cellLayout) in cellLayoutCoorsMap) {

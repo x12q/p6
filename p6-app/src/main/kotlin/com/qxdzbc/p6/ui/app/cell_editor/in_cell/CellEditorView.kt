@@ -33,10 +33,9 @@ fun CellEditorView(
         Modifier.size(0.dp, 0.dp)
     }
     MBox(
-        modifier = Modifier
-            .then(modifier)
+        modifier = modifier
             .then(sizeMod)
-            .background(Color.Red.debug())
+            .background(Color.White)
     ) {
         UseP6TextSelectionColor {
             BasicTextField(
