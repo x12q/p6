@@ -1,8 +1,9 @@
 package com.qxdzbc.p6.app.document.range
 
-import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.action.range.RangeId.Companion.toModel
+import com.qxdzbc.p6.app.common.table.ImmutableTableCR
+import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.range.RangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toModel
 import com.qxdzbc.p6.proto.RangeProtos.RangeCopyProto
@@ -10,7 +11,7 @@ import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
 /**
- * contain a [RangeId] and a list of [Cell] in that range
+ * contain a [RangeIdImp] and a list of [Cell] in that range
  */
 class RangeCopy(
     val rangeId: RangeId,

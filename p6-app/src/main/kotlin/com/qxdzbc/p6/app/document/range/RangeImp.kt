@@ -2,12 +2,14 @@ package com.qxdzbc.p6.app.document.range
 
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp2
 
 data class RangeImp(
     val worksheet: Worksheet,
@@ -16,10 +18,10 @@ data class RangeImp(
 ) : Range {
     val wbKey by wbKeySt
     override val rangeId: RangeId by derivedStateOf {
-        RangeId(
+        RangeIdImp2(
             rangeAddress = this.address,
-            wbKey = wbKeySt.value,
-            wsName = worksheet.name
+            wbKeySt = wbKeySt,
+            wsNameSt = worksheet.nameMs
         )
     }
 

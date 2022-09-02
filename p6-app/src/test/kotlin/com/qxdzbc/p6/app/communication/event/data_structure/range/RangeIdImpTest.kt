@@ -1,19 +1,19 @@
 package com.qxdzbc.p6.app.communication.event.data_structure.range
 
 
-import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.action.range.RangeId.Companion.toModel
+import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.range.RangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.RangeIdProto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RangeIdTest {
+class RangeIdImpTest {
 
     @Test
     fun toProto() {
-        val m= RangeId(
+        val m= RangeIdImp(
             rangeAddress = RangeAddress("C1:J2"),
             wbKey = WorkbookKey("bb"),
             wsName = "QWE"
@@ -26,7 +26,7 @@ class RangeIdTest {
 
     @Test
     fun fromProto(){
-        val m= RangeId(
+        val m= RangeIdImp(
             rangeAddress = RangeAddress("C1:J2"),
             wbKey = WorkbookKey("bb"),
             wsName = "QWE"

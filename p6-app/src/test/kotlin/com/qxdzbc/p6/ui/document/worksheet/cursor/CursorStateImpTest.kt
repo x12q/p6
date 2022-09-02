@@ -128,7 +128,7 @@ internal class CursorStateImpTest {
         val r1 = RangeAddress(listOf("A1", "B4").map { CellAddress(it) })
         val r2 = RangeAddress(listOf("K1", "B4").map { CellAddress(it) })
         val c = cursorState.addFragRange(r1).addFragRange(r2)
-        val l = c.allRanges()
+        val l = c.allRanges
         assertEquals(2, l.size)
         assertTrue { r1 in l }
         assertTrue { r2 in l }
@@ -140,7 +140,7 @@ internal class CursorStateImpTest {
         val r2 = RangeAddress(listOf("K1", "B4").map { CellAddress(it) })
         val r3 = RangeAddress(listOf("K1", "X4").map { CellAddress(it) })
         val c = cursorState.addFragRange(r1).addFragRange(r2).setMainRange(r3)
-        val l = c.allRanges()
+        val l = c.allRanges
         assertEquals(3, l.size)
         assertTrue { r1 in l }
         assertTrue { r2 in l }
@@ -153,10 +153,10 @@ internal class CursorStateImpTest {
         val c2 = c1.downOneRow()
         val cr = cursorState.addFragCell(c1).addFragCell(c2)
 
-        assertEquals(3, cr.allFragCells().size)
-        assertTrue { c1 in cr.allFragCells() }
-        assertTrue { c2 in cr.allFragCells() }
-        assertTrue { cr.mainCell in cr.allFragCells() }
+        assertEquals(3, cr.allFragCells.size)
+        assertTrue { c1 in cr.allFragCells }
+        assertTrue { c2 in cr.allFragCells }
+        assertTrue { cr.mainCell in cr.allFragCells }
     }
 
     @Test

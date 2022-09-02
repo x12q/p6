@@ -6,7 +6,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.Range
@@ -57,7 +57,7 @@ interface DocumentContainer : WorkbookGetter {
     fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>?
 
     fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
-    fun getRangeRs(rangeId: RangeId): Rs<Range, ErrorReport>
+    fun getRangeRs(rangeId: RangeIdImp): Rs<Range, ErrorReport>
     fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?
 
     fun getLazyRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?

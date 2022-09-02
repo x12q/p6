@@ -3,12 +3,13 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.range.RangeRM
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest2
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -18,10 +19,15 @@ import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
 import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest2
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.action.range.paste_range.applier.PasteRangeApplier
+import com.qxdzbc.p6.app.document.cell.d.Cell
+import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.common.color_generator.FormulaColorProvider
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
@@ -34,16 +40,20 @@ class CursorActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     private val rangeRM: RangeRM,
     private val rangeApplier: PasteRangeApplier,
-    private val openCellEditor: OpenCellEditorAction
+    private val openCellEditor: OpenCellEditorAction,
+    @StateContainerSt
+    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    private val formulaColorProvider: FormulaColorProvider,
 ) : CursorAction {
 
     private var appState by appStateMs
+    private val stateCont by stateContSt
 
     override fun pasteRange(wbws: WbWs) {
         val cursorState = appState.getCursorState(wbws)
         if(cursorState!=null){
             val req = PasteRangeRequest2(
-                rangeId = RangeId(
+                rangeId = RangeIdImp(
                     rangeAddress = cursorState.mainRange ?: RangeAddress(cursorState.mainCell),
                     wbKey = cursorState.id.wbKey,
                     wsName = cursorState.id.wsName,
@@ -57,7 +67,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun rangeToClipboard2(wbws: WbWs) {
+    override fun rangeToClipboard(wbws: WbWs) {
         val cursorState: CursorState? = appState.getCursorState(wbws)
         if(cursorState!=null){
             val mergeAllCursorState = cursorState.attemptToMergeAllIntoOne()
@@ -69,7 +79,7 @@ class CursorActionImp @Inject constructor(
                 if (targetRange != null) {
                     wsAction.rangeToClipboard(
                         RangeToClipboardRequest(
-                            rangeId = RangeId(
+                            rangeId = RangeIdImp(
                                 rangeAddress = targetRange,
                                 wbKey = cursorState.id.wbKey,
                                 wsName = cursorState.id.wsName
@@ -81,7 +91,7 @@ class CursorActionImp @Inject constructor(
                 } else {
                     wsAction.rangeToClipboard(
                         RangeToClipboardRequest(
-                            rangeId = RangeId(
+                            rangeId = RangeIdImp(
                                 rangeAddress = RangeAddress(cursorState.mainCell),
                                 wbKey = cursorState.id.wbKey,
                                 wsName = cursorState.id.wsName
@@ -91,6 +101,27 @@ class CursorActionImp @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    override fun getFormulaRangeDrawInfo(wbws: WbWs): Map<RangeAddress, Color> {
+        val cellEditorState by stateCont.cellEditorStateMs
+        if(cellEditorState.isActive){
+            val targetCell: Cell? = cellEditorState.targetCell?.let {
+                stateCont.getCell(wbws.wbKey,wbws.wsName,it)
+            }
+            val ranges = targetCell?.content?.exUnit?.getRangeIds()?: emptyList()
+            val colors = formulaColorProvider.getColors(ranges.size)
+            val colorMap:Map<RangeAddress, Color> = buildMap {
+                for((i,rid) in ranges.withIndex()){
+                    if(rid.wbKey == wbws.wbKey && rid.wsName == wbws.wsName){
+                        put(rid.rangeAddress,colors[i])
+                    }
+                }
+            }
+            return colorMap
+        }else{
+            return emptyMap()
         }
     }
 
@@ -255,7 +286,7 @@ class CursorActionImp @Inject constructor(
                             true
                         }
                         Key.C -> {
-                            rangeToClipboard2(cursorState)
+                            rangeToClipboard(cursorState)
                             true
                         }
                         Key.Z -> {
@@ -633,6 +664,13 @@ class CursorActionImp @Inject constructor(
     override fun right(wbws: WbWs) {
         appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.right()
+            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+        }
+    }
+
+    override fun moveCursorTo(wbws: WbWs, cellLabel: String) {
+        appState.getCursorStateMs(wbws)?.also { cursorStateMs ->
+            cursorStateMs.value = cursorStateMs.value.setMainCell(CellAddress(cellLabel))
             wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
         }
     }

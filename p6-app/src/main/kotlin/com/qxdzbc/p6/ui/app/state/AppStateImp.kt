@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -212,7 +212,7 @@ data class AppStateImp @Inject constructor(
         return docCont.getRangeRs(wbKey, wsName, rangeAddress)
     }
 
-    override fun getRangeRs(rangeId: RangeId): Rs<Range, ErrorReport> {
+    override fun getRangeRs(rangeId: RangeIdImp): Rs<Range, ErrorReport> {
         return docCont.getRangeRs(rangeId)
     }
 

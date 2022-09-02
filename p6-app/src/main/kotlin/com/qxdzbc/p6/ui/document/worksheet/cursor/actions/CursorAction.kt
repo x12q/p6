@@ -1,7 +1,9 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
+import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
 
 
 interface CursorAction {
@@ -26,6 +28,7 @@ interface CursorAction {
     fun down(wbws: WbWs)
     fun left(wbws: WbWs)
     fun right(wbws: WbWs)
+    fun moveCursorTo(wbws: WbWs,cellLabel:String)
     fun shiftUp(wbws: WbWs)
     fun shiftDown(wbws: WbWs)
     fun shiftLeft(wbws: WbWs)
@@ -37,6 +40,8 @@ interface CursorAction {
     fun undo(wbws: WbWs)
     fun handleKeyboardEvent(keyEvent: PKeyEvent, wbws: WbWs): Boolean
     fun pasteRange(wbws: WbWs)
-    fun rangeToClipboard2(wbws: WbWs)
+    fun rangeToClipboard(wbws: WbWs)
+
+    fun getFormulaRangeDrawInfo(wbws: WbWs):Map<RangeAddress,Color>
 }
 

@@ -32,15 +32,11 @@ interface CursorState : WbWsSt {
     /**
      * All fragmented range + selected range
      */
-    @Deprecated("use the prop instead")
-    fun allRanges():List<RangeAddress>
     val allRanges: List<RangeAddress>
 
     /**
      * All fragmented cell + anchor cell
      */
-    @Deprecated("use the prop instead")
-    fun allFragCells():List<CellAddress>
     val allFragCells: List<CellAddress>
 
     val cellEditorStateMs:Ms<CellEditorState>

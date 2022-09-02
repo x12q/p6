@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.communication.applier.range.range_to_clipboard
 
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.applier.RangeToClipboardInternalApplierImp
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardResponse
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.ErrorRouter
@@ -42,7 +42,7 @@ class RangeToClipboardInternalApplierImpTest {
     fun `applyRes ok res`() {
         val res = RangeToClipboardResponse(
             errorIndicator = ErrorIndicator.noError,
-            rangeId = RangeId(
+            rangeId = RangeIdImp(
                 rangeAddress = RangeAddress("O12:K23"),
                 wsName = "Sheet1",
                 wbKey = TestSample.wbk1

@@ -12,7 +12,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.LazyRangeFactory
@@ -219,7 +219,7 @@ class DocumentContainerImp @Inject constructor(
         return this
     }
 
-    override fun getRangeRs(rangeId: RangeId): Result<Range, ErrorReport> {
+    override fun getRangeRs(rangeId: RangeIdImp): Result<Range, ErrorReport> {
         val rt = this.getWbRs(rangeId.wbKey).andThen { wb ->
             wb.getWsRs(rangeId.wsName).andThen { ws ->
                 ws.range(rangeId.rangeAddress)

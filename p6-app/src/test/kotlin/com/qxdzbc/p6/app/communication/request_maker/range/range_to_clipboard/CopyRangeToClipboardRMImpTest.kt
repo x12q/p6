@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.communication.request_maker.range.range_to_clipboard
 import com.qxdzbc.p6.app.action.request_maker.TemplateRM
 import com.qxdzbc.p6.app.action.request_maker.TemplateRMSuspend
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardResponse
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -18,7 +18,7 @@ class CopyRangeToClipboardRMImpTest {
     fun makeReq() {
         val output = RangeToClipboardResponse(
             errorIndicator = ErrorIndicator(errorReport = null),
-            rangeId = RangeId(
+            rangeId = RangeIdImp(
                 rangeAddress = RangeAddress("C1:J2"),
                 wbKey = WorkbookKey("bb"),
                 wsName = "QWE"

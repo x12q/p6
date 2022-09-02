@@ -14,6 +14,9 @@ import com.qxdzbc.common.Rs
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.range.RangeIdImp2
 import com.qxdzbc.p6.app.common.utils.Utils.toTF
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -37,6 +40,9 @@ interface ExUnit : Shiftable, ColorKey {
     }
 
     fun getRanges(): List<RangeAddress> {
+        return emptyList()
+    }
+    fun getRangeIds():List<RangeId> {
         return emptyList()
     }
 
@@ -272,6 +278,10 @@ interface ExUnit : Shiftable, ColorKey {
             return u1.getRanges() + u2.getRanges()
         }
 
+        override fun getRangeIds(): List<RangeId> {
+            return u1.getRangeIds() + u2.getRangeIds()
+        }
+
         override fun toColorFormula(
             colorProvider: ColorProvider,
             wbKey: WorkbookKey?,
@@ -344,6 +354,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "-" operator
      */
     data class MinusOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getRangeIds(): List<RangeId> {
+            return u1.getRangeIds() + u2.getRangeIds()
+        }
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
@@ -424,6 +437,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "*" operator
      */
     data class MultiplyOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getRangeIds(): List<RangeId> {
+            return u1.getRangeIds() + u2.getRangeIds()
+        }
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
@@ -504,6 +520,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "/" operator
      */
     data class Div(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getRangeIds(): List<RangeId> {
+            return u1.getRangeIds() + u2.getRangeIds()
+        }
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
@@ -589,6 +608,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for "^" operator
      */
     data class PowerBy(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+        override fun getRangeIds(): List<RangeId> {
+            return u1.getRangeIds() + u2.getRangeIds()
+        }
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
         }
@@ -668,6 +690,9 @@ interface ExUnit : Shiftable, ColorKey {
      * ExUnit for unary "-"
      */
     data class UnarySubtract(val u: ExUnit) : ExUnit {
+        override fun getRangeIds(): List<RangeId> {
+            return u.getRangeIds()
+        }
         override fun getCellRangeExUnit(): List<ExUnit> {
             return u.getCellRangeExUnit()
         }
@@ -908,6 +933,9 @@ interface ExUnit : Shiftable, ColorKey {
         override fun getRanges(): List<RangeAddress> {
             return args.flatMap { it.getRanges() }
         }
+        override fun getRangeIds(): List<RangeId> {
+            return args.flatMap { it.getRangeIds() }
+        }
 
         override fun toColorFormula(
             colorProvider: ColorProvider,
@@ -971,6 +999,14 @@ interface ExUnit : Shiftable, ColorKey {
 
         override fun getRanges(): List<RangeAddress> {
             return this.cellAddressUnit.getRanges()
+        }
+
+        override fun getRangeIds(): List<RangeId> {
+            return listOf(RangeIdImp2(
+                rangeAddress = RangeAddress(this.cellAddressUnit.cellAddress),
+                wbKeySt = wbKeyUnit.wbKeySt,
+                wsNameSt = wsNameUnit.nameSt
+            ))
         }
 
         override fun toColorFormula(
@@ -1043,7 +1079,13 @@ interface ExUnit : Shiftable, ColorKey {
         override val functionMap by functionMapSt
         override val args: List<ExUnit>
             get() = listOf(wbKeyUnit, wsNameUnit, rangeAddressUnit)
-
+        override fun getRangeIds(): List<RangeId> {
+            return listOf(RangeIdImp2(
+                rangeAddress = rangeAddressUnit.rangeAddress,
+                wbKeySt = wbKeyUnit.wbKeySt,
+                wsNameSt = wsNameUnit.nameSt
+            ))
+        }
         override fun getCellRangeExUnit(): List<ExUnit> {
             return listOf(this)
         }

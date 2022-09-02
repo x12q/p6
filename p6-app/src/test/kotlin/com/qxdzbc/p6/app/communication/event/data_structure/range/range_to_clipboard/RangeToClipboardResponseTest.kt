@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.communication.event.data_structure.range.range_to_clipboard
 
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardResponse
-import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.action.range.RangeId.Companion.toModel
+import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.range.RangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.RangeProtos.RangeToClipboardResponseProto
@@ -14,7 +14,7 @@ class RangeToClipboardResponseTest {
     fun fromProtoBytes() {
         val proto = RangeToClipboardResponseProto.newBuilder()
             .setRangeId(
-                RangeId(
+                RangeIdImp(
                     rangeAddress = RangeAddress("C1:J2"),
                     wbKey = WorkbookKey("bb"),
                     wsName = "QWE"

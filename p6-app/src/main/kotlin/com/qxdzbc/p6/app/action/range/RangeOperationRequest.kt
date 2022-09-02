@@ -7,7 +7,7 @@ import com.qxdzbc.p6.proto.RangeProtos
 import com.google.protobuf.ByteString
 
 open class RangeOperationRequest(
-    val rangeId: RangeId,
+    val rangeId: RangeIdImp,
     override val windowId: String?,
 ) : RequestToP6WithWorkbookKeyAndWindowId, WithReportNavInfo {
     fun toProto(): RangeProtos.RangeOperationRequestProto {

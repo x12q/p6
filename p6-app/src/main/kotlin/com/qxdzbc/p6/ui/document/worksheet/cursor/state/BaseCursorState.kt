@@ -58,12 +58,6 @@ abstract class BaseCursorState : CursorState {
     override val allFragCells: List<CellAddress>
         get() = (fragmentedCells + mainCell).toList()
 
-    override fun allRanges(): List<RangeAddress> {
-        return this.allRanges
-    }
-
-    override fun allFragCells(): List<CellAddress> = allFragCells
-
     override fun isWithinLimit(colBound: IntRange, rowBound: IntRange): Boolean {
 
         val c: (CellAddress) -> Boolean = {

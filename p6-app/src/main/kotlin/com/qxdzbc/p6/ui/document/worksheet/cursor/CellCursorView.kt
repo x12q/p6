@@ -53,10 +53,9 @@ fun CursorView(
     //bound layout of anchor cell
     var boundLayoutCoors: LayoutCoordinates? by rms(null)
 
-    // x: this box fills the cell grid and contains the anchor cell and cell editor
+    // x: this invisible box match the cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, used markers)
     MBox(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Green.copy(alpha = 0.4F))
         .onGloballyPositioned {
             boundLayoutCoors = it
         }) {
@@ -97,7 +96,6 @@ fun CursorView(
                 .then(modifier)
                 .focusRequester(fc)
                 .focusable(true)
-//                .offset { anchorOffset }
                 .offset { anchorOffset }
                 .size(anchorSize)
                 .background(Color.Red.copy(alpha = 0.4F))
@@ -106,13 +104,26 @@ fun CursorView(
                     cursorAction.handleKeyboardEvent(keyEvent.toPKeyEvent(), state)
                 }
         )
-    }
 
-    //x: draw selection box
-    for ((cellAddress, cellLayout) in cellLayoutCoorsMap) {
-        if (cellAddress != mainCell) {
-            //x: draw selection box over currently selected cell/range
-            if (state.isPointingTo(cellAddress)) {
+        //x: draw a box over selected cells to indicate that they are selected
+        for ((cellAddress, cellLayout) in cellLayoutCoorsMap) {
+            if (cellAddress != mainCell) {
+                //x: draw selection box over currently selected cell/range
+                if (state.isPointingTo(cellAddress)) {
+                    val boundLayout = boundLayoutCoors
+                    if (boundLayout != null && boundLayout.isAttached) {
+                        val offset = boundLayout.windowToLocal(cellLayout.posInWindow)
+                        MBox(
+                            modifier = Modifier
+                                .offset { offset.toIntOffset() }
+                                .size(cellLayout.size)
+                                .background(Color.Green.copy(alpha = 0.4F))
+                        )
+                    }
+                }
+            }
+            // x: draw copied range
+            if (state.containInClipboard(cellAddress)) {
                 val boundLayout = boundLayoutCoors
                 if (boundLayout != null && boundLayout.isAttached) {
                     val offset = boundLayout.windowToLocal(cellLayout.posInWindow)
@@ -120,25 +131,13 @@ fun CursorView(
                         modifier = Modifier
                             .offset { offset.toIntOffset() }
                             .size(cellLayout.size)
-                            .background(Color.Green.copy(alpha = 0.4F))
+                            .background(Color.Magenta.copy(alpha = 0.4F))
                     )
                 }
             }
         }
-        // x: draw copied range
-        if (state.containInClipboard(cellAddress)) {
-            val boundLayout = boundLayoutCoors
-            if (boundLayout != null && boundLayout.isAttached) {
-                val offset = boundLayout.windowToLocal(cellLayout.posInWindow)
-                MBox(
-                    modifier = Modifier
-                        .offset { offset.toIntOffset() }
-                        .size(cellLayout.size)
-                        .background(Color.Magenta.copy(alpha = 0.4F))
-                )
-            }
-        }
     }
+
     SideEffect {
         if (focusState.isCursorFocused) {
             fc.requestFocus()

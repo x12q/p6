@@ -1,6 +1,50 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
+import test.TestSample
+import kotlin.test.*
+
 class CursorActionImpTest {
+
+    lateinit var ts:TestSample
+    lateinit var cursorAction: CursorAction
+    lateinit var cellEditorAction:CellEditorAction
+    @BeforeTest
+    fun b(){
+        ts = TestSample()
+        cursorAction = ts.p6Comp.cursorAction()
+        cellEditorAction = ts.p6Comp.cellEditorAction()
+    }
+
+    @Test
+    fun getFormulaRangeDrawInfo(){
+        ts.p6Comp.cellViewAction().updateCell(
+            CellUpdateRequest(
+                wbKey = ts.wbKey1, wsName = ts.wsn1, cellAddress = CellAddress("B3"),
+                valueAsStr = null, formula = "=B1@'Sheet2'+A1+SUM(A3:A5,A20:A23) + K1@'Sheet1'@${ts.wbKey2.name}"
+            )
+        )
+        val wbws = WbWs(ts.wbKey1,ts.wsn1)
+        val r1 = cursorAction.getFormulaRangeDrawInfo(wbws)
+        assertTrue(r1.isEmpty())
+        cursorAction.moveCursorTo(wbws,"B3")
+        cellEditorAction.openCellEditor(wbws)
+        val r2 = cursorAction.getFormulaRangeDrawInfo(wbws)
+        assertTrue(r2.isNotEmpty())
+
+        assertEquals(
+            listOf(
+                RangeAddress(CellAddress("A1")),
+                RangeAddress("A3:A5"),
+                RangeAddress("A20:A23"),
+            ),
+            r2.keys.toList()
+        )
+    }
 
 //    lateinit var action: CursorActionImp
 //    lateinit var appStateMs: Ms<AppState>
