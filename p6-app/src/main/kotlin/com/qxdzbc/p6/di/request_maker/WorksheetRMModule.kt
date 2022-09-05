@@ -2,8 +2,6 @@ package com.qxdzbc.p6.di.request_maker
 
 import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
 import com.qxdzbc.p6.app.action.worksheet.WorksheetRMImp
-import com.qxdzbc.p6.app.action.worksheet.delete_cell.rm.DeleteCellRM
-import com.qxdzbc.p6.app.action.worksheet.delete_cell.rm.DeleteCellRMImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRMImp
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.rm.RenameWorksheetRM
@@ -18,7 +16,6 @@ interface WorksheetRMModule {
 
     @Binds
     @P6Singleton
-
     fun UpdateMultiCellRMLocal(i: UpdateMultiCellRMImp): UpdateMultiCellRM1
 
     @Binds
@@ -28,13 +25,8 @@ interface WorksheetRMModule {
 
     @Binds
     @P6Singleton
-
     fun DeleteMultiRMLocal(i: DeleteMultiRMImp): DeleteMultiRM
 
-    @Binds
-    @P6Singleton
-
-    fun DeleteCellRMLocal(i: DeleteCellRMImp): DeleteCellRM
 
     @Binds
     @P6Singleton

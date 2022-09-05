@@ -7,7 +7,6 @@ import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.RangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
@@ -202,5 +201,4 @@ class WorksheetRpcService @Inject constructor(
             super.containAddress(request, responseObserver)
         }
     }
-
 }
