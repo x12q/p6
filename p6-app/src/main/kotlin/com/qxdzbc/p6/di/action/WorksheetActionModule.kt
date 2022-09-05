@@ -10,8 +10,8 @@ import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2Imp
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellImp
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAction
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiActionImp
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellActionImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplierImp
 import com.qxdzbc.p6.app.action.worksheet.release_focus.*
@@ -22,12 +22,18 @@ import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextImp
+import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
+import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerActionImp
 import dagger.Binds
 
 @dagger.Module
 interface WorksheetActionModule {
+    @Binds
+    @P6Singleton
+    fun PasteRangeAction(i: PasteRangeActionImp):PasteRangeAction
+
     @Binds
     @P6Singleton
     fun MouseOnWorksheetAction(i: MouseOnWorksheetActionImp): MouseOnWorksheetAction
@@ -62,7 +68,7 @@ interface WorksheetActionModule {
 
     @Binds
     @P6Singleton
-    fun DeleteMultiAction(i: DeleteMultiActionImp): DeleteMultiAction
+    fun DeleteMultiAction(i: DeleteMultiCellActionImp): DeleteMultiCellAction
 
     @Binds
     @P6Singleton

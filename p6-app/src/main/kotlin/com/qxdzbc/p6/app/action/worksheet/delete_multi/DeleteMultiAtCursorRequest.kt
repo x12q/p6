@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.worksheet.delete_multi
 import com.qxdzbc.p6.app.action.WbWsRequest
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-class DeleteMultiRequest2(
+class DeleteMultiAtCursorRequest(
     wbKey: WorkbookKey,
     wsName: String,
     windowId: String? = null,

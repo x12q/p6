@@ -10,12 +10,10 @@ import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
 import com.qxdzbc.common.compose.key_event.PKeyEvent
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
-import com.qxdzbc.p6.ui.document.cell.action.CellViewAction
+import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
@@ -25,7 +23,7 @@ import javax.inject.Inject
 
 class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
-    private val cellViewAction: CellViewAction,
+    private val updateCellAction: UpdateCellAction,
     private val cursorAction: CursorAction,
     private val makeDisplayText: MakeCellEditorDisplayText,
     private val openCellEditor: OpenCellEditorAction,
@@ -79,7 +77,6 @@ class CellEditorActionImp @Inject constructor(
                     wbKey = wbKey,
                     wsName = wsName,
                     cellAddress = editTarget,
-                    valueAsStr = cell.displayValue,
                     formula = cell.formula,
                 )
             } else {
@@ -87,7 +84,6 @@ class CellEditorActionImp @Inject constructor(
                     wbKey = wbKey,
                     wsName = wsName,
                     cellAddress = editTarget,
-                    valueAsStr = cell?.displayValue,
                     cellValue = cell?.currentValue,
                 )
             }
@@ -102,13 +98,12 @@ class CellEditorActionImp @Inject constructor(
                 wbKey = wbKey,
                 wsName = wsName,
                 cellAddress = editTarget,
-                valueAsStr = value,
                 formula = formula,
                 cellValue = cellLiteralParser.parse(value)
             )
             val command = Commands.makeCommand(
-                run = { cellViewAction.updateCell(request) },
-                undo = { cellViewAction.updateCell(reverseRequest) }
+                run = { updateCellAction.updateCell(request) },
+                undo = { updateCellAction.updateCell(reverseRequest) }
             )
             stateCont.getWbState(wbKey)?.also {
                 val cMs = it.commandStackMs

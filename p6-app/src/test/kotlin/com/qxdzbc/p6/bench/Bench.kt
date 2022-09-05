@@ -59,9 +59,8 @@ class Bench {
 
     @Test
     fun z() {
-
+        println("a line")
     }
-
 
     //    @Test
     fun server() {

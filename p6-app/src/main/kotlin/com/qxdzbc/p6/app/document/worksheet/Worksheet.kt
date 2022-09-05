@@ -35,7 +35,7 @@ interface Worksheet : WithSize,WbWsSt {
 
     fun setWbKeySt(wbKeySt:St<WorkbookKey>):Worksheet
 
-
+    val usedRange: RangeAddress
 
     val table: TableCR<Int, Int, Ms<Cell>>
     val cells:List<Cell> get()=cellMsList.map{it.value}

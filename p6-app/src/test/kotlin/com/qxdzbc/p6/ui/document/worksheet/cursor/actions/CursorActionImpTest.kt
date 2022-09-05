@@ -25,7 +25,7 @@ class CursorActionImpTest {
         ts.p6Comp.cellViewAction().updateCell(
             CellUpdateRequest(
                 wbKey = ts.wbKey1, wsName = ts.wsn1, cellAddress = CellAddress("B3"),
-                valueAsStr = null, formula = "=B1@'Sheet2'+A1+SUM(A3:A5,A20:A23) + K1@'Sheet1'@${ts.wbKey2.name}"
+                 formula = "=B1@'Sheet2'+A1+SUM(A3:A5,A20:A23) + K1@'Sheet1'@${ts.wbKey2.name}"
             )
         )
         val wbws = WbWs(ts.wbKey1,ts.wsn1)

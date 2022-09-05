@@ -16,6 +16,7 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookGetter
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
 
 /**
  * A utility interface providing functions for querying documents' content
@@ -46,6 +47,7 @@ interface DocumentContainer : WorkbookGetter {
     fun getWs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Worksheet?
     fun getWs(wbws: WbWs): Worksheet?
     fun getWs(wbwsSt: WbWsSt): Worksheet?
+    fun getWs(wsId:WorksheetIdPrt):Worksheet?
 
     fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport>
     fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport>

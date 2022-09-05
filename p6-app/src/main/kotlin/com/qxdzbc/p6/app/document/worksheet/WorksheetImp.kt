@@ -163,7 +163,7 @@ data class WorksheetImp(
 
     private val minRow: Int
     private val maxRow: Int
-    private val usedRange: RangeAddress
+    override val usedRange: RangeAddress
 
     init {
         if (cells.isNotEmpty()) {

@@ -457,7 +457,7 @@ class CursorAndCellEditorTest {
         val spyCursorAction = spy(ts.p6Comp.cursorAction())
         val cellEditorAction: CellEditorAction = CellEditorActionImp(
             cellLiteralParser = p6Comp.cellLiteralParser(),
-            cellViewAction = p6Comp.cellViewAction(),
+            updateCellAction = p6Comp.cellViewAction(),
             cursorAction = spyCursorAction,
             makeDisplayText = p6Comp.makeDisplayText(),
             openCellEditor = p6Comp.openCellEditorAction(),

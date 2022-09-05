@@ -7,6 +7,8 @@ import com.qxdzbc.p6.proto.rpc.app.service.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.cell.service.CellServiceGrpc
 import com.qxdzbc.p6.proto.rpc.workbook.service.WorkbookServiceGrpc
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.proto.rpc.worksheet.service.WorksheetServiceGrpc
+import com.qxdzbc.p6.rpc.document.worksheet.WorksheetRpcService
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import javax.inject.Inject
@@ -16,6 +18,7 @@ class P6RpcServerImp @Inject constructor(
     private val cellRpcService: CellServiceGrpc.CellServiceImplBase,
     private val wbRpcService: WorkbookServiceGrpc.WorkbookServiceImplBase,
     private val appRpcService: AppServiceGrpc.AppServiceImplBase,
+    private val wsRpcService: WorksheetServiceGrpc.WorksheetServiceImplBase,
 ) : P6RpcServer {
     private var _server: Server? = null
     private var _port: Int = -1
@@ -34,6 +37,7 @@ class P6RpcServerImp @Inject constructor(
                 .addService(this.cellRpcService)
                 .addService(this.wbRpcService)
                 .addService(this.appRpcService)
+                .addService(this.wsRpcService)
                 .build()
             _server?.start()
             return Ok(Unit)

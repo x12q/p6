@@ -23,6 +23,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
 import java.nio.file.Path
 import javax.inject.Inject
 
@@ -130,6 +131,22 @@ class DocumentContainerImp @Inject constructor(
     override fun getWs(wbwsSt: WbWsSt): Worksheet? {
         return this.globalWbCont.getWb(wbwsSt.wbKeySt)?.getWs(wbwsSt.wsNameSt)
     }
+
+    override fun getWs(wsId: WorksheetIdPrt): Worksheet? {
+        val wb: Workbook? = this.globalWbCont.getWb(wsId.wbKey)
+        if (wb != null) {
+            if (wsId.wsName != null) {
+                return wb.getWs(wsId.wsName)
+            }
+            if (wsId.wsIndex != null) {
+                return wb.getWs(wsId.wsIndex)
+            }
+            return null
+        } else {
+            return null
+        }
+    }
+
     override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport> {
         return this.globalWbCont.getWbRs(wbKey).flatMap { it.getWsMsRs(wsName) }
     }

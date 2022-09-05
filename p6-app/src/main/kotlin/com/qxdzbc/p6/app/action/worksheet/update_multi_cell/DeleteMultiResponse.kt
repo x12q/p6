@@ -10,6 +10,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.google.protobuf.ByteString
 import kotlin.reflect.KClass
 
+@Deprecated("dont use, this is for old api, to be deleted soon")
 class DeleteMultiResponse(
     w: WorkbookUpdateCommonResponseInterface
 ) : WorkbookUpdateCommonResponseInterface by w, WithP6EventLookupClazz {

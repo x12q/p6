@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.action.worksheet.delete_multi.applier
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiResponse2
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiResponse
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.ErrorRouter
@@ -18,7 +18,7 @@ class DeleteMultiApplierImp @Inject constructor(
     private val errorRouter: ErrorRouter,
 ) : DeleteMultiApplier {
     private var appState by appStateMs
-    override fun apply(res: RseNav<DeleteMultiResponse2>): RseNav<DeleteMultiResponse2> {
+    override fun apply(res: RseNav<DeleteMultiResponse>): RseNav<DeleteMultiResponse> {
         res.onFailure {
             errorRouter.publish(it)
         }.onSuccess {r->

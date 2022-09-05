@@ -9,12 +9,12 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 
 import com.qxdzbc.p6.rpc.document.workbook.WorkbookRpcMsgErrors
-import com.qxdzbc.p6.rpc.document.workbook.msg.IdentifyWorksheetMsg
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
 import javax.inject.Inject
 
 class DeleteWorksheetActionImp @Inject constructor(
@@ -26,7 +26,7 @@ class DeleteWorksheetActionImp @Inject constructor(
 
     private var appState by appStateMs
 
-    override fun deleteWorksheetRs(request: IdentifyWorksheetMsg): Rs<Unit, ErrorReport> {
+    override fun deleteWorksheetRs(request: WorksheetIdPrt): Rs<Unit, ErrorReport> {
         if (request.wsName != null || request.wsIndex != null) {
             val res = rm.makeRequest(request)
             when(res){

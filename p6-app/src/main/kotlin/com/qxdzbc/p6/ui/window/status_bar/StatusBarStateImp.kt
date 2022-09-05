@@ -2,7 +2,6 @@ package com.qxdzbc.p6.ui.window.status_bar
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.di.rpc.ReactiveRpcServerQualifier
 import com.qxdzbc.p6.di.status_bar.KernelStatusItemStateQualifier
 import com.qxdzbc.p6.di.status_bar.RPCStatusItemStateQualifier
 import com.qxdzbc.common.compose.Ms

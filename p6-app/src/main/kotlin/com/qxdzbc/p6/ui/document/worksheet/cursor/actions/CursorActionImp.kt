@@ -7,10 +7,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.range.RangeRM
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
 import com.qxdzbc.p6.app.action.range.RangeIdImp
-import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest2
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -21,9 +19,9 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest2
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
 import com.qxdzbc.common.compose.key_event.PKeyEvent
-import com.qxdzbc.p6.app.action.range.paste_range.applier.PasteRangeApplier
+import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -33,17 +31,18 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import javax.inject.Inject
 
+
+
 @OptIn(ExperimentalComposeUiApi::class)
 class CursorActionImp @Inject constructor(
     private val wsAction: WorksheetAction,
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val errorRouter: ErrorRouter,
-    private val rangeRM: RangeRM,
-    private val rangeApplier: PasteRangeApplier,
     private val openCellEditor: OpenCellEditorAction,
     @StateContainerSt
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     private val formulaColorProvider: FormulaColorProvider,
+    private val pasteRangeAction: PasteRangeAction,
 ) : CursorAction {
 
     private var appState by appStateMs
@@ -52,18 +51,7 @@ class CursorActionImp @Inject constructor(
     override fun pasteRange(wbws: WbWs) {
         val cursorState = appState.getCursorState(wbws)
         if(cursorState!=null){
-            val req = PasteRangeRequest2(
-                rangeId = RangeIdImp(
-                    rangeAddress = cursorState.mainRange ?: RangeAddress(cursorState.mainCell),
-                    wbKey = cursorState.id.wbKey,
-                    wsName = cursorState.id.wsName,
-                ),
-                windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
-            )
-            val out = rangeRM.pasteRange(req)
-            out?.let {
-                rangeApplier.applyPasteRange(it)
-            }
+            pasteRangeAction.pasteRange(wbws,cursorState.mainRange ?: RangeAddress(cursorState.mainCell),)
         }
     }
 
@@ -732,12 +720,12 @@ class CursorActionImp @Inject constructor(
 
     override fun delete(wbws: WbWs) {
         appState.getCursorState(wbws)?.also { cursorState: CursorState ->
-            val req = DeleteMultiRequest2(
+            val req = DeleteMultiAtCursorRequest(
                 wbKey = cursorState.id.wbKey,
                 wsName = cursorState.id.wsName,
                 windowId = null
             )
-            wsAction.deleteMulti2(req)
+            wsAction.deleteMultiCellAtCursor(req)
         }
     }
 

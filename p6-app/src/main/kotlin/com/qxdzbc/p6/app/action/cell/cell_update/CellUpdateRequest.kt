@@ -10,8 +10,6 @@ data class CellUpdateRequest(
     override val wbKey: WorkbookKey,
     val wsName: String,
     val cellAddress: CellAddress,
-    //TODO valueAsStr is not used at all, remove it
-    val valueAsStr: String?,
     val formula: String?=null,
     val cellValue:Any?=null,
 ) : RequestToP6WithWorkbookKey {
@@ -24,9 +22,6 @@ data class CellUpdateRequest(
             .setWorksheetName(wsName)
             .setCellAddress(cellAddress.toProto())
             .apply{
-                if(this@CellUpdateRequest.valueAsStr!=null){
-                    setValue(this@CellUpdateRequest.valueAsStr)
-                }
                 if(this@CellUpdateRequest.formula!=null){
                     setFormula(this@CellUpdateRequest.formula)
                 }

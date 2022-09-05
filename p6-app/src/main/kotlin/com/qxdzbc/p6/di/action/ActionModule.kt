@@ -3,8 +3,8 @@ package com.qxdzbc.p6.di.action
 import com.qxdzbc.p6.app.action.P6ResponseLegalityChecker
 import com.qxdzbc.p6.app.action.P6ResponseLegalityCheckerImp
 import com.qxdzbc.p6.di.P6Singleton
-import com.qxdzbc.p6.ui.document.cell.action.CellViewAction
-import com.qxdzbc.p6.ui.document.cell.action.CellViewActionImp
+import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
+import com.qxdzbc.p6.ui.document.cell.action.UpdateCellActionImp
 import dagger.Binds
 
 @dagger.Module(
@@ -22,7 +22,7 @@ interface ActionModule {
 
     @Binds
     @P6Singleton
-    fun CellAction(i:CellViewActionImp):CellViewAction
+    fun CellAction(i:UpdateCellActionImp):UpdateCellAction
 
     @Binds
     @P6Singleton

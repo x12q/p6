@@ -28,7 +28,7 @@ import com.qxdzbc.p6.di.request_maker.RMModule
 import com.qxdzbc.p6.di.rpc.RpcModule
 import com.qxdzbc.p6.di.status_bar.StatusBarModule
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.di.rpc.ReactiveRpcServerQualifier
+import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
 import com.qxdzbc.p6.di.state.StateModule
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
@@ -46,7 +46,7 @@ import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.ui.document.cell.action.CellViewAction
+import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
@@ -111,7 +111,7 @@ interface P6Component {
     fun gridSliderFactory(): LimitedGridSliderFactory
 
     @P6Singleton
-    @ReactiveRpcServerQualifier
+    @MsRpcServerQualifier
     fun p6RpcServer(): P6RpcServer
 
     @P6Singleton
@@ -224,7 +224,7 @@ interface P6Component {
     fun cellLiteralParser(): CellLiteralParser
 
     @P6Singleton
-    fun cellViewAction(): CellViewAction
+    fun cellViewAction(): UpdateCellAction
 
     @P6Singleton
     fun makeDisplayText(): MakeCellEditorDisplayText

@@ -31,6 +31,7 @@ import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
 import java.nio.file.Path
 import javax.inject.Inject
 
@@ -217,6 +218,10 @@ class StateContainerImp @Inject constructor(
 
     override fun getWs(wbwsSt: WbWsSt): Worksheet? {
         return docCont.getWs(wbwsSt)
+    }
+
+    override fun getWs(wsId: WorksheetIdPrt): Worksheet? {
+        return docCont.getWs(wsId)
     }
 
     override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport> {

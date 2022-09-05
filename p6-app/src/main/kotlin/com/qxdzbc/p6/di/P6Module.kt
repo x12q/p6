@@ -43,9 +43,6 @@ import org.zeromq.ZMQ
 import javax.inject.Qualifier
 import com.qxdzbc.p6.app.action.request_maker.QueueRequestMaker as QueueRequestMaker1
 
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class EmptyIntList
 
 @Module
 interface P6Module {

@@ -21,13 +21,13 @@ class CellIntegrationTest {
             cellViewAction.updateCell(
                 CellUpdateRequest(
                     ts.wbKey1,ts.wsn1, CellAddress("A1"),
-                    valueAsStr = null, formula = "=B1"
+                    formula = "=B1"
                 )
             )
             cellViewAction.updateCell(
                 CellUpdateRequest(
                     ts.wbKey1,ts.wsn1, CellAddress("B1"),
-                    valueAsStr = null, formula = "=A1"
+                    formula = "=A1"
                 )
             )
 

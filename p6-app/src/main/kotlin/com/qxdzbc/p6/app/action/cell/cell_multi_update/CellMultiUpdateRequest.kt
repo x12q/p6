@@ -1,10 +1,12 @@
 package com.qxdzbc.p6.app.action.cell.cell_multi_update
 
+import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.CellProtos.*
 import com.google.protobuf.ByteString
+import com.qxdzbc.common.compose.St
 
 data class CellUpdateContent(
     val formula: String,
@@ -31,11 +33,15 @@ data class CellUpdateEntry(
     }
 }
 
+/**
+ */
 data class CellMultiUpdateRequest(
-    override val wbKey: WorkbookKey,
-    val wsName: String,
+    val wbKeySt:St<WorkbookKey>,
+    val wsNameSt:St<String>,
     val cellUpdateList: List<CellUpdateEntry>
 ) : RequestToP6WithWorkbookKey {
+    override val wbKey: WorkbookKey by wbKeySt
+    val wsName: String by wsNameSt
     override fun toProtoBytes(): ByteString {
         return this.toProto().toByteString()
     }
