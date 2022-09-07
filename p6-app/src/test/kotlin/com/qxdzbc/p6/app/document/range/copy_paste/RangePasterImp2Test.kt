@@ -58,7 +58,7 @@ class RangePasterImp2Test {
 
         )
         for((l,o) in expect){
-            assertEquals(o,s2.getCellOrNull(l)?.currentValue as Double?)
+            assertEquals(o,s2.getCell(l)?.currentValue as Double?)
         }
     }
 }

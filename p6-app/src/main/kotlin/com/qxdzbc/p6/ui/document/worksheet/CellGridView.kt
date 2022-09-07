@@ -93,6 +93,7 @@ fun CellGridView(
                 ) {
                     for (rowIndex: Int in slider.visibleRowRange) {
                         val cellAddress = CellAddress(colIndex, rowIndex)
+//                        val cell = wsState.worksheet.getCell(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
                         val height = wsState.getRowHeight(rowIndex) ?: R.size.value.defaultRowHeight
 

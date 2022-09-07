@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.app.document.cell.d
 
+import com.github.michaelbull.result.map
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toModel
@@ -20,7 +22,7 @@ data class CellImp(
         fun CellProto.toModel(translator: P6Translator<ExUnit>): Cell {
             if(this.hasFormula() && this.formula.isNotEmpty()){
                 val transRs = translator.translate(formula)
-                val content = CellContentImp.fromTransRs(transRs,formula)
+                val content = CellContentImp.fromTransRs(transRs)
                 return CellImp(
                     address = address.toModel(),
                     content = content
@@ -45,9 +47,14 @@ data class CellImp(
         )
     }
 
-    override fun reRun(): Cell {
-        content.reRun()
-        return this
+    override fun reRun(): Cell? {
+        return reRunRs().component1()
+    }
+
+    override fun reRunRs(): Rse<Cell> {
+        val c = content.reRunRs()
+        val rt = c.map { this.copy(content = it) }
+        return rt
     }
 
     override fun setAddress(newAddress: CellAddress): Cell {

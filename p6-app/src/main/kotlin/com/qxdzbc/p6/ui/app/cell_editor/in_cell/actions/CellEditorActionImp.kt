@@ -69,7 +69,7 @@ class CellEditorActionImp @Inject constructor(
         val editTarget = editorState.targetCell
         if (ws != null && wbKey != null && wsName != null && editTarget != null) {
             // x: execute the formula in the editor
-            val cell = ws.getCellOrNull(editTarget)
+            val cell = ws.getCell(editTarget)
             val codeText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
 
             val reverseRequest = if (cell?.formula != null) {

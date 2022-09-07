@@ -99,7 +99,7 @@ class IntegrationTest {
         wbCont = wbCont.addWb(wb)
 
         val wb2 = wb.reRun()
-        assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCellOrNull(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
+        assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
 
 
         val newWs = wb2.getWs(wsNameSt)!!.removeCell(CellAddress("A2"))
@@ -107,6 +107,6 @@ class IntegrationTest {
         wbCont = wbCont.overwriteWB(wb3)
         val wb4 = wb3.reRun()
 
-        assertEquals(4.0, wb4.getWs(wsNameSt)!!.getCellOrNull(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
+        assertEquals(4.0, wb4.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
     }
 }

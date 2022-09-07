@@ -16,6 +16,7 @@ import dagger.Binds
         RangeActionModule::class,
         WindowActionModule::class,
         CellEditorActionModule::class,
+        CellActionModule::class,
     ]
 )
 interface ActionModule {

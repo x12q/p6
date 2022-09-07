@@ -90,7 +90,7 @@ class CellUpdateRMImp @Inject constructor(
             )
         } else {
             val exUnitRs = translator.translate(formula)
-            return CellContentImp.fromTransRs(exUnitRs, formula)
+            return CellContentImp.fromTransRs(exUnitRs)
         }
     }
 }

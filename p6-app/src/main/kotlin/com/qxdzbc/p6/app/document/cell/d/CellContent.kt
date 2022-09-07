@@ -2,10 +2,12 @@ package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.CanCheckEmpty
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.proto.CellProtos.CellContentProto
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
@@ -23,10 +25,12 @@ interface CellContent:CanCheckEmpty,Shiftable {
     fun formula(wbKey:WorkbookKey?=null, wsName:String?=null): String?
 
     fun reRun():CellContent?
+    fun reRunRs():Rse<CellContent>
     val editableContent: String
     val displayValue: String
     fun setValue(cv: CellValue): CellContent
     val isFormula: Boolean
     fun colorFormula(colorProvider: ColorProvider, wbKey: WorkbookKey?, wsName: String?): AnnotatedString?
+    fun toProto():CellContentProto
 }
 

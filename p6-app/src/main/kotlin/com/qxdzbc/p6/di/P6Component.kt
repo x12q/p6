@@ -14,7 +14,6 @@ import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorActio
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.WorksheetApplier
 import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
@@ -159,14 +158,6 @@ interface P6Component {
     @P6Singleton
     @WbContainerMs
     fun wbContainerMs(): Ms<WorkbookContainer>
-
-//    @P6Singleton
-//    fun workbookEventApplier(): WorkbookEventApplier
-
-
-    @P6Singleton
-    fun worksheetEventApplier(): WorksheetApplier
-
 
     @P6Singleton
     fun appContext(): AppContext

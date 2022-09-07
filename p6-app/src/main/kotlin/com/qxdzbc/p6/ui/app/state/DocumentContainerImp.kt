@@ -23,6 +23,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
+import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
 import java.nio.file.Path
 import javax.inject.Inject
@@ -161,6 +162,12 @@ class DocumentContainerImp @Inject constructor(
         }
     }
 
+    override fun getWsMsRs(wbws: WbWs): Rs<Ms<Worksheet>, ErrorReport> {
+        return this.globalWbCont.getWbRs(wbws.wbKey).flatMap {
+            it.getWsMsRs(wbws.wsName)
+        }
+    }
+
     override fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>? {
         return this.globalWbCont.getWb(wbKey)?.getWsMs(wsName)
     }
@@ -227,8 +234,48 @@ class DocumentContainerImp @Inject constructor(
         return this.getWsRs(wbKeySt, wsNameSt).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
+    override fun getCellRs(cellId: CellId): Rs<Cell, ErrorReport> {
+        return getCellRs(cellId.wbKey,cellId.wsName,cellId.address)
+    }
+
     override fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
         return this.getCellRs(wbKey, wsName, cellAddress).component1()
+    }
+
+    override fun getCell(cellId: CellId): Cell? {
+        return getCellRs(cellId).component1()
+    }
+
+    override fun getCellMsRs(
+        wbKey: WorkbookKey,
+        wsName: String,
+        cellAddress: CellAddress
+    ): Rs<Ms<Cell>, ErrorReport> {
+        return getWsRs(wbKey, wsName).flatMap {
+            it.getCellMsRs(cellAddress)
+        }
+    }
+
+    override fun getCellMsRs(
+        wbKeySt: St<WorkbookKey>,
+        wsNameSt: St<String>,
+        cellAddress: CellAddress
+    ): Rs<Ms<Cell>, ErrorReport> {
+        return getWsRs(wbKeySt, wsNameSt).flatMap {
+            it.getCellMsRs(cellAddress)
+        }
+    }
+
+    override fun getCellMsRs(cellId: CellId): Rs<Ms<Cell>, ErrorReport> {
+        return getCellMsRs(cellId.wbKey,cellId.wsName,cellId.address)
+    }
+
+    override fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>? {
+        return getCellMsRs(wbKey,wsName,cellAddress).component1()
+    }
+
+    override fun getCellMs(cellId: CellId): Ms<Cell>? {
+        return getCellMsRs(cellId).component1()
     }
 
     override fun replaceWb(newWb: Workbook): DocumentContainer {

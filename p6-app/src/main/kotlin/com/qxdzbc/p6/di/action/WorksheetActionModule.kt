@@ -2,8 +2,6 @@ package com.qxdzbc.p6.di.action
 
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetActionImp
-import com.qxdzbc.p6.app.action.worksheet.WorksheetApplier
-import com.qxdzbc.p6.app.action.worksheet.WorksheetApplierImp
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActionImp
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
@@ -50,9 +48,6 @@ interface WorksheetActionModule {
     @P6Singleton
     fun ReleaseWsFocusAction(i: RestoreWindowFocusStateImp): RestoreWindowFocusState
 
-    @Binds
-    @P6Singleton
-    fun bindWorksheetEventHandler(i: WorksheetApplierImp): WorksheetApplier
 
     @Binds
     @P6Singleton

@@ -12,9 +12,12 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.CellErrors
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.proto.CellProtos
+import com.qxdzbc.p6.proto.CellProtos.CellContentProto
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 /**
@@ -45,6 +48,13 @@ data class CellContentImp(
         }
     }
 
+    override fun toProto(): CellProtos.CellContentProto {
+        return CellContentProto.newBuilder()
+            .setCellValue(this.currentCellValue.toProto())
+            .setFormula(this.formula)
+            .build()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other is CellContent) {
             val c1 = currentCellValue == other.currentCellValue
@@ -56,10 +66,11 @@ data class CellContentImp(
     }
 
     companion object {
+        val empty = CellContentImp()
         /**
          * create a CellContent from a translation Rs
          */
-        fun fromTransRs(rs: Rs<ExUnit, ErrorReport>, formula: String): CellContentImp {
+        fun fromTransRs(rs: Rs<ExUnit, ErrorReport>): CellContentImp {
             when (rs) {
                 is Ok -> return CellContentImp(
                     exUnit = rs.value
@@ -107,16 +118,17 @@ data class CellContentImp(
         }
     override val currentCellValue: CellValue by this.cellValueMs
 
+    override fun reRunRs(): Rse<CellContent> {
+        if (this.exUnit == null) {
+            return Ok(this)
+        }else{
+            cellValueMs.value = CellValue.fromRs(exUnit.run())
+            return Ok(this)
+        }
+    }
 
     override fun reRun(): CellContent? {
-        if (this.exUnit == null && this.formula == null) {
-            return null
-        }
-        if (this.exUnit != null && this.formula != null) {
-            cellValueMs.value = CellValue.fromRs(exUnit.run())
-            return this
-        }
-        return null
+       return reRunRs().component1()
     }
 
     override val editableContent: String

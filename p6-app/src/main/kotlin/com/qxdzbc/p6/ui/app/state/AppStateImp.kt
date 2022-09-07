@@ -42,6 +42,7 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
+import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
 import java.nio.file.Path
 import javax.inject.Inject
@@ -197,6 +198,10 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getWsMsRs(wbws: WbWs): Rs<Ms<Worksheet>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
     override fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>? {
         TODO("Not yet implemented")
     }
@@ -257,8 +262,40 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getCellRs(cellId: CellId): Rs<Cell, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
     override fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
         return docCont.getCell(wbKey, wsName, cellAddress)
+    }
+
+    override fun getCell(cellId: CellId): Cell? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCellMsRs(
+        wbKeySt: St<WorkbookKey>,
+        wsNameSt: St<String>,
+        cellAddress: CellAddress
+    ): Rs<Ms<Cell>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCellMsRs(cellId: CellId): Rs<Ms<Cell>, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCellMs(cellId: CellId): Ms<Cell>? {
+        TODO("Not yet implemented")
     }
 
     override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {

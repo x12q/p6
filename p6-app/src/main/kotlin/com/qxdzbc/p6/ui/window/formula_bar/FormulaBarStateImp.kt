@@ -13,7 +13,7 @@ class FormulaBarStateImp(
             val wsState = windowState.activeWorkbookState?.activeSheetState
             if(wsState!=null){
                 val cellAddress = wsState.cursorState.mainCell
-                val cell = wsState.worksheet.getCellOrNull(cellAddress)
+                val cell = wsState.worksheet.getCell(cellAddress)
                 return cell?.editableValue(wsState.wbKey, wsState.name) ?: ""
             }else{
                 return ""
@@ -24,7 +24,7 @@ class FormulaBarStateImp(
             val wsState = windowState.activeWorkbookState?.activeSheetState
             if(wsState!=null){
                 val cellAddress = wsState.cursorState.mainCell
-                val cell = wsState.worksheet.getCellOrNull(cellAddress)
+                val cell = wsState.worksheet.getCell(cellAddress)
 
                 if(cell!=null){
                     val cellRangeExUnits = cell.content.exUnit?.getCellRangeExUnit() ?: emptyList()

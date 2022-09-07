@@ -72,7 +72,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         val formula=entry.cellUpdateContent.formula
         if(formula.isNotEmpty()){
             val transRs = translator.translate(formula)
-            return CellContentImp.fromTransRs(transRs,  formula)
+            return CellContentImp.fromTransRs(transRs)
         }else{
             return CellContentImp(
                 cellValueMs = CellValue.fromAny(entry.cellUpdateContent.cellValue).toMs(),

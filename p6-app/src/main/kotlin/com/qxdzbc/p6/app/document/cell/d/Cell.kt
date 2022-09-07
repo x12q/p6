@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.ui.text.AnnotatedString
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
@@ -15,7 +16,8 @@ interface Cell :Shiftable{
         newAnchorCell: GenericCellAddress<Int, Int>
     ): Cell
 
-    fun reRun(): Cell
+    fun reRun(): Cell?
+    fun reRunRs():Rse<Cell>
 
     /**
      * A cell's address never changes, so no need for a Ms

@@ -8,6 +8,17 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
 object WorksheetErrors {
     val UI_WSErr = "UI_WorksheetErrors_"
+    object InvalidCell {
+        val header = ErrorHeader(
+            errorCode = "${UI_WSErr}0",
+            errorDescription = "Cell address is pointing to a non-existing cell"
+        )
+        fun report(cellAddress: CellAddress): ErrorReport {
+            return header
+                .setDescription("Cell address ${cellAddress.toLabel()} is invalid")
+                .toErrorReport()
+        }
+    }
     fun InvalidCell(cellAddress: CellAddress): ErrorReport {
         return ErrorReport(
             header = ErrorHeader(

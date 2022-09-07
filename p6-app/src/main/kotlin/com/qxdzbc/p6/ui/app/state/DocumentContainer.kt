@@ -16,6 +16,7 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookGetter
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
 
 /**
@@ -52,6 +53,7 @@ interface DocumentContainer : WorkbookGetter {
     fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport>
     fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport>
     fun getWsMsRs(wbwsSt:WbWsSt): Rs<Ms<Worksheet>, ErrorReport>
+    fun getWsMsRs(wbws:WbWs): Rs<Ms<Worksheet>, ErrorReport>
 
     fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>?
     fun getWsMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<Worksheet>?
@@ -69,6 +71,15 @@ interface DocumentContainer : WorkbookGetter {
     fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport>
     fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Cell, ErrorReport>
     fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?
+
+    fun getCellRs(cellId:CellId): Rs<Cell, ErrorReport>
+    fun getCell(cellId:CellId): Cell?
+
+    fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
+    fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
+    fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>?
+    fun getCellMsRs(cellId:CellId): Rs<Ms<Cell>, ErrorReport>
+    fun getCellMs(cellId:CellId): Ms<Cell>?
 
     /**
      * replace a workbook with a new workbook with the same workbook key

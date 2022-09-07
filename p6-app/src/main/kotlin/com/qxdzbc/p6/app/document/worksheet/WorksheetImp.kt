@@ -95,7 +95,10 @@ data class WorksheetImp(
         val cellMap = table.dataMap
         for ((colIndex, col) in cellMap) {
             for ((rowIndex, cell) in col) {
-                cell.value.reRun()
+                val newCell = cell.value.reRun()
+                if(newCell!=null){
+                    cell.value = newCell
+                }
             }
         }
         return this
@@ -207,7 +210,7 @@ data class WorksheetImp(
     }
 
     override fun addOrOverwrite(cell: Cell): Worksheet {
-        val cMs = this.getCellMsOrNull(cell.address)
+        val cMs = this.getCellMs(cell.address)
         if (cMs != null) {
             cMs.value = cell
             return this
@@ -244,7 +247,7 @@ data class WorksheetImp(
             var newTable = ImmutableTableCR<Int, Int, Ms<Cell>>()
             for (cell: DocProtos.CellProto in wsProto.cellList) {
                 val newDCell = cell.toModel(translator)
-                val cMs = this.getCellMsOrNull(newDCell.address)?.apply {
+                val cMs = this.getCellMs(newDCell.address)?.apply {
                     value = newDCell
                 } ?: ms(newDCell)
                 newTable = newTable.set(newDCell.address, cMs)
@@ -266,7 +269,7 @@ data class WorksheetImp(
                     val transRs = translator.translate(formula)
                     CellImp(
                         address = cell.address,
-                        content = CellContentImp.fromTransRs(transRs, formula)
+                        content = CellContentImp.fromTransRs(transRs)
                     )
                 } else {
                     cell

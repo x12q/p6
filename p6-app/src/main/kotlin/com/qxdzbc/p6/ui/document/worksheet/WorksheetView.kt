@@ -43,7 +43,7 @@ fun WorksheetView(
     worksheetActionTable: WorksheetActionTable,
     focusState: WindowFocusState,
     enableTestTag: Boolean = false,
-    executionScope: CoroutineScope = P6GlobalAccessPoint.p6Component.executionScope(),
+//    executionScope: CoroutineScope = P6GlobalAccessPoint.p6Component.executionScope(),
 ) {
     val ws: Worksheet = wsState.worksheet
     val wsActions: WorksheetAction = worksheetActionTable.worksheetAction

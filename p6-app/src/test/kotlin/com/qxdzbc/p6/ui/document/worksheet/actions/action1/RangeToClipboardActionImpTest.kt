@@ -17,7 +17,6 @@ internal class RangeToClipboardActionImpTest {
     lateinit var action: RangeToClipboardActionImp
     lateinit var wsRequestMaker: WorksheetRM
     lateinit var cellRM: CellRM
-    lateinit var wsHandler: WorksheetApplier
     lateinit var appStateMs: Ms<AppState>
     lateinit var wsStateMs: Ms<WorksheetState>
     lateinit var testSample: TestSample
@@ -28,6 +27,5 @@ internal class RangeToClipboardActionImpTest {
         wsStateMs = appStateMs.value.queryStateByWorkbookKey(TestSample.wbk1).workbookStateMs.value.getWsStateMs("Sheet1")!!
         wsRequestMaker = mock()
         cellRM = mock()
-        wsHandler = mock()
     }
 }

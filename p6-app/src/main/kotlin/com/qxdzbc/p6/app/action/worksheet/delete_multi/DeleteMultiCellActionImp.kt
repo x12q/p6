@@ -84,7 +84,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                     acc + z
                 } + request.cells
                 val updateList: List<CellUpdateEntry> = allCell.mapNotNull {
-                    val cell = ws.getCellOrNull(it)
+                    val cell = ws.getCell(it)
                     if (cell != null) {
                         CellUpdateEntry(
                             cellAddress = it,

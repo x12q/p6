@@ -21,4 +21,12 @@ data class CellId(
             )
         }
     }
+
+    fun toProto():CellIdProto{
+        return CellIdProto.newBuilder()
+            .setCellAddress(this.address.toProto())
+            .setWbKey(this.wbKey.toProto())
+            .setWsName(this.wsName)
+            .build()
+    }
 }
