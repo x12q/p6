@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.ui.app.state
 
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.common.Rs
@@ -14,6 +16,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
+import com.qxdzbc.p6.ui.window.state.WindowState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
 

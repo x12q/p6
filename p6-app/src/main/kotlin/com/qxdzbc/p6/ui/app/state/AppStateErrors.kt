@@ -1,20 +1,18 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 object AppStateErrors {
     private val ASErr = "UI_AppStateErrors_"
 
-//    object WorkbookStateNotExist{
-//        val header = ErrorHeader("${ASErr}0", "Workbook state does not exist")
-//        fun detail(detail:String? = null):ErrorReport{
-//            return ErrorReport(
-//                header = detail?.let { header.setDescription(it) } ?: header
-//            )
-//        }
-//    }
+    object NoActiveWorkbook {
+        val header = ErrorHeader("${ASErr}2", "No active workbook")
+        fun report(detail: String?=null): ErrorReport {
+            return (detail?.let { header.setDescription(detail) } ?: header).toErrorReport()
+        }
+    }
 
     object InvalidWindowState {
         val header = ErrorHeader("${ASErr}1", "Invalid window")

@@ -20,8 +20,7 @@ class SaveWorkbookRMImp @Inject constructor(
     @StateContainerMs val stateContMs:Ms<StateContainer>,
 ) : SaveWorkbookRM {
     private var stateCont by stateContMs
-    override fun saveWb(request: SaveWorkbookRequest): SaveWorkbookResponse? {
-        println("save rm")
+    override fun saveWb(request: SaveWorkbookRequest): SaveWorkbookResponse {
         val wbRs = stateCont.getWbRs(request.wbKey)
         when (wbRs) {
             is Ok ->{

@@ -11,25 +11,41 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.global.GlobalAction
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
+import com.qxdzbc.p6.app.document.workbook.Workbook
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.AppProtos
+import com.qxdzbc.p6.proto.AppProtos.WorkbookKeyWithErrorResponseProto
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
+import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
+import com.qxdzbc.p6.rpc.workbook.msg.WorkbookKeyWithErrorResponse
+import com.qxdzbc.p6.ui.app.state.AppStateErrors
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
+import java.nio.file.Path
 import javax.inject.Inject
 
 class AppRpcService @Inject constructor(
     @AppStateMs
     val appStateMs: Ms<AppState>,
+    @StateContainerSt
+    val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     val globalActions:GlobalAction,
 ) : AppServiceGrpc.AppServiceImplBase() {
 
     private var appState by appStateMs
+    private val stateCont by stateContSt
     override fun getWorkbook(
         request: AppProtos.GetWorkbookRequestProto,
         responseObserver: StreamObserver<AppProtos.WorkbookKeyWithErrorResponseProto>
@@ -97,35 +113,66 @@ class AppRpcService @Inject constructor(
         request: CommonProtos.EmptyProto?,
         responseObserver: StreamObserver<AppProtos.WorkbookKeyWithErrorResponseProto>?
     ) {
-        super.getActiveWorkbook(request, responseObserver)
+        if(request!=null && responseObserver != null){
+            val wbk: WorkbookKey? =appState.activeWindowState?.activeWorkbookState?.wb?.key
+            val rt = WorkbookKeyWithErrorResponse(
+                wbKey = wbk,
+                errorReport = wbk?.let { null } ?: AppStateErrors.NoActiveWorkbook.report()
+            )
+            responseObserver.onNextAndComplete(rt.toProto())
+        }else{
+            super.getActiveWorkbook(request, responseObserver)
+        }
     }
 
     override fun setActiveWorkbook(
         request: DocProtos.WorkbookKeyProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
-        super.setActiveWorkbook(request, responseObserver)
+        if(request!=null && responseObserver != null){
+            val wbk:WorkbookKey = request.toModel()
+            val r = globalActions.setActiveWb(wbk)
+            responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(r).toProto())
+        }else{
+            super.setActiveWorkbook(request, responseObserver)
+        }
     }
 
     override fun getActiveWorksheet(
         request: CommonProtos.EmptyProto?,
         responseObserver: StreamObserver<WorksheetProtos.GetWorksheetResponseProto>?
     ) {
-        super.getActiveWorksheet(request, responseObserver)
+        if(request!=null && responseObserver != null){
+            val ws = appState.activeWindowState?.activeWorkbookState?.activeSheetState?.worksheet
+            responseObserver.onNextAndComplete(GetWorksheetResponse(wsId = ws?.id).toProto())
+        }else{
+            super.getActiveWorksheet(request, responseObserver)
+        }
     }
 
     override fun saveWorkbookAtPath(
         request: AppProtos.SaveWorkbookRequestProto?,
         responseObserver: StreamObserver<AppProtos.SaveWorkbookResponseProto>?
     ) {
-        super.saveWorkbookAtPath(request, responseObserver)
+        if(request!=null && responseObserver != null){
+            val r = globalActions.saveWorkbook(request.wbKey.toModel(), Path.of(request.path))
+            responseObserver.onNextAndComplete(r.toProto())
+        }else{
+            super.saveWorkbookAtPath(request, responseObserver)
+        }
     }
 
     override fun loadWorkbook(
         request: AppProtos.LoadWorkbookRequestProto?,
         responseObserver: StreamObserver<AppProtos.LoadWorkbookResponseProto>?
     ) {
-        super.loadWorkbook(request, responseObserver)
+        if(request!=null && responseObserver != null){
+            val req = request.toModel()
+            val o = globalActions.loadWorkbook(req)
+            responseObserver.onNextAndComplete(o.toProto())
+        }else{
+            super.loadWorkbook(request, responseObserver)
+        }
     }
 
     override fun closeWorkbook(

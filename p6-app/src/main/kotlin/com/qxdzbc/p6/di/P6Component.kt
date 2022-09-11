@@ -61,6 +61,7 @@ import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.google.gson.Gson
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
+import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import dagger.BindsInstance
 import dagger.Component
@@ -234,6 +235,7 @@ interface P6Component {
     fun stateContMs(): MutableState<StateContainer>
     fun workbookFactory(): WorkbookFactory
     fun createNewWbAction(): CreateNewWorkbookAction
+    fun setActiveWorkbookAction(): SetActiveWorkbookAction
 
     @Component.Builder
     interface Builder {

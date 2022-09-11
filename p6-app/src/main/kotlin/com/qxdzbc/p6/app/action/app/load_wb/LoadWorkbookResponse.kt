@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.action.app.load_wb
 import com.google.protobuf.ByteString
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
+import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey
 import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -15,19 +16,20 @@ data class LoadWorkbookResponse(
     override val windowId:String?,
     val workbook: Workbook?
 ) : ResponseWithWindowIdAndWorkbookKey {
-
-//    companion object {
-//        fun fromProtoBytes(
-//            data: ByteString,
-//        ): LoadWorkbookResponse {
-//            val proto: AppProtos.LoadWorkbookResponseProto =
-//                AppProtos.LoadWorkbookResponseProto.newBuilder().mergeFrom(data).build()
-//            return LoadWorkbookResponse(
-//                errorReport = if (proto.hasErrorReport()) proto.errorReport.toModel() else null,
-//                wbKey = if (proto.hasWbKey()) proto.wbKey.toModel() else null,
-//            )
-//        }
-//    }
+    fun toProto(): AppProtos.LoadWorkbookResponseProto {
+        return AppProtos.LoadWorkbookResponseProto.newBuilder()
+            .apply{
+                with(this@LoadWorkbookResponse){
+                    if(errorReport!=null){
+                        setErrorReport(errorReport.toProto())
+                    }
+                    workbook?.key?.toProto()?.also {
+                        setWbKey(it)
+                    }
+                }
+            }
+            .build()
+    }
 
     override val isError: Boolean
         get() = errorReport != null

@@ -20,6 +20,8 @@ import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
+import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
 import com.qxdzbc.p6.ui.file.P6FileSaverErrors
 import com.qxdzbc.p6.ui.kernel.KernelAction
@@ -34,12 +36,13 @@ class WindowActionImp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val appApplier: AppApplier,
     private val appRM: AppRM,
-    private val errorRouter: ErrorRouter,
     private val kernelAction: KernelAction,
     private val closeWbAction: CloseWbAction,
     @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>,
     private val newWbAct:CreateNewWorkbookAction,
-) : WindowAction, KernelAction by kernelAction {
+    private val saveWbAction:SaveWorkbookAction,
+    private val loadWbAction:LoadWorkbookAction,
+) : WindowAction, KernelAction by kernelAction,SaveWorkbookAction by saveWbAction {
     private var stateCont by stateContMs
     private var appState by appStateMs
 
@@ -123,26 +126,6 @@ class WindowActionImp @Inject constructor(
         }
     }
 
-
-    override fun saveWorkbook(wbKey: WorkbookKey, path: Path, windowId: String) {
-        val wb: Workbook? = appState.globalWbCont.getWb(path)
-        val wbAlreadyOpen = wb != null
-        val targetWbIsDifferentFromTheWBInPath = wbKey.path != path
-        if (wbAlreadyOpen && targetWbIsDifferentFromTheWBInPath) {
-            val err = P6FileSaverErrors.WorkbookIsAlreadyOpenForEditing(path)
-            errorRouter.publishToWindow(err, windowId = windowId)
-        } else {
-            val request = SaveWorkbookRequest(
-                wbKey = wbKey,
-                path = path.toAbsolutePath().toString(),
-            )
-            val res = appRM.saveWb(request)
-            if (res != null) {
-                appApplier.applySaveWorkbook(res)
-            }
-        }
-    }
-
     override fun openSaveFileDialog(windowId: String) {
         appState.getWindowStateMsById(windowId)?.also {
             val windowState = it.value
@@ -157,30 +140,12 @@ class WindowActionImp @Inject constructor(
         }
     }
 
-    override fun loadWorkbook(path: PPath?, windowId: String) {
-        appState.getWindowStateMsById(windowId)?.also {
-            val windowState = it.value
-            if (path != null) {
-                if (path.exists() && path.isRegularFile()) {
-                    if (path.isReadable()) {
-                        val request = LoadWorkbookRequest(
-                            path = path.toAbsolutePath().toString(),
-                            windowId = windowId
-                        )
-                        val res = appRM.loadWb(request)
-                        if (res != null) {
-                            appApplier.applyLoadWorkbook(res)
-                        }
-                    } else {
-                        windowState.publishError(P6FileLoaderErrors.notReadableFile(path))
-                    }
-                } else {
-                    windowState.publishError(P6FileLoaderErrors.notAFile(path))
-                }
-            }
+    override fun loadWorkbook(path: String?, windowId: String) {
+        if(path!=null){
+            val request = LoadWorkbookRequest(path,windowId)
+            loadWbAction.loadWorkbook(request)
         }
     }
-
 
     override fun openLoadFileDialog(windowId: String) {
         appState.getWindowStateMsById(windowId)?.also {

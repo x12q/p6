@@ -27,7 +27,11 @@ data class CreateNewWorksheetRequest(
     fun toProto(): WorkbookProtos.CreateNewWorksheetRequestProto {
         val rt = WorkbookProtos.CreateNewWorksheetRequestProto.newBuilder()
             .setWbKey(wbKey.toProto())
-            .setNewWorksheetName(newWorksheetName)
+            .apply{
+                this@CreateNewWorksheetRequest.newWorksheetName?.also {
+                    setNewWorksheetName(it)
+                }
+            }
             .build()
         return rt
     }

@@ -240,7 +240,12 @@ class TestSample {
 
     init {
         appState.globalWbStateContMs.value = makeSampleWbStateContMs()
-        appState.windowStateMsList = appState.windowStateMsList + makeSampleWindowStateMs1() + makeSampleWindowStateMs2()
+        val windowState1 = makeSampleWindowStateMs1()
+        val windowState2= makeSampleWindowStateMs2()
+        appState.windowStateMsList = appState.windowStateMsList + windowState1 + windowState2
+        appState.activeWindowPointer = appState.activeWindowPointer.pointTo(
+            windowState1.value.id
+        )
 
         appState.centralScriptContainer = appState.centralScriptContainer.addMultiScriptsForce(
             listOf(appS1, appS2, eb21, eb22, eb11, eb12)

@@ -1,9 +1,11 @@
 package com.qxdzbc.p6.ui.app.state
 
+import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 
@@ -25,5 +27,9 @@ interface StateContainer : SubAppStateContainer, DocumentContainer {
     override fun removeWindowState(windowState: Ms<WindowState>): StateContainer
     override fun removeWindowState(windowId: String): StateContainer
     override fun addWindowState(windowState: Ms<WindowState>): StateContainer
-
+    /**
+     * get window state respective to [windowId],
+     * if [windowId] is null, get the active window, or the first, or create a new window
+     */
+    fun getWindowStateMsDefaultRs(windowId: String?):Rs<Ms<WindowState>, ErrorReport>
 }
