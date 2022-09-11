@@ -1,8 +1,6 @@
 package com.qxdzbc.p6.rpc.document.cell
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.proto.rpc.cell.CellServiceProtos.*
-import com.qxdzbc.p6.proto.rpc.cell.service.CellServiceGrpc
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
@@ -15,6 +13,7 @@ import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
+import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
 import com.qxdzbc.p6.rpc.StrMsg
 import com.qxdzbc.p6.rpc.document.cell.msg.CopyCellRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
@@ -89,7 +88,7 @@ class CellRpcService @Inject constructor(
     }
 
     override fun copyFrom(
-        request: CopyCellRequestProto?,
+        request: CellProtos.CopyCellRequestProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if(request != null && responseObserver!=null){

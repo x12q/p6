@@ -1,18 +1,17 @@
-package com.qxdzbc.p6.rpc.document.workbook.msg
+package com.qxdzbc.p6.rpc.document.worksheet.msg
 
-import com.qxdzbc.p6.app.communication.res_req_template.WithWorkbookKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.proto.rpc.workbook.WorkbooKServiceProtos.IdentifyWorksheetMsgProto
+import com.qxdzbc.p6.proto.WorksheetProtos
 
-data class IdentifyWorksheetMsg(
+data class WorksheetIdWithIndexPrt(
     val wbKey: WorkbookKey,
-    val wsName: String?,
-    val wsIndex: Int?
+    val wsName:String?,
+    val wsIndex:Int?
 ) {
     companion object {
-        fun IdentifyWorksheetMsgProto.toModel(): IdentifyWorksheetMsg {
-            return IdentifyWorksheetMsg(
+        fun WorksheetProtos.WorksheetIdWithIndexProto.toModel(): WorksheetIdWithIndexPrt {
+            return WorksheetIdWithIndexPrt(
                 wbKey = this.wbKey.toModel(),
                 wsName = if (this.hasWsName()) this.wsName else null,
                 wsIndex = if (this.hasWsIndex()) this.wsIndex else null,

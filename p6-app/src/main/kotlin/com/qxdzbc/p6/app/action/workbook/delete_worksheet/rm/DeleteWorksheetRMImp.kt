@@ -12,6 +12,7 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
 import javax.inject.Inject
 
 class DeleteWorksheetRMImp @Inject constructor(
@@ -19,7 +20,7 @@ class DeleteWorksheetRMImp @Inject constructor(
 ) : DeleteWorksheetRM {
     var appState by appStateMs
 
-    override fun makeRequest(request: WorksheetIdPrt): Rse<Workbook> {
+    override fun makeRequest(request: WorksheetIdWithIndexPrt): Rse<Workbook> {
         val wbKey = request.wbKey
         val name = request.wsName
         val index = request.wsIndex

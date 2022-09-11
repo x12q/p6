@@ -4,8 +4,8 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.proto.AppEventProtos
 import com.google.protobuf.ByteString
+import com.qxdzbc.p6.proto.AppProtos
 
 class SetActiveWorksheetWithIndexRequest(
     val wbKey: WorkbookKey,
@@ -20,7 +20,7 @@ class SetActiveWorksheetRequest(
         return this.toProto().toByteString()
     }
     companion object{
-        fun AppEventProtos.SetActiveWorksheetRequestProto.toModel():SetActiveWorksheetRequest{
+        fun AppProtos.SetActiveWorksheetRequestProto.toModel():SetActiveWorksheetRequest{
             return SetActiveWorksheetRequest(
                 wbKey = workbookKey.toModel(),
                 wsName = worksheetName
@@ -28,8 +28,8 @@ class SetActiveWorksheetRequest(
         }
 
     }
-    fun toProto(): AppEventProtos.SetActiveWorksheetRequestProto {
-        val rt = AppEventProtos.SetActiveWorksheetRequestProto.newBuilder()
+    fun toProto(): AppProtos.SetActiveWorksheetRequestProto {
+        val rt = AppProtos.SetActiveWorksheetRequestProto.newBuilder()
             .setWorkbookKey(wbKey.toProto())
             .setWorksheetName(wsName)
             .build()

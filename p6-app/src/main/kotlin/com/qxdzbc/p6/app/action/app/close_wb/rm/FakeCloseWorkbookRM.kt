@@ -9,7 +9,7 @@ class FakeCloseWorkbookRM @Inject constructor(): CloseWorkbookRM {
         return CloseWorkbookResponse(
             isError = false,
             wbKey = request.wbKey,
-            windowId = request.windowId,
+            windowId = null,
             errorReport = null
         )
     }

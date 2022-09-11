@@ -42,8 +42,7 @@ data class WorkbookImp(
 
     companion object {
         fun WorkbookProto.toModel(translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): Workbook {
-            val wbKey = workbookKey.toModel()
-            val wbKeyMs = ms(wbKey)
+            val wbKeyMs = ms(wbKey.toModel())
             val sheets = mutableListOf<Worksheet>()
             for (sheet: WorksheetProto in worksheetList) {
                 val nameMs = ms(sheet.name)
@@ -51,7 +50,7 @@ data class WorkbookImp(
                 val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs).withNewData(sheet, translator)
                 sheets.add(newSheet)
             }
-            return WorkbookImp(keyMs = wbKey.toMs()).addMultiSheetOrOverwrite(sheets)
+            return WorkbookImp(keyMs = wbKeyMs).addMultiSheetOrOverwrite(sheets)
         }
     }
 
@@ -65,7 +64,7 @@ data class WorkbookImp(
 
     override fun toProto(): WorkbookProto {
         return WorkbookProto.newBuilder()
-            .setWorkbookKey(this.key.toProto())
+            .setWbKey(this.key.toProto())
             .addAllWorksheet(this.worksheets.map { it.toProto() })
             .build()
     }

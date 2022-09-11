@@ -15,6 +15,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
 import javax.inject.Inject
 
 class DeleteWorksheetActionImp @Inject constructor(
@@ -26,7 +27,7 @@ class DeleteWorksheetActionImp @Inject constructor(
 
     private var appState by appStateMs
 
-    override fun deleteWorksheetRs(request: WorksheetIdPrt): Rs<Unit, ErrorReport> {
+    override fun deleteWorksheetRs(request: WorksheetIdWithIndexPrt): Rs<Unit, ErrorReport> {
         if (request.wsName != null || request.wsIndex != null) {
             val res = rm.makeRequest(request)
             when(res){

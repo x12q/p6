@@ -4,9 +4,9 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.rpc.workbook.WorkbooKServiceProtos
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.proto.WorkbookProtos
 
 class WorksheetWithErrorReportMsg(
     val wsName: String?,
@@ -21,8 +21,8 @@ class WorksheetWithErrorReportMsg(
         }
     }
 
-    fun toProto(): WorkbooKServiceProtos.WorksheetWithErrorReportMsgProto {
-        return WorkbooKServiceProtos.WorksheetWithErrorReportMsgProto.newBuilder()
+    fun toProto(): WorkbookProtos.WorksheetWithErrorReportMsgProto {
+        return WorkbookProtos.WorksheetWithErrorReportMsgProto.newBuilder()
             .apply {
                 val e = this@WorksheetWithErrorReportMsg.errorReport
                 if (e != null) {

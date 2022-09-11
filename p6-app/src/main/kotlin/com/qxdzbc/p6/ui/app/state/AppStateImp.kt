@@ -44,6 +44,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
 
@@ -183,6 +184,10 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun getWs(wsId: WorksheetIdPrt): Worksheet? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet? {
         TODO("Not yet implemented")
     }
 

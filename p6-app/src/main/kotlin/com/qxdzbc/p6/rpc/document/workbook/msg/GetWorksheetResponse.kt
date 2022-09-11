@@ -1,16 +1,17 @@
 package com.qxdzbc.p6.rpc.document.workbook.msg
 
-import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.proto.rpc.workbook.WorkbooKServiceProtos.GetWorksheetResponseProto
+import com.qxdzbc.p6.proto.WorksheetProtos
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
 class GetWorksheetResponse(
-    val worksheet: Worksheet?
+    val wsId: WorksheetId?
 ) {
-    fun toProto(): GetWorksheetResponseProto{
-        return GetWorksheetResponseProto.newBuilder()
+    fun toProto(): WorksheetProtos.GetWorksheetResponseProto {
+        return WorksheetProtos.GetWorksheetResponseProto.newBuilder()
             .apply {
-                this@GetWorksheetResponse.worksheet?.also {
-                    setWorksheet(it.toProto())
+                this@GetWorksheetResponse.wsId?.also {
+                    setWsId(it.toProto())
                 }
             }.build()
     }

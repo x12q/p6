@@ -33,6 +33,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
 import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
 
@@ -222,6 +223,10 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getWs(wsId: WorksheetIdPrt): Worksheet? {
+        return docCont.getWs(wsId)
+    }
+
+    override fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet? {
         return docCont.getWs(wsId)
     }
 

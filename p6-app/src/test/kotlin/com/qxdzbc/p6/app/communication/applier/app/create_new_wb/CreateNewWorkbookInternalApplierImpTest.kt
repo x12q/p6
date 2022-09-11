@@ -39,13 +39,13 @@ class CreateNewWorkbookInternalApplierImpTest {
         okRes = CreateNewWorkbookResponse(
             isError = false,
             errorReport = null,
-            workbook = newWB,
+            wb = newWB,
             windowId = windowStateMs.value.id
         )
         errRes = CreateNewWorkbookResponse(
             isError = true,
             errorReport = CommonErrors.Unknown.header.toErrorReport(),
-            workbook = null,
+            wb = null,
             windowId = windowStateMs.value.id
         )
     }
@@ -55,7 +55,7 @@ class CreateNewWorkbookInternalApplierImpTest {
         assertNull(appStateMs.value.globalWbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
-        applier.apply(okRes.workbook,okRes.windowId)
+        applier.apply(okRes.wb,okRes.windowId)
         assertNotNull(appStateMs.value.globalWbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }
@@ -72,7 +72,7 @@ class CreateNewWorkbookInternalApplierImpTest {
         assertNull(appStateMs.value.globalWbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
-        applier.apply(res.workbook,res.windowId)
+        applier.apply(res.wb,res.windowId)
         assertNotNull(appStateMs.value.globalWbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }

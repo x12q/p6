@@ -2,41 +2,42 @@ package com.qxdzbc.p6.rpc.document.workbook
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.flatMap
+import com.github.michaelbull.result.map
+import com.github.michaelbull.result.mapError
+import com.google.protobuf.Int64Value
 import com.qxdzbc.common.Rs
-
-import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
-import com.qxdzbc.p6.app.action.global.GlobalAction
+import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
+import com.qxdzbc.p6.app.action.global.GlobalAction
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetResponse2
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetWithIndexRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest.Companion.toModel
-import com.qxdzbc.common.Rse
+import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
-import com.qxdzbc.p6.proto.rpc.workbook.*
-import com.qxdzbc.p6.proto.rpc.workbook.service.WorkbookServiceGrpc
+import com.qxdzbc.p6.proto.WorkbookProtos
+import com.qxdzbc.p6.proto.WorksheetProtos
+import com.qxdzbc.p6.proto.rpc.WorkbookServiceGrpc
 import com.qxdzbc.p6.rpc.document.workbook.msg.*
 import com.qxdzbc.p6.rpc.document.workbook.msg.AddWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt.Companion.toModel
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
-import com.qxdzbc.common.compose.Ms
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.flatMap
-import com.github.michaelbull.result.map
-import com.github.michaelbull.result.mapError
-import com.google.protobuf.Int64Value
-import com.qxdzbc.p6.proto.WorksheetProtos
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt.Companion.toModel
 import io.grpc.stub.StreamObserver
 import javax.inject.Inject
 
@@ -55,16 +56,15 @@ class WorkbookRpcService @Inject constructor(
     private var documentCont by documentContMs
     private var stateCont by stateContMs
 
-
     override fun getWorksheet(
-        request: WorksheetProtos.WorksheetIdProto?,
-        responseObserver: StreamObserver<WorkbooKServiceProtos.GetWorksheetResponseProto>?
+        request: WorksheetProtos.WorksheetIdWithIndexProto?,
+        responseObserver: StreamObserver<WorksheetProtos.GetWorksheetResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val req: WorksheetIdPrt = request.toModel()
+            val req = request.toModel()
+            val wsIndex = req.wsIndex
             val wbk = req.wbKey
             val wsName = req.wsName
-            val wsIndex = req.wsIndex
             val wb = documentCont.getWb(wbk)
             val ws = if (wsName != null) {
                 wb?.getWs(wsName)
@@ -73,7 +73,7 @@ class WorkbookRpcService @Inject constructor(
             } else {
                 null
             }
-            val rt = GetWorksheetResponse(ws)
+            val rt = GetWorksheetResponse(ws?.id)
             responseObserver.onNextAndComplete(rt.toProto())
         } else {
             super.getWorksheet(request, responseObserver)
@@ -82,12 +82,12 @@ class WorkbookRpcService @Inject constructor(
 
     override fun getActiveWorksheet(
         request: DocProtos.WorkbookKeyProto?,
-        responseObserver: StreamObserver<WorkbooKServiceProtos.GetWorksheetResponseProto>?
+        responseObserver: StreamObserver<WorksheetProtos.GetWorksheetResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
             val ws = stateCont.getWbState(wbk)?.activeSheetState?.worksheet
-            val rt = GetWorksheetResponse(ws)
+            val rt = GetWorksheetResponse(ws?.id)
             responseObserver.onNextAndComplete(rt.toProto())
         } else {
             super.getActiveWorksheet(request, responseObserver)
@@ -95,11 +95,11 @@ class WorkbookRpcService @Inject constructor(
     }
 
     override fun setActiveWorksheet(
-        request: WorksheetProtos.WorksheetIdProto?,
+        request: WorksheetProtos.WorksheetIdWithIndexProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val req: WorksheetIdPrt = request.toModel()
+            val req = request.toModel()
             val wbk = req.wbKey
             val wsName = req.wsName
             val wsIndex = req.wsIndex
@@ -128,7 +128,7 @@ class WorkbookRpcService @Inject constructor(
 
     override fun getAllWorksheets(
         request: DocProtos.WorkbookKeyProto?,
-        responseObserver: StreamObserver<WorkbooKServiceProtos.GetAllWorksheetsResponseProto>?
+        responseObserver: StreamObserver<WorkbookProtos.GetAllWorksheetsResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
@@ -142,7 +142,7 @@ class WorkbookRpcService @Inject constructor(
     }
 
     override fun setWbKey(
-        request: WorkbooKServiceProtos.SetWbKeyRequestProto?,
+        request: WorkbookProtos.SetWbKeyRequestProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
@@ -156,7 +156,7 @@ class WorkbookRpcService @Inject constructor(
     }
 
     override fun addWorksheet(
-        request: WorkbooKServiceProtos.AddWorksheetRequestProto?,
+        request: WorkbookProtos.AddWorksheetRequestProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
@@ -177,8 +177,8 @@ class WorkbookRpcService @Inject constructor(
     }
 
     override fun createNewWorksheet(
-        request: WorkbooKServiceProtos.CreateNewWorksheetRequestProto?,
-        responseObserver: StreamObserver<WorkbooKServiceProtos.WorksheetWithErrorReportMsgProto>?
+        request: WorkbookProtos.CreateNewWorksheetRequestProto?,
+        responseObserver: StreamObserver<WorkbookProtos.WorksheetWithErrorReportMsgProto>?
     ) {
         if (request != null && responseObserver != null) {
             val req: CreateNewWorksheetRequest = request.toModel()
@@ -191,11 +191,11 @@ class WorkbookRpcService @Inject constructor(
     }
 
     override fun deleteWorksheet(
-        request: WorksheetProtos.WorksheetIdProto?,
+        request: WorksheetProtos.WorksheetIdWithIndexProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val req:WorksheetIdPrt = request.toModel()
+            val req = request.toModel()
             val rs: Rse<Unit> = globalAction.deleteWorksheetRs(req)
             val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
@@ -205,7 +205,7 @@ class WorkbookRpcService @Inject constructor(
     }
 
     override fun renameWorksheet(
-        request: WorkbooKServiceProtos.RenameWorksheetRequestProto?,
+        request: WorkbookProtos.RenameWorksheetRequestProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {

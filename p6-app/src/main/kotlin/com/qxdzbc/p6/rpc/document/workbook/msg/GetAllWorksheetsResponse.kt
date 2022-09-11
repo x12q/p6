@@ -1,12 +1,12 @@
 package com.qxdzbc.p6.rpc.document.workbook.msg
 
-import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.rpc.workbook.WorkbooKServiceProtos.GetAllWorksheetsResponseProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.Rse
+import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
+import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.proto.WorkbookProtos
 
 class GetAllWorksheetsResponse(
     val worksheets: List<Worksheet>? = null,
@@ -20,8 +20,8 @@ class GetAllWorksheetsResponse(
             }
         }
     }
-    fun toProto(): GetAllWorksheetsResponseProto{
-        return GetAllWorksheetsResponseProto.newBuilder()
+    fun toProto(): WorkbookProtos.GetAllWorksheetsResponseProto {
+        return WorkbookProtos.GetAllWorksheetsResponseProto.newBuilder()
             .apply {
                 val wsl = this@GetAllWorksheetsResponse.worksheets
                 if(wsl!=null){

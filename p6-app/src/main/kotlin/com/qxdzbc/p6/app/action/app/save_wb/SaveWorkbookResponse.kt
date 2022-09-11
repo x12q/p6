@@ -5,31 +5,32 @@ import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWor
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.WorkbookProtos.SaveWorkbookResponseProto
 import com.google.protobuf.ByteString
+import com.qxdzbc.p6.proto.AppProtos
 
 class SaveWorkbookResponse(
-    override val isError: Boolean,
     override val errorReport: ErrorReport?,
     override val wbKey:WorkbookKey,
     val path:String,
 ) :ResponseWithWorkbookKeyTemplate{
     companion object {
         fun fromProtoBytes(data:ByteString): SaveWorkbookResponse {
-            return SaveWorkbookResponseProto.newBuilder().mergeFrom(data).build().toModel()
+            return AppProtos.SaveWorkbookResponseProto.newBuilder().mergeFrom(data).build().toModel()
         }
     }
+
+    override val isError: Boolean
+        get() = errorReport!=null
 
     override fun isLegal(): Boolean {
         return true
     }
 }
 
-fun SaveWorkbookResponseProto.toModel(): SaveWorkbookResponse {
+fun AppProtos.SaveWorkbookResponseProto.toModel(): SaveWorkbookResponse {
     return SaveWorkbookResponse(
-        isError = this.isError,
         errorReport = if(this.hasErrorReport()) this.errorReport.toModel() else null,
-        wbKey = this.workbookKey.toModel(),
+        wbKey = this.wbKey.toModel(),
         path = this.path
     )
 }

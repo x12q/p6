@@ -6,19 +6,22 @@ import com.qxdzbc.p6.proto.WorksheetProtos.WorksheetIdProto
 
 data class WorksheetIdPrt(
     val wbKey:WorkbookKey,
-    val wsName:String?,
-    val wsIndex:Int?
+    val wsName:String,
 ) {
     companion object {
         fun WorksheetIdProto.toModel(): WorksheetIdPrt {
             return WorksheetIdPrt(
                 wbKey = this.wbKey.toModel(),
-                wsName = if (this.hasWsName()) this.wsName else null,
-                wsIndex = if (this.hasWsIndex()) this.wsIndex else null,
+                wsName =  this.wsName,
             )
         }
     }
-    fun isLegal():Boolean{
-        return wsName!=null || wsIndex!=null
+
+    fun toProto():WorksheetIdProto{
+        return WorksheetIdProto.newBuilder()
+            .setWbKey(this.wbKey.toProto())
+            .setWsName(this.wsName)
+            .build()
     }
 }
+

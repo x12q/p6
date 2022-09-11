@@ -1,11 +1,10 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet
 
+import com.google.protobuf.ByteString
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.WorkbookProtos
-import com.qxdzbc.p6.proto.rpc.workbook.WorkbooKServiceProtos
-import com.google.protobuf.ByteString
 
 data class CreateNewWorksheetRequest(
     override val wbKey: WorkbookKey,
@@ -14,7 +13,7 @@ data class CreateNewWorksheetRequest(
 
     companion object
     {
-        fun WorkbooKServiceProtos.CreateNewWorksheetRequestProto.toModel(): CreateNewWorksheetRequest {
+        fun WorkbookProtos.CreateNewWorksheetRequestProto.toModel(): CreateNewWorksheetRequest {
             return CreateNewWorksheetRequest(
                 wbKey= this.wbKey.toModel(),
                 newWorksheetName = if(this.hasNewWorksheetName()) this.newWorksheetName else null
@@ -27,7 +26,7 @@ data class CreateNewWorksheetRequest(
     }
     fun toProto(): WorkbookProtos.CreateNewWorksheetRequestProto {
         val rt = WorkbookProtos.CreateNewWorksheetRequestProto.newBuilder()
-            .setWorkbookKey(wbKey.toProto())
+            .setWbKey(wbKey.toProto())
             .setNewWorksheetName(newWorksheetName)
             .build()
         return rt

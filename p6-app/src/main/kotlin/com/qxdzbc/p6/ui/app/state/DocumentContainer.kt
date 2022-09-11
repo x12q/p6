@@ -18,6 +18,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
 
 /**
  * A utility interface providing functions for querying documents' content
@@ -85,5 +86,6 @@ interface DocumentContainer : WorkbookGetter {
      * replace a workbook with a new workbook with the same workbook key
      */
     fun replaceWb(newWb: Workbook): DocumentContainer
+    fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet?
 }
 

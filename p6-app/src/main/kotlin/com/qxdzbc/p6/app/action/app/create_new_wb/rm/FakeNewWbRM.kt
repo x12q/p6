@@ -11,9 +11,8 @@ class FakeNewWbRM @Inject constructor(): CreateNewWbRM {
     private var counter=0
     override fun createNewWb(request: CreateNewWorkbookRequest): CreateNewWorkbookResponse {
         val rt= CreateNewWorkbookResponse(
-            isError = false,
             errorReport = null,
-            workbook = WorkbookImp(
+            wb = WorkbookImp(
                 keyMs = WorkbookKey("FakeBook${counter}").toMs(),
             ).apply {
                     this.createNewWs("Sheet1")

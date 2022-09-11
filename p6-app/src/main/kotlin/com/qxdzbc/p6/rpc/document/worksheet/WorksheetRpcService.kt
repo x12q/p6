@@ -18,8 +18,7 @@ import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.CommonProtos.BoolMsgProto
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
-import com.qxdzbc.p6.proto.rpc.worksheet.WorksheetServiceProtos
-import com.qxdzbc.p6.proto.rpc.worksheet.service.WorksheetServiceGrpc
+import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
 import com.qxdzbc.p6.rpc.document.cell.msg.Cell2Prt
 import com.qxdzbc.p6.rpc.document.cell.msg.Cell2Prt.CO.toModel
 import com.qxdzbc.p6.rpc.document.worksheet.msg.*
@@ -57,7 +56,7 @@ class WorksheetRpcService @Inject constructor(
 
     override fun getAllCell(
         request: WorksheetProtos.WorksheetIdProto?,
-        responseObserver: StreamObserver<WorksheetServiceProtos.GetAllCellResponseProto>?
+        responseObserver: StreamObserver<WorksheetProtos.GetAllCellResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
             val wsId: WorksheetIdPrt = request.toModel()
@@ -71,7 +70,7 @@ class WorksheetRpcService @Inject constructor(
 
     override fun getCellCount(
         request: WorksheetProtos.WorksheetIdProto?,
-        responseObserver: StreamObserver<WorksheetServiceProtos.CellCountResponseProto>?
+        responseObserver: StreamObserver<WorksheetProtos.CellCountResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
             val wsId: WorksheetIdPrt = request.toModel()
@@ -85,7 +84,7 @@ class WorksheetRpcService @Inject constructor(
 
     override fun getUsedRangeAddress(
         request: WorksheetProtos.WorksheetIdProto?,
-        responseObserver: StreamObserver<WorksheetServiceProtos.GetUsedRangeResponseProto>?
+        responseObserver: StreamObserver<WorksheetProtos.GetUsedRangeResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
             val wsId: WorksheetIdPrt = request.toModel()
@@ -190,7 +189,7 @@ class WorksheetRpcService @Inject constructor(
     }
 
     override fun containAddress(
-        request: WorksheetServiceProtos.CheckContainAddressRequestProto?,
+        request: WorksheetProtos.CheckContainAddressRequestProto?,
         responseObserver: StreamObserver<CommonProtos.BoolMsgProto>?
     ) {
         if(request!=null && responseObserver!=null){

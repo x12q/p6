@@ -27,35 +27,6 @@ interface WindowAction : KernelAction{
     fun loadWorkbook(path: PPath?, windowId: String)
     fun closeLoadFileDialog(windowId: String)
     fun createNewWorkbook(windowId: String)
-    fun closeWorkbook(workbookKey: WorkbookKey, windowId: String)
+    fun closeWorkbook(workbookKey: WorkbookKey,windowId: String)
     fun saveWorkbook(wbKey: WorkbookKey, path: Path, windowId: String)
-}
-
-interface WindowActionInView : KernelAction{
-    fun openCommonFileBrowserAndUpdatePath(tMs: Ms<String>, executionScope: CoroutineScope)
-    fun showCommonFileDialog(job:CompletableDeferred<Path?>)
-    fun closeCommonFileDialog()
-    fun setCommonFileDialogResult(path:Path?)
-
-    fun openDialogToStartKernel()
-    fun closeDialogToStartKernel()
-    fun openDialogToConnectToKernel()
-    fun closeDialogToConnectToKernel()
-
-    fun onCloseWindowRequest()
-    fun onFatalError()
-
-    fun saveActiveWorkbook(path:Path?)
-    fun saveWorkbook(wbKey:WorkbookKey, path: Path)
-    fun openSaveFileDialog()
-    fun closeSaveFileDialog()
-
-    fun loadWorkbook(path: PPath?)
-    fun openLoadFileDialog()
-    fun closeLoadFileDialog()
-
-    fun createNewWorkbook()
-
-    fun closeWorkbook(workbookKey: WorkbookKey)
-
 }

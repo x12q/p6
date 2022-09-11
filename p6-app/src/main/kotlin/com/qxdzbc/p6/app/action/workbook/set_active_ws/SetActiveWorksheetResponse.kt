@@ -5,8 +5,8 @@ import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWor
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.AppEventProtos
 import com.google.protobuf.ByteString
+import com.qxdzbc.p6.proto.AppProtos
 
 class SetActiveWorksheetResponse(
     override val wbKey: WorkbookKey,
@@ -16,9 +16,9 @@ class SetActiveWorksheetResponse(
 ) :ResponseWithWorkbookKeyTemplate{
     companion object{
         fun fromProtoBytes(bytes:ByteString):SetActiveWorksheetResponse{
-            return AppEventProtos.SetActiveWorksheetResponseProto.newBuilder().mergeFrom(bytes).build().toModel()
+            return AppProtos.SetActiveWorksheetResponseProto.newBuilder().mergeFrom(bytes).build().toModel()
         }
-        fun AppEventProtos.SetActiveWorksheetResponseProto.toModel():SetActiveWorksheetResponse{
+        fun AppProtos.SetActiveWorksheetResponseProto.toModel():SetActiveWorksheetResponse{
             return SetActiveWorksheetResponse(
                 wbKey=workbookKey.toModel(),
                 wsName = worksheetName,

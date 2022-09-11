@@ -29,7 +29,6 @@ class SaveWorkbookRMImp @Inject constructor(
                 when(saveRs){
                     is Ok->{
                         return SaveWorkbookResponse(
-                            isError = false,
                             errorReport = null,
                             wbKey = request.wbKey,
                             path = request.path
@@ -37,7 +36,6 @@ class SaveWorkbookRMImp @Inject constructor(
                     }
                     is Err->{
                         return SaveWorkbookResponse(
-                            isError = true,
                             errorReport = saveRs.error,
                             wbKey = request.wbKey,
                             path = request.path
@@ -47,7 +45,6 @@ class SaveWorkbookRMImp @Inject constructor(
             }
             is Err ->{
                 return SaveWorkbookResponse(
-                    isError = true,
                     errorReport = wbRs.error,
                     wbKey = request.wbKey,
                     path = request.path

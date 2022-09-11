@@ -10,7 +10,7 @@ class CreateNewWorkbookApplierImp @Inject constructor(
 ) : CreateNewWorkbookApplier {
     override fun applyRes(res: CreateNewWorkbookResponse?) {
         baseApplier.applyRes(res){
-            internalApplier.apply(it.workbook,it.windowId)
+            internalApplier.apply(it.wb,it.windowId)
         }
     }
 }

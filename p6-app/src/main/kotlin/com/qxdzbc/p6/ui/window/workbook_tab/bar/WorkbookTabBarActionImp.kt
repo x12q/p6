@@ -14,16 +14,14 @@ import javax.inject.Inject
 
 class WorkbookTabBarActionImp @Inject constructor(
     private val windowAction: WindowAction,
-    @AppStateMs private val appStateMs: Ms<AppState>,
     private val moveToWb: MoveToWbAction,
 ) : WorkbookTabBarAction,MoveToWbAction by moveToWb {
-    private var appState by appStateMs
 
     override fun createNewWb(windowId:String) {
         windowAction.createNewWorkbook(windowId)
     }
 
-    override fun close(wbKey: WorkbookKey,windowId:String) {
+    override fun close(wbKey: WorkbookKey,windowId: String) {
         windowAction.closeWorkbook(wbKey,windowId)
     }
 }

@@ -1,14 +1,13 @@
 package com.qxdzbc.p6.rpc
 
+import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.rpc.app.service.AppServiceGrpc
-import com.qxdzbc.p6.proto.rpc.cell.service.CellServiceGrpc
-import com.qxdzbc.p6.proto.rpc.workbook.service.WorkbookServiceGrpc
-import com.github.michaelbull.result.Ok
-import com.qxdzbc.p6.proto.rpc.worksheet.service.WorksheetServiceGrpc
-import com.qxdzbc.p6.rpc.document.worksheet.WorksheetRpcService
+import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
+import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
+import com.qxdzbc.p6.proto.rpc.WorkbookServiceGrpc
+import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import javax.inject.Inject

@@ -22,7 +22,6 @@ class LoadWorkbookRMImp @Inject constructor(
         when (loadRs) {
             is Ok -> {
                 return LoadWorkbookResponse(
-                    isError = false,
                     windowId = request.windowId,
                     errorReport = null,
                     workbook = loadRs.value
@@ -30,7 +29,6 @@ class LoadWorkbookRMImp @Inject constructor(
             }
             is Err -> {
                 return LoadWorkbookResponse(
-                    isError = true,
                     windowId = request.windowId,
                     errorReport = loadRs.error,
                     workbook = null
