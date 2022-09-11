@@ -42,9 +42,9 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
-import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.CellId
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
 

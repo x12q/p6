@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.app
+package com.qxdzbc.p6.rpc.app
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue

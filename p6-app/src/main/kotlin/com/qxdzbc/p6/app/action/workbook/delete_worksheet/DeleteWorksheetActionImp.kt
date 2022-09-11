@@ -8,14 +8,14 @@ import com.qxdzbc.p6.app.action.workbook.delete_worksheet.rm.DeleteWorksheetRM
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 
-import com.qxdzbc.p6.rpc.document.workbook.WorkbookRpcMsgErrors
+import com.qxdzbc.p6.rpc.workbook.WorkbookRpcMsgErrors
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import javax.inject.Inject
 
 class DeleteWorksheetActionImp @Inject constructor(

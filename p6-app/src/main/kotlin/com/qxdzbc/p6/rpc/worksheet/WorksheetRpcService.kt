@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.worksheet
+package com.qxdzbc.p6.rpc.worksheet
 
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.mapError
@@ -20,12 +20,12 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
-import com.qxdzbc.p6.rpc.document.cell.msg.Cell2Prt
-import com.qxdzbc.p6.rpc.document.cell.msg.Cell2Prt.CO.toModel
-import com.qxdzbc.p6.rpc.document.worksheet.msg.*
-import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId.Companion.toModel
-import com.qxdzbc.p6.rpc.document.worksheet.msg.CheckContainAddressRequest.Companion.toModel
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt.Companion.toModel
+import com.qxdzbc.p6.rpc.cell.msg.Cell2Prt
+import com.qxdzbc.p6.rpc.cell.msg.Cell2Prt.CO.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.CellId.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.*
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import io.grpc.stub.StreamObserver
@@ -145,7 +145,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val i:CellId = request.toModel()
+            val i: CellId = request.toModel()
             val o =deleteMultiCell.deleteMultiCell(
                 DeleteMultiRequest(
                     wbKey = i.wbKey,
@@ -194,7 +194,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.BoolMsgProto>?
     ) {
         if(request!=null && responseObserver!=null){
-            val i:CheckContainAddressRequest = request.toModel()
+            val i: CheckContainAddressRequest = request.toModel()
             val o = stateCont.getWs(i.wsId)?.rangeConstraint?.contains(i.cellAddress) ?: false
             responseObserver.onNextAndComplete(o.toBoolMsgProto())
         }else{

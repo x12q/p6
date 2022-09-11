@@ -6,13 +6,13 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.rpc.document.workbook.WorkbookRpcMsgErrors
+import com.qxdzbc.p6.rpc.workbook.WorkbookRpcMsgErrors
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import javax.inject.Inject
 
 class DeleteWorksheetRMImp @Inject constructor(

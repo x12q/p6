@@ -31,9 +31,9 @@ import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
-import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.CellId
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
 

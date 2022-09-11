@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.workbook.msg
+package com.qxdzbc.p6.rpc.workbook.msg
 
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto

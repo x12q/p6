@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.worksheet.msg
+package com.qxdzbc.p6.rpc.worksheet.msg
 
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel

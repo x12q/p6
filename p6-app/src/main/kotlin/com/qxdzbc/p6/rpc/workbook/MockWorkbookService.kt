@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.workbook
+package com.qxdzbc.p6.rpc.workbook
 
 import com.google.protobuf.Int64Value
 import com.qxdzbc.p6.proto.DocProtos

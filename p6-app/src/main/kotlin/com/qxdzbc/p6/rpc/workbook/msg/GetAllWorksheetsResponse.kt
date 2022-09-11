@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.workbook.msg
+package com.qxdzbc.p6.rpc.workbook.msg
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -13,7 +13,7 @@ class GetAllWorksheetsResponse(
     val errorReport: ErrorReport? = null
 ) {
     companion object{
-        fun fromRs(rs: Rse<List<Worksheet>>):GetAllWorksheetsResponse{
+        fun fromRs(rs: Rse<List<Worksheet>>): GetAllWorksheetsResponse {
             return when (rs){
                 is Ok -> GetAllWorksheetsResponse(worksheets = rs.value)
                 is Err -> GetAllWorksheetsResponse(errorReport = rs.error)

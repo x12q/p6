@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.worksheet.msg
+package com.qxdzbc.p6.rpc.worksheet.msg
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -13,7 +13,7 @@ data class CellId(
     override val wsName:String
 ) :WbWs{
     companion object{
-        fun CellIdProto.toModel():CellId{
+        fun CellIdProto.toModel(): CellId {
             return CellId(
                 address = this.cellAddress.toModel(),
                 wbKey = this.wbKey.toModel(),

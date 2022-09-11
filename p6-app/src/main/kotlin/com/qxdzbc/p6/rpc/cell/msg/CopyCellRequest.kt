@@ -1,15 +1,15 @@
-package com.qxdzbc.p6.rpc.document.cell.msg
+package com.qxdzbc.p6.rpc.cell.msg
 
 import com.qxdzbc.p6.proto.CellProtos.CopyCellRequestProto
-import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
-import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.CellId
+import com.qxdzbc.p6.rpc.worksheet.msg.CellId.Companion.toModel
 
 class CopyCellRequest(
-    val fromCell:CellId,
+    val fromCell: CellId,
     val toCell: CellId,
 ) {
     companion object{
-        fun CopyCellRequestProto.toModel():CopyCellRequest{
+        fun CopyCellRequestProto.toModel(): CopyCellRequest {
             return CopyCellRequest(
                 fromCell = this.fromCell.toModel(),
                 toCell = this.toCell.toModel()

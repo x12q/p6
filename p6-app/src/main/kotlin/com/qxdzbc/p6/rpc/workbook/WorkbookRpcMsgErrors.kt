@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.workbook
+package com.qxdzbc.p6.rpc.workbook
 
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport

@@ -8,21 +8,21 @@ import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
 import com.qxdzbc.p6.rpc.MsP6RpcServer
 import com.qxdzbc.p6.rpc.P6RpcServer
 import com.qxdzbc.p6.rpc.P6RpcServerImp
-import com.qxdzbc.p6.rpc.document.app.AppRpcService
-import com.qxdzbc.p6.rpc.document.cell.CellRpcService
-import com.qxdzbc.p6.rpc.document.workbook.WorkbookRpcService
-import com.qxdzbc.p6.rpc.document.worksheet.WorksheetRpcService
+import com.qxdzbc.p6.rpc.app.AppRpcService
+import com.qxdzbc.p6.rpc.cell.CellRpcService
+import com.qxdzbc.p6.rpc.workbook.WorkbookRpcService
+import com.qxdzbc.p6.rpc.worksheet.WorksheetRpcService
 import dagger.Binds
 
 @dagger.Module
 interface RpcModule {
     @Binds
     @P6Singleton
-    fun WorksheetServiceImplBase(i:WorksheetRpcService): WorksheetServiceGrpc.WorksheetServiceImplBase
+    fun WorksheetServiceImplBase(i: WorksheetRpcService): WorksheetServiceGrpc.WorksheetServiceImplBase
 
     @Binds
     @P6Singleton
-    fun AppServiceImplBase(i:AppRpcService): AppServiceGrpc.AppServiceImplBase
+    fun AppServiceImplBase(i: AppRpcService): AppServiceGrpc.AppServiceImplBase
 
     @Binds
     @P6Singleton

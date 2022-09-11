@@ -23,9 +23,9 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
-import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.CellId
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
 
