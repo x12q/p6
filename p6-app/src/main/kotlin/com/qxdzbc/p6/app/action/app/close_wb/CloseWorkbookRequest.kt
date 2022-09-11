@@ -8,7 +8,7 @@ class CloseWorkbookRequest(
     override val wbKey: WorkbookKey,
     override val windowId:String?
 ):RequestToP6WithWorkbookKeyAndWindowId {
-    override fun toProtoBytes(): ByteString {
-        throw UnsupportedOperationException()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        throw UnsupportedOperationException()
+//    }
 }

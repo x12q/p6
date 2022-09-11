@@ -11,9 +11,9 @@ class DeleteCellRequest(
     val wsName:String,
     val cellAddress: CellAddress,
 ) : RequestToP6WithWorkbookKey {
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     fun toProto(): WorksheetProtos.DeleteCellRequestProto {
         return WorksheetProtos.DeleteCellRequestProto.newBuilder()
             .setWorkbookKey(this.wbKey.toProto())

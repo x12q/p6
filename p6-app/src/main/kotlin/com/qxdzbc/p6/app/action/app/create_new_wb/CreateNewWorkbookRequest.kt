@@ -15,7 +15,7 @@ data class CreateNewWorkbookRequest(
         return bd.build()
     }
 
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
 }

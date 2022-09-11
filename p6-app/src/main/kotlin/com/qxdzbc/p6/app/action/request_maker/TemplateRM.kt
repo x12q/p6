@@ -13,7 +13,7 @@ import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
 interface TemplateRM {
     fun <I: ScriptRequest,O> makeScriptRequest(req:I, parse: (P6Response) -> O?): O?
     fun <I : RemoteRequest, O> makeRequest0(req: I, parse: (P6Response) -> O?): O?
-    fun <I : RequestToP6WithWindowId, O> makeRequest1(req: I, parse: (P6Response) -> O?): O?
-    fun <I : RequestToP6WithWorkbookKey, O> makeRequest2(req: I, parse: (P6Response) -> O?): O?
-    fun <I : RequestToP6WithWorkbookKeyAndWindowId, O> makeRequest3(req: I, parse: (P6Response) -> O?): O?
+    fun <I : RemoteRequestToP6WithWindowId, O> makeRequest1(req: I, parse: (P6Response) -> O?): O?
+    fun <I : RemoteRequestToP6WithWorkbookKey, O> makeRequest2(req: I, parse: (P6Response) -> O?): O?
+    fun <I : RemoteRequestToP6WithWorkbookKeyAndWindowId, O> makeRequest3(req: I, parse: (P6Response) -> O?): O?
 }

@@ -16,9 +16,9 @@ class SetActiveWorksheetRequest(
     override val wbKey: WorkbookKey,
     override val wsName: String,
 ) : RequestToP6WithWorkbookKey,WbWs {
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     companion object{
         fun AppProtos.SetActiveWorksheetRequestProto.toModel():SetActiveWorksheetRequest{
             return SetActiveWorksheetRequest(

@@ -11,7 +11,7 @@ data class LoadWorkbookRequest(val path:String, override val windowId:String) : 
             .build()
     }
 
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
 }

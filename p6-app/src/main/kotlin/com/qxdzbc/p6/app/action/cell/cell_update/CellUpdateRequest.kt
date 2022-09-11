@@ -13,9 +13,9 @@ data class CellUpdateRequest(
     val formula: String?=null,
     val cellValue:Any?=null,
 ) : RequestToP6WithWorkbookKey {
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     fun toProto():CellProtos.CellUpdateRequestProto{
         val rt = CellProtos.CellUpdateRequestProto.newBuilder()
             .setWorkbookKey(wbKey.toProto())

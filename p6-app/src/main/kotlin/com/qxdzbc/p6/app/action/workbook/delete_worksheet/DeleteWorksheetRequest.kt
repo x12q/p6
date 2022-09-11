@@ -9,9 +9,9 @@ data class DeleteWorksheetRequest(
     override val wbKey: WorkbookKey,
     val targetWorksheet:String
 ): RequestToP6WithWorkbookKey {
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     fun toProto(): WorkbookProtos.DeleteWorksheetRequestProto {
         val rt = WorkbookProtos.DeleteWorksheetRequestProto.newBuilder()
             .setWorkbookKey(wbKey.toProto())

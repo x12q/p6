@@ -9,9 +9,9 @@ class PasteRangeRequest2(
     val rangeId: RangeIdImp,
     override val windowId: String?
 ): RequestToP6WithWorkbookKeyAndWindowId {
-    override fun toProtoBytes(): ByteString {
-        return ByteString.EMPTY
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return ByteString.EMPTY
+//    }
 
     val wsName:String = rangeId.wsName
 

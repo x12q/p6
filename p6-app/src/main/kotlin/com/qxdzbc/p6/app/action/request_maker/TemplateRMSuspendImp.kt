@@ -1,9 +1,6 @@
 package com.qxdzbc.p6.app.action.request_maker
 
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RemoteRequest
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWindowId
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKeyAndWindowId
+import com.qxdzbc.p6.app.communication.res_req_template.request.remote.*
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
 import javax.inject.Inject
 
@@ -32,7 +29,7 @@ class TemplateRMSuspendImp @Inject constructor(
      * - contains a windowId
      */
     override suspend fun <I, O> makeRequest1(req: I, parse: (P6Response) -> O?): O?
-            where I : RequestToP6WithWindowId {
+            where I : RemoteRequestToP6WithWindowId {
         return base.sendThenCheck(
             p6Msg = req.toP6Msg(),
             onOk = {
@@ -50,7 +47,7 @@ class TemplateRMSuspendImp @Inject constructor(
      * - contains a workbookKey
      */
     override suspend fun <I, O> makeRequest2(req: I, parse: (P6Response) -> O?): O?
-            where I : RequestToP6WithWorkbookKey {
+            where I : RemoteRequestToP6WithWorkbookKey {
         return base.sendThenCheck(
             p6Msg = req.toP6Msg(),
             onOk = {
@@ -68,7 +65,7 @@ class TemplateRMSuspendImp @Inject constructor(
      * - contains a workbookKey and a window id
      */
     override suspend fun <I, O> makeRequest3(req: I, parse: (P6Response) -> O?): O?
-            where I : RequestToP6WithWorkbookKeyAndWindowId {
+            where I : RemoteRequestToP6WithWorkbookKeyAndWindowId {
         return base.sendThenCheck(
             p6Msg = req.toP6Msg(),
             onOk = {

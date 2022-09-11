@@ -19,9 +19,9 @@ class DeleteMultiRequest(
     val clearFormat:Boolean = false,
     override val windowId:String? = null,
 ) : RequestToP6WithWorkbookKey, WithReportNavInfo {
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     fun toProto(): DeleteMultiRequestProto {
         return DeleteMultiRequestProto.newBuilder()
             .addAllRange(ranges.map { it.toProto() })

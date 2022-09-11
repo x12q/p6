@@ -42,9 +42,9 @@ data class CellMultiUpdateRequest(
 ) : RequestToP6WithWorkbookKey {
     override val wbKey: WorkbookKey by wbKeySt
     val wsName: String by wsNameSt
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     fun toProto(): CellMultiUpdateRequestProto {
         return CellMultiUpdateRequestProto.newBuilder()
             .setWorkbookKey(wbKey.toProto())

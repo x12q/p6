@@ -9,9 +9,9 @@ data class SaveWorkbookRequest(
     override val wbKey:WorkbookKey,
     val path:String,
 ): RequestToP6WithWorkbookKey {
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     fun toProto(): AppProtos.SaveWorkbookRequestProto {
         return AppProtos.SaveWorkbookRequestProto.newBuilder()
             .setWbKey(wbKey.toProto())

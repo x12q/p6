@@ -24,9 +24,9 @@ class PasteRangeRequest(
             .build()
     }
 
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
 
     override val wbKey: WorkbookKey?
         get() = wbWs.wbKey

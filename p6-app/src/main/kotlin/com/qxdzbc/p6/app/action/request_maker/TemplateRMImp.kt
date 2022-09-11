@@ -34,7 +34,7 @@ class TemplateRMImp @Inject constructor(
      * - produces a p6Msg
      * - contains a windowId
      */
-    override fun <I : RequestToP6WithWindowId, O> makeRequest1(req: I, parse: (P6Response) -> O?): O? {
+    override fun <I : RemoteRequestToP6WithWindowId, O> makeRequest1(req: I, parse: (P6Response) -> O?): O? {
         return this.makeReq(req = req, parse = parse, onError = {
             p6ErrHandler.publishErrResponseOnWindow(it, req.windowId)
         })
@@ -45,7 +45,7 @@ class TemplateRMImp @Inject constructor(
      * - produces a p6Msg
      * - contains a workbookKey
      */
-    override fun <I : RequestToP6WithWorkbookKey, O> makeRequest2(req: I, parse: (P6Response) -> O?): O? {
+    override fun <I : RemoteRequestToP6WithWorkbookKey, O> makeRequest2(req: I, parse: (P6Response) -> O?): O? {
         return this.makeReq(req = req, parse = parse, onError = {
             p6ErrHandler.publishErrResponseOnWindow(it, req.wbKey)
         })
@@ -56,7 +56,7 @@ class TemplateRMImp @Inject constructor(
      * - produces a p6Msg
      * - contains a workbookKey and a window id
      */
-    override fun <I: RequestToP6WithWorkbookKeyAndWindowId, O> makeRequest3(req: I, parse: (P6Response) -> O?): O? {
+    override fun <I: RemoteRequestToP6WithWorkbookKeyAndWindowId, O> makeRequest3(req: I, parse: (P6Response) -> O?): O? {
         return this.makeReq(req = req, parse = parse, onError = {
             p6ErrHandler.publishErrResponseOnWindow(it, req.windowId, req.wbKey)
         })

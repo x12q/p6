@@ -26,9 +26,9 @@ data class RenameWorksheetRequest(
         }
     }
 
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
 
     fun toProto(): WorkbookProtos.RenameWorksheetRequestProto {
         val rt = WorkbookProtos.RenameWorksheetRequestProto.newBuilder()

@@ -21,9 +21,9 @@ data class CreateNewWorksheetRequest(
         }
     }
 
-    override fun toProtoBytes(): ByteString {
-        return this.toProto().toByteString()
-    }
+//    override fun toProtoBytes(): ByteString {
+//        return this.toProto().toByteString()
+//    }
     fun toProto(): WorkbookProtos.CreateNewWorksheetRequestProto {
         val rt = WorkbookProtos.CreateNewWorksheetRequestProto.newBuilder()
             .setWbKey(wbKey.toProto())

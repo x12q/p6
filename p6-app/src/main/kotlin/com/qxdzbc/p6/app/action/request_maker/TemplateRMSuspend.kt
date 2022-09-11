@@ -1,10 +1,7 @@
 package com.qxdzbc.p6.app.action.request_maker
 
 import com.qxdzbc.p6.app.communication.res_req_template.request.Request
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RemoteRequest
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWindowId
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKeyAndWindowId
+import com.qxdzbc.p6.app.communication.res_req_template.request.remote.*
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
 
 
@@ -14,7 +11,7 @@ import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
  */
 interface TemplateRMSuspend {
     suspend fun <I : RemoteRequest, O> makeRequest0(req: I, parse: (P6Response) -> O?): O?
-    suspend fun <I : RequestToP6WithWindowId, O> makeRequest1(req: I, parse: (P6Response) -> O?): O?
-    suspend fun <I : RequestToP6WithWorkbookKey, O> makeRequest2(req: I, parse: (P6Response) -> O?): O?
-    suspend fun <I : RequestToP6WithWorkbookKeyAndWindowId, O> makeRequest3(req: I, parse: (P6Response) -> O?): O?
+    suspend fun <I : RemoteRequestToP6WithWindowId, O> makeRequest1(req: I, parse: (P6Response) -> O?): O?
+    suspend fun <I : RemoteRequestToP6WithWorkbookKey, O> makeRequest2(req: I, parse: (P6Response) -> O?): O?
+    suspend fun <I : RemoteRequestToP6WithWorkbookKeyAndWindowId, O> makeRequest3(req: I, parse: (P6Response) -> O?): O?
 }
