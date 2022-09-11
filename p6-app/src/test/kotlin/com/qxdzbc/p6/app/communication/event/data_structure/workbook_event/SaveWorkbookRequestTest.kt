@@ -18,7 +18,7 @@ class SaveWorkbookRequestTest {
         )
         val o = i.toProto()
         assertEquals(
-            i.wbKey.toProto(), o.workbookKey
+            i.wbKey.toProto(), o.wbKey
         )
         assertEquals(
             i.path, o.path

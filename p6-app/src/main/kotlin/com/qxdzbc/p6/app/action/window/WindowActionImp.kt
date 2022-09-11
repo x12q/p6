@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookRequest
 import com.qxdzbc.p6.app.action.app.AppRM
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWbAction
-import com.qxdzbc.p6.app.action.app.create_new_wb.NewWorkbookAction
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -38,7 +38,7 @@ class WindowActionImp @Inject constructor(
     private val kernelAction: KernelAction,
     private val closeWbAction: CloseWbAction,
     @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>,
-    private val newWbAct:NewWorkbookAction,
+    private val newWbAct:CreateNewWorkbookAction,
 ) : WindowAction, KernelAction by kernelAction {
     private var stateCont by stateContMs
     private var appState by appStateMs
@@ -197,7 +197,7 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun createNewWorkbook(windowId: String) {
-        val req = CreateNewWorkbookRequest(windowId = windowId)
+        val req = CreateNewWorkbookRequest(windowId = windowId,wbName=null)
         newWbAct.createNewWb(req)
     }
 

@@ -15,14 +15,12 @@ class CreateNewWorkbookInternalApplierImp @Inject constructor(
     @StateContainerMs val stateContMs:Ms<StateContainer>
 ) : CreateNewWorkbookInternalApplier {
     private var stateCont by stateContMs
-    private var subStateCont by stateContMs
     private var scriptCont by stateCont.centralScriptContainerMs
     private var globalWbCont by stateCont.globalWbContMs
     private var globalWbStateCont by stateCont.globalWbStateContMs
 
     override fun apply(workbook: Workbook?, windowId: String?) {
         val wb = workbook
-
         if (wb != null) {
             val wbk = wb.key
             globalWbCont = globalWbCont.addOrOverWriteWb(wb)
@@ -30,22 +28,22 @@ class CreateNewWorkbookInternalApplierImp @Inject constructor(
                 it.value = it.value.setWindowId(windowId)
             }
             if (windowId != null) {
-                val wdMs:Ms<WindowState>? = subStateCont.getWindowStateMsById(windowId)
+                val wdMs:Ms<WindowState>? = stateCont.getWindowStateMsById(windowId)
                 if (wdMs != null) {
                     // x: create state new wb state
                     wdMs.value = wdMs.value.addWbKey(wbk)
                 } else {
                     // x: create new window state if no window is available
-                    val (newStateCont, newWindowState) = subStateCont.createNewWindowStateMs(windowId)
-                    subStateCont = newStateCont
+                    val (newStateCont, newWindowState) = stateCont.createNewWindowStateMs(windowId)
+                    stateCont = newStateCont
                     newWindowState.value = newWindowState.value.addWbKey(wbk)
                 }
 
                 scriptCont = scriptCont.addScriptContFor(wb.key)
 
             } else {
-                val (newAppState, newWindowState) = subStateCont.createNewWindowStateMs()
-                subStateCont = newAppState
+                val (newAppState, newWindowState) = stateCont.createNewWindowStateMs()
+                stateCont = newAppState
                 newWindowState.value = newWindowState.value.addWbKey(wbk)
             }
         }

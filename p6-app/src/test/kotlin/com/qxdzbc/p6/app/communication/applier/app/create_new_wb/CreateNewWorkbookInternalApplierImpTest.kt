@@ -37,13 +37,11 @@ class CreateNewWorkbookInternalApplierImpTest {
         )
         windowStateMs =appStateMs.value.windowStateMsList[0]
         okRes = CreateNewWorkbookResponse(
-            isError = false,
             errorReport = null,
             wb = newWB,
             windowId = windowStateMs.value.id
         )
         errRes = CreateNewWorkbookResponse(
-            isError = true,
             errorReport = CommonErrors.Unknown.header.toErrorReport(),
             wb = null,
             windowId = windowStateMs.value.id

@@ -36,19 +36,4 @@ class RangeToClipboardRequestTest {
         assertTrue(p2.hasWindowId())
         assertEquals(m2.windowId, p2.windowId)
     }
-
-    @Test
-    fun toP6Msg(){
-        val m = RangeToClipboardRequest(
-            rangeId = RangeIdImp(
-                rangeAddress = RangeAddress("C1:J2"),
-                wbKey = WorkbookKey("bb"),
-                wsName = "QWE"
-            ),
-            windowId = null
-        )
-        val p6Msg = m.toP6Msg()
-        assertEquals(P6Events.Range.RangeToClipboard.event,p6Msg.event)
-        assertEquals(m.toProto().toByteString(),p6Msg.data)
-    }
 }

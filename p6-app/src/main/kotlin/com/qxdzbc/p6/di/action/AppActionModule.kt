@@ -2,8 +2,8 @@ package com.qxdzbc.p6.di.action
 
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWbAction
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWbActionImp
-import com.qxdzbc.p6.app.action.app.create_new_wb.NewWorkbookAction
-import com.qxdzbc.p6.app.action.app.create_new_wb.NewWorkbookActionImp
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWorkbookKeyAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWorkbookKeyActionImp
 import com.qxdzbc.p6.app.action.app.set_wbkey.applier.SetWbKeyApplier
@@ -17,7 +17,7 @@ import dagger.Binds
 interface AppActionModule {
     @Binds
     @P6Singleton
-    fun NewWorkbookAction(i:NewWorkbookActionImp): NewWorkbookAction
+    fun NewWorkbookAction(i:CreateNewWorkbookActionImp): CreateNewWorkbookAction
 
     @Binds
     @P6Singleton

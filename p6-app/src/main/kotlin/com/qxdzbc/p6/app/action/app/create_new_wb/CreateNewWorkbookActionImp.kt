@@ -4,13 +4,13 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookAppli
 import com.qxdzbc.p6.app.action.app.create_new_wb.rm.CreateNewWbRM
 import javax.inject.Inject
 
-class NewWorkbookActionImp @Inject constructor(
+class CreateNewWorkbookActionImp @Inject constructor(
     val rm: CreateNewWbRM,
     val applier: CreateNewWorkbookApplier,
-) : NewWorkbookAction {
-    override fun createNewWb(request: CreateNewWorkbookRequest) {
+) : CreateNewWorkbookAction {
+    override fun createNewWb(request: CreateNewWorkbookRequest) :CreateNewWorkbookResponse{
         val rs1 = rm.createNewWb(request)
         applier.applyRes(rs1)
+        return rs1
     }
-
 }

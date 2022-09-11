@@ -8,11 +8,11 @@ import com.github.michaelbull.result.Ok
 import javax.inject.Inject
 
 class CreateNewWbRMImp @Inject constructor(
-    val wbf: WorkbookFactory,
+    private val wbf: WorkbookFactory,
 ) : CreateNewWbRM {
 
     override fun createNewWb(request: CreateNewWorkbookRequest): CreateNewWorkbookResponse {
-        val newWbRs = wbf.createWbRs()
+        val newWbRs = wbf.createWbRs(request.wbName)
         when(newWbRs){
             is Ok -> {
                 return CreateNewWorkbookResponse(

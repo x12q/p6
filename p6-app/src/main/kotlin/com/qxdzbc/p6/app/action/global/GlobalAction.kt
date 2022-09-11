@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.action.global
 
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWorkbookKeyAction
 import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetAction
@@ -14,6 +15,7 @@ import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetAction
 interface GlobalAction :
     AddWorksheetAction, SetWorkbookKeyAction,
     NewWorksheetAction, DeleteWorksheetAction,
-    RenameWorksheetAction, SetActiveWorksheetAction
+    RenameWorksheetAction, SetActiveWorksheetAction,
+        CreateNewWorkbookAction
 {
 }

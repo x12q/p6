@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.action.global
 
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWorkbookKeyAction
 import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetAction
@@ -15,7 +16,9 @@ class GlobalActionImp @Inject constructor(
     private val delWsAct: DeleteWorksheetAction,
     private val renameWsAct: RenameWorksheetAction,
     private val setActiveWsAct:SetActiveWorksheetAction,
+    private val createNewWorkbookAction: CreateNewWorkbookAction,
 ) : GlobalAction,
+    CreateNewWorkbookAction by createNewWorkbookAction,
     AddWorksheetAction by addWsAction,
     SetWorkbookKeyAction by setWbKeyAction,
     NewWorksheetAction by newWsAct,

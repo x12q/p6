@@ -7,5 +7,5 @@ import com.github.michaelbull.result.Result
  * Encase certain default wb creation code
  */
 interface WorkbookFactory {
-    fun createWbRs(): Result<Workbook, ErrorReport>
+    fun createWbRs(wbName:String?=null): Result<Workbook, ErrorReport>
 }

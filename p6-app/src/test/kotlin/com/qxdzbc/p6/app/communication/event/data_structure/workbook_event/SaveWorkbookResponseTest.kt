@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.WorkbookProtos.SaveWorkbookResponseProto
+import com.qxdzbc.p6.proto.AppProtos
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -15,16 +15,14 @@ import kotlin.test.assertTrue
 class SaveWorkbookResponseTest{
     @Test
     fun fromProtoBytes(){
-        val proto = SaveWorkbookResponseProto.newBuilder()
-            .setWorkbookKey(WorkbookKey("B").toProto())
+        val proto = AppProtos.SaveWorkbookResponseProto.newBuilder()
+            .setWbKey(WorkbookKey("B").toProto())
             .setPath("folder123/file.txt")
-            .setIsError(false)
             .build()
 
         val o = SaveWorkbookResponse.fromProtoBytes(proto.toByteString())
-        assertEquals(proto.workbookKey.toModel(),o.wbKey)
+        assertEquals(proto.wbKey.toModel(),o.wbKey)
         assertEquals(proto.path, o.path)
-        assertEquals(proto.isError, o.isError)
         assertNull(o.errorReport)
     }
 
@@ -32,16 +30,14 @@ class SaveWorkbookResponseTest{
     fun `fromProtoBytes error case`(){
         val ee = ErrorReport(header= ErrorHeader("S","M"))
 
-        val proto = SaveWorkbookResponseProto.newBuilder()
-            .setWorkbookKey(WorkbookKey("B").toProto())
-            .setIsError(true)
+        val proto = AppProtos.SaveWorkbookResponseProto.newBuilder()
+            .setWbKey(WorkbookKey("B").toProto())
             .setErrorReport(ee.toProto())
             .build()
 
         val o = SaveWorkbookResponse.fromProtoBytes(proto.toByteString())
-        assertEquals(proto.workbookKey.toModel(),o.wbKey)
+        assertEquals(proto.wbKey.toModel(),o.wbKey)
         assertEquals(proto.path, o.path)
-        assertEquals(proto.isError, o.isError)
         assertTrue { o.errorReport?.isType(ee.header) ?: false}
     }
 }
