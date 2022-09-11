@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.workbook.msg
+package com.qxdzbc.p6.app.action.workbook.add_ws
 
 import com.qxdzbc.p6.app.document.workbook.Workbook
 

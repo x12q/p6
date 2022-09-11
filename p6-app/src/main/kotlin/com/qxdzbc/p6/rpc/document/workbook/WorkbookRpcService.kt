@@ -11,6 +11,8 @@ import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
+import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyResponse
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.global.GlobalAction
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
@@ -30,10 +32,8 @@ import com.qxdzbc.p6.proto.WorkbookProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorkbookServiceGrpc
 import com.qxdzbc.p6.rpc.document.workbook.msg.*
-import com.qxdzbc.p6.rpc.document.workbook.msg.AddWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdPrt.Companion.toModel
-import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
 import com.qxdzbc.p6.rpc.document.worksheet.msg.WorksheetIdWithIndexPrt.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer

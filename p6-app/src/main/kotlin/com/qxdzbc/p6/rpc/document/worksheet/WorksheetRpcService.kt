@@ -19,6 +19,7 @@ import com.qxdzbc.p6.proto.CommonProtos.BoolMsgProto
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
+import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.document.cell.msg.Cell2Prt
 import com.qxdzbc.p6.rpc.document.cell.msg.Cell2Prt.CO.toModel
 import com.qxdzbc.p6.rpc.document.worksheet.msg.*
@@ -195,7 +196,7 @@ class WorksheetRpcService @Inject constructor(
         if(request!=null && responseObserver!=null){
             val i:CheckContainAddressRequest = request.toModel()
             val o = stateCont.getWs(i.wsId)?.rangeConstraint?.contains(i.cellAddress) ?: false
-            responseObserver.onNextAndComplete(BoolMsgProto.newBuilder().setV(o).build())
+            responseObserver.onNextAndComplete(o.toBoolMsgProto())
         }else{
             super.containAddress(request, responseObserver)
         }

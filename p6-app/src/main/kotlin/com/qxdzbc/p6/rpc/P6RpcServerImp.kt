@@ -30,7 +30,7 @@ class P6RpcServerImp @Inject constructor(
     override fun start(): Rs<Unit, ErrorReport> {
         try {
 //            _port = Utils.findSocketPort()
-            _port = 50052
+            _port = 52533
             _server = ServerBuilder
                 .forPort(_port)
                 .addService(this.cellRpcService)

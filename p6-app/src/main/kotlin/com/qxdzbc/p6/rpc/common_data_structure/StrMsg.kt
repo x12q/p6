@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc
+package com.qxdzbc.p6.rpc.common_data_structure
 
 import com.qxdzbc.p6.proto.CommonProtos.StrMsgProto
 

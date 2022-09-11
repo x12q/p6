@@ -14,7 +14,7 @@ import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
-import com.qxdzbc.p6.rpc.StrMsg
+import com.qxdzbc.p6.rpc.common_data_structure.StrMsg
 import com.qxdzbc.p6.rpc.document.cell.msg.CopyCellRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.document.worksheet.msg.CellId.Companion.toModel

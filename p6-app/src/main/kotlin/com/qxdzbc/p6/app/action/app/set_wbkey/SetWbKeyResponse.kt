@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.rpc.document.workbook.msg
+package com.qxdzbc.p6.app.action.app.set_wbkey
 
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey

@@ -12,19 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 
 
-interface RPCStatusItemState {
-    val isRunning: Boolean
-    fun setRunning(v: Boolean): RPCStatusItemState
-    val port: Int?
-    fun setPort(p: Int): RPCStatusItemState
-    val isShowingDetail:Boolean
-    fun showDetail():RPCStatusItemState
-    fun hideDetail():RPCStatusItemState
-}
-
 @Composable
-fun RPCStatusItem(
-    state:RPCStatusItemState,
+fun RPCStatusView(
+    state:RPCStatusViewState,
     onClick:()->Unit,
 ) {
     MBox(modifier = Modifier.fillMaxHeight().padding(start = 5.dp).clickable {

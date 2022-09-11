@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusItem
+import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusView
 
 @Composable
 fun StatusBar(
@@ -17,7 +17,7 @@ fun StatusBar(
             state.kernelStatusItemState = state.kernelStatusItemState.showDetail()
         })
         Spacer(modifier = Modifier.width(10.dp))
-        RPCStatusItem(
+        RPCStatusView(
             state = state.rpcServerStatusState,
             onClick = {
                 state.rpcServerStatusState = state.rpcServerStatusState.showDetail()

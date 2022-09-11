@@ -7,8 +7,8 @@ import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarStateImp
 import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusItemState
 import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusItemStateImp
-import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusItemState
-import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusItemStateImp
+import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewState
+import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewStateImp
 import dagger.Binds
 import dagger.Provides
 
@@ -39,8 +39,8 @@ interface StatusBarModule {
         @Provides
         @P6Singleton
         @RPCStatusItemStateQualifier
-        fun RPCStatusItemStateMs():Ms<RPCStatusItemState>{
-            return ms(RPCStatusItemStateImp())
+        fun RPCStatusItemStateMs():Ms<RPCStatusViewState>{
+            return ms(RPCStatusViewStateImp())
         }
     }
 }

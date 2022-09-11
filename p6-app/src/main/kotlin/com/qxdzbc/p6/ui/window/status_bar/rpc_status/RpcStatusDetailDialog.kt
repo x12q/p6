@@ -18,7 +18,7 @@ import com.qxdzbc.p6.ui.window.status_bar.DetailEntry
 
 @Composable
 fun RpcStatusDetailDialog(
-    state: RPCStatusItemState,
+    state: RPCStatusViewState,
     onClickClose: () -> Unit = {}
 ) {
     val s = state
