@@ -24,7 +24,7 @@ internal class FileMenuActionImpTest {
     fun b() {
         testSample = TestSample()
         wbContMs = testSample.wbContMs
-        wbStateContMs = testSample.appState.globalWbStateContMs
+        wbStateContMs = testSample.appState.wbStateContMs
         windowStateMs = testSample.sampleWindowStateMs
         windowAction = mock<WindowAction>() {
             doNothing().whenever(it).saveActiveWorkbook(any(), any())

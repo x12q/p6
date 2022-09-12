@@ -28,14 +28,14 @@ class SetWbKeyApplierImp @Inject constructor(
             // update wb cont
             if (newWb != null) {
                 val newWbCont: WorkbookContainer = stateCont
-                    .globalWbCont
+                    .wbCont
                     .removeWb(oldWbKey)
                     .overwriteWB(newWb)
-                stateCont.globalWbCont = newWbCont
+                stateCont.wbCont = newWbCont
             }
             // update wb state cont
             if (r.newWbStateCont != null) {
-                stateCont.globalWbStateCont = r.newWbStateCont
+                stateCont.wbStateCont = r.newWbStateCont
             }
 
             // update states

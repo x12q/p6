@@ -6,7 +6,7 @@ import com.google.protobuf.ByteString
 
 class CloseWorkbookRequest(
     override val wbKey: WorkbookKey,
-    override val windowId:String?
+    override val windowId:String? = null
 ):RequestToP6WithWorkbookKeyAndWindowId {
 //    override fun toProtoBytes(): ByteString {
 //        throw UnsupportedOperationException()

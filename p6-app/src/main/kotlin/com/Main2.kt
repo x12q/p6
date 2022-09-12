@@ -103,7 +103,7 @@ fun main() {
                             wbMs = ms(wb2)
                         )
                     )
-                    appState.globalWbStateContMs.apply {
+                    appState.wbStateContMs.apply {
                         this.value = this.value.addWbState(wbStateMs1).addWbState(wbStateMs2)
                     }
                     val zz = listOf(

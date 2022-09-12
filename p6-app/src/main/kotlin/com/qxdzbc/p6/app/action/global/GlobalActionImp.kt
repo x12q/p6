@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.action.global
 
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWbAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
@@ -23,7 +24,10 @@ class GlobalActionImp @Inject constructor(
     private val setActiveWbAct: SetActiveWorkbookAction,
     private val saveWbAct:SaveWorkbookAction,
     private val loadWbAct:LoadWorkbookAction,
-) : GlobalAction,
+    private val closeWbAct: CloseWbAction,
+
+    ) : GlobalAction,
+    CloseWbAction by closeWbAct,
     LoadWorkbookAction by loadWbAct,
     SaveWorkbookAction by saveWbAct,
     SetActiveWorkbookAction by setActiveWbAct,

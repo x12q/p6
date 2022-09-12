@@ -19,7 +19,7 @@ class SwingCodeEditorStateImpTest{
     fun b(){
         testSample = TestSample()
         codeCont =testSample.sampleCodeContainer
-        val wbContMs:Ms<WorkbookContainer> = testSample.appState.globalWbContMs
+        val wbContMs:Ms<WorkbookContainer> = testSample.appState.wbContMs
         val appScriptContMs:Ms<ScriptContainer> = ms(ScriptContainerImp())
         state = SwingCodeEditorStateImp(
             wbContMs = wbContMs,

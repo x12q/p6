@@ -50,11 +50,11 @@ class CreateNewWorkbookInternalApplierImpTest {
     @Test
     fun `apply ok on window`() {
         val wds by windowStateMs
-        assertNull(appStateMs.value.globalWbCont.getWb(newWB.key))
+        assertNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
         applier.apply(okRes.wb,okRes.windowId)
-        assertNotNull(appStateMs.value.globalWbCont.getWb(newWB.key))
+        assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }
 
@@ -67,11 +67,11 @@ class CreateNewWorkbookInternalApplierImpTest {
     }
 
     fun testApplyOnApp(res: CreateNewWorkbookResponse){
-        assertNull(appStateMs.value.globalWbCont.getWb(newWB.key))
+        assertNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
         applier.apply(res.wb,res.windowId)
-        assertNotNull(appStateMs.value.globalWbCont.getWb(newWB.key))
+        assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }
 

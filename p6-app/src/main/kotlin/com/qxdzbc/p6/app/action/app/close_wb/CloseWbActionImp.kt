@@ -9,8 +9,9 @@ class CloseWbActionImp @Inject constructor(
     private val closeWbRm: CloseWorkbookRM,
     private val closeWbApplier: CloseWorkbookApplier
 ) : CloseWbAction {
-    override fun closeWb(request: CloseWorkbookRequest) {
+    override fun closeWb(request: CloseWorkbookRequest) :CloseWorkbookResponse {
         val response = closeWbRm.closeWb(request)
         closeWbApplier.applyRes(response)
+        return response
     }
 }

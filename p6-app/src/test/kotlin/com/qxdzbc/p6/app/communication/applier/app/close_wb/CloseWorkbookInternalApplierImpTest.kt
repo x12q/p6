@@ -33,7 +33,6 @@ class CloseWorkbookInternalApplierImpTest {
         )
         val windowId = appStateMs.value.windowStateMsList[0].value.id
         res = CloseWorkbookResponse(
-            isError = false,
             wbKey = TestSample.wbk1,
             windowId = windowId,
             errorReport = null
@@ -43,23 +42,23 @@ class CloseWorkbookInternalApplierImpTest {
     @Test
     fun apply() {
         assertNotNull(appState.getWbStateMs(TestSample.wbk1))
-        assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
+        assertNotNull(appState.wbCont.getWb(TestSample.wbk1))
         applier.apply(res.wbKey,res.windowId)
         assertNull(appState.getWbStateMs(TestSample.wbk1))
-        assertNull(appState.globalWbCont.getWb(TestSample.wbk1))
+        assertNull(appState.wbCont.getWb(TestSample.wbk1))
     }
 
     @Test
     fun `apply null window id`() {
         val res = this.res.copy(windowId = null)
         assertNotNull(appState.getWbStateMs(TestSample.wbk1))
-        assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
+        assertNotNull(appState.wbCont.getWb(TestSample.wbk1))
 
         applier.apply(res.wbKey,null)
 
         assertNull(appState.getWbStateMs(TestSample.wbk1))
-        assertNull(appState.globalWbCont.getWb(TestSample.wbk1))
-        assertNull(appState.globalWbStateCont.getWbStateMs(TestSample.wbk1))
+        assertNull(appState.wbCont.getWb(TestSample.wbk1))
+        assertNull(appState.wbStateCont.getWbStateMs(TestSample.wbk1))
     }
 
     @Test
@@ -68,14 +67,14 @@ class CloseWorkbookInternalApplierImpTest {
 
         assertNotNull(appState.getWbStateMs(TestSample.wbk1))
         assertNotNull(appState.getWbStateMs(TestSample.wbk2))
-        assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
-        assertNotNull(appState.globalWbCont.getWb(TestSample.wbk2))
+        assertNotNull(appState.wbCont.getWb(TestSample.wbk1))
+        assertNotNull(appState.wbCont.getWb(TestSample.wbk2))
 
         applier.apply(res.wbKey,null)
 
         assertNotNull(appState.getWbStateMs(TestSample.wbk1))
         assertNotNull(appState.getWbStateMs(TestSample.wbk2))
-        assertNotNull(appState.globalWbCont.getWb(TestSample.wbk1))
-        assertNotNull(appState.globalWbCont.getWb(TestSample.wbk2))
+        assertNotNull(appState.wbCont.getWb(TestSample.wbk1))
+        assertNotNull(appState.wbCont.getWb(TestSample.wbk2))
     }
 }

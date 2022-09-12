@@ -27,7 +27,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
 
     lateinit var appStateMs: Ms<AppState>
     val appState get() = appStateMs.value
-    val workbook: Workbook get() = appState.globalWbCont.getWb(TestSample.wbk1)!!
+    val workbook: Workbook get() = appState.wbCont.getWb(TestSample.wbk1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
     lateinit var windowStateMs: Ms<WindowState>
     lateinit var s1: Worksheet

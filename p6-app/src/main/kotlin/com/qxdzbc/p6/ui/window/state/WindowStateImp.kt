@@ -180,6 +180,7 @@ data class WindowStateImp @AssistedInject constructor(
     override var showConnectToKernelDialogState: ShowDialogState by showConnectToKernelDialogStateMs
 
 
+
     override fun removeWorkbookState(wbKey: WorkbookKey): WindowState {
         if (wbKey in this.wbKeySet) {
             if (this.activeWorkbookPointer.isPointingTo(wbKey)) {

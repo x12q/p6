@@ -3,7 +3,6 @@ package com.qxdzbc.p6.ui.app.state
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -17,9 +16,6 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
@@ -32,13 +28,13 @@ class SubAppStateContainerImp @Inject constructor(
     @AppWindowStateListMs
     override val windowStateMsListMs: Ms<List<Ms<WindowState>>>,
     @WbStateContMs
-    override val globalWbStateContMs: Ms<WorkbookStateContainer>,
+    override val wbStateContMs: Ms<WorkbookStateContainer>,
     private val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
 ) : AbsSubAppStateContainer() {
 
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
-    override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
+    override var wbStateCont: WorkbookStateContainer by wbStateContMs
 
     private fun hasStateFor(wbKey: WorkbookKey): Boolean {
         return this.getWbState(wbKey) != null
@@ -66,7 +62,7 @@ class SubAppStateContainerImp @Inject constructor(
             return this
         } else {
             val newState = wbStateFactory.create(ms(wb))
-            globalWbStateCont = globalWbStateCont.addWbState(ms(newState))
+            wbStateCont = wbStateCont.addWbState(ms(newState))
             return this
         }
     }
@@ -112,11 +108,11 @@ class SubAppStateContainerImp @Inject constructor(
     }
 
     override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {
-        return this.globalWbStateCont.getWbStateMsRs(wbKeySt)
+        return this.wbStateCont.getWbStateMsRs(wbKeySt)
     }
 
     override fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
-        return this.globalWbStateCont.getWbStateMsRs(wbKey)
+        return this.wbStateCont.getWbStateMsRs(wbKey)
     }
 
     override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport> {

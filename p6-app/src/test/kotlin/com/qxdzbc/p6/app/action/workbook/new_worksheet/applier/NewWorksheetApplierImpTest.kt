@@ -32,7 +32,7 @@ class NewWorksheetApplierImpTest{
     @Test
     fun applyNewWorksheet() {
 
-        val wb = appState.globalWbCont.getWb(wbk)!!
+        val wb = appState.wbCont.getWb(wbk)!!
         val wsName = "NewSheet"
         val res = CreateNewWorksheetResponse2(
             newWsName = wsName,

@@ -17,7 +17,6 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
 
 /**
  * An abstraction layer providing functions for looking up view states that is under app
@@ -27,8 +26,8 @@ interface SubAppStateContainer {
     val windowStateMsListMs: Ms<List<Ms<WindowState>>>
     var windowStateMsList: List<MutableState<WindowState>>
 
-    val globalWbStateContMs:Ms<WorkbookStateContainer>
-    var globalWbStateCont: WorkbookStateContainer
+    val wbStateContMs:Ms<WorkbookStateContainer>
+    var wbStateCont: WorkbookStateContainer
 
     fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2>
     /**
@@ -73,19 +72,18 @@ interface SubAppStateContainer {
     fun getWsState(wbws: WbWs): WorksheetState?
 
     fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport>
-    fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>? {
-        return this.getWindowStateMsByWbKeyRs(wbKey).component1()
-    }
+    fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>?
 
     fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, ErrorReport>
-    fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>?{
-        return getFocusStateMsByWbKeyRs(wbKey).component1()
-    }
+    fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>?
+
+    fun getWindowStateByIdRs(windowId:String):Rse<WindowState>
+    fun getWindowStateById(windowId:String):WindowState?
+    fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState>
+    fun getWindowStateByWbKey(wbKey: WorkbookKey):WindowState?
 
     fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport>
-    fun getWindowStateMsById(windowId: String): Ms<WindowState>?{
-        return getWindowStateMsByIdRs(windowId).component1()
-    }
+    fun getWindowStateMsById(windowId: String): Ms<WindowState>?
 
     fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>?
     fun getCursorState(wbKey: WorkbookKey, wsName: String): CursorState?
@@ -96,4 +94,5 @@ interface SubAppStateContainer {
      * get cursor state ms of the active worksheet inside the workbook whose key is [wbKey]
      */
     fun getActiveCursorMs(wbKey: WorkbookKey):Ms<CursorState>?
+
 }

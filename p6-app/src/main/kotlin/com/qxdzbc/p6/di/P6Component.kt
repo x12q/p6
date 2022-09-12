@@ -5,7 +5,7 @@ import androidx.compose.ui.window.ApplicationScope
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.code.PythonCommander
 import com.qxdzbc.p6.app.coderunner.CodeRunner
-import com.qxdzbc.p6.app.action.app.AppApplier
+
 import com.qxdzbc.p6.app.action.cell.cell_update.applier.CellUpdateApplier
 import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.action.app.AppRM
@@ -152,10 +152,6 @@ interface P6Component {
 
     @P6Singleton
     fun cellEventApplier(): CellUpdateApplier
-
-
-    @P6Singleton
-    fun appEventApplier(): AppApplier
 
     @P6Singleton
     @AppStateMs

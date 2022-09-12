@@ -6,7 +6,6 @@ import dagger.Binds
 
 @dagger.Module(
     includes = [
-        AppApplierModule::class,
         WorksheetApplierModule::class,
         WindowApplierModule::class,
         CellApplierModule::class,

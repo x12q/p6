@@ -20,14 +20,8 @@ class SaveWorkbookInternalApplierImp @Inject constructor(
 ) : SaveWorkbookInternalApplier {
     private var stateCont by stateContMs
     var appState by appStateMs
-    private var wbCont by stateCont.globalWbContMs
+    private var wbCont by stateCont.wbContMs
 
-    /**
-     * - update wb key in wb cont
-     * - update wb key in wb state
-     * - update wb key of active wb if need
-     * - update wb key in code cont
-     */
     override fun apply(workbookKey: WorkbookKey, path: String) {
         val savedPath = Path.of(path)
         if (workbookKey.path != savedPath) {
@@ -39,7 +33,7 @@ class SaveWorkbookInternalApplierImp @Inject constructor(
                 if (oldWb != null) {
                     // x: update wb key in the old Workbook in wbCont
                     val newWb = oldWb.setKey(newWbKey)
-                    wbCont = wbCont.removeWb(workbookKey).addWb(newWb)!!
+                    wbCont = wbCont.removeWb(workbookKey).addWb(newWb)
                     // x: update wb key in the old WorkbookState
                     it.workbookStateMs.value = wbState
                         .setWorkbookKeyAndRefreshState(newWbKey)

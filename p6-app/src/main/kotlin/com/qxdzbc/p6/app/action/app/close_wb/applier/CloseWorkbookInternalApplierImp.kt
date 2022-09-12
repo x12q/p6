@@ -8,12 +8,14 @@ import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.ui.window.state.WindowState
 import javax.inject.Inject
 
 class CloseWorkbookInternalApplierImp @Inject constructor(
     @AppStateMs val appStateMs: Ms<AppState>,
-    @StateContainerMs val stateContMs: Ms<StateContainer>
+    @StateContainerMs val stateContMs: Ms<StateContainer>,
+    val pickDefaultActiveWb: PickDefaultActiveWbAction,
 ) : CloseWorkbookInternalApplier {
 
     private var stateCont by stateContMs
@@ -28,15 +30,14 @@ class CloseWorkbookInternalApplierImp @Inject constructor(
                 ?: wbKey?.let { stateCont.getWindowStateMsByWbKey(it) }
 
         if (wbKey != null) {
-            if (windowStateMs != null) {
-                windowStateMs.value = windowStateMs.value.removeWorkbookState(wbKey)
-            }
-            stateCont.globalWbCont = stateCont.globalWbCont.removeWb(wbKey)
-            stateCont.globalWbStateCont = stateCont.globalWbStateCont.removeWbState(wbKey)
+            stateCont.wbCont = stateCont.wbCont.removeWb(wbKey)
             appState.codeEditorState = appState.codeEditorState.removeWorkbook(workbookKey)
             appState.translatorContainer = appState.translatorContainer.removeTranslator(workbookKey)
-
             scriptCont=scriptCont.removeScriptContFor(wbKey)
+            if (windowStateMs != null) {
+                windowStateMs.value = windowStateMs.value.removeWorkbookState(wbKey)
+                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs.value)
+            }
         }
     }
 }

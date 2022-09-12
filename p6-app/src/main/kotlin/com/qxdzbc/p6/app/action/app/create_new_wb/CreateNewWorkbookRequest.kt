@@ -11,8 +11,8 @@ data class CreateNewWorkbookRequest(
     companion object{
         fun CreateNewWorkbookRequestProto.toModel():CreateNewWorkbookRequest{
             return CreateNewWorkbookRequest(
-                windowId = this.windowId,
-                wbName = this.workbookName
+                windowId = if(this.hasWindowId()) this.windowId else null,
+                wbName = if (this.hasWorkbookName()) this.workbookName else null,
             )
         }
     }

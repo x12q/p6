@@ -30,7 +30,7 @@ class NewScriptApplierImpTest {
     @BeforeTest
     fun b(){
         testSample = TestSample()
-        wbContMs = testSample.appState.globalWbContMs
+        wbContMs = testSample.appState.wbContMs
         scriptContMs=testSample.appState.centralScriptContainerMs
         stateMs = ms(SwingCodeEditorStateImp(
             wbContMs = wbContMs,

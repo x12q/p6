@@ -56,9 +56,9 @@ class StateContainerImp @Inject constructor(
     override var centralScriptContainer: CentralScriptContainer by centralScriptContainerMs
 
     private val docCont by docContMs
-    override val globalWbContMs: Ms<WorkbookContainer>
-        get() = docCont.globalWbContMs
-    override var globalWbCont: WorkbookContainer by globalWbContMs
+    override val wbContMs: Ms<WorkbookContainer>
+        get() = docCont.wbContMs
+    override var wbCont: WorkbookContainer by wbContMs
 
     override val cellEditorStateMs: Ms<CellEditorState>
         get() = appState.cellEditorStateMs
@@ -68,9 +68,9 @@ class StateContainerImp @Inject constructor(
         get() = subAppStateCont.windowStateMsListMs
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
 
-    override val globalWbStateContMs: Ms<WorkbookStateContainer>
-        get() = subAppStateCont.globalWbStateContMs
-    override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
+    override val wbStateContMs: Ms<WorkbookStateContainer>
+        get() = subAppStateCont.wbStateContMs
+    override var wbStateCont: WorkbookStateContainer by wbStateContMs
 
     override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2> {
         return subAppStateCont.getStateByWorkbookKeyRs(workbookKey)

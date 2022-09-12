@@ -15,29 +15,21 @@ data class CreateNewWorkbookResponse(
     fun toProto(): CreateNewWorkbookResponseProto {
         return CreateNewWorkbookResponseProto.newBuilder()
             .apply {
-                this@CreateNewWorkbookResponse.errorReport?.toProto()?.also {
-                    setErrorReport(it)
-                }
-                this@CreateNewWorkbookResponse.wb?.key?.toProto()?.also {
-                    setWbKey(it)
+                with(this@CreateNewWorkbookResponse){
+                    errorReport?.toProto()?.also {
+                        setErrorReport(it)
+                    }
+                    wb?.key?.toProto()?.also {
+                        setWbKey(it)
+                    }
+                    windowId?.also {
+                        setWindowId(it)
+                    }
                 }
             }
-            .setWindowId(windowId)
             .build()
     }
 
-    //    companion object {
-//        fun fromProtoBytes(
-//            data: ByteString,
-//        ): CreateNewWorkbookResponse {
-//            val proto = AppProtos.CreateNewWorkbookResponseProto.newBuilder().mergeFrom(data).build()
-//            return CreateNewWorkbookResponse(
-//                errorReport = if (proto.hasErrorReport()) proto.errorReport.toModel() else null,
-//                wbKey = if (proto.hasWbKey()) proto.wbKey.toModel() else null,
-//                windowId = if (proto.hasWindowId()) proto.windowId else null
-//            )
-//        }
-//    }
     override val isError: Boolean
         get() = errorReport != null
     override val wbKey: WorkbookKey?

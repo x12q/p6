@@ -20,6 +20,29 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
 
+    override fun getWindowStateByIdRs(windowId:String):Rse<WindowState>{
+        return getWindowStateMsByIdRs(windowId).map { it.value }
+    }
+    override fun getWindowStateById(windowId:String):WindowState?{
+        return getWindowStateMsById(windowId)?.value
+    }
+    override fun getWindowStateByWbKeyRs(wbKey: WorkbookKey):Rse<WindowState>{
+        return getWindowStateMsByWbKeyRs(wbKey).map { it.value }
+    }
+    override fun getWindowStateByWbKey(wbKey: WorkbookKey):WindowState?{
+        return getWindowStateMsByWbKey(wbKey)?.value
+    }
+
+    override fun getWindowStateMsById(windowId: String): Ms<WindowState>?{
+        return getWindowStateMsByIdRs(windowId).component1()
+    }
+
+    override fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>?{
+        return getFocusStateMsByWbKeyRs(wbKey).component1()
+    }
+    override fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>? {
+        return this.getWindowStateMsByWbKeyRs(wbKey).component1()
+    }
     override fun getWsStateMsRs(wbwsSt: WbWsSt): Rse<Ms<WorksheetState>> {
         return this.getWsStateMsRs(wbwsSt.wbKeySt,wbwsSt.wsNameSt)
     }

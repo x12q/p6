@@ -76,22 +76,22 @@ data class AppStateImp @Inject constructor(
     override var docCont by docContMs
     override var stateCont by subAppStateContMs
     override var translatorContainer: TranslatorContainer by translatorContMs
-    override val globalWbContMs: Ms<WorkbookContainer>
-        get() = docCont.globalWbContMs
+    override val wbContMs: Ms<WorkbookContainer>
+        get() = docCont.wbContMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
     override val windowStateMsListMs: Ms<List<Ms<WindowState>>>
         get() = subAppStateContMs.value.windowStateMsListMs
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
-    override val globalWbStateContMs: Ms<WorkbookStateContainer>
-        get() = subAppStateContMs.value.globalWbStateContMs
+    override val wbStateContMs: Ms<WorkbookStateContainer>
+        get() = subAppStateContMs.value.wbStateContMs
     override var oddityContainer: OddityContainer by oddityContainerMs
-    override var globalWbStateCont: WorkbookStateContainer by globalWbStateContMs
+    override var wbStateCont: WorkbookStateContainer by wbStateContMs
     override var activeWindowPointer: ActiveWindowPointer by activeWindowPointerMs
     override val activeWindowStateMs: Ms<WindowState>?
         get() = activeWindowPointer.windowId?.let{this.getWindowStateMsById(it)}
     override val activeWindowState: WindowState?
         get() = activeWindowStateMs?.value
-    override var globalWbCont: WorkbookContainer by globalWbContMs
+    override var wbCont: WorkbookContainer by wbContMs
     override var centralScriptContainer: CentralScriptContainer by centralScriptContainerMs
     override var codeEditorState: CodeEditorState by codeEditorStateMs
 
@@ -388,7 +388,7 @@ data class AppStateImp @Inject constructor(
         val windowStateMsRs = this.getWindowStateMsByWbKeyRs(workbookKey)
         if (windowStateMsRs is Ok) {
             val windowstateMs = windowStateMsRs.value
-            val workbookStateMsRs = globalWbStateCont.getWbStateMsRs(workbookKey)
+            val workbookStateMsRs = wbStateCont.getWbStateMsRs(workbookKey)
 
             if (workbookStateMsRs is Ok) {
                 return QueryByWorkbookKeyResult(

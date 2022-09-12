@@ -27,7 +27,7 @@ class SetWbKeyRMImp @Inject constructor(
                 .getWbStateMs(oldKey)
                 ?.value
                 ?.setWorkbookKey(newKey)
-            val newWbStateCont = stateCont.globalWbStateCont.replaceKey(oldKey,newKey)
+            val newWbStateCont = stateCont.wbStateCont.replaceKey(oldKey,newKey)
 
             val windowStateMs = stateCont.getWindowStateMsByWbKey(oldKey)
             val newWindowState = windowStateMs?.value?.replaceWorkbookKey(oldKey,newKey)

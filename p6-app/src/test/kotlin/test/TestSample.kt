@@ -209,7 +209,7 @@ class TestSample {
     }
 
     private fun makeSampleWbStateContMs(): WorkbookStateContainer {
-        return appState.globalWbStateCont.removeAll()
+        return appState.wbStateCont.removeAll()
             .addWbState(makeSampleWbState1())
             .addWbState(makeSampleWBState(wbKey2Ms))
             .addWbState(makeSampleWBState(wbKey3Ms))
@@ -239,10 +239,10 @@ class TestSample {
     val sampleCodeContainerMs get() = appState.centralScriptContainerMs
     val sampleWindowStateMs get() = appState.windowStateMsList.get(0)
 
-    val wbContMs = appState.globalWbContMs
+    val wbContMs = appState.wbContMs
 
     init {
-        appState.globalWbStateContMs.value = makeSampleWbStateContMs()
+        appState.wbStateContMs.value = makeSampleWbStateContMs()
         val windowState1 = makeSampleWindowStateMs1()
         val windowState2= makeSampleWindowStateMs2()
         appState.windowStateMsList = appState.windowStateMsList + windowState1 + windowState2
@@ -257,7 +257,7 @@ class TestSample {
 
     fun sampleAppStateMs() = appStateMs
     fun sampleAppStateMs(wbCont: WorkbookContainer): Ms<AppState> {
-        appState.globalWbCont = wbCont
+        appState.wbCont = wbCont
         return appStateMs
     }
 

@@ -4,10 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import java.util.*
@@ -17,8 +15,8 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
     @StateContainerMs val stateContMs:Ms<StateContainer>,
 ) : LoadWorkbookInternalApplier {
     private var stateCont by stateContMs
-    private var globalWbCont by stateCont.globalWbContMs
-    private var globalWbStateCont by stateCont.globalWbStateContMs
+    private var globalWbCont by stateCont.wbContMs
+    private var globalWbStateCont by stateCont.wbStateContMs
 
     override fun apply(windowId: String?, workbook: Workbook?) {
         val windowStateMsRs =  stateCont.getWindowStateMsDefaultRs(windowId)

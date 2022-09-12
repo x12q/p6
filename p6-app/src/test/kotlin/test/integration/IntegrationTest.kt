@@ -42,7 +42,7 @@ class IntegrationTest {
     @Test
     fun `test cell auto cell computation update after removing cell`() {
         val appMs = ts.sampleAppStateMs()
-        var wbCont by appMs.value.globalWbContMs
+        var wbCont by appMs.value.wbContMs
         val wbKeySt = WorkbookKey("Wb1").toMs()
         val wsNameSt = "S1".toMs()
         val translator = JvmFormulaTranslator(

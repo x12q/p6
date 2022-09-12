@@ -103,7 +103,6 @@ data class WorkbookContainerImp @Inject constructor(
     }
 
     override fun removeWbRs(wbKey: WorkbookKey): Rse<WorkbookContainer> {
-        //TODO add rs
         this.wbStateCont = this.wbStateCont.removeWbState(wbKey)
         return Ok(this)
     }

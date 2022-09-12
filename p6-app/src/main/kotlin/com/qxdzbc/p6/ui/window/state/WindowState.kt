@@ -92,4 +92,6 @@ interface WindowState : WithSize {
      * replace a workbook key held by this window state with a new workbook key. Also update active workbook pointer if that is needed
      */
     fun replaceWorkbookKey(oldWbKey:WorkbookKey, newWbKey: WorkbookKey):WindowState
+
+    val windowTitle:String
 }

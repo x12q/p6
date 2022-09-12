@@ -30,11 +30,11 @@ import java.nio.file.Path
 import javax.inject.Inject
 
 class DocumentContainerImp @Inject constructor(
-    @WbContainerMs override val globalWbContMs: Ms<WorkbookContainer>,
+    @WbContainerMs override val wbContMs: Ms<WorkbookContainer>,
     private val lazyRangeFactory: LazyRangeFactory,
 ) : DocumentContainer {
 
-    override var globalWbCont: WorkbookContainer by globalWbContMs
+    override var wbCont: WorkbookContainer by wbContMs
 
     override fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt? {
         return this.getWs(wbKey, wsName)?.id
@@ -57,85 +57,85 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun getWb(wbKey: WorkbookKey): Workbook? {
-        return this.globalWbCont.getWb(wbKey)
+        return this.wbCont.getWb(wbKey)
     }
 
     override fun getWbMs(wbKeySt: St<WorkbookKey>): Ms<Workbook>? {
-        return this.globalWbCont.getWbMs(wbKeySt)
+        return this.wbCont.getWbMs(wbKeySt)
     }
 
     override fun getWbMs(wbKey: WorkbookKey): Ms<Workbook>? {
-        return this.globalWbCont.getWbMs(wbKey)
+        return this.wbCont.getWbMs(wbKey)
     }
 
     override fun getWbMsRs(wbKey: WorkbookKey): Result<Ms<Workbook>, ErrorReport> {
-        return this.globalWbCont.getWbMsRs(wbKey)
+        return this.wbCont.getWbMsRs(wbKey)
     }
 
     override fun getWb(path: Path): Workbook? {
-        return this.globalWbCont.getWb(path)
+        return this.wbCont.getWb(path)
     }
 
     override fun getWbRs(path: Path): Result<Workbook, ErrorReport> {
-        return this.globalWbCont.getWbRs(path)
+        return this.wbCont.getWbRs(path)
     }
 
     override fun getWbMsRs(path: Path): Result<Ms<Workbook>, ErrorReport> {
-        return this.globalWbCont.getWbMsRs(path)
+        return this.wbCont.getWbMsRs(path)
     }
 
     override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {
-        return this.globalWbCont.getWb(wbKeySt)
+        return this.wbCont.getWb(wbKeySt)
     }
 
     override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Rs<Ms<Workbook>, ErrorReport> {
-        return this.globalWbCont.getWbMsRs(wbKeySt)
+        return this.wbCont.getWbMsRs(wbKeySt)
     }
 
     override fun getWbRs(wbKey: WorkbookKey): Result<Workbook, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbKey)
+        return this.wbCont.getWbRs(wbKey)
     }
 
     override fun getWbRs(wbKeySt: St<WorkbookKey>): Rs<Workbook, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbKeySt)
+        return this.wbCont.getWbRs(wbKeySt)
     }
 
     override fun getWsRs(wbKey: WorkbookKey, wsName: String): Result<Worksheet, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbKey).flatMap {
+        return this.wbCont.getWbRs(wbKey).flatMap {
             it.getWsRs(wsName)
         }
     }
 
     override fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Worksheet, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbKeySt).flatMap {
+        return this.wbCont.getWbRs(wbKeySt).flatMap {
             it.getWsRs(wsNameSt)
         }
     }
 
     override fun getWsRs(wbwsSt: WbWsSt): Rs<Worksheet, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbwsSt.wbKeySt).flatMap {
+        return this.wbCont.getWbRs(wbwsSt.wbKeySt).flatMap {
             it.getWsRs(wbwsSt.wsNameSt)
         }
     }
 
     override fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet? {
-        return this.globalWbCont.getWb(wbKey)?.getWs(wsName)
+        return this.wbCont.getWb(wbKey)?.getWs(wsName)
     }
 
     override fun getWs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Worksheet? {
-        return this.globalWbCont.getWb(wbKeySt)?.getWs(wsNameSt)
+        return this.wbCont.getWb(wbKeySt)?.getWs(wsNameSt)
     }
 
     override fun getWs(wbws: WbWs): Worksheet? {
-        return this.globalWbCont.getWb(wbws.wbKey)?.getWs(wbws.wsName)
+        return this.wbCont.getWb(wbws.wbKey)?.getWs(wbws.wsName)
     }
 
     override fun getWs(wbwsSt: WbWsSt): Worksheet? {
-        return this.globalWbCont.getWb(wbwsSt.wbKeySt)?.getWs(wbwsSt.wsNameSt)
+        return this.wbCont.getWb(wbwsSt.wbKeySt)?.getWs(wbwsSt.wsNameSt)
     }
 
     override fun getWs(wsId: WorksheetIdPrt): Worksheet? {
-        val wb: Workbook? = this.globalWbCont.getWb(wsId.wbKey)
+        val wb: Workbook? = this.wbCont.getWb(wsId.wbKey)
         if (wb != null) {
             return wb.getWs(wsId.wsName)
         } else {
@@ -144,7 +144,7 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet? {
-        val wb: Workbook? = this.globalWbCont.getWb(wsId.wbKey)
+        val wb: Workbook? = this.wbCont.getWb(wsId.wbKey)
         if (wb != null) {
             if (wsId.wsName != null) {
                 return wb.getWs(wsId.wsName)
@@ -159,39 +159,39 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbKey).flatMap { it.getWsMsRs(wsName) }
+        return this.wbCont.getWbRs(wbKey).flatMap { it.getWsMsRs(wsName) }
     }
 
     override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbKeySt).flatMap { it.getWsMsRs(wsNameSt) }
+        return this.wbCont.getWbRs(wbKeySt).flatMap { it.getWsMsRs(wsNameSt) }
     }
 
     override fun getWsMsRs(wbwsSt: WbWsSt): Rs<Ms<Worksheet>, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbwsSt.wbKeySt).flatMap {
+        return this.wbCont.getWbRs(wbwsSt.wbKeySt).flatMap {
             it.getWsMsRs(wbwsSt.wsNameSt)
         }
     }
 
     override fun getWsMsRs(wbws: WbWs): Rs<Ms<Worksheet>, ErrorReport> {
-        return this.globalWbCont.getWbRs(wbws.wbKey).flatMap {
+        return this.wbCont.getWbRs(wbws.wbKey).flatMap {
             it.getWsMsRs(wbws.wsName)
         }
     }
 
     override fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>? {
-        return this.globalWbCont.getWb(wbKey)?.getWsMs(wsName)
+        return this.wbCont.getWb(wbKey)?.getWsMs(wsName)
     }
 
     override fun getWsMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<Worksheet>? {
-        return this.globalWbCont.getWb(wbKeySt)?.getWsMs(wsNameSt)
+        return this.wbCont.getWb(wbKeySt)?.getWsMs(wsNameSt)
     }
 
     override fun getWsMs(wbws: WbWs): Ms<Worksheet>? {
-        return this.globalWbCont.getWb(wbws.wbKey)?.getWsMs(wbws.wsName)
+        return this.wbCont.getWb(wbws.wbKey)?.getWsMs(wbws.wsName)
     }
 
     override fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>? {
-        return this.globalWbCont.getWb(wbwsSt.wbKeySt)?.getWsMs(wbwsSt.wsNameSt)
+        return this.wbCont.getWb(wbwsSt.wbKeySt)?.getWsMs(wbwsSt.wsNameSt)
     }
 
     override fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range? {
@@ -289,7 +289,7 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun replaceWb(newWb: Workbook): DocumentContainer {
-        globalWbCont = globalWbCont.overwriteWB(newWb)
+        wbCont = wbCont.overwriteWB(newWb)
         return this
     }
 

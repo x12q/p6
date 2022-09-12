@@ -25,8 +25,8 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
  */
 interface DocumentContainer : WorkbookGetter {
 
-    val globalWbContMs: Ms<WorkbookContainer>
-    var globalWbCont: WorkbookContainer
+    val wbContMs: Ms<WorkbookContainer>
+    var wbCont: WorkbookContainer
 
     /**
      * @return [WbWsSt] from an existing worksheet, null if such worksheet does not exist

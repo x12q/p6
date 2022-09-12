@@ -19,7 +19,7 @@ class RenameWorksheetInternalApplierImpTest {
 
     lateinit var appStateMs: Ms<AppState>
     val appState get() = appStateMs.value
-    val workbook: Workbook get() = appState.globalWbCont.getWb(TestSample.wbk1)!!
+    val workbook: Workbook get() = appState.wbCont.getWb(TestSample.wbk1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
     lateinit var windowStateMs: Ms<WindowState>
     lateinit var s1: Worksheet
@@ -63,7 +63,7 @@ class RenameWorksheetInternalApplierImpTest {
     @Test
     fun `renameLogic on activate sheet`() {
         val newSheetName = "newName"
-        val workbook = appState.globalWbCont.getWb(TestSample.wbk1)!!
+        val workbook = appState.wbCont.getWb(TestSample.wbk1)!!
         val oldSheetName = workbook.getWs(0)!!.name
         val res = RenameWorksheetResponse(
             wbKey = workbook.key,
@@ -90,7 +90,7 @@ class RenameWorksheetInternalApplierImpTest {
     @Test
     fun `renameLogic on inactive sheet`() {
         val newName = "newName"
-        val workbook = appState.globalWbCont.getWb(TestSample.wbk1)!!
+        val workbook = appState.wbCont.getWb(TestSample.wbk1)!!
         val oldSheetName = workbook.getWs(1)!!.name
         val res = RenameWorksheetResponse(
             wbKey = workbook.key,
@@ -111,7 +111,7 @@ class RenameWorksheetInternalApplierImpTest {
     @Test
     fun `renameLogic with incorrect WorkbookKey`() {
         val newName = "newName"
-        val workbook = appState.globalWbCont.getWb(TestSample.wbk1)!!
+        val workbook = appState.wbCont.getWb(TestSample.wbk1)!!
         val s2 = workbook.getWs(1)!!
         val s1 = workbook.getWs(0)!!
         val oldSheetName = s2.name

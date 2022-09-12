@@ -24,7 +24,7 @@ class DeleteMultiApplierImp @Inject constructor(
         }.onSuccess {r->
             val k = r.newWb.key
             // x: remove cell from ws, wb
-            appState.globalWbCont = appState.globalWbCont.overwriteWB(r.newWb)
+            appState.wbCont = appState.wbCont.overwriteWB(r.newWb)
             // x: remove cell state from ws state
             r.newWsState?.also {wss->
                val wsms=appState.getWsStateMs(k,wss.name)

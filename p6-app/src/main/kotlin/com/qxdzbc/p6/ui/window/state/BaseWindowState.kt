@@ -1,23 +1,32 @@
 package com.qxdzbc.p6.ui.window.state
 
-import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.app.build.BuildConfig
+import com.qxdzbc.p6.app.build.BuildVariant
+import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
-import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarStateImp
-import com.github.michaelbull.result.onFailure
-import com.github.michaelbull.result.onSuccess
 
-abstract class BaseWindowState : WindowState{
-    override val openCommonFileDialog:Boolean get()=this.commonFileDialogJob!=null
+abstract class BaseWindowState : WindowState {
+    override val windowTitle: String
+        get() {
+            val l = mutableListOf("P6")
+            val wbk = this.activeWbKey
+            wbk?.also {
+                l.add(wbk.name)
+            }
+            if(BuildConfig.currentFlavor == BuildVariant.DEBUG){
+                l.add("wdId[${this.id}]")
+            }
+            return l.joinToString(" - ")
+        }
+    override val openCommonFileDialog: Boolean get() = this.commonFileDialogJob != null
     override val size: Int get() = workbookStateMsList.size
-    override val workbookList: List<Workbook> get() = wbKeySet.mapNotNull {
-        this.globalWbContMs.value.getWb(it)
-    }
-    override fun publishError(errorReport: ErrorReport) :WindowState{
+    override val workbookList: List<Workbook>
+        get() = wbKeySet.mapNotNull {
+            this.globalWbContMs.value.getWb(it)
+        }
+
+    override fun publishError(errorReport: ErrorReport): WindowState {
         this.oddityContainer = this.oddityContainer.addErrorReport(errorReport)
         return this
     }

@@ -40,7 +40,7 @@ class JvmFormulaTranslator_Integration_Test {
 
     lateinit var appStateMs: Ms<AppState>
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
-    val wbCont: WorkbookContainer get() = ts.appState.globalWbContMs.value
+    val wbCont: WorkbookContainer get() = ts.appState.wbContMs.value
 
     @BeforeTest
     fun b() {
@@ -88,7 +88,7 @@ class JvmFormulaTranslator_Integration_Test {
         )
 
         ts.appState
-        var wbc: WorkbookContainer by ts.appState.globalWbContMs
+        var wbc: WorkbookContainer by ts.appState.wbContMs
         wbc = wbc.removeAll()
         wbc = wbl.fold(wbc) { acc, wb ->
             acc.addWb(wb)

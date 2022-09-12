@@ -82,7 +82,7 @@ class CentralScriptContainerImpTest {
             return wss
         }
 
-        val wbsCont: Ms<WorkbookStateContainer> = testSample.appState.globalWbStateContMs.also {
+        val wbsCont: Ms<WorkbookStateContainer> = testSample.appState.wbStateContMs.also {
             val wss1 = makeWbState(
                 wbkey1, ScriptContainerImp(
                     mapOf(

@@ -18,7 +18,6 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.StateUtils.toSt
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.mapBoth
 import javax.inject.Inject
@@ -34,7 +33,7 @@ class CellUpdateRMImp @Inject constructor(
     override fun updateCell(request: CellUpdateRequest): CellUpdateResponse {
         val wbKey = request.wbKey
         val wsName = request.wsName
-        val wbRs = appState.globalWbCont.getWbRs(wbKey)
+        val wbRs = appState.wbCont.getWbRs(wbKey)
 
         if (wbRs is Ok) {
             val wb: Workbook = wbRs.value

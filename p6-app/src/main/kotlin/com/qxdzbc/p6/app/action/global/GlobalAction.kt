@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.action.global
 
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWbAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
@@ -20,6 +21,6 @@ interface GlobalAction:
     NewWorksheetAction, DeleteWorksheetAction,
     RenameWorksheetAction, SetActiveWorksheetAction,
     CreateNewWorkbookAction, SetActiveWorkbookAction,
-    SaveWorkbookAction,LoadWorkbookAction
+    SaveWorkbookAction,LoadWorkbookAction, CloseWbAction
 {
 }

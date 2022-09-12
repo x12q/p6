@@ -16,6 +16,8 @@ import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.WorkbookView
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.common.path.PPaths
+import com.qxdzbc.p6.app.build.BuildConfig
+import com.qxdzbc.p6.app.build.BuildVariant
 import com.qxdzbc.p6.ui.window.file_dialog.FileDialog
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBar
 import com.qxdzbc.p6.ui.window.kernel_dialog.ConnectToKernelDialog
@@ -30,13 +32,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-fun makeWindowTitle(workbookKey: WorkbookKey?): String {
-    if (workbookKey != null) {
-        return "P6 - ${workbookKey.name}"
-    } else {
-        return "P6"
-    }
-}
 
 @Composable
 fun WindowView(
@@ -54,7 +49,7 @@ fun WindowView(
         onCloseRequest = {
             windowAction.onCloseWindowRequest(state.id)
         },
-        title = makeWindowTitle(activeWbStateMs?.value?.wb?.key),
+        title = state.windowTitle,
         onPreviewKeyEvent = {
             false
         },

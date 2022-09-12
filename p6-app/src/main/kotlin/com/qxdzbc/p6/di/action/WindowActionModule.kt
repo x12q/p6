@@ -3,6 +3,8 @@ package com.qxdzbc.p6.di.action
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.window.WindowActionImp
+import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
+import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbActionImp
 import com.qxdzbc.p6.ui.window.menu.action.CodeMenuAction
 import com.qxdzbc.p6.ui.window.menu.action.CodeMenuActionImp
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuAction
@@ -15,6 +17,10 @@ import dagger.Binds
 
 @dagger.Module
 interface WindowActionModule {
+    @Binds
+    @P6Singleton
+    fun PickDefaultActiveWbAction(i:PickDefaultActiveWbActionImp): PickDefaultActiveWbAction
+
     @Binds
     @P6Singleton
     fun MoveToWbAction(i: MoveToWbActionImp):MoveToWbAction

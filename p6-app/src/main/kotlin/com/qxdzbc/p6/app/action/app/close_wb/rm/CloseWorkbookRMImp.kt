@@ -16,7 +16,7 @@ class CloseWorkbookRMImp @Inject constructor(
     @StateContainerMs val stateContMs:Ms<StateContainer>
 ) : CloseWorkbookRM {
     private var stateCont by stateContMs
-    private var globalWbStateCont by stateCont.globalWbStateContMs
+    private var globalWbStateCont by stateCont.wbStateContMs
     override fun closeWb(request: CloseWorkbookRequest): CloseWorkbookResponse {
         val windowStateMs: Ms<WindowState>? = if (request.windowId != null) {
             stateCont.getWindowStateMsById(request.windowId)
@@ -29,7 +29,6 @@ class CloseWorkbookRMImp @Inject constructor(
             when (getWbRs) {
                 is Ok -> {
                     return CloseWorkbookResponse(
-                        isError = false,
                         errorReport = null,
                         wbKey = request.wbKey,
                         windowId = request.windowId
@@ -37,7 +36,6 @@ class CloseWorkbookRMImp @Inject constructor(
                 }
                 is Err -> {
                     return CloseWorkbookResponse(
-                        isError = true,
                         errorReport = getWbRs.error,
                         wbKey = request.wbKey,
                         windowId = request.windowId
@@ -46,7 +44,6 @@ class CloseWorkbookRMImp @Inject constructor(
             }
         } else {
             return CloseWorkbookResponse(
-                isError = true,
                 errorReport = AppStateErrors.InvalidWindowState.report1(request.wbKey),
                 wbKey = request.wbKey,
                 windowId = request.windowId

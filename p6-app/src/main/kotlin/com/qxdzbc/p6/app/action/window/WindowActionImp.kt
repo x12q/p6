@@ -3,8 +3,6 @@ package com.qxdzbc.p6.app.action.window
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ApplicationScope
-import com.qxdzbc.common.path.PPath
-import com.qxdzbc.p6.app.action.app.AppApplier
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest
@@ -35,8 +33,6 @@ import javax.inject.Inject
 class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
     @AppStateMs private val appStateMs: Ms<AppState>,
-    private val appApplier: AppApplier,
-    private val appRM: AppRM,
     private val kernelAction: KernelAction,
     private val closeWbAction: CloseWbAction,
     @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>,
