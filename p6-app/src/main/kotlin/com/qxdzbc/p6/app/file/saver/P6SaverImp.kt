@@ -13,6 +13,9 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.*
 import javax.inject.Inject
 
 class P6SaverImp @Inject constructor() : P6Saver {
@@ -20,7 +23,7 @@ class P6SaverImp @Inject constructor() : P6Saver {
         try {
             val savableWb = wb.makeSavableCopy()
             val proto: WorkbookProto = savableWb.toProto()
-            val date = 1.0F // TODO add date
+            val date = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
             val fileContent = P6FileContentProto.newBuilder()
                 .setMeta(
                     P6FileMetaInfoProto.newBuilder()

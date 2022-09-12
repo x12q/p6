@@ -16,6 +16,8 @@ import com.google.gson.Gson
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import java.nio.file.Files
+import java.nio.file.Path
 
 @Module
 interface UtilModule {
@@ -51,6 +53,13 @@ interface UtilModule {
         @P6Singleton
         fun BinaryCopier(): BinaryCopier{
             return BinaryCopierImp()
+        }
+
+        @Provides
+        @P6Singleton
+        @UtilQualifier.ReadFileFunction
+        fun readFileFunction():(path: Path)->ByteArray{
+            return Files::readAllBytes
         }
     }
 }

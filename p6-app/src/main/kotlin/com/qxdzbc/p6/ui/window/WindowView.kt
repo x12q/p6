@@ -108,7 +108,7 @@ fun WindowView(
             FileDialog("Open workbook", true,
                 onResult = { path ->
                     launchOnMain {
-                        windowAction.loadWorkbook(path?.let { PPaths.PPath(it) }, state.id)
+                        windowAction.loadWorkbook(path, state.id)
                         windowAction.closeLoadFileDialog(state.id)
                     }
                 })

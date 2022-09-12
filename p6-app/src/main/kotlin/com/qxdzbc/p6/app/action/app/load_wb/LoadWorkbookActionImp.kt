@@ -8,10 +8,8 @@ import com.qxdzbc.common.path.PPath
 import com.qxdzbc.common.path.PPaths
 import com.qxdzbc.p6.app.action.app.load_wb.applier.LoadWorkbookApplier
 import com.qxdzbc.p6.app.action.app.load_wb.rm.LoadWorkbookRM
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.ui.app.ErrorRouter
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
 import java.nio.file.Path
@@ -26,11 +24,7 @@ class LoadWorkbookActionImp @Inject constructor(
 ) : LoadWorkbookAction {
     private var sc by stateContMs
     override fun loadWorkbook(request: LoadWorkbookRequest): LoadWorkbookResponse {
-        return loadWorkbook__(request)
-    }
-
-    fun loadWorkbook__(request: LoadWorkbookRequest):LoadWorkbookResponse {
-        val path: PPath = PPaths.PPath(Path.of(request.path))
+        val path: PPath = request.path
         val windowId: String? = request.windowId
         val windowStateMs = sc.getWindowStateMsDefaultRs(windowId)
         if (path.exists() && path.isRegularFile()) {

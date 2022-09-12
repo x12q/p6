@@ -41,52 +41,7 @@ class WindowActionImpTest {
 //        return action
 //    }
 //
-//    @Test
-//    fun `loadWorkbook good path`() {
-//        val p = Path.of("file.qwe")
-//        val z = mock<PPath>() { z ->
-//            whenever(z.toString()).thenReturn(p.toString())
-//        }
-//        val path = mock<PPath> {
-//            whenever(it.isRegularFile()) doReturn true
-//            whenever(it.exists()) doReturn true
-//            whenever(it.isReadable()) doReturn true
-//            whenever(it.toAbsolutePath()) doReturn z
-//        }
-//
-//        whenever(appRM.loadWb(any())) doReturn mock()
-//
-//        assertTrue(windowState.oddityContainer.isEmpty())
-//        action.loadWorkbook(path)
-//        assertTrue(windowState.oddityContainer.isEmpty())
-//        verify(this.appRM, times(1)).loadWb(any())
-//        verify(this.appHandlingLogic, times(1)).applyLoadWorkbook(any())
-//    }
-//
-//    @Test
-//    fun `loadWorkbook non-file path`() {
-//        val path = mock<PPath> {
-//            whenever(it.isRegularFile()) doReturn false
-//            whenever(it.exists()) doReturn true
-//        }
-//        assertTrue(windowState.oddityContainer.isEmpty())
-//        action.loadWorkbook(path)
-//        assertEquals(1, windowState.oddityContainer.oddList.size)
-//        assertTrue(windowState.oddityContainer.oddList[0].errorReport.isType(P6FileLoaderErrors.notAFileHeader))
-//    }
-//
-//    @Test
-//    fun `loadWorkbook not readable path`() {
-//        val path = mock<PPath> {
-//            whenever(it.isRegularFile()) doReturn true
-//            whenever(it.exists()) doReturn true
-//            whenever(it.isReadable()) doReturn false
-//        }
-//        assertTrue(windowState.oddityContainer.isEmpty())
-//        action.loadWorkbook(path)
-//        assertEquals(1, windowState.oddityContainer.oddList.size)
-//        assertTrue(windowState.oddityContainer.oddList[0].errorReport.isType(P6FileLoaderErrors.notReadableHeader))
-//    }
+
 //
 //    @Test
 //    fun openLoadFileDialog() {

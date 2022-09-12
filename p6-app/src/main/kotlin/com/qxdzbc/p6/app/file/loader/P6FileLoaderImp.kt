@@ -14,18 +14,21 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.di.UtilQualifier
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.inject.Inject
 import kotlin.io.path.name
 
 class P6FileLoaderImp @Inject constructor(
-    @AppStateMs appStateMs:Ms<AppState>,
+    @AppStateMs val appStateMs:Ms<AppState>,
+    @UtilQualifier.ReadFileFunction
+    val readFileToByteArray:Function1<@JvmSuppressWildcards Path,@JvmSuppressWildcards ByteArray> = Files::readAllBytes
 ) : P6FileLoader {
     private var appState by appStateMs
     override fun load(path: Path): Result<Workbook, ErrorReport> {
         try {
-            val bytes = Files.readAllBytes(path)
+            val bytes = readFileToByteArray(path)
             val p6File = P6FileProtos.P6FileProto.newBuilder().mergeFrom(bytes).build()
             val fileContent = P6FileProtos.P6FileContentProto.newBuilder().mergeFrom(p6File.content).build()
             val newWbKey = WorkbookKey(path.name,path)

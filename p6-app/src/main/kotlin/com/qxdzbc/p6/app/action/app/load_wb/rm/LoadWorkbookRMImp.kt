@@ -17,7 +17,7 @@ class LoadWorkbookRMImp @Inject constructor(
     private val loader: P6FileLoader,
 ) : LoadWorkbookRM {
     override fun loadWb(request: LoadWorkbookRequest): LoadWorkbookResponse {
-        val loadRs = loader.load(Path(request.path))
+        val loadRs = loader.load(request.path.path)
         when (loadRs) {
             is Ok -> {
                 return LoadWorkbookResponse(

@@ -61,8 +61,10 @@ import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.google.gson.Gson
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
+import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
+import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
@@ -236,6 +238,8 @@ interface P6Component {
     fun workbookFactory(): WorkbookFactory
     fun createNewWbAction(): CreateNewWorkbookAction
     fun setActiveWorkbookAction(): SetActiveWorkbookAction
+    fun fileLoader(): P6FileLoader
+    fun loadWorkbookAction(): LoadWorkbookAction
 
     @Component.Builder
     interface Builder {

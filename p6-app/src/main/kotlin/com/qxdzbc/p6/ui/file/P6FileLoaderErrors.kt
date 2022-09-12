@@ -6,9 +6,9 @@ import com.qxdzbc.common.error.ErrorReport
 
 object P6FileLoaderErrors {
     val FILE_ERR ="UI_P6FileLoaderErrors_"
-    val notAFileHeader = ErrorHeader("${FILE_ERR}0","path does not point to a file")
+    val notAFileHeader = ErrorHeader("${FILE_ERR}0","path does not point to a valid file")
     fun notAFile(path: PPath)= ErrorReport(
-        header = notAFileHeader.copy(errorDescription = "path does not point to a file: ${path}"),
+        header = notAFileHeader.copy(errorDescription = "path \"${path}\" does not point to a valid file"),
         data=path,
     )
     val notReadableHeader=ErrorHeader("${FILE_ERR}1","file is not readable")

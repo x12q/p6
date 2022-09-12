@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.file.saver
+package com.qxdzbc.p6.app.file
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellImp
@@ -10,13 +10,15 @@ import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.p6.app.file.loader.P6FileLoaderImp
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.app.file.saver.P6SaverImp
 import org.mockito.kotlin.mock
 import test.TestSample
+import java.nio.file.Files
 
 import java.nio.file.Paths
 import kotlin.test.*
 
-class P6SaverImpTest {
+class P6Loader_SaverTest {
     lateinit var testSample:TestSample
     @BeforeTest
     fun b(){
@@ -54,5 +56,7 @@ class P6SaverImpTest {
         assertEquals(expectedWb.key,loadedWb.key)
         assertEquals(expectedWb.worksheets[0],(loadedWb.worksheets[0]))
         assertEquals(expectedWb,loadedWb)
+
+        Files.delete(path)
     }
 }

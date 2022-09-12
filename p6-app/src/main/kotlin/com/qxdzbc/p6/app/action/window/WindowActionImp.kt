@@ -20,6 +20,7 @@ import com.qxdzbc.p6.ui.app.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.path.PPaths
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
@@ -140,9 +141,9 @@ class WindowActionImp @Inject constructor(
         }
     }
 
-    override fun loadWorkbook(path: String?, windowId: String) {
+    override fun loadWorkbook(path: Path?, windowId: String) {
         if(path!=null){
-            val request = LoadWorkbookRequest(path,windowId)
+            val request = LoadWorkbookRequest(PPaths.get(path),windowId)
             loadWbAction.loadWorkbook(request)
         }
     }

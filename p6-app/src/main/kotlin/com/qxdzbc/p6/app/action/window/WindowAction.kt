@@ -25,7 +25,7 @@ interface WindowAction : KernelAction,SaveWorkbookAction{
     fun openSaveFileDialog(windowId: String)
     fun closeSaveFileDialog(windowId: String)
     fun openLoadFileDialog(windowId: String)
-    fun loadWorkbook(path: String?, windowId: String)
+    fun loadWorkbook(path: Path?, windowId: String)
     fun closeLoadFileDialog(windowId: String)
     fun createNewWorkbook(windowId: String)
     fun closeWorkbook(workbookKey: WorkbookKey,windowId: String)

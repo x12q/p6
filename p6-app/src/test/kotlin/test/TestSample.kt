@@ -89,6 +89,9 @@ class TestSample {
         }
     }
 
+    val window1Id:String get() = appState.windowStateMsList[0].value.id
+    val window2Id:String get() = appState.windowStateMsList[1].value.id
+
     val kernelCoroutineScope: CoroutineScope = GlobalScope
     val msgApiComponent: MessageApiComponent = DaggerMessageApiComponent.builder()
         .kernelConfig(KernelConfigImp.fromFile(Paths.get("jupyterConfig.json")).unwrap())
