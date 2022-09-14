@@ -21,15 +21,16 @@ class CloseWorkbookInternalApplierImpTest {
     lateinit var errorRouter:ErrorRouter
     val appState get()=appStateMs.value
     lateinit var res: CloseWorkbookResponse
-    lateinit var testSample: TestSample
+    lateinit var ts: TestSample
     @BeforeTest
     fun b(){
-        testSample = TestSample()
-        appStateMs = testSample.sampleAppStateMs()
+        ts = TestSample()
+        appStateMs = ts.sampleAppStateMs()
         errorRouter = ErrorRouterImp(appStateMs)
         applier = CloseWorkbookInternalApplierImp(
             appStateMs = appStateMs,
-            stateContMs = testSample.p6Comp.stateContMs()
+            stateContMs = ts.p6Comp.stateContMs(),
+            pickDefaultActiveWb = ts.p6Comp.pickDefaultActiveWbAction()
         )
         val windowId = appStateMs.value.windowStateMsList[0].value.id
         res = CloseWorkbookResponse(

@@ -84,8 +84,8 @@ class SubAppStateContainerImp @Inject constructor(
         val newWindowState: Ms<WindowState> = ms(
             windowStateFactory.createDefault(id = windowId)
         )
-        val newAppState = this.addWindowState(newWindowState)
-        return Pair(newAppState, newWindowState)
+        val newCont = this.addWindowState(newWindowState)
+        return Pair(newCont, newWindowState)
     }
 
     override fun removeWindowState(windowState: Ms<WindowState>): SubAppStateContainer {

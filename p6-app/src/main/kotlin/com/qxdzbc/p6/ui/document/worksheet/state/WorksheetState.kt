@@ -25,8 +25,8 @@ interface WorksheetState :WbWsSt {
     val idMs: St<WorksheetId>
     val id:WorksheetId
 
-    val topLeftCell:CellAddress
-    fun setTopLeftCell(c:CellAddress): WorksheetState
+//    val topLeftCell:CellAddress
+//    fun setTopLeftCell(c:CellAddress): WorksheetState
 
     val colResizeBarStateMs: Ms<ResizeBarState>
     val colResizeBarState: ResizeBarState get() = colResizeBarStateMs.value

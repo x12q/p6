@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
@@ -35,28 +37,31 @@ class MakeCellEditorDisplayTextImpTest {
 
     @Test
     fun `makeDisplayText when range selector is activating on a single cell, same cursor`() {
-        whenever(editorState.targetCursorId) doReturn rangeSelectorCursorMs.value.id
+        var rs by rangeSelectorCursorMs
+        whenever(editorState.targetCursorId) doReturn rs.id
         val outTextField=action.makeRangeSelectorText(editorState)
-        val expectText = currentText+ rangeSelectorCursorMs.value.mainCell.toRawLabel()
+        val expectText = currentText+ rs.mainCell.toRawLabel()
         assertEquals(expectText,outTextField.text)
         println(outTextField.text)
     }
 
     @Test
     fun `makeDisplayText when range selector is activating on a single cell, different cursor`() {
+        var rs by rangeSelectorCursorMs
         whenever(editorState.targetCursorId) doReturn ts.appState.getCursorStateMs(ts.wbKey1, ts.wsn1)!!.value.id
         val outTextField=action.makeRangeSelectorText(editorState)
-        val expectText = currentText+"${rangeSelectorCursorMs.value.id.wsName}!${rangeSelectorCursorMs.value.mainCell.toRawLabel()}"
+        val expectText = currentText+"${rs.mainCell.toRawLabel()}@${rs.id.wsName}@${rs.id.wbKey.name}"
         assertEquals(expectText,outTextField.text)
         println(outTextField.text)
     }
 
     @Test
     fun `makeDisplayText when range selector is activating on a range`() {
+        var rs by rangeSelectorCursorMs
         val range = RangeAddress("C8:E32")
-        rangeSelectorCursorMs.value = rangeSelectorCursorMs.value.setMainRange(range)
+        rs = rs.setMainRange(range)
         val outTextField=action.makeRangeSelectorText(editorState)
-        val expectText = currentText+"${rangeSelectorCursorMs.value.id.wsName}!${rangeSelectorCursorMs.value.mainRange!!.rawLabel}"
+        val expectText = currentText+"${rs.mainRange!!.rawLabel}@${rs.id.wsName}@${rs.id.wbKey.name}"
         assertEquals(expectText,outTextField.text)
         println(outTextField.text)
     }

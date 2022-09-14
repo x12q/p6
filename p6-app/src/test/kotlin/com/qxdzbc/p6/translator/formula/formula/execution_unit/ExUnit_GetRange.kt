@@ -18,13 +18,11 @@ internal class ExUnit_GetRange {
     }
     @Test
     fun toFormula() {
-        val u = ExUnit.Func(
+        val u = ExUnit.GetRange(
             funcName = "qwe",
-            args = listOf(
-                WorkbookKey("Wb1",null).toSt().exUnit(),
-                ExUnit.WsNameStUnit("Sheet1".toSt()),
-                ExUnit.RangeAddressUnit(RangeAddress("B2:K9"))
-            ),
+                wbKeyUnit=WorkbookKey("Wb1",null).toSt().exUnit(),
+                wsNameUnit=ExUnit.WsNameStUnit("Sheet1".toSt()),
+                rangeAddressUnit =ExUnit.RangeAddressUnit(RangeAddress("B2:K9")),
             functionMapSt = mock()
         )
         assertEquals("B2:K9@'Sheet1'@'Wb1'",u.toFormula())
@@ -35,13 +33,11 @@ internal class ExUnit_GetRange {
     fun toFormulaSelective() {
         val wbk1 = WorkbookKey("Wb1",null)
         val wbk2 = WorkbookKey("Wb2",null)
-        val u = ExUnit.Func(
+        val u = ExUnit.GetRange(
             funcName = "qwe",
-            args = listOf(
-                wbk1.toSt().exUnit(),
-                ExUnit.WsNameStUnit("Sheet1".toSt()),
-                ExUnit.RangeAddressUnit(RangeAddress("B2:K9"))
-            ),
+            wbKeyUnit=wbk1.toSt().exUnit(),
+            wsNameUnit=ExUnit.WsNameStUnit("Sheet1".toSt()),
+            rangeAddressUnit =ExUnit.RangeAddressUnit(RangeAddress("B2:K9")),
             functionMapSt = mock()
         )
         assertEquals("B2:K9@'Sheet1'",u.toFormulaSelective(wbk1,"Sheet2"))

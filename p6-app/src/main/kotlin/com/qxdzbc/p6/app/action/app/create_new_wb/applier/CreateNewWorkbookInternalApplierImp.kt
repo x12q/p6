@@ -30,7 +30,7 @@ class CreateNewWorkbookInternalApplierImp @Inject constructor(
             }
             var useNewWindow = false
             val wdMs=stateCont.getWindowStateMsDefaultRs(windowId).component1() ?: run {
-                // x: create new window state if no window is available
+                // x: only create new window state if no window is available
                 val newWid = windowId ?: UUID.randomUUID().toString()
                 val (newStateCont, newWindowState) = stateCont.createNewWindowStateMs(newWid)
                 stateCont = newStateCont

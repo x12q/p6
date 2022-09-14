@@ -43,8 +43,8 @@ data class WorksheetStateImp @AssistedInject constructor(
     override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
     @DefaultLayoutCoorMs
     override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
-    @DefaultTopLeftCellAddress
-    override val topLeftCell: CellAddress = CellAddress(1, 1),
+//    @DefaultTopLeftCellAddress
+//    override val topLeftCell: CellAddress = CellAddress(1, 1),
     @DefaultCellStateContainer
     val cellStateContMs: Ms<CellStateContainer>,
     @DefaultSelectRectStateMs
@@ -163,13 +163,13 @@ data class WorksheetStateImp @AssistedInject constructor(
         return cellMs
     }
 
-    override fun setTopLeftCell(c: CellAddress): WorksheetState {
-        if (c == this.topLeftCell) {
-            return this
-        } else {
-            return this.copy(topLeftCell = c)
-        }
-    }
+//    override fun setTopLeftCell(c: CellAddress): WorksheetState {
+//        if (c == this.topLeftCell) {
+//            return this
+//        } else {
+//            return this.copy(topLeftCell = c)
+//        }
+//    }
 
     override val wbKey: WorkbookKey
         get() = this.id.wbKey

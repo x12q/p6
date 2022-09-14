@@ -45,7 +45,9 @@ class WorksheetAction2Imp @Inject constructor(
                 val colRulerState by colRulerStateMs
                 val rowRulerState by rowRulerStateMs
 
-                wsStateMs.value = wsState.setTopLeftCell(newSlider.topLeftCell).setSlider(newSlider)
+                wsStateMs.value = wsState
+//                    .setTopLeftCell(newSlider.topLeftCell)
+                    .setSlider(newSlider)
                 // x: clear all cached layout coors whenever slider moves to prevent memory from overflowing.
                 this.removeAllCellLayoutCoor(wsState)
 
@@ -72,7 +74,9 @@ class WorksheetAction2Imp @Inject constructor(
                 newSlider = newSlider.shiftDown(y)
             }
             if (newSlider != sliderState) {
-                wsStateMs.value = wsState.setTopLeftCell(newSlider.topLeftCell).setSlider(newSlider)
+                wsStateMs.value = wsState
+//                    .setTopLeftCell(newSlider.topLeftCell)
+                    .setSlider(newSlider)
                 wsState.cellLayoutCoorMapMs.value =
                     wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddress(cellAddress) }
             }
@@ -174,7 +178,7 @@ class WorksheetAction2Imp @Inject constructor(
             val availableSize = wsState.cellGridLayoutCoorWrapper?.size
             val newSlider = if (availableSize != null) {
                 determineSliderSize(
-                    currentSlider, availableSize, wsState.topLeftCell,
+                    currentSlider, availableSize, wsState.slider.topLeftCell,
                     wsState::getColumnWidthOrDefault,
                     wsState::getRowHeightOrDefault,
                 )

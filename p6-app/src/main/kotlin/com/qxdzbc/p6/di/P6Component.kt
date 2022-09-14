@@ -63,6 +63,7 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
+import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import dagger.BindsInstance
@@ -236,6 +237,7 @@ interface P6Component {
     fun setActiveWorkbookAction(): SetActiveWorkbookAction
     fun fileLoader(): P6FileLoader
     fun loadWorkbookAction(): LoadWorkbookAction
+    fun pickDefaultActiveWbAction(): PickDefaultActiveWbAction
 
     @Component.Builder
     interface Builder {

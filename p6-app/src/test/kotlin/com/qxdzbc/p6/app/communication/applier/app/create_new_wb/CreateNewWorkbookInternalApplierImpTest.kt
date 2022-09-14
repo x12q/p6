@@ -2,40 +2,41 @@ package com.qxdzbc.p6.app.communication.applier.app.create_new_wb
 
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookInternalApplierImp
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
-import com.qxdzbc.p6.app.document.workbook.WorkbookImp
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.p6.ui.app.ErrorRouter
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
+import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookInternalApplierImp
+import com.qxdzbc.p6.app.document.workbook.WorkbookImp
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import org.mockito.kotlin.mock
 import test.TestSample
-
 import kotlin.test.*
 
 class CreateNewWorkbookInternalApplierImpTest {
 
     lateinit var applier: CreateNewWorkbookInternalApplierImp
-    lateinit var appStateMs:Ms<AppState>
+    lateinit var appStateMs: Ms<AppState>
     lateinit var errRouter: ErrorRouter
-    lateinit var windowStateMs:Ms<WindowState>
+    lateinit var windowStateMs: Ms<WindowState>
     val newWB = WorkbookImp(WorkbookKey("newWb").toMs())
     lateinit var okRes: CreateNewWorkbookResponse
     lateinit var errRes: CreateNewWorkbookResponse
-    lateinit var testSample:TestSample
+    lateinit var ts: TestSample
+
     @BeforeTest
-    fun b(){
+    fun b() {
         errRouter = mock()
-        testSample = TestSample()
-        appStateMs = testSample.sampleAppStateMs()
+        ts = TestSample()
+        appStateMs = ts.sampleAppStateMs()
         applier = CreateNewWorkbookInternalApplierImp(
-            stateContMs = testSample.p6Comp.stateContMs()
+            stateContMs = ts.p6Comp.stateContMs(),
+            pickDefaultActiveWb = ts.p6Comp.pickDefaultActiveWbAction()
         )
-        windowStateMs =appStateMs.value.windowStateMsList[0]
+        windowStateMs = appStateMs.value.windowStateMsList[0]
         okRes = CreateNewWorkbookResponse(
             errorReport = null,
             wb = newWB,
@@ -47,13 +48,14 @@ class CreateNewWorkbookInternalApplierImpTest {
             windowId = windowStateMs.value.id
         )
     }
+
     @Test
     fun `apply ok on window`() {
         val wds by windowStateMs
         assertNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
-        applier.apply(okRes.wb,okRes.windowId)
+        applier.apply(okRes.wb, okRes.windowId)
         assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }
@@ -63,14 +65,22 @@ class CreateNewWorkbookInternalApplierImpTest {
         val res = okRes.copy(windowId = null)
         val wdsCount = appStateMs.value.windowStateMsList.size
         testApplyOnApp(res)
-        assertEquals(wdsCount+1,appStateMs.value.windowStateMsList.size)
+        assertEquals(wdsCount, appStateMs.value.windowStateMsList.size)
     }
 
-    fun testApplyOnApp(res: CreateNewWorkbookResponse){
+    @Test
+    fun `apply ok with invalid qqq window id`() {
+        val res = okRes.copy(windowId = "new windowId")
+        val wdsCount = appStateMs.value.windowStateMsList.size
+        testApplyOnApp(res)
+        assertEquals(wdsCount+1, appStateMs.value.windowStateMsList.size)
+    }
+
+    fun testApplyOnApp(res: CreateNewWorkbookResponse) {
         assertNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
-        applier.apply(res.wb,res.windowId)
+        applier.apply(res.wb, res.windowId)
         assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }
@@ -80,7 +90,7 @@ class CreateNewWorkbookInternalApplierImpTest {
         val res = okRes.copy(windowId = "invalid window id")
         val wdsCount = appStateMs.value.windowStateMsList.size
         testApplyOnApp(res)
-        assertEquals(wdsCount+1,appStateMs.value.windowStateMsList.size)
+        assertEquals(wdsCount + 1, appStateMs.value.windowStateMsList.size)
     }
 
 //    @Test
