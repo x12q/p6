@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWorkbookKeyAction
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetAction
+import com.qxdzbc.p6.app.action.workbook.add_ws.CreateNewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetAction
@@ -14,7 +14,7 @@ import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetAction
 import javax.inject.Inject
 
 class GlobalActionImp @Inject constructor(
-    private val addWsAction: AddWorksheetAction,
+    private val addWsAction: CreateNewWorksheetAction,
     private val setWbKeyAction:SetWorkbookKeyAction,
     private val newWsAct:NewWorksheetAction,
     private val delWsAct: DeleteWorksheetAction,
@@ -32,7 +32,7 @@ class GlobalActionImp @Inject constructor(
     SaveWorkbookAction by saveWbAct,
     SetActiveWorkbookAction by setActiveWbAct,
     CreateNewWorkbookAction by createNewWorkbookAction,
-    AddWorksheetAction by addWsAction,
+    CreateNewWorksheetAction by addWsAction,
     SetWorkbookKeyAction by setWbKeyAction,
     NewWorksheetAction by newWsAct,
     DeleteWorksheetAction by delWsAct,

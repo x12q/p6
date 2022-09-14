@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.di.action
 
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetAction
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetActionImp
+import com.qxdzbc.p6.app.action.workbook.add_ws.CreateNewWorksheetAction
+import com.qxdzbc.p6.app.action.workbook.add_ws.CreateNewWorksheetActionImp
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetActionImp
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
@@ -29,7 +29,7 @@ interface WorkbookActionModule {
 
     @Binds
     @P6Singleton
-    fun AddWorksheetAction(i: AddWorksheetActionImp): AddWorksheetAction
+    fun AddWorksheetAction(i: CreateNewWorksheetActionImp): CreateNewWorksheetAction
 
     @Binds
     @P6Singleton

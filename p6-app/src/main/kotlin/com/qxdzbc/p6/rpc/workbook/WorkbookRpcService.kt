@@ -168,7 +168,7 @@ class WorkbookRpcService @Inject constructor(
             val wbkMsRs = documentCont.getWbRs(wbKey = wbk)
             val rs = wbkMsRs.flatMap { wb ->
                 val req = request.toModel(wb.keyMs, translator)
-                val rs: Rs<AddWorksheetResponse, ErrorReport> = globalAction.addWorksheetRs(req)
+                val rs: Rs<AddWorksheetResponse, ErrorReport> = globalAction.createNewWorksheetRs(req)
                 rs
             }
             val rt = SingleSignalResponse.fromRs(rs).toProto()

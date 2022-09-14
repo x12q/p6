@@ -12,12 +12,12 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import javax.inject.Inject
 
-class AddWorksheetRMImp @Inject constructor(
+class CreateNewWorksheetRMImp @Inject constructor(
     @AppStateMs
     private val appStateMs: Ms<AppState>
-) : AddWorksheetRM {
+) : CreateNewWorksheetRM {
     private var appState by appStateMs
-    override fun makeAddWsRequest(req: AddWorksheetRequest): RseNav<AddWorksheetResponse> {
+    override fun makeRequest(req: AddWorksheetRequest): RseNav<AddWorksheetResponse> {
         val wbk = req.wbKey
         val rs = appState.getWbRs(wbk).flatMap { wb ->
             wb.addWsRs(req.worksheet).flatMap {

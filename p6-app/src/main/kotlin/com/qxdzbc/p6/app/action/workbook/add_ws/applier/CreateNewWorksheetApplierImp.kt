@@ -13,15 +13,15 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import javax.inject.Inject
 
-class AddWorksheetApplierImp @Inject constructor(
+class CreateNewWorksheetApplierImp @Inject constructor(
     @AppStateMs
     private val appStateMs: Ms<AppState>,
     @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>
-) : AddWorksheetApplier {
+) : CreateNewWorksheetApplier {
     private var stateCont by stateContMs
     private var appState by appStateMs
 
-    override fun applyAddWs(res: RseNav<AddWorksheetResponse>): RseNav<AddWorksheetResponse> {
+    override fun applyRs(res: RseNav<AddWorksheetResponse>): RseNav<AddWorksheetResponse> {
         val rt = res.andThen { addRs ->
             appState.wbCont = appState.wbCont.overwriteWB(addRs.newWb)
             stateCont = stateCont.addWbStateFor(addRs.newWb)
