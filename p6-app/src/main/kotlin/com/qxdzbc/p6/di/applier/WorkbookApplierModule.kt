@@ -5,8 +5,6 @@ import com.qxdzbc.p6.app.action.workbook.add_ws.applier.CreateNewWorksheetApplie
 import com.qxdzbc.p6.app.action.workbook.add_ws.applier.CreateNewWorksheetApplierImp
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetApplierImp
-import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetInternalApplier
-import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetInternalApplierImp
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetApplierImp
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetInternalApplier
@@ -19,13 +17,6 @@ interface WorkbookApplierModule {
     @Binds
     @P6Singleton
     fun AddWsApplier(i: CreateNewWorksheetApplierImp): CreateNewWorksheetApplier
-
-//    @Binds
-//    @P6Singleton
-//    fun WorkbookEventApplier(i: WorkbookEventApplierImp): WorkbookEventApplier
-    @Binds
-    @P6Singleton
-    fun DeleteWorksheetInternalApplier(i: DeleteWorksheetInternalApplierImp): DeleteWorksheetInternalApplier
 
     @Binds
     @P6Singleton
