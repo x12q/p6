@@ -22,10 +22,12 @@ interface WorkbookStateContainer : Map<St<WorkbookKey>,Ms<WorkbookState>>{
     fun getWbStateRs(wbKeySt:St<WorkbookKey>): Rse<WorkbookState>
     fun getWbState(wbKeySt:St<WorkbookKey>):WorkbookState?
 
-    fun addWbState(wbStateMs:Ms<WorkbookState>): WorkbookStateContainer
+    fun addOrOverwriteWbState(wbStateMs:Ms<WorkbookState>): WorkbookStateContainer
     fun removeWbState(wbKey: WorkbookKey): WorkbookStateContainer
     fun updateWbState(newWbState:WorkbookState):WorkbookStateContainer
     fun removeAll():WorkbookStateContainer
+
+    fun replaceKeyRs(oldWbKey:WorkbookKey, newWbKey:WorkbookKey):Rse<WorkbookStateContainer>
     fun replaceKey(oldWbKey:WorkbookKey, newWbKey:WorkbookKey):WorkbookStateContainer
 
     fun containWbKey(wbKey: WorkbookKey):Boolean

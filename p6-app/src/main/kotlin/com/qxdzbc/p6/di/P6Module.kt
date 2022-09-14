@@ -24,8 +24,8 @@ import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.communication.event.P6EventTableImp
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
-import com.qxdzbc.p6.ui.app.ErrorRouter
-import com.qxdzbc.p6.ui.app.ErrorRouterImp
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
 import com.qxdzbc.p6.ui.common.R
@@ -40,7 +40,6 @@ import dagger.Provides
 import org.zeromq.SocketType
 import org.zeromq.ZContext
 import org.zeromq.ZMQ
-import javax.inject.Qualifier
 import com.qxdzbc.p6.app.action.request_maker.QueueRequestMaker as QueueRequestMaker1
 
 

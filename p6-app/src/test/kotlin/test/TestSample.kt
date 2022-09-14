@@ -210,10 +210,10 @@ class TestSample {
 
     private fun makeSampleWbStateContMs(): WorkbookStateContainer {
         return appState.wbStateCont.removeAll()
-            .addWbState(makeSampleWbState1())
-            .addWbState(makeSampleWBState(wbKey2Ms))
-            .addWbState(makeSampleWBState(wbKey3Ms))
-            .addWbState(makeSampleWBState(wbKey4Ms))
+            .addOrOverwriteWbState(makeSampleWbState1())
+            .addOrOverwriteWbState(makeSampleWBState(wbKey2Ms))
+            .addOrOverwriteWbState(makeSampleWBState(wbKey3Ms))
+            .addOrOverwriteWbState(makeSampleWBState(wbKey4Ms))
     }
 
     private fun makeSampleWindowStateMs1(): Ms<WindowState> {

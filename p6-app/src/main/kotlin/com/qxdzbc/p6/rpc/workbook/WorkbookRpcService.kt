@@ -149,7 +149,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val req = SetWbKeyRequest.fromProto(request)
-            val rs: Rs<SetWbKeyResponse, ErrorReport> = globalAction.setWbKeyRs(req)
+            val rs: Rs<Unit, ErrorReport> = globalAction.replaceWbKey(req)
             val rt = SingleSignalResponse.fromRs(rs).toProto()
             responseObserver.onNextAndComplete(rt)
         } else {

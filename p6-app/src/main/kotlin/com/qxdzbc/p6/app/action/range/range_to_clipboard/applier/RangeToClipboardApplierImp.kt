@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.range.range_to_clipboard.applier
 import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardResponse2
 import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.onSuccess
 import javax.inject.Inject

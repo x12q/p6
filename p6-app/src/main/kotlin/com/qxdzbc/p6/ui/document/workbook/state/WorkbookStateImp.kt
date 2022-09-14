@@ -244,7 +244,7 @@ data class WorkbookStateImp @AssistedInject constructor(
         }
     }
 
-    override fun setWorkbookKey(newWbKey: WorkbookKey): WorkbookState {
+    override fun setWbKey(newWbKey: WorkbookKey): WorkbookState {
         this.wb = this.wb.setKey(newWbKey)
         return this.forceRefresh()
     }
@@ -284,7 +284,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     override fun setWindowId(windowId: String?): WorkbookState {
         return this.copy(windowId = windowId)
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun overWriteWb(newWb: Workbook): WorkbookState {
         return this.overWriteWbRs(newWb).getOrThrow()
     }

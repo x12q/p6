@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action
 import com.qxdzbc.p6.app.communication.event.P6Events
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Event
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrapError
 import javax.inject.Inject

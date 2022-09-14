@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.action.app.save_wb.rm.SaveWorkbookRM
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.file.P6FileSaverErrors
 import java.nio.file.Path
@@ -21,7 +21,9 @@ class SaveWorkbookActionImp @Inject constructor(
     val rm: SaveWorkbookRM,
     val applier: SaveWorkbookApplier,
 ) : SaveWorkbookAction {
+
     private val sc by stateContSt
+
     override fun saveWorkbook(wbKey: WorkbookKey, path: Path, windowId: String?): SaveWorkbookResponse {
         val wb: Workbook? = sc.getWb(path)
         val wbAlreadyOpen = wb != null
@@ -39,7 +41,7 @@ class SaveWorkbookActionImp @Inject constructor(
                 wbKey = wbKey,
                 path = path.toAbsolutePath().toString(),
             )
-            val res = rm.saveWb(request)
+            val res = rm.makeRequest(request)
             applier.applyRes(res)
             return res
         }

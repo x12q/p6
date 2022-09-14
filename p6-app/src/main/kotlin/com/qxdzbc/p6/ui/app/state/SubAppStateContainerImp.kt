@@ -62,7 +62,7 @@ class SubAppStateContainerImp @Inject constructor(
             return this
         } else {
             val newState = wbStateFactory.create(ms(wb))
-            wbStateCont = wbStateCont.addWbState(ms(newState))
+            wbStateCont = wbStateCont.addOrOverwriteWbState(ms(newState))
             return this
         }
     }

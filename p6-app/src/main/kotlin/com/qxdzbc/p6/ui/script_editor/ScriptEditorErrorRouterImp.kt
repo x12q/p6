@@ -5,14 +5,14 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.di.state.app_state.CodeEditorStateMs
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.message.sender.exception.SenderErrors
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import javax.inject.Inject
 
 class ScriptEditorErrorRouterImp @Inject constructor(
     @CodeEditorStateMs val codeEditorStateMs: Ms<CodeEditorState>,
-    val errorRouter:ErrorRouter,
+    val errorRouter: ErrorRouter,
 ) : ScriptEditorErrorRouter {
     private var codeEditorState by codeEditorStateMs
     private var oddityContInCodeEditor by codeEditorState.oddityContainerMs

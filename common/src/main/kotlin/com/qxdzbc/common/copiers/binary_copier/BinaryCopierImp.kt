@@ -10,6 +10,8 @@ import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 
 class BinaryCopierImp constructor() : BinaryCopier {
+
+    @kotlin.jvm.Throws(Exception::class)
     override fun copy(data: ByteArray): ByteArray {
         val rs = this.copyRs(data)
         return rs.getOrThrow()

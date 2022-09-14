@@ -10,6 +10,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.github.michaelbull.result.map
 
 abstract class AbsWorkbookStateContainer : WorkbookStateContainer {
+    @kotlin.jvm.Throws(Exception::class)
     override fun createNewWbState(wb: Workbook): WorkbookStateContainer {
         return this.createNewWbStateRs(wb).getOrThrow()
     }

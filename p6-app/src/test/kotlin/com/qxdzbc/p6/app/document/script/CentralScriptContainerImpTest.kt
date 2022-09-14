@@ -99,7 +99,7 @@ class CentralScriptContainerImpTest {
                     )
                 )
             )
-            it.value =it.value.removeAll().addWbState(ms(wss1)).addWbState(ms(wss2))
+            it.value =it.value.removeAll().addOrOverwriteWbState(ms(wss1)).addOrOverwriteWbState(ms(wss2))
         }
         container = CentralScriptContainerImp3(
             appScriptContainerMs = ms(

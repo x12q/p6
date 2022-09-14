@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.app
+package com.qxdzbc.p6.ui.app.error_router
 
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo
@@ -20,7 +20,7 @@ interface ErrorRouter {
     fun publishToScriptWindow(errorReport: ErrorReport?)
 
     /**
-     * attempt to move an error to window
+     * attempt to move an error to window, if no window is available, publish the err to app
      */
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?)
     fun publishToWindow(errorReport: ErrorReport?, workbookKey:WorkbookKey?)

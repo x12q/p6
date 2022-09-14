@@ -21,7 +21,7 @@ class LoadWorkbookActionImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        action = ts.p6Comp.loadWorkbookAction()
+        action = ts.p6Comp.loadWbAction()
     }
 
     @Test

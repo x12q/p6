@@ -162,7 +162,7 @@ data class CentralScriptContainerImp3(
             Ok(this)
         }
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun addOrOverwriteScript(scriptEntry: ScriptEntry): CentralScriptContainer {
         return this.addOrOverwriteScriptRs(scriptEntry).getOrThrow()
     }
@@ -212,7 +212,7 @@ data class CentralScriptContainerImp3(
         }
         return rt
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun addOrOverwriteMultiScripts(scriptEntryList: List<ScriptEntry>): CentralScriptContainer {
         return this.addOrOverwriteMultiScriptsRs(scriptEntryList).getOrThrow()
     }
@@ -247,7 +247,7 @@ data class CentralScriptContainerImp3(
             return this.addWbScriptRs(seKey.wbKey, scriptEntry.toSimpleEntry())
         }
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun addScript(scriptEntry: ScriptEntry): CentralScriptContainer {
         return this.addScriptRs(scriptEntry).getOrThrow()
     }
@@ -294,7 +294,7 @@ data class CentralScriptContainerImp3(
 
         return v.toOk()
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun addMultiScripts(scriptEntries: Collection<ScriptEntry>): CentralScriptContainer {
         return this.addScriptsRs(scriptEntries).getOrThrow()
     }

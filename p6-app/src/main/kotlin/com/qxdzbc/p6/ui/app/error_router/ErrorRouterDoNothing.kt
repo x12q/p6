@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.app
+package com.qxdzbc.p6.ui.app.error_router
 
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo

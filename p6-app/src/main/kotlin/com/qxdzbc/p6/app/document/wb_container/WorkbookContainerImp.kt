@@ -53,15 +53,15 @@ data class WorkbookContainerImp @Inject constructor(
 
     override fun addWbRs(wb: Workbook): Result<WorkbookContainer, ErrorReport> {
         if (this.wbStateCont.containWbKey(wb.key)) {
-            return WorkbookContainerErrors.WorkbookAlreadyExist.report(wb.key).toErr()
+            return WorkbookContainerErrors.WorkbookAlreadyExist.report2("Can't add workbook because workbook at ${wb.key} already exist").toErr()
         } else {
             val wbMs = ms(wb)
             val wbState: WorkbookState = wbStateFactory.createRefresh(wbMs)
-            this.wbStateCont = this.wbStateCont.addWbState(wbState.toMs())
+            this.wbStateCont = this.wbStateCont.addOrOverwriteWbState(wbState.toMs())
             return Ok(this)
         }
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun overwriteWB(wb: Workbook): WorkbookContainer {
         return this.overwriteWBRs(wb).getOrThrow()
     }
@@ -93,11 +93,11 @@ data class WorkbookContainerImp @Inject constructor(
             }
         }
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun addOrOverWriteWb(wb: Workbook): WorkbookContainer {
         return addOrOverWriteWbRs(wb).getOrThrow()
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun removeWb(wbKey: WorkbookKey): WorkbookContainer {
         return this.removeWbRs(wbKey).getOrThrow()
     }
@@ -115,7 +115,7 @@ data class WorkbookContainerImp @Inject constructor(
     override fun hasWb(wbKey: WorkbookKey): Boolean {
         return this.wbStateCont.containWbKey(wbKey)
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun replaceKey(oldKey: WorkbookKey, newKey: WorkbookKey): WorkbookContainer {
         return replaceKeyRs(oldKey, newKey).getOrThrow()
     }

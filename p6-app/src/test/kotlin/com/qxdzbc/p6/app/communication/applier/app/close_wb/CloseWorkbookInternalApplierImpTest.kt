@@ -3,8 +3,8 @@ package com.qxdzbc.p6.app.communication.applier.app.close_wb
 import com.qxdzbc.p6.app.action.app.close_wb.applier.CloseWorkbookInternalApplierImp
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookResponse
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.app.ErrorRouter
-import com.qxdzbc.p6.ui.app.ErrorRouterImp
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import org.junit.Test
@@ -18,7 +18,7 @@ class CloseWorkbookInternalApplierImpTest {
 
     lateinit var appStateMs:Ms<AppState>
     lateinit var applier: CloseWorkbookInternalApplierImp
-    lateinit var errorRouter:ErrorRouter
+    lateinit var errorRouter: ErrorRouter
     val appState get()=appStateMs.value
     lateinit var res: CloseWorkbookResponse
     lateinit var ts: TestSample

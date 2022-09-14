@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWin
 import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.qxdzbc.p6.app.communication.res_req_template.response.ScriptResponse
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import javax.inject.Inject

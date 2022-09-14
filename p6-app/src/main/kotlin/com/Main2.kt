@@ -104,7 +104,7 @@ fun main() {
                         )
                     )
                     appState.wbStateContMs.apply {
-                        this.value = this.value.addWbState(wbStateMs1).addWbState(wbStateMs2)
+                        this.value = this.value.addOrOverwriteWbState(wbStateMs1).addOrOverwriteWbState(wbStateMs2)
                     }
                     val zz = listOf(
                         ms(

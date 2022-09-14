@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerSt
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
@@ -26,7 +26,7 @@ class OpenCellEditorImp @Inject constructor(
     val docContSt:St<@JvmSuppressWildcards DocumentContainer>,
     @AppStateMs
     val appStateMs:Ms<AppState>,
-    val errorRouter:ErrorRouter,
+    val errorRouter: ErrorRouter,
 ) : OpenCellEditorAction {
     val appState by appStateMs
     val docCont by docContSt

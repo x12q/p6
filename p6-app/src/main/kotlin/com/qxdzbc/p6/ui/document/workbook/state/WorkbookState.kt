@@ -107,6 +107,6 @@ interface WorkbookState {
     /**
      * set workbook key, effectively point this state to another workbook
      */
-    fun setWorkbookKey(newWbKey: WorkbookKey): WorkbookState
+    fun setWbKey(newWbKey: WorkbookKey): WorkbookState
     fun refreshWsPointer(): WorkbookState
 }

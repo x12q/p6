@@ -7,6 +7,7 @@ import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rs
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
@@ -48,12 +49,28 @@ class DocumentContainerImp @Inject constructor(
         return this.getWb(wbKey)?.keyMs
     }
 
+    override fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>? {
+        return this.getWb(wbKey)?.keyMs
+    }
+
+    override fun getWbKeyMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>> {
+        return this.getWbRs(wbKey).map { it.keyMs }
+    }
+
     override fun getWsNameSt(wbKey: WorkbookKey, wsName: String): St<String>? {
         return this.getWs(wbKey, wsName)?.nameMs
     }
 
     override fun getWsNameSt(wbKeySt: St<WorkbookKey>, wsName: String): St<String>? {
         return this.getWb(wbKeySt)?.getWs(wsName)?.nameMs
+    }
+
+    override fun getWsNameMs(wbKey: WorkbookKey, wsName: String): Ms<String>? {
+        return this.getWs(wbKey, wsName)?.nameMs
+    }
+
+    override fun getWsNameMs(wbKeySt: St<WorkbookKey>, wsName: String): Ms<String>? {
+        return this.getWs(wbKeySt.value,wsName)?.nameMs
     }
 
     override fun getWb(wbKey: WorkbookKey): Workbook? {

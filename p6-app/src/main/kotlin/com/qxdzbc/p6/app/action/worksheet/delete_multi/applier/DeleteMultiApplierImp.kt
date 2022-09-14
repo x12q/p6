@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiResponse
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.onFailure

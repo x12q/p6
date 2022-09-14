@@ -3,8 +3,8 @@ package com.qxdzbc.p6.app.communication.applier.app.load_wb
 import com.qxdzbc.p6.app.action.app.load_wb.applier.LoadWorkbookInternalApplierImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.app.ErrorRouter
-import com.qxdzbc.p6.ui.app.ErrorRouterImp
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs

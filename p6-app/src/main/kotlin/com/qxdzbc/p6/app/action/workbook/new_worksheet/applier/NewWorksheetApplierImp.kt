@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.action.workbook.new_worksheet.applier
 
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.github.michaelbull.result.map
 import javax.inject.Inject
 

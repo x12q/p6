@@ -48,7 +48,7 @@ data class ScriptContainerImp(override val map: Map<String, String> = emptyMap()
         // TODO this is a placeholder for future error checking: such as checking script name
         return Ok(this.copy(map = map + (name to script)))
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun overwriteScript(name: String, script: String): ScriptContainer {
         return this.overwriteScriptRs(name, script).getOrThrow()
     }
@@ -64,7 +64,7 @@ data class ScriptContainerImp(override val map: Map<String, String> = emptyMap()
             return this.overwriteScript(name, script).toOk()
         }
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun addScript(name: String, script: String): ScriptContainer {
         return addScriptRs(name, script).getOrThrow()
     }
@@ -80,7 +80,7 @@ data class ScriptContainerImp(override val map: Map<String, String> = emptyMap()
         }
         return Ok(c)
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun overwriteAllScript(scripts: List<SimpleScriptEntry>): ScriptContainer {
         return this.overwriteAllScriptRs(scripts).getOrThrow()
     }

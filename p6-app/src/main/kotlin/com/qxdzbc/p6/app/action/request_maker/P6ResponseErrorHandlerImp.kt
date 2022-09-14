@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
 import com.qxdzbc.p6.proto.CommonProtos.ErrorReportProto
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.common.msg_api.isError
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouter
 import javax.inject.Inject

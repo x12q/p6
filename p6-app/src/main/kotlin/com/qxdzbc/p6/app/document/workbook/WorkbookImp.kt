@@ -74,12 +74,12 @@ data class WorkbookImp(
     }
 
     override val worksheetMap: Map<String, Worksheet> get() = worksheets.associateBy { it.name }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun createNewWs(name: String?): Workbook {
         val rs = this.createNewWsRs(name)
         return rs.getOrThrow()
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun createNewWs2(name: String?): CreateNewWorksheetResponse2 {
         val rs = this.createNewWorksheetRs2(name)
         return rs.getOrThrow()

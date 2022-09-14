@@ -37,5 +37,11 @@ object WorkbookContainerErrors {
                 header = header.setDescription("workbook at key ${wbKey} already exist")
             )
         }
+
+        fun report2(detail:String?): ErrorReport {
+            return ErrorReport(
+                header = detail?.let { header.setDescription(detail) } ?: header
+            )
+        }
     }
 }

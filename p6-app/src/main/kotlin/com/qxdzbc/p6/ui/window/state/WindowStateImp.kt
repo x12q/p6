@@ -73,30 +73,6 @@ data class WindowStateImp @AssistedInject constructor(
     override val focusStateMs: Ms<WindowFocusState>,
     override val formulaColorProvider: FormulaColorProvider
 ) : BaseWindowState() {
-    companion object {
-        /**
-         * factory method with default behavior
-         */
-//        fun create(
-//            wbContMs: Ms<WorkbookContainer>,
-//            wbStateContMs: Ms<WorkbookStateContainer>,
-//            wbKeys: Collection<WorkbookKey> = emptySet(),
-//            id: String = UUID.randomUUID().toString(),
-//            statusBarStateMs: Ms<StatusBarState>,
-//            kernel: KernelContext,
-//        ): WindowStateImp {
-//            val activeWbPointerMs: Ms<ActiveWorkbookPointer> = ms(ActiveWorkbookPointerImp(wbKeys.firstOrNull()))
-//            return WindowStateImp(
-//                globalWbContMs = wbContMs,
-//                globalWbStateContMs = wbStateContMs,
-//                activeWorkbookPointerMs = activeWbPointerMs,
-//                wbKeySet = wbKeys.toSet(),
-//                id = id,
-//                statusBarStateMs = statusBarStateMs,
-//                kernel = kernel
-//            )
-//        }
-    }
 
     override var showStartKernelDialogState: ShowDialogState by showStartKernelDialogStateMs
 
@@ -195,7 +171,7 @@ data class WindowStateImp @AssistedInject constructor(
             return this
         }
     }
-
+    @kotlin.jvm.Throws(Exception::class)
     override fun addWbKey(wbKey: WorkbookKey): WindowState {
         return addWbKeyRs(wbKey).getOrThrow()
     }

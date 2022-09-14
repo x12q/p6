@@ -34,7 +34,7 @@ import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.rpc.P6RpcServer
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
@@ -60,8 +60,8 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.google.gson.Gson
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
+import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
@@ -236,8 +236,9 @@ interface P6Component {
     fun createNewWbAction(): CreateNewWorkbookAction
     fun setActiveWorkbookAction(): SetActiveWorkbookAction
     fun fileLoader(): P6FileLoader
-    fun loadWorkbookAction(): LoadWorkbookAction
+    fun loadWbAction(): LoadWorkbookAction
     fun pickDefaultActiveWbAction(): PickDefaultActiveWbAction
+    fun saveWbAction(): SaveWorkbookAction
 
     @Component.Builder
     interface Builder {

@@ -107,11 +107,27 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbKeyMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>> {
+        TODO("Not yet implemented")
+    }
+
     override fun getWsNameSt(wbKey: WorkbookKey, wsName: String): St<String>? {
         TODO("Not yet implemented")
     }
 
     override fun getWsNameSt(wbKeySt: St<WorkbookKey>, wsName: String): St<String>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsNameMs(wbKey: WorkbookKey, wsName: String): Ms<String>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsNameMs(wbKeySt: St<WorkbookKey>, wsName: String): Ms<String>? {
         TODO("Not yet implemented")
     }
 

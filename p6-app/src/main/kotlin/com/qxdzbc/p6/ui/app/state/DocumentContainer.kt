@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.app.state
 
 import com.qxdzbc.common.Rs
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
@@ -32,9 +33,16 @@ interface DocumentContainer : WorkbookGetter {
      * @return [WbWsSt] from an existing worksheet, null if such worksheet does not exist
      */
     fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt?
+
     fun getWbKeySt(wbKey: WorkbookKey): St<WorkbookKey>?
+    fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>?
+    fun getWbKeyMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>>
+
     fun getWsNameSt(wbKey: WorkbookKey, wsName: String): St<String>?
+    fun getWsNameMs(wbKey: WorkbookKey, wsName: String): Ms<String>?
+
     fun getWsNameSt(wbKeySt:St<WorkbookKey>, wsName: String): St<String>?
+    fun getWsNameMs(wbKeySt:St<WorkbookKey>, wsName: String): Ms<String>?
 
     /**
      * @return [WbWsSt] from an existing worksheet, null if such worksheet does not exist

@@ -5,8 +5,8 @@ import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetResponse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.app.ErrorRouter
-import com.qxdzbc.p6.ui.app.ErrorRouterImp
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState

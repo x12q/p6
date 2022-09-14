@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWor
 import com.qxdzbc.p6.app.communication.res_req_template.response.ScriptResponse
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Event
-import com.qxdzbc.p6.ui.app.ErrorRouter
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.onSuccess

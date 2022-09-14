@@ -168,12 +168,28 @@ class StateContainerImp @Inject constructor(
         return docCont.getWbKeySt(wbKey)
     }
 
+    override fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>? {
+        return docCont.getWbKeyMs(wbKey)
+    }
+
+    override fun getWbKeyMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>> {
+        return docCont.getWbKeyMsRs(wbKey)
+    }
+
     override fun getWsNameSt(wbKey: WorkbookKey, wsName: String): St<String>? {
         return docCont.getWsNameSt(wbKey, wsName)
     }
 
     override fun getWsNameSt(wbKeySt: St<WorkbookKey>, wsName: String): St<String>? {
         return docCont.getWsNameSt(wbKeySt, wsName)
+    }
+
+    override fun getWsNameMs(wbKey: WorkbookKey, wsName: String): Ms<String>? {
+        return docCont.getWsNameMs(wbKey, wsName)
+    }
+
+    override fun getWsNameMs(wbKeySt: St<WorkbookKey>, wsName: String): Ms<String>? {
+        return docCont.getWsNameMs(wbKeySt, wsName)
     }
 
     override fun getWbRs(wbKey: WorkbookKey): Rs<Workbook, ErrorReport> {

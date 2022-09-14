@@ -11,9 +11,5 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 data class SetWbKeyResponse(
     val oldWbKey: WorkbookKey,
     val newWb: Workbook? = null,
-    val newWbState: WorkbookState? = null,
     val newWbStateCont:WorkbookStateContainer?=null,
-    val newWindowState: WindowState? = null,
-    val windowStateMs: Ms<WindowState>? = null,
-    val newCentralScriptCont:CentralScriptContainer?=null,
 )

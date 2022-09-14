@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.app
+package com.qxdzbc.p6.ui.app.error_router
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
