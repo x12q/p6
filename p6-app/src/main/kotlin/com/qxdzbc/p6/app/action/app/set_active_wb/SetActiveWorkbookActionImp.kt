@@ -30,7 +30,7 @@ class SetActiveWorkbookActionImp @Inject constructor(
             is Ok -> {
                 val activeWbPointerMs = appState.activeWindowState?.activeWorkbookPointerMs
                 if (activeWbPointerMs != null) {
-                    activeWbPointerMs.value = activeWbPointerMs.value.pointTo(wbk)
+                    activeWbPointerMs.value = activeWbPointerMs.value.pointTo(wbStateRs.value.value.wbKeyMs)
                     return Ok(Unit)
                 } else {
                     return AppStateErrors.InvalidWindowState.report3("The app does not have any active window, therefore there is no active workbook")

@@ -219,7 +219,7 @@ class TestSample {
     private fun makeSampleWindowStateMs1(): Ms<WindowState> {
         return ms(
             p6Comp.windowStateFactory().createDefault(
-                listOf(wbk1, wbk2).toSet()
+                listOf(wbKey1Ms, wbKey2Ms).toSet()
             ),
         )
     }
@@ -227,7 +227,7 @@ class TestSample {
     private fun makeSampleWindowStateMs2(): Ms<WindowState> {
         return ms(
             p6Comp.windowStateFactory().createDefault(
-                listOf(wbk3, wbk4).toSet()
+                listOf(wbKey3Ms, wbKey4Ms).toSet()
             ),
         )
     }

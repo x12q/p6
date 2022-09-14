@@ -7,13 +7,20 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class MoveToWbActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
     @AppStateMs private val appStateMs: Ms<AppState>,
+    @StateContainerSt private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
 ) : MoveToWbAction {
+
     private var appState by appStateMs
+    private val stateCont by stateContSt
+
     override fun moveToWorkbook(wbKey: WorkbookKey) {
         restoreWindowFocusState.setFocusStateConsideringRangeSelector(wbKey)
         var cellEditorState by appState.cellEditorStateMs
@@ -32,9 +39,13 @@ class MoveToWbActionImp @Inject constructor(
     }
 
     override fun setActiveWb(wbKey: WorkbookKey) {
-        appState.queryStateByWorkbookKey(wbKey).ifOk {
-            val activeWbPointer = it.windowStateMs.value.activeWorkbookPointerMs
-            activeWbPointer.value = activeWbPointer.value.pointTo(wbKey)
+        val windowState = stateCont.getWindowStateByWbKey(wbKey)
+        windowState?.also {wds->
+            appState.activeWindowPointer = appState.activeWindowPointer.pointTo(wds.id)
+            val wbkMs = stateCont.getWbKeyMs(wbKey)
+            wbkMs?.also {
+                wds.activeWorkbookPointer = wds.activeWorkbookPointer.pointTo(it)
+            }
         }
     }
 }

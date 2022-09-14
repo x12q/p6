@@ -1,10 +1,12 @@
 package com.qxdzbc.p6.ui.window.state
 
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 
 interface ActiveWorkbookPointer {
+    val wbKeyMs:Ms<WorkbookKey>?
     val wbKey:WorkbookKey?
     fun isValid():Boolean{
         return wbKey!=null
@@ -13,11 +15,12 @@ interface ActiveWorkbookPointer {
         return this.isPointingTo(workbook.key)
     }
     fun isPointingTo(workbookKey: WorkbookKey): Boolean
+    fun isPointingTo(wbKeyMs:Ms<WorkbookKey> ): Boolean
 
     fun nullify(): ActiveWorkbookPointer
 
-    fun pointTo(workbookKey: WorkbookKey?): ActiveWorkbookPointer
+    fun pointTo(wbKeyMs: Ms<WorkbookKey>?): ActiveWorkbookPointer
     fun pointTo(workbook:Workbook): ActiveWorkbookPointer {
-        return this.pointTo(workbook.key)
+        return this.pointTo(workbook.keyMs)
     }
 }

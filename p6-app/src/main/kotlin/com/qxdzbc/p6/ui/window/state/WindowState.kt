@@ -9,7 +9,6 @@ import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorProvider
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
@@ -45,30 +44,27 @@ interface WindowState : WithSize {
     val showStartKernelDialogStateMs:Ms<ShowDialogState>
     var showStartKernelDialogState: ShowDialogState
 
-    val globalWbStateContMs: Ms<WorkbookStateContainer>
+    val wbStateContMs: Ms<WorkbookStateContainer>
     val formulaBarState:FormulaBarState
+    val wbKeyMsSet:Set<Ms<WorkbookKey>>
     val wbKeySet:Set<WorkbookKey>
     fun containWbKey(wbKey: WorkbookKey):Boolean
 
     /**
      * This is the globally shared workbook container in the app, not the sole container of this window state
      */
-    val globalWbContMs:Ms<WorkbookContainer>
+    val wbContMs:Ms<WorkbookContainer>
     val workbookStateMsList: List<Ms<WorkbookState>>
     val workbookStateList: List<WorkbookState>
     val workbookList: List<Workbook>
 
-    fun removeWorkbookState(wbKey: WorkbookKey):WindowState
+    fun removeWorkbookState(wbKey: Ms<WorkbookKey>):WindowState
 
-    fun addWbKey(wbKey: WorkbookKey):WindowState
-    fun addWbKeyRs(wbKey: WorkbookKey): Rse<WindowState>
+    fun addWbKey(wbKey: Ms<WorkbookKey>):WindowState
+    fun addWbKeyRs(wbKey: Ms<WorkbookKey>): Rse<WindowState>
 
-    /**
-     * point this window to a new set of workbook. Remove all the current wb of this window state
-     */
-    @Deprecated("dont use")
-    fun setWorkbookList(workbookList: List<Workbook>): WindowState
-    fun setWbKeySet(wbKeySet: Set<WorkbookKey>): WindowState
+
+    fun setWbKeySet(wbKeySet: Set<Ms<WorkbookKey>>): WindowState
 
     val activeWorkbookPointerMs: Ms<ActiveWorkbookPointer>
     var activeWorkbookPointer: ActiveWorkbookPointer
@@ -87,11 +83,6 @@ interface WindowState : WithSize {
 
     val loadDialogStateMs: Ms<FileDialogState>
     var loadDialogState:FileDialogState
-
-    /**
-     * replace a workbook key held by this window state with a new workbook key. Also update active workbook pointer if that is needed
-     */
-    fun replaceWorkbookKey(oldWbKey:WorkbookKey, newWbKey: WorkbookKey):WindowState
 
     val windowTitle:String
 }

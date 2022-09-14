@@ -32,7 +32,7 @@ class SetActiveWorksheetRMImp @Inject constructor(
             .pointTo(wdState?.value?.id)
         val newActiveWbPointer = wdState?.value
             ?.activeWorkbookPointer
-            ?.pointTo(wbk)
+            ?.pointTo(wbStateMs?.wbKeyMs)
         val rt = Ok(
             SetActiveWorksheetResponse2(
                 request = request,

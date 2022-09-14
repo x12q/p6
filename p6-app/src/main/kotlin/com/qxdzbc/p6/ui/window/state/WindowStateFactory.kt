@@ -26,7 +26,7 @@ interface WindowStateFactory {
         @Assisted("loadDialogStateMs")
         loadDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
         id: String = UUID.randomUUID().toString(),
-        wbKeySet: Set<WorkbookKey> = emptySet(),
+        wbKeyMsSet: Set<Ms<WorkbookKey>> = emptySet(),
         @Assisted("showStartKernelDialogStateMs")
         showStartKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
         @Assisted("showConnectToKernelDialogStateMs")
@@ -39,14 +39,14 @@ interface WindowStateFactory {
          * create an empty window state
          */
         fun WindowStateFactory.createDefault(
-            wbKeys: Collection<WorkbookKey> = emptySet(),
+            wbKeys: Collection<Ms<WorkbookKey>> = emptySet(),
             id: String = UUID.randomUUID().toString()
         ):WindowStateImp{
             val activeWbPointerMs: Ms<ActiveWorkbookPointer> = ms(ActiveWorkbookPointerImp(wbKeys.firstOrNull()))
             return this.create(
                 activeWorkbookPointerMs = activeWbPointerMs,
                 id=id,
-                wbKeySet = wbKeys.toSet()
+                wbKeyMsSet = wbKeys.toSet()
             )
         }
     }

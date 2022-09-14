@@ -24,6 +24,7 @@ class CreateNewWorkbookInternalApplierImp @Inject constructor(
         val wb = workbook
         if (wb != null) {
             val wbk = wb.key
+            val wbkMs = wb.keyMs
             globalWbCont = globalWbCont.addOrOverWriteWb(wb)
             globalWbStateCont.getWbStateMs(wbk)?.also {
                 it.value = it.value.setWindowId(windowId)
@@ -37,7 +38,7 @@ class CreateNewWorkbookInternalApplierImp @Inject constructor(
                 useNewWindow = true
                 newWindowState
             }
-            wdMs.value = wdMs.value.addWbKey(wbk)
+            wdMs.value = wdMs.value.addWbKey(wbkMs)
             scriptCont = scriptCont.addScriptContFor(wb.key)
             if(useNewWindow){
                 pickDefaultActiveWb.pickAndUpdateActiveWbPointer(wdMs.value)

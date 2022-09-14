@@ -51,6 +51,7 @@ interface WorkbookState {
     val wbMs: Ms<Workbook>
     val wb: Workbook
     val wbKey:WorkbookKey
+    val wbKeyMs:Ms<WorkbookKey>
     /**
      * point this wb state to a new workbook by setting its workbook key and refresh this state and all child state to reflect this changes if necessary
      */

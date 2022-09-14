@@ -109,13 +109,13 @@ fun main() {
                     val zz = listOf(
                         ms(
                             p6Comp.windowStateFactory().create(
-                                wbKeySet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKey }.toSet(),
+                                wbKeyMsSet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet(),
                                 activeWorkbookPointerMs = ms(
                                     ActiveWorkbookPointerImp(
                                         listOf(
                                             wbStateMs1,
                                             wbStateMs2
-                                        ).map { it.value.wbKey }.toSet().firstOrNull()
+                                        ).map { it.value.wb.keyMs }.toSet().firstOrNull()
                                     )
                                 )
                             ) as WindowState

@@ -9,7 +9,6 @@ import com.qxdzbc.p6.di.state.app_state.WbContainerMs
 import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.p6.di.status_bar.StatusBarStateQualifier
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.OddityContainer
 import com.qxdzbc.p6.app.oddity.OddityContainerImp
@@ -32,8 +31,6 @@ import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
-import com.qxdzbc.common.CollectionUtils.findAndReplace
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -49,7 +46,7 @@ data class WindowStateImp @AssistedInject constructor(
     @Assisted("loadDialogStateMs")
     override val loadDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
     @Assisted override val id: String = UUID.randomUUID().toString(),
-    @Assisted override val wbKeySet: Set<WorkbookKey> = emptySet(),
+    @Assisted override val wbKeyMsSet: Set<Ms<WorkbookKey>>,
     @Assisted("showStartKernelDialogStateMs")
     override val showStartKernelDialogStateMs: Ms<ShowDialogState> = ms(
         ShowDialogStateImp()
@@ -61,9 +58,9 @@ data class WindowStateImp @AssistedInject constructor(
     @Assisted override val commonFileDialogJob: CompletableDeferred<Path?>? = null,
 
     @WbContainerMs
-    override val globalWbContMs: Ms<WorkbookContainer>,
+    override val wbContMs: Ms<WorkbookContainer>,
     @WbStateContMs
-    override val globalWbStateContMs: Ms<WorkbookStateContainer>,
+    override val wbStateContMs: Ms<WorkbookStateContainer>,
     @StatusBarStateQualifier
     override val statusBarStateMs: Ms<StatusBarState>,
     @MsKernelContextQualifier
@@ -71,14 +68,14 @@ data class WindowStateImp @AssistedInject constructor(
     private val wbStateFactory: WorkbookStateFactory,
     @FocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,
-    override val formulaColorProvider: FormulaColorProvider
+    override val formulaColorProvider: FormulaColorProvider,
 ) : BaseWindowState() {
-
+    override val wbKeySet: Set<WorkbookKey> get()= wbKeyMsSet.map{it.value}.toSet()
     override var showStartKernelDialogState: ShowDialogState by showStartKernelDialogStateMs
 
     override val workbookStateMsList: List<Ms<WorkbookState>>
         get() = wbKeySet.mapNotNull {
-            globalWbStateContMs.value.getWbStateMs(
+            wbStateContMs.value.getWbStateMs(
                 it
             )
         }
@@ -95,29 +92,13 @@ data class WindowStateImp @AssistedInject constructor(
     override var activeWorkbookPointer: ActiveWorkbookPointer by activeWorkbookPointerMs
     override val saveDialogState: FileDialogState by saveDialogStateMs
 
-    /**
-     * Replace workbook key of an existing workbook with a new workbook key
-     * - update active wb pointer if it was pointing to the old key
-     */
-    override fun replaceWorkbookKey(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): WindowState {
-        if (oldWbKey == newWbKey) {
-            return this
-        } else {
-            if (this.activeWorkbookPointer.isPointingTo(oldWbKey)) {
-                this.activeWorkbookPointer = this.activeWorkbookPointer.pointTo(newWbKey)
-            }
-            val newKeySet = this.wbKeySet.toList().findAndReplace(oldWbKey, newWbKey).toSet()
-            return this.copy(wbKeySet = newKeySet)
-        }
-    }
-
-    private var globalWbStateCont by globalWbStateContMs
+    private var wbStateCont by wbStateContMs
 
     override val activeWorkbookState: WorkbookState?
         get() {
             val activeWbKey:WorkbookKey? = this.activeWorkbookPointer.wbKey
             if (activeWbKey!=null) {
-                return this.globalWbStateCont.getWbState(activeWbKey)
+                return this.wbStateCont.getWbState(activeWbKey)
             }
             return null
         }
@@ -133,11 +114,11 @@ data class WindowStateImp @AssistedInject constructor(
 
 
     private fun getWorkbookStateMs(workbookKey: WorkbookKey): Ms<WorkbookState>? {
-        return globalWbStateCont.getWbStateMs(workbookKey)
+        return wbStateCont.getWbStateMs(workbookKey)
     }
 
     private fun getWorkbookStateMsRs(workbookKey: WorkbookKey): Result<Ms<WorkbookState>, ErrorReport> {
-        val wbsMs = globalWbStateCont.getWbStateMsRs(workbookKey)
+        val wbsMs = wbStateCont.getWbStateMsRs(workbookKey)
         return wbsMs
     }
 
@@ -155,66 +136,58 @@ data class WindowStateImp @AssistedInject constructor(
 
     override var showConnectToKernelDialogState: ShowDialogState by showConnectToKernelDialogStateMs
 
-
-
-    override fun removeWorkbookState(wbKey: WorkbookKey): WindowState {
-        if (wbKey in this.wbKeySet) {
+    override fun removeWorkbookState(wbKey: Ms<WorkbookKey>): WindowState {
+        if (wbKey in this.wbKeyMsSet) {
             if (this.activeWorkbookPointer.isPointingTo(wbKey)) {
                 this.activeWorkbookPointer = this.activeWorkbookPointer.nullify()
             }
-            val wbStateMs = this.getWorkbookStateMs(wbKey)
+            val wbStateMs = this.wbStateCont.getWbStateMs(wbKey)
             if (wbStateMs != null) {
                 wbStateMs.value = wbStateMs.value.setWindowId(null)
             }
-            return this.copy(wbKeySet = wbKeySet - wbKey)
+            return this.copy(wbKeyMsSet = wbKeyMsSet.filter{it.value!=wbKey}.toSet())
         } else {
             return this
         }
     }
     @kotlin.jvm.Throws(Exception::class)
-    override fun addWbKey(wbKey: WorkbookKey): WindowState {
+    override fun addWbKey(wbKey: Ms<WorkbookKey>): WindowState {
         return addWbKeyRs(wbKey).getOrThrow()
     }
 
-    override fun addWbKeyRs(wbKey: WorkbookKey): Rse<WindowState> {
-        if (wbKey in this.wbKeySet) {
+    override fun addWbKeyRs(wbKey: Ms<WorkbookKey>): Rse<WindowState> {
+        if (wbKey in this.wbKeyMsSet) {
             return Ok(this)
         } else {
-            val wbStateMsRs = this.globalWbStateCont.getWbStateMsRs(wbKey)
+            val wbStateMsRs = this.wbStateCont.getWbStateMsRs(wbKey)
             val rt = wbStateMsRs.map {wbStateMs->
-                val wbk = wbStateMs.value.wbKey
-                val newWbKeySet = this.wbKeySet + wbk
+                val wbk = wbStateMs.value.wbKeyMs
+                val newWbKeySet = this.wbKeyMsSet + wbk
                 wbStateMs.value =wbStateMs.value.setWindowId(this.id)
-                this.copy(wbKeySet = newWbKeySet)
+                this.copy(wbKeyMsSet = newWbKeySet)
             }
             return rt
         }
     }
 
-    override fun setWorkbookList(workbookList: List<Workbook>): WindowState {
-        val newWbKeySet: Set<WorkbookKey> = workbookList.map { it.key }.toSet()
-        // x: select new active workbook if have to, otherwise keep the old pointer
-        return this.setWbKeySet(newWbKeySet)
-    }
-
-    override fun setWbKeySet(wbKeySet: Set<WorkbookKey>): WindowState {
+    override fun setWbKeySet(wbKeySet: Set<Ms<WorkbookKey>>): WindowState {
         val newWbKeySet = wbKeySet
         // x: update active workbook pointer
         if (newWbKeySet.isEmpty()) {
             this.activeWorkbookPointer = this.activeWorkbookPointer.nullify()
         } else {
-            val k = this.activeWorkbookState?.wb?.key
+            val k = this.activeWorkbookState?.wb?.keyMs
             if (k == null || k !in newWbKeySet) {
                 this.activeWorkbookPointer = this.activeWorkbookPointer.pointTo(newWbKeySet.first())
             }
         }
         // x: update window id of each wb state
         for (wbk in newWbKeySet) {
-            globalWbStateCont.getWbStateMs(wbk)?.also {
+            wbStateCont.getWbStateMs(wbk)?.also {
                 it.value = it.value.setWindowId(this.id)
             }
         }
-        return this.copy(wbKeySet = newWbKeySet)
+        return this.copy(wbKeyMsSet = newWbKeySet)
     }
 
     override var oddityContainer: OddityContainer by oddityContainerMs

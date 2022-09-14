@@ -15,7 +15,7 @@ class PickDefaultActiveWbActionImp @Inject constructor(
     override fun pickAndUpdateActiveWbPointer(windowState: WindowState) {
         val ws = windowState
         if (!ws.activeWorkbookPointer.isValid()) {
-            val newPointer = ws.wbKeySet.firstOrNull()?.let {
+            val newPointer = ws.wbKeyMsSet.firstOrNull()?.let {
                 ws.activeWorkbookPointer.pointTo(it)
             } ?: ws.activeWorkbookPointer
             windowState.activeWorkbookPointer = newPointer

@@ -193,6 +193,8 @@ data class WorkbookStateImp @AssistedInject constructor(
 
     override val wbKey: WorkbookKey
         get() = wb.key
+    override val wbKeyMs: Ms<WorkbookKey>
+        get() = wb.keyMs
 
     /**
      * point this workbook state to a new workbook, then refresh the state.

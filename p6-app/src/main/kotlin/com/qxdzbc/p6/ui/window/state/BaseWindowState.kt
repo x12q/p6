@@ -23,7 +23,7 @@ abstract class BaseWindowState : WindowState {
     override val size: Int get() = workbookStateMsList.size
     override val workbookList: List<Workbook>
         get() = wbKeySet.mapNotNull {
-            this.globalWbContMs.value.getWb(it)
+            this.wbContMs.value.getWb(it)
         }
 
     override fun publishError(errorReport: ErrorReport): WindowState {

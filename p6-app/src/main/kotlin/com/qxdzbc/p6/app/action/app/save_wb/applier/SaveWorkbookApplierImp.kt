@@ -68,11 +68,6 @@ class SaveWorkbookApplierImp @Inject constructor(
                                         qrRs.workbookStateMs.value = wbState
                                             .setWorkbookKeyAndRefreshState(newWbKey)
                                             .setNeedSave(false) // x: mark wb as not need save because it was already saved
-                                        // x: update the active workbook pointer if need
-                                        val activeWBPointerMs = windowState.activeWorkbookPointerMs
-                                        if (activeWBPointerMs.value.wbKey == wbKey) {
-                                            activeWBPointerMs.value = activeWBPointerMs.value.pointTo(newWbKey)
-                                        }
                                     }
                                 windowState.wbKeySet
                             }

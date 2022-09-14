@@ -24,7 +24,8 @@ class CloseWorkbookInternalApplierImp @Inject constructor(
     private var scriptCont by stateCont.centralScriptContainerMs
 
     override fun apply(workbookKey: WorkbookKey?, windowId: String?) {
-        val wbKey: WorkbookKey? = workbookKey
+        val wbKeyMs = workbookKey?.let { stateCont.getWbKeyMs(it) }
+        val wbKey = wbKeyMs?.value
         val windowStateMs: Ms<WindowState>? =
             windowId?.let { stateCont.getWindowStateMsById(it) }
                 ?: wbKey?.let { stateCont.getWindowStateMsByWbKey(it) }
@@ -35,7 +36,7 @@ class CloseWorkbookInternalApplierImp @Inject constructor(
             appState.translatorContainer = appState.translatorContainer.removeTranslator(workbookKey)
             scriptCont=scriptCont.removeScriptContFor(wbKey)
             if (windowStateMs != null) {
-                windowStateMs.value = windowStateMs.value.removeWorkbookState(wbKey)
+                windowStateMs.value = windowStateMs.value.removeWorkbookState(wbKeyMs)
                 pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs.value)
             }
         }
