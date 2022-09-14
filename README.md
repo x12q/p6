@@ -1,1 +1,1 @@
-./gradlew :common-compose:clean :common-compose:build :common-compose:publishToMavenLocal
+# P6 - a programmable spreadsheet app
