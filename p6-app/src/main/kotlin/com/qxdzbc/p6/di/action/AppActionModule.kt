@@ -24,8 +24,6 @@ import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.save_wb.applier.SaveWorkbookApplier
 import com.qxdzbc.p6.app.action.app.save_wb.applier.SaveWorkbookApplierImp
-import com.qxdzbc.p6.app.action.app.save_wb.applier.SaveWorkbookInternalApplier
-import com.qxdzbc.p6.app.action.app.save_wb.applier.SaveWorkbookInternalApplierImp
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWorkbookKeyAction
@@ -86,9 +84,6 @@ interface AppActionModule {
     @P6Singleton
     fun CreateNewWorkbookApplier(i: CreateNewWorkbookApplierImp): CreateNewWorkbookApplier
 
-    @Binds
-    @P6Singleton
-    fun SaveWorkbookInternalApplier(i: SaveWorkbookInternalApplierImp): SaveWorkbookInternalApplier
 
     @Binds
     @P6Singleton
