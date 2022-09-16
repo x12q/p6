@@ -6,6 +6,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 /**
  * provide additional processing logic after translation
  */
+@Deprecated("ancient code, don't use")
 object CodeTemplate {
 
     fun directLiteral(
@@ -41,7 +42,8 @@ object CodeTemplate {
     }
 
     fun getWorkbookTemplate(workbookKey: WorkbookKey): String {
-        return """getWorkbook(WorkbookKeys.fromNameAndPath("${workbookKey.name}",${workbookKey.pathScript()}))"""
+//        return """getWorkbook(WorkbookKeys.fromNameAndPath("${workbookKey.name}",${workbookKey.pathScript()}))"""
+        return ""
     }
 
     fun getActiveWorkbookTemplate():String{

@@ -10,7 +10,7 @@ class FormulaBarStateImp(
 ) : FormulaBarState {
     override val text: String
         get() {
-            val wsState = windowState.activeWorkbookState?.activeSheetState
+            val wsState = windowState.activeWbState?.activeSheetState
             if(wsState!=null){
                 val cellAddress = wsState.cursorState.mainCell
                 val cell = wsState.worksheet.getCell(cellAddress)
@@ -21,7 +21,7 @@ class FormulaBarStateImp(
         }
     override val annotatedText: AnnotatedString
         get() {
-            val wsState = windowState.activeWorkbookState?.activeSheetState
+            val wsState = windowState.activeWbState?.activeSheetState
             if(wsState!=null){
                 val cellAddress = wsState.cursorState.mainCell
                 val cell = wsState.worksheet.getCell(cellAddress)

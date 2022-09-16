@@ -26,17 +26,17 @@ class CloseWorkbookInternalApplierImp @Inject constructor(
     override fun apply(workbookKey: WorkbookKey?, windowId: String?) {
         val wbKeyMs = workbookKey?.let { stateCont.getWbKeyMs(it) }
         val wbKey = wbKeyMs?.value
-        val windowStateMs: Ms<WindowState>? =
-            windowId?.let { stateCont.getWindowStateMsById(it) }
-                ?: wbKey?.let { stateCont.getWindowStateMsByWbKey(it) }
 
         if (wbKey != null) {
             stateCont.wbCont = stateCont.wbCont.removeWb(wbKey)
             appState.codeEditorState = appState.codeEditorState.removeWorkbook(workbookKey)
             appState.translatorContainer = appState.translatorContainer.removeTranslator(workbookKey)
             scriptCont=scriptCont.removeScriptContFor(wbKey)
+            val windowStateMs: Ms<WindowState>? =
+                windowId?.let { stateCont.getWindowStateMsById(it) }
+                    ?: stateCont.getWindowStateMsByWbKey(wbKey)
             if (windowStateMs != null) {
-                windowStateMs.value = windowStateMs.value.removeWorkbookState(wbKeyMs)
+                windowStateMs.value = windowStateMs.value.removeWbState(wbKeyMs)
                 pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs.value)
             }
         }

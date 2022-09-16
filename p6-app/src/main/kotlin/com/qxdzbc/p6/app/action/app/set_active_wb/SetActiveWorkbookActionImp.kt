@@ -28,7 +28,7 @@ class SetActiveWorkbookActionImp @Inject constructor(
         val wbStateRs: Rse<Ms<WorkbookState>> = stateCont.getWbStateMsRs(wbk)
         when (wbStateRs) {
             is Ok -> {
-                val activeWbPointerMs = appState.activeWindowState?.activeWorkbookPointerMs
+                val activeWbPointerMs = appState.activeWindowState?.activeWbPointerMs
                 if (activeWbPointerMs != null) {
                     activeWbPointerMs.value = activeWbPointerMs.value.pointTo(wbStateRs.value.value.wbKeyMs)
                     return Ok(Unit)

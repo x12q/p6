@@ -10,7 +10,7 @@ import dagger.Binds
 @dagger.Module(
     includes = [
         AppActionModule::class,
-        GlobalActionModule::class,
+        RpcActionModule::class,
         WorkbookActionModule::class,
         WorksheetActionModule::class,
         RangeActionModule::class,

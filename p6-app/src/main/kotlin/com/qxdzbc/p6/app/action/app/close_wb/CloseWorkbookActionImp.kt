@@ -5,10 +5,10 @@ import com.qxdzbc.p6.app.action.app.close_wb.rm.CloseWorkbookRM
 
 import javax.inject.Inject
 
-class CloseWbActionImp @Inject constructor(
+class CloseWorkbookActionImp @Inject constructor(
     private val closeWbRm: CloseWorkbookRM,
     private val closeWbApplier: CloseWorkbookApplier
-) : CloseWbAction {
+) : CloseWorkbookAction {
     override fun closeWb(request: CloseWorkbookRequest) :CloseWorkbookResponse {
         val response = closeWbRm.closeWb(request)
         closeWbApplier.applyRes(response)

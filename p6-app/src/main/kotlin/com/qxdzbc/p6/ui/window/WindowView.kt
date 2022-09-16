@@ -7,7 +7,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.window.Window
 import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Loggers
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.OddMsg
 import com.qxdzbc.p6.app.oddity.OddityType
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
@@ -15,9 +14,6 @@ import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.WorkbookView
 import com.qxdzbc.p6.app.action.window.WindowAction
-import com.qxdzbc.common.path.PPaths
-import com.qxdzbc.p6.app.build.BuildConfig
-import com.qxdzbc.p6.app.build.BuildVariant
 import com.qxdzbc.p6.ui.window.file_dialog.FileDialog
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBar
 import com.qxdzbc.p6.ui.window.kernel_dialog.ConnectToKernelDialog
@@ -40,7 +36,7 @@ fun WindowView(
     windowAction: WindowAction,
 ) {
     val windowState: WindowState = state
-    val activeWbStateMs = windowState.activeWorkbookStateMs
+    val activeWbStateMs = windowState.activeWbStateMs
     val oddityContainerMs = windowState.oddityContainerMs
     val executionScope = rememberCoroutineScope()
     val launchOnMain = remember { CoroutineUtils.makeLaunchOnMain(executionScope) }
@@ -68,7 +64,7 @@ fun WindowView(
                 },
                 workbookTab = {
                     WorkbookTabBarView(
-                        state = windowState.workbookTabBarState,
+                        state = windowState.wbTabBarState,
                         wbTabBarActions = windowActionTable.wbTabBarAction
                     )
                 },

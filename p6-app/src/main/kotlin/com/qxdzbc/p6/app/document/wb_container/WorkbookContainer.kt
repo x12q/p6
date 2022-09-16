@@ -8,6 +8,8 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import java.nio.file.Path
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.CanCheckEmpty
+import com.qxdzbc.common.WithSize
 
 interface WorkbookGetter{
     fun getWb(wbKeySt:St<WorkbookKey>): Workbook?
@@ -25,7 +27,7 @@ interface WorkbookGetter{
     fun getWbMsRs(path: Path):Result<Ms<Workbook>,ErrorReport>
 }
 
-interface WorkbookContainer : WorkbookGetter{
+interface WorkbookContainer : WorkbookGetter,WithSize{
     val wbList:List<Workbook>
 
     fun addWb(wb: Workbook): WorkbookContainer
@@ -42,6 +44,7 @@ interface WorkbookContainer : WorkbookGetter{
 
     fun removeWb(wbKey: WorkbookKey):WorkbookContainer
     fun removeWbRs(wbKey: WorkbookKey): Rse<WorkbookContainer>
+    @Deprecated("don't use. It is dangerous to use this function because it create in consistency in the app state.")
     fun removeAll():WorkbookContainer
     fun hasWb(wbKey: WorkbookKey):Boolean
 

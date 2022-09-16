@@ -18,7 +18,7 @@ class FileMenuActionImp @Inject constructor(
 
     override fun save(windowId:String) {
         appState.getWindowStateMsById(windowId)?.value?.also {windowState->
-            val activeWBState = windowState.activeWorkbookState
+            val activeWBState = windowState.activeWbState
             if(activeWBState!=null){
                 // if path is already present, sve it
                 val wbPath = activeWBState.wbKey.path
@@ -34,7 +34,7 @@ class FileMenuActionImp @Inject constructor(
 
     override fun saveAs(windowId:String) {
         appState.getWindowStateMsById(windowId)?.value?.also {windowState->
-            val activeWBState = windowState.activeWorkbookState
+            val activeWBState = windowState.activeWbState
             if(activeWBState!=null){
                 windowAction.openSaveFileDialog(windowState.id)
             }

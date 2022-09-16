@@ -11,10 +11,10 @@ class WorkbookTabBarStateImp(
         get() = windowState.id
     override val tabStateList: List<WorkbookTabState>
         get() {
-            return windowState.workbookStateMsList.map {
+            return windowState.wbStateMsList.map {
                 WorkbookTabStateImp(
                     wbKey =it.value.wbKey,
-                    isSelected =it.value.wbKey == windowState.activeWorkbookPointer.wbKey,
+                    isSelected =it.value.wbKey == windowState.activeWbPointer.wbKey,
                     needSave = it.value.needSave
                 )
             }

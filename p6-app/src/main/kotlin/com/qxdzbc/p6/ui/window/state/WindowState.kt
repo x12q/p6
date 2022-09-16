@@ -54,11 +54,11 @@ interface WindowState : WithSize {
      * This is the globally shared workbook container in the app, not the sole container of this window state
      */
     val wbContMs:Ms<WorkbookContainer>
-    val workbookStateMsList: List<Ms<WorkbookState>>
-    val workbookStateList: List<WorkbookState>
-    val workbookList: List<Workbook>
+    val wbStateMsList: List<Ms<WorkbookState>>
+    val wbStateList: List<WorkbookState>
+    val wbList: List<Workbook>
 
-    fun removeWorkbookState(wbKey: Ms<WorkbookKey>):WindowState
+    fun removeWbState(wbKeyMs: Ms<WorkbookKey>):WindowState
 
     fun addWbKey(wbKey: Ms<WorkbookKey>):WindowState
     fun addWbKeyRs(wbKey: Ms<WorkbookKey>): Rse<WindowState>
@@ -66,17 +66,17 @@ interface WindowState : WithSize {
 
     fun setWbKeySet(wbKeySet: Set<Ms<WorkbookKey>>): WindowState
 
-    val activeWorkbookPointerMs: Ms<ActiveWorkbookPointer>
-    var activeWorkbookPointer: ActiveWorkbookPointer
-    val activeWorkbookState: WorkbookState?
-    val activeWorkbookStateMs: Ms<WorkbookState>?
-    val activeWbKey:WorkbookKey? get() = activeWorkbookPointer.wbKey
+    val activeWbPointerMs: Ms<ActiveWorkbookPointer>
+    var activeWbPointer: ActiveWorkbookPointer
+    val activeWbState: WorkbookState?
+    val activeWbStateMs: Ms<WorkbookState>?
+    val activeWbKey:WorkbookKey? get() = activeWbPointer.wbKey
 
     val oddityContainerMs: Ms<OddityContainer>
     var oddityContainer: OddityContainer
     fun publishError(errorReport: ErrorReport):WindowState
 
-    val workbookTabBarState: WorkbookTabBarState
+    val wbTabBarState: WorkbookTabBarState
 
     val saveDialogStateMs: Ms<FileDialogState>
     val saveDialogState:FileDialogState

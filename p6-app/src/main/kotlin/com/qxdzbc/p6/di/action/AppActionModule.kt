@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.di.action
 
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWbAction
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWbActionImp
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.close_wb.applier.CloseWorkbookApplier
 import com.qxdzbc.p6.app.action.app.close_wb.applier.CloseWorkbookApplierImp
 import com.qxdzbc.p6.app.action.app.close_wb.applier.CloseWorkbookInternalApplier
@@ -10,8 +10,8 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookApplier
 import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookApplierImp
-import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookInternalApplier
-import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookInternalApplierImp
+import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
+import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.load_wb.applier.LoadWorkbookApplier
@@ -37,6 +37,10 @@ import dagger.Binds
 interface AppActionModule {
     @Binds
     @P6Singleton
+    fun GetWorkbookAction(i: GetWorkbookActionImp):GetWorkbookAction
+
+    @Binds
+    @P6Singleton
     fun LoadWorkbookAction(i: LoadWorkbookActionImp):LoadWorkbookAction
 
     @Binds
@@ -53,7 +57,7 @@ interface AppActionModule {
 
     @Binds
     @P6Singleton
-    fun CloseWbAction(i:CloseWbActionImp): CloseWbAction
+    fun CloseWbAction(i:CloseWorkbookActionImp): CloseWorkbookAction
 
     @Binds
     @P6Singleton
@@ -64,9 +68,9 @@ interface AppActionModule {
     fun RestartKernelApplier(i: RestartKernelApplierImp): RestartKernelApplier
 
 
-    @Binds
-    @P6Singleton
-    fun CreateNewWorkbookInternalApplier(i: CreateNewWorkbookInternalApplierImp): CreateNewWorkbookInternalApplier
+//    @Binds
+//    @P6Singleton
+//    fun CreateNewWorkbookInternalApplier(i: CreateNewWorkbookInternalApplierImp): CreateNewWorkbookInternalApplier
 
     @Binds
     @P6Singleton

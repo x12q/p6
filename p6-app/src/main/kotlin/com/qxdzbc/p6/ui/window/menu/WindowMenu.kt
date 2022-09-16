@@ -22,10 +22,10 @@ fun FrameWindowScope.WindowMenu(
             Item("Open", mnemonic = 'o', enabled = true) {
                 fileMenuAction?.open(windowState.id)
             }
-            Item("Save", mnemonic = 's', enabled = windowState.activeWorkbookState != null) {
+            Item("Save", mnemonic = 's', enabled = windowState.activeWbState != null) {
                 fileMenuAction?.save(windowState.id)
             }
-            Item("Save as...", enabled = windowState.activeWorkbookState != null) {
+            Item("Save as...", enabled = windowState.activeWbState != null) {
                 fileMenuAction?.saveAs(windowState.id)
             }
 

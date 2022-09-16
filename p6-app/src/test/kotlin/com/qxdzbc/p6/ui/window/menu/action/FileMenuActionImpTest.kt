@@ -40,8 +40,8 @@ internal class FileMenuActionImpTest {
 
     @Test
     fun `saveWorkbook when path is null`() {
-        assertNotNull( windowState.activeWorkbookState)
-        assertNull(windowState.activeWorkbookState?.wbKey?.path)
+        assertNotNull( windowState.activeWbState)
+        assertNull(windowState.activeWbState?.wbKey?.path)
         action.save(windowState.id)
         verify(windowAction, times(1)).openSaveFileDialog(windowState.id)
         verify(windowAction, times(0)).saveActiveWorkbook(any(), any())
@@ -50,12 +50,12 @@ internal class FileMenuActionImpTest {
     @Test
     fun `saveWorkbook when path is valid`() {
         val validPathKey = TestSample.wbk1.setPath(Path.of("sample/path"))
-        assertNotNull(windowState.activeWorkbookStateMs)
+        assertNotNull(windowState.activeWbStateMs)
 
         wbContMs.value = wbContMs.value.replaceKey(TestSample.wbk1, validPathKey)
         wbStateContMs.value = wbStateContMs.value.replaceKey(TestSample.wbk1, validPathKey)
 
-        assertNotNull(windowState.activeWorkbookState?.wbKey?.path)
+        assertNotNull(windowState.activeWbState?.wbKey?.path)
         action.save(windowState.id)
         verify(windowAction, times(0)).openSaveFileDialog(windowState.id)
         verify(windowAction, times(1)).saveActiveWorkbook(any(), any())

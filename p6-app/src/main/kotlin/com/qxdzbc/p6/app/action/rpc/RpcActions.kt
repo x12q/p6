@@ -1,7 +1,8 @@
-package com.qxdzbc.p6.app.action.global
+package com.qxdzbc.p6.app.action.rpc
 
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWbAction
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
+import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
@@ -13,14 +14,14 @@ import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetAction
 
 /**
- * A collection of actions that can be called anywhere in the app.
+ * A collection of actions for rpc services.
  * This serve as an aggregation point and must not have any functions of its own
  */
-interface GlobalAction:
+interface RpcActions:
     CreateNewWorksheetAction, ReplaceWorkbookKeyAction,
     NewWorksheetAction, DeleteWorksheetAction,
     RenameWorksheetAction, SetActiveWorksheetAction,
     CreateNewWorkbookAction, SetActiveWorkbookAction,
-    SaveWorkbookAction,LoadWorkbookAction, CloseWbAction
-{
-}
+    SaveWorkbookAction,LoadWorkbookAction, CloseWorkbookAction, GetWorkbookAction
+
+

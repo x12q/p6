@@ -7,11 +7,9 @@ import java.nio.file.Path
 interface WorkbookKey{
     val name:String
     val path:Path?
-    fun toProto(): DocProtos.WorkbookKeyProto
+    fun toProto(): WorkbookKeyProto
     fun setName(i: String): WorkbookKey
     fun setPath(i: Path?): WorkbookKey
-    @Deprecated("dont use")
-    fun pathScript(): String
 }
 
 fun WorkbookKey(name:String,path:Path?=null):WorkbookKey{
@@ -27,15 +25,9 @@ data class WorkbookKeyImp(
             return proto.toModel()
         }
     }
-    override fun pathScript():String{
-        if(path!=null){
-            return "\"${ path.toAbsolutePath().toString() }\""
-        }else{
-            return "None"
-        }
-    }
-    override fun toProto(): DocProtos.WorkbookKeyProto{
-        val builder= DocProtos.WorkbookKeyProto.newBuilder().setName(name)
+
+    override fun toProto(): WorkbookKeyProto{
+        val builder= WorkbookKeyProto.newBuilder().setName(name)
         if(this.path!=null){
             builder.setPath(this.path.toAbsolutePath().toString())
         }

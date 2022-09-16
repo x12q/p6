@@ -46,7 +46,7 @@ class LoadWorkbookInternalApplierImpTest {
         loadWbInternalApplier.apply(windowId, wb)
         val wds = appState.getWindowStateMsById(windowId)
         assertNotNull(wds)
-        assertEquals(listOf(wb), wds.value.workbookList)
-        assertEquals(listOf(wb.key), wds.value.workbookStateList.map { it.wbKey })
+        assertEquals(listOf(wb), wds.value.wbList)
+        assertEquals(listOf(wb.key), wds.value.wbStateList.map { it.wbKey })
     }
 }

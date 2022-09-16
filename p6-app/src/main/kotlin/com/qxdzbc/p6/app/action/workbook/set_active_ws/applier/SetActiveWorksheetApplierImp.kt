@@ -29,7 +29,7 @@ class SetActiveWorksheetApplierImp @Inject constructor(
             rs.newActiveWbPointer?.also {
                 val wdStateMs = appState.getWindowStateMsByWbKey(k)
                 if(wdStateMs!=null){
-                    wdStateMs.value.activeWorkbookPointer = it
+                    wdStateMs.value.activeWbPointer = it
                 }
             }
 

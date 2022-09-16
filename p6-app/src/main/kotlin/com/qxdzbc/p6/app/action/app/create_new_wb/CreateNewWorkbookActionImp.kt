@@ -13,7 +13,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
      * If the request contains null window id, a default window will be picked (active window, then first window) if possible, if no window is available, a new window will be created.
      */
     override fun createNewWb(request: CreateNewWorkbookRequest) :CreateNewWorkbookResponse{
-        val rs1 = rm.createNewWb(request)
+        val rs1:CreateNewWorkbookResponse = rm.createNewWb(request)
         applier.applyRes(rs1)
         return rs1
     }

@@ -59,10 +59,13 @@ import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.google.gson.Gson
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
+import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
+import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
@@ -239,6 +242,9 @@ interface P6Component {
     fun loadWbAction(): LoadWorkbookAction
     fun pickDefaultActiveWbAction(): PickDefaultActiveWbAction
     fun saveWbAction(): SaveWorkbookAction
+    fun getWorkbookAction(): GetWorkbookAction
+    fun baseApplier(): BaseApplier
+    fun closeWbAct(): CloseWorkbookAction
 
     @Component.Builder
     interface Builder {

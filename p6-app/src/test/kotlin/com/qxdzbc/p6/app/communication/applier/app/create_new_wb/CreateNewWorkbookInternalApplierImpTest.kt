@@ -6,7 +6,8 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
-import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookInternalApplierImp
+import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookApplier
+import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookApplierImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
@@ -18,7 +19,7 @@ import kotlin.test.*
 
 class CreateNewWorkbookInternalApplierImpTest {
 
-    lateinit var applier: CreateNewWorkbookInternalApplierImp
+    lateinit var applier: CreateNewWorkbookApplierImp
     lateinit var appStateMs: Ms<AppState>
     lateinit var errRouter: ErrorRouter
     lateinit var windowStateMs: Ms<WindowState>
@@ -32,8 +33,9 @@ class CreateNewWorkbookInternalApplierImpTest {
         errRouter = mock()
         ts = TestSample()
         appStateMs = ts.sampleAppStateMs()
-        applier = CreateNewWorkbookInternalApplierImp(
-            stateContMs = ts.p6Comp.stateContMs(),
+        applier = CreateNewWorkbookApplierImp(
+         baseApplier = ts.p6Comp.baseApplier(),
+         stateContMs = ts.p6Comp.stateContMs(),
             pickDefaultActiveWb = ts.p6Comp.pickDefaultActiveWbAction()
         )
         windowStateMs = appStateMs.value.windowStateMsList[0]
@@ -55,7 +57,7 @@ class CreateNewWorkbookInternalApplierImpTest {
         assertNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
-        applier.apply(okRes.wb, okRes.windowId)
+        applier.iapply(okRes.wb, okRes.windowId)
         assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }
@@ -80,7 +82,7 @@ class CreateNewWorkbookInternalApplierImpTest {
         assertNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
-        applier.apply(res.wb, res.windowId)
+        applier.iapply(res.wb, res.windowId)
         assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
         assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
     }

@@ -13,7 +13,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.action.global.GlobalAction
+import com.qxdzbc.p6.app.action.rpc.RpcActions
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
@@ -46,7 +46,7 @@ class WorkbookRpcService @Inject constructor(
 //    @AppStateMs
 //    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
-    private val globalAction: GlobalAction,
+    private val rpcActions: RpcActions,
     @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
     @SubAppStateContainerMs
@@ -105,13 +105,13 @@ class WorkbookRpcService @Inject constructor(
             val wsName = req.wsName
             val wsIndex = req.wsIndex
             val rs: Rse<SetActiveWorksheetResponse2> = if (wsName != null) {
-                val setActiveWsRs = globalAction.setActiveWs(
+                val setActiveWsRs = rpcActions.setActiveWs(
                     request = SetActiveWorksheetRequest(wbKey = wbk, wsName = wsName)
                 ).mapError { it.errorReport }
                 setActiveWsRs
             } else if (wsIndex != null) {
                 // find the name
-                val setActiveWsRs = globalAction.setActiveWsUsingIndex(
+                val setActiveWsRs = rpcActions.setActiveWsUsingIndex(
                     request = SetActiveWorksheetWithIndexRequest(wbKey = wbk, wsIndex = wsIndex)
                 ).mapError { it.errorReport }
                 setActiveWsRs
@@ -148,7 +148,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val req = SetWbKeyRequest.fromProto(request)
-            val rs: Rs<Unit, ErrorReport> = globalAction.replaceWbKey(req)
+            val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
             val rt = SingleSignalResponse.fromRs(rs).toProto()
             responseObserver.onNextAndComplete(rt)
         } else {
@@ -167,7 +167,7 @@ class WorkbookRpcService @Inject constructor(
             val wbkMsRs = documentCont.getWbRs(wbKey = wbk)
             val rs = wbkMsRs.flatMap { wb ->
                 val req = request.toModel(wb.keyMs, translator)
-                val rs: Rs<AddWorksheetResponse, ErrorReport> = globalAction.createNewWorksheetRs(req)
+                val rs: Rs<AddWorksheetResponse, ErrorReport> = rpcActions.createNewWorksheetRs(req)
                 rs
             }
             val rt = SingleSignalResponse.fromRs(rs).toProto()
@@ -183,7 +183,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val req: CreateNewWorksheetRequest = request.toModel()
-            val rs = globalAction.createNewWorksheetRs(req)
+            val rs = rpcActions.createNewWorksheetRs(req)
             val rt = WorksheetWithErrorReportMsg.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
         } else {
@@ -197,7 +197,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val req = request.toModel()
-            val rs: Rse<Unit> = globalAction.deleteWorksheetRs(req)
+            val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
             val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
         } else {
@@ -210,7 +210,7 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val rs = globalAction.renameWorksheetRs(request.toModel())
+            val rs = rpcActions.renameWorksheetRs(request.toModel())
             val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
         } else {

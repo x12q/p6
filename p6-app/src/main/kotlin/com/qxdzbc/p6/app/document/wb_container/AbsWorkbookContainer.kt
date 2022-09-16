@@ -12,6 +12,9 @@ import java.nio.file.Path
 
 abstract class AbsWorkbookContainer : WorkbookContainer {
 
+    override val size: Int
+        get() = wbList.size
+
     override fun getWbRs(wbKeySt: St<WorkbookKey>): Result<Workbook, ErrorReport> {
         return getWbMsRs(wbKeySt).map { it.value }
     }

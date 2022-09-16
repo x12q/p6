@@ -20,8 +20,8 @@ abstract class BaseWindowState : WindowState {
             return l.joinToString(" - ")
         }
     override val openCommonFileDialog: Boolean get() = this.commonFileDialogJob != null
-    override val size: Int get() = workbookStateMsList.size
-    override val workbookList: List<Workbook>
+    override val size: Int get() = wbStateMsList.size
+    override val wbList: List<Workbook>
         get() = wbKeySet.mapNotNull {
             this.wbContMs.value.getWb(it)
         }
@@ -31,8 +31,8 @@ abstract class BaseWindowState : WindowState {
         return this
     }
 
-    override val workbookStateList: List<WorkbookState>
-        get() = this.workbookStateMsList.map { it.value }
+    override val wbStateList: List<WorkbookState>
+        get() = this.wbStateMsList.map { it.value }
 
 //    override fun getWorkbookStateMsRs(workbookKey: WorkbookKey, onOk: (Ms<WorkbookState>) -> Unit) {
 //        val rs = this.getWorkbookStateMsRs(workbookKey)

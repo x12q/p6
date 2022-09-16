@@ -44,7 +44,7 @@ class MoveToWbActionImp @Inject constructor(
             appState.activeWindowPointer = appState.activeWindowPointer.pointTo(wds.id)
             val wbkMs = stateCont.getWbKeyMs(wbKey)
             wbkMs?.also {
-                wds.activeWorkbookPointer = wds.activeWorkbookPointer.pointTo(it)
+                wds.activeWbPointer = wds.activeWbPointer.pointTo(it)
             }
         }
     }

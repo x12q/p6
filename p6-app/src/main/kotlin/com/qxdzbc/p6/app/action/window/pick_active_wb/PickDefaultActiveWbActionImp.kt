@@ -4,8 +4,6 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
-import org.checkerframework.checker.nullness.qual.NonNull
-import org.jetbrains.annotations.NotNull
 import javax.inject.Inject
 
 class PickDefaultActiveWbActionImp @Inject constructor(
@@ -14,11 +12,11 @@ class PickDefaultActiveWbActionImp @Inject constructor(
 ) : PickDefaultActiveWbAction {
     override fun pickAndUpdateActiveWbPointer(windowState: WindowState) {
         val ws = windowState
-        if (!ws.activeWorkbookPointer.isValid()) {
+        if (!ws.activeWbPointer.isValid()) {
             val newPointer = ws.wbKeyMsSet.firstOrNull()?.let {
-                ws.activeWorkbookPointer.pointTo(it)
-            } ?: ws.activeWorkbookPointer
-            windowState.activeWorkbookPointer = newPointer
+                ws.activeWbPointer.pointTo(it)
+            } ?: ws.activeWbPointer
+            windowState.activeWbPointer = newPointer
         }
     }
 

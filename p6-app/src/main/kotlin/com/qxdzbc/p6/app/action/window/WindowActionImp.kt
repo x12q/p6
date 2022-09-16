@@ -6,7 +6,7 @@ import androidx.compose.ui.window.ApplicationScope
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWbAction
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -28,7 +28,7 @@ class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val kernelAction: KernelAction,
-    private val closeWbAction: CloseWbAction,
+    private val closeWbAction: CloseWorkbookAction,
     @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>,
     private val newWbAct:CreateNewWorkbookAction,
     private val saveWbAction:SaveWorkbookAction,
