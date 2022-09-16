@@ -33,6 +33,8 @@ import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.ResultUtils.toOk
+import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.rpc.worksheet.msg.CellId
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
@@ -49,11 +51,19 @@ class StateContainerImp @Inject constructor(
 ) : StateContainer, AbsSubAppStateContainer() {
 
     private var subAppStateCont by subAppStateContMs
-
     override var appState by appStateMs
     override val centralScriptContainerMs: Ms<CentralScriptContainer>
         get() = appState.centralScriptContainerMs
     override var centralScriptContainer: CentralScriptContainer by centralScriptContainerMs
+
+    override fun getActiveWorkbook(): Workbook? {
+        return appState.activeWindowState?.activeWbState?.wb
+    }
+
+    override fun getActiveWorkbookRs(): Rse<Workbook> {
+        val wbk: Workbook? = appState.activeWindowState?.activeWbState?.wb
+        return wbk.toRs(AppStateErrors.NoActiveWorkbook.report())
+    }
 
     private val docCont by docContMs
     override val wbContMs: Ms<WorkbookContainer>

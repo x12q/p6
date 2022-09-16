@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.app.state
 
 import com.qxdzbc.common.Rs
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
@@ -20,6 +21,9 @@ interface StateContainer : SubAppStateContainer, DocumentContainer {
 
     val centralScriptContainerMs: Ms<CentralScriptContainer>
     var centralScriptContainer: CentralScriptContainer
+
+    fun getActiveWorkbook(): Workbook?
+    fun getActiveWorkbookRs(): Rse<Workbook>
 
     override fun createNewWindowStateMs(): Pair<StateContainer, Ms<WindowState>>
     override fun createNewWindowStateMs(windowId: String): Pair<StateContainer, Ms<WindowState>>

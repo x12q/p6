@@ -17,6 +17,8 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.path.PPaths
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
+import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
+import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +35,12 @@ class WindowActionImp @Inject constructor(
     private val newWbAct:CreateNewWorkbookAction,
     private val saveWbAction:SaveWorkbookAction,
     private val loadWbAction:LoadWorkbookAction,
-) : WindowAction, KernelAction by kernelAction,SaveWorkbookAction by saveWbAction {
+    private val setActiveWdAct: SetActiveWindowAction
+) :
+    WindowAction,
+    SetActiveWindowAction by setActiveWdAct,
+    KernelAction by kernelAction,
+    SaveWorkbookAction by saveWbAction {
     private var stateCont by stateContMs
     private var appState by appStateMs
 

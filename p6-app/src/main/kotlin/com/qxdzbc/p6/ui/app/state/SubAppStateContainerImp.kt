@@ -21,6 +21,7 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.ResultUtils.toOk
+import com.qxdzbc.p6.rpc.workbook.msg.WorkbookKeyWithErrorResponse
 import javax.inject.Inject
 
 
@@ -35,6 +36,7 @@ class SubAppStateContainerImp @Inject constructor(
 
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
     override var wbStateCont: WorkbookStateContainer by wbStateContMs
+
 
     private fun hasStateFor(wbKey: WorkbookKey): Boolean {
         return this.getWbState(wbKey) != null

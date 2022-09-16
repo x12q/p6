@@ -39,7 +39,10 @@ class CreateNewWorkbookApplierImp @Inject constructor(
                 it.value = it.value.setWindowId(windowId)
             }
             var useNewWindow = false
-
+            /*
+             * If the request contains a non-existing window id, a new window will be created with that id to hold the newly create wb.
+             * If the request contains null window id, a default window will be picked (active window, then first window) if possible, if no window is available, a new window will be created.
+             */
             val wdMs = stateCont.getWindowStateMsDefaultRs(windowId).component1() ?: run {
                 // x: only create new window state if no window is available
                 val newWid = windowId ?: UUID.randomUUID().toString()

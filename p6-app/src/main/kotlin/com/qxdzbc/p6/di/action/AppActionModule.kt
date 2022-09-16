@@ -26,6 +26,8 @@ import com.qxdzbc.p6.app.action.app.save_wb.applier.SaveWorkbookApplier
 import com.qxdzbc.p6.app.action.app.save_wb.applier.SaveWorkbookApplierImp
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookActionImp
+import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
+import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowActionImp
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyActionImp
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.applier.SetActiveWorksheetApplier
@@ -35,6 +37,10 @@ import dagger.Binds
 
 @dagger.Module
 interface AppActionModule {
+    @Binds
+    @P6Singleton
+    fun SetActiveWindowAction(i: SetActiveWindowActionImp):SetActiveWindowAction
+
     @Binds
     @P6Singleton
     fun GetWorkbookAction(i: GetWorkbookActionImp):GetWorkbookAction

@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -22,26 +23,19 @@ class SetActiveWorkbookActionImp @Inject constructor(
     @AppStateMs
     val appStateMs: Ms<AppState>,
 ) : SetActiveWorkbookAction {
+
     private var appState: AppState by appStateMs
     val stateCont by stateContSt
+
     override fun setActiveWb(wbk: WorkbookKey): Rse<Unit> {
-        val wbStateRs: Rse<Ms<WorkbookState>> = stateCont.getWbStateMsRs(wbk)
-        when (wbStateRs) {
-            is Ok -> {
-                val activeWbPointerMs = appState.activeWindowState?.activeWbPointerMs
-                if (activeWbPointerMs != null) {
-                    activeWbPointerMs.value = activeWbPointerMs.value.pointTo(wbStateRs.value.value.wbKeyMs)
-                    return Ok(Unit)
-                } else {
-                    return AppStateErrors.InvalidWindowState.report3("The app does not have any active window, therefore there is no active workbook")
-                        .toErr()
-                }
+        val windowStateRs = stateCont.getWindowStateByWbKeyRs(wbk)
+        val rt= windowStateRs.map {wds->
+            appState.activeWindowPointer = appState.activeWindowPointer.pointTo(wds.id)
+            stateCont.getWbKeyMs(wbk)?.also {
+                wds.activeWbPointer = wds.activeWbPointer.pointTo(it)
             }
-            is Err -> {
-                return wbStateRs
-            }
+            Unit
         }
-
-
+        return rt
     }
 }

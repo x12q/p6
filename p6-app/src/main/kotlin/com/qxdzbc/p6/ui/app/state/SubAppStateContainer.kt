@@ -22,7 +22,6 @@ import com.github.michaelbull.result.Result
  * An abstraction layer providing functions for looking up view states that is under app
  */
 interface SubAppStateContainer {
-
     val windowStateMsListMs: Ms<List<Ms<WindowState>>>
     var windowStateMsList: List<MutableState<WindowState>>
 

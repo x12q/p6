@@ -189,7 +189,7 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         @WindowActivePointerMs
-        fun appActiveWindowPointer(): Ms<ActiveWindowPointer> {
+        fun InitActiveWindowPointer(): Ms<ActiveWindowPointer> {
             return ms(ActiveWindowPointerImp(null))
         }
 

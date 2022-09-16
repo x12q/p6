@@ -65,6 +65,7 @@ import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
+import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
@@ -245,6 +246,7 @@ interface P6Component {
     fun getWorkbookAction(): GetWorkbookAction
     fun baseApplier(): BaseApplier
     fun closeWbAct(): CloseWorkbookAction
+    fun setActiveWindowAction(): SetActiveWindowAction
 
     @Component.Builder
     interface Builder {

@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.window
 
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.window.Window
@@ -25,9 +26,15 @@ import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusDetailDialog
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RpcStatusDetailDialog
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import java.awt.event.WindowEvent
+import java.awt.event.WindowFocusListener
 
-
+enum class WindowTypes {
+    First,
+    Second,
+}
 
 @Composable
 fun WindowView(
@@ -50,6 +57,19 @@ fun WindowView(
             false
         },
     ) {
+        LaunchedEffect(Unit){
+          window.addWindowFocusListener(object: WindowFocusListener{
+              override fun windowGainedFocus(e: WindowEvent?) {
+                  println("WGF:${state.id}")
+                  windowAction.setActiveWindow(state.id)
+              }
+
+              override fun windowLostFocus(e: WindowEvent?) {
+
+              }
+          })
+        }
+
         Surface {
             WindowFrame(
                 menu = {
