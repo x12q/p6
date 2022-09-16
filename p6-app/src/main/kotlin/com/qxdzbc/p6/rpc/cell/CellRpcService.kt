@@ -40,8 +40,6 @@ class CellRpcService @Inject constructor(
             val cell: Cell? = stateCont.getCell(cid)
             val rt = StrMsg(cell?.displayValue ?:"")
             responseObserver.onNextAndComplete(rt.toProto())
-        }else{
-            super.getDisplayValue(request, responseObserver)
         }
     }
 
@@ -54,8 +52,6 @@ class CellRpcService @Inject constructor(
             val cell: Cell? = stateCont.getCell(cid)
             val rt = StrMsg(cell?.formula ?:"")
             responseObserver.onNextAndComplete(rt.toProto())
-        }else{
-            super.getFormula(request, responseObserver)
         }
     }
 
@@ -68,8 +64,6 @@ class CellRpcService @Inject constructor(
             val cell: Cell? = stateCont.getCell(cid)
             val rt:CellValue = cell?.currentCellValue ?: CellValue.empty
             responseObserver.onNextAndComplete(rt.toProto())
-        }else{
-            super.getCellValue(request, responseObserver)
         }
     }
 
@@ -82,8 +76,6 @@ class CellRpcService @Inject constructor(
             val cell: Cell? = stateCont.getCell(cid)
             val rt:CellContent = cell?.content ?: CellContentImp.empty
             responseObserver.onNextAndComplete(rt.toProto())
-        }else{
-            super.getCellContent(request, responseObserver)
         }
     }
 
@@ -95,8 +87,6 @@ class CellRpcService @Inject constructor(
             val req = request.toModel()
             val rt = copyCell.copyCell(req)
             responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(rt).toProto())
-        }else{
-            super.copyFrom(request, responseObserver)
         }
     }
 }

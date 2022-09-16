@@ -76,8 +76,6 @@ class WorkbookRpcService @Inject constructor(
             }
             val rt = GetWorksheetResponse(ws?.id)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.getWorksheet(request, responseObserver)
         }
     }
 
@@ -90,8 +88,6 @@ class WorkbookRpcService @Inject constructor(
             val ws = stateCont.getWbState(wbk)?.activeSheetState?.worksheet
             val rt = GetWorksheetResponse(ws?.id)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.getActiveWorksheet(request, responseObserver)
         }
     }
 
@@ -122,8 +118,6 @@ class WorkbookRpcService @Inject constructor(
             }
             val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.setActiveWorksheet(request, responseObserver)
         }
     }
 
@@ -137,8 +131,6 @@ class WorkbookRpcService @Inject constructor(
                 .getWbRs(wbk).map { it.worksheets }
             val rt = GetAllWorksheetsResponse.fromRs(wsRs)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.getAllWorksheets(request, responseObserver)
         }
     }
 
@@ -151,8 +143,6 @@ class WorkbookRpcService @Inject constructor(
             val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
             val rt = SingleSignalResponse.fromRs(rs).toProto()
             responseObserver.onNextAndComplete(rt)
-        } else {
-            super.setWbKey(request, responseObserver)
         }
     }
 
@@ -172,8 +162,6 @@ class WorkbookRpcService @Inject constructor(
             }
             val rt = SingleSignalResponse.fromRs(rs).toProto()
             responseObserver.onNextAndComplete(rt)
-        } else {
-            super.addWorksheet(request, responseObserver)
         }
     }
 
@@ -186,8 +174,6 @@ class WorkbookRpcService @Inject constructor(
             val rs = rpcActions.createNewWorksheetRs(req)
             val rt = WorksheetWithErrorReportMsg.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.createNewWorksheet(request, responseObserver)
         }
     }
 
@@ -200,8 +186,6 @@ class WorkbookRpcService @Inject constructor(
             val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
             val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.deleteWorksheet(request, responseObserver)
         }
     }
 
@@ -213,8 +197,6 @@ class WorkbookRpcService @Inject constructor(
             val rs = rpcActions.renameWorksheetRs(request.toModel())
             val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.renameWorksheet(request, responseObserver)
         }
     }
 
@@ -227,8 +209,6 @@ class WorkbookRpcService @Inject constructor(
             val wb = documentCont.getWb(wbKey)
             responseObserver.onNext(Int64Value.of((wb?.size ?: 0).toLong()))
             responseObserver.onCompleted()
-        } else {
-            super.sheetCount(request, responseObserver)
         }
     }
 }

@@ -50,8 +50,6 @@ class WorksheetRpcService @Inject constructor(
             val cellRs = stateCont.getCellRs(cellId.wbKey, cellId.wsName, cellId.address)
             val rt = SingleSignalResponse.fromRs(cellRs)
             responseObserver.onNextAndComplete(rt.toProto())
-        } else {
-            super.getCell(request, responseObserver)
         }
     }
 
@@ -64,8 +62,6 @@ class WorksheetRpcService @Inject constructor(
             val ws: Worksheet? = stateCont.getWs(wsId)
             val cellAddressList: List<CellAddress> = (ws?.cells ?: emptyList()).map { it.address }
             responseObserver.onNextAndComplete(GetAllCellResponse(cellAddressList).toProto())
-        } else {
-            super.getAllCell(request, responseObserver)
         }
     }
 
@@ -77,8 +73,6 @@ class WorksheetRpcService @Inject constructor(
             val wsId: WorksheetIdPrt = request.toModel()
             val count: Int = stateCont.getWs(wsId)?.size ?: 0
             responseObserver.onNextAndComplete(CellCountResponse(count.toLong()).toProto())
-        } else {
-            super.getCellCount(request, responseObserver)
         }
     }
 
@@ -92,8 +86,6 @@ class WorksheetRpcService @Inject constructor(
             val ra: RangeAddress? = stateCont.getWs(wsId)?.usedRange
             val res = GetUsedRangeResponse(ra)
             responseObserver.onNextAndComplete(res.toProto())
-        } else {
-            super.getUsedRangeAddress(request, responseObserver)
         }
     }
 
@@ -106,8 +98,6 @@ class WorksheetRpcService @Inject constructor(
             val cid: CellId = request.toModel()
             val o = pasteAction.pasteRange(cid, RangeAddress(cid.address))
             responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
-        } else {
-            super.paste(request, responseObserver)
         }
     }
 
@@ -135,8 +125,6 @@ class WorksheetRpcService @Inject constructor(
                 )
             )
             responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
-        } else {
-            super.addCell(request, responseObserver)
         }
     }
 
@@ -160,9 +148,6 @@ class WorksheetRpcService @Inject constructor(
                 SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
             )
         }
-        else{
-            super.deleteCell(request, responseObserver)
-        }
     }
 
     override fun deleteRange(
@@ -184,8 +169,6 @@ class WorksheetRpcService @Inject constructor(
             responseObserver.onNextAndComplete(
                 SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
             )
-        }else{
-            super.deleteRange(request, responseObserver)
         }
     }
 
@@ -197,8 +180,6 @@ class WorksheetRpcService @Inject constructor(
             val i: CheckContainAddressRequest = request.toModel()
             val o = stateCont.getWs(i.wsId)?.rangeConstraint?.contains(i.cellAddress) ?: false
             responseObserver.onNextAndComplete(o.toBoolMsgProto())
-        }else{
-            super.containAddress(request, responseObserver)
         }
     }
 }
