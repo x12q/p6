@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.*
-import com.qxdzbc.p6.app.document.cell.d.IndCellImp.Companion.toModel
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.RangeImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -26,7 +25,8 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 import com.qxdzbc.p6.app.document.cell.CellId
-import com.qxdzbc.p6.app.document.cell.address.toModel
+import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toModel
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp.Companion.toIndModel
 
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
@@ -49,6 +49,17 @@ data class WorksheetImp(
                 rangeConstraint = rangeConstraint,
                 wbKeySt = wbKeyMs
             )
+        }
+        fun WorksheetProto.toModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
+            var ws:Worksheet= WorksheetImp(
+                nameMs = ms(this.name),
+                table = ImmutableTableCR(),
+                wbKeySt = wbKeyMs
+            )
+            for (cell: Cell in cellList.map { it.toIndModel(translator) }) {
+                ws= ws.addOrOverwrite(cell)
+            }
+            return ws
         }
     }
 
@@ -261,14 +272,7 @@ data class WorksheetImp(
             var newTable = ImmutableTableCR<Int, Int, Ms<Cell>>()
             var newWs:Worksheet = this.removeAllCell()
             for (cellProto: DocProtos.CellProto in wsProto.cellList) {
-                val indCell = cellProto.toModel(translator)
-                val newCell = CellImp(
-                    id = CellId(
-                        address = indCell.address,
-                        wbKeySt, wsNameSt
-                    ),
-                    content = indCell.content
-                )
+                val newCell = cellProto.toModel(wbKeySt,wsNameSt,translator)
                 val cMs:Ms<Cell> = this.getCellMs(newCell.address)?.apply {
                     value = newCell
                 } ?: ms(newCell)
@@ -319,17 +323,4 @@ data class WorksheetImp(
         result = 31 * result + name.hashCode()
         return result
     }
-}
-
-
-fun WorksheetProto.toModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
-    var ws:Worksheet= WorksheetImp(
-        nameMs = ms(this.name),
-        table = ImmutableTableCR(),
-        wbKeySt = wbKeyMs
-    )
-    for (cell: Cell in cellList.map { it.toModel(translator) }) {
-       ws= ws.addOrOverwrite(cell)
-    }
-    return ws
 }
