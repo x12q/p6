@@ -289,31 +289,9 @@ data class WorksheetImp(
         return this.copy(table = table.removeAll())
     }
 
-    /***
-     * TODO this actually does not need re-translation
-     */
-    override fun setWsName(newName: String, translator: P6Translator<ExUnit>): Worksheet {
-        var newTable = emptyTable
-        val cellMap = table.dataMap
-        for ((colIndex, col) in cellMap) {
-            for ((rowIndex, cellMs) in col) {
-                val cell: Cell by cellMs
-                val formula = cell.formula
-                val newCell: Cell = if (formula != null) {
-                    val transRs = translator.translate(formula)
-                    CellImp(
-                        CellId(cell.address, wbKeySt, wsNameSt),
-                        content = CellContentImp.fromTransRs(transRs)
-                    )
-                } else {
-                    cell
-                }
-                cellMs.value = newCell
-                newTable = newTable.set(colIndex, rowIndex, cellMs)
-            }
-        }
+    override fun setWsName(newName: String): Worksheet {
         this.nameMs.value = newName
-        return this.copy(table = newTable)
+        return this
     }
 
     override fun hashCode(): Int {

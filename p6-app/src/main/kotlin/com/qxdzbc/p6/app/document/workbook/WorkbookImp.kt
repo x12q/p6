@@ -180,8 +180,7 @@ data class WorkbookImp(
 
     override fun renameWsRs(
         oldName: String,
-        newName: String,
-        translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>
+        newName: String
     ): Result<Workbook, ErrorReport> {
         val wsMs = this.getWsMs(oldName)
         if (wsMs != null) {
@@ -193,7 +192,7 @@ data class WorkbookImp(
                 }
                 if (!this.containSheet(newName)) {
                     val oldWorkSheet = wsMs.value
-                    val newWorksheet = oldWorkSheet.setWsName(newName, translatorGetter(oldWorkSheet.id))
+                    val newWorksheet = oldWorkSheet.setWsName(newName)
                     wsMs.value = newWorksheet
                     return Ok(this)
                 } else {
@@ -208,13 +207,12 @@ data class WorkbookImp(
     override fun renameWsRs(
         index: Int,
         newName: String,
-        translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>
     ): Result<Workbook, ErrorReport> {
         val oldWsMs = this.getWsMs(index)
 
         if (oldWsMs != null) {
             val oldWorksheet = oldWsMs.value
-            val newWorksheet = oldWorksheet.setWsName(newName, translatorGetter(oldWorksheet.id))
+            val newWorksheet = oldWorksheet.setWsName(newName)
             oldWsMs.value = newWorksheet
             return Ok(this)
         } else {

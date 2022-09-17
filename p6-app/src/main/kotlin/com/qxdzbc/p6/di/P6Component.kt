@@ -247,6 +247,7 @@ interface P6Component {
     fun baseApplier(): BaseApplier
     fun closeWbAct(): CloseWorkbookAction
     fun setActiveWindowAction(): SetActiveWindowAction
+    fun updateCellAction(): UpdateCellAction
 
     @Component.Builder
     interface Builder {

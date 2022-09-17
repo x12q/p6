@@ -129,6 +129,6 @@ interface Worksheet : WithSize, WbWsSt {
     }
 
     fun removeCells(cells: Collection<CellAddress>): Worksheet
-    fun setWsName(newName: String, translator: P6Translator<ExUnit>): Worksheet
+    fun setWsName(newName: String): Worksheet
     fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet
 }

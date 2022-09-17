@@ -73,12 +73,8 @@ interface Workbook : WithSize {
     /**
      * for renaming a worksheet inside a workbook. This include checking the legality of the new worksheet name (illegal name format, name collision)
      */
-    fun renameWsRs(oldName: String, newName: String,
-                   translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
-    ): Result<Workbook, ErrorReport>
-    fun renameWsRs(index: Int, newName: String,
-                   translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>
-    ): Result<Workbook, ErrorReport>
+    fun renameWsRs(oldName: String, newName: String): Result<Workbook, ErrorReport>
+    fun renameWsRs(index: Int, newName: String): Result<Workbook, ErrorReport>
 
     fun moveWs(targetIndex: Int, toIndex: Int): Result<Workbook, ErrorReport>
     fun moveWs(targetName: String, toIndex: Int): Result<Workbook, ErrorReport>
