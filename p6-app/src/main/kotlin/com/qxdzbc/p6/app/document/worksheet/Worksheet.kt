@@ -10,10 +10,12 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.common.table.TableCR
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.cell.d.CellContent
 import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -24,6 +26,8 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
 interface Worksheet : WithSize, WbWsSt {
+
+//    fun isSimilar(ws:Worksheet):Boolean
 
     fun reRun(): Worksheet
 
@@ -93,7 +97,7 @@ interface Worksheet : WithSize, WbWsSt {
 
     fun getCellOrDefaultRs(cellAddress: CellAddress): Result<Cell, ErrorReport> {
         if (rangeConstraint.contains(cellAddress)) {
-            return Ok(getCell(cellAddress) ?: CellImp(cellAddress))
+            return Ok(getCell(cellAddress) ?: CellImp(CellId(cellAddress,wbKeySt, wsNameSt)))
         } else {
             return Err(WorksheetErrors.InvalidCell(cellAddress))
         }

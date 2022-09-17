@@ -6,6 +6,9 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.CellProtos
 import com.google.protobuf.ByteString
 
+/**
+ * TODO update this to use wbkey st, wsname st
+ */
 data class CellUpdateRequest(
     override val wbKey: WorkbookKey,
     val wsName: String,
@@ -13,9 +16,6 @@ data class CellUpdateRequest(
     val formula: String?=null,
     val cellValue:Any?=null,
 ) : RequestToP6WithWorkbookKey {
-//    override fun toProtoBytes(): ByteString {
-//        return this.toProto().toByteString()
-//    }
     fun toProto():CellProtos.CellUpdateRequestProto{
         val rt = CellProtos.CellUpdateRequestProto.newBuilder()
             .setWorkbookKey(wbKey.toProto())

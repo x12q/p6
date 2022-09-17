@@ -8,7 +8,6 @@ import androidx.compose.ui.input.key.*
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
-import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -21,6 +20,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
 import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
@@ -69,8 +69,8 @@ class CursorActionImp @Inject constructor(
                         RangeToClipboardRequest(
                             rangeId = RangeIdImp(
                                 rangeAddress = targetRange,
-                                wbKey = cursorState.id.wbKey,
-                                wsName = cursorState.id.wsName
+                                wbKeySt = cursorState.id.wbKeySt,
+                                wsNameSt = cursorState.id.wsNameSt
                             ),
                             windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
                         )
@@ -81,8 +81,8 @@ class CursorActionImp @Inject constructor(
                         RangeToClipboardRequest(
                             rangeId = RangeIdImp(
                                 rangeAddress = RangeAddress(cursorState.mainCell),
-                                wbKey = cursorState.id.wbKey,
-                                wsName = cursorState.id.wsName
+                                wbKeySt = cursorState.id.wbKeySt,
+                                wsNameSt = cursorState.id.wsNameSt
                             ),
                             windowId = appState.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
                         )

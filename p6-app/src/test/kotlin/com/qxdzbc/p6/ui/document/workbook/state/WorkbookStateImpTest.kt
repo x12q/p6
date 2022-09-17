@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.document.workbook.state
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
-import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toCellValue
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
@@ -30,7 +30,7 @@ class WorkbookStateImpTest {
             listOf(
                 WorksheetImp("Sheet1_2".toMs(),testSample.wbKey2Ms).let {
                     val z = it
-                        .addOrOverwrite(CellImp(CellAddress("A1"), CellContentImp(
+                        .addOrOverwrite(IndCellImp(CellAddress("A1"), CellContentImp(
                             cellValueMs="a1".toCellValue().toMs())))
                     z
                 },
@@ -44,15 +44,15 @@ class WorkbookStateImpTest {
             listOf(
                 WorksheetImp("Sheet1_2".toMs(),mock()).let {
                     val z = it
-                        .addOrOverwrite(CellImp(CellAddress("A1"), CellContentImp(cellValueMs ="a1".toCellValue().toMs())))
-                        .addOrOverwrite(CellImp(CellAddress("A2"), CellContentImp(cellValueMs ="a2".toCellValue().toMs())))
+                        .addOrOverwrite(IndCellImp(CellAddress("A1"), CellContentImp(cellValueMs ="a1".toCellValue().toMs())))
+                        .addOrOverwrite(IndCellImp(CellAddress("A2"), CellContentImp(cellValueMs ="a2".toCellValue().toMs())))
 
                     z
                 },
                 WorksheetImp("Sheet2_2".toMs(),mock()).let {
                     val z = it
-                        .addOrOverwrite(CellImp(CellAddress("B1"), CellContentImp(cellValueMs ="b1".toCellValue().toMs())))
-                        .addOrOverwrite(CellImp(CellAddress("B2"), CellContentImp(cellValueMs ="b2".toCellValue().toMs())))
+                        .addOrOverwrite(IndCellImp(CellAddress("B1"), CellContentImp(cellValueMs ="b1".toCellValue().toMs())))
+                        .addOrOverwrite(IndCellImp(CellAddress("B2"), CellContentImp(cellValueMs ="b2".toCellValue().toMs())))
 
                     z
                 }

@@ -11,7 +11,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
-import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toCellValue
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
@@ -52,24 +52,24 @@ class JvmFormulaTranslator_Integration_Test {
                 listOf(
                     WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms)
                         .addOrOverwrite(
-                            CellImp(
+                            IndCellImp(
                                 address = CellAddress("A1"),
                                 content = CellContentImp(1.0.toCellValue().toMs())
                             )
                         )
                         .addOrOverwrite(
-                            CellImp(
+                            IndCellImp(
                                 address = CellAddress("B2"),
                                 content = CellContentImp(2.0.toCellValue().toMs())
                             )
                         )
                         .addOrOverwrite(
-                            CellImp(
+                            IndCellImp(
                                 address = CellAddress("C3"),
                                 content = CellContentImp(3.0.toCellValue().toMs())
                             )
                         ).addOrOverwrite(
-                            CellImp(
+                            IndCellImp(
                                 address = CellAddress("D4"),
                                 content = CellContentImp("abc".toCellValue().toMs())
                             )

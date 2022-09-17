@@ -25,12 +25,12 @@ class SaveLoadIntegrationTest {
     }
 
     @Test
-    fun loadThenSave() {
+    fun `load then save to a different file`() {
         val sct by ts.stateContMs()
-        val path = this.javaClass.getResource("/sampleWb/w1.txt")?.toURI()?.toPath()
-        assertNotNull(path)
-        val wbk = WorkbookKey("w1.txt",path)
-        loadAct.loadWorkbook(LoadWorkbookRequest(PPaths.get(path),null))
+        val originalPath = this.javaClass.getResource("/sampleWb/w1.txt")?.toURI()?.toPath()
+        assertNotNull(originalPath)
+        val wbk = WorkbookKey("w1.txt",originalPath)
+        loadAct.loadWorkbook(LoadWorkbookRequest(PPaths.get(originalPath),null))
         val wbkSt = sct.getWbKeySt(wbk)
         assertNotNull(wbkSt)
         assertNotNull(sct.getWb(wbk))

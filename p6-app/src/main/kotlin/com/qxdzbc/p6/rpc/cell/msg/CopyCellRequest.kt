@@ -1,18 +1,18 @@
 package com.qxdzbc.p6.rpc.cell.msg
 
 import com.qxdzbc.p6.proto.CellProtos.CopyCellRequestProto
-import com.qxdzbc.p6.rpc.worksheet.msg.CellId
-import com.qxdzbc.p6.rpc.worksheet.msg.CellId.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId
+import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId.Companion.toIndeModel
 
 class CopyCellRequest(
-    val fromCell: CellId,
-    val toCell: CellId,
+    val fromCell: IndeCellId,
+    val toCell: IndeCellId,
 ) {
     companion object{
         fun CopyCellRequestProto.toModel(): CopyCellRequest {
             return CopyCellRequest(
-                fromCell = this.fromCell.toModel(),
-                toCell = this.toCell.toModel()
+                fromCell = this.fromCell.toIndeModel(),
+                toCell = this.toCell.toIndeModel()
             )
         }
     }

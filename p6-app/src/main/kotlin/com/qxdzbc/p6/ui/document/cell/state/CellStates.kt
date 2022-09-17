@@ -9,7 +9,7 @@ object CellStates {
     fun blank(cellAddress: CellAddress):CellState{
         return CellStateImp(
             address =cellAddress,
-            cellMs =ms(Cells.empty(cellAddress)),
+            cellMs =ms(Cells.emptyIndCell(cellAddress)),
             textFormatMs = ms(TextFormat.default)
         )
     }

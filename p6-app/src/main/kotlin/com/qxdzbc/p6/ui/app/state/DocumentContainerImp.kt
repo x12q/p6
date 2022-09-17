@@ -13,7 +13,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.LazyRangeFactory
@@ -24,7 +24,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
-import com.qxdzbc.p6.rpc.worksheet.msg.CellId
+import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
@@ -49,6 +49,10 @@ class DocumentContainerImp @Inject constructor(
         return this.getWb(wbKey)?.keyMs
     }
 
+    override fun getWbKeyStRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>> {
+        return this.getWbRs(wbKey).map { it.keyMs }
+    }
+
     override fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>? {
         return this.getWb(wbKey)?.keyMs
     }
@@ -61,8 +65,16 @@ class DocumentContainerImp @Inject constructor(
         return this.getWs(wbKey, wsName)?.nameMs
     }
 
+    override fun getWsNameSt(wbws: WbWs): St<String>? {
+        return this.getWs(wbws)?.nameMs
+    }
+
     override fun getWsNameSt(wbKeySt: St<WorkbookKey>, wsName: String): St<String>? {
         return this.getWb(wbKeySt)?.getWs(wsName)?.nameMs
+    }
+
+    override fun getWsNameStRs(wbws: WbWs): Rse<St<String>> {
+        return this.getWsRs(wbws).map { it.wsNameSt }
     }
 
     override fun getWsNameMs(wbKey: WorkbookKey, wsName: String): Ms<String>? {
@@ -135,6 +147,12 @@ class DocumentContainerImp @Inject constructor(
         }
     }
 
+    override fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport> {
+        return this.wbCont.getWbRs(wbws.wbKey).flatMap {
+            it.getWsRs(wbws.wsName)
+        }
+    }
+
     override fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet? {
         return this.wbCont.getWb(wbKey)?.getWs(wsName)
     }
@@ -149,15 +167,6 @@ class DocumentContainerImp @Inject constructor(
 
     override fun getWs(wbwsSt: WbWsSt): Worksheet? {
         return this.wbCont.getWb(wbwsSt.wbKeySt)?.getWs(wbwsSt.wsNameSt)
-    }
-
-    override fun getWs(wsId: WorksheetIdPrt): Worksheet? {
-        val wb: Workbook? = this.wbCont.getWb(wsId.wbKey)
-        if (wb != null) {
-            return wb.getWs(wsId.wsName)
-        } else {
-            return null
-        }
     }
 
     override fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet? {
@@ -261,7 +270,7 @@ class DocumentContainerImp @Inject constructor(
         return this.getWsRs(wbKeySt, wsNameSt).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
-    override fun getCellRs(cellId: CellId): Rs<Cell, ErrorReport> {
+    override fun getCellRs(cellId: IndeCellId): Rs<Cell, ErrorReport> {
         return getCellRs(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
@@ -269,7 +278,7 @@ class DocumentContainerImp @Inject constructor(
         return this.getCellRs(wbKey, wsName, cellAddress).component1()
     }
 
-    override fun getCell(cellId: CellId): Cell? {
+    override fun getCell(cellId: IndeCellId): Cell? {
         return getCellRs(cellId).component1()
     }
 
@@ -293,7 +302,7 @@ class DocumentContainerImp @Inject constructor(
         }
     }
 
-    override fun getCellMsRs(cellId: CellId): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(cellId: IndeCellId): Rs<Ms<Cell>, ErrorReport> {
         return getCellMsRs(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
@@ -301,7 +310,7 @@ class DocumentContainerImp @Inject constructor(
         return getCellMsRs(wbKey, wsName, cellAddress).component1()
     }
 
-    override fun getCellMs(cellId: CellId): Ms<Cell>? {
+    override fun getCellMs(cellId: IndeCellId): Ms<Cell>? {
         return getCellMsRs(cellId).component1()
     }
 
@@ -310,7 +319,7 @@ class DocumentContainerImp @Inject constructor(
         return this
     }
 
-    override fun getRangeRs(rangeId: RangeIdImp): Result<Range, ErrorReport> {
+    override fun getRangeRs(rangeId: RangeId): Result<Range, ErrorReport> {
         val rt = this.getWbRs(rangeId.wbKey).andThen { wb ->
             wb.getWsRs(rangeId.wsName).andThen { ws ->
                 ws.range(rangeId.rangeAddress)

@@ -35,7 +35,7 @@ class CursorAndCellEditorTest {
     }
 
     @Test
-    fun `test selective formula convertion function`(){
+    fun `test short formula convertion function`(){
         val wbk = ts.wbKey1Ms.value
         val wbk2 = ts.wbKey2Ms.value
         val wds = appState.getWindowStateMsByWbKey(wbk)

@@ -43,8 +43,8 @@ internal class ExUnit_GetCell {
             cellAddressUnit = CellAddress("B2").exUnit(),
             functionMapSt = mock()
         )
-        assertEquals("B2@'Sheet1'", u.toFormulaSelective(wbk1, "Sheet2"))
-        assertEquals("B2", u.toFormulaSelective(wbk1, "Sheet1"))
-        assertEquals("B2@'Sheet1'@'Wb1'", u.toFormulaSelective(wbk2, "Sheet1"))
+        assertEquals("B2@'Sheet1'", u.toShortFormula(wbk1, "Sheet2"))
+        assertEquals("B2", u.toShortFormula(wbk1, "Sheet1"))
+        assertEquals("B2@'Sheet1'@'Wb1'", u.toShortFormula(wbk2, "Sheet1"))
     }
 }

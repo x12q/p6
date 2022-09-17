@@ -2,7 +2,6 @@ package com.qxdzbc.p6.app.document.range
 
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -11,7 +10,7 @@ import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.action.range.RangeIdImp2
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -28,7 +27,7 @@ data class LazyRange @AssistedInject constructor(
     val wbKey by wbKeySt
     val worksheet get() = documentContMs.value.getWs(wbKey, wsNameSt.value)
     override val rangeId: RangeId by derivedStateOf {
-        RangeIdImp2(
+        RangeIdImp(
             rangeAddress = this.address,
             wbKeySt = wbKeySt,
             wsNameSt = wsNameSt

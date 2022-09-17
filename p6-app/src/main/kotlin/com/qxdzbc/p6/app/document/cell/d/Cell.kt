@@ -2,7 +2,10 @@ package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.Shiftable
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -10,7 +13,10 @@ import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 
-interface Cell :Shiftable{
+interface Cell :Shiftable,WbWsSt{
+
+    fun isSimilar(c:Cell):Boolean
+
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
@@ -22,7 +28,9 @@ interface Cell :Shiftable{
     /**
      * A cell's address never changes, so no need for a Ms
      */
+    val id:CellId
     val address: CellAddress
+
     val content: CellContent
     val formula: String?
     fun formula(wbKey: WorkbookKey? = null, wsName: String? = null): String?

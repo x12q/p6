@@ -16,7 +16,6 @@ import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.action.range.RangeIdImp
-import com.qxdzbc.p6.app.action.range.RangeIdImp2
 import com.qxdzbc.p6.app.common.utils.Utils.toTF
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -52,7 +51,7 @@ interface ExUnit : Shiftable, ColorKey {
         wsName: String?
     ): AnnotatedString? {
         val color: Color? = colorProvider.getColor(this)
-        val str: String? = toFormulaSelective(wbKey, wsName)
+        val str: String? = toShortFormula(wbKey, wsName)
         val rt: AnnotatedString? = str?.let {
             buildAnnotatedString {
                 if (color != null) {
@@ -81,7 +80,7 @@ interface ExUnit : Shiftable, ColorKey {
     fun toFormula(
     ): String?
 
-    fun toFormulaSelective(
+    fun toShortFormula(
         wbKey: WorkbookKey? = null,
         wsName: String? = null
     ): String?
@@ -111,7 +110,7 @@ interface ExUnit : Shiftable, ColorKey {
             return rangeAddress.label
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             return rangeAddress.label
         }
 
@@ -140,7 +139,7 @@ interface ExUnit : Shiftable, ColorKey {
             return cellAddress.toLabel()
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             return cellAddress.toLabel()
         }
 
@@ -166,7 +165,7 @@ interface ExUnit : Shiftable, ColorKey {
             }
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             if (wbKey == this.wbKeySt.value) {
                 return ""
             } else {
@@ -191,7 +190,7 @@ interface ExUnit : Shiftable, ColorKey {
             return null
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
             return null
         }
 
@@ -310,9 +309,9 @@ interface ExUnit : Shiftable, ColorKey {
             }
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u2.toFormulaSelective(wbKey, wsName)
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toShortFormula(wbKey, wsName)
+            val f2 = u2.toShortFormula(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} + ${f2}"
             } else {
@@ -403,9 +402,9 @@ interface ExUnit : Shiftable, ColorKey {
             }
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u2.toFormulaSelective(wbKey, wsName)
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toShortFormula(wbKey, wsName)
+            val f2 = u2.toShortFormula(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} - ${f2}"
             } else {
@@ -486,9 +485,9 @@ interface ExUnit : Shiftable, ColorKey {
             }
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u2.toFormulaSelective(wbKey, wsName)
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toShortFormula(wbKey, wsName)
+            val f2 = u2.toShortFormula(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} * ${f2}"
             } else {
@@ -569,9 +568,9 @@ interface ExUnit : Shiftable, ColorKey {
             }
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u2.toFormulaSelective(wbKey, wsName)
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toShortFormula(wbKey, wsName)
+            val f2 = u2.toShortFormula(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} / ${f2}"
             } else {
@@ -657,9 +656,9 @@ interface ExUnit : Shiftable, ColorKey {
             }
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            val f1 = u1.toFormulaSelective(wbKey, wsName)
-            val f2 = u2.toFormulaSelective(wbKey, wsName)
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u1.toShortFormula(wbKey, wsName)
+            val f2 = u2.toShortFormula(wbKey, wsName)
             if (f1 != null && f2 != null) {
                 return "${f1} ^ ${f2}"
             } else {
@@ -733,8 +732,8 @@ interface ExUnit : Shiftable, ColorKey {
             }
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String? {
-            val f1 = u.toFormulaSelective(wbKey, wsName)
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+            val f1 = u.toShortFormula(wbKey, wsName)
             if (f1 != null) {
                 return "-${f1}"
             } else {
@@ -781,7 +780,7 @@ interface ExUnit : Shiftable, ColorKey {
             return _v.toString()
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             return _v.toString()
         }
     }
@@ -802,7 +801,7 @@ interface ExUnit : Shiftable, ColorKey {
             return this._v.toString()
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             return _v.toString()
         }
     }
@@ -820,7 +819,7 @@ interface ExUnit : Shiftable, ColorKey {
             return "\"${v}\""
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             return "\"${v}\""
         }
 
@@ -842,7 +841,7 @@ interface ExUnit : Shiftable, ColorKey {
             return "@\'${nameSt.value}\'"
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             if (wsName == nameSt.value) {
                 return ""
             } else {
@@ -868,7 +867,7 @@ interface ExUnit : Shiftable, ColorKey {
             return v.toTF()
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             return v.toTF()
         }
 
@@ -974,9 +973,9 @@ interface ExUnit : Shiftable, ColorKey {
             return "${u.funcName}(${argsStr})"
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             val u = this
-            val argsStr = u.args.map { it.toFormulaSelective(wbKey, wsName) }.filterNotNull().joinToString(", ")
+            val argsStr = u.args.map { it.toShortFormula(wbKey, wsName) }.filterNotNull().joinToString(", ")
             return "${u.funcName}(${argsStr})"
         }
     }
@@ -1002,7 +1001,7 @@ interface ExUnit : Shiftable, ColorKey {
         }
 
         override fun getRangeIds(): List<RangeId> {
-            return listOf(RangeIdImp2(
+            return listOf(RangeIdImp(
                 rangeAddress = RangeAddress(this.cellAddressUnit.cellAddress),
                 wbKeySt = wbKeyUnit.wbKeySt,
                 wsNameSt = wsNameUnit.nameSt
@@ -1014,7 +1013,7 @@ interface ExUnit : Shiftable, ColorKey {
             wbKey: WorkbookKey?,
             wsName: String?
         ): AnnotatedString {
-            val str: String = toFormulaSelective(wbKey, wsName)
+            val str: String = toShortFormula(wbKey, wsName)
             val color: Color? = colorProvider.getColor(this)
             val rt: AnnotatedString = buildAnnotatedString {
                     if (color != null) {
@@ -1046,7 +1045,7 @@ interface ExUnit : Shiftable, ColorKey {
             return range + ws + wb
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             val a1 = wbKeyUnit
             val a2 = wsNameUnit
             val a3 = cellAddressUnit
@@ -1080,7 +1079,7 @@ interface ExUnit : Shiftable, ColorKey {
         override val args: List<ExUnit>
             get() = listOf(wbKeyUnit, wsNameUnit, rangeAddressUnit)
         override fun getRangeIds(): List<RangeId> {
-            return listOf(RangeIdImp2(
+            return listOf(RangeIdImp(
                 rangeAddress = rangeAddressUnit.rangeAddress,
                 wbKeySt = wbKeyUnit.wbKeySt,
                 wsNameSt = wsNameUnit.nameSt
@@ -1099,7 +1098,7 @@ interface ExUnit : Shiftable, ColorKey {
             wbKey: WorkbookKey?,
             wsName: String?
         ): AnnotatedString {
-            val str: String = toFormulaSelective(wbKey, wsName)
+            val str: String = toShortFormula(wbKey, wsName)
             val color: Color? = colorProvider.getColor(this)
             val rt: AnnotatedString = buildAnnotatedString {
                     if (color != null) {
@@ -1131,7 +1130,7 @@ interface ExUnit : Shiftable, ColorKey {
             return range + ws + wb
         }
 
-        override fun toFormulaSelective(wbKey: WorkbookKey?, wsName: String?): String {
+        override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
             val a1 = wbKeyUnit
             val a2 = wsNameUnit
             val a3 = rangeAddressUnit

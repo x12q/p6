@@ -1,8 +1,7 @@
 package com.qxdzbc.p6.app.communication.event.data_structure.range.range_to_clipboard
 
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
-import com.qxdzbc.p6.app.communication.event.P6Events
-import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.range.IndRangeIdImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import kotlin.test.Test
@@ -15,7 +14,7 @@ class RangeToClipboardRequestTest {
     @Test
     fun toProto() {
         val m = RangeToClipboardRequest(
-            rangeId = RangeIdImp(
+            rangeId = IndRangeIdImp(
                 rangeAddress = RangeAddress("C1:J2"),
                 wbKey = WorkbookKey("bb"),
                 wsName = "QWE"

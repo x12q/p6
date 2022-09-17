@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.*
-import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toModel
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp.Companion.toModel
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.RangeImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -25,6 +25,8 @@ import com.qxdzbc.p6.ui.document.worksheet.state.*
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
+import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.address.toModel
 
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
@@ -90,6 +92,13 @@ data class WorksheetImp(
             return false
         }
     }
+
+//    override fun isSimilar(ws: Worksheet): Boolean {
+//        val similarId = this.id.isSimilar(ws.id)
+//        val similarTable = table == ws.table
+//        val sameRangeConstraint = rangeConstraint == ws.rangeConstraint
+//        return similarId && similarTable && sameRangeConstraint
+//    }
 
     override fun reRun(): Worksheet {
         val cellMap = table.dataMap
@@ -210,12 +219,17 @@ data class WorksheetImp(
     }
 
     override fun addOrOverwrite(cell: Cell): Worksheet {
-        val cMs = this.getCellMs(cell.address)
+        val address = cell.address
+        val newCell = CellImp(
+            id = CellId(address,wbKeySt, wsNameSt),
+            content = cell.content
+        )
+        val cMs = this.getCellMs(address)
         if (cMs != null) {
             cMs.value = cell
             return this
         } else {
-            val newTable = table.set(cell.address, ms(cell))
+            val newTable = table.set(address, ms(newCell))
             return this.copy(table = newTable)
         }
     }
@@ -245,19 +259,35 @@ data class WorksheetImp(
     override fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet {
         if (this.name == wsProto.name) {
             var newTable = ImmutableTableCR<Int, Int, Ms<Cell>>()
-            for (cell: DocProtos.CellProto in wsProto.cellList) {
-                val newDCell = cell.toModel(translator)
-                val cMs = this.getCellMs(newDCell.address)?.apply {
-                    value = newDCell
-                } ?: ms(newDCell)
-                newTable = newTable.set(newDCell.address, cMs)
+            var newWs:Worksheet = this.removeAllCell()
+            for (cellProto: DocProtos.CellProto in wsProto.cellList) {
+                val indCell = cellProto.toModel(translator)
+                val newCell = CellImp(
+                    id = CellId(
+                        address = indCell.address,
+                        wbKeySt, wsNameSt
+                    ),
+                    content = indCell.content
+                )
+                val cMs:Ms<Cell> = this.getCellMs(newCell.address)?.apply {
+                    value = newCell
+                } ?: ms(newCell)
+                newTable = newTable.set(newCell.address, cMs)
+                newWs=newWs.addOrOverwrite(newCell)
             }
-            return this.copy(table = newTable)
+            return newWs
         } else {
             throw IllegalArgumentException("Cannot update sheet named \"${this.name}\" with data from sheet named \"${wsProto.name}\"")
         }
     }
 
+    fun removeAllCell():WorksheetImp{
+        return this.copy(table = table.removeAll())
+    }
+
+    /***
+     * TODO this actually does not need re-translation
+     */
     override fun setWsName(newName: String, translator: P6Translator<ExUnit>): Worksheet {
         var newTable = emptyTable
         val cellMap = table.dataMap
@@ -268,7 +298,7 @@ data class WorksheetImp(
                 val newCell: Cell = if (formula != null) {
                     val transRs = translator.translate(formula)
                     CellImp(
-                        address = cell.address,
+                        CellId(cell.address, wbKeySt, wsNameSt),
                         content = CellContentImp.fromTransRs(transRs)
                     )
                 } else {
@@ -293,13 +323,13 @@ data class WorksheetImp(
 
 
 fun WorksheetProto.toModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
-    var table = ImmutableTableCR<Int, Int, Ms<Cell>>()
-    for (cell: Cell in cellList.map { it.toModel(translator) }) {
-        table = table.set(cell.address, ms(cell))
-    }
-    return WorksheetImp(
+    var ws:Worksheet= WorksheetImp(
         nameMs = ms(this.name),
-        table = table,
+        table = ImmutableTableCR(),
         wbKeySt = wbKeyMs
     )
+    for (cell: Cell in cellList.map { it.toModel(translator) }) {
+       ws= ws.addOrOverwrite(cell)
+    }
+    return ws
 }

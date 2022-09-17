@@ -23,4 +23,6 @@ interface WorksheetId: WbWs, WbWsSt {
     fun pointToWbKeySt(wbKeyMs:St<WorkbookKey>):WorksheetId
 
     fun toProto():WorksheetIdProto
+
+    fun isSimilar(id:WorksheetId):Boolean
 }

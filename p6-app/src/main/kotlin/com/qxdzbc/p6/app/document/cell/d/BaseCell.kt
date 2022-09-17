@@ -1,12 +1,13 @@
 package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.ui.text.AnnotatedString
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 abstract class BaseCell : Cell {
     override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
-        return content.formula(wbKey, wsName)
+        return content.shortFormula(wbKey, wsName)
     }
 
     override fun colorEditableValue(
@@ -37,10 +38,10 @@ abstract class BaseCell : Cell {
                 return this.cellValueAfterRun.editableValue ?: ""
             }
         }
-    override val formula: String? get() = content.formula
+    override val formula: String? get() = content.fullFormula
     override val displayValue: String get() {
         try{
-            return content.displayValue
+            return content.displayStr
         }catch (e:Throwable){
             return "ERR"
         }

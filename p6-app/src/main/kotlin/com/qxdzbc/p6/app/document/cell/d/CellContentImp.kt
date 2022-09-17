@@ -29,12 +29,12 @@ data class CellContentImp(
     override val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
 ) : CellContent {
-    override val formula: String? get() =  exUnit?.toFormula()?.let {
+    override val fullFormula: String? get() =  exUnit?.toFormula()?.let {
         "="+it
     }
 
-    override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
-        return exUnit?.toFormulaSelective(wbKey, wsName)?.let {
+    override fun shortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+        return exUnit?.toShortFormula(wbKey, wsName)?.let {
             "=" + it
         }
     }
@@ -51,14 +51,14 @@ data class CellContentImp(
     override fun toProto(): CellProtos.CellContentProto {
         return CellContentProto.newBuilder()
             .setCellValue(this.currentCellValue.toProto())
-            .setFormula(this.formula)
+            .setFormula(this.fullFormula)
             .build()
     }
 
     override fun equals(other: Any?): Boolean {
         if (other is CellContent) {
             val c1 = currentCellValue == other.currentCellValue
-            val c2 = formula == other.formula
+            val c2 = fullFormula == other.fullFormula
             return c1 && c2
         } else {
             return false
@@ -131,26 +131,26 @@ data class CellContentImp(
        return reRunRs().component1()
     }
 
-    override val editableContent: String
+    override val editableStr: String
         get() {
             if (this.isFormula) {
-                return this.formula ?: ""
+                return this.fullFormula ?: ""
             } else {
                 return this.cellValueAfterRun.editableValue ?: ""
             }
         }
 
     override fun isEmpty(): Boolean {
-        return formula == null && cellValueAfterRun.isEmpty()
+        return fullFormula == null && cellValueAfterRun.isEmpty()
     }
 
-    override val displayValue: String
+    override val displayStr: String
         get() {
             return currentCellValue.displayStr
         }
 
     override val isFormula: Boolean get() {
-      val f = formula
+      val f = fullFormula
         return f!= null && f.isNotEmpty()
     }
 
@@ -160,7 +160,7 @@ data class CellContentImp(
     }
 
     override fun hashCode(): Int {
-        var result = formula?.hashCode() ?: 0
+        var result = fullFormula?.hashCode() ?: 0
         result = 31 * result + currentCellValue.hashCode()
         return result
     }

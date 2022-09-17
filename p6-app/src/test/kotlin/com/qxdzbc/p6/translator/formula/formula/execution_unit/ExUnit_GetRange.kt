@@ -40,8 +40,8 @@ internal class ExUnit_GetRange {
             rangeAddressUnit =ExUnit.RangeAddressUnit(RangeAddress("B2:K9")),
             functionMapSt = mock()
         )
-        assertEquals("B2:K9@'Sheet1'",u.toFormulaSelective(wbk1,"Sheet2"))
-        assertEquals("B2:K9",u.toFormulaSelective( wbk1,"Sheet1"))
-        assertEquals("B2:K9@'Sheet1'@'Wb1'",u.toFormulaSelective( wbk2,"Sheet1"))
+        assertEquals("B2:K9@'Sheet1'",u.toShortFormula(wbk1,"Sheet2"))
+        assertEquals("B2:K9",u.toShortFormula( wbk1,"Sheet1"))
+        assertEquals("B2:K9@'Sheet1'@'Wb1'",u.toShortFormula( wbk2,"Sheet1"))
     }
 }

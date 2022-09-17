@@ -72,7 +72,7 @@ fun main() = TestApp {
             CellView(
                 CellStateImp(
                     address = address,
-                    cellMs = CellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs())).toMs(),
+                    cellMs = IndCellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs())).toMs(),
                     textFormatMs = ms(
                         TextFormat(
                             color = Color.Red,
@@ -95,7 +95,7 @@ fun main() = TestApp {
             CellView(
                 CellStateImp(
                     address = address,
-                    cellMs = CellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs())).toMs()
+                    cellMs = IndCellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs())).toMs()
                 )
             )
         }

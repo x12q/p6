@@ -19,6 +19,11 @@ data class WorksheetIdImp(
             .setWbKey(this.wbKey.toProto())
             .build()
     }
+
+    override fun isSimilar(id: WorksheetId): Boolean {
+        return wsName == id.wsName && wbKey == id.wbKey
+    }
+
     override fun pointToWsNameMs(wsNameMs: Ms<String>): WorksheetId {
         return this.copy(wsNameMs = wsNameMs)
     }

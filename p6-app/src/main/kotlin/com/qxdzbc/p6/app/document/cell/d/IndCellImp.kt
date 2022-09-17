@@ -11,38 +11,30 @@ import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-data class CellImp(
-    override val id: CellId,
+/**
+ * a [Cell] implementation that is not tied to workbook key state nor worksheet name state
+ */
+data class IndCellImp(
+    override val address: CellAddress,
     override val content: CellContent = CellContentImp(),
-) : BaseCell(), WbWsSt by id {
+) : BaseCell() {
 
-    companion object{
-        fun CellProto.toModel(
-            wbKeySt:St<WorkbookKey>,
-            wsNameSt:St<String>,
-            translator: P6Translator<ExUnit>
-        ): CellImp {
+    companion object {
+        fun CellProto.toModel(translator: P6Translator<ExUnit>): IndCellImp {
             if(this.hasFormula() && this.formula.isNotEmpty()){
                 val transRs = translator.translate(formula)
                 val content = CellContentImp.fromTransRs(transRs)
-                return CellImp(
-                    id = CellId(
-                        address = this.id.cellAddress.toModel(),
-                        wbKeySt=wbKeySt, wsNameSt=wsNameSt
-                    ),
+                return IndCellImp(
+                    address = id.cellAddress.toModel(),
                     content = content
                 )
             }else{
-                return CellImp(
-                    id = CellId(
-                        address = this.id.cellAddress.toModel(),
-                        wbKeySt=wbKeySt, wsNameSt=wsNameSt
-                    ),
+                return IndCellImp(
+                    address = id.cellAddress.toModel(),
                     content = CellContentImp(
                         cellValueMs = this.value.toModel().toMs(),
                     )
@@ -52,15 +44,18 @@ data class CellImp(
     }
 
     override fun isSimilar(c: Cell): Boolean {
-        val similarId = id.isSimilar(c.id)
-        val sameContent = content == c.content
-        return similarId && sameContent
+        val sameAddress = address == c.address
+        val similarContent = content == c.content
+        return sameAddress && similarContent
     }
 
     override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): Cell {
         val newAddress:CellAddress = address.shift(oldAnchorCell, newAnchorCell)
         val newContent:CellContent = content.shift(oldAnchorCell, newAnchorCell)
-        return this.setAddress(newAddress).setContent(newContent)
+        return this.copy(
+            address=newAddress,
+            content = newContent
+        )
     }
 
     override fun reRun(): Cell? {
@@ -73,11 +68,19 @@ data class CellImp(
         return rt
     }
 
-    override val address: CellAddress
-        get() = id.address
+    override val id: CellId
+        get() = throw UnsupportedOperationException()
+    override val wbKeySt: St<WorkbookKey>
+        get() = throw UnsupportedOperationException()
+    override val wbKey: WorkbookKey
+        get() = throw UnsupportedOperationException()
+    override val wsNameSt: St<String>
+        get() = throw UnsupportedOperationException()
+    override val wsName: String
+        get() = throw UnsupportedOperationException()
 
     override fun setAddress(newAddress: CellAddress): Cell {
-        return this.copy(id = id.setAddress(newAddress))
+        return this.copy(address = newAddress)
     }
 
     override fun setContent(content: CellContent): Cell {
@@ -91,20 +94,11 @@ data class CellImp(
     }
 
     override fun toProto(): DocProtos.CellProto {
-        val rt = CellProto.newBuilder()
-            .setId(this.id.toProto())
-            .apply {
-                if (this@CellImp.isFormula) {
-                    this.setFormula(this@CellImp.formula)
-                }
-            }
-            .setValue(this@CellImp.cellValueAfterRun.toProto())
-            .build()
-        return rt
+        throw UnsupportedOperationException()
     }
 
     override fun toString(): String {
-        return "CellImp[address=${address},content=${content}]"
+        return "IndiCellImp[address=${address},content=${content}]"
     }
 }
 

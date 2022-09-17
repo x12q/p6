@@ -3,7 +3,6 @@ package com.qxdzbc.p6.app.document.range.copy_paste
 import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.common.copiers.binary_copier.BinaryTransferable
-import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.RangeCopy
@@ -15,6 +14,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
@@ -34,7 +34,7 @@ class RangeRangePasterImp @Inject constructor(
     val stateCont by stateContSt
 
     companion object {
-        fun pasteRs(source: RangeCopy, target: RangeIdImp, wb: Workbook): Result<Workbook, ErrorReport> {
+        fun pasteRs(source: RangeCopy, target: RangeId, wb: Workbook): Result<Workbook, ErrorReport> {
             return wb.getWsRs(target.wsName).map {
                 var tws: Worksheet = it
                 val sourceRangeAddress: RangeAddress = source.rangeId.rangeAddress
@@ -62,7 +62,7 @@ class RangeRangePasterImp @Inject constructor(
         }
     }
 
-    override fun paste(target: RangeIdImp): Result<Workbook, ErrorReport> {
+    override fun paste(target: RangeId): Result<Workbook, ErrorReport> {
         try {
             val rangeCopy: RangeCopy? = getRangeCopyFromClipboard(target.wbKey, target.wsName)
             return this.paste(rangeCopy, target)
@@ -87,7 +87,7 @@ class RangeRangePasterImp @Inject constructor(
         }
     }
 
-    private fun paste(rangeCopy: RangeCopy?, target: RangeIdImp): Result<Workbook, ErrorReport> {
+    private fun paste(rangeCopy: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
         val rt:Result<Workbook,ErrorReport> = stateContSt.value.getWbRs(target.wbKey).flatMap { wb ->
             if(rangeCopy!=null){
                 pasteRs(rangeCopy, target, wb)

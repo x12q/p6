@@ -18,6 +18,8 @@ import com.qxdzbc.common.compose.St
  */
 interface Workbook : WithSize {
 
+//    fun isSimilar(wb:Workbook):Boolean
+
     fun reRun():Workbook
 
     fun toProto(): WorkbookProto

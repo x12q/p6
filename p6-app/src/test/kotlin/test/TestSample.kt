@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toCellValue
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
 import com.qxdzbc.p6.app.document.script.ScriptEntry
@@ -161,24 +161,24 @@ class TestSample {
                         listOf(
                             WorksheetImp(wsn1.toMs(), wbKeySt = wbKey1Ms)
                                 .addOrOverwrite(
-                                    CellImp(
+                                    IndCellImp(
                                         address = CellAddress("A1"),
                                         content = CellContentImp(cellValueMs = 1.0.toCellValue().toMs())
                                     )
                                 )
                                 .addOrOverwrite(
-                                    CellImp(
+                                    IndCellImp(
                                         address = CellAddress("B2"),
                                         content = CellContentImp(cellValueMs = 2.0.toCellValue().toMs())
                                     )
                                 )
                                 .addOrOverwrite(
-                                    CellImp(
+                                    IndCellImp(
                                         address = CellAddress("C3"),
                                         content = CellContentImp(cellValueMs = 3.0.toCellValue().toMs())
                                     )
                                 ).addOrOverwrite(
-                                    CellImp(
+                                    IndCellImp(
                                         address = CellAddress("D4"),
                                         content = CellContentImp(cellValueMs = "abc".toCellValue().toMs())
                                     )
@@ -240,6 +240,11 @@ class TestSample {
     val sampleWindowStateMs get() = appState.windowStateMsList.get(0)
 
     val wbContMs = appState.wbContMs
+
+    val wb1Ms get()= this.wbContMs.value.getWbMs(wbKey1Ms)!!
+    val wb1 get() =wb1Ms.value
+    val wb2Ms get()= this.wbContMs.value.getWbMs(wbKey2Ms)!!
+    val wb2 get()= wb2Ms.value
 
     init {
         appState.wbStateContMs.value = makeSampleWbStateContMs()

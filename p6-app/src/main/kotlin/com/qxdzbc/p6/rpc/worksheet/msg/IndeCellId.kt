@@ -7,14 +7,14 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.DocProtos.CellIdProto
 
-data class CellId(
+data class IndeCellId(
     val address:CellAddress,
     override val wbKey:WorkbookKey,
     override val wsName:String
 ) :WbWs{
     companion object{
-        fun CellIdProto.toModel(): CellId {
-            return CellId(
+        fun CellIdProto.toIndeModel(): IndeCellId {
+            return IndeCellId(
                 address = this.cellAddress.toModel(),
                 wbKey = this.wbKey.toModel(),
                 wsName = this.wsName

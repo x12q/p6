@@ -6,7 +6,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
-import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -64,28 +64,28 @@ class IntegrationTest {
             worksheetMsList = listOf(
                 WorksheetImp(wsNameSt, wbKeySt = wbKeySt).let { ws ->
                     ws.addOrOverwrite(
-                        CellImp(
+                        IndCellImp(
                             address = CellAddress("A1"),
                             content = CellContentImp(
                                 cellValueMs = CellValue.from(1).toMs()
                             )
                         )
                     ).addOrOverwrite(
-                        CellImp(
+                        IndCellImp(
                             address = CellAddress("A2"),
                             content = CellContentImp(
                                 cellValueMs = CellValue.from(2).toMs()
                             )
                         )
                     ).addOrOverwrite(
-                        CellImp(
+                        IndCellImp(
                             address = CellAddress("A3"),
                             content = CellContentImp(
                                 cellValueMs = CellValue.from(3).toMs()
                             )
                         )
                     ).addOrOverwrite(
-                        CellImp(
+                        IndCellImp(
                             address = CellAddress("C1"),
                             content = CellContentImp(
 //                                formula = "=SUM(A1:A3)",

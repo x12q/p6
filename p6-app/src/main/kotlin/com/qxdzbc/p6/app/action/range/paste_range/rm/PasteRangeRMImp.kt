@@ -2,13 +2,13 @@ package com.qxdzbc.p6.app.action.range.paste_range.rm
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
-import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest2
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeResponse
 import com.qxdzbc.p6.app.document.range.copy_paste.RangePaster
 import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -26,8 +26,8 @@ class PasteRangeRMImp @Inject constructor(
         if(wsState!=null){
             val target = RangeIdImp(
                 rangeAddress = request.rangeId.rangeAddress,
-                wbKey = request.wbKey,
-                wsName = request.wsName
+                wbKeySt = wsState.wbKeySt,
+                wsNameSt =wsState.wsNameSt
             )
             val pasteRs:Rse<Workbook> = paster.paste(target)
             val rt:PasteRangeResponse = pasteRs.mapBoth(

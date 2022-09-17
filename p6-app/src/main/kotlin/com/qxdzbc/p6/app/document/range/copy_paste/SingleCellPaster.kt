@@ -2,7 +2,6 @@ package com.qxdzbc.p6.app.document.range.copy_paste
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.copiers.binary_copier.BinaryTransferable
-import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.common.error.CommonErrors
@@ -10,6 +9,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
@@ -29,7 +29,7 @@ class SingleCellPaster @Inject constructor(
 
     val stateCont by stateContSt
 
-    override fun paste(target: RangeIdImp): Result<Workbook, ErrorReport> {
+    override fun paste(target: RangeId): Result<Workbook, ErrorReport> {
         try {
 
             val source: RangeCopy? = this.makeRangeCopyObj(target)
@@ -39,7 +39,7 @@ class SingleCellPaster @Inject constructor(
         }
     }
 
-    private fun makeRangeCopyObj(target: RangeIdImp): RangeCopy? {
+    private fun makeRangeCopyObj(target: RangeId): RangeCopy? {
         val wbwsSt = stateCont.getWbWsSt(target)
         if(wbwsSt!=null){
             val cl:Clipboard = Toolkit.getDefaultToolkit().systemClipboard
@@ -52,7 +52,7 @@ class SingleCellPaster @Inject constructor(
         }
     }
 
-    private fun paste(source: RangeCopy?, target: RangeIdImp): Result<Workbook, ErrorReport> {
+    private fun paste(source: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
         val rt = stateCont.getWbRs(target.wbKey)
             .flatMap { wb ->
                 if(source!=null){

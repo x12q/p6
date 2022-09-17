@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.Cell
-import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.IndCellImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -31,17 +31,17 @@ internal class WorksheetImpTest {
         val table: TableCR<Int, Int, Ms<Cell>> = ImmutableTableCR(
             mapOf(
                 1 to mapOf(
-                    1 to CellImp(CellAddress("A1")).toMs(),
-                    2 to CellImp(CellAddress("A2")).toMs(),
+                    1 to IndCellImp(CellAddress("A1")).toMs(),
+                    2 to IndCellImp(CellAddress("A2")).toMs(),
                 ),
                 2 to mapOf(
-                    1 to CellImp(CellAddress("B1")).toMs(),
-                    2 to CellImp(CellAddress("B2")).toMs(),
+                    1 to IndCellImp(CellAddress("B1")).toMs(),
+                    2 to IndCellImp(CellAddress("B2")).toMs(),
                 ),
                 3 to mapOf(
-                    1 to CellImp(CellAddress("C1")).toMs(),
-                    2 to CellImp(CellAddress("C2")).toMs(),
-                    3 to CellImp(CellAddress("C3")).toMs(),
+                    1 to IndCellImp(CellAddress("C1")).toMs(),
+                    2 to IndCellImp(CellAddress("C2")).toMs(),
+                    3 to IndCellImp(CellAddress("C3")).toMs(),
                 )
             )
         )
@@ -61,17 +61,17 @@ internal class WorksheetImpTest {
         val table: TableCR<Int, Int, Ms<Cell>> = ImmutableTableCR(
             mapOf(
                 1 to mapOf(
-                    1 to CellImp(CellAddress("A1")).toMs(),
-                    2 to CellImp(CellAddress("A2")).toMs(),
+                    1 to IndCellImp(CellAddress("A1")).toMs(),
+                    2 to IndCellImp(CellAddress("A2")).toMs(),
                 ),
                 2 to mapOf(
-                    1 to CellImp(CellAddress("B1")).toMs(),
-                    2 to CellImp(CellAddress("B2")).toMs(),
+                    1 to IndCellImp(CellAddress("B1")).toMs(),
+                    2 to IndCellImp(CellAddress("B2")).toMs(),
                 ),
                 3 to mapOf(
-                    1 to CellImp(CellAddress("C1")).toMs(),
-                    2 to CellImp(CellAddress("C2")).toMs(),
-                    3 to CellImp(CellAddress("C3")).toMs(),
+                    1 to IndCellImp(CellAddress("C1")).toMs(),
+                    2 to IndCellImp(CellAddress("C2")).toMs(),
+                    3 to IndCellImp(CellAddress("C3")).toMs(),
                 )
             )
         )

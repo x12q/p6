@@ -7,7 +7,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.range.Range
@@ -17,7 +17,7 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookGetter
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.rpc.worksheet.msg.CellId
+import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 
@@ -35,10 +35,13 @@ interface DocumentContainer : WorkbookGetter {
     fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt?
 
     fun getWbKeySt(wbKey: WorkbookKey): St<WorkbookKey>?
+    fun getWbKeyStRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>>
     fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>?
     fun getWbKeyMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>>
 
     fun getWsNameSt(wbKey: WorkbookKey, wsName: String): St<String>?
+    fun getWsNameSt(wbws:WbWs): St<String>?
+    fun getWsNameStRs(wbws:WbWs): Rse<St<String>>
     fun getWsNameMs(wbKey: WorkbookKey, wsName: String): Ms<String>?
 
     fun getWsNameSt(wbKeySt:St<WorkbookKey>, wsName: String): St<String>?
@@ -52,12 +55,13 @@ interface DocumentContainer : WorkbookGetter {
     fun getWsRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport>
     fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Worksheet, ErrorReport>
     fun getWsRs(wbwsSt: WbWsSt): Rs<Worksheet, ErrorReport>
+    fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport>
 
     fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet?
     fun getWs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Worksheet?
-    fun getWs(wbws: WbWs): Worksheet?
     fun getWs(wbwsSt: WbWsSt): Worksheet?
-    fun getWs(wsId: WorksheetIdPrt):Worksheet?
+    fun getWs(wbws: WbWs): Worksheet?
+    fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet?
 
     fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport>
     fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport>
@@ -70,7 +74,7 @@ interface DocumentContainer : WorkbookGetter {
     fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>?
 
     fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
-    fun getRangeRs(rangeId: RangeIdImp): Rs<Range, ErrorReport>
+    fun getRangeRs(rangeId: RangeId): Rs<Range, ErrorReport>
     fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?
 
     fun getLazyRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?
@@ -81,19 +85,18 @@ interface DocumentContainer : WorkbookGetter {
     fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Cell, ErrorReport>
     fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?
 
-    fun getCellRs(cellId: CellId): Rs<Cell, ErrorReport>
-    fun getCell(cellId: CellId): Cell?
+    fun getCellRs(cellId: IndeCellId): Rs<Cell, ErrorReport>
+    fun getCell(cellId: IndeCellId): Cell?
 
     fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
     fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
     fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>?
-    fun getCellMsRs(cellId: CellId): Rs<Ms<Cell>, ErrorReport>
-    fun getCellMs(cellId: CellId): Ms<Cell>?
+    fun getCellMsRs(cellId: IndeCellId): Rs<Ms<Cell>, ErrorReport>
+    fun getCellMs(cellId: IndeCellId): Ms<Cell>?
 
     /**
      * replace a workbook with a new workbook with the same workbook key
      */
     fun replaceWb(newWb: Workbook): DocumentContainer
-    fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet?
 }
 

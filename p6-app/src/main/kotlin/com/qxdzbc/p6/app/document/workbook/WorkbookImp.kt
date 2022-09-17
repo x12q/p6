@@ -10,7 +10,6 @@ import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.ErrorHeader
@@ -74,11 +73,13 @@ data class WorkbookImp(
     }
 
     override val worksheetMap: Map<String, Worksheet> get() = worksheets.associateBy { it.name }
+
     @kotlin.jvm.Throws(Exception::class)
     override fun createNewWs(name: String?): Workbook {
         val rs = this.createNewWsRs(name)
         return rs.getOrThrow()
     }
+
     @kotlin.jvm.Throws(Exception::class)
     override fun createNewWs2(name: String?): CreateNewWorksheetResponse2 {
         val rs = this.createNewWorksheetRs2(name)
@@ -90,7 +91,7 @@ data class WorkbookImp(
         if (actualName in this.worksheetMap.keys) {
             return WorkbookErrors.WorksheetAlreadyExist.report(actualName).toErr()
         } else {
-            val wsMs:Ms<Worksheet> = WorksheetImp(
+            val wsMs: Ms<Worksheet> = WorksheetImp(
                 nameMs = ms(actualName),
                 wbKeySt = this.keyMs
             ).toMs()
@@ -107,7 +108,7 @@ data class WorkbookImp(
         if (actualName in this.worksheetMap.keys) {
             return WorkbookErrors.WorksheetAlreadyExist.report(actualName).toErr()
         } else {
-            val wsMs:Ms<Worksheet> = ms(
+            val wsMs: Ms<Worksheet> = ms(
                 WorksheetImp(
                     nameMs = ms(actualName),
                     wbKeySt = this.keyMs
@@ -132,7 +133,7 @@ data class WorkbookImp(
     override fun removeSheetRs(index: Int): Rse<Workbook> {
         if (index in worksheets.indices) {
             val target = worksheetMsList[index]
-            return this.copy(worksheetMapMs = worksheetMapMs -target.value.nameMs).toOk()
+            return this.copy(worksheetMapMs = worksheetMapMs - target.value.nameMs).toOk()
         } else {
             return WorkbookErrors.InvalidWorksheet.reportWithDetail("Can't delete worksheet at index \'$index\' because it does not exist within workbook at ${this.key}")
                 .toErr()
@@ -141,7 +142,7 @@ data class WorkbookImp(
 
     override fun removeSheetRs(name: String): Rse<Workbook> {
         if (this.containSheet(name)) {
-            return this.copy(worksheetMapMs = worksheetMapMs.filter{it.key.value!=name}).toOk()
+            return this.copy(worksheetMapMs = worksheetMapMs.filter { it.key.value != name }).toOk()
         } else {
             return WorkbookErrors.InvalidWorksheet.reportWithDetail("Can't delete worksheet named \"$name\" because it does not exist within workbook at ${this.key}")
                 .toErr()
@@ -167,7 +168,7 @@ data class WorkbookImp(
             return this
         } else {
             val newWsMs = ms(newSheet)
-            return this.copy(worksheetMapMs = worksheetMapMs  + (newSheet.nameMs to newWsMs))
+            return this.copy(worksheetMapMs = worksheetMapMs + (newSheet.nameMs to newWsMs))
         }
     }
 
@@ -234,20 +235,40 @@ data class WorkbookImp(
         return this
     }
 
-    override fun hashCode(): Int {
-        var result = key.hashCode()
-        result = 31 * result + worksheets.hashCode()
-        return result
-    }
+//    override fun hashCode(): Int {
+//        var result = key.hashCode()
+//        result = 31 * result + worksheets.hashCode()
+//        return result
+//    }
 
-    override fun equals(other: Any?): Boolean {
-        if (other is Workbook) {
-            val c1 = key == other.key
-            val c2 = worksheets == other.worksheets
-            return c1 && c2
-        } else {
-            return false
-        }
-    }
+//    override fun isSimilar(wb: Workbook): Boolean {
+//
+//        val similarKey = key == wb.key
+//        val c2 = worksheets.size == wb.worksheets.size
+//        val c3 = if (c2) {
+//            var z = true
+//            for ((i, ws) in worksheets.withIndex()) {
+//                if (!ws.isSimilar(wb.worksheets[i])) {
+//                    z = false
+//                    break
+//                }
+//            }
+//            z
+//        } else {
+//            false
+//        }
+//        return similarKey && c2 && c3
+//
+//    }
+
+//    override fun equals(other: Any?): Boolean {
+//        if (other is Workbook) {
+//            val c1 = key == other.key
+//            val c2 = worksheets == other.worksheets
+//            return c1 && c2
+//        } else {
+//            return false
+//        }
+//    }
 }
 

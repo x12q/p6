@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -42,7 +41,8 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
-import com.qxdzbc.p6.rpc.worksheet.msg.CellId
+import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
@@ -107,6 +107,10 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getWbKeyStRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>> {
+        TODO("Not yet implemented")
+    }
+
     override fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>? {
         TODO("Not yet implemented")
     }
@@ -119,7 +123,15 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getWsNameSt(wbws: WbWs): St<String>? {
+        TODO("Not yet implemented")
+    }
+
     override fun getWsNameSt(wbKeySt: St<WorkbookKey>, wsName: String): St<String>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWsNameStRs(wbws: WbWs): Rse<St<String>> {
         TODO("Not yet implemented")
     }
 
@@ -183,6 +195,10 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport> {
+        TODO("Not yet implemented")
+    }
+
     override fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet? {
         return docCont.getWs(wbKey,wsName)
     }
@@ -196,10 +212,6 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun getWs(wbwsSt: WbWsSt): Worksheet? {
-        TODO("Not yet implemented")
-    }
-
-    override fun getWs(wsId: WorksheetIdPrt): Worksheet? {
         TODO("Not yet implemented")
     }
 
@@ -243,7 +255,7 @@ data class AppStateImp @Inject constructor(
         return docCont.getRangeRs(wbKey, wsName, rangeAddress)
     }
 
-    override fun getRangeRs(rangeId: RangeIdImp): Rs<Range, ErrorReport> {
+    override fun getRangeRs(rangeId: RangeId): Rs<Range, ErrorReport> {
         return docCont.getRangeRs(rangeId)
     }
 
@@ -283,7 +295,7 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellRs(cellId: CellId): Rs<Cell, ErrorReport> {
+    override fun getCellRs(cellId: IndeCellId): Rs<Cell, ErrorReport> {
         TODO("Not yet implemented")
     }
 
@@ -291,7 +303,7 @@ data class AppStateImp @Inject constructor(
         return docCont.getCell(wbKey, wsName, cellAddress)
     }
 
-    override fun getCell(cellId: CellId): Cell? {
+    override fun getCell(cellId: IndeCellId): Cell? {
         TODO("Not yet implemented")
     }
 
@@ -307,7 +319,7 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellMsRs(cellId: CellId): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(cellId: IndeCellId): Rs<Ms<Cell>, ErrorReport> {
         TODO("Not yet implemented")
     }
 
@@ -315,7 +327,7 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellMs(cellId: CellId): Ms<Cell>? {
+    override fun getCellMs(cellId: IndeCellId): Ms<Cell>? {
         TODO("Not yet implemented")
     }
 
