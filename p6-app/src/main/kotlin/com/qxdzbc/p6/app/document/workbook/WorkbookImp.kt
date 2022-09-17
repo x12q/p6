@@ -20,6 +20,7 @@ import com.qxdzbc.p6.app.common.utils.WorkbookUtils
 import com.qxdzbc.p6.app.document.workbook.Workbooks.isLegalWbName
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
+import com.qxdzbc.p6.app.document.worksheet.WorksheetImp.Companion.toShallowModel
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
 import com.qxdzbc.p6.translator.P6Translator
@@ -30,6 +31,20 @@ data class WorkbookImp(
     override val worksheetMapMs: Map<Ms<String>, Ms<Worksheet>> = emptyMap()
 ) : BaseWorkbook() {
 
+    companion object {
+        fun WorkbookProto.toShallowModel(translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): Workbook {
+            val wbKeyMs = ms(wbKey.toModel()) //shallow state
+            val sheets = mutableListOf<Worksheet>()
+            for (sheet: WorksheetProto in worksheetList) {
+                val nameMs = ms(sheet.name) // shallow state
+                val translator = translatorGetter(WbWsSt(wbKeyMs, nameMs))
+                val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs).withNewData(sheet, translator)
+                sheets.add(newSheet)
+            }
+            return WorkbookImp(keyMs = wbKeyMs).addMultiSheetOrOverwrite(sheets)
+        }
+    }
+
     constructor(keyMs: Ms<WorkbookKey>, worksheetMsList: List<Ms<Worksheet>>) : this(keyMs,
         worksheetMsList.associateBy { it.value.nameMs }
     )
@@ -38,20 +53,6 @@ data class WorkbookImp(
     override var key: WorkbookKey by keyMs
 
     override val worksheets: List<Worksheet> get() = worksheetMsList.map { it.value }
-
-    companion object {
-        fun WorkbookProto.toModel(translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): Workbook {
-            val wbKeyMs = ms(wbKey.toModel())
-            val sheets = mutableListOf<Worksheet>()
-            for (sheet: WorksheetProto in worksheetList) {
-                val nameMs = ms(sheet.name)
-                val translator = translatorGetter(WbWsSt(wbKeyMs, nameMs))
-                val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs).withNewData(sheet, translator)
-                sheets.add(newSheet)
-            }
-            return WorkbookImp(keyMs = wbKeyMs).addMultiSheetOrOverwrite(sheets)
-        }
-    }
 
     /**
      * justification for not returning a copy: the computed cell values are not part of the workbook state, they are derived value.

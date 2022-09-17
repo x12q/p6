@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toModel
+import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toShallowModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
@@ -33,7 +33,7 @@ class P6FileLoaderImp @Inject constructor(
             val fileContent = P6FileProtos.P6FileContentProto.newBuilder().mergeFrom(p6File.content).build()
             val newWbKey = WorkbookKey(path.name,path)
             val newProto = fileContent.workbook.toBuilder().setWbKey(newWbKey.toProto()).build()
-            val wb = newProto.toModel(appState.translatorContainer::getTranslatorOrCreate)
+            val wb = newProto.toShallowModel(appState.translatorContainer::getTranslatorOrCreate)
             return Ok(wb)
         } catch (e: Throwable) {
             return Err(CommonErrors.ExceptionError.report(e))

@@ -19,8 +19,8 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
-import com.qxdzbc.p6.rpc.cell.msg.Cell2Prt
-import com.qxdzbc.p6.rpc.cell.msg.Cell2Prt.CO.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellPrt
+import com.qxdzbc.p6.rpc.cell.msg.CellPrt.CO.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId.Companion.toIndeModel
 import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt.Companion.toModel
@@ -105,7 +105,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val i: Cell2Prt = request.toModel()
+            val i: CellPrt = request.toModel()
             val o = updateCell.updateCell(
                 CellUpdateRequest(
                     wbKey = i.id.wbKey,

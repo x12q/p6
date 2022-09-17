@@ -114,6 +114,13 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
+        @TranslatorContainerSt
+        fun TranslatorContainerSt(@TranslatorContainerMs i:Ms<TranslatorContainer>):St<TranslatorContainer>{
+            return i
+        }
+
+        @Provides
+        @P6Singleton
         @DocumentContainerMs
         fun DocumentContainerMs(i:DocumentContainer):Ms<DocumentContainer>{
             return ms(i)

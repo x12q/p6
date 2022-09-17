@@ -6,6 +6,8 @@ import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActionImp
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2Imp
+import com.qxdzbc.p6.app.action.worksheet.convert_proto_to_ws.ConvertProtoToWorksheet
+import com.qxdzbc.p6.app.action.worksheet.convert_proto_to_ws.ConvertProtoToWorksheetImp
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
@@ -28,6 +30,10 @@ import dagger.Binds
 
 @dagger.Module
 interface WorksheetActionModule {
+    @Binds
+    @P6Singleton
+    fun ConvertProtoToWorksheet(i:ConvertProtoToWorksheetImp): ConvertProtoToWorksheet
+
     @Binds
     @P6Singleton
     fun PasteRangeAction(i: PasteRangeActionImp):PasteRangeAction

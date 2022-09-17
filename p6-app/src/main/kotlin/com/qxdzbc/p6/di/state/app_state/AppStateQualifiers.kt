@@ -75,6 +75,10 @@ annotation class DocumentContainerSt
 annotation class TranslatorContainerMs
 
 @Qualifier
+@Retention
+annotation class TranslatorContainerSt
+
+@Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class CellEditorStateMs
 

@@ -1,11 +1,20 @@
 package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.ui.text.AnnotatedString
+import com.github.michaelbull.result.map
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 abstract class BaseCell : Cell {
+
+    override fun isSimilar(c: Cell): Boolean {
+        val sameAddress = address == c.address
+        val similarContent = content == c.content
+        return sameAddress && similarContent
+    }
+
     override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
         return content.shortFormula(wbKey, wsName)
     }

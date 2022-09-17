@@ -6,14 +6,14 @@ import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId
 import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId.Companion.toIndeModel
 
-class Cell2Prt(
+class CellPrt(
     val id: IndeCellId,
     val cellValue:CellValue,
     val formula:String?
 ) {
     companion object CO{
-        fun CellProto.toModel(): Cell2Prt {
-            return Cell2Prt(
+        fun CellProto.toModel(): CellPrt {
+            return CellPrt(
                 id = this.id.toIndeModel(),
                 cellValue = if(this.hasValue()) this.value.toModel() else CellValue.empty,
                 formula = if(this.hasFormula()) this.formula else null

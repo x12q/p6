@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.document.cell.d.Cell
-import com.qxdzbc.p6.app.document.cell.d.IndCellImp.Companion.toIndModel
+import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toShallowModel
 import com.qxdzbc.p6.proto.RangeProtos.RangeCopyProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
@@ -20,7 +20,7 @@ class RangeCopy(
         fun RangeCopyProto.toModel(translator: P6Translator<ExUnit>): RangeCopy {
             return RangeCopy(
                 rangeId = this.id.toModel(),
-                cells = this.cellList.map { it.toIndModel(translator) }
+                cells = this.cellList.map { it.toShallowModel(translator) }
             )
         }
 

@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
- * a [Cell] implementation that is not tied to workbook key state nor worksheet name state
+ * a [Cell] implementation that is not tied to workbook key state nor worksheet name state.
  */
 data class IndCellImp(
     override val address: CellAddress,
@@ -24,29 +24,23 @@ data class IndCellImp(
 ) : BaseCell() {
 
     companion object {
-        fun CellProto.toIndModel(translator: P6Translator<ExUnit>): IndCellImp {
-            if(this.hasFormula() && this.formula.isNotEmpty()){
-                val transRs = translator.translate(formula)
-                val content = CellContentImp.fromTransRs(transRs)
-                return IndCellImp(
-                    address = id.cellAddress.toModel(),
-                    content = content
-                )
-            }else{
-                return IndCellImp(
-                    address = id.cellAddress.toModel(),
-                    content = CellContentImp(
-                        cellValueMs = this.value.toModel().toMs(),
-                    )
-                )
-            }
-        }
-    }
-
-    override fun isSimilar(c: Cell): Boolean {
-        val sameAddress = address == c.address
-        val similarContent = content == c.content
-        return sameAddress && similarContent
+//        fun CellProto.toIndModel(translator: P6Translator<ExUnit>): IndCellImp {
+//            if(this.hasFormula() && this.formula.isNotEmpty()){
+//                val transRs = translator.translate(formula)
+//                val content = CellContentImp.fromTransRs(transRs)
+//                return IndCellImp(
+//                    address = id.cellAddress.toModel(),
+//                    content = content
+//                )
+//            }else{
+//                return IndCellImp(
+//                    address = id.cellAddress.toModel(),
+//                    content = CellContentImp(
+//                        cellValueMs = this.value.toModel().toMs(),
+//                    )
+//                )
+//            }
+//        }
     }
 
     override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): Cell {
@@ -93,12 +87,12 @@ data class IndCellImp(
         return this.setContent(rs)
     }
 
-    override fun toProto(): DocProtos.CellProto {
+    override fun toProto(): CellProto {
         throw UnsupportedOperationException()
     }
 
     override fun toString(): String {
-        return "IndiCellImp[address=${address},content=${content}]"
+        return "IndCellImp[address=${address},content=${content}]"
     }
 }
 

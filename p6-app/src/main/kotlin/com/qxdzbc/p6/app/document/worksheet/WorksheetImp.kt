@@ -2,31 +2,36 @@ package com.qxdzbc.p6.app.document.worksheet
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.common.table.TableCR
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.map
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
+import com.qxdzbc.p6.app.common.table.TableCR
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.d.*
+import com.qxdzbc.p6.app.document.cell.d.Cell
+import com.qxdzbc.p6.app.document.cell.d.CellContent
+import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toShallowModel
+import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toModel
+import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.RangeImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.R
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.document.worksheet.state.*
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
-import com.qxdzbc.p6.app.document.cell.CellId
-import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toModel
-import com.qxdzbc.p6.app.document.cell.d.IndCellImp.Companion.toIndModel
+import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
 
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
@@ -50,14 +55,18 @@ data class WorksheetImp(
                 wbKeySt = wbKeyMs
             )
         }
-        fun WorksheetProto.toModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
-            var ws:Worksheet= WorksheetImp(
+
+        /**
+         * Create a shallow model from a proto. A shallow model is one that contain fake Ms or St states that do not exist in the app state. Be extra careful when using them.
+         */
+        fun WorksheetProto.toShallowModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
+            var ws: Worksheet = WorksheetImp(
                 nameMs = ms(this.name),
                 table = ImmutableTableCR(),
                 wbKeySt = wbKeyMs
             )
-            for (cell: Cell in cellList.map { it.toIndModel(translator) }) {
-                ws= ws.addOrOverwrite(cell)
+            for (cell: Cell in cellList.map { it.toShallowModel(translator) }) {
+                ws = ws.addOrOverwrite(cell)
             }
             return ws
         }
@@ -84,26 +93,6 @@ data class WorksheetImp(
     override val wsNameSt: St<String>
         get() = id.wsNameMs
 
-    override fun equals(other: Any?): Boolean {
-        if (other is Worksheet) {
-            val c1 = this.name == other.name
-            val c2 = this.wbKey == other.wbKey
-
-
-            val t1 = this.table.dataMap.mapValues {
-                it.value.mapValues { it.value.value }
-            }
-            val t2 = other.table.dataMap.mapValues {
-                it.value.mapValues { it.value.value }
-            }
-            val c3 = t1 == t2
-            val c4 = this.rangeConstraint == other.rangeConstraint
-            return listOf(c1, c2, c3, c4).all { it }
-        } else {
-            return false
-        }
-    }
-
 //    override fun isSimilar(ws: Worksheet): Boolean {
 //        val similarId = this.id.isSimilar(ws.id)
 //        val similarTable = table == ws.table
@@ -116,7 +105,7 @@ data class WorksheetImp(
         for ((colIndex, col) in cellMap) {
             for ((rowIndex, cell) in col) {
                 val newCell = cell.value.reRun()
-                if(newCell!=null){
+                if (newCell != null) {
                     cell.value = newCell
                 }
             }
@@ -145,7 +134,7 @@ data class WorksheetImp(
 
 
     override fun setWbKeySt(wbKeySt: St<WorkbookKey>): Worksheet {
-        this.idMs.value =this.idMs.value.pointToWbKeySt(wbKeySt)
+        this.idMs.value = this.idMs.value.pointToWbKeySt(wbKeySt)
         return this
     }
 
@@ -232,7 +221,7 @@ data class WorksheetImp(
     override fun addOrOverwrite(cell: Cell): Worksheet {
         val address = cell.address
         val newCell = CellImp(
-            id = CellId(address,wbKeySt, wsNameSt),
+            id = CellId(address, wbKeySt, wsNameSt),
             content = cell.content
         )
         val cMs = this.getCellMs(address)
@@ -270,14 +259,14 @@ data class WorksheetImp(
     override fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet {
         if (this.name == wsProto.name) {
             var newTable = ImmutableTableCR<Int, Int, Ms<Cell>>()
-            var newWs:Worksheet = this.removeAllCell()
+            var newWs: Worksheet = this.removeAllCell()
             for (cellProto: DocProtos.CellProto in wsProto.cellList) {
-                val newCell = cellProto.toModel(wbKeySt,wsNameSt,translator)
-                val cMs:Ms<Cell> = this.getCellMs(newCell.address)?.apply {
+                val newCell = cellProto.toModel(wbKeySt, wsNameSt, translator)
+                val cMs: Ms<Cell> = this.getCellMs(newCell.address)?.apply {
                     value = newCell
                 } ?: ms(newCell)
                 newTable = newTable.set(newCell.address, cMs)
-                newWs=newWs.addOrOverwrite(newCell)
+                newWs = newWs.addOrOverwrite(newCell)
             }
             return newWs
         } else {
@@ -285,13 +274,33 @@ data class WorksheetImp(
         }
     }
 
-    fun removeAllCell():WorksheetImp{
+    fun removeAllCell(): WorksheetImp {
         return this.copy(table = table.removeAll())
     }
 
     override fun setWsName(newName: String): Worksheet {
         this.nameMs.value = newName
         return this
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is Worksheet) {
+            val sameName = this.name == other.name
+            val sameWb = this.wbKey == other.wbKey
+            val sameCellMap = run {
+                val cellMap1: Map<Int, Map<Int, Cell>> = this.table.dataMap.mapValues {
+                    it.value.mapValues { it.value.value }
+                }
+                val cellMap2: Map<Int, Map<Int, Cell>> = other.table.dataMap.mapValues {
+                    it.value.mapValues { it.value.value }
+                }
+                cellMap1 == cellMap2
+            }
+            val sameConstraint = this.rangeConstraint == other.rangeConstraint
+            return listOf(sameName, sameWb, sameCellMap, sameConstraint).all { it }
+        } else {
+            return false
+        }
     }
 
     override fun hashCode(): Int {

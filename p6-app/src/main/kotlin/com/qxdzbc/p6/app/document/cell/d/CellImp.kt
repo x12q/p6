@@ -13,6 +13,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.CellId.Companion.toShallowModel
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
@@ -22,10 +23,31 @@ data class CellImp(
 ) : BaseCell(), WbWsSt by id {
 
     companion object{
+        fun CellProto.toShallowModel(
+            translator: P6Translator<ExUnit>
+        ): CellImp {
+            val sId = this.id.toShallowModel()
+            if(this.hasFormula() && this.formula.isNotEmpty()){
+                val transRs = translator.translate(formula)
+                val content = CellContentImp.fromTransRs(transRs)
+                return CellImp(
+                    id = sId,
+                    content = content
+                )
+            }else{
+                return CellImp(
+                    id = sId,
+                    content = CellContentImp(
+                        cellValueMs = this.value.toModel().toMs(),
+                    )
+                )
+            }
+        }
+
         fun CellProto.toModel(
             wbKeySt:St<WorkbookKey>,
             wsNameSt:St<String>,
-            translator: P6Translator<ExUnit>
+            translator: P6Translator<ExUnit>,
         ): CellImp {
             if(this.hasFormula() && this.formula.isNotEmpty()){
                 val transRs = translator.translate(formula)
@@ -49,12 +71,6 @@ data class CellImp(
                 )
             }
         }
-    }
-
-    override fun isSimilar(c: Cell): Boolean {
-        val similarId = id.isSimilar(c.id)
-        val sameContent = content == c.content
-        return similarId && sameContent
     }
 
     override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): Cell {

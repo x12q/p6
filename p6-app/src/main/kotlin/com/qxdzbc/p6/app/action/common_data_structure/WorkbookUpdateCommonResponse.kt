@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.communication.event.WithP6EventLookupClazz
 import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toModel
+import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toShallowModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.common.error.ErrorReport
@@ -35,7 +35,7 @@ open class WorkbookUpdateCommonResponse(
             return WorkbookUpdateCommonResponse(
                 errorReport = if (this.hasErrorReport()) errorReport.toModel() else null,
                 wbKey = if (this.hasWorkbookKey()) workbookKey.toModel() else null,
-                newWorkbook = if (this.hasNewWorkbook()) newWorkbook.toModel(translatorGetter) else null,
+                newWorkbook = if (this.hasNewWorkbook()) newWorkbook.toShallowModel(translatorGetter) else null,
                 windowId = if (this.hasWindowId()) this.windowId else null,
             )
         }
