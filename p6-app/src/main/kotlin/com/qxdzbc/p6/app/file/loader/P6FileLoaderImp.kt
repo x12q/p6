@@ -14,26 +14,30 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.di.UtilQualifier
+import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
+import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.inject.Inject
 import kotlin.io.path.name
 
 class P6FileLoaderImp @Inject constructor(
-    @AppStateMs val appStateMs:Ms<AppState>,
+    @TranslatorContainerSt
+    val transContSt:St<@JvmSuppressWildcards TranslatorContainer>,
     @UtilQualifier.ReadFileFunction
     val readFileToByteArray:Function1<@JvmSuppressWildcards Path,@JvmSuppressWildcards ByteArray> = Files::readAllBytes
 ) : P6FileLoader {
-    private var appState by appStateMs
+    private val tc by transContSt
     override fun load(path: Path): Result<Workbook, ErrorReport> {
         try {
             val bytes = readFileToByteArray(path)
             val p6File = P6FileProtos.P6FileProto.newBuilder().mergeFrom(bytes).build()
             val fileContent = P6FileProtos.P6FileContentProto.newBuilder().mergeFrom(p6File.content).build()
             val newWbKey = WorkbookKey(path.name,path)
-            val newProto = fileContent.workbook.toBuilder().setWbKey(newWbKey.toProto()).build()
-            val wb = newProto.toShallowModel(appState.translatorContainer::getTranslatorOrCreate)
+            val loadedWbProto = fileContent.workbook.toBuilder().setWbKey(newWbKey.toProto()).build()
+            val wb = loadedWbProto.toShallowModel(tc::getTranslatorOrCreate)
             return Ok(wb)
         } catch (e: Throwable) {
             return Err(CommonErrors.ExceptionError.report(e))

@@ -35,10 +35,11 @@ data class WorkbookImp(
         fun WorkbookProto.toShallowModel(translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): Workbook {
             val wbKeyMs = ms(wbKey.toModel()) //shallow state
             val sheets = mutableListOf<Worksheet>()
-            for (sheet: WorksheetProto in worksheetList) {
-                val nameMs = ms(sheet.name) // shallow state
+            for (wsProto: WorksheetProto in worksheetList) {
+                val nameMs = ms(wsProto.name) // shallow state
                 val translator = translatorGetter(WbWsSt(wbKeyMs, nameMs))
-                val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs).withNewData(sheet, translator)
+                // shallow worksheet
+                val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs).withNewData(wsProto, translator)
                 sheets.add(newSheet)
             }
             return WorkbookImp(keyMs = wbKeyMs).addMultiSheetOrOverwrite(sheets)

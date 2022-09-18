@@ -9,9 +9,6 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.google.protobuf.ByteString
 
 object Workbooks {
-    fun fromProtoBytes(data:ByteString,translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>):Workbook{
-        return WorkbookProto.newBuilder().mergeFrom(data).build().toShallowModel(translatorGetter)
-    }
 
     fun empty(name:String):Workbook{
         return WorkbookImp(keyMs = WorkbookKey(name).toMs())

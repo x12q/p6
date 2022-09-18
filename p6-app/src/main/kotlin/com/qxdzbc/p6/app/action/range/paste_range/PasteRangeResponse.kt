@@ -13,15 +13,5 @@ import kotlin.reflect.KClass
 class PasteRangeResponse(
     w: WorkbookUpdateCommonResponseInterface
 ) : WorkbookUpdateCommonResponseInterface by w, WithP6EventLookupClazz {
-    companion object {
-        fun fromProtoBytes(
-            data: ByteString,
-            translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>
-        ): PasteRangeResponse {
-            val w = WorkbookUpdateCommonResponse.fromProtoBytes(data, translatorGetter)
-            return PasteRangeResponse(w)
-        }
-    }
-
     override val p6EventLookupClazz: KClass<out Any> = PasteRangeResponse::class
 }

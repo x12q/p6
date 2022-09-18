@@ -24,8 +24,10 @@ class ConvertProtoToWorksheetImp @Inject constructor(
     @TranslatorContainerSt
     val translatorContainerSt: St<@JvmSuppressWildcards TranslatorContainer>,
 ) : ConvertProtoToWorksheet {
+
     private var sc by stateContMs
     val tc by translatorContainerSt
+
     override fun convertProtoToWs(proto: DocProtos.WorksheetProto): Worksheet {
         val wbKey = proto.wbKey.toModel()
         val wsName = proto.name ?: ""

@@ -13,12 +13,6 @@ import kotlin.reflect.KClass
 class CellUpdateResponse(
     w: WorkbookUpdateCommonResponseInterface
 ) : WorkbookUpdateCommonResponseInterface by w, WithP6EventLookupClazz {
-    companion object {
-        fun fromProtoBytes(data: ByteString,translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): CellUpdateResponse {
-            val w = WorkbookUpdateCommonResponse.fromProtoBytes(data,translatorGetter)
-            return CellUpdateResponse(w)
-        }
-    }
 
     override val p6EventLookupClazz: KClass<out Any>
         get() = CellUpdateResponse::class

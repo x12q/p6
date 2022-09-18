@@ -22,13 +22,6 @@ open class WorkbookUpdateCommonResponse(
 ) : ResponseWithWorkbookKeyTemplate, WorkbookUpdateCommonResponseInterface, WithP6EventLookupClazz {
     override val isError: Boolean get()=errorReport!=null
     companion object {
-        fun fromProtoBytes(
-            data: ByteString,
-            translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
-        ): WorkbookUpdateCommonResponse {
-            return WorkbookUpdateCommonResponseProto.newBuilder().mergeFrom(data).build().toModel(translatorGetter)
-        }
-
         fun WorkbookUpdateCommonResponseProto.toModel(
             translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>
         ): WorkbookUpdateCommonResponse {

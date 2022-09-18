@@ -23,26 +23,20 @@ class DeleteCellResponse(
     override val isError: Boolean,
     override val errorReport: ErrorReport?
 ):ResponseWithWorkbookKeyTemplate{
-    companion object {
-        fun fromProtoBytes(
-            data:ByteString,
-            translatorGetter: (wbWsSt:WbWsSt) -> P6Translator<ExUnit>): DeleteCellResponse {
-            return DeleteCellResponseProto.newBuilder().mergeFrom(data).build().toModel(translatorGetter)
+    companion object{
+        fun DeleteCellResponseProto.toModel(translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): DeleteCellResponse {
+            return DeleteCellResponse(
+                wbKey = workbookKey.toModel(),
+                wsName = worksheetName,
+                cellAddress = cellAddress.toModel(),
+                newWorkbook = if(this.hasNewWorkbook())newWorkbook.toShallowModel(translatorGetter) else null,
+                isError = isError,
+                errorReport = if(this.hasErrorReport()) errorReport.toModel() else null
+            )
         }
     }
-
     override fun isLegal(): Boolean {
         return true
     }
 }
 
-fun DeleteCellResponseProto.toModel(translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): DeleteCellResponse {
-    return DeleteCellResponse(
-        wbKey = workbookKey.toModel(),
-        wsName = worksheetName,
-        cellAddress = cellAddress.toModel(),
-        newWorkbook = if(this.hasNewWorkbook())newWorkbook.toShallowModel(translatorGetter) else null,
-        isError = isError,
-        errorReport = if(this.hasErrorReport()) errorReport.toModel() else null
-    )
-}
