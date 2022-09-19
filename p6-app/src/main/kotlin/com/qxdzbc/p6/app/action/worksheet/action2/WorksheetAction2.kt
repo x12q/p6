@@ -7,7 +7,9 @@ import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 
-
+/**
+ * A collection of actions to be used on a worksheet view
+ */
 interface WorksheetAction2 : MouseOnWorksheetAction {
 
     /**

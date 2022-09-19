@@ -65,7 +65,7 @@ data class WorksheetImp(
                 table = ImmutableTableCR(),
                 wbKeySt = wbKeyMs
             )
-            for (cell: Cell in cellList.map { it.toShallowModel(translator) }) {
+            for (cell: Cell in cellsList.map { it.toShallowModel(translator) }) {
                 ws = ws.addOrOverwrite(cell)
             }
             return ws
@@ -144,7 +144,7 @@ data class WorksheetImp(
     override fun toProto(): WorksheetProto {
         return WorksheetProto.newBuilder()
             .setName(this.name)
-            .addAllCell(this.cells.map { it.toProto() })
+            .addAllCells(this.cells.map { it.toProto() })
             .build()
     }
 
@@ -260,7 +260,7 @@ data class WorksheetImp(
         if (this.name == wsProto.name) {
             var newTable = ImmutableTableCR<Int, Int, Ms<Cell>>()
             var newWs: Worksheet = this.removeAllCell()
-            for (cellProto: DocProtos.CellProto in wsProto.cellList) {
+            for (cellProto: DocProtos.CellProto in wsProto.cellsList) {
                 val newCell = cellProto.toModel(wbKeySt, wsNameSt, translator)
                 val cMs: Ms<Cell> = this.getCellMs(newCell.address)?.apply {
                     value = newCell

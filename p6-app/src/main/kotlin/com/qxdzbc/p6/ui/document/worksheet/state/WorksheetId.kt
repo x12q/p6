@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.proto.WorksheetProtos.WorksheetIdProto
+import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 
 /**
  * contain information that can be used to querying worksheets, worksheet states from the central app state
@@ -22,7 +22,7 @@ interface WorksheetId: WbWs, WbWsSt {
      */
     fun pointToWbKeySt(wbKeyMs:St<WorkbookKey>):WorksheetId
 
-    fun toProto():WorksheetIdProto
+    fun toProto(): WorksheetIdProto
 
     fun isSimilar(id:WorksheetId):Boolean
 }

@@ -29,6 +29,7 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import io.grpc.stub.StreamObserver
 import javax.inject.Inject
+import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 
 class WorksheetRpcService @Inject constructor(
     @StateContainerSt
@@ -53,7 +54,7 @@ class WorksheetRpcService @Inject constructor(
     }
 
     override fun getAllCell(
-        request: WorksheetProtos.WorksheetIdProto?,
+        request: WorksheetIdProto?,
         responseObserver: StreamObserver<WorksheetProtos.GetAllCellResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
@@ -65,7 +66,7 @@ class WorksheetRpcService @Inject constructor(
     }
 
     override fun getCellCount(
-        request: WorksheetProtos.WorksheetIdProto?,
+        request: WorksheetIdProto?,
         responseObserver: StreamObserver<WorksheetProtos.CellCountResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
@@ -77,7 +78,7 @@ class WorksheetRpcService @Inject constructor(
 
 
     override fun getUsedRangeAddress(
-        request: WorksheetProtos.WorksheetIdProto?,
+        request: WorksheetIdProto?,
         responseObserver: StreamObserver<WorksheetProtos.GetUsedRangeResponseProto>?
     ) {
         if (request != null && responseObserver != null) {

@@ -11,7 +11,7 @@ class GetWorksheetResponse(
         return WorksheetProtos.GetWorksheetResponseProto.newBuilder()
             .apply {
                 this@GetWorksheetResponse.wsId?.also {
-                    setWsId(it.toProto())
+                    this.setWsId(it.toProto())
                 }
             }.build()
     }

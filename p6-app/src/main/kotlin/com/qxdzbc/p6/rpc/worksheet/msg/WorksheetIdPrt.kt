@@ -3,7 +3,7 @@ package com.qxdzbc.p6.rpc.worksheet.msg
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.proto.WorksheetProtos.WorksheetIdProto
+import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 
 data class WorksheetIdPrt(
     override val wbKey:WorkbookKey,
