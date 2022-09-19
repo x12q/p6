@@ -37,11 +37,12 @@ class WorksheetRpcService @Inject constructor(
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val rpcActs:WorksheetRpcAction,
     @AppCoroutineScope
-    val cScope: CoroutineScope
+    val crtScope: CoroutineScope
 ) : WorksheetServiceGrpc.WorksheetServiceImplBase() {
 
     private val sc: StateContainer by stateContSt
-    val launchOnMain = CoroutineUtils.makeLaunchOnMain(cScope)
+    val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
+
     override fun removeAllCell(
         request: WorksheetIdProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?

@@ -54,13 +54,13 @@ class WorkbookRpcService @Inject constructor(
     @SubAppStateContainerMs
     private val stateContMs: Ms<SubAppStateContainer>,
     @AppCoroutineScope
-    val cScope: CoroutineScope
+    val crtScope: CoroutineScope
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
     //    private var appState by appStateMs
-    val launchOnMain = CoroutineUtils.makeLaunchOnMain(cScope)
-    private var documentCont by documentContMs
-    private var stateCont by stateContMs
+    val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
+    private var dc by documentContMs
+    private var sc by stateContMs
 
     override fun removeAllWorksheet(
         request: DocProtos.WorkbookKeyProto?,
@@ -85,7 +85,7 @@ class WorkbookRpcService @Inject constructor(
             val wsIndex = req.wsIndex
             val wbk = req.wbKey
             val wsName = req.wsName
-            val wb = documentCont.getWb(wbk)
+            val wb = dc.getWb(wbk)
             val ws = if (wsName != null) {
                 wb?.getWs(wsName)
             } else if (wsIndex != null) {
@@ -104,7 +104,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
-            val ws = stateCont.getWbState(wbk)?.activeSheetState?.worksheet
+            val ws = sc.getWbState(wbk)?.activeSheetState?.worksheet
             val rt = GetWorksheetResponse(ws?.id)
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -148,7 +148,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
-            val wsRs: Rse<List<Worksheet>> = documentCont
+            val wsRs: Rse<List<Worksheet>> = dc
                 .getWbRs(wbk).map { it.worksheets }
             val rt = GetAllWorksheetsResponse.fromRs(wsRs)
             responseObserver.onNextAndComplete(rt.toProto())
@@ -178,7 +178,7 @@ class WorkbookRpcService @Inject constructor(
                 val wbk = request.wbKey.toModel()
                 val wsn = request.worksheet.name ?: ""
                 val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
-                val wbkMsRs = documentCont.getWbRs(wbKey = wbk)
+                val wbkMsRs = dc.getWbRs(wbKey = wbk)
                 val rs = wbkMsRs.flatMap { wb ->
                     val req = request.toModel(wb.keyMs, translator)
                     val rs: Rs<AddWorksheetResponse, ErrorReport> = rpcActions.createNewWorksheetRs(req)
@@ -237,7 +237,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbKey = request.toModel()
-            val wb = documentCont.getWb(wbKey)
+            val wb = dc.getWb(wbKey)
             responseObserver.onNext(Int64Value.of((wb?.size ?: 0).toLong()))
             responseObserver.onCompleted()
         }

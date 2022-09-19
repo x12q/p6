@@ -33,7 +33,6 @@ import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
 import com.qxdzbc.p6.rpc.workbook.msg.WorkbookKeyWithErrorResponse
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.ui.app.state.AppStateErrors
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineScope
@@ -47,12 +46,12 @@ class AppRpcService @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val rpcActions: AppRpcAction,
     @AppCoroutineScope
-    val cScope: CoroutineScope
+    val crtScope: CoroutineScope
 ) : AppServiceGrpc.AppServiceImplBase() {
 
-    val launchOnMain = CoroutineUtils.makeLaunchOnMain(cScope)
-    private var appState by appStateMs
-    private val stateCont by stateContSt
+    val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
+    private var aps by appStateMs
+    private val sc by stateContSt
 
     override fun getWorkbook(
         request: AppProtos.GetWorkbookRequestProto,
@@ -91,7 +90,7 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<AppProtos.WorkbookKeyWithErrorResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wbk: Rse<Workbook> = stateCont.getActiveWorkbookRs()
+            val wbk: Rse<Workbook> = sc.getActiveWorkbookRs()
             val rt = WorkbookKeyWithErrorResponse(
                 wbKey = wbk.component1()?.key,
                 errorReport = wbk.component2()
@@ -117,7 +116,7 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.GetWorksheetResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val ws = appState.activeWindowState?.activeWbState?.activeSheetState?.worksheet
+            val ws = aps.activeWindowState?.activeWbState?.activeSheetState?.worksheet
             responseObserver.onNextAndComplete(GetWorksheetResponse(wsId = ws?.id).toProto())
         }
     }
@@ -165,7 +164,7 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
-            val r = stateCont.getWb(wbk)!=null
+            val r = sc.getWb(wbk)!=null
             responseObserver.onNextAndComplete(r.toBoolMsgProto())
         }
     }
@@ -175,7 +174,7 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<AppProtos.GetAllWorkbookResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wbkList = stateCont.wbCont.wbList.map{it.key}
+            val wbkList = sc.wbCont.wbList.map{it.key}
             val r=GetAllWorkbookResponseProto
                 .newBuilder()
                 .addAllWbKeys(wbkList.map{it.toProto()})

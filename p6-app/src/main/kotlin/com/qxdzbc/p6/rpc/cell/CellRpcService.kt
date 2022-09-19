@@ -31,10 +31,11 @@ class CellRpcService @Inject constructor(
     val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     val copyCell: CopyCellAction,
     @AppCoroutineScope
-    val cScope: CoroutineScope
+    val crtScope: CoroutineScope
 ) : CellServiceGrpc.CellServiceImplBase() {
-    val launchOnMain = CoroutineUtils.makeLaunchOnMain(cScope)
-    private val stateCont by stateContSt
+
+    val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
+    private val sc by stateContSt
 
     override fun getDisplayValue(
         request: DocProtos.CellIdProto?,
@@ -42,7 +43,7 @@ class CellRpcService @Inject constructor(
     ) {
         if(request != null && responseObserver!=null){
             val cid: IndeCellId = request.toIndeModel()
-            val cell: Cell? = stateCont.getCell(cid)
+            val cell: Cell? = sc.getCell(cid)
             val rt = StrMsg(cell?.displayValue ?:"")
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -54,7 +55,7 @@ class CellRpcService @Inject constructor(
     ) {
         if(request != null && responseObserver!=null){
             val cid: IndeCellId = request.toIndeModel()
-            val cell: Cell? = stateCont.getCell(cid)
+            val cell: Cell? = sc.getCell(cid)
             val rt = StrMsg(cell?.formula ?:"")
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -66,7 +67,7 @@ class CellRpcService @Inject constructor(
     ) {
         if(request != null && responseObserver!=null){
             val cid: IndeCellId = request.toIndeModel()
-            val cell: Cell? = stateCont.getCell(cid)
+            val cell: Cell? = sc.getCell(cid)
             val rt:CellValue = cell?.currentCellValue ?: CellValue.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -78,7 +79,7 @@ class CellRpcService @Inject constructor(
     ) {
         if(request != null && responseObserver!=null){
             val cid: IndeCellId = request.toIndeModel()
-            val cell: Cell? = stateCont.getCell(cid)
+            val cell: Cell? = sc.getCell(cid)
             val rt:CellContent = cell?.content ?: CellContentImp.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }
