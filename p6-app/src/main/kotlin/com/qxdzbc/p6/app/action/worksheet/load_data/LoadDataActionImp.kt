@@ -30,12 +30,15 @@ class LoadDataActionImp @Inject constructor(
     val sc by stateContSt
     val tc by translatorContSt
     override fun loadDataRs(request: LoadDataRequest, publishErrorToUI: Boolean): Rse<Unit> {
-        val getWsMsRs = sc.getWsMsRs(request)
-        val rt = getWsMsRs.flatMap { wsMs ->
+        val getWsMsRs = sc.getWsStateMsRs(request)
+
+        val rt = getWsMsRs.flatMap { wsStateMs ->
+            val wsMs = wsStateMs.value.wsMs
             val translator = tc.getTranslatorOrCreate(request)
             val newDataRs = loadDataRs(wsMs.value, request, translator)
             newDataRs.onSuccess {
                 wsMs.value = it
+                wsStateMs.value = wsStateMs.value.refreshCellState()
             }
             newDataRs
         }
