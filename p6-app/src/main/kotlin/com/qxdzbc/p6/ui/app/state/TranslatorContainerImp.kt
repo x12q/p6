@@ -46,6 +46,10 @@ class TranslatorContainerImp @Inject constructor(
         }
     }
 
+    override fun getTranslatorOrCreate(wbWs: WbWs): P6Translator<ExUnit> {
+        return this.getTranslatorOrCreate(wbWs.wbKey,wbWs.wsName)
+    }
+
     override fun getTranslatorOrCreate(wbWsSt: WbWsSt): P6Translator<ExUnit> {
         val t= tm.getTranslator(wbWsSt)
         if(t!=null){
@@ -67,6 +71,14 @@ class TranslatorContainerImp @Inject constructor(
             visitor = visitorFactory.create(wbKey.toSt(),wsName.toSt())
         )
         return oneOffTranslator
+    }
+
+    override fun createOneOffTranslator(wbWs: WbWs): P6Translator<ExUnit> {
+        return this.createOneOffTranslator(wbWs.wbKey,wbWs.wsName)
+    }
+
+    override fun createOneOffTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit> {
+        return this.createOneOffTranslator(wbKeySt.value,wsNameSt.value)
     }
 
     override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorContainer {

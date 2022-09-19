@@ -269,5 +269,7 @@ class TestSample {
     fun stateContMs(): MutableState<StateContainer> {
         return p6Comp.stateContMs()
     }
+    val stateContMs get() = stateContMs()
+    val stateCont get()=stateContMs().value
 }
 

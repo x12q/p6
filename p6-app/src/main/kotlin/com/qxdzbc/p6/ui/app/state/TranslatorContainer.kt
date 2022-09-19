@@ -15,6 +15,7 @@ import com.qxdzbc.common.compose.St
  */
 interface TranslatorContainer : TranslatorMap {
     fun getTranslatorOrCreate(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit>
+    fun getTranslatorOrCreate(wbWs: WbWs): P6Translator<ExUnit>
     fun getTranslatorOrCreate(wbWsSt: WbWsSt): P6Translator<ExUnit>
     fun getTranslatorOrCreate(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>
 
@@ -22,6 +23,9 @@ interface TranslatorContainer : TranslatorMap {
      * Create a one-off translator that is used once and then must be discarded.
      */
     fun createOneOffTranslator(wbKey: WorkbookKey,wsName: String):P6Translator<ExUnit>
+    fun createOneOffTranslator(wbWs: WbWs):P6Translator<ExUnit>
+    fun createOneOffTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>):P6Translator<ExUnit>
+
     override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorContainer
     override fun removeTranslator(wbKey: WorkbookKey): TranslatorContainer
 

@@ -68,6 +68,7 @@ import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
+import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import dagger.BindsInstance
@@ -248,6 +249,7 @@ interface P6Component {
     fun closeWbAct(): CloseWorkbookAction
     fun setActiveWindowAction(): SetActiveWindowAction
     fun updateCellAction(): UpdateCellAction
+    fun loadDataAction(): LoadDataAction
 
     @Component.Builder
     interface Builder {

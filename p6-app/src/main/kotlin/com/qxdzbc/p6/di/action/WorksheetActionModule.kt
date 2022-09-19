@@ -14,6 +14,8 @@ import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellActionImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplierImp
+import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
+import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataActionImp
 import com.qxdzbc.p6.app.action.worksheet.release_focus.*
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
@@ -30,6 +32,9 @@ import dagger.Binds
 
 @dagger.Module
 interface WorksheetActionModule {
+    @Binds
+    @P6Singleton
+    fun LoadDataAction(i: LoadDataActionImp):LoadDataAction
     @Binds
     @P6Singleton
     fun ConvertProtoToWorksheet(i:ConvertProtoToWorksheetImp): ConvertProtoToWorksheet

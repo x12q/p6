@@ -6,9 +6,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest
-import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -26,20 +24,30 @@ import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toMo
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.*
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import io.grpc.stub.StreamObserver
 import javax.inject.Inject
 import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
+import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest.Companion.toModel
 
 class WorksheetRpcService @Inject constructor(
     @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    private val pasteAction: PasteRangeAction,
-    private val updateCell: UpdateCellAction,
-    private val deleteMultiCell: DeleteMultiCellAction,
+    private val rpcActs:WorksheetRpcAction,
 ) : WorksheetServiceGrpc.WorksheetServiceImplBase() {
 
     private val stateCont: StateContainer by stateContSt
+
+    override fun loadData(
+        request: WorksheetProtos.LoadDataRequestProto?,
+        responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
+    ) {
+        if(request!=null && responseObserver!=null){
+            val req:LoadDataRequest = request.toModel()
+            val rs=rpcActs.loadDataRs(req,false)
+            val o =SingleSignalResponse.fromRs(rs)
+            responseObserver.onNextAndComplete(o.toProto())
+        }
+    }
 
     override fun getCell(
         request: DocProtos.CellIdProto?,
@@ -96,7 +104,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: IndeCellId = request.toIndeModel()
-            val o = pasteAction.pasteRange(cid, RangeAddress(cid.address))
+            val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
             responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
         }
     }
@@ -107,7 +115,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val i: CellPrt = request.toModel()
-            val o = updateCell.updateCell(
+            val o = rpcActs.updateCell(
                 CellUpdateRequest(
                     wbKey = i.id.wbKey,
                     wsName = i.id.wsName,
@@ -134,7 +142,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val i: IndeCellId = request.toIndeModel()
-            val o =deleteMultiCell.deleteMultiCell(
+            val o =rpcActs.deleteMultiCell(
                 DeleteMultiRequest(
                     wbKey = i.wbKey,
                     wsName = i.wsName,
@@ -156,7 +164,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val i = request.toModel()
-            val o =deleteMultiCell.deleteMultiCell(
+            val o =rpcActs.deleteMultiCell(
                 DeleteMultiRequest(
                     wbKey = i.wbKey,
                     wsName = i.wsName,

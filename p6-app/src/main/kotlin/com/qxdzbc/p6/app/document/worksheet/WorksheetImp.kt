@@ -5,20 +5,19 @@ import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.d.Cell
-import com.qxdzbc.p6.app.document.cell.d.CellContent
-import com.qxdzbc.p6.app.document.cell.d.CellImp
+import com.qxdzbc.p6.app.document.cell.d.*
 import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toShallowModel
 import com.qxdzbc.p6.app.document.cell.d.CellImp.Companion.toModel
-import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.RangeImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -26,6 +25,8 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
+import com.qxdzbc.p6.rpc.common_data_structure.IndCellPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.R
@@ -37,7 +38,9 @@ data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
     override val table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
     override val rangeConstraint: RangeConstraint = R.worksheetValue.defaultRangeConstraint,
-) : Worksheet {
+) : BaseWorksheet() {
+
+
 
     companion object {
         val emptyTable: TableCR<Int, Int, Ms<Cell>> = ImmutableTableCR()
@@ -274,7 +277,7 @@ data class WorksheetImp(
         }
     }
 
-    fun removeAllCell(): WorksheetImp {
+    override fun removeAllCell(): Worksheet {
         return this.copy(table = table.removeAll())
     }
 
