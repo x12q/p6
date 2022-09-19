@@ -29,23 +29,23 @@ class DeleteMultiCellActionImp @Inject constructor(
 
     private var appState by appStateMs
 
-    override fun deleteMultiCellAtCursor(request: DeleteMultiAtCursorRequest): RseNav<DeleteMultiResponse> {
+    override fun deleteMultiCellAtCursor(request: DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         createCommandAtCursor(request)
         return internalApplyAtCursor(request)
     }
 
-    override fun deleteMultiCell(request: DeleteMultiRequest): RseNav<DeleteMultiResponse> {
+    override fun deleteMultiCell(request: RemoveMultiCellRequest): RseNav<RemoveMultiCellResponse> {
         createCommand(request)
         return internalApply(request)
     }
 
-    private fun internalApplyAtCursor(request: DeleteMultiAtCursorRequest): RseNav<DeleteMultiResponse> {
+    private fun internalApplyAtCursor(request: DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         val response = rm.deleteMultiCellAtCursor(request)
         applier.apply(response)
         return response
     }
 
-    private fun internalApply(request: DeleteMultiRequest): RseNav<DeleteMultiResponse> {
+    private fun internalApply(request: RemoveMultiCellRequest): RseNav<RemoveMultiCellResponse> {
         val response = rm.deleteMultiCell(request)
         applier.apply(response)
         return response
@@ -59,7 +59,7 @@ class DeleteMultiCellActionImp @Inject constructor(
             val cursorState: CursorState? = appState.getCursorState(k, n)
             if (cursorState != null) {
                 createCommand(
-                    DeleteMultiRequest(
+                    RemoveMultiCellRequest(
                     ranges = cursorState.allRanges,
                     cells = cursorState.allFragCells,
                     wbKey = request.wbKey,
@@ -73,7 +73,7 @@ class DeleteMultiCellActionImp @Inject constructor(
     }
 
 
-    private fun createCommand(request: DeleteMultiRequest) {
+    private fun createCommand(request: RemoveMultiCellRequest) {
         val k = request.wbKey
         val n = request.wsName
         val ws = appState.getWs(k, n)

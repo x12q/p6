@@ -5,13 +5,12 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.WorksheetProtos.DeleteMultiRequestProto
-import com.google.protobuf.ByteString
 import com.qxdzbc.p6.app.common.err.WithReportNavInfo
 
 /**
  * Request for deleting multiple cells and ranges at the same time
  */
-class DeleteMultiRequest(
+class RemoveMultiCellRequest(
     val ranges: List<RangeAddress>,
     val cells: List<CellAddress>,
     override val wbKey: WorkbookKey,

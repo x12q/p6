@@ -17,7 +17,7 @@ import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetAction
  * A collection of actions for rpc services.
  * This serve as an aggregation point and must not have any functions of its own
  */
-interface RpcActions:
+interface AppRpcActions:
     CreateNewWorksheetAction, ReplaceWorkbookKeyAction,
     NewWorksheetAction, DeleteWorksheetAction,
     RenameWorksheetAction, SetActiveWorksheetAction,

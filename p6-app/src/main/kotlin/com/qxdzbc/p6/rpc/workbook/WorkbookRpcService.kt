@@ -13,7 +13,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.action.rpc.RpcActions
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
@@ -40,13 +39,17 @@ import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import io.grpc.stub.StreamObserver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WorkbookRpcService @Inject constructor(
 //    @AppStateMs
 //    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
-    private val rpcActions: RpcActions,
+    private val rpcActions: WorkbookRpcActions,
     @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
     @SubAppStateContainerMs
@@ -56,6 +59,18 @@ class WorkbookRpcService @Inject constructor(
     //    private var appState by appStateMs
     private var documentCont by documentContMs
     private var stateCont by stateContMs
+
+    override fun removeAllWorksheet(
+        request: DocProtos.WorkbookKeyProto?,
+        responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
+    ) {
+        if (request != null && responseObserver != null) {
+            val wbk = request.toModel()
+            val rs = rpcActions.removeAllWsRs(wbk)
+            val ssr=SingleSignalResponse.fromRs(rs)
+            responseObserver.onNextAndComplete(ssr.toProto())
+        }
+    }
 
     override fun getWorksheet(
         request: WorksheetProtos.WorksheetIdWithIndexProto?,
@@ -170,10 +185,13 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<WorkbookProtos.WorksheetWithErrorReportMsgProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val req: CreateNewWorksheetRequest = request.toModel()
-            val rs = rpcActions.createNewWorksheetRs(req)
-            val rt = WorksheetWithErrorReportMsg.fromRs(rs)
-            responseObserver.onNextAndComplete(rt.toProto())
+            // TODO improve this, inject the scope
+        GlobalScope.launch (Dispatchers.Main) {
+                val req: CreateNewWorksheetRequest = request.toModel()
+                val rs = rpcActions.createNewWorksheetRs(req)
+                val rt = WorksheetWithErrorReportMsg.fromRs(rs)
+                responseObserver.onNextAndComplete(rt.toProto())
+            }
         }
     }
 

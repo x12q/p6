@@ -8,8 +8,8 @@ import com.github.michaelbull.result.mapError
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiResponse
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellResponse
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -26,7 +26,7 @@ class DeleteMultiRMImp @Inject constructor(
 ) : DeleteMultiRM {
     val stateCont by stateContSt
 
-    override fun deleteMultiCellAtCursor(request: DeleteMultiAtCursorRequest): RseNav<DeleteMultiResponse> {
+    override fun deleteMultiCellAtCursor(request: DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         val rangeCells = stateCont.getWsStateRs(request.wbKey, request.wsName).map { wsState ->
             val ranges = wsState.cursorState.allRanges
             val cells = wsState.cursorState.allFragCells
@@ -35,7 +35,7 @@ class DeleteMultiRMImp @Inject constructor(
         val ranges = rangeCells.component1()?.first ?: emptyList()
         val cells = rangeCells.component1()?.second ?: emptyList()
         val q = deleteMultiCell(
-            DeleteMultiRequest(
+            RemoveMultiCellRequest(
                 ranges = ranges,
                 cells = cells,
                 wbKey = request.wbKey,
@@ -47,7 +47,7 @@ class DeleteMultiRMImp @Inject constructor(
         return q
     }
 
-    override fun deleteMultiCell(request: DeleteMultiRequest): RseNav<DeleteMultiResponse> {
+    override fun deleteMultiCell(request: RemoveMultiCellRequest): RseNav<RemoveMultiCellResponse> {
         val wbk = request.wbKey
         val wsn = request.wsName
         val rt = stateCont.getWbRs(wbk).flatMap { wb ->
@@ -69,7 +69,7 @@ class DeleteMultiRMImp @Inject constructor(
                     oldWsState
                 }
                 Ok(
-                    DeleteMultiResponse(
+                    RemoveMultiCellResponse(
                         newWb = newWb,
                         newWsState = newWsState?.refreshCellState()
                     )

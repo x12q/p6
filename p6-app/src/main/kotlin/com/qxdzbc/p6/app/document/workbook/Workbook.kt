@@ -85,4 +85,5 @@ interface Workbook : WithSize {
     }
 
     fun createNewWorksheetRs2(name: String?): Rse<CreateNewWorksheetResponse2>
+    fun removeAllWs(): Workbook
 }

@@ -29,7 +29,7 @@ import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetResponse
 import com.qxdzbc.p6.app.action.worksheet.delete_cell.DeleteCellRequest
 import com.qxdzbc.p6.app.action.worksheet.delete_cell.DeleteCellResponse
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
 import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.DeleteMultiResponse
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetResponse
@@ -122,7 +122,7 @@ object P6Events {
 
         object DeleteMulti : P6EventMetaDef {
             override val event = P6Event("${WSE}4", "Delete multi")
-            override val Request: Any = DeleteMultiRequest::class
+            override val Request: Any = RemoveMultiCellRequest::class
             override val Response: Any = DeleteMultiResponse::class
         }
 

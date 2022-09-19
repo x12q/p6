@@ -105,6 +105,10 @@ data class WorkbookImp(
         }
     }
 
+    override fun removeAllWs(): Workbook {
+        return this.copy(worksheetMapMs = emptyMap())
+    }
+
     override fun createNewWsRs(name: String?): Result<Workbook, ErrorReport> {
         val actualName = name ?: WorkbookUtils.generateNewSheetName(this.worksheets.map { it.name })
         if (actualName in this.worksheetMap.keys) {

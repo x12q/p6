@@ -2,30 +2,33 @@ package com.qxdzbc.p6.di.action
 
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetActionImp
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActionImp
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2Imp
 import com.qxdzbc.p6.app.action.worksheet.convert_proto_to_ws.ConvertProtoToWorksheet
 import com.qxdzbc.p6.app.action.worksheet.convert_proto_to_ws.ConvertProtoToWorksheetImp
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellActionImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplierImp
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataActionImp
-import com.qxdzbc.p6.app.action.worksheet.release_focus.*
-import com.qxdzbc.p6.di.P6Singleton
-import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorActionImp
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextImp
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActionImp
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellImp
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeActionImp
+import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
+import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusStateImp
+import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
+import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellActionImp
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
+import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
+import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorActionImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerActionImp
 import dagger.Binds
@@ -34,14 +37,19 @@ import dagger.Binds
 interface WorksheetActionModule {
     @Binds
     @P6Singleton
-    fun LoadDataAction(i: LoadDataActionImp):LoadDataAction
-    @Binds
-    @P6Singleton
-    fun ConvertProtoToWorksheet(i:ConvertProtoToWorksheetImp): ConvertProtoToWorksheet
+    fun RemoveAllCellAction(i: RemoveAllCellActionImp): RemoveAllCellAction
 
     @Binds
     @P6Singleton
-    fun PasteRangeAction(i: PasteRangeActionImp):PasteRangeAction
+    fun LoadDataAction(i: LoadDataActionImp): LoadDataAction
+
+    @Binds
+    @P6Singleton
+    fun ConvertProtoToWorksheet(i: ConvertProtoToWorksheetImp): ConvertProtoToWorksheet
+
+    @Binds
+    @P6Singleton
+    fun PasteRangeAction(i: PasteRangeActionImp): PasteRangeAction
 
     @Binds
     @P6Singleton
