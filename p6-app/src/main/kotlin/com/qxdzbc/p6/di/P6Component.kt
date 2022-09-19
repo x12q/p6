@@ -212,7 +212,7 @@ interface P6Component {
     @EventServerPort
     fun eventServerPort(): Int
 
-    @ApplicationCoroutineScope
+    @AppCoroutineScope
     fun executionScope(): CoroutineScope
 
     @P6Singleton
@@ -263,10 +263,10 @@ interface P6Component {
         fun messageApiComponent(@P6Singleton component: MessageApiComponent): Builder
 
         @BindsInstance
-        fun username(@com.qxdzbc.p6.di.Username u: String): Builder
+        fun username(@Username u: String): Builder
 
         @BindsInstance
-        fun applicationCoroutineScope(@com.qxdzbc.p6.di.ApplicationCoroutineScope scope: CoroutineScope): Builder
+        fun applicationCoroutineScope(@AppCoroutineScope scope: CoroutineScope): Builder
 
         @BindsInstance
         fun applicationScope(appScope: ApplicationScope?): Builder

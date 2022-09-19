@@ -44,7 +44,7 @@ annotation class AppZContext
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ApplicationCoroutineScope
+annotation class AppCoroutineScope
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)

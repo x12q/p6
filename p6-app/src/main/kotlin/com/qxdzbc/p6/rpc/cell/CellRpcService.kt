@@ -4,11 +4,13 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
+import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.d.Cell
 import com.qxdzbc.p6.app.document.cell.d.CellContent
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue
+import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
@@ -20,6 +22,7 @@ import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId
 import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId.Companion.toIndeModel
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 
@@ -27,8 +30,10 @@ class CellRpcService @Inject constructor(
     @StateContainerSt
     val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     val copyCell: CopyCellAction,
+    @AppCoroutineScope
+    val cScope: CoroutineScope
 ) : CellServiceGrpc.CellServiceImplBase() {
-
+    val launchOnMain = CoroutineUtils.makeLaunchOnMain(cScope)
     private val stateCont by stateContSt
 
     override fun getDisplayValue(
@@ -84,11 +89,11 @@ class CellRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if(request != null && responseObserver!=null){
-            val req = request.toModel()
-            val rt = copyCell.copyCell(req)
-            responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(rt).toProto())
+            launchOnMain{
+                val req = request.toModel()
+                val rt = copyCell.copyCell(req)
+                responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(rt).toProto())
+            }
         }
     }
 }
-
-

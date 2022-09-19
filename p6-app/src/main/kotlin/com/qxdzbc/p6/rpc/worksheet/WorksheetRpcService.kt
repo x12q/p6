@@ -1,52 +1,57 @@
 package com.qxdzbc.p6.rpc.worksheet
 
 import androidx.compose.runtime.getValue
-import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
-import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
+import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
+import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
-import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.cell.msg.CellPrt
 import com.qxdzbc.p6.rpc.cell.msg.CellPrt.CO.toModel
-import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId.Companion.toIndeModel
-import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt.Companion.toModel
+import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.worksheet.msg.*
+import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId.Companion.toIndeModel
+import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
-import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
-import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest.Companion.toModel
 
 class WorksheetRpcService @Inject constructor(
     @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val rpcActs:WorksheetRpcAction,
+    @AppCoroutineScope
+    val cScope: CoroutineScope
 ) : WorksheetServiceGrpc.WorksheetServiceImplBase() {
 
     private val sc: StateContainer by stateContSt
-
+    val launchOnMain = CoroutineUtils.makeLaunchOnMain(cScope)
     override fun removeAllCell(
         request: WorksheetIdProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if(request!=null && responseObserver!=null){
-            val o = rpcActs.removeAllCell(request.toModel())
-            val rt = SingleSignalResponse.fromRs(o)
-            responseObserver.onNextAndComplete(rt.toProto())
+            launchOnMain{
+                val o = rpcActs.removeAllCell(request.toModel())
+                val rt = SingleSignalResponse.fromRs(o)
+                responseObserver.onNextAndComplete(rt.toProto())
+            }
         }
     }
 
@@ -55,10 +60,12 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if(request!=null && responseObserver!=null){
-            val req:LoadDataRequest = request.toModel()
-            val rs=rpcActs.loadDataRs(req,false)
-            val o =SingleSignalResponse.fromRs(rs)
-            responseObserver.onNextAndComplete(o.toProto())
+            launchOnMain{
+                val req: LoadDataRequest = request.toModel()
+                val rs = rpcActs.loadDataRs(req, false)
+                val o = SingleSignalResponse.fromRs(rs)
+                responseObserver.onNextAndComplete(o.toProto())
+            }
         }
     }
 
@@ -116,9 +123,11 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val cid: IndeCellId = request.toIndeModel()
-            val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
-            responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
+            launchOnMain{
+                val cid: IndeCellId = request.toIndeModel()
+                val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
+                responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
+            }
         }
     }
 
@@ -127,25 +136,27 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val i: CellPrt = request.toModel()
-            val o = rpcActs.updateCell(
-                CellUpdateRequest(
-                    wbKey = i.id.wbKey,
-                    wsName = i.id.wsName,
-                    cellAddress = i.id.address,
-                    formula = i.formula,
-                    cellValue = if (i.cellValue.isBool) {
-                        i.cellValue.bool
-                    } else if (i.cellValue.isNumber) {
-                        i.cellValue.number
-                    } else if (i.cellValue.isStr) {
-                        i.cellValue.str
-                    } else {
-                        null
-                    }
+            launchOnMain{
+                val i: CellPrt = request.toModel()
+                val o = rpcActs.updateCell(
+                    CellUpdateRequest(
+                        wbKey = i.id.wbKey,
+                        wsName = i.id.wsName,
+                        cellAddress = i.id.address,
+                        formula = i.formula,
+                        cellValue = if (i.cellValue.isBool) {
+                            i.cellValue.bool
+                        } else if (i.cellValue.isNumber) {
+                            i.cellValue.number
+                        } else if (i.cellValue.isStr) {
+                            i.cellValue.str
+                        } else {
+                            null
+                        }
+                    )
                 )
-            )
-            responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
+                responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
+            }
         }
     }
 
@@ -154,20 +165,22 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val i: IndeCellId = request.toIndeModel()
-            val o =rpcActs.deleteMultiCell(
-                RemoveMultiCellRequest(
-                    wbKey = i.wbKey,
-                    wsName = i.wsName,
-                    ranges = emptyList(),
-                    cells = listOf(i.address),
-                    clearFormat = false,
-                    windowId = null
+            launchOnMain{
+                val i: IndeCellId = request.toIndeModel()
+                val o = rpcActs.deleteMultiCell(
+                    RemoveMultiCellRequest(
+                        wbKey = i.wbKey,
+                        wsName = i.wsName,
+                        ranges = emptyList(),
+                        cells = listOf(i.address),
+                        clearFormat = false,
+                        windowId = null
+                    )
                 )
-            )
-            responseObserver.onNextAndComplete(
-                SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
-            )
+                responseObserver.onNextAndComplete(
+                    SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
+                )
+            }
         }
     }
 
@@ -176,20 +189,22 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val i = request.toModel()
-            val o =rpcActs.deleteMultiCell(
-                RemoveMultiCellRequest(
-                    wbKey = i.wbKey,
-                    wsName = i.wsName,
-                    ranges = listOf(i.rangeAddress),
-                    cells = listOf(),
-                    clearFormat = false,
-                    windowId = null
+            launchOnMain{
+                val i = request.toModel()
+                val o = rpcActs.deleteMultiCell(
+                    RemoveMultiCellRequest(
+                        wbKey = i.wbKey,
+                        wsName = i.wsName,
+                        ranges = listOf(i.rangeAddress),
+                        cells = listOf(),
+                        clearFormat = false,
+                        windowId = null
+                    )
                 )
-            )
-            responseObserver.onNextAndComplete(
-                SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
-            )
+                responseObserver.onNextAndComplete(
+                    SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
+                )
+            }
         }
     }
 

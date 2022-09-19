@@ -27,7 +27,7 @@ import javax.inject.Inject
 class CodeEditorActionImp @Inject constructor(
     @CodeEditorStateMs private val codeEditorStateMs: Ms<CodeEditorState>,
     private val codeRunner: CodeRunner,
-    @com.qxdzbc.p6.di.ApplicationCoroutineScope private val executionScope: CoroutineScope,
+    @com.qxdzbc.p6.di.AppCoroutineScope private val executionScope: CoroutineScope,
     private val ceErrRouter: ScriptEditorErrorRouter,
     private val scriptRM: ScriptRM,
     private val scriptApplier: ScriptApplier,

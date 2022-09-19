@@ -13,15 +13,19 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
+import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetResponse2
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetWithIndexRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
 import com.qxdzbc.p6.proto.CommonProtos
@@ -29,20 +33,15 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorkbookProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorkbookServiceGrpc
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt.Companion.toModel
 import com.qxdzbc.p6.rpc.workbook.msg.GetAllWorksheetsResponse
 import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
 import com.qxdzbc.p6.rpc.workbook.msg.WorksheetWithErrorReportMsg
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import io.grpc.stub.StreamObserver
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 class WorkbookRpcService @Inject constructor(
@@ -53,10 +52,13 @@ class WorkbookRpcService @Inject constructor(
     @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
     @SubAppStateContainerMs
-    private val stateContMs: Ms<SubAppStateContainer>
+    private val stateContMs: Ms<SubAppStateContainer>,
+    @AppCoroutineScope
+    val cScope: CoroutineScope
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
     //    private var appState by appStateMs
+    val launchOnMain = CoroutineUtils.makeLaunchOnMain(cScope)
     private var documentCont by documentContMs
     private var stateCont by stateContMs
 
@@ -65,10 +67,12 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wbk = request.toModel()
-            val rs = rpcActions.removeAllWsRs(wbk)
-            val ssr=SingleSignalResponse.fromRs(rs)
-            responseObserver.onNextAndComplete(ssr.toProto())
+            launchOnMain {
+                val wbk = request.toModel()
+                val rs = rpcActions.removeAllWsRs(wbk)
+                val ssr = SingleSignalResponse.fromRs(rs)
+                responseObserver.onNextAndComplete(ssr.toProto())
+            }
         }
     }
 
@@ -111,6 +115,7 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
+            launchOnMain{
             val req = request.toModel()
             val wbk = req.wbKey
             val wsName = req.wsName
@@ -134,6 +139,7 @@ class WorkbookRpcService @Inject constructor(
             val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
         }
+        }
     }
 
     override fun getAllWorksheets(
@@ -154,10 +160,12 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val req = SetWbKeyRequest.fromProto(request)
-            val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
-            val rt = SingleSignalResponse.fromRs(rs).toProto()
-            responseObserver.onNextAndComplete(rt)
+            launchOnMain{
+                val req = SetWbKeyRequest.fromProto(request)
+                val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
+                val rt = SingleSignalResponse.fromRs(rs).toProto()
+                responseObserver.onNextAndComplete(rt)
+            }
         }
     }
 
@@ -166,17 +174,19 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wbk = request.wbKey.toModel()
-            val wsn = request.worksheet.name ?: ""
-            val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
-            val wbkMsRs = documentCont.getWbRs(wbKey = wbk)
-            val rs = wbkMsRs.flatMap { wb ->
-                val req = request.toModel(wb.keyMs, translator)
-                val rs: Rs<AddWorksheetResponse, ErrorReport> = rpcActions.createNewWorksheetRs(req)
-                rs
+            launchOnMain{
+                val wbk = request.wbKey.toModel()
+                val wsn = request.worksheet.name ?: ""
+                val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
+                val wbkMsRs = documentCont.getWbRs(wbKey = wbk)
+                val rs = wbkMsRs.flatMap { wb ->
+                    val req = request.toModel(wb.keyMs, translator)
+                    val rs: Rs<AddWorksheetResponse, ErrorReport> = rpcActions.createNewWorksheetRs(req)
+                    rs
+                }
+                val rt = SingleSignalResponse.fromRs(rs).toProto()
+                responseObserver.onNextAndComplete(rt)
             }
-            val rt = SingleSignalResponse.fromRs(rs).toProto()
-            responseObserver.onNextAndComplete(rt)
         }
     }
 
@@ -185,8 +195,7 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<WorkbookProtos.WorksheetWithErrorReportMsgProto>?
     ) {
         if (request != null && responseObserver != null) {
-            // TODO improve this, inject the scope
-        GlobalScope.launch (Dispatchers.Main) {
+            launchOnMain {
                 val req: CreateNewWorksheetRequest = request.toModel()
                 val rs = rpcActions.createNewWorksheetRs(req)
                 val rt = WorksheetWithErrorReportMsg.fromRs(rs)
@@ -200,10 +209,12 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val req = request.toModel()
-            val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
-            val rt = SingleSignalResponse.fromRs(rs)
-            responseObserver.onNextAndComplete(rt.toProto())
+            launchOnMain{
+                val req = request.toModel()
+                val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
+                val rt = SingleSignalResponse.fromRs(rs)
+                responseObserver.onNextAndComplete(rt.toProto())
+            }
         }
     }
 
@@ -212,9 +223,11 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val rs = rpcActions.renameWorksheetRs(request.toModel())
-            val rt = SingleSignalResponse.fromRs(rs)
-            responseObserver.onNextAndComplete(rt.toProto())
+            launchOnMain{
+                val rs = rpcActions.renameWorksheetRs(request.toModel())
+                val rt = SingleSignalResponse.fromRs(rs)
+                responseObserver.onNextAndComplete(rt.toProto())
+            }
         }
     }
 
