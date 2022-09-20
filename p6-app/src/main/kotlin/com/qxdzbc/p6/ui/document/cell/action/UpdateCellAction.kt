@@ -7,5 +7,5 @@ import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
 interface UpdateCellAction {
     @Deprecated("dont use, use updateCell2 instead")
     fun updateCell(request: CellUpdateRequest):Rse<Unit>
-    fun updateCell2(request: CellUpdateRequest2):Rse<Unit>
+    fun updateCell2(request: CellUpdateRequest2, publishError:Boolean = true):Rse<Unit>
 }

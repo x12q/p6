@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.mapError
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
@@ -19,8 +20,9 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
-import com.qxdzbc.p6.rpc.cell.msg.CellPrt
-import com.qxdzbc.p6.rpc.cell.msg.CellPrt.CO.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellContentProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM.CO.toModel
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.worksheet.msg.*
 import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
@@ -138,23 +140,13 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             launchOnMain{
-                val i: CellPrt = request.toModel()
-                val o = rpcActs.updateCell(
-                    CellUpdateRequest(
+                val i: CellProtoDM = request.toModel()
+                val o = rpcActs.updateCell2(
+                    CellUpdateRequest2(
                         wbKey = i.id.wbKey,
                         wsName = i.id.wsName,
                         cellAddress = i.id.address,
-                        formula = i.formula,
-                        cellValue = if (i.cellValue.isBool) {
-                            i.cellValue.bool
-                        } else if (i.cellValue.isNumber) {
-                            i.cellValue.number
-                        } else if (i.cellValue.isStr) {
-                            i.cellValue.str
-                        } else {
-                            null
-                        }
-                    )
+                        cellContent = i.content                    )
                 )
                 responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
             }

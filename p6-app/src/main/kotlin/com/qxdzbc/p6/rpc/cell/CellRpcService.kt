@@ -44,7 +44,7 @@ class CellRpcService @Inject constructor(
         if(request != null && responseObserver!=null){
             launchOnMain{
                 val req = request.toModel()
-                val o = acts.updateCell2(req)
+                val o = acts.updateCell2(req,false)
                 responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
             }
         }
