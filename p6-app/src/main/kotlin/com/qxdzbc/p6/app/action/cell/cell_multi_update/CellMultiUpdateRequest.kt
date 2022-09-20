@@ -13,24 +13,24 @@ data class CellUpdateContent(
     val displayValue: String,
     val cellValue:Any? = null
 ) {
-    fun toProto(): CellUpdateContentProto {
-        return CellUpdateContentProto.newBuilder()
-            .setFormula(formula)
-            .setLiteral(displayValue)
-            .build()
-    }
+//    fun toProto(): CellUpdateContentProto {
+//        return CellUpdateContentProto.newBuilder()
+//            .setFormula(formula)
+//            .setLiteral(displayValue)
+//            .build()
+//    }
 }
 
 data class CellUpdateEntry(
     val cellAddress: CellAddress,
     val cellUpdateContent: CellUpdateContent
 ) {
-    fun toProto(): CellUpdateEntryProto {
-        return CellUpdateEntryProto.newBuilder()
-            .setCellAddress(this.cellAddress.toProto())
-            .setContent(this.cellUpdateContent.toProto())
-            .build()
-    }
+//    fun toProto(): CellUpdateEntryProto {
+//        return CellUpdateEntryProto.newBuilder()
+//            .setCellAddress(this.cellAddress.toProto())
+//            .setContent(this.cellUpdateContent.toProto())
+//            .build()
+//    }
 }
 
 /**
@@ -45,11 +45,11 @@ data class CellMultiUpdateRequest(
 //    override fun toProtoBytes(): ByteString {
 //        return this.toProto().toByteString()
 //    }
-    fun toProto(): CellMultiUpdateRequestProto {
-        return CellMultiUpdateRequestProto.newBuilder()
-            .setWorkbookKey(wbKey.toProto())
-            .setWorksheetName(wsName)
-            .addAllCellUpdate(cellUpdateList.map { it.toProto() })
-            .build()
-    }
+//    fun toProto(): CellMultiUpdateRequestProto {
+//        return CellMultiUpdateRequestProto.newBuilder()
+//            .setWorkbookKey(wbKey.toProto())
+//            .setWorksheetName(wsName)
+//            .addAllCellUpdate(cellUpdateList.map { it.toProto() })
+//            .build()
+//    }
 }

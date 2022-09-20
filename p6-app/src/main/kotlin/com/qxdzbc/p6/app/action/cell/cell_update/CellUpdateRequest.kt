@@ -7,8 +7,9 @@ import com.qxdzbc.p6.proto.CellProtos
 import com.google.protobuf.ByteString
 
 /**
- * TODO update this to use wbkey st, wsname st
+ *
  */
+@Deprecated("dont use", ReplaceWith("com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2"))
 data class CellUpdateRequest(
     override val wbKey: WorkbookKey,
     val wsName: String,
@@ -16,17 +17,16 @@ data class CellUpdateRequest(
     val formula: String?=null,
     val cellValue:Any?=null,
 ) : RequestToP6WithWorkbookKey {
-    fun toProto():CellProtos.CellUpdateRequestProto{
-        val rt = CellProtos.CellUpdateRequestProto.newBuilder()
-            .setWorkbookKey(wbKey.toProto())
-            .setWorksheetName(wsName)
-            .setCellAddress(cellAddress.toProto())
-            .apply{
-                if(this@CellUpdateRequest.formula!=null){
-                    setFormula(this@CellUpdateRequest.formula)
-                }
-            }
-            .build()
-        return rt
-    }
+//    fun toProto():CellProtos.CellUpdateRequestProto{
+//        val rt = CellProtos.CellUpdateRequestProto.newBuilder()
+//            .setCellId()
+//            .setCellAddress(cellAddress.toProto())
+//            .apply{
+//                if(this@CellUpdateRequest.formula!=null){
+//                    setFormula(this@CellUpdateRequest.formula)
+//                }
+//            }
+//            .build()
+//        return rt
+//    }
 }
