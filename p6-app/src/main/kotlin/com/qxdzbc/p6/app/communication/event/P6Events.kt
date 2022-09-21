@@ -11,8 +11,8 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookRequest
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookResponse
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateRequest
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateResponse
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateResponse
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest

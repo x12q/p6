@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.cell.cell_multi_update
+package com.qxdzbc.p6.app.action.cell.multi_cell_update
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM

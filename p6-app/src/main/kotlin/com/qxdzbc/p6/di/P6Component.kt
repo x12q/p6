@@ -67,7 +67,7 @@ import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.applier.BaseApplier
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateAction
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction

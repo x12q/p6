@@ -4,9 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateRequest
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateResponse
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellUpdateEntry
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.CellUpdateEntry
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.d.CellContent
 import com.qxdzbc.p6.app.document.cell.d.CellValue

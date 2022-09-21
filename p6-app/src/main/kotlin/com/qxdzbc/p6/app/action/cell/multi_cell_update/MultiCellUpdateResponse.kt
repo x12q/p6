@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.cell.cell_multi_update
+package com.qxdzbc.p6.app.action.cell.multi_cell_update
 
 import com.qxdzbc.p6.app.communication.event.WithP6EventLookupClazz
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponseInterface

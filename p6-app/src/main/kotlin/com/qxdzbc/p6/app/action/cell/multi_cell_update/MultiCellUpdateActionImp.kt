@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.cell.cell_multi_update
+package com.qxdzbc.p6.app.action.cell.multi_cell_update
 
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
