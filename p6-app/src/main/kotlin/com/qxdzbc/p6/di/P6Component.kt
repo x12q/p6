@@ -2,49 +2,64 @@ package com.qxdzbc.p6.di
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
+import com.google.gson.Gson
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.app.action.app.AppRM
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
+import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
+import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
+import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
+import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
+import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
+import com.qxdzbc.p6.app.action.applier.BaseApplier
+import com.qxdzbc.p6.app.action.cell.CellRM
+import com.qxdzbc.p6.app.action.cell.cell_update.applier.CellUpdateApplier
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
+import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.app.action.window.WindowAction
+import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
+import com.qxdzbc.p6.app.action.workbook.WorkbookAction
+import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
+import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
+import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
+import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
+import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.code.PythonCommander
 import com.qxdzbc.p6.app.coderunner.CodeRunner
-
-import com.qxdzbc.p6.app.action.cell.cell_update.applier.CellUpdateApplier
 import com.qxdzbc.p6.app.communication.event.P6EventTable
-import com.qxdzbc.p6.app.action.app.AppRM
-import com.qxdzbc.p6.app.action.cell.CellRM
-import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
-import com.qxdzbc.p6.app.action.window.WindowAction
-import com.qxdzbc.p6.app.action.workbook.WorkbookAction
-import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
+import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
+import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
+import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.action.ActionModule
-import com.qxdzbc.p6.di.state.app_state.AppStateModule
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.WbContainerMs
 import com.qxdzbc.p6.di.applier.ApplierModule
 import com.qxdzbc.p6.di.document.DocumentModule
 import com.qxdzbc.p6.di.request_maker.RMModule
-import com.qxdzbc.p6.di.rpc.RpcModule
-import com.qxdzbc.p6.di.status_bar.StatusBarModule
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
+import com.qxdzbc.p6.di.rpc.RpcModule
 import com.qxdzbc.p6.di.state.StateModule
+import com.qxdzbc.p6.di.state.app_state.AppStateModule
+import com.qxdzbc.p6.di.state.app_state.AppStateMs
+import com.qxdzbc.p6.di.state.app_state.StateContainerMs
+import com.qxdzbc.p6.di.state.app_state.WbContainerMs
+import com.qxdzbc.p6.di.status_bar.StatusBarModule
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.rpc.P6RpcServer
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
-import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.action.AppAction
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
-import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
+import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionTable
+import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -58,22 +73,6 @@ import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
-import com.google.gson.Gson
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
-import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
-import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
-import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
-import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
-import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
-import com.qxdzbc.p6.app.action.applier.BaseApplier
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
-import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
-import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
-import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
-import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
-import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
@@ -97,6 +96,7 @@ import org.zeromq.ZMQ
         ActionModule::class,
         RpcModule::class,
         StateModule::class,
+        CoroutineModule::class,
     ]
 )
 interface P6Component {
@@ -238,6 +238,7 @@ interface P6Component {
 
     fun clickOnCellAction(): ClickOnCell
     fun mouseOnWsAction(): MouseOnWorksheetAction
+
     @StateContainerMs
     fun stateContMs(): MutableState<StateContainer>
     fun workbookFactory(): WorkbookFactory

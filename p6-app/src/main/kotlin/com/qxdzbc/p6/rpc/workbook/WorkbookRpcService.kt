@@ -25,6 +25,7 @@ import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.ActionDispatcherMain
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
@@ -41,7 +42,7 @@ import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import io.grpc.stub.StreamObserver
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class WorkbookRpcService @Inject constructor(
@@ -54,11 +55,14 @@ class WorkbookRpcService @Inject constructor(
     @SubAppStateContainerMs
     private val stateContMs: Ms<SubAppStateContainer>,
     @AppCoroutineScope
-    val crtScope: CoroutineScope
+    val crtScope: CoroutineScope,
+    @ActionDispatcherMain
+    val actionDispatcher: CoroutineDispatcher
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
     //    private var appState by appStateMs
     val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
+    val launchOnIO = CoroutineUtils.makeLaunchOnIO(crtScope)
     private var dc by documentContMs
     private var sc by stateContMs
 
@@ -67,12 +71,15 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain {
-                val wbk = request.toModel()
-                val rs = rpcActions.removeAllWsRs(wbk)
-                val ssr = SingleSignalResponse.fromRs(rs)
-                responseObserver.onNextAndComplete(ssr.toProto())
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val wbk = request.toModel()
+                    val rs = rpcActions.removeAllWsRs(wbk)
+                    val ssr = SingleSignalResponse.fromRs(rs)
+                    ssr
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
 
@@ -115,30 +122,33 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-            val req = request.toModel()
-            val wbk = req.wbKey
-            val wsName = req.wsName
-            val wsIndex = req.wsIndex
-            val rs: Rse<SetActiveWorksheetResponse2> = if (wsName != null) {
-                val setActiveWsRs = rpcActions.setActiveWs(
-                    request = SetActiveWorksheetRequest(wbKey = wbk, wsName = wsName)
-                ).mapError { it.errorReport }
-                setActiveWsRs
-            } else if (wsIndex != null) {
-                // find the name
-                val setActiveWsRs = rpcActions.setActiveWsUsingIndex(
-                    request = SetActiveWorksheetWithIndexRequest(wbKey = wbk, wsIndex = wsIndex)
-                ).mapError { it.errorReport }
-                setActiveWsRs
-            } else {
-                val err =
-                    WorkbookRpcMsgErrors.IllegalMsg.report("Set active worksheet request must provide a valid worksheet name or a valid worksheet index")
-                Err(err)
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val req = request.toModel()
+                    val wbk = req.wbKey
+                    val wsName = req.wsName
+                    val wsIndex = req.wsIndex
+                    val rs: Rse<SetActiveWorksheetResponse2> = if (wsName != null) {
+                        val setActiveWsRs = rpcActions.setActiveWs(
+                            request = SetActiveWorksheetRequest(wbKey = wbk, wsName = wsName)
+                        ).mapError { it.errorReport }
+                        setActiveWsRs
+                    } else if (wsIndex != null) {
+                        // find the name
+                        val setActiveWsRs = rpcActions.setActiveWsUsingIndex(
+                            request = SetActiveWorksheetWithIndexRequest(wbKey = wbk, wsIndex = wsIndex)
+                        ).mapError { it.errorReport }
+                        setActiveWsRs
+                    } else {
+                        val err =
+                            WorkbookRpcMsgErrors.IllegalMsg.report("Set active worksheet request must provide a valid worksheet name or a valid worksheet index")
+                        Err(err)
+                    }
+                    val rt = SingleSignalResponse.fromRs(rs)
+                    rt
+                }.await()
             }
-            val rt = SingleSignalResponse.fromRs(rs)
             responseObserver.onNextAndComplete(rt.toProto())
-        }
         }
     }
 
@@ -160,12 +170,15 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val req = SetWbKeyRequest.fromProto(request)
-                val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
-                val rt = SingleSignalResponse.fromRs(rs).toProto()
-                responseObserver.onNextAndComplete(rt)
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val req = SetWbKeyRequest.fromProto(request)
+                    val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
+                    val rt = SingleSignalResponse.fromRs(rs).toProto()
+                    rt
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt)
         }
     }
 
@@ -174,19 +187,22 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val wbk = request.wbKey.toModel()
-                val wsn = request.worksheet.name ?: ""
-                val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
-                val wbkMsRs = dc.getWbRs(wbKey = wbk)
-                val rs = wbkMsRs.flatMap { wb ->
-                    val req = request.toModel(wb.keyMs, translator)
-                    val rs: Rs<AddWorksheetResponse, ErrorReport> = rpcActions.createNewWorksheetRs(req)
-                    rs
-                }
-                val rt = SingleSignalResponse.fromRs(rs).toProto()
-                responseObserver.onNextAndComplete(rt)
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val wbk = request.wbKey.toModel()
+                    val wsn = request.worksheet.name ?: ""
+                    val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
+                    val wbkMsRs = dc.getWbRs(wbKey = wbk)
+                    val rs = wbkMsRs.flatMap { wb ->
+                        val req = request.toModel(wb.keyMs, translator)
+                        val rs: Rs<AddWorksheetResponse, ErrorReport> = rpcActions.createNewWorksheetRs(req)
+                        rs
+                    }
+                    val rt = SingleSignalResponse.fromRs(rs).toProto()
+                    rt
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt)
         }
     }
 
@@ -195,12 +211,15 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<WorkbookProtos.WorksheetWithErrorReportMsgProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain {
-                val req: CreateNewWorksheetRequest = request.toModel()
-                val rs = rpcActions.createNewWorksheetRs(req)
-                val rt = WorksheetWithErrorReportMsg.fromRs(rs)
-                responseObserver.onNextAndComplete(rt.toProto())
+            val rt = runBlocking {
+                withContext(crtScope.coroutineContext + actionDispatcher) {
+                    val req: CreateNewWorksheetRequest = request.toModel()
+                    val rs = rpcActions.createNewWorksheetRs(req)
+                    val res = WorksheetWithErrorReportMsg.fromRs(rs)
+                    res
+                }.toProto()
             }
+            responseObserver.onNextAndComplete(rt)
         }
     }
 
@@ -209,12 +228,15 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val req = request.toModel()
-                val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
-                val rt = SingleSignalResponse.fromRs(rs)
-                responseObserver.onNextAndComplete(rt.toProto())
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val req = request.toModel()
+                    val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
+                    val rt = SingleSignalResponse.fromRs(rs)
+                    rt
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
 
@@ -223,11 +245,14 @@ class WorkbookRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val rs = rpcActions.renameWorksheetRs(request.toModel())
-                val rt = SingleSignalResponse.fromRs(rs)
-                responseObserver.onNextAndComplete(rt.toProto())
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val rs = rpcActions.renameWorksheetRs(request.toModel())
+                    val rt = SingleSignalResponse.fromRs(rs)
+                    rt
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
 

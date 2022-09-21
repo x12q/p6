@@ -13,6 +13,7 @@ import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.ActionDispatcherMain
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.CommonProtos
@@ -24,50 +25,65 @@ import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM
 import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM.CO.toModel
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.worksheet.msg.*
-import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class WorksheetRpcService @Inject constructor(
     @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    private val rpcActs:WorksheetRpcAction,
+    private val rpcActs: WorksheetRpcAction,
     @AppCoroutineScope
-    val crtScope: CoroutineScope
+    val crtScope: CoroutineScope,
+    @ActionDispatcherMain
+    val actionDispatcher: CoroutineDispatcher
 ) : WorksheetServiceGrpc.WorksheetServiceImplBase() {
 
     private val sc: StateContainer by stateContSt
-    val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
 
     override fun updateMultiCellContent(
         request: WorksheetProtos.MultiCellUpdateRequestProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
-        if(request!=null && responseObserver!=null){
-            launchOnMain{
-                val req = request.toModel()
-                val rs = rpcActs.updateMultiCell(req,false)
-                val ssr = SingleSignalResponse.fromRs(rs)
-                responseObserver.onNextAndComplete(ssr.toProto())
+        if (request != null && responseObserver != null) {
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val deferred = crtScope.async(actionDispatcher) {
+                        val req = request.toModel()
+                        val rs = rpcActs.updateMultiCell(req, false)
+                        val ssr = SingleSignalResponse.fromRs(rs)
+                        ssr
+                    }
+                    val ssr = deferred.await()
+                    ssr
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
+
 
     override fun removeAllCell(
         request: WorksheetIdProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
-        if(request!=null && responseObserver!=null){
-            launchOnMain{
-                val o = rpcActs.removeAllCell(request.toModel())
-                val rt = SingleSignalResponse.fromRs(o)
-                responseObserver.onNextAndComplete(rt.toProto())
+        if (request != null && responseObserver != null) {
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val o = rpcActs.removeAllCell(request.toModel())
+                    val rt = SingleSignalResponse.fromRs(o)
+                    rt
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
 
@@ -75,13 +91,16 @@ class WorksheetRpcService @Inject constructor(
         request: WorksheetProtos.LoadDataRequestProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
-        if(request!=null && responseObserver!=null){
-            launchOnMain{
-                val req: LoadDataRequest = request.toModel()
-                val rs = rpcActs.loadDataRs(req, false)
-                val o = SingleSignalResponse.fromRs(rs)
-                responseObserver.onNextAndComplete(o.toProto())
+        if (request != null && responseObserver != null) {
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val req: LoadDataRequest = request.toModel()
+                    val rs = rpcActs.loadDataRs(req, false)
+                    val o = SingleSignalResponse.fromRs(rs)
+                    o
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
 
@@ -139,11 +158,14 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val cid: CellIdProtoDM = request.toModel()
-                val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
-                responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val cid: CellIdProtoDM = request.toModel()
+                    val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
+                    o
+                }.await()
             }
+            responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(rt).toProto())
         }
     }
 
@@ -152,17 +174,21 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val i: CellProtoDM = request.toModel()
-                val o = rpcActs.updateCell2(
-                    CellUpdateRequest2(
-                        wbKey = i.id.wbKey,
-                        wsName = i.id.wsName,
-                        cellAddress = i.id.address,
-                        cellContent = i.content                    )
-                )
-                responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val i: CellProtoDM = request.toModel()
+                    val o = rpcActs.updateCell2(
+                        CellUpdateRequest2(
+                            wbKey = i.id.wbKey,
+                            wsName = i.id.wsName,
+                            cellAddress = i.id.address,
+                            cellContent = i.content
+                        )
+                    )
+                    o
+                }.await()
             }
+            responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(rt).toProto())
         }
     }
 
@@ -171,22 +197,25 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val i: CellIdProtoDM = request.toModel()
-                val o = rpcActs.deleteMultiCell(
-                    RemoveMultiCellRequest(
-                        wbKey = i.wbKey,
-                        wsName = i.wsName,
-                        ranges = emptyList(),
-                        cells = listOf(i.address),
-                        clearFormat = false,
-                        windowId = null
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val i: CellIdProtoDM = request.toModel()
+                    val o = rpcActs.deleteMultiCell(
+                        RemoveMultiCellRequest(
+                            wbKey = i.wbKey,
+                            wsName = i.wsName,
+                            ranges = emptyList(),
+                            cells = listOf(i.address),
+                            clearFormat = false,
+                            windowId = null
+                        )
                     )
-                )
-                responseObserver.onNextAndComplete(
-                    SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
-                )
+                    o
+                }.await()
             }
+            responseObserver.onNextAndComplete(
+                SingleSignalResponse.fromRs(rt.mapError { it.errorReport }).toProto()
+            )
         }
     }
 
@@ -195,22 +224,25 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val i = request.toModel()
-                val o = rpcActs.deleteMultiCell(
-                    RemoveMultiCellRequest(
-                        wbKey = i.wbKey,
-                        wsName = i.wsName,
-                        ranges = listOf(i.rangeAddress),
-                        cells = listOf(),
-                        clearFormat = false,
-                        windowId = null
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val i = request.toModel()
+                    val o = rpcActs.deleteMultiCell(
+                        RemoveMultiCellRequest(
+                            wbKey = i.wbKey,
+                            wsName = i.wsName,
+                            ranges = listOf(i.rangeAddress),
+                            cells = listOf(),
+                            clearFormat = false,
+                            windowId = null
+                        )
                     )
-                )
-                responseObserver.onNextAndComplete(
-                    SingleSignalResponse.fromRs(o.mapError { it.errorReport }).toProto()
-                )
+                    o
+                }.await()
             }
+            responseObserver.onNextAndComplete(
+                SingleSignalResponse.fromRs(rt.mapError { it.errorReport }).toProto()
+            )
         }
     }
 
@@ -218,7 +250,7 @@ class WorksheetRpcService @Inject constructor(
         request: WorksheetProtos.CheckContainAddressRequestProto?,
         responseObserver: StreamObserver<CommonProtos.BoolMsgProto>?
     ) {
-        if(request!=null && responseObserver!=null){
+        if (request != null && responseObserver != null) {
             val i: CheckContainAddressRequest = request.toModel()
             val o = sc.getWs(i.wsId)?.rangeConstraint?.contains(i.cellAddress) ?: false
             responseObserver.onNextAndComplete(o.toBoolMsgProto())

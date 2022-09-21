@@ -62,3 +62,10 @@ annotation class Null
 @Retention(AnnotationRetention.RUNTIME)
 annotation class DefaultTextFieldValue
 
+@Qualifier
+@Retention
+annotation class ActionDispatcherMain
+
+@Qualifier
+@Retention
+annotation class ActionDispatcherDefault

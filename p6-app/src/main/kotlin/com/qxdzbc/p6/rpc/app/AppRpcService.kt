@@ -15,11 +15,11 @@ import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest.Companion.toMode
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.rpc.AppRpcAction
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
+import com.qxdzbc.p6.di.ActionDispatcherMain
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
@@ -35,7 +35,10 @@ import com.qxdzbc.p6.rpc.workbook.msg.WorkbookKeyWithErrorResponse
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import java.nio.file.Path
 import javax.inject.Inject
 
@@ -46,10 +49,11 @@ class AppRpcService @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val rpcActions: AppRpcAction,
     @AppCoroutineScope
-    val crtScope: CoroutineScope
+    val crtScope: CoroutineScope,
+    @ActionDispatcherMain
+    val actionDispatcher: CoroutineDispatcher
 ) : AppServiceGrpc.AppServiceImplBase() {
 
-    val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
     private var aps by appStateMs
     private val sc by stateContSt
 
@@ -60,11 +64,11 @@ class AppRpcService @Inject constructor(
         val rs = rpcActions.getWbRs(request.toModel())
         val o = AppProtos.WorkbookKeyWithErrorResponseProto.newBuilder()
             .apply {
-                when(rs){
-                    is Ok ->{
+                when (rs) {
+                    is Ok -> {
                         setWbKey(rs.value.key.toProto())
                     }
-                    is Err->{
+                    is Err -> {
                         setErrorReport(rs.error.toProto())
                     }
                 }
@@ -77,11 +81,14 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<AppProtos.CreateNewWorkbookResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val req: CreateNewWorkbookRequest = request.toModel()
-                val o = rpcActions.createNewWb(req)
-                responseObserver.onNextAndComplete(o.toProto())
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val req: CreateNewWorkbookRequest = request.toModel()
+                    val o = rpcActions.createNewWb(req)
+                    o
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
 
@@ -104,11 +111,15 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val wbk: WorkbookKey = request.toModel()
-                val r = rpcActions.setActiveWb(wbk)
-                responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(r).toProto())
-            }        }
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val wbk: WorkbookKey = request.toModel()
+                    val r = rpcActions.setActiveWb(wbk)
+                    r
+                }.await()
+            }
+            responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(rt).toProto())
+        }
     }
 
     override fun getActiveWorksheet(
@@ -126,10 +137,13 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<AppProtos.SaveWorkbookResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val r = rpcActions.saveWorkbook(request.wbKey.toModel(), Path.of(request.path))
-                responseObserver.onNextAndComplete(r.toProto())
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val r = rpcActions.saveWorkbook(request.wbKey.toModel(), Path.of(request.path))
+                    r
+                }.await()
             }
+            responseObserver.onNextAndComplete(rt.toProto())
         }
     }
 
@@ -138,11 +152,16 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<AppProtos.LoadWorkbookResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val req = request.toModel()
-                val o = rpcActions.loadWorkbook(req)
-                responseObserver.onNextAndComplete(o.toProto())
-            }        }
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val req = request.toModel()
+                    val o = rpcActions.loadWorkbook(req)
+                    o
+                }.await()
+            }
+            responseObserver.onNextAndComplete(rt.toProto())
+
+        }
     }
 
     override fun closeWorkbook(
@@ -150,12 +169,16 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            launchOnMain{
-                val req = CloseWorkbookRequest(wbKey = request.toModel())
-                val o = rpcActions.closeWb(req)
-                val s = SingleSignalResponse.fromWithErr(o)
-                responseObserver.onNextAndComplete(s.toProto())
-            }        }
+            val rt = runBlocking {
+                crtScope.async(actionDispatcher) {
+                    val req = CloseWorkbookRequest(wbKey = request.toModel())
+                    val o = rpcActions.closeWb(req)
+                    val s = SingleSignalResponse.fromWithErr(o)
+                    s
+                }.await()
+            }
+            responseObserver.onNextAndComplete(rt.toProto())
+        }
     }
 
     override fun checkWbExistence(
@@ -164,7 +187,7 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val wbk = request.toModel()
-            val r = sc.getWb(wbk)!=null
+            val r = sc.getWb(wbk) != null
             responseObserver.onNextAndComplete(r.toBoolMsgProto())
         }
     }
@@ -174,10 +197,10 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<AppProtos.GetAllWorkbookResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wbkList = sc.wbCont.wbList.map{it.key}
-            val r=GetAllWorkbookResponseProto
+            val wbkList = sc.wbCont.wbList.map { it.key }
+            val r = GetAllWorkbookResponseProto
                 .newBuilder()
-                .addAllWbKeys(wbkList.map{it.toProto()})
+                .addAllWbKeys(wbkList.map { it.toProto() })
                 .build()
             responseObserver.onNextAndComplete(r)
         }

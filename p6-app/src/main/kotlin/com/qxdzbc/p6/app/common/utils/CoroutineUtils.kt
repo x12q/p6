@@ -9,6 +9,12 @@ object CoroutineUtils {
                        f : suspend ()->Unit): Job {
         return coroutineScope.launch(dispatcher) { f() }
     }
+
+    private fun <T> asyncD(coroutineScope:CoroutineScope,
+                       dispatcher:CoroutineDispatcher,
+                       f : suspend ()->T): Deferred<T> {
+        return coroutineScope.async(dispatcher) { f() }
+    }
     fun makeLaunchOnDispatchers(coroutineScope:CoroutineScope,
                                 dispatcher:CoroutineDispatcher):(suspend ()->Unit) -> Job{
         val rt:(suspend ()->Unit) -> Job = {
@@ -16,8 +22,31 @@ object CoroutineUtils {
         }
         return rt
     }
+    fun <T> makeAsyncOnDispatchers(coroutineScope:CoroutineScope,
+                                dispatcher:CoroutineDispatcher):(suspend ()->T) -> Deferred<T>{
+        val rt:(suspend ()->T) -> Deferred<T> = {
+            asyncD(coroutineScope,dispatcher,it)
+        }
+        return rt
+    }
+
     fun makeLaunchOnIO(coroutineScope: CoroutineScope):(suspend ()->Unit)->Job{
         return makeLaunchOnDispatchers(coroutineScope,Dispatchers.IO)
+    }
+    fun makeLaunchOnDefault(coroutineScope: CoroutineScope):(suspend ()->Unit)->Job{
+        return makeLaunchOnDispatchers(coroutineScope,Dispatchers.Default)
+    }
+
+    fun <T> makeAsyncOnDefault(coroutineScope: CoroutineScope):(suspend ()->T)->Deferred<T>{
+        return makeAsyncOnDispatchers(coroutineScope,Dispatchers.Default)
+    }
+
+    fun <T> makeAsyncOnIO(coroutineScope: CoroutineScope):(suspend ()->T)->Deferred<T>{
+        return makeAsyncOnDispatchers(coroutineScope,Dispatchers.IO)
+    }
+
+    fun <T> makeAsyncOnMain(coroutineScope: CoroutineScope):(suspend ()->T)->Deferred<T>{
+        return makeAsyncOnDispatchers(coroutineScope,Dispatchers.Main)
     }
 
     /**

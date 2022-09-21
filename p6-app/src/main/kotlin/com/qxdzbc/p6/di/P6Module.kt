@@ -37,6 +37,8 @@ import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouterImp
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import org.zeromq.SocketType
 import org.zeromq.ZContext
 import org.zeromq.ZMQ
