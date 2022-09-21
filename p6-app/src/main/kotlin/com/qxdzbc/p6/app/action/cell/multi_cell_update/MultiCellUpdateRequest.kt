@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 data class MultiCellUpdateRequest(
     val wbKeySt:St<WorkbookKey>,
     val wsNameSt:St<String>,
-    val cellUpdateList: List<CellUpdateEntry>
+    val cellUpdateList: List<CellUpdateEntryDM>
 ) : RequestToP6WithWorkbookKey {
     override val wbKey: WorkbookKey by wbKeySt
     val wsName: String by wsNameSt

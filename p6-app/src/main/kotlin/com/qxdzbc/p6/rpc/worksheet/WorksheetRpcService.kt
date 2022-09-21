@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.mapError
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequestDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
@@ -42,6 +43,18 @@ class WorksheetRpcService @Inject constructor(
 
     private val sc: StateContainer by stateContSt
     val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
+
+    override fun updateMultiCellContent(
+        request: WorksheetProtos.MultiCellUpdateRequestProto?,
+        responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
+    ) {
+        if(request!=null && responseObserver!=null){
+            val req = request.toModel()
+            val rs = rpcActs.updateMultiCell(req,false)
+            val ssr = SingleSignalResponse.fromRs(rs)
+            responseObserver.onNextAndComplete(ssr.toProto())
+        }
+    }
 
     override fun removeAllCell(
         request: WorksheetIdProto?,

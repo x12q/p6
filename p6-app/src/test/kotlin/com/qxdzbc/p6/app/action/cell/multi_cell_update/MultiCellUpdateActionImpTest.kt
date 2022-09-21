@@ -24,15 +24,15 @@ internal class MultiCellUpdateActionImpTest {
         val request = MultiCellUpdateRequestDM(
             wsId = WorksheetIdDM(wbk,wsn),
             cellUpdateList = listOf(
-                CellUpdateEntry(
+                CellUpdateEntryDM(
                     cellAddress = CellAddress("Q6"),
                     contentDm = CellContentDM(formula="=1+2+3")
                 ),
-                CellUpdateEntry(
+                CellUpdateEntryDM(
                     cellAddress = CellAddress("Q9"),
                     contentDm = CellContentDM(formula="=Q6+1")
                 ),
-                CellUpdateEntry(
+                CellUpdateEntryDM(
                     cellAddress = CellAddress("X4"),
                     contentDm = CellContentDM(CellValue.fromAny(123))
                 )

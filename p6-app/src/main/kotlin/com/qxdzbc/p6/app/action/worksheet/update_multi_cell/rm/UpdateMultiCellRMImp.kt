@@ -6,7 +6,7 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.CellUpdateEntry
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.CellUpdateEntryDM
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.d.CellContent
 import com.qxdzbc.p6.app.document.cell.d.CellValue
@@ -35,7 +35,7 @@ class UpdateMultiCellRMImp @Inject constructor(
             wb.getWsRs(req.wsName).andThen { ws->
                 var newWs = ws
                 val translator = translatorCont.getTranslatorOrCreate(ws.id)
-                for(entry: CellUpdateEntry in req.cellUpdateList){
+                for(entry: CellUpdateEntryDM in req.cellUpdateList){
                     val cellRs = ws.getCellOrDefaultRs(entry.cellAddress)
                     if(cellRs is Ok){
                         val newCellValueContent = makeContent(entry,translator)
@@ -68,7 +68,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         return rt
     }
 
-    fun makeContent(entry: CellUpdateEntry, translator:P6Translator<ExUnit>):CellContent{
+    fun makeContent(entry: CellUpdateEntryDM, translator:P6Translator<ExUnit>):CellContent{
         val formula=entry.content.formula
         if(formula!=null && formula.isNotEmpty()) {
             val transRs = translator.translate(formula)
