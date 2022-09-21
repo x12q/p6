@@ -49,10 +49,12 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if(request!=null && responseObserver!=null){
-            val req = request.toModel()
-            val rs = rpcActs.updateMultiCell(req,false)
-            val ssr = SingleSignalResponse.fromRs(rs)
-            responseObserver.onNextAndComplete(ssr.toProto())
+            launchOnMain{
+                val req = request.toModel()
+                val rs = rpcActs.updateMultiCell(req,false)
+                val ssr = SingleSignalResponse.fromRs(rs)
+                responseObserver.onNextAndComplete(ssr.toProto())
+            }
         }
     }
 
