@@ -3,63 +3,59 @@ package com.qxdzbc.p6.di
 import javax.inject.Qualifier
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class NullInt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class FunctionMapMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class FunctionMapSt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class False
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class FalseMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class True()
+@Retention
+annotation class True
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class TrueMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Fake()
+@Retention
+annotation class Fake
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Username()
+@Retention
+annotation class Username
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class AppZContext
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class AppCoroutineScope
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class EventServerSocket
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class EventServerPort
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class Null
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class DefaultTextFieldValue
 
 @Qualifier

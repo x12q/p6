@@ -3,75 +3,75 @@ package com.qxdzbc.p6.di.state.app_state
 import javax.inject.Qualifier
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class RangeSelectorStateMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class MsKernelContextQualifier
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class KernelStatusQualifier
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class TranslatorMapMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class InitSingleTranslatorMap
 
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class AppStateMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class CentralScriptContMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class AppScriptContMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class AppOddityContMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class WbStateContMs
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class WbStateContSt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class StateContainerMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class StateContainerSt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class SubAppStateContainerMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class SubAppStateContainerSt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class DocumentContainerMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class DocumentContainerSt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class TranslatorContainerMs
 
 @Qualifier
@@ -79,38 +79,38 @@ annotation class TranslatorContainerMs
 annotation class TranslatorContainerSt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class CellEditorStateMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class CellEditorInitCursorIdSt
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class NullTextFieldValue
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class DefaultNullCellAddress
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class AppWindowStateListMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class WindowActivePointerMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class CodeEditorStateMs
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class ScriptTreeStateMs
 
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class WbContainerMs

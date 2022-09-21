@@ -6,5 +6,5 @@ import javax.inject.Scope
  * scope is a way to control/define singleton
  */
 @Scope
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class P6Singleton

@@ -57,12 +57,10 @@ class WorkbookRpcService @Inject constructor(
     @AppCoroutineScope
     val crtScope: CoroutineScope,
     @ActionDispatcherMain
-    val actionDispatcher: CoroutineDispatcher
+    val actionDispatcherMain: CoroutineDispatcher
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
     //    private var appState by appStateMs
-    val launchOnMain = CoroutineUtils.makeLaunchOnMain(crtScope)
-    val launchOnIO = CoroutineUtils.makeLaunchOnIO(crtScope)
     private var dc by documentContMs
     private var sc by stateContMs
 
@@ -72,7 +70,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val wbk = request.toModel()
                     val rs = rpcActions.removeAllWsRs(wbk)
                     val ssr = SingleSignalResponse.fromRs(rs)
@@ -123,7 +121,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val req = request.toModel()
                     val wbk = req.wbKey
                     val wsName = req.wsName
@@ -171,7 +169,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val req = SetWbKeyRequest.fromProto(request)
                     val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
                     val rt = SingleSignalResponse.fromRs(rs).toProto()
@@ -188,7 +186,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val wbk = request.wbKey.toModel()
                     val wsn = request.worksheet.name ?: ""
                     val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
@@ -212,12 +210,15 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                withContext(crtScope.coroutineContext + actionDispatcher) {
+                async(actionDispatcherMain) {
+                    // this below line is a bug
+                    // it will trigger skia on non-awt thread-> exception -> crash grpc
+//                async(Dispatchers.Default) {
                     val req: CreateNewWorksheetRequest = request.toModel()
                     val rs = rpcActions.createNewWorksheetRs(req)
                     val res = WorksheetWithErrorReportMsg.fromRs(rs)
                     res
-                }.toProto()
+                }.await().toProto()
             }
             responseObserver.onNextAndComplete(rt)
         }
@@ -229,7 +230,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val req = request.toModel()
                     val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
                     val rt = SingleSignalResponse.fromRs(rs)
@@ -246,7 +247,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val rs = rpcActions.renameWorksheetRs(request.toModel())
                     val rt = SingleSignalResponse.fromRs(rs)
                     rt

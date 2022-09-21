@@ -3,13 +3,13 @@ package com.qxdzbc.p6.di.state.wb
 import javax.inject.Qualifier
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class DefaultCommandStack
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class DefaultWsStateMap
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention
 annotation class DefaultScriptContMs

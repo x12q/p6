@@ -36,7 +36,7 @@ class CellRpcService @Inject constructor(
     @AppCoroutineScope
     val crtScope: CoroutineScope,
     @ActionDispatcherMain
-    val actionDispatcher: CoroutineDispatcher
+    val actionDispatcherMain: CoroutineDispatcher
 ) : CellServiceGrpc.CellServiceImplBase() {
 
     private val sc by stateContSt
@@ -47,7 +47,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val req = request.toModel()
                     val o = acts.updateCell2(req, false)
                     o
@@ -112,7 +112,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val req = request.toModel()
                     val rt = acts.copyCell(req)
                     rt

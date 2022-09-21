@@ -8,7 +8,6 @@ import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequestDM.
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
-import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -44,7 +43,7 @@ class WorksheetRpcService @Inject constructor(
     @AppCoroutineScope
     val crtScope: CoroutineScope,
     @ActionDispatcherMain
-    val actionDispatcher: CoroutineDispatcher
+    val actionDispatcherMain: CoroutineDispatcher
 ) : WorksheetServiceGrpc.WorksheetServiceImplBase() {
 
     private val sc: StateContainer by stateContSt
@@ -55,8 +54,8 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
-                    val deferred = crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
+                    val deferred = crtScope.async(actionDispatcherMain) {
                         val req = request.toModel()
                         val rs = rpcActs.updateMultiCell(req, false)
                         val ssr = SingleSignalResponse.fromRs(rs)
@@ -77,7 +76,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val o = rpcActs.removeAllCell(request.toModel())
                     val rt = SingleSignalResponse.fromRs(o)
                     rt
@@ -93,7 +92,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val req: LoadDataRequest = request.toModel()
                     val rs = rpcActs.loadDataRs(req, false)
                     val o = SingleSignalResponse.fromRs(rs)
@@ -159,7 +158,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val cid: CellIdProtoDM = request.toModel()
                     val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
                     o
@@ -175,7 +174,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val i: CellProtoDM = request.toModel()
                     val o = rpcActs.updateCell2(
                         CellUpdateRequest2(
@@ -198,7 +197,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val i: CellIdProtoDM = request.toModel()
                     val o = rpcActs.deleteMultiCell(
                         RemoveMultiCellRequest(
@@ -225,7 +224,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcher) {
+                crtScope.async(actionDispatcherMain) {
                     val i = request.toModel()
                     val o = rpcActs.deleteMultiCell(
                         RemoveMultiCellRequest(
