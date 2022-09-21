@@ -3,7 +3,6 @@ package com.qxdzbc.p6.rpc.worksheet
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.mapError
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
@@ -20,15 +19,14 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
-import com.qxdzbc.p6.rpc.cell.msg.CellContentProtoDM
 import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM
 import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM.CO.toModel
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.worksheet.msg.*
 import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
-import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId.Companion.toIndeModel
+import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest.Companion.toModel
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineScope
@@ -77,7 +75,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val cellId: IndeCellId = request.toIndeModel()
+            val cellId: CellIdProtoDM = request.toModel()
             val cellRs = sc.getCellRs(cellId.wbKey, cellId.wsName, cellId.address)
             val rt = SingleSignalResponse.fromRs(cellRs)
             responseObserver.onNextAndComplete(rt.toProto())
@@ -89,7 +87,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.GetAllCellResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wsId: WorksheetIdPrt = request.toModel()
+            val wsId: WorksheetIdDM = request.toModel()
             val ws: Worksheet? = sc.getWs(wsId)
             val cellAddressList: List<CellAddress> = (ws?.cells ?: emptyList()).map { it.address }
             responseObserver.onNextAndComplete(GetAllCellResponse(cellAddressList).toProto())
@@ -101,7 +99,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.CellCountResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wsId: WorksheetIdPrt = request.toModel()
+            val wsId: WorksheetIdDM = request.toModel()
             val count: Int = sc.getWs(wsId)?.size ?: 0
             responseObserver.onNextAndComplete(CellCountResponse(count.toLong()).toProto())
         }
@@ -113,7 +111,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.GetUsedRangeResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wsId: WorksheetIdPrt = request.toModel()
+            val wsId: WorksheetIdDM = request.toModel()
             val ra: RangeAddress? = sc.getWs(wsId)?.usedRange
             val res = GetUsedRangeResponse(ra)
             responseObserver.onNextAndComplete(res.toProto())
@@ -127,7 +125,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             launchOnMain{
-                val cid: IndeCellId = request.toIndeModel()
+                val cid: CellIdProtoDM = request.toModel()
                 val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
                 responseObserver.onNextAndComplete(SingleSignalResponse.fromRs(o).toProto())
             }
@@ -159,7 +157,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             launchOnMain{
-                val i: IndeCellId = request.toIndeModel()
+                val i: CellIdProtoDM = request.toModel()
                 val o = rpcActs.deleteMultiCell(
                     RemoveMultiCellRequest(
                         wbKey = i.wbKey,

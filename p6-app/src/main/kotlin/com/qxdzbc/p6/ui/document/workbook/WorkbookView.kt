@@ -21,7 +21,6 @@ import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.qxdzbc.p6.ui.document.workbook.dialog.DeleteWorksheetDialog
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarView

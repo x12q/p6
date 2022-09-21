@@ -4,8 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellMultiUpdateRequest
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellMultiUpdateResponse
+import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateResponse
 import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellUpdateEntry
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.d.CellContent
@@ -29,7 +29,7 @@ class UpdateMultiCellRMImp @Inject constructor(
 ) : UpdateMultiCellRM {
     var translatorCont by translatorContainerMs
     private var appState by appStateMs
-    override fun cellMultiUpdate(request: CellMultiUpdateRequest): CellMultiUpdateResponse? {
+    override fun cellMultiUpdate(request: MultiCellUpdateRequest): MultiCellUpdateResponse? {
         val req = request
         val rs = appState.getWbRs(req.wbKey).andThen { wb->
             wb.getWsRs(req.wsName).andThen { ws->
@@ -49,7 +49,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         }
         val rt = rs.mapBoth(
             success = {
-                CellMultiUpdateResponse(
+                MultiCellUpdateResponse(
                     WorkbookUpdateCommonResponse(
                         wbKey= req.wbKey,
                         newWorkbook = it,
@@ -57,7 +57,7 @@ class UpdateMultiCellRMImp @Inject constructor(
                 )
             },
             failure = {
-                CellMultiUpdateResponse(
+                MultiCellUpdateResponse(
                     WorkbookUpdateCommonResponse(
                         wbKey= req.wbKey,
                         errorReport = it
@@ -69,13 +69,13 @@ class UpdateMultiCellRMImp @Inject constructor(
     }
 
     fun makeContent(entry: CellUpdateEntry, translator:P6Translator<ExUnit>):CellContent{
-        val formula=entry.cellUpdateContent.formula
-        if(formula.isNotEmpty()){
+        val formula=entry.content.formula
+        if(formula!=null && formula.isNotEmpty()) {
             val transRs = translator.translate(formula)
             return CellContentImp.fromTransRs(transRs)
         }else{
             return CellContentImp(
-                cellValueMs = CellValue.fromAny(entry.cellUpdateContent.cellValue).toMs(),
+                cellValueMs = CellValue.fromAny(entry.content.cellValue).toMs(),
             )
         }
     }

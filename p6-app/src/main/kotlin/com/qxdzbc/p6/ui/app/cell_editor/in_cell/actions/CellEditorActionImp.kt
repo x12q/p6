@@ -6,7 +6,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.command.Commands
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
 import com.qxdzbc.common.compose.key_event.PKeyEvent
@@ -15,7 +14,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
 import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
-import com.qxdzbc.p6.rpc.cell.msg.CellContentProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -75,7 +74,7 @@ class CellEditorActionImp @Inject constructor(
             val cell = ws.getCell(editTarget)
             val codeText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
 
-            val reverseRequest = if (cell?.formula != null) {
+            val reverseRequest = if (cell?.fullFormula != null) {
 //                CellUpdateRequest(
 //                    wbKey = wbKey,
 //                    wsName = wsName,
@@ -86,7 +85,7 @@ class CellEditorActionImp @Inject constructor(
                     wbKey = wbKey,
                     wsName = wsName,
                     cellAddress = editTarget,
-                    cellContent = CellContentProtoDM.fromFormula(cell.formula)
+                    cellContent = CellContentDM.fromFormula(cell.fullFormula)
                 )
             } else {
 //                CellUpdateRequest(
@@ -99,7 +98,7 @@ class CellEditorActionImp @Inject constructor(
                     wbKey = wbKey,
                     wsName = wsName,
                     cellAddress = editTarget,
-                    cellContent= CellContentProtoDM.fromAny(cell?.currentValue)
+                    cellContent= CellContentDM.fromAny(cell?.currentValue)
                 )
             }
             var value: String? = null
@@ -113,7 +112,7 @@ class CellEditorActionImp @Inject constructor(
                 wbKey = wbKey,
                 wsName = wsName,
                 cellAddress = editTarget,
-                cellContent = CellContentProtoDM(
+                cellContent = CellContentDM(
                     cellValue = CellValue.fromAny(cellLiteralParser.parse(value)),
                     formula = formula
                 )

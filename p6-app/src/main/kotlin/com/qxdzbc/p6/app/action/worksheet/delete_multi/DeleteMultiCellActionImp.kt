@@ -4,8 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplier
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellMultiUpdateRequest
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellUpdateContent
+import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellUpdateEntry
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
@@ -88,11 +87,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                     if (cell != null) {
                         CellUpdateEntry(
                             cellAddress = it,
-                            cellUpdateContent = CellUpdateContent(
-                                formula = cell.formula ?: "",
-                                displayValue = cell.displayValue,
-                                cellValue = cell.cellValueAfterRun.valueAfterRun
-                            )
+                            contentDm = cell.content.toDm()
                         )
                     } else {
                         null
@@ -105,7 +100,7 @@ class DeleteMultiCellActionImp @Inject constructor(
 
                 override fun undo() {
                     // need to implement multi update request
-                    val cellMultiUpdateRequest = CellMultiUpdateRequest(
+                    val cellMultiUpdateRequest = MultiCellUpdateRequest(
                         wbKeySt = ws.wbKeySt,
                         wsNameSt = ws.wsNameSt,
                         cellUpdateList = updateList

@@ -11,8 +11,8 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookRequest
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookResponse
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellMultiUpdateRequest
-import com.qxdzbc.p6.app.action.cell.cell_multi_update.CellMultiUpdateResponse
+import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_multi_update.MultiCellUpdateResponse
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateResponse
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest
@@ -97,8 +97,8 @@ object P6Events {
 
         object CellMultiUpdate : P6EventMetaDef {
             override val event = P6Event("${CE}2", "cell multi update")
-            override val Request: Any = CellMultiUpdateRequest::class
-            override val Response: Any = CellMultiUpdateResponse::class
+            override val Request: Any = MultiCellUpdateRequest::class
+            override val Response: Any = MultiCellUpdateResponse::class
         }
 
         override val defList: List<P6EventMetaDef> = extractP6EventDef(this)

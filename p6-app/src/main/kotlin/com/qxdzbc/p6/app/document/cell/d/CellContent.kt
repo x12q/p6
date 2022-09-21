@@ -8,6 +8,7 @@ import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.CellProtos.CellContentProto
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
@@ -20,6 +21,8 @@ interface CellContent:CanCheckEmpty,Shiftable {
     val cellValueMs:Ms<CellValue>
     val cellValueAfterRun: CellValue
     val currentCellValue: CellValue
+
+    fun toDm():CellContentDM
 
     /**
      * formula in its full form

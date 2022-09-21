@@ -42,8 +42,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.rpc.worksheet.msg.IndeCellId
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
@@ -295,7 +294,7 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellRs(cellId: IndeCellId): Rs<Cell, ErrorReport> {
+    override fun getCellRs(cellId: CellIdProtoDM): Rs<Cell, ErrorReport> {
         TODO("Not yet implemented")
     }
 
@@ -303,7 +302,7 @@ data class AppStateImp @Inject constructor(
         return docCont.getCell(wbKey, wsName, cellAddress)
     }
 
-    override fun getCell(cellId: IndeCellId): Cell? {
+    override fun getCell(cellId: CellIdProtoDM): Cell? {
         TODO("Not yet implemented")
     }
 
@@ -319,7 +318,7 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellMsRs(cellId: IndeCellId): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(cellId: CellIdProtoDM): Rs<Ms<Cell>, ErrorReport> {
         TODO("Not yet implemented")
     }
 
@@ -327,7 +326,7 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellMs(cellId: IndeCellId): Ms<Cell>? {
+    override fun getCellMs(cellId: CellIdProtoDM): Ms<Cell>? {
         TODO("Not yet implemented")
     }
 

@@ -111,7 +111,7 @@ data class CellImp(
             .setId(this.id.toProto())
             .apply {
                 if (this@CellImp.isFormula) {
-                    this.setFormula(this@CellImp.formula)
+                    this.setFormula(this@CellImp.fullFormula)
                 }
             }
             .setValue(this@CellImp.cellValueAfterRun.toProto())

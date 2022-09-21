@@ -15,6 +15,7 @@ import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toSt
+import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import javax.inject.Inject
 
 /**
@@ -27,7 +28,11 @@ class TranslatorContainerImp @Inject constructor(
     private val independentTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,
     private val translatorFactory: JvmFormulaTranslatorFactory,
     private val visitorFactory: JvmFormulaVisitorFactory,
+//    @StateContainerSt
+//    val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : TranslatorContainer {
+
+//    private val sc by stateContSt
 
     private var tm: TranslatorMap by attachedTranslatorMapMs
 

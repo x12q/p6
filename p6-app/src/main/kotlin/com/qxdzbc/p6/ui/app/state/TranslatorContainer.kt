@@ -14,16 +14,28 @@ import com.qxdzbc.common.compose.St
  * A mutation layer over [TranslatorMap]
  */
 interface TranslatorContainer : TranslatorMap {
+    /**
+     * the returned translator is not attached to the app state. For testing only
+     */
     fun getTranslatorOrCreate(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit>
+    /**
+     * the returned translator is not attached to the app state. For testing only
+     */
     fun getTranslatorOrCreate(wbWs: WbWs): P6Translator<ExUnit>
     fun getTranslatorOrCreate(wbWsSt: WbWsSt): P6Translator<ExUnit>
     fun getTranslatorOrCreate(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>
 
     /**
-     * Create a one-off translator that is used once and then must be discarded.
+     * Create a one-off translator that is not attached to the app state. For testing only
      */
     fun createOneOffTranslator(wbKey: WorkbookKey,wsName: String):P6Translator<ExUnit>
+    /**
+     * Create a one-off translator that is not attached to the app state. For testing only
+     */
     fun createOneOffTranslator(wbWs: WbWs):P6Translator<ExUnit>
+    /**
+     * Create a one-off translator that is attached to the app state.
+     */
     fun createOneOffTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>):P6Translator<ExUnit>
 
     override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorContainer

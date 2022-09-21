@@ -2,7 +2,6 @@ package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.CellId
@@ -32,7 +31,8 @@ interface Cell :Shiftable,WbWsSt{
     val address: CellAddress
 
     val content: CellContent
-    val formula: String?
+    val fullFormula: String?
+    val shortFormula: String?
     fun formula(wbKey: WorkbookKey? = null, wsName: String? = null): String?
 
     /**

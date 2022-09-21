@@ -55,7 +55,7 @@ data class WorksheetStateImp @AssistedInject constructor(
     override val colRange: IntRange = R.worksheetValue.defaultColRange,
     @DefaultRowRangeQualifier
     override val rowRange: IntRange = R.worksheetValue.defaultRowRange,
-) : AbstractWorksheetState() {
+) : BaseWorksheetState() {
 
     override val idMs: St<WorksheetId> = derivedStateOf<WorksheetId> {
         WorksheetIdImp(
@@ -160,14 +160,6 @@ data class WorksheetStateImp @AssistedInject constructor(
         val cellMs = cellStateCont.getElement(cellAddress)
         return cellMs
     }
-
-//    override fun setTopLeftCell(c: CellAddress): WorksheetState {
-//        if (c == this.topLeftCell) {
-//            return this
-//        } else {
-//            return this.copy(topLeftCell = c)
-//        }
-//    }
 
     override val wbKey: WorkbookKey
         get() = this.id.wbKey

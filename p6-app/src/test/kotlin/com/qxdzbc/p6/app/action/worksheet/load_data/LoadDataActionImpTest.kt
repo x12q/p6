@@ -13,7 +13,7 @@ import com.qxdzbc.p6.rpc.common_data_structure.IndCellPrt
 import com.qxdzbc.p6.rpc.common_data_structure.IndWorksheet
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadType
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdPrt
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import test.TestSample
 import kotlin.test.*
 
@@ -31,7 +31,7 @@ internal class LoadDataActionImpTest {
         wbk = ts.wbKey1
         wsn = ts.wsn1
         indWs = IndWorksheet(
-            id = WorksheetIdPrt(wbk, wsn),
+            id = WorksheetIdDM(wbk, wsn),
             cells = listOf(
                 IndCellPrt(CellAddress("A1"), CellValue.from(11)),
                 IndCellPrt(CellAddress("A2"), CellValue.from(12)),

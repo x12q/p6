@@ -83,6 +83,7 @@ interface WorksheetState :WbWsSt {
     fun getCellStateMs(colIndex: Int, rowIndex: Int): Ms<CellState>?
     fun getCellStateMs(cellAddress: CellAddress): Ms<CellState>?
     fun getCellState(cellAddress: CellAddress): CellState?
+    fun getCellState(label:String): CellState?
     fun getCellState(colIndex: Int, rowIndex: Int): CellState?
 
     /**

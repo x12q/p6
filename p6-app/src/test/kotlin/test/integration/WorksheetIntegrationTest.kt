@@ -1,10 +1,9 @@
 package test.integration
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.rpc.cell.msg.CellContentProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import test.TestSample
 import kotlin.test.BeforeTest
@@ -38,14 +37,14 @@ class WorksheetIntegrationTest {
             wbKey = ws1.wbKey,
             wsName = ws1.name,
             cellAddress = CellAddress("B23"),
-                cellContent = CellContentProtoDM.fromAny(123)
+                cellContent = CellContentDM.fromAny(123)
         ))
         assertEquals(123.0,ws1.getCell("B23")?.currentValue)
         updateCellAction.updateCell2(CellUpdateRequest2(
             wbKey = ws2.wbKey,
             wsName = ws2.name,
             cellAddress = CellAddress("A1"),
-            cellContent = CellContentProtoDM.fromFormula( "=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1")
+            cellContent = CellContentDM.fromFormula( "=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1")
         ))
         assertEquals(124.0, ws2.getCell("A1")?.currentValue)
 
@@ -56,8 +55,8 @@ class WorksheetIntegrationTest {
 
         val c = ws2.getCell("A1")
         assertEquals(124.0, c?.currentValue)
-        println(c?.formula)
-        assertEquals("=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1",c?.formula)
+        println(c?.fullFormula)
+        assertEquals("=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1",c?.fullFormula)
 
 
 

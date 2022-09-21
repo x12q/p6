@@ -1,10 +1,9 @@
 package test.integration
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.rpc.cell.msg.CellContentProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -24,13 +23,13 @@ class CellIntegrationTest {
         cellViewAction.updateCell2(
             CellUpdateRequest2(
                 ts.wbKey1, ts.wsn1, CellAddress("A1"),
-                cellContent = CellContentProtoDM.fromFormula("=B1")
+                cellContent = CellContentDM.fromFormula("=B1")
             )
         )
         cellViewAction.updateCell2(
             CellUpdateRequest2(
                 ts.wbKey1, ts.wsn1, CellAddress("B1"),
-                        CellContentProtoDM.fromFormula("=A1")
+                        CellContentDM.fromFormula("=A1")
             )
         )
 

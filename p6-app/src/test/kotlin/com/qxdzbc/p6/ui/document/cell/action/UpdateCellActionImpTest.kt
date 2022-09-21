@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellValue
-import com.qxdzbc.p6.rpc.cell.msg.CellContentProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import test.TestSample
 import kotlin.test.*
 
@@ -29,7 +29,7 @@ internal class UpdateCellActionImpTest {
         assertEquals(null,c.currentValue)
         act.updateCell2(
             CellUpdateRequest2(
-                wbKey = wbk,wsName =wsn, cellAddress = ca, cellContent = CellContentProtoDM(
+                wbKey = wbk,wsName =wsn, cellAddress = ca, cellContent = CellContentDM(
                     cellValue = CellValue.Companion.from(123)
                 )
             )

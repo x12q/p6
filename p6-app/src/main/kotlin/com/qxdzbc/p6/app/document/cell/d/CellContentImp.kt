@@ -3,21 +3,22 @@ package com.qxdzbc.p6.app.document.cell.d
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import com.qxdzbc.common.Rs
-import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.CellErrors
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CellProtos.CellContentProto
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 /**
@@ -29,9 +30,10 @@ data class CellContentImp(
     override val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
 ) : CellContent {
-    override val fullFormula: String? get() =  exUnit?.toFormula()?.let {
-        "="+it
-    }
+    override val fullFormula: String?
+        get() = exUnit?.toFormula()?.let {
+            "=" + it
+        }
 
     override fun shortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
         return exUnit?.toShortFormula(wbKey, wsName)?.let {
@@ -40,7 +42,7 @@ data class CellContentImp(
     }
 
     override fun colorFormula(colorProvider: ColorProvider, wbKey: WorkbookKey?, wsName: String?): AnnotatedString? {
-        return exUnit?.toColorFormula(colorProvider,wbKey, wsName)?.let {
+        return exUnit?.toColorFormula(colorProvider, wbKey, wsName)?.let {
             buildAnnotatedString {
                 append("=")
                 append(it)
@@ -67,6 +69,7 @@ data class CellContentImp(
 
     companion object {
         val empty = CellContentImp()
+
         /**
          * create a CellContent from a translation Rs
          */
@@ -86,9 +89,9 @@ data class CellContentImp(
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
     ): CellContent {
-        if(exUnit!=null){
-           return this.copy(exUnit = exUnit.shift(oldAnchorCell, newAnchorCell))
-        }else{
+        if (exUnit != null) {
+            return this.copy(exUnit = exUnit.shift(oldAnchorCell, newAnchorCell))
+        } else {
             return this
         }
     }
@@ -100,13 +103,13 @@ data class CellContentImp(
                     val cv: CellValue = CellValue.fromRs(exUnit.run())
                     cellValueMs.value = cv
                 } catch (e: Throwable) {
-                    when(e){
+                    when (e) {
                         is StackOverflowError -> {
                             cellValueMs.value = CellValue.from(
                                 CellErrors.OverflowError.report()
                             )
                         }
-                        else ->{
+                        else -> {
                             cellValueMs.value = CellValue.from(
                                 CommonErrors.ExceptionError.report(e)
                             )
@@ -117,18 +120,24 @@ data class CellContentImp(
             return currentCellValue
         }
     override val currentCellValue: CellValue by this.cellValueMs
+    override fun toDm(): CellContentDM {
+        return CellContentDM(
+            cellValue = this.currentCellValue,
+            formula = this.fullFormula
+        )
+    }
 
     override fun reRunRs(): Rse<CellContent> {
         if (this.exUnit == null) {
             return Ok(this)
-        }else{
+        } else {
             cellValueMs.value = CellValue.fromRs(exUnit.run())
             return Ok(this)
         }
     }
 
     override fun reRun(): CellContent? {
-       return reRunRs().component1()
+        return reRunRs().component1()
     }
 
     override val editableStr: String
@@ -149,10 +158,11 @@ data class CellContentImp(
             return currentCellValue.displayStr
         }
 
-    override val isFormula: Boolean get() {
-      val f = fullFormula
-        return f!= null && f.isNotEmpty()
-    }
+    override val isFormula: Boolean
+        get() {
+            val f = fullFormula
+            return f != null && f.isNotEmpty()
+        }
 
     override fun setValue(cv: CellValue): CellContent {
         cellValueMs.value = cv

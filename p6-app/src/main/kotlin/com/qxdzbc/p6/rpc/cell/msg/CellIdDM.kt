@@ -6,14 +6,17 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.DocProtos.CellIdProto
 
-data class CellIdProtoDM(
+/**
+ * A direct mapping to [CellIdProto]
+ */
+data class CellIdDM(
     val address: CellAddress,
     val wbKey:WorkbookKey,
     val wsName:String,
 ) {
     companion object{
-        fun CellIdProto.toModel():CellIdProtoDM{
-            return CellIdProtoDM(
+        fun CellIdProto.toModel():CellIdDM{
+            return CellIdDM(
                 address = this.cellAddress.toModel(),
                 wbKey = this.wbKey.toModel(),
                 wsName = this.wsName

@@ -1,9 +1,6 @@
 package com.qxdzbc.p6.app.document.cell.d
 
 import androidx.compose.ui.text.AnnotatedString
-import com.github.michaelbull.result.map
-import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
@@ -42,12 +39,13 @@ abstract class BaseCell : Cell {
     override val editableValue: String
         get() {
             if(this.isFormula){
-                return this.formula ?: ""
+                return this.fullFormula ?: ""
             }else{
                 return this.cellValueAfterRun.editableValue ?: ""
             }
         }
-    override val formula: String? get() = content.fullFormula
+    override val fullFormula: String? get() = content.fullFormula
+    override val shortFormula: String? get() = content.shortFormula(this.wbKey,this.wsName)
     override val displayValue: String get() {
         try{
             return content.displayStr

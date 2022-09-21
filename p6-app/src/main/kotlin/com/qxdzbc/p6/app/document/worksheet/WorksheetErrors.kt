@@ -4,6 +4,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
 object WorksheetErrors {
@@ -53,6 +54,16 @@ object WorksheetErrors {
         )
         fun report(wsName:String):ErrorReport{
             return header.setDescription("Worksheet ${wsName} does not belong to any workbook. It must belong to a workbook so that performing calculation on it to be possible.").toErrorReport()
+        }
+    }
+
+    object UnableToUpdateCell{
+        val header = ErrorHeader(
+            errorCode = "${UI_WSErr}4",
+            errorDescription = "unable to update cell"
+        )
+        fun report(cellId:CellIdDM):ErrorReport{
+            return header.setDescription("Unable to update cell at ${cellId}").toErrorReport()
         }
     }
 }
