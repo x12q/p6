@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.app.document.cell.d.IndCellImp
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellPrt
 import test.TestSample
 import kotlin.test.*
 

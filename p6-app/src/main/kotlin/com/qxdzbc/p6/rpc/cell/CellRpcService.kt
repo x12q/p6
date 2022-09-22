@@ -2,7 +2,7 @@ package com.qxdzbc.p6.rpc.cell
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2.Companion.toModel
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.d.Cell
@@ -16,10 +16,10 @@ import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.common_data_structure.StrMsg
-import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM
-import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineDispatcher
@@ -63,7 +63,7 @@ class CellRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.StrMsgProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val cid: CellIdProtoDM = request.toModel()
+            val cid: CellIdDM = request.toModel()
             val cell: Cell? = sc.getCell(cid)
             val rt = StrMsg(cell?.displayValue ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
@@ -75,7 +75,7 @@ class CellRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.StrMsgProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val cid: CellIdProtoDM = request.toModel()
+            val cid: CellIdDM = request.toModel()
             val cell: Cell? = sc.getCell(cid)
             val rt = StrMsg(cell?.fullFormula ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
@@ -87,7 +87,7 @@ class CellRpcService @Inject constructor(
         responseObserver: StreamObserver<DocProtos.CellValueProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val cid: CellIdProtoDM = request.toModel()
+            val cid: CellIdDM = request.toModel()
             val cell: Cell? = sc.getCell(cid)
             val rt: CellValue = cell?.currentCellValue ?: CellValue.empty
             responseObserver.onNextAndComplete(rt.toProto())
@@ -96,10 +96,10 @@ class CellRpcService @Inject constructor(
 
     override fun getCellContent(
         request: DocProtos.CellIdProto?,
-        responseObserver: StreamObserver<CellProtos.CellContentProto>?
+        responseObserver: StreamObserver<DocProtos.CellContentProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val cid: CellIdProtoDM = request.toModel()
+            val cid: CellIdDM = request.toModel()
             val cell: Cell? = sc.getCell(cid)
             val rt: CellContent = cell?.content ?: CellContentImp.empty
             responseObserver.onNextAndComplete(rt.toProto())

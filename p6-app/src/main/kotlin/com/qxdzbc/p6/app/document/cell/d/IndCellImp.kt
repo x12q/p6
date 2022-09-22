@@ -24,7 +24,7 @@ data class IndCellImp(
 ) : BaseCell() {
 
     companion object {
-//        fun CellProto.toIndModel(translator: P6Translator<ExUnit>): IndCellImp {
+//        fun IndCellProto.toIndModel(translator: P6Translator<ExUnit>): IndCellImp {
 //            if(this.hasFormula() && this.formula.isNotEmpty()){
 //                val transRs = translator.translate(formula)
 //                val content = CellContentImp.fromTransRs(transRs)

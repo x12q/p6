@@ -34,7 +34,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
@@ -364,7 +364,7 @@ class StateContainerImp @Inject constructor(
         return docCont.getCellRs(wbKeySt, wsNameSt, cellAddress)
     }
 
-    override fun getCellRs(cellId: CellIdProtoDM): Rs<Cell, ErrorReport> {
+    override fun getCellRs(cellId: CellIdDM): Rs<Cell, ErrorReport> {
         return docCont.getCellRs(cellId)
     }
 
@@ -372,7 +372,7 @@ class StateContainerImp @Inject constructor(
         return docCont.getCell(wbKey, wsName, cellAddress)
     }
 
-    override fun getCell(cellId: CellIdProtoDM): Cell? {
+    override fun getCell(cellId: CellIdDM): Cell? {
         return docCont.getCell(cellId)
     }
 
@@ -388,7 +388,7 @@ class StateContainerImp @Inject constructor(
         return docCont.getCellMsRs(wbKeySt, wsNameSt, cellAddress)
     }
 
-    override fun getCellMsRs(cellId: CellIdProtoDM): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(cellId: CellIdDM): Rs<Ms<Cell>, ErrorReport> {
         return docCont.getCellMsRs(cellId)
     }
 
@@ -396,7 +396,7 @@ class StateContainerImp @Inject constructor(
         return docCont.getCellMs(wbKey, wsName, cellAddress)
     }
 
-    override fun getCellMs(cellId: CellIdProtoDM): Ms<Cell>? {
+    override fun getCellMs(cellId: CellIdDM): Ms<Cell>? {
         return docCont.getCellMs(cellId)
     }
 

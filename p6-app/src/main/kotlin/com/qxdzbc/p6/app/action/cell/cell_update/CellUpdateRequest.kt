@@ -1,32 +1,29 @@
 package com.qxdzbc.p6.app.action.cell.cell_update
 
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.proto.CellProtos
-import com.google.protobuf.ByteString
+import com.qxdzbc.p6.app.document.workbook.toModel
+import com.qxdzbc.p6.proto.CellProtos.CellUpdateRequestProto
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 
 /**
- *
  */
-@Deprecated("dont use", ReplaceWith("com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2"))
 data class CellUpdateRequest(
-    override val wbKey: WorkbookKey,
-    val wsName: String,
-    val cellAddress: CellAddress,
-    val formula: String?=null,
-    val cellValue:Any?=null,
-) : RequestToP6WithWorkbookKey {
-//    fun toProto():CellProtos.CellUpdateRequestProto{
-//        val rt = CellProtos.CellUpdateRequestProto.newBuilder()
-//            .setCellId()
-//            .setCellAddress(cellAddress.toProto())
-//            .apply{
-//                if(this@CellUpdateRequest.formula!=null){
-//                    setFormula(this@CellUpdateRequest.formula)
-//                }
-//            }
-//            .build()
-//        return rt
-//    }
+    val cellId:CellIdDM,
+    val cellContent: CellContentDM
+) : WbWs by cellId{
+    val cellAddress: CellAddress get()=cellId.address
+    companion object {
+        fun CellUpdateRequestProto.toModel():CellUpdateRequest{
+            return CellUpdateRequest(
+                cellId = cellId.toModel(),
+                cellContent = this.cellContent.toModel()
+            )
+        }
+    }
 }

@@ -1,10 +1,11 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import test.TestSample
 import kotlin.test.*
@@ -24,8 +25,11 @@ class CursorActionImpTest {
     @Test
     fun getFormulaRangeDrawInfo(){
         ts.p6Comp.cellViewAction().updateCell2(
-            CellUpdateRequest2(
-                wbKey = ts.wbKey1, wsName = ts.wsn1, cellAddress = CellAddress("B3"),
+            CellUpdateRequest(
+                cellId= CellIdDM(
+                    wbKey = ts.wbKey1, wsName = ts.wsn1, address = CellAddress("B3")
+                )
+            ,
                  cellContent = CellContentDM.fromFormula("=B1@'Sheet2'+A1+SUM(A3:A5,A20:A23) + K1@'Sheet1'@${ts.wbKey2.name}")
             )
         )

@@ -11,10 +11,11 @@ import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCell
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -75,29 +76,21 @@ class CellEditorActionImp @Inject constructor(
             val codeText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
 
             val reverseRequest = if (cell?.fullFormula != null) {
-//                CellUpdateRequest(
-//                    wbKey = wbKey,
-//                    wsName = wsName,
-//                    cellAddress = editTarget,
-//                    formula = cell.formula,
-//                )
-                CellUpdateRequest2(
-                    wbKey = wbKey,
-                    wsName = wsName,
-                    cellAddress = editTarget,
+                CellUpdateRequest(
+                    cellId = CellIdDM(
+                        wbKey = wbKey,
+                        wsName = wsName,
+                        address = editTarget,
+                    ),
                     cellContent = CellContentDM.fromFormula(cell.fullFormula)
                 )
             } else {
-//                CellUpdateRequest(
-//                    wbKey = wbKey,
-//                    wsName = wsName,
-//                    cellAddress = editTarget,
-//                    cellValue = cell?.currentValue,
-//                )
-                CellUpdateRequest2(
-                    wbKey = wbKey,
-                    wsName = wsName,
-                    cellAddress = editTarget,
+                CellUpdateRequest(
+                    cellId=CellIdDM(
+                        wbKey = wbKey,
+                        wsName = wsName,
+                        address = editTarget,
+                    ),
                     cellContent= CellContentDM.fromAny(cell?.currentValue)
                 )
             }
@@ -108,10 +101,12 @@ class CellEditorActionImp @Inject constructor(
             } else {
                 value = codeText
             }
-            val request = CellUpdateRequest2(
-                wbKey = wbKey,
-                wsName = wsName,
-                cellAddress = editTarget,
+            val request = CellUpdateRequest(
+                cellId=CellIdDM(
+                    wbKey = wbKey,
+                    wsName = wsName,
+                    address = editTarget,
+                ),
                 cellContent = CellContentDM(
                     cellValue = CellValue.fromAny(cellLiteralParser.parse(value)),
                     formula = formula

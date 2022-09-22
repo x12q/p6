@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.d.CellContent
 import com.qxdzbc.p6.app.document.cell.d.CellContentImp
 import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toModel
-import com.qxdzbc.p6.proto.CellProtos.CellContentProto
+import com.qxdzbc.p6.proto.DocProtos.CellContentProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
@@ -14,31 +14,32 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
  * A direct mapping (DM) of [CellContentProto]
  */
 data class CellContentDM(
-    val cellValue:CellValue = CellValue.empty,
-    val formula:String? = null
-) :CanCheckEmpty{
-    companion object{
-        fun fromAny(anyValue:Any?):CellContentDM{
+    val cellValue: CellValue = CellValue.empty,
+    val formula: String? = null
+) : CanCheckEmpty {
+    companion object {
+        fun fromAny(anyValue: Any?): CellContentDM {
             return CellContentDM(
                 cellValue = CellValue.fromAny(anyValue)
             )
         }
-        fun fromFormula(formula:String?):CellContentDM{
+
+        fun fromFormula(formula: String?): CellContentDM {
             return CellContentDM(
-             formula = formula
+                formula = formula
             )
         }
-        fun CellContentProto.toModel():CellContentDM{
+
+        fun CellContentProto.toModel(): CellContentDM {
             return CellContentDM(
-                cellValue = if(hasCellValue()) cellValue.toModel() else  CellValue.empty,
-                formula = if(hasFormula()) formula else null
+                cellValue = if (hasCellValue()) cellValue.toModel() else CellValue.empty,
+                formula = if (hasFormula()) formula else null
             )
         }
 
     }
 
-
-    fun toStateObj(translator:P6Translator<ExUnit>):CellContent{
+    fun toStateObj(translator: P6Translator<ExUnit>): CellContent {
         val rt = formula?.let {
             CellContentImp.fromTransRs(translator.translate(it))
         } ?: CellContentImp(cellValueMs = cellValue.toMs())
@@ -46,6 +47,6 @@ data class CellContentDM(
     }
 
     override fun isEmpty(): Boolean {
-        return this.cellValue.isEmpty() && this.formula==null
+        return this.cellValue.isEmpty() && this.formula == null
     }
 }

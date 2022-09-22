@@ -39,8 +39,8 @@ class MultiCellUpdateActionImp @Inject constructor(
                 // x: update ws with new data
                 for (entry in request.cellUpdateList) {
                     val updateRs = ws.updateCellContentRs(
-                        cellAddress = entry.cellAddress,
-                        cellContent = entry.contentDm.toStateObj(translator)
+                        cellAddress = entry.address,
+                        cellContent = entry.content.toStateObj(translator)
                     )
                     updateRs.onSuccess {
                         ws = it
@@ -71,7 +71,5 @@ class MultiCellUpdateActionImp @Inject constructor(
                 }
             }
             return rt
-//        }
-//        return Ok(Unit)
     }
 }

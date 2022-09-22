@@ -14,7 +14,6 @@ import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.cell.CellRM
-import com.qxdzbc.p6.app.action.cell.cell_update.applier.CellUpdateApplier
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.window.WindowAction
@@ -158,10 +157,6 @@ interface P6Component {
 
     @P6Singleton
     fun wsAction(): WorksheetAction
-
-
-    @P6Singleton
-    fun cellEventApplier(): CellUpdateApplier
 
     @P6Singleton
     @AppStateMs

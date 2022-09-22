@@ -213,7 +213,7 @@ class WorkbookRpcService @Inject constructor(
                 async(actionDispatcherMain) {
                     // this below line is a bug
                     // it will trigger skia on non-awt thread-> exception -> crash grpc
-//                async(Dispatchers.Default) {
+//                async(Dispatchers.Default.limitedParallelism(1)) {
                     val req: CreateNewWorksheetRequest = request.toModel()
                     val rs = rpcActions.createNewWorksheetRs(req)
                     val res = WorksheetWithErrorReportMsg.fromRs(rs)

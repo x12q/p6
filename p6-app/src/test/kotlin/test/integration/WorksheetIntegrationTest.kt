@@ -1,9 +1,10 @@
 package test.integration
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
 import test.TestSample
 import kotlin.test.BeforeTest
@@ -15,6 +16,7 @@ class WorksheetIntegrationTest {
     lateinit var ts: TestSample
     val sc get() = ts.stateContMs().value
     lateinit var updateCellAction: UpdateCellAction
+
     @BeforeTest
     fun b() {
         ts = TestSample()
@@ -33,35 +35,37 @@ class WorksheetIntegrationTest {
         val ws2 by ws2Ms
 
         updateCellAction.updateCell2(
-            CellUpdateRequest2(
-            wbKey = ws1.wbKey,
-            wsName = ws1.name,
-            cellAddress = CellAddress("B23"),
+            CellUpdateRequest(
+                cellId = CellIdDM(
+                    wbKey = ws1.wbKey,
+                    wsName = ws1.name,
+                    address = CellAddress("B23")
+                ),
                 cellContent = CellContentDM.fromAny(123)
-        ))
-        assertEquals(123.0,ws1.getCell("B23")?.currentValue)
-        updateCellAction.updateCell2(CellUpdateRequest2(
-            wbKey = ws2.wbKey,
-            wsName = ws2.name,
-            cellAddress = CellAddress("A1"),
-            cellContent = CellContentDM.fromFormula( "=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1")
-        ))
+            )
+        )
+        assertEquals(123.0, ws1.getCell("B23")?.currentValue)
+        updateCellAction.updateCell2(
+            CellUpdateRequest(
+                cellId = CellIdDM(
+                    wbKey = ws2.wbKey,
+                    wsName = ws2.name,
+                    address = CellAddress("A1")
+                ),
+                cellContent = CellContentDM.fromFormula("=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1")
+            )
+        )
         assertEquals(124.0, ws2.getCell("A1")?.currentValue)
 
         // x: rename ws1
         val newName = "newName"
         ws1Ms.value = ws1.setWsName(newName)
-        assertEquals(newName,ws1.name)
+        assertEquals(newName, ws1.name)
 
         val c = ws2.getCell("A1")
         assertEquals(124.0, c?.currentValue)
         println(c?.fullFormula)
-        assertEquals("=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1",c?.fullFormula)
-
-
-
-
-
+        assertEquals("=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1", c?.fullFormula)
 
 
     }

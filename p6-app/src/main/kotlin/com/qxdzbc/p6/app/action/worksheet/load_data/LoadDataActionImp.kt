@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.document.cell.d.IndCellImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellPrt
+import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadType
 import com.qxdzbc.p6.translator.P6Translator
@@ -27,11 +27,12 @@ class LoadDataActionImp @Inject constructor(
     @TranslatorContainerSt
     val translatorContSt: St<@JvmSuppressWildcards TranslatorContainer>
 ) : LoadDataAction {
+
     val sc by stateContSt
     val tc by translatorContSt
+
     override fun loadDataRs(request: LoadDataRequest, publishErrorToUI: Boolean): Rse<Unit> {
         val getWsMsRs = sc.getWsStateMsRs(request)
-
         val rt = getWsMsRs.flatMap { wsStateMs ->
             val wsMs = wsStateMs.value.wsMs
             val translator = tc.getTranslatorOrCreate(request)
@@ -55,26 +56,22 @@ class LoadDataActionImp @Inject constructor(
         request: LoadDataRequest,
         translator: P6Translator<ExUnit>
     ): Rse<Worksheet> {
-        val cells: List<IndCellPrt> = request.ws.cells
+        val cells: List<IndCellDM> = request.ws.cells
         var rt: Worksheet = ws
         val lt = request.loadType
-        for (cell in cells) {
-            if(lt == LoadType.KEEP_OLD_DATA_IF_COLLIDE){
+        for (indCellDM in cells) {
+            if (lt == LoadType.KEEP_OLD_DATA_IF_COLLIDE) {
                 // x: don't overwrite existing old cell
-                val oldCell = rt.getCell(cell.address)
-                if(oldCell!=null){
+                val oldCell = rt.getCell(indCellDM.address)
+                if (oldCell != null) {
                     continue
                 }
             }
             val newCell = IndCellImp(
-                address = cell.address,
-                content = if (cell.value != null) {
-                    CellContentImp(cellValueMs = cell.value.toMs())
-                } else if (cell.formula != null) {
-                    CellContentImp.fromTransRs(translator.translate(cell.formula))
-                } else {
-                    CellContentImp.empty
-                }
+                address = indCellDM.address,
+                content = indCellDM.formula?.let {
+                    CellContentImp.fromTransRs(translator.translate(it))
+                } ?: CellContentImp(cellValueMs = indCellDM.value.toMs())
             )
             rt = rt.addOrOverwrite(newCell)
         }

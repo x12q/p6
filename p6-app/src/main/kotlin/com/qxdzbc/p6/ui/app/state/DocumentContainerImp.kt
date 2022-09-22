@@ -24,7 +24,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
-import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import java.nio.file.Path
 import javax.inject.Inject
@@ -269,7 +269,7 @@ class DocumentContainerImp @Inject constructor(
         return this.getWsRs(wbKeySt, wsNameSt).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
-    override fun getCellRs(cellId: CellIdProtoDM): Rs<Cell, ErrorReport> {
+    override fun getCellRs(cellId: CellIdDM): Rs<Cell, ErrorReport> {
         return getCellRs(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
@@ -277,7 +277,7 @@ class DocumentContainerImp @Inject constructor(
         return this.getCellRs(wbKey, wsName, cellAddress).component1()
     }
 
-    override fun getCell(cellId: CellIdProtoDM): Cell? {
+    override fun getCell(cellId: CellIdDM): Cell? {
         return getCellRs(cellId).component1()
     }
 
@@ -301,7 +301,7 @@ class DocumentContainerImp @Inject constructor(
         }
     }
 
-    override fun getCellMsRs(cellId: CellIdProtoDM): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(cellId: CellIdDM): Rs<Ms<Cell>, ErrorReport> {
         return getCellMsRs(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
@@ -309,7 +309,7 @@ class DocumentContainerImp @Inject constructor(
         return getCellMsRs(wbKey, wsName, cellAddress).component1()
     }
 
-    override fun getCellMs(cellId: CellIdProtoDM): Ms<Cell>? {
+    override fun getCellMs(cellId: CellIdDM): Ms<Cell>? {
         return getCellMsRs(cellId).component1()
     }
 

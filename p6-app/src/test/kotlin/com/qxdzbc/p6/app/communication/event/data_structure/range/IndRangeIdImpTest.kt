@@ -20,8 +20,8 @@ class IndRangeIdImpTest {
         )
         val p = m.toProto()
         assertEquals(m.rangeAddress.toProto(), p.rangeAddress)
-        assertEquals(m.wbKey.toProto(),p.workbookKey)
-        assertEquals(m.wsName,p.worksheetName)
+        assertEquals(m.wbKey.toProto(),p.wbKey)
+        assertEquals(m.wsName,p.wsName)
     }
 
     @Test
@@ -33,8 +33,8 @@ class IndRangeIdImpTest {
         )
         val p = RangeIdProto.newBuilder()
             .setRangeAddress(m.rangeAddress.toProto())
-            .setWorkbookKey(m.wbKey.toProto())
-            .setWorksheetName(m.wsName)
+            .setWbKey(m.wbKey.toProto())
+            .setWsName(m.wsName)
             .build()
         val m2 = p.toModel()
         assertEquals(m2.rangeAddress, m.rangeAddress)

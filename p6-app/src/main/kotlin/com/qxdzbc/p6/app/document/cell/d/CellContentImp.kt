@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.document.cell.CellErrors
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.CellProtos
-import com.qxdzbc.p6.proto.CellProtos.CellContentProto
+import com.qxdzbc.p6.proto.DocProtos.CellContentProto
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
@@ -50,7 +50,7 @@ data class CellContentImp(
         }
     }
 
-    override fun toProto(): CellProtos.CellContentProto {
+    override fun toProto(): CellContentProto {
         return CellContentProto.newBuilder()
             .setCellValue(this.currentCellValue.toProto())
             .setFormula(this.fullFormula)

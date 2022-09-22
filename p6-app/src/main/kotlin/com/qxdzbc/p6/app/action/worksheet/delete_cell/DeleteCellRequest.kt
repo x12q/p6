@@ -5,15 +5,13 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.google.protobuf.ByteString
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 
 class DeleteCellRequest(
     override val wbKey: WorkbookKey,
-    val wsName:String,
+    override val wsName:String,
     val cellAddress: CellAddress,
-) : RequestToP6WithWorkbookKey {
-//    override fun toProtoBytes(): ByteString {
-//        return this.toProto().toByteString()
-//    }
+) : RequestToP6WithWorkbookKey,WbWs {
     fun toProto(): WorksheetProtos.DeleteCellRequestProto {
         return WorksheetProtos.DeleteCellRequestProto.newBuilder()
             .setWorkbookKey(this.wbKey.toProto())

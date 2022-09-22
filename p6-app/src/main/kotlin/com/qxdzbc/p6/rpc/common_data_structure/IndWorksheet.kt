@@ -2,13 +2,13 @@ package com.qxdzbc.p6.rpc.common_data_structure
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.proto.DocProtos
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellPrt.Companion.toModel
+import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
 
 data class IndWorksheet(
     val id: WorksheetIdDM,
-    val cells: List<IndCellPrt>
+    val cells: List<IndCellDM>
 ):WbWs by id {
     companion object {
         fun DocProtos.IndWorksheetProto.toModel(): IndWorksheet {

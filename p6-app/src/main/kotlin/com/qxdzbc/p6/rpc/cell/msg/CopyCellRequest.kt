@@ -1,12 +1,11 @@
 package com.qxdzbc.p6.rpc.cell.msg
 
 import com.qxdzbc.p6.proto.CellProtos.CopyCellRequestProto
-import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM
-import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM.Companion.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 
 class CopyCellRequest(
-    val fromCell: CellIdProtoDM,
-    val toCell: CellIdProtoDM,
+    val fromCell: CellIdDM,
+    val toCell: CellIdDM,
 ) {
     companion object{
         fun CopyCellRequestProto.toModel(): CopyCellRequest {

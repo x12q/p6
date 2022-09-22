@@ -14,8 +14,8 @@ data class IndRangeIdImp(
     override fun toProto():RangeIdProto{
         val proto = RangeIdProto.newBuilder()
             .setRangeAddress(this.rangeAddress.toProto())
-            .setWorkbookKey(this.wbKey.toProto())
-            .setWorksheetName(this.wsName)
+            .setWbKey(this.wbKey.toProto())
+            .setWsName(this.wsName)
             .build()
         return proto
     }
@@ -24,8 +24,8 @@ data class IndRangeIdImp(
         fun RangeIdProto.toModel(): IndRangeIdImp {
             return IndRangeIdImp(
                 rangeAddress = rangeAddress.toModel(),
-                wbKey = workbookKey.toModel(),
-                wsName = worksheetName
+                wbKey = wbKey.toModel(),
+                wsName = wsName
             )
         }
     }

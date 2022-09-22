@@ -18,8 +18,8 @@ data class RangeIdImp(
     override fun toProto(): DocProtos.RangeIdProto {
         val proto = DocProtos.RangeIdProto.newBuilder()
             .setRangeAddress(this.rangeAddress.toProto())
-            .setWorkbookKey(this.wbKey.toProto())
-            .setWorksheetName(this.wsName)
+            .setWbKey(this.wbKey.toProto())
+            .setWsName(this.wsName)
             .build()
         return proto
     }

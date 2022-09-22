@@ -6,7 +6,6 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.CellUpdateEntryDM
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.app.document.cell.d.CellContent
 import com.qxdzbc.p6.app.document.cell.d.CellValue
@@ -21,22 +20,25 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.mapBoth
+import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import javax.inject.Inject
 
 class UpdateMultiCellRMImp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     @TranslatorContainerMs val translatorContainerMs: Ms<TranslatorContainer>
 ) : UpdateMultiCellRM {
+
     var translatorCont by translatorContainerMs
     private var appState by appStateMs
+
     override fun cellMultiUpdate(request: MultiCellUpdateRequest): MultiCellUpdateResponse? {
         val req = request
         val rs = appState.getWbRs(req.wbKey).andThen { wb->
             wb.getWsRs(req.wsName).andThen { ws->
                 var newWs = ws
                 val translator = translatorCont.getTranslatorOrCreate(ws.id)
-                for(entry: CellUpdateEntryDM in req.cellUpdateList){
-                    val cellRs = ws.getCellOrDefaultRs(entry.cellAddress)
+                for(entry in req.cellUpdateList){
+                    val cellRs = ws.getCellOrDefaultRs(entry.address)
                     if(cellRs is Ok){
                         val newCellValueContent = makeContent(entry,translator)
                         val newCell = cellRs.value.setContent(newCellValueContent)
@@ -68,7 +70,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         return rt
     }
 
-    fun makeContent(entry: CellUpdateEntryDM, translator:P6Translator<ExUnit>):CellContent{
+    fun makeContent(entry: IndCellDM, translator:P6Translator<ExUnit>):CellContent{
         val formula=entry.content.formula
         if(formula!=null && formula.isNotEmpty()) {
             val transRs = translator.translate(formula)

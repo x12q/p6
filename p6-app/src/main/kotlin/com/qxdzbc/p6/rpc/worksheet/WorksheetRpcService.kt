@@ -3,7 +3,7 @@ package com.qxdzbc.p6.rpc.worksheet
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.mapError
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest2
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequestDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
@@ -20,11 +20,12 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
-import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM
-import com.qxdzbc.p6.rpc.cell.msg.CellProtoDM.CO.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellDM
+import com.qxdzbc.p6.rpc.cell.msg.CellDM.CO.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.worksheet.msg.*
-import com.qxdzbc.p6.rpc.worksheet.msg.CellIdProtoDM.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
@@ -108,7 +109,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val cellId: CellIdProtoDM = request.toModel()
+            val cellId: CellIdDM = request.toModel()
             val cellRs = sc.getCellRs(cellId.wbKey, cellId.wsName, cellId.address)
             val rt = SingleSignalResponse.fromRs(cellRs)
             responseObserver.onNextAndComplete(rt.toProto())
@@ -159,7 +160,7 @@ class WorksheetRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
                 crtScope.async(actionDispatcherMain) {
-                    val cid: CellIdProtoDM = request.toModel()
+                    val cid: CellIdDM = request.toModel()
                     val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
                     o
                 }.await()
@@ -175,12 +176,10 @@ class WorksheetRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
                 crtScope.async(actionDispatcherMain) {
-                    val i: CellProtoDM = request.toModel()
+                    val i: CellDM = request.toModel()
                     val o = rpcActs.updateCell2(
-                        CellUpdateRequest2(
-                            wbKey = i.id.wbKey,
-                            wsName = i.id.wsName,
-                            cellAddress = i.id.address,
+                        CellUpdateRequest(
+                            cellId = i.id,
                             cellContent = i.content
                         )
                     )
@@ -198,7 +197,7 @@ class WorksheetRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
                 crtScope.async(actionDispatcherMain) {
-                    val i: CellIdProtoDM = request.toModel()
+                    val i: CellIdDM = request.toModel()
                     val o = rpcActs.deleteMultiCell(
                         RemoveMultiCellRequest(
                             wbKey = i.wbKey,
