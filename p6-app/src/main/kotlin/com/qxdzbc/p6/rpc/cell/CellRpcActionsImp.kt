@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.rpc.cell
 
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
-import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import javax.inject.Inject
 
 class CellRpcActionsImp @Inject constructor(

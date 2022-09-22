@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.document.cell.d.CellValue
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction

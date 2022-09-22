@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test

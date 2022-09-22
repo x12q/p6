@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.cell.action
+package com.qxdzbc.p6.app.action.cell.cell_update
 
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.flatMap
@@ -7,7 +7,6 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.CellRM
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
 import com.qxdzbc.p6.translator.P6Translator

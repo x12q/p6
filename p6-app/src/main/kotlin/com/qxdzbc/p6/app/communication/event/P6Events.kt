@@ -13,7 +13,6 @@ import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookRequest
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookResponse
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateResponse
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeResponse
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
@@ -91,7 +90,7 @@ object P6Events {
         object Update : P6EventMetaDef {
             override val event = P6Event("${CE}1", "cell update")
             override val Request: Any = CellUpdateRequest::class
-            override val Response: Any = CellUpdateResponse::class
+            override val Response: Any = CellUpdateRequest::class
         }
 
         object CellMultiUpdate : P6EventMetaDef {

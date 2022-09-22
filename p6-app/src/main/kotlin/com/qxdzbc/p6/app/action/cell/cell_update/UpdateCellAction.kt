@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.cell.action
+package com.qxdzbc.p6.app.action.cell.cell_update
 
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest

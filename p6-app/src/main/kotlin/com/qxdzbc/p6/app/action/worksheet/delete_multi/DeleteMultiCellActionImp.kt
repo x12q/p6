@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplier
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
@@ -22,8 +23,7 @@ class DeleteMultiCellActionImp @Inject constructor(
     val applier: DeleteMultiApplier,
     @AppStateMs
     private val appStateMs: Ms<AppState>,
-    private val cellUpdateRM: UpdateMultiCellRM,
-    private val wbUpdateApplier: WorkbookUpdateCommonApplier,
+    private val multiCellUpdateAct:MultiCellUpdateAction,
 ) : DeleteMultiCellAction {
 
     private var appState by appStateMs
@@ -105,10 +105,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                         wsNameSt = ws.wsNameSt,
                         cellUpdateList = updateList
                     )
-                    val r = cellUpdateRM.cellMultiUpdate(cellMultiUpdateRequest)
-                    if (r != null) {
-                        wbUpdateApplier.apply(r)
-                    }
+                    multiCellUpdateAct.updateMultiCell(cellMultiUpdateRequest,true)
                 }
             }
             appState.queryStateByWorkbookKey(k).ifOk {

@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
-import com.qxdzbc.p6.ui.document.cell.action.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import javax.inject.Inject
 
 class WorksheetRpcActionImp @Inject constructor(
