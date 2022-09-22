@@ -5,8 +5,8 @@ import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.app.document.cell.d.CellContentImp
-import com.qxdzbc.p6.app.document.cell.d.IndCellImp
+import com.qxdzbc.p6.app.document.cell.CellContentImp
+import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt

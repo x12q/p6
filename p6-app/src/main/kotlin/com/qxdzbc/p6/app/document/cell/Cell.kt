@@ -1,10 +1,9 @@
-package com.qxdzbc.p6.app.document.cell.d
+package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -14,7 +13,7 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 interface Cell :Shiftable,WbWsSt{
 
-    fun isSimilar(c:Cell):Boolean
+    fun isSimilar(c: Cell):Boolean
 
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,

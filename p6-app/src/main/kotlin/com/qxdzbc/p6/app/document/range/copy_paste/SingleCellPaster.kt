@@ -10,7 +10,7 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.document.cell.d.Cell
+import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -58,7 +58,7 @@ class SingleCellPaster @Inject constructor(
                 if(source!=null){
                     wb.getWsRs(target.wsName).map {
                         var tws = it
-                        for (cell:Cell in source.cells) {
+                        for (cell: Cell in source.cells) {
                             val newCell = cell.shift(
                                 source.rangeId.rangeAddress.topLeft,
                                 target.rangeAddress.topLeft

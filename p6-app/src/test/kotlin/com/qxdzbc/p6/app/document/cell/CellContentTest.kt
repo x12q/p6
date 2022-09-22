@@ -1,7 +1,9 @@
-package com.qxdzbc.p6.app.document.cell.d
+package com.qxdzbc.p6.app.document.cell
 
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.app.document.cell.CellContentImp
+import com.qxdzbc.p6.app.document.cell.CellValue
 import kotlin.test.*
 
 class CellContentTest {
@@ -9,7 +11,7 @@ class CellContentTest {
     @Test
     fun run() {
         val c = CellContentImp(
-            cellValueMs = CellValue.Companion.from(123).toMs(),
+            cellValueMs = CellValue.from(123).toMs(),
             exUnit = ExUnit.FALSE
         )
         val c2 = c.reRun()

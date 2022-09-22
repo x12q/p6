@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.rpc.cell.msg
 
-import com.qxdzbc.p6.app.document.cell.d.CellValue
-import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toModel
+import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toModel
 import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 
@@ -13,7 +13,7 @@ class CellDM(
     val formula get()=content.formula
     constructor(
         id: CellIdDM,
-        cellValue:CellValue,
+        cellValue: CellValue,
         formula:String?
     ):this(
         id = id,

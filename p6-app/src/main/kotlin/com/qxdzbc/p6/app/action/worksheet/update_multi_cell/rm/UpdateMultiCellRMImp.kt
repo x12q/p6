@@ -7,9 +7,9 @@ import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonRespon
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.app.document.cell.d.CellContent
-import com.qxdzbc.p6.app.document.cell.d.CellValue
-import com.qxdzbc.p6.app.document.cell.d.CellContentImp
+import com.qxdzbc.p6.app.document.cell.CellContent
+import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
@@ -70,7 +70,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         return rt
     }
 
-    fun makeContent(entry: IndCellDM, translator:P6Translator<ExUnit>):CellContent{
+    fun makeContent(entry: IndCellDM, translator:P6Translator<ExUnit>): CellContent {
         val formula=entry.content.formula
         if(formula!=null && formula.isNotEmpty()) {
             val transRs = translator.translate(formula)

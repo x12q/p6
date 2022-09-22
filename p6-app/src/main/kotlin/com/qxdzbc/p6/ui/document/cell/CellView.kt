@@ -13,12 +13,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.d.*
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.common.compose.TestApp
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.app.document.cell.Cell
+import com.qxdzbc.p6.app.document.cell.CellContentImp
+import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.format.TextFormat

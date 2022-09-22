@@ -2,12 +2,10 @@ package com.qxdzbc.p6.rpc.common_data_structure
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.toModel
-import com.qxdzbc.p6.app.document.cell.d.CellValue
-import com.qxdzbc.p6.app.document.cell.d.CellValue.Companion.toModel
+import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModel
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM.Companion.toModel
 
 data class IndCellDM(
     val address: CellAddress,

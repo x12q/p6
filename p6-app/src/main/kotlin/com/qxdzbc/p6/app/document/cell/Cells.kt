@@ -1,14 +1,36 @@
 package com.qxdzbc.p6.app.document.cell
 
-import com.qxdzbc.p6.app.document.cell.d.Cell
-import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.cell.address.CellAddresses
+import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toCellValue
 
 object Cells {
+    fun emptyIndCell(colIndex: Int, rowIndex: Int): Cell {
+        return emptyIndCell(CellAddresses.fromIndices(colIndex, rowIndex))
+    }
 
+    fun emptyIndCell(label: String): Cell {
+        return emptyIndCell(CellAddresses.fromLabel(label))
+    }
+
+    fun number(label: String, number: Number): Cell {
+        return emptyIndCell(label).setCellValue(number.toCellValue())
+    }
+
+    fun str(label: String, str: String): Cell {
+        return emptyIndCell(label).setCellValue(str.toCellValue())
+    }
+
+    fun emptyIndCell(cellAddress: CellAddress): Cell {
+        return IndCellImp(
+            cellAddress,
+            CellContentImp()
+        )
+    }
     /**
      * Check if an obj can be stored in a cell.
      * A legal obj is of type Result<T, ErrorReport> in which T is:

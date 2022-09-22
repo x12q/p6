@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.action.range.RangeIdImp
-import com.qxdzbc.p6.app.document.cell.d.Cell
+import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet

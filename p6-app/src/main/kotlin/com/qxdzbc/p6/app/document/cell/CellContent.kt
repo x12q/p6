@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.document.cell.d
+package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.CanCheckEmpty
@@ -40,7 +40,7 @@ interface CellContent:CanCheckEmpty,Shiftable {
      */
     fun colorFormula(colorProvider: ColorProvider, wbKey: WorkbookKey?, wsName: String?): AnnotatedString?
 
-    fun reRun():CellContent?
+    fun reRun(): CellContent?
     fun reRunRs():Rse<CellContent>
     val editableStr: String
     val displayStr: String

@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.CellErrors
-import com.qxdzbc.p6.app.document.cell.d.Cell
+import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerSt
