@@ -8,8 +8,8 @@ import com.qxdzbc.p6.app.document.script.ScriptContainerImp
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.OddityContainer
-import com.qxdzbc.p6.app.oddity.OddityContainerImp
+import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelStatus
@@ -182,8 +182,8 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         @AppOddityContMs
-        fun AppOddityContainerMs(): Ms<OddityContainer> {
-            return ms(OddityContainerImp())
+        fun AppOddityContainerMs(): Ms<ErrorContainer> {
+            return ms(ErrorContainerImp())
         }
 
         @Provides

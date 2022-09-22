@@ -20,6 +20,7 @@ import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorActio
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
+import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
@@ -257,6 +258,7 @@ interface P6Component {
     fun removeAllCellAction(): RemoveAllCellAction
     fun removeAllWorksheetAction(): RemoveAllWorksheetAction
     fun multiCellUpdateAction(): MultiCellUpdateAction
+    fun newWorksheetAction(): NewWorksheetAction
 
     @Component.Builder
     interface Builder {

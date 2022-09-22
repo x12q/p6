@@ -15,12 +15,11 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
+import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.common.utils.WorkbookUtils
 import com.qxdzbc.p6.app.document.workbook.Workbooks.isLegalWbName
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
-import com.qxdzbc.p6.app.document.worksheet.WorksheetImp.Companion.toShallowModel
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
 import com.qxdzbc.p6.translator.P6Translator
@@ -83,12 +82,12 @@ data class WorkbookImp(
     }
 
     @kotlin.jvm.Throws(Exception::class)
-    override fun createNewWs2(name: String?): CreateNewWorksheetResponse2 {
+    override fun createNewWs2(name: String?): CreateNewWorksheetResponse {
         val rs = this.createNewWorksheetRs2(name)
         return rs.getOrThrow()
     }
 
-    override fun createNewWorksheetRs2(name: String?): Rse<CreateNewWorksheetResponse2> {
+    override fun createNewWorksheetRs2(name: String?): Rse<CreateNewWorksheetResponse> {
         val actualName = name ?: WorkbookUtils.generateNewSheetName(this.worksheets.map { it.name })
         if (actualName in this.worksheetMap.keys) {
             return WorkbookErrors.WorksheetAlreadyExist.report(actualName).toErr()
@@ -101,7 +100,7 @@ data class WorkbookImp(
                 worksheetMapMs = this.worksheetMapMs + (wsMs.value.nameMs to wsMs)
             ))
 
-            return Ok(CreateNewWorksheetResponse2(newWb, actualName))
+            return Ok(CreateNewWorksheetResponse(newWb, actualName))
         }
     }
 

@@ -10,8 +10,8 @@ import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.p6.di.status_bar.StatusBarStateQualifier
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.OddityContainer
-import com.qxdzbc.p6.app.oddity.OddityContainerImp
+import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.window.FocusStateMs
 import com.qxdzbc.common.compose.Ms
@@ -40,7 +40,7 @@ import java.util.*
 
 data class WindowStateImp @AssistedInject constructor(
     @Assisted override val activeWbPointerMs: Ms<ActiveWorkbookPointer>,
-    @Assisted override val oddityContainerMs: Ms<OddityContainer> = ms(OddityContainerImp()),
+    @Assisted override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     @Assisted("saveDialogStateMs")
     override val saveDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
     @Assisted("loadDialogStateMs")
@@ -190,7 +190,7 @@ data class WindowStateImp @AssistedInject constructor(
         return this.copy(wbKeyMsSet = newWbKeySet)
     }
 
-    override var oddityContainer: OddityContainer by oddityContainerMs
+    override var errorContainer: ErrorContainer by errorContainerMs
 
     override val wbTabBarState: WorkbookTabBarState
         get() = WorkbookTabBarStateImp(this)

@@ -15,7 +15,7 @@ class ScriptEditorErrorRouterImp @Inject constructor(
     val errorRouter: ErrorRouter,
 ) : ScriptEditorErrorRouter {
     private var codeEditorState by codeEditorStateMs
-    private var oddityContInCodeEditor by codeEditorState.oddityContainerMs
+    private var oddityContInCodeEditor by codeEditorState.errorContainerMs
     override fun toOutputPanel(errorReport: ErrorReport) {
         val err = errorReport
         if (err.isType(SenderErrors.IOPubExecuteError.header)) {

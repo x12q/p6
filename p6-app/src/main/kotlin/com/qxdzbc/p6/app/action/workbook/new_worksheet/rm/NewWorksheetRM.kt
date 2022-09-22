@@ -1,14 +1,10 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet.rm
 
-import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
-import com.qxdzbc.p6.app.document.workbook.Workbook
+import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
+import com.qxdzbc.p6.app.common.utils.RseNav
 
 interface NewWorksheetRM {
-    fun newWorksheet2(request: CreateNewWorksheetRequest): RseNav<CreateNewWorksheetResponse2>
+    fun newWorksheet(request: CreateNewWorksheetRequest): RseNav<CreateNewWorksheetResponse>
 }
 
-data class CreateNewWorksheetResponse2(
-    val newWb: Workbook,
-    val newWsName: String,
-)

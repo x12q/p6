@@ -120,7 +120,10 @@ data class WorksheetStateImp @AssistedInject constructor(
     override val wbKeySt: St<WorkbookKey>
         get() = this.id.wbKeySt
     override val wsNameSt: St<String>
-        get() = this.id.wsNameSt
+        get() {
+//            println(Thread.currentThread())
+            return this.id.wsNameSt
+        }
 
     override fun setSlider(i: GridSlider): WorksheetState {
         this.sliderMs.value = i

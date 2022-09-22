@@ -18,8 +18,8 @@ import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.OddityContainer
-import com.qxdzbc.p6.app.oddity.OddityType
+import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.oddity.ErrorType
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfigImp
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
@@ -201,23 +201,23 @@ fun main() {
                             }
                         }
 
-                        var appOddityContainer: OddityContainer by appState.oddityContainerMs
-                        if (appOddityContainer.isNotEmpty()) {
-                            for (bugMsg in appOddityContainer.oddList) {
+                        var appErrorContainer: ErrorContainer by appState.errorContainerMs
+                        if (appErrorContainer.isNotEmpty()) {
+                            for (bugMsg in appErrorContainer.errList) {
                                 Window(
                                     onCloseRequest = { },
                                     title = "X",
                                 ) {
                                     ErrorDialogWithStackTrace(
-                                        oddMsg = bugMsg,
+                                        errMsg = bugMsg,
                                         onOkClick = {
                                             when (bugMsg.type) {
-                                                OddityType.FATAL -> {
-                                                    appOddityContainer.remove(bugMsg)
+                                                ErrorType.FATAL -> {
+                                                    appErrorContainer.remove(bugMsg)
                                                     // x: Kill app when encounter fatal error
                                                     p6Comp3.appAction().exitApp()
                                                 }
-                                                else -> appOddityContainer = appOddityContainer.remove(bugMsg)
+                                                else -> appErrorContainer = appErrorContainer.remove(bugMsg)
                                             }
                                         },
                                     )

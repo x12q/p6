@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet.applier
 
 import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
+import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 
 interface NewWorksheetApplier {
-    fun applyRes2(rs: RseNav<CreateNewWorksheetResponse2>): RseNav<CreateNewWorksheetResponse2>
+    fun applyRes2(rs: RseNav<CreateNewWorksheetResponse>): RseNav<CreateNewWorksheetResponse>
 }

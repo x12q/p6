@@ -1,14 +1,12 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.qxdzbc.p6.app.oddity.OddityContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.addError
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.window.state.WindowState
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
-import kotlin.contracts.contract
+
 class QueryByWorkbookKeyResult2(
     val windowStateMs: Ms<WindowState>,
     val workbookStateMs: Ms<WorkbookState>,
@@ -19,13 +17,13 @@ class QueryByWorkbookKeyResult2(
  * This class is an encapsulation that contains information related to a workbook key.
  * [workbookStateMs] is the workbook the key is pointing to, null if the key is invalid.
  * [windowStateMs] the window in which the workbook locates, null if the key is invalid.
- * [oddityContainerMs] the relavant oddity container. It is the window's oddity container if the key is valid; otherwise it is the app's oddity container.
+ * [errorContainerMs] the relavant oddity container. It is the window's oddity container if the key is valid; otherwise it is the app's oddity container.
  * [ErrorReport] gives detail the error (if any) when doing query.
  */
 class QueryByWorkbookKeyResult(
     val windowStateOrNull: Ms<WindowState>? = null,
     val workbookStateMsOrNull: Ms<WorkbookState>? = null,
-    val oddityContainerMs: Ms<OddityContainer>,
+    val errorContainerMs: Ms<ErrorContainer>,
     private val _errorReport: ErrorReport? = null,
 ) {
     val windowStateMs get() = this.windowStateOrNull!!
@@ -40,7 +38,7 @@ class QueryByWorkbookKeyResult(
      */
     fun publishError() {
         if (!this.isOk) {
-            this.oddityContainerMs.addError(this.errorReport)
+            this.errorContainerMs.addError(this.errorReport)
         }
     }
 

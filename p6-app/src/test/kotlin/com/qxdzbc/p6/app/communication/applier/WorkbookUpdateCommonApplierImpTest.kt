@@ -60,11 +60,11 @@ internal class WorkbookUpdateCommonApplierImpTest {
             wbKey = key1,
             newWorkbook = newWb
         )
-        assertTrue { q.oddityContainerMs.value.isEmpty() }
-        assertTrue { appStateMs.value.oddityContainer.isEmpty() }
+        assertTrue { q.errorContainerMs.value.isEmpty() }
+        assertTrue { appStateMs.value.errorContainer.isEmpty() }
         applier.apply(r)
-        assertTrue { q.oddityContainerMs.value.isEmpty() }
-        assertTrue { appStateMs.value.oddityContainer.isEmpty() }
+        assertTrue { q.errorContainerMs.value.isEmpty() }
+        assertTrue { appStateMs.value.errorContainer.isEmpty() }
     }
 
     @Test
@@ -79,11 +79,11 @@ internal class WorkbookUpdateCommonApplierImpTest {
                 wbKey = TestSample.wbk1
             )
         )
-        assertTrue { appState.value.windowStateMsList.first().value.oddityContainer.isEmpty() }
+        assertTrue { appState.value.windowStateMsList.first().value.errorContainer.isEmpty() }
         applier.apply(response)
         assertTrue {
             // oddity container of the window is not empty
-            appState.value.windowStateMsList.first().value.oddityContainer.isNotEmpty()
+            appState.value.windowStateMsList.first().value.errorContainer.isNotEmpty()
         }
     }
 
@@ -94,8 +94,8 @@ internal class WorkbookUpdateCommonApplierImpTest {
         assertEquals(s1.name, workbookStateMs.value.activeSheetPointer.wsName)
         assertNotNull(workbook.getWs(s1.name))
         assertNotNull(workbook.getWs(s2.name))
-        assertTrue { appState.oddityContainer.isEmpty() }
-        assertTrue { appState.windowStateMsList.first().value.oddityContainer.isEmpty() }
+        assertTrue { appState.errorContainer.isEmpty() }
+        assertTrue { appState.windowStateMsList.first().value.errorContainer.isEmpty() }
     }
 
 }

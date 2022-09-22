@@ -17,8 +17,8 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.app.oddity.OddityContainer
-import com.qxdzbc.p6.app.oddity.OddityContainerImp
+import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.state.app_state.*
@@ -51,7 +51,7 @@ data class AppStateImp @Inject constructor(
     @False
     override val codeEditorIsOpen: Boolean,
     @AppOddityContMs
-    override val oddityContainerMs: Ms<OddityContainer> = ms(OddityContainerImp()),
+    override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     @WindowActivePointerMs
     override val activeWindowPointerMs: Ms<ActiveWindowPointer> = ms(ActiveWindowPointerImp(null)),
     @AppScriptContMs
@@ -83,7 +83,7 @@ data class AppStateImp @Inject constructor(
     override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
     override val wbStateContMs: Ms<WorkbookStateContainer>
         get() = subAppStateContMs.value.wbStateContMs
-    override var oddityContainer: OddityContainer by oddityContainerMs
+    override var errorContainer: ErrorContainer by errorContainerMs
     override var wbStateCont: WorkbookStateContainer by wbStateContMs
     override var activeWindowPointer: ActiveWindowPointer by activeWindowPointerMs
     override val activeWindowStateMs: Ms<WindowState>?
@@ -421,18 +421,18 @@ data class AppStateImp @Inject constructor(
                 return QueryByWorkbookKeyResult(
                     windowStateOrNull = windowstateMs,
                     workbookStateMsOrNull = workbookStateMsRs.value,
-                    oddityContainerMs = windowstateMs.value.oddityContainerMs
+                    errorContainerMs = windowstateMs.value.errorContainerMs
                 )
             } else {
                 return QueryByWorkbookKeyResult(
                     _errorReport = workbookStateMsRs.unwrapError(),
-                    oddityContainerMs = windowstateMs.value.oddityContainerMs
+                    errorContainerMs = windowstateMs.value.errorContainerMs
                 )
             }
         } else {
             return QueryByWorkbookKeyResult(
                 _errorReport = windowStateMsRs.unwrapError(),
-                oddityContainerMs = this.oddityContainerMs
+                errorContainerMs = this.errorContainerMs
             )
         }
     }

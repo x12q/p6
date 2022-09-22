@@ -24,7 +24,6 @@ import com.qxdzbc.p6.app.action.script.new_script.NewScriptResponse
 import com.qxdzbc.p6.app.action.script.script_change.ScriptChangeRequest
 import com.qxdzbc.p6.app.action.script.script_change.ScriptChangeResponse
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetResponse
 import com.qxdzbc.p6.app.action.worksheet.delete_cell.DeleteCellRequest
@@ -142,7 +141,7 @@ object P6Events {
         object CreateNewWorksheet : P6EventMetaDef {
             override val event = P6Event("${WBE}3", "create new worksheet")
             override val Request: Any = CreateNewWorksheetRequest::class
-            override val Response: Any = CreateNewWorksheetResponse::class
+            override val Response: Any = CreateNewWorksheetRequest::class
 
         }
 
@@ -204,9 +203,6 @@ object P6Events {
     }
 }
 
-fun P6Event.isUnknown(event: P6Event): Boolean {
-    return event == P6Events.unknown
-}
 
 interface WithEventDefList {
     val defList: List<P6EventMetaDef> get()=extractP6EventDef(this)

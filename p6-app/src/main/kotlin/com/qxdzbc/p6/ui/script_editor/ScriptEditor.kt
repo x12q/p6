@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.app.oddity.OddMsg
+import com.qxdzbc.p6.app.oddity.ErrMsg
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTable
 import com.qxdzbc.p6.ui.common.R
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -180,13 +180,13 @@ fun ScriptEditor(
                 }
             )
         }
-        val oddityContainerMs = state.oddityContainerMs
-        if (state.oddityContainer.isNotEmpty()) {
-            for (oddMsg: OddMsg in oddityContainerMs.value.oddList) {
+        val oddityContainerMs = state.errorContainerMs
+        if (state.errorContainer.isNotEmpty()) {
+            for (errMsg: ErrMsg in oddityContainerMs.value.errList) {
                 ErrorDialogWithStackTrace(
-                    oddMsg = oddMsg,
+                    errMsg = errMsg,
                     onOkClick = {
-                        oddityContainerMs.value = oddityContainerMs.value.remove(oddMsg)
+                        oddityContainerMs.value = oddityContainerMs.value.remove(errMsg)
                     },
                 )
             }

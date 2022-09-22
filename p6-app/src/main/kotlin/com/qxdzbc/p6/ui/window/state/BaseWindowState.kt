@@ -27,7 +27,7 @@ abstract class BaseWindowState : WindowState {
         }
 
     override fun publishError(errorReport: ErrorReport): WindowState {
-        this.oddityContainer = this.oddityContainer.addErrorReport(errorReport)
+        this.errorContainer = this.errorContainer.addErrorReport(errorReport)
         return this
     }
 

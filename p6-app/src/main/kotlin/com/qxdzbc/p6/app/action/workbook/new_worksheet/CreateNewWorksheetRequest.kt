@@ -1,6 +1,8 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet
 
 import com.google.protobuf.ByteString
+import com.qxdzbc.p6.app.action.WbWsRequest
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
@@ -9,7 +11,7 @@ import com.qxdzbc.p6.proto.WorkbookProtos
 data class CreateNewWorksheetRequest(
     override val wbKey: WorkbookKey,
     val newWorksheetName: String?
-) : RequestToP6WithWorkbookKey {
+) : RequestToP6WithWorkbookKey,WbWs {
 
     companion object
     {
@@ -35,6 +37,9 @@ data class CreateNewWorksheetRequest(
             .build()
         return rt
     }
+
+    override val wsName: String
+        get() = this.newWorksheetName ?: ""
 }
 
 

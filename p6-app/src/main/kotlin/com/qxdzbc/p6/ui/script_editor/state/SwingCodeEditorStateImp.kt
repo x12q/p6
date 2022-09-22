@@ -6,8 +6,8 @@ import com.qxdzbc.p6.app.document.script.ScriptEntry
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.OddityContainer
-import com.qxdzbc.p6.app.oddity.OddityContainerImp
+import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -26,7 +26,7 @@ data class SwingCodeEditorStateImp(
     private val wbContMs:Ms<WorkbookContainer>,
     override val centralScriptContainerMs: Ms<CentralScriptContainer>,
     private val outputListMs: Ms<List<String>> = ms(emptyList()),
-    override val oddityContainerMs: Ms<OddityContainer> = ms(OddityContainerImp()),
+    override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     override val openedScriptsMs: Ms<Set<ScriptEntryKey>> = ms(emptySet()),
     override val scriptTreeStateMs: Ms<ScriptTreeState> = ms(ScriptTreeStateImp.fromCodeContainer(centralScriptContainerMs,{wbContMs.value.hasWb(it)})),
     override val currentCodeKey: ScriptEntryKey? = null,
@@ -57,7 +57,7 @@ data class SwingCodeEditorStateImp(
         return this
     }
 
-    override var oddityContainer: OddityContainer by oddityContainerMs
+    override var errorContainer: ErrorContainer by errorContainerMs
     override val currentScript: String? get() = this.currentScriptEntry?.script
 
     override fun updateCurrentScript(newCode: String): CodeEditorState {

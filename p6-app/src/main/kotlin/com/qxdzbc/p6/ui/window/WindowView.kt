@@ -8,8 +8,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.window.Window
 import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Loggers
-import com.qxdzbc.p6.app.oddity.OddMsg
-import com.qxdzbc.p6.app.oddity.OddityType
+import com.qxdzbc.p6.app.oddity.ErrMsg
+import com.qxdzbc.p6.app.oddity.ErrorType
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
@@ -26,7 +26,6 @@ import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusDetailDialog
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RpcStatusDetailDialog
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.awt.event.WindowEvent
 import java.awt.event.WindowFocusListener
@@ -44,7 +43,7 @@ fun WindowView(
 ) {
     val windowState: WindowState = state
     val activeWbStateMs = windowState.activeWbStateMs
-    val oddityContainerMs = windowState.oddityContainerMs
+    val oddityContainerMs = windowState.errorContainerMs
     val executionScope = rememberCoroutineScope()
     val launchOnMain = remember { CoroutineUtils.makeLaunchOnMain(executionScope) }
     Loggers.renderLogger.debug("render window view")
@@ -126,12 +125,12 @@ fun WindowView(
         }
 
         if (oddityContainerMs.value.isNotEmpty()) {
-            for (bugMsg: OddMsg in oddityContainerMs.value.oddList) {
+            for (bugMsg: ErrMsg in oddityContainerMs.value.errList) {
                 ErrorDialogWithStackTrace(
-                    oddMsg = bugMsg,
+                    errMsg = bugMsg,
                     onOkClick = {
                         when (bugMsg.type) {
-                            OddityType.FATAL -> {
+                            ErrorType.FATAL -> {
                                 oddityContainerMs.value = oddityContainerMs.value.remove(bugMsg)
                                 println("Kill app when encounter fatal error")
                                 windowAction.onFatalError()

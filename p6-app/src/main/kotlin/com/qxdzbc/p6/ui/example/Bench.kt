@@ -5,50 +5,53 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.color_generator.RandomColorGenerator
 import com.qxdzbc.p6.ui.common.compose.TestApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun main(){
     TestApp{
-        val cg = remember { RandomColorGenerator() }
-        var color  by rms(cg.nextColor())
-        val str:AnnotatedString = buildAnnotatedString {
-            withStyle(style = SpanStyle(color = Color.Blue)) {
-                append("H")
-            }
-            append("ello ")
-        }
-
-        val str2:AnnotatedString = buildAnnotatedString {
-            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.Red)) {
-                append("W")
-            }
-            append("orld")
-        }
-        val str3=str + str2
+        val numberMs = rms(123)
+        val cpNumber = rms(0)
+        val cc = rememberCoroutineScope()
         Column{
             Box(
-                modifier = Modifier.size(200.dp).background(color)
+                modifier = Modifier.size(200.dp)
             ){
                 Text(
-                    text = str3.subSequence(0,4)
+                    text = "Current:"+numberMs.value.toString()
                 )
             }
-            Button("C") {
-                color = cg.nextColor()
-                println(color)
+            Box(
+                modifier = Modifier.size(200.dp)
+            ){
+                Text(
+                    text = "Updated: ${cpNumber.value}"
+                )
+            }
+            MButton("Read") {
+                val t = Thread(){
+                    println(Thread.currentThread())
+                    cpNumber.value = numberMs.value
+                }
+                t.start()
+                t.join()
+            }
+            MButton("Increase"){
+                for (x in 0 .. 100){
+                    numberMs.value++
+    //                    val t = Thread(){
+    //                        println(Thread.currentThread())
+    //
+    //                    }
+    //                    t.start()
+    //                    t.join()
+                }
             }
         }
 

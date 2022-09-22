@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.app.state
 import androidx.compose.runtime.MutableState
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.OddityContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
@@ -36,8 +36,8 @@ interface AppState : DocumentContainer, SubAppStateContainer {
     val activeWindowStateMs: Ms<WindowState>?
     val activeWindowState: WindowState?
 
-    val oddityContainerMs: MutableState<OddityContainer>
-    var oddityContainer: OddityContainer
+    val errorContainerMs: MutableState<ErrorContainer>
+    var errorContainer: ErrorContainer
 
     /**
      * Extract information related to a workbook key. Such as the workbook the key is pointing to, the window in which the workbook locates.

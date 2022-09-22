@@ -7,8 +7,6 @@ import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorkshee
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetApplierImp
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetApplierImp
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetInternalApplier
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.applier.NewWorksheetInternalApplierImp
 import com.qxdzbc.p6.di.P6Singleton
 import dagger.Binds
 
@@ -21,10 +19,6 @@ interface WorkbookApplierModule {
     @Binds
     @P6Singleton
     fun DeleteWorksheetApplier(i: DeleteWorksheetApplierImp): DeleteWorksheetApplier
-
-    @Binds
-    @P6Singleton
-    fun NewWorksheetInternalApplier(i: NewWorksheetInternalApplierImp): NewWorksheetInternalApplier
 
     @Binds
     @P6Singleton

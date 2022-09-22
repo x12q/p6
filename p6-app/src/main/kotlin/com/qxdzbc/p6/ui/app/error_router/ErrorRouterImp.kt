@@ -17,10 +17,10 @@ class ErrorRouterImp @Inject constructor(
 ) : ErrorRouter {
     private var appState by appStateMs
     private var codeEditorState by appState.codeEditorStateMs
-    private var oddityContInCodeEditor by codeEditorState.oddityContainerMs
+    private var oddityContInCodeEditor by codeEditorState.errorContainerMs
 
     override fun publishToApp(errorReport: ErrorReport?) {
-        appState.oddityContainer = appState.oddityContainer.addErrorReport(errorReport)
+        appState.errorContainer = appState.errorContainer.addErrorReport(errorReport)
     }
 
     override fun publishToScriptWindow(errorReport: ErrorReport?) {
@@ -34,8 +34,8 @@ class ErrorRouterImp @Inject constructor(
 //            val stackTrace = errorReport?.toException()?.stackTraceToString()?:""
                 val er2 = errorReport
 
-                windowStateMs.value.oddityContainer =
-                    windowStateMs.value.oddityContainer.addErrorReport(er2)
+                windowStateMs.value.errorContainer =
+                    windowStateMs.value.errorContainer.addErrorReport(er2)
             } else {
                 publishToApp(errorReport)
             }
@@ -52,8 +52,8 @@ class ErrorRouterImp @Inject constructor(
                 val ne = errorReport?.toException()?.stackTrace.toString()
 
 
-                windowStateMs.value.oddityContainer =
-                    windowStateMs.value.oddityContainer.addErrorReport(errorReport)
+                windowStateMs.value.errorContainer =
+                    windowStateMs.value.errorContainer.addErrorReport(errorReport)
             } else {
                 publishToApp(errorReport)
             }
@@ -66,8 +66,8 @@ class ErrorRouterImp @Inject constructor(
         val windowStateMs = windowId?.let { appState.getWindowStateMsById(it) }
             ?: workbookKey?.let { appState.getWindowStateMsByWbKey(it) }
         if (windowStateMs != null) {
-            windowStateMs.value.oddityContainer =
-                windowStateMs.value.oddityContainer.addErrorReport(errorReport)
+            windowStateMs.value.errorContainer =
+                windowStateMs.value.errorContainer.addErrorReport(errorReport)
         } else {
             publishToApp(errorReport)
         }

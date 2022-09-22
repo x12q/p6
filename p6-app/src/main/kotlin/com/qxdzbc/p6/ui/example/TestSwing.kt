@@ -36,7 +36,7 @@ fun main(){
 }
 
 @Composable
-fun Button(text: String = "", action: (() -> Unit)? = null) {
+fun MButton(text: String = "", action: (() -> Unit)? = null) {
     Button(
         modifier = Modifier.size(270.dp, 30.dp),
         onClick = { action?.invoke() }

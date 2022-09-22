@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.common.utils.Utils
-import com.qxdzbc.p6.app.oddity.OddMsg
+import com.qxdzbc.p6.app.oddity.ErrMsg
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
@@ -33,8 +33,8 @@ import com.qxdzbc.p6.ui.common.view.dialog.ErrorDialogWithStackTraceState
  */
 @Composable
 fun ErrorDialogWithStackTrace(
-    oddMsg: OddMsg,
-    errorTitle: String = oddMsg.type.name,
+    errMsg: ErrMsg,
+    errorTitle: String = errMsg.type.name,
     onOkClick: () -> Unit,
     onDismiss: () -> Unit = onOkClick,
     modifier: Modifier = Modifier,
@@ -59,7 +59,7 @@ fun ErrorDialogWithStackTrace(
                 ) {
                     val ss = rememberScrollState(0)
                     Text(
-                        text = oddMsg.msg,
+                        text = errMsg.msg,
                         modifier = Modifier
                             .verticalScroll(ss)
                             .align(Alignment.CenterStart)
@@ -89,7 +89,7 @@ fun ErrorDialogWithStackTrace(
                     }
                 }
                 if (showStackTrace) {
-                    val stackTrace = oddMsg.errorReport.stackTraceStr()
+                    val stackTrace = errMsg.errorReport.stackTraceStr()
                     BorderBox(
                         modifier = Modifier
                             .fillMaxWidth()

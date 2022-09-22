@@ -12,6 +12,7 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.mapBoth
+import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 import javax.inject.Inject
 
 class NewWorksheetRMImp @Inject constructor(
@@ -20,7 +21,7 @@ class NewWorksheetRMImp @Inject constructor(
 
     var appState by appStateMs
 
-    override fun newWorksheet2(request: CreateNewWorksheetRequest): RseNav<CreateNewWorksheetResponse2> {
+    override fun newWorksheet(request: CreateNewWorksheetRequest): RseNav<CreateNewWorksheetResponse> {
         val wbk = request.wbKey
         val wbrs = appState.getWbRs(wbk)
         val rt = wbrs.mapBoth(
@@ -29,7 +30,7 @@ class NewWorksheetRMImp @Inject constructor(
                 val z = if (canAdd) {
                     val q = wb.createNewWs2(request.newWorksheetName)
                     Ok(
-                        CreateNewWorksheetResponse2(
+                        CreateNewWorksheetResponse(
                             newWb = q.newWb,
                             newWsName = q.newWsName,
                         )

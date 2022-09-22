@@ -19,10 +19,10 @@ class RestartKernelApplierImp @Inject constructor(
     override fun applyRestartKernel(response: RestartKernelResponse) {
         if (response.isError) {
             val oddContMs = if (response.windowId != null) {
-                val odMs = stateCont.getWindowStateMsById(response.windowId)?.value?.oddityContainerMs
+                val odMs = stateCont.getWindowStateMsById(response.windowId)?.value?.errorContainerMs
                 odMs
             } else {
-                appState.oddityContainerMs
+                appState.errorContainerMs
             }
 
             if (oddContMs != null) {

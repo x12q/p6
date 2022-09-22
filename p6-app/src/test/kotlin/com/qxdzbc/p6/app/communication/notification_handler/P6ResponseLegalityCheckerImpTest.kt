@@ -35,9 +35,9 @@ class P6ResponseLegalityCheckerImpTest {
             data = ByteString.EMPTY,
             status = Status.OK
         )
-        assertTrue { appState.oddityContainer.isEmpty() }
+        assertTrue { appState.errorContainer.isEmpty() }
         assertTrue { handler.checkEvent(input, input.header.eventType) }
-        assertTrue { appState.oddityContainer.isEmpty() }
+        assertTrue { appState.errorContainer.isEmpty() }
     }
 
     @Test
@@ -47,9 +47,9 @@ class P6ResponseLegalityCheckerImpTest {
             data = ByteString.EMPTY,
             status = Status.OK
         )
-        assertTrue(appState.oddityContainer.isEmpty())
+        assertTrue(appState.errorContainer.isEmpty())
         assertFalse { handler.checkEvent(input, P6Events.unknown) }
-        assertTrue { appState.oddityContainer.isNotEmpty() }
+        assertTrue { appState.errorContainer.isNotEmpty() }
     }
 
     @Test
@@ -59,9 +59,9 @@ class P6ResponseLegalityCheckerImpTest {
             data = ByteString.EMPTY,
             status = Status.OK
         )
-        assertTrue(appState.oddityContainer.isEmpty())
+        assertTrue(appState.errorContainer.isEmpty())
         assertFalse(handler.check(input,P6Events.unknown))
-        assertTrue(appState.oddityContainer.isNotEmpty())
+        assertTrue(appState.errorContainer.isNotEmpty())
     }
 
     @Test

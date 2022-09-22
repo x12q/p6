@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import com.qxdzbc.p6.app.document.script.ScriptEntry
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.OddityContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
@@ -53,8 +53,8 @@ interface CodeEditorState {
     /**
      * oddity container
      */
-    val oddityContainerMs: MutableState<OddityContainer>
-    var oddityContainer:OddityContainer
+    val errorContainerMs: MutableState<ErrorContainer>
+    var errorContainer:ErrorContainer
 
 
     /**

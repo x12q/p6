@@ -5,7 +5,7 @@ import com.qxdzbc.common.WithSize
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.OddityContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.common.compose.Ms
@@ -72,8 +72,8 @@ interface WindowState : WithSize {
     val activeWbStateMs: Ms<WorkbookState>?
     val activeWbKey:WorkbookKey? get() = activeWbPointer.wbKey
 
-    val oddityContainerMs: Ms<OddityContainer>
-    var oddityContainer: OddityContainer
+    val errorContainerMs: Ms<ErrorContainer>
+    var errorContainer: ErrorContainer
     fun publishError(errorReport: ErrorReport):WindowState
 
     val wbTabBarState: WorkbookTabBarState

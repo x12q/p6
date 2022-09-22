@@ -57,7 +57,7 @@ class RenameWorksheetInternalApplierImpTest {
         assertEquals(s2.name, workbook.getWs(1)?.name)
         assertEquals(s1.name, workbookStateMs.value.activeSheetPointer.wsName)
         assertNotNull(workbook.getWs(s2.name))
-        assertTrue(windowStateMs.value.oddityContainer.isNotEmpty())
+        assertTrue(windowStateMs.value.errorContainer.isNotEmpty())
     }
 
     @Test
@@ -73,7 +73,7 @@ class RenameWorksheetInternalApplierImpTest {
         )
 
         applier.apply(res.wbKey, res.oldName, res.newName)
-        assertTrue(appState.oddityContainer.isEmpty())
+        assertTrue(appState.errorContainer.isEmpty())
 
         val q = appState.queryStateByWorkbookKey(TestSample.wbk1)
         assertTrue { q.isOk }
@@ -83,7 +83,7 @@ class RenameWorksheetInternalApplierImpTest {
             assertEquals(newSheetName, newWb.getWs(0)?.name)
             assertNull(newWb.getWs(oldSheetName))
             assertEquals(newSheetName, it.workbookStateMs.value.activeSheetPointer.wsName)
-            assertTrue(it.windowStateMs.value.oddityContainer.isEmpty())
+            assertTrue(it.windowStateMs.value.errorContainer.isEmpty())
         }
     }
 
@@ -103,8 +103,8 @@ class RenameWorksheetInternalApplierImpTest {
         q.ifOk {
             assertEquals(newName, it.workbookStateMs.value.wb?.getWs(1)?.name)
             assertNull(it.workbookStateMs.value.wb?.getWs(oldSheetName))
-            assertTrue(it.windowStateMs.value.oddityContainer.isEmpty())
-            assertTrue(appState.oddityContainer.isEmpty())
+            assertTrue(it.windowStateMs.value.errorContainer.isEmpty())
+            assertTrue(appState.errorContainer.isEmpty())
         }
     }
 
@@ -129,7 +129,7 @@ class RenameWorksheetInternalApplierImpTest {
             assertEquals(s2.name, workbook.getWs(1)?.name)
             assertEquals(s1.name, it.workbookStateMs.value.activeSheetPointer.wsName)
             assertNotNull(it.workbookStateMs.value.wb?.getWs(s2.name))
-            assertTrue(appState.oddityContainer.isNotEmpty())
+            assertTrue(appState.errorContainer.isNotEmpty())
         }
     }
 }

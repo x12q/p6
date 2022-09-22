@@ -1,14 +1,11 @@
 package com.qxdzbc.p6.app.document.workbook
 
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.rm.CreateNewWorksheetResponse2
+import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
-import com.qxdzbc.p6.translator.P6Translator
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
@@ -56,7 +53,7 @@ interface Workbook : WithSize {
      * @throws Exception if unable to create a new worksheet
      */
     fun createNewWs(name: String? = null): Workbook
-    fun createNewWs2(name: String? = null): CreateNewWorksheetResponse2
+    fun createNewWs2(name: String? = null): CreateNewWorksheetResponse
     fun createNewWsRs(name: String? = null): Result<Workbook, ErrorReport>
 
     fun removeSheet(index: Int): Workbook
@@ -84,6 +81,6 @@ interface Workbook : WithSize {
         return this.getWs(sheetName) != null
     }
 
-    fun createNewWorksheetRs2(name: String?): Rse<CreateNewWorksheetResponse2>
+    fun createNewWorksheetRs2(name: String?): Rse<CreateNewWorksheetResponse>
     fun removeAllWs(): Workbook
 }
