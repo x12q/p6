@@ -25,6 +25,7 @@ import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.ActionDispatcherMain
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
@@ -56,8 +57,8 @@ class WorkbookRpcService @Inject constructor(
     private val stateContMs: Ms<SubAppStateContainer>,
     @AppCoroutineScope
     val crtScope: CoroutineScope,
-    @ActionDispatcherMain
-    val actionDispatcherMain: CoroutineDispatcher
+    @ActionDispatcherDefault
+    val actionDispatcherDefault: CoroutineDispatcher
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
     //    private var appState by appStateMs
@@ -70,7 +71,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val wbk = request.toModel()
                     val rs = rpcActions.removeAllWsRs(wbk)
                     val ssr = SingleSignalResponse.fromRs(rs)
@@ -121,7 +122,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req = request.toModel()
                     val wbk = req.wbKey
                     val wsName = req.wsName
@@ -169,7 +170,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req = SetWbKeyRequest.fromProto(request)
                     val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
                     val rt = SingleSignalResponse.fromRs(rs).toProto()
@@ -186,7 +187,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val wbk = request.wbKey.toModel()
                     val wsn = request.worksheet.name ?: ""
                     val translator = translatorContainer.getTranslatorOrCreate(wbk, wsn)
@@ -210,10 +211,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                async(actionDispatcherMain) {
-                    // this below line is a bug
-                    // it will trigger skia on non-awt thread-> exception -> crash grpc
-//                async(Dispatchers.Default.limitedParallelism(1)) {
+                async(actionDispatcherDefault) {
                     val req: CreateNewWorksheetRequest = request.toModel()
                     val rs = rpcActions.createNewWorksheetRs(req)
                     val res = WorksheetWithErrorReportMsg.fromRs(rs)
@@ -230,7 +228,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req = request.toModel()
                     val rs: Rse<Unit> = rpcActions.deleteWorksheetRs(req)
                     val rt = SingleSignalResponse.fromRs(rs)
@@ -247,7 +245,7 @@ class WorkbookRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val rs = rpcActions.renameWorksheetRs(request.toModel())
                     val rt = SingleSignalResponse.fromRs(rs)
                     rt

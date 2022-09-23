@@ -57,13 +57,9 @@ data class WorksheetStateImp @AssistedInject constructor(
     override val rowRange: IntRange = R.worksheetValue.defaultRowRange,
 ) : BaseWorksheetState() {
 
-    override val idMs: St<WorksheetId> = derivedStateOf<WorksheetId> {
-        WorksheetIdImp(
-            wsNameMs = worksheet.nameMs,
-            wbKeySt = worksheet.wbKeySt
-        )
+    override val id: WorksheetId get(){
+        return idMs.value
     }
-    override val id: WorksheetId by idMs
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
         if (this.cellLayoutCoorMap[cellAddress] != layoutCoor) {
@@ -121,7 +117,6 @@ data class WorksheetStateImp @AssistedInject constructor(
         get() = this.id.wbKeySt
     override val wsNameSt: St<String>
         get() {
-//            println(Thread.currentThread())
             return this.id.wsNameSt
         }
 
@@ -181,6 +176,7 @@ data class WorksheetStateImp @AssistedInject constructor(
     }
 
     override val worksheet: Worksheet by wsMs
+    override val idMs: Ms<WorksheetId> = worksheet.idMs
 
     override val name: String
         get() = this.idMs.value.wsName

@@ -19,7 +19,7 @@ import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.di.ActionDispatcherMain
+import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
@@ -48,10 +48,8 @@ class AppRpcService @Inject constructor(
     @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val rpcActions: AppRpcAction,
-    @AppCoroutineScope
-    val crtScope: CoroutineScope,
-    @ActionDispatcherMain
-    val actionDispatcherMain: CoroutineDispatcher
+    @ActionDispatcherDefault
+    val actionDispatcherDefault: CoroutineDispatcher
 ) : AppServiceGrpc.AppServiceImplBase() {
 
     private var aps by appStateMs
@@ -82,7 +80,7 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req: CreateNewWorkbookRequest = request.toModel()
                     val o = rpcActions.createNewWb(req)
                     o
@@ -112,7 +110,7 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val wbk: WorkbookKey = request.toModel()
                     val r = rpcActions.setActiveWb(wbk)
                     r
@@ -138,7 +136,7 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val r = rpcActions.saveWorkbook(request.wbKey.toModel(), Path.of(request.path))
                     r
                 }.await()
@@ -153,7 +151,7 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req = request.toModel()
                     val o = rpcActions.loadWorkbook(req)
                     o
@@ -170,7 +168,7 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req = CloseWorkbookRequest(wbKey = request.toModel())
                     val o = rpcActions.closeWb(req)
                     val s = SingleSignalResponse.fromWithErr(o)

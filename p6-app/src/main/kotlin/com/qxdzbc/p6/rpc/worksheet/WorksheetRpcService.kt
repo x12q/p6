@@ -12,8 +12,7 @@ import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.ActionDispatcherMain
-import com.qxdzbc.p6.di.AppCoroutineScope
+import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
@@ -32,7 +31,6 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -41,10 +39,8 @@ class WorksheetRpcService @Inject constructor(
     @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val rpcActs: WorksheetRpcAction,
-    @AppCoroutineScope
-    val crtScope: CoroutineScope,
-    @ActionDispatcherMain
-    val actionDispatcherMain: CoroutineDispatcher
+    @ActionDispatcherDefault
+    val actionDispatcherDefault: CoroutineDispatcher
 ) : WorksheetServiceGrpc.WorksheetServiceImplBase() {
 
     private val sc: StateContainer by stateContSt
@@ -55,14 +51,10 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
-                    val deferred = crtScope.async(actionDispatcherMain) {
-                        val req = request.toModel()
-                        val rs = rpcActs.updateMultiCell(req, false)
-                        val ssr = SingleSignalResponse.fromRs(rs)
-                        ssr
-                    }
-                    val ssr = deferred.await()
+                async(actionDispatcherDefault) {
+                    val req = request.toModel()
+                    val rs = rpcActs.updateMultiCell(req, false)
+                    val ssr = SingleSignalResponse.fromRs(rs)
                     ssr
                 }.await()
             }
@@ -77,7 +69,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val o = rpcActs.removeAllCell(request.toModel())
                     val rt = SingleSignalResponse.fromRs(o)
                     rt
@@ -93,7 +85,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req: LoadDataRequest = request.toModel()
                     val rs = rpcActs.loadDataRs(req, false)
                     val o = SingleSignalResponse.fromRs(rs)
@@ -159,7 +151,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val cid: CellIdDM = request.toModel()
                     val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
                     o
@@ -175,7 +167,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val i: CellDM = request.toModel()
                     val o = rpcActs.updateCell2(
                         CellUpdateRequest(
@@ -196,7 +188,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val i: CellIdDM = request.toModel()
                     val o = rpcActs.deleteMultiCell(
                         RemoveMultiCellRequest(
@@ -223,7 +215,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val i = request.toModel()
                     val o = rpcActs.deleteMultiCell(
                         RemoveMultiCellRequest(

@@ -210,7 +210,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     }
 
     override fun refreshWsState(): WorkbookState {
-        val newStateMap: MutableMap<St<String>, MutableState<WorksheetState>> = mutableMapOf()
+        var newStateMap: Map<St<String>, MutableState<WorksheetState>> = mutableMapOf()
         val sheetList: List<Ms<Worksheet>> = this.wb.worksheetMsList
         for (wsMs:Ms<Worksheet> in sheetList) {
             val ws: Worksheet = wsMs.value
@@ -218,11 +218,11 @@ data class WorkbookStateImp @AssistedInject constructor(
             if (wsStateMs != null) {
                 // x: keep the existing state
                 wsStateMs.value = wsStateMs.value.refreshCellState()
-                newStateMap[wsStateMs.value.wsNameSt] = wsStateMs
+                newStateMap= newStateMap + (wsStateMs.value.wsNameSt to wsStateMs)
             } else {
                 // x: create new state for new sheet
                 val newState = this.createDefaultWsState(wsMs)
-                newStateMap[newState.value.wsNameSt] = newState
+                newStateMap= newStateMap+ (newState.value.wsNameSt to newState)
             }
         }
         return this.copy(wsStateMap = newStateMap)

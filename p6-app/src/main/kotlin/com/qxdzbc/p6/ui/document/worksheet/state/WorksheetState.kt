@@ -22,7 +22,7 @@ import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
  */
 interface WorksheetState :WbWsSt {
 
-    val idMs: St<WorksheetId>
+    val idMs: Ms<WorksheetId>
     val id:WorksheetId
 
 //    val topLeftCell:CellAddress

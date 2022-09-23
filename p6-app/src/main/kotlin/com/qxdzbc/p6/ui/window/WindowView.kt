@@ -59,7 +59,6 @@ fun WindowView(
         LaunchedEffect(Unit){
           window.addWindowFocusListener(object: WindowFocusListener{
               override fun windowGainedFocus(e: WindowEvent?) {
-                  println("WGF:${state.id}")
                   windowAction.setActiveWindow(state.id)
               }
 

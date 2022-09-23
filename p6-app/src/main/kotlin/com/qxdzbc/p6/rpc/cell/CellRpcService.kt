@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.CellValue
-import com.qxdzbc.p6.di.ActionDispatcherMain
+import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.CellProtos
@@ -33,10 +33,8 @@ class CellRpcService @Inject constructor(
     @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val acts: CellRpcActions,
-    @AppCoroutineScope
-    val crtScope: CoroutineScope,
-    @ActionDispatcherMain
-    val actionDispatcherMain: CoroutineDispatcher
+    @ActionDispatcherDefault
+    val actionDispatcherDefault: CoroutineDispatcher
 ) : CellServiceGrpc.CellServiceImplBase() {
 
     private val sc by stateContSt
@@ -47,7 +45,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req = request.toModel()
                     val o = acts.updateCell2(req, false)
                     o
@@ -112,7 +110,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                crtScope.async(actionDispatcherMain) {
+                async(actionDispatcherDefault) {
                     val req = request.toModel()
                     val rt = acts.copyCell(req)
                     rt

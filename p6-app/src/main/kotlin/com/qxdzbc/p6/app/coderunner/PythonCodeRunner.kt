@@ -10,6 +10,8 @@ import com.qxdzbc.p6.message.api.message.protocol.data_interface_definition.Shel
 import com.qxdzbc.p6.message.api.message.sender.composite.ExecuteResult
 import com.qxdzbc.p6.message.api.message.sender.shell.ExecuteRequest
 import com.github.michaelbull.result.*
+import com.qxdzbc.common.ResultUtils.toErr
+import com.qxdzbc.common.ResultUtils.toOk
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.*
 import javax.inject.Inject
@@ -28,38 +30,33 @@ class PythonCodeRunner @Inject constructor(
         val kernelContext: KernelContextReadOnly = kernelContext
         Loggers.scriptLogger.info(code)
         val senderRs = kernelContext.getSenderProvider().map { it.codeExecutionSender() }
-        val rt2 = senderRs.mapBoth(
-            success = { sender ->
-                val message: ExecuteRequest = ExecuteRequest.autoCreate(
-                    sessionId = kernelContext.getSession().unwrap().getSessionId(),
-                    username = userName,
-                    msgType = Shell.Execute.Request.msgType,
-                    msgContent = Shell.Execute.Request.Content(
-                        code = code,
-                        silent = false,
-                        storeHistory = true,
-                        userExpressions = mapOf(),
-                        allowStdin = false,
-                        stopOnError = true
-                    ),
-                    kernelContext.getMsgIdGenerator().map { it.next() }.get() ?: UUID.randomUUID().toString()
-                )
-                val o:Result<ExecuteResult?,ErrorReport> = sender.send(message)
+        val rt2 = senderRs.flatMap { sender->
+            val message: ExecuteRequest = ExecuteRequest.autoCreate(
+                sessionId = kernelContext.getSession().unwrap().getSessionId(),
+                username = userName,
+                msgType = Shell.Execute.Request.msgType,
+                msgContent = Shell.Execute.Request.Content(
+                    code = code,
+                    silent = false,
+                    storeHistory = true,
+                    userExpressions = mapOf(),
+                    allowStdin = false,
+                    stopOnError = true
+                ),
+                kernelContext.getMsgIdGenerator().map { it.next() }.get() ?: UUID.randomUUID().toString()
+            )
+            val o:Result<ExecuteResult?,ErrorReport> = sender.send(message)
 
 
-                val rt = if (o is Ok) {
-                    Ok(o.get()?.content?.getTextPlain() ?: "")
-                } else {
-                    println(o.unwrapError())
-                    Err(o.unwrapError())
-                }
-                rt
-            },
-            failure = {
-                println(it)
-                Err(it)
+            val rt = if (o is Ok) {
+                Ok(o.get()?.content?.getTextPlain() ?: "")
+            } else {
+                println(o.unwrapError())
+                Err(o.unwrapError())
             }
-        )
+            rt
+        }
+
         return rt2
     }
 }
