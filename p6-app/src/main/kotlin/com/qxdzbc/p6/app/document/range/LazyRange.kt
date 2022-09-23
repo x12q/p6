@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.document.range
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -26,13 +25,11 @@ data class LazyRange @AssistedInject constructor(
 ) : Range{
     val wbKey by wbKeySt
     val worksheet get() = documentContMs.value.getWs(wbKey, wsNameSt.value)
-    override val rangeId: RangeId by derivedStateOf {
-        RangeIdImp(
-            rangeAddress = this.address,
-            wbKeySt = wbKeySt,
-            wsNameSt = wsNameSt
-        )
-    }
+    override val rangeId: RangeId get()=RangeIdImp(
+        rangeAddress = this.address,
+        wbKeySt = wbKeySt,
+        wsNameSt = wsNameSt
+    )
 
     override fun equals(other: Any?): Boolean {
         if(other is Range){
