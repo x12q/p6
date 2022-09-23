@@ -217,7 +217,7 @@ class WorksheetRpcService @Inject constructor(
         }
     }
 
-    override fun deleteRange(
+    override fun removeRange(
         request: DocProtos.RangeIdProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {

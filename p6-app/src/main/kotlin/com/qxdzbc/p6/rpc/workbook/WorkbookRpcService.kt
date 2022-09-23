@@ -224,7 +224,7 @@ class WorkbookRpcService @Inject constructor(
         }
     }
 
-    override fun deleteWorksheet(
+    override fun removeWorksheet(
         request: WorksheetProtos.WorksheetIdWithIndexProto?,
         responseObserver: StreamObserver<CommonProtos.SingleSignalResponseProto>?
     ) {
@@ -257,7 +257,7 @@ class WorkbookRpcService @Inject constructor(
         }
     }
 
-    override fun sheetCount(
+    override fun wsCount(
         request: DocProtos.WorkbookKeyProto?,
         responseObserver: StreamObserver<Int64Value>?
     ) {
