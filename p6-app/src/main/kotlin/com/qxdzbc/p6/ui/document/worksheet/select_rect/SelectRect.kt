@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.view.MBox
 
 @Composable
@@ -24,7 +24,7 @@ fun SelectRect(
                     width = selectionRect.width.dp
                 )
                 .offset(x = position.x.dp, y = position.y.dp)
-                .border(3.dp, R.color.dBlack)
+                .border(3.dp, p6R.color.dBlack)
         )
     }
 }

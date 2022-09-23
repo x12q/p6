@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.singleWindowApplication
 import com.qxdzbc.p6.app.common.utils.Loggers
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -42,19 +42,19 @@ fun WindowFrame(
             BorderBox(style = BorderStyle.BOT, modifier = Modifier.fillMaxWidth()) {
                 menu()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = R.composite.mod.stdBar){
+            BorderBox(style = BorderStyle.BOT, modifier = p6R.composite.mod.stdBar){
                 workbookTab()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = R.composite.mod.stdBar) {
+            BorderBox(style = BorderStyle.BOT, modifier = p6R.composite.mod.stdBar) {
                 formulaBar()
             }
             BorderBox(style = BorderStyle.BOT, modifier = Modifier.weight(1.0F)) {
                 workbookView()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = R.composite.mod.stdBar) {
+            BorderBox(style = BorderStyle.BOT, modifier = p6R.composite.mod.stdBar) {
                 toolTab()
             }
-            BorderBox(style = BorderStyle.NONE, modifier = R.composite.mod.stdBar) {
+            BorderBox(style = BorderStyle.NONE, modifier = p6R.composite.mod.stdBar) {
                 statusBar()
             }
         }
@@ -65,7 +65,7 @@ fun WindowFrame(
 fun main() {
     singleWindowApplication {
         Box(
-            modifier = R.size.mod.fillMaxSize
+            modifier = p6R.size.mod.fillMaxSize
         ) {
             WindowFrame(
                 {

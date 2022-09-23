@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.CellEditorStateMs
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
@@ -48,7 +48,7 @@ data class CursorStateImp @AssistedInject constructor(
             val mainCell = CellAddress(1, 1)
             return CursorStateImp(
                 mainCell = mainCell,
-                rangeConstraint = R.worksheetValue.defaultRangeConstraint,
+                rangeConstraint = p6R.worksheetValue.defaultRangeConstraint,
                 mainRange = null,
                 fragmentedCells = emptySet(),
                 fragmentedRanges = emptySet(),

@@ -25,7 +25,7 @@ import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfigImp
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.di.DaggerMessageApiComponent
 import com.qxdzbc.p6.message.di.MessageApiComponent
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -62,7 +62,7 @@ fun main() {
                     .serviceLogger(Loggers.serviceLogger)
                     .msgApiCommonLogger(Loggers.msgApiCommonLogger)
                     .apply {
-                        val defaultKernelConfigRs = KernelConfigImp.fromFile(Paths.get(R.defaultPythonConfigFile))
+                        val defaultKernelConfigRs = KernelConfigImp.fromFile(Paths.get(p6R.defaultPythonConfigFile))
                         if (defaultKernelConfigRs is Ok) {
                             this.kernelConfig(defaultKernelConfigRs.value)
                         }

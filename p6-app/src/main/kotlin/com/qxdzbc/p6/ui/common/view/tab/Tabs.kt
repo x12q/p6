@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
@@ -40,13 +40,13 @@ object Tabs {
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .then(R.text.mod.smallBoxPadding)
+                    .then(p6R.text.mod.smallBoxPadding)
             ) {
                 Text(
                     text = text,
                     modifier = Modifier
                         .padding(end = 5.dp)
-                        .requiredWidthIn(R.size.value.minTabWidth2.dp - 43.dp, R.size.value.maxTabWidth.dp - 43.dp),
+                        .requiredWidthIn(p6R.size.value.minTabWidth2.dp - 43.dp, p6R.size.value.maxTabWidth.dp - 43.dp),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -93,7 +93,7 @@ object Tabs {
                 text,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .then(R.text.mod.smallBoxPadding),
+                    .then(p6R.text.mod.smallBoxPadding),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -118,7 +118,7 @@ object Tabs {
                 boolValue = isSelected,
                 modifier = modifier
                     .fillMaxHeight()
-                    .requiredWidthIn(R.size.value.minTabWidth2.dp, R.size.value.maxTabWidth.dp)
+                    .requiredWidthIn(p6R.size.value.minTabWidth2.dp, p6R.size.value.maxTabWidth.dp)
                     .selectable(
                         selected = isSelected,
                         onClick = onClick
@@ -128,7 +128,7 @@ object Tabs {
                     style = BorderStyle.RIGHT,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .requiredWidthIn(R.size.value.minTabWidth2.dp, R.size.value.maxTabWidth.dp)
+                        .requiredWidthIn(p6R.size.value.minTabWidth2.dp, p6R.size.value.maxTabWidth.dp)
                 ) {
                     content(this@BorderBox)
                 }

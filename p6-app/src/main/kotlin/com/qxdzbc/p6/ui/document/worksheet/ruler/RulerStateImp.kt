@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.document.worksheet.ruler
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.*
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -17,7 +17,7 @@ data class RulerStateImp constructor(
     override val wsIdSt:St<WorksheetId>,
     override val dimen: RulerType,
     override val sliderMs: Ms<GridSlider>,
-    override val defaultItemSize: Int = if (dimen == RulerType.Col) R.size.value.defaultColumnWidth else R.size.value.defaultRowHeight,
+    override val defaultItemSize: Int = if (dimen == RulerType.Col) p6R.size.value.defaultColumnWidth else p6R.size.value.defaultRowHeight,
     private val itemLayoutMapMs: Ms<Map<Int, LayoutCoorWrapper>> = ms(emptyMap()),
     override val itemSelectRectMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
     private val rulerLayoutMs: Ms<LayoutCoorWrapper?> = ms(null),

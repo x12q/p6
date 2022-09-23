@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.build.DebugFunctions.debug
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.common.utils.Loggers
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
@@ -102,11 +102,11 @@ fun Ruler(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .height(R.size.value.resizerThickness.dp)
+                                .height(p6R.size.value.resizerThickness.dp)
                                 .fillMaxWidth()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomStart)
-                                .pointerHoverIcon(R.mouse.downResize)
+                                .pointerHoverIcon(p6R.mouse.downResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showRowResizeBarThumb(itemIndex,state)
                                 }
@@ -183,11 +183,11 @@ fun Ruler(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .width(R.size.value.resizerThickness.dp)
+                                .width(p6R.size.value.resizerThickness.dp)
                                 .fillMaxHeight()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomEnd)
-                                .pointerHoverIcon(R.mouse.rightResize)
+                                .pointerHoverIcon(p6R.mouse.rightResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showColResizeBarThumb(itemIndex,state)
                                 }

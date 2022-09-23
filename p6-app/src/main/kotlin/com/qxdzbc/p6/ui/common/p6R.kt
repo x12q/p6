@@ -8,8 +8,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButtonColors
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -18,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.build.DebugFunctions.debug
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraintImp
 import java.awt.Cursor
-object R {
+object p6R {
     const val defaultPythonConfigFile = "config/p6PythonDefaultConfig.json"
 
     object worksheetValue {
@@ -41,10 +39,11 @@ object R {
 
     object border {
         object mod {
+            val cursorBorder = Modifier.border(2.dp,Color.Blue)
             val black = Modifier.border(1.dp, Color.Black)
             val red = Modifier.border(1.dp, Color.Red)
             @Composable
-            fun textFieldBorderMod()=Modifier.border(1.dp,color= MaterialTheme.colors.onPrimary, shape = R.shape.textFieldShape)
+            fun textFieldBorderMod()=Modifier.border(1.dp,color= MaterialTheme.colors.onPrimary, shape = p6R.shape.textFieldShape)
         }
     }
 

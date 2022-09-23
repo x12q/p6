@@ -13,7 +13,7 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -95,7 +95,7 @@ fun CellGridView(
                         val cellAddress = CellAddress(colIndex, rowIndex)
 //                        val cell = wsState.worksheet.getCell(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
-                        val height = wsState.getRowHeight(rowIndex) ?: R.size.value.defaultRowHeight
+                        val height = wsState.getRowHeight(rowIndex) ?: p6R.size.value.defaultRowHeight
 
                         // x: pick border style base on the cell position
                         val bs =

@@ -24,7 +24,7 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
@@ -32,7 +32,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
     override val table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
-    override val rangeConstraint: RangeConstraint = R.worksheetValue.defaultRangeConstraint,
+    override val rangeConstraint: RangeConstraint = p6R.worksheetValue.defaultRangeConstraint,
 ) : BaseWorksheet() {
 
 
@@ -42,7 +42,7 @@ data class WorksheetImp(
         fun fromCellList(
             name: String,
             cellList: List<Ms<Cell>> = emptyList(),
-            rangeConstraint: RangeConstraint = R.worksheetValue.defaultRangeConstraint,
+            rangeConstraint: RangeConstraint = p6R.worksheetValue.defaultRangeConstraint,
             wbKeyMs: Ms<WorkbookKey>,
         ): WorksheetImp {
             return WorksheetImp(
@@ -74,7 +74,7 @@ data class WorksheetImp(
         nameMs: Ms<String>,
         wbKeySt: St<WorkbookKey>,
         table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
-        rangeConstraint: RangeConstraint = R.worksheetValue.defaultRangeConstraint,
+        rangeConstraint: RangeConstraint = p6R.worksheetValue.defaultRangeConstraint,
     ) : this(
         idMs = ms(
             WorksheetIdImp(

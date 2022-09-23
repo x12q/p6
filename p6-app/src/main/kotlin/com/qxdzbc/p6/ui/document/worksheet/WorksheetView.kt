@@ -13,11 +13,10 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.app.app_context.P6GlobalAccessPoint
 import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -29,7 +28,6 @@ import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBar
 import com.qxdzbc.p6.ui.document.worksheet.ruler.Ruler
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
-import kotlinx.coroutines.CoroutineScope
 
 
 /**
@@ -60,8 +58,8 @@ fun WorksheetView(
                         style = BorderStyle.BOT_RIGHT,
                         modifier = Modifier.size(
                             DpSize(
-                                R.size.value.rowRulerWidth.dp,
-                                R.size.value.defaultRowHeight.dp
+                                p6R.size.value.rowRulerWidth.dp,
+                                p6R.size.value.defaultRowHeight.dp
                             )
                         )
                     ) {
@@ -75,7 +73,7 @@ fun WorksheetView(
                         Ruler(
                             state = wsState.colRulerState,
                             rulerAction = colRulerAction,
-                            size = R.size.value.defaultRowHeight
+                            size = p6R.size.value.defaultRowHeight
                         )
                     }
                 }
@@ -86,7 +84,7 @@ fun WorksheetView(
                             //x: this is row ruler
                             state = wsState.rowRulerState,
                             rulerAction = rowRulerAction,
-                            size = R.size.value.rowRulerWidth
+                            size = p6R.size.value.rowRulerWidth
                         )
                     }
                     MBox(

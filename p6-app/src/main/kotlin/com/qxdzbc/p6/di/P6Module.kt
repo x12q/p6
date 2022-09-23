@@ -28,7 +28,7 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.common.color_generator.*
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import com.qxdzbc.p6.ui.kernel.KernelActionImp
@@ -162,13 +162,13 @@ interface P6Module {
         @Provides
         @DefaultColRangeQualifier
         fun defaultColRange(): IntRange {
-            return R.worksheetValue.defaultColRange
+            return p6R.worksheetValue.defaultColRange
         }
 
         @Provides
         @DefaultRowRangeQualifier
         fun defaultRowRange(): IntRange {
-            return R.worksheetValue.defaultRowRange
+            return p6R.worksheetValue.defaultRowRange
         }
 
         @Provides

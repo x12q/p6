@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.oddity.ErrMsg
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTable
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
@@ -84,7 +84,7 @@ fun ScriptEditor(
                 }
             }
             Column {
-                BorderBox(style = BorderStyle.BOT, modifier = R.composite.mod.stdBar) {
+                BorderBox(style = BorderStyle.BOT, modifier = p6R.composite.mod.stdBar) {
                     Row {
                         Button(onClick = {
                             textArea?.text?.also {

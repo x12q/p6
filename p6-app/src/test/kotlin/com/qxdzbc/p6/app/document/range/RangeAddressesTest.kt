@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddressImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.github.michaelbull.result.Ok
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,15 +22,15 @@ class RangeAddressesTest {
             "A$1:\$B2" to RangeAddressImp(CellAddress("A$1"), CellAddress("\$B2")),
             "\$A$1:\$B$2" to RangeAddressImp(CellAddress("\$A$1"), CellAddress("\$B$2")),
             "A1:B32" to RangeAddressImp(CellAddress("A1"), CellAddress("B32")),
-            "F:X" to RangeAddressImp(CellAddress("F1"), CellAddress("X${R.worksheetValue.rowLimit}")),
-            "\$F:\$X" to RangeAddressImp(CellAddress("\$F$1"), CellAddress("\$X$${R.worksheetValue.rowLimit}")),
+            "F:X" to RangeAddressImp(CellAddress("F1"), CellAddress("X${p6R.worksheetValue.rowLimit}")),
+            "\$F:\$X" to RangeAddressImp(CellAddress("\$F$1"), CellAddress("\$X$${p6R.worksheetValue.rowLimit}")),
             "33:44" to RangeAddressImp(
                 CellAddress("A33"),
-                CellAddress(CellLabelNumberSystem.numberToLabel(R.worksheetValue.colLimit) + "44")
+                CellAddress(CellLabelNumberSystem.numberToLabel(p6R.worksheetValue.colLimit) + "44")
             ),
             "\$33:\$44" to RangeAddressImp(
                 CellAddress("\$A$33"),
-                CellAddress("\$" + CellLabelNumberSystem.numberToLabel(R.worksheetValue.colLimit) + "$44")
+                CellAddress("\$" + CellLabelNumberSystem.numberToLabel(p6R.worksheetValue.colLimit) + "$44")
             )
         )
 
@@ -75,14 +75,14 @@ class RangeAddressesTest {
     fun wholeCol() {
         val p = RangeAddresses.wholeCol(333)
         assertEquals(CellAddresses.fromIndices(333, 1), p.topLeft)
-        assertEquals(CellAddresses.fromIndices(333, R.worksheetValue.rowLimit), p.botRight)
+        assertEquals(CellAddresses.fromIndices(333, p6R.worksheetValue.rowLimit), p.botRight)
     }
 
     @Test
     fun wholeRow() {
         val p = RangeAddresses.wholeRow(312)
         assertEquals(CellAddresses.fromIndices(1, 312), p.topLeft)
-        assertEquals(CellAddresses.fromIndices(R.worksheetValue.colLimit, 312), p.botRight)
+        assertEquals(CellAddresses.fromIndices(p6R.worksheetValue.colLimit, 312), p.botRight)
     }
 
     @Test
@@ -97,7 +97,7 @@ class RangeAddressesTest {
     fun wholeMultiRow() {
         val p = RangeAddresses.wholeMultiRow(2, 4)
         assertEquals(CellAddress(1, 2), p.topLeft)
-        assertEquals(CellAddress(R.worksheetValue.colLimit, 4), p.botRight)
+        assertEquals(CellAddress(p6R.worksheetValue.colLimit, 4), p.botRight)
         assertEquals(RangeAddresses.wholeMultiRow(2, 4), RangeAddresses.wholeMultiRow(4, 2))
     }
 
@@ -105,7 +105,7 @@ class RangeAddressesTest {
     fun wholeMultiCol() {
         val p = RangeAddresses.wholeMultiCol(2, 4)
         assertEquals(CellAddress(2, 1), p.topLeft)
-        assertEquals(CellAddress(4, R.worksheetValue.rowLimit), p.botRight)
+        assertEquals(CellAddress(4, p6R.worksheetValue.rowLimit), p.botRight)
         assertEquals(RangeAddresses.wholeMultiCol(2, 4), RangeAddresses.wholeMultiCol(4, 2))
     }
 }

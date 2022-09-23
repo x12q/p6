@@ -28,6 +28,7 @@ import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.CellEditorView
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
@@ -98,7 +99,7 @@ fun CursorView(
                     .focusable(true)
                     .offset { anchorOffset }
                     .size(anchorSize)
-                    .border(2.dp,Color.Blue)
+                    .then(p6R.border.mod.cursorBorder)
                     .then(if (enableTestTag) Modifier.testTag(makeCursorTestTag()) else Modifier)
                     .onPreviewKeyEvent { keyEvent ->
                         cursorAction.handleKeyboardEvent(keyEvent.toPKeyEvent(), state)

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.di.state.ws
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -46,13 +46,13 @@ interface WorksheetStateModule {
         @Provides
         @DefaultVisibleRowRange
         fun DefaultVisibleRowRange():IntRange{
-            return R.worksheetValue.defaultVisibleRowRange
+            return p6R.worksheetValue.defaultVisibleRowRange
         }
 
         @Provides
         @DefaultVisibleColRange
         fun DefaultVisibleColRange():IntRange{
-            return R.worksheetValue.defaultVisibleColRange
+            return p6R.worksheetValue.defaultVisibleColRange
         }
 
 
@@ -71,13 +71,13 @@ interface WorksheetStateModule {
         @Provides
         @DefaultColResizeBarStateMs
         fun ResizeColBarStateMs(): Ms<ResizeBarState> {
-            return ms(ResizeBarStateImp(dimen = RulerType.Col, size = R.size.value.defaultRowHeight))
+            return ms(ResizeBarStateImp(dimen = RulerType.Col, size = p6R.size.value.defaultRowHeight))
         }
 
         @Provides
         @DefaultRowResizeBarStateMs
         fun ResizeRowBarStateMs(): Ms<ResizeBarState> {
-            return ms(ResizeBarStateImp(dimen = RulerType.Row, size = R.size.value.rowRulerWidth))
+            return ms(ResizeBarStateImp(dimen = RulerType.Row, size = p6R.size.value.rowRulerWidth))
         }
 
         @Provides
@@ -89,7 +89,7 @@ interface WorksheetStateModule {
         @Provides
         @DefaultRangeConstraint
         fun DefaultRangeConstraint(): RangeConstraint {
-            return R.worksheetValue.defaultRangeConstraint
+            return p6R.worksheetValue.defaultRangeConstraint
         }
 
         @Provides

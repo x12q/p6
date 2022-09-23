@@ -12,12 +12,16 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.key_event.PKeyEvent.Companion.toPKeyEvent
-import com.qxdzbc.p6.app.build.DebugFunctions.debug
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.common.p6R
 
+/**
+ * Note: the editor should be white, has a border identical to cursor border
+ */
 @Composable
 fun CellEditorView(
     state: CellEditorState,
@@ -36,6 +40,7 @@ fun CellEditorView(
         modifier = modifier
             .then(sizeMod)
             .background(Color.White)
+            .then(p6R.border.mod.cursorBorder)
     ) {
         UseP6TextSelectionColor {
             BasicTextField(
@@ -56,5 +61,11 @@ fun CellEditorView(
         if(isFocused){
             fc.requestFocus()
         }
+    }
+}
+
+fun main(){
+    testApp {
+
     }
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
@@ -55,7 +55,7 @@ fun SheetTabView(
                 Text(state.sheetName,
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .then(R.text.mod.smallBoxPadding)
+                        .then(p6R.text.mod.smallBoxPadding)
                     ,
                     textAlign = TextAlign.Center,
                     maxLines = 1,

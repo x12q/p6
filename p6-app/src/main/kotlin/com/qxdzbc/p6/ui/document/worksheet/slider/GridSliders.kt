@@ -1,9 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.slider
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.common.R
+import com.qxdzbc.p6.ui.common.p6R
 
 
 
@@ -13,10 +10,10 @@ object GridSliders {
     }
 
     fun create(
-        visibleColRange: IntRange = R.worksheetValue.defaultVisibleColRange,
-        visibleRowRange: IntRange = R.worksheetValue.defaultVisibleRowRange,
-        colLimit: IntRange = R.worksheetValue.defaultColRange,
-        rowLimit: IntRange = R.worksheetValue.defaultRowRange,
+        visibleColRange: IntRange = p6R.worksheetValue.defaultVisibleColRange,
+        visibleRowRange: IntRange = p6R.worksheetValue.defaultVisibleRowRange,
+        colLimit: IntRange = p6R.worksheetValue.defaultColRange,
+        rowLimit: IntRange = p6R.worksheetValue.defaultRowRange,
     ): GridSlider {
         return LimitedSlider(
             slider = GridSliderImp(
