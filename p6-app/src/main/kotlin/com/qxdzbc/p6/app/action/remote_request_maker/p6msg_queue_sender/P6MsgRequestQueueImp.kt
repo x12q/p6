@@ -1,7 +1,6 @@
-package com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender
+package com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender
 
-import com.qxdzbc.p6.app.action.request_maker.P6MessageSender
-import com.qxdzbc.p6.di.EventServerSocket
+import com.qxdzbc.p6.app.action.remote_request_maker.P6MessageSender
 import org.zeromq.ZMQ.Socket
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue

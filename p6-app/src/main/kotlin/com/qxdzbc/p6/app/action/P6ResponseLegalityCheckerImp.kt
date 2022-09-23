@@ -8,6 +8,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrapError
 import javax.inject.Inject
 
+@Deprecated("don't use, this is kept for just-in-case purposes only")
 class P6ResponseLegalityCheckerImp @Inject constructor(
     private val errorRouter: ErrorRouter,
 ) : P6ResponseLegalityChecker {

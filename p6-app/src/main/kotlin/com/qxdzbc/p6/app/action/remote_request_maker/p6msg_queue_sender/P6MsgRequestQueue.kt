@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender
+package com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender
 
 /**
  * A queue for request to back end, this ensure that:

@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.request_maker
+package com.qxdzbc.p6.app.action.remote_request_maker
 
 import com.qxdzbc.p6.app.communication.res_req_template.ToP6Msg
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.*
@@ -9,7 +9,7 @@ import javax.inject.Inject
  * Provide sending method for a number of template request
  */
 class TemplateRMImp @Inject constructor(
-    private val base: BaseRM,
+    private val base: BaseRemoteRM,
     private val p6ErrHandler: P6ResponseErrorHandler,
 ) : TemplateRM {
 

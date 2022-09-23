@@ -36,6 +36,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 
+@Deprecated("don't use, this is kept for just-in-case purposes only")
 object P6Events {
 
     val unknown = P6Event("__0__", "Unknown event")

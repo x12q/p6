@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.request_maker
+package com.qxdzbc.p6.app.action.remote_request_maker
 
 import com.qxdzbc.p6.app.action.P6ResponseLegalityChecker
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Message
@@ -7,11 +7,11 @@ import com.qxdzbc.p6.ui.common.msg_api.isOk
 import org.zeromq.ZMQ
 import javax.inject.Inject
 
-class BaseRMImp @Inject constructor(
+class BaseRemoteRMImp @Inject constructor(
     @com.qxdzbc.p6.di.EventServerSocket val eventServerSocket: ZMQ.Socket,
     private val sender: P6MessageSender,
     private val legalityChecker: P6ResponseLegalityChecker,
-) : BaseRM {
+) : BaseRemoteRM {
     @Synchronized
     override fun send(p6Message: P6Message): P6Response {
         return sender.send(p6Message, eventServerSocket)

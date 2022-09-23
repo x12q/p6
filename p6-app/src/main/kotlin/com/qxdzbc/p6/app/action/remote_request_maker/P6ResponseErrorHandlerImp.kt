@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.request_maker
+package com.qxdzbc.p6.app.action.remote_request_maker
 
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey

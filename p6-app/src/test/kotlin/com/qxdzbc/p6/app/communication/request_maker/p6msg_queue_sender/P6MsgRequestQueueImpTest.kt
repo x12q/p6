@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.communication.request_maker.p6msg_queue_sender
 
-import com.qxdzbc.p6.app.action.request_maker.P6MessageSender
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueueImp
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.RequestQueueJob
+import com.qxdzbc.p6.app.action.remote_request_maker.P6MessageSender
+import com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender.P6MsgRequestQueueImp
+import com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender.RequestQueueJob
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.*
 import com.google.protobuf.kotlin.toByteStringUtf8
 import kotlinx.coroutines.CompletableDeferred

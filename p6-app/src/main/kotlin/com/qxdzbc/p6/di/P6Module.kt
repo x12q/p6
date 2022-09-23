@@ -9,9 +9,9 @@ import com.qxdzbc.common.file_util.FileUtil
 import com.qxdzbc.common.file_util.FileUtilImp
 import com.qxdzbc.p6.app.action.P6ResponseLegalityChecker
 import com.qxdzbc.p6.app.action.P6ResponseLegalityCheckerImp
-import com.qxdzbc.p6.app.action.request_maker.*
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueue
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueueImp
+import com.qxdzbc.p6.app.action.remote_request_maker.*
+import com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender.P6MsgRequestQueue
+import com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender.P6MsgRequestQueueImp
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.code.PythonCommander
@@ -37,12 +37,10 @@ import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouterImp
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import org.zeromq.SocketType
 import org.zeromq.ZContext
 import org.zeromq.ZMQ
-import com.qxdzbc.p6.app.action.request_maker.QueueRequestMaker as QueueRequestMaker1
+import com.qxdzbc.p6.app.action.remote_request_maker.QueueRequestMaker as QueueRequestMaker1
 
 
 @Module

@@ -1,7 +1,5 @@
-package com.qxdzbc.p6.app.action.request_maker
+package com.qxdzbc.p6.app.action.remote_request_maker
 
-import com.qxdzbc.p6.app.communication.res_req_template.ToP6Msg
-import com.qxdzbc.p6.app.communication.res_req_template.request.*
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.*
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
 

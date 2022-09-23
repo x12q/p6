@@ -1,7 +1,7 @@
-package com.qxdzbc.p6.app.action.request_maker
+package com.qxdzbc.p6.app.action.remote_request_maker
 
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.P6MsgRequestQueue
-import com.qxdzbc.p6.app.action.request_maker.p6msg_queue_sender.RequestQueueJob
+import com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender.P6MsgRequestQueue
+import com.qxdzbc.p6.app.action.remote_request_maker.p6msg_queue_sender.RequestQueueJob
 import com.qxdzbc.p6.app.action.P6ResponseLegalityChecker
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Message
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
