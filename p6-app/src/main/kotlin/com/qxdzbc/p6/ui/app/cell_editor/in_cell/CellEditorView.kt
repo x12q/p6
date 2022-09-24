@@ -9,15 +9,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.key_event.PKeyEvent.Companion.toPKeyEvent
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.common.p6R
 
 /**
@@ -28,15 +27,22 @@ fun CellEditorView(
     state: CellEditorState,
     action: CellEditorAction,
     isFocused:Boolean,
-    defaultSize: DpSize = DpSize(100.dp,50.dp),
+    size: DpSize = DpSize(400.dp,50.dp),
     modifier: Modifier = Modifier
 ) {
     val fc = remember { FocusRequester() }
     val sizeMod = if (state.isActive) {
-        Modifier.defaultMinSize(defaultSize.width, defaultSize.height)
+        Modifier.widthIn(min=size.width).heightIn(min = size.height).width(IntrinsicSize.Min)
     } else {
         Modifier.size(0.dp, 0.dp)
     }
+
+    val boxSizeMod = if (state.isActive) {
+        Modifier
+    } else {
+        Modifier.size(0.dp, 0.dp)
+    }
+
     LaunchedEffect(isFocused) {
         if(isFocused){
             fc.requestFocus()
@@ -45,10 +51,10 @@ fun CellEditorView(
 
     MBox(
         modifier = modifier
-            .then(sizeMod)
+            .then(boxSizeMod)
             .background(Color.White)
             .then(p6R.border.mod.cursorBorder)
-            .then(p6R.padding.mod.stdTextFieldPadding)
+
     ) {
         UseP6TextSelectionColor {
             BasicTextField(
@@ -56,9 +62,11 @@ fun CellEditorView(
                 onValueChange = {
                     action.updateTextField(it)
                 },
+
                 modifier = Modifier
+                    .then(sizeMod)
+                    .then(p6R.padding.mod.stdTextFieldPadding)
                     .focusRequester(fc)
-//                    .width(IntrinsicSize.Min)
                     .onPreviewKeyEvent {
                         action.handleKeyboardEvent(it.toPKeyEvent())
                     }

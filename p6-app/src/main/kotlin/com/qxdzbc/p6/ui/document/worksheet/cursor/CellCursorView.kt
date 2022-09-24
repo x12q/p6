@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
@@ -92,7 +90,7 @@ fun CursorView(
                 state = state.cellEditorState,
                 action = worksheetActionTable.cellEditorAction,
                 isFocused = focusState.isEditorFocused,
-                defaultSize = anchorSize,
+                size = anchorSize,
             )
         }
 
