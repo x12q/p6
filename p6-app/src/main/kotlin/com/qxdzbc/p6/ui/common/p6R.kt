@@ -44,8 +44,6 @@ object p6R {
             val cursorBorder = Modifier.border(2.dp,Color.Blue)
             val black = Modifier.border(1.dp, Color.Black)
             val red = Modifier.border(1.dp, Color.Red)
-            @Composable
-            fun textFieldBorderMod()=Modifier.border(1.dp,color= MaterialTheme.colors.onPrimary, shape = p6R.shape.textFieldShape)
         }
     }
 

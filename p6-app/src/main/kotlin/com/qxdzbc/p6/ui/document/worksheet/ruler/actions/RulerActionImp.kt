@@ -208,7 +208,7 @@ class RulerActionImp @Inject constructor(
             appState.getWsState(rulerState)?.also { wsState ->
                 var selectRectState by rulerState.itemSelectRectMs
                 val rulerLayout = rulerState.rulerLayout
-                val mouseWindowPos = if (rulerLayout != null && rulerLayout.isAttached()) {
+                val mouseWindowPos = if (rulerLayout != null && rulerLayout.isAttached) {
                     rulerLayout.localToWindow(mousePosition)
                 } else {
                     mousePosition
@@ -225,7 +225,7 @@ class RulerActionImp @Inject constructor(
             var cursorState by wsState.cursorStateMs
             if (selectRectState.isActive) {
                 val rulerLayout = rulerState.rulerLayout
-                val mouseWindowPos = if (rulerLayout != null && rulerLayout.isAttached()) {
+                val mouseWindowPos = if (rulerLayout != null && rulerLayout.isAttached) {
                     rulerLayout.localToWindow(mousePosition)
                 } else {
                     mousePosition

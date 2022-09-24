@@ -36,7 +36,7 @@ enum class BorderStyle {
             return debug(ALL)
         }
         fun EnumSet<BorderStyle>.debug(debugValue:EnumSet<BorderStyle>):EnumSet<BorderStyle>{
-            return if(BuildConfig.currentFlavor == BuildVariant.DEBUG){
+            return if(BuildConfig.buildVariant == BuildVariant.DEBUG){
                 debugValue
             }else{
                 NONE

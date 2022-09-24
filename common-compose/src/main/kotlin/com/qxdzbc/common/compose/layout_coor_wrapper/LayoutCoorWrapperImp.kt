@@ -36,7 +36,7 @@ data class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : Layout
         return this.layout.windowToLocal(window)
     }
 
-    override fun isAttached(): Boolean {
+    override val isAttached: Boolean get() {
         return layout.isAttached
     }
 

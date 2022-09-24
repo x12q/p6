@@ -73,10 +73,5 @@ fun CellEditorView(
             )
         }
     }
-//    SideEffect {
-//        if(isFocused){
-//            fc.requestFocus()
-//        }
-//    }
 }
 

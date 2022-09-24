@@ -14,7 +14,7 @@ abstract class BaseWindowState : WindowState {
             wbk?.also {
                 l.add(wbk.name)
             }
-            if(BuildConfig.currentFlavor == BuildVariant.DEBUG){
+            if(BuildConfig.buildVariant == BuildVariant.DEBUG){
                 l.add("wdId[${this.id}]")
             }
             return l.joinToString(" - ")

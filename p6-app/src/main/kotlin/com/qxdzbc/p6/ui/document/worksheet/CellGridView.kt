@@ -22,6 +22,8 @@ import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
+import com.qxdzbc.p6.app.build.BuildConfig
+import com.qxdzbc.p6.app.build.BuildVariant
 import com.qxdzbc.p6.ui.document.cell.EmptyCellView
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRect
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
@@ -146,10 +148,12 @@ fun CellGridView(
             } else {
                 wsState.selectRectState.rect.topLeft
             }
-            SelectRect(
-                wsState.selectRectStateMs.value,
-                position = pos
-            )
+            if(BuildConfig.buildVariant == BuildVariant.DEBUG){
+                SelectRect(
+                    wsState.selectRectStateMs.value,
+                    position = pos
+                )
+            }
         }
     }
 
