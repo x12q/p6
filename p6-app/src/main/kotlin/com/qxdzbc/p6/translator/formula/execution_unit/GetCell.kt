@@ -6,9 +6,12 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -23,6 +26,11 @@ data class GetCell(
     val cellAddressUnit: CellAddressUnit,
     val functionMapSt: St<FunctionMap>,
 ) : ExUnit, BaseFunc() {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun runRs(): Result<Cell, ErrorReport> {
+        return super.runRs() as Result<Cell, ErrorReport>
+    }
 
     override val functionMap by functionMapSt
     override val args: List<ExUnit>

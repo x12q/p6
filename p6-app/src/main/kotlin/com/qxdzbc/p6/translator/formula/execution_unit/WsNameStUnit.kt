@@ -28,7 +28,7 @@ value class WsNameStUnit(val nameSt: St<String>) : ExUnit {
         }
     }
 
-    override fun run(): Result<St<String>, ErrorReport> {
+    override fun runRs(): Result<St<String>, ErrorReport> {
         return Ok(nameSt)
     }
 }

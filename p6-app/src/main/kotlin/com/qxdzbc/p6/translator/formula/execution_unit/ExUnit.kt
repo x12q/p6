@@ -5,22 +5,17 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 /**
- * An ExUnit (execution unit) is an obj representing a formula, when it is run it will return something that can be stored by a Cell.
+ * An ExUnit (execution unit) is an obj representing a formula, when it runs it will return something that can be stored by a Cell.
  */
 interface ExUnit : Shiftable, ColorKey {
     /**
@@ -29,6 +24,7 @@ interface ExUnit : Shiftable, ColorKey {
     fun getCellRangeExUnit(): List<ExUnit> {
         return emptyList()
     }
+
     /**
      * get a list of range ExUnit (if any) from this unit
      */
@@ -39,10 +35,13 @@ interface ExUnit : Shiftable, ColorKey {
     /**
      * get a list of range id ExUnit (if any) from this unit
      */
-    fun getRangeIds():List<RangeId> {
+    fun getRangeIds(): List<RangeId> {
         return emptyList()
     }
 
+    /**
+     * convert this ExUnit back into a formula string in which each range/cell address is colored.
+     */
     fun toColorFormula(
         colorProvider: ColorProvider,
         wbKey: WorkbookKey?,
@@ -78,35 +77,20 @@ interface ExUnit : Shiftable, ColorKey {
     fun toFormula(
     ): String?
 
+    /**
+     * convert exUnit to a short formula in which workbook key and worksheet name in range and cell address maybe obmitted if they are the same as the input [wbKey] and [wsName]
+     */
     fun toShortFormula(
         wbKey: WorkbookKey? = null,
         wsName: String? = null
     ): String?
 
     /**
-     * when this run, it returns something
+     * returns something that can be stored in a cell.
      */
-    fun run(): Result<Any, ErrorReport>
-
-    companion object {
-        /**
-         * extract value from a variable [r1], if it is a cell, return the value inside the cell, otherwise, return [r1] itself.
-         * @param defaultValue: default value for when [r1] is a cell and empty
-         */
-        fun extractR(r1: Any, defaultValue: Any = 0): Any {
-            val trueR1 = when (r1) {
-                is Cell -> r1.valueAfterRun ?: defaultValue
-                is Range -> {
-                    if (r1.isCell) {
-                        r1.cells[0].valueAfterRun ?: defaultValue
-                    } else {
-                        r1
-                    }
-                }
-                else -> r1
-            }
-            return trueR1
-        }
+    fun runRs(): Result<Any, ErrorReport>
+    fun run(): Any? {
+        return runRs().component1()
     }
 }
 

@@ -34,18 +34,6 @@ class P6FunctionDefinitionsImp @Inject constructor(
      * A list of internal function for getting wb, ws, range, cell
      */
     private val documentFunctions = listOf(
-        // this function is currently not need => comment it out
-//        object : AbstractFunctionDef() {
-//            fun getWsRs(
-//                wbkSt: St<WorkbookKey>,
-//                wsNameSt: St<String>,
-//            ): Rs<Worksheet, ErrorReport> {
-//                return docCont.getWsRs(wbkSt, wsNameSt)
-//            }
-//
-//            override val name: String = P6FunctionDefinitions.getSheetRs
-//            override val function: KFunction<Any> = ::getWsRs
-//        },
         object : AbstractFunctionDef() {
             fun getLazyRangeRs(
                 wbKeySt: St<WorkbookKey>,

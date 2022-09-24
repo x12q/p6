@@ -37,7 +37,7 @@ data class CellAddressUnit(val cellAddress: CellAddress) : ExUnit {
         return cellAddress.toLabel()
     }
 
-    override fun run(): Result<CellAddress, ErrorReport> {
+    override fun runRs(): Result<CellAddress, ErrorReport> {
         return Ok(cellAddress)
     }
 }

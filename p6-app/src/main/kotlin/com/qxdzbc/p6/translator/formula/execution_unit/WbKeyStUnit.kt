@@ -37,7 +37,7 @@ data class WbKeyStUnit(val wbKeySt: St<WorkbookKey>) : ExUnit {
         }
     }
 
-    override fun run(): Result<St<WorkbookKey>, ErrorReport> {
+    override fun runRs(): Result<St<WorkbookKey>, ErrorReport> {
         return Ok(wbKeySt)
     }
 }

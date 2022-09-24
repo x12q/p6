@@ -5,6 +5,9 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
 abstract class BaseCell : Cell {
+    override fun reRun(): Cell? {
+        return reRunRs().component1()
+    }
 
     override fun isSimilar(c: Cell): Boolean {
         val sameAddress = address == c.address

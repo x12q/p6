@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 
-data class Func(
+data class FuncUnit(
     override val funcName: String,
     override val args: List<ExUnit>,
     val functionMapSt: St<FunctionMap>,

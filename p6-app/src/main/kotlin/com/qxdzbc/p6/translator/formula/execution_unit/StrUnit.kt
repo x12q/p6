@@ -28,7 +28,7 @@ value class StrUnit(val v: String) : ExUnit {
         return "\"${v}\""
     }
 
-    override fun run(): Result<String, ErrorReport> {
+    override fun runRs(): Result<String, ErrorReport> {
         return Ok(v)
     }
 }

@@ -16,9 +16,9 @@ abstract class BaseFunc : ExUnit {
     abstract val funcName: String
 
     @Suppress("UNCHECKED_CAST")
-    override fun run(): Result<Any, ErrorReport> {
+    override fun runRs(): Result<Any, ErrorReport> {
         try{
-            val argValueRs: Array<Result<Any, ErrorReport>> = (args.map { it.run() }.toTypedArray())
+            val argValueRs: Array<Result<Any, ErrorReport>> = (args.map { it.runRs() }.toTypedArray())
             val funcRs: Rs<FunctionDef, ErrorReport> = functionMap.getFuncRs(funcName)
             when (funcRs) {
                 is Ok -> {

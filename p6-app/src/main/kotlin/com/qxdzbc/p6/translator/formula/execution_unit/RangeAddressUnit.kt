@@ -37,7 +37,7 @@ data class RangeAddressUnit(val rangeAddress: RangeAddress) : ExUnit {
         return rangeAddress.label
     }
 
-    override fun run(): Result<RangeAddress, ErrorReport> {
+    override fun runRs(): Result<RangeAddress, ErrorReport> {
         return Ok(rangeAddress)
     }
 }

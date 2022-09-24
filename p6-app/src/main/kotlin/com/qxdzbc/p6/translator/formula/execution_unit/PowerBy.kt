@@ -9,10 +9,10 @@ import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.extractR
 import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
 import kotlin.math.pow
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnits.extractFromCellOrNull
 
 /**
  * ExUnit for "^" operator
@@ -77,13 +77,13 @@ data class PowerBy(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         }
     }
 
-    override fun run(): Result<Double, ErrorReport> {
-        val r1Rs = u1.run()
+    override fun runRs(): Result<Double, ErrorReport> {
+        val r1Rs = u1.runRs()
         val rt = r1Rs.andThen { r1 ->
-            val r2Rs = u2.run()
+            val r2Rs = u2.runRs()
             r2Rs.andThen { r2 ->
-                val trueR1 = extractR(r1)
-                val trueR2 = extractR(r2)
+                val trueR1 = extractFromCellOrNull(r1)?:0
+                val trueR2 = extractFromCellOrNull(r2)?:0
                 if (trueR1 is Number && trueR2 is Number) {
                     Ok(trueR1.toDouble().pow(trueR2.toDouble()))
                 } else {

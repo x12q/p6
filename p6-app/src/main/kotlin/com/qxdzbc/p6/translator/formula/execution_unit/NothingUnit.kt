@@ -22,7 +22,7 @@ object NothingUnit : ExUnit {
         return null
     }
 
-    override fun run(): Result<Unit, ErrorReport> {
+    override fun runRs(): Result<Unit, ErrorReport> {
         return Ok(Unit)
     }
 }

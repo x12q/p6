@@ -11,6 +11,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
  * a [Cell] implementation that is not tied to workbook key state nor worksheet name state.
+ * For test and data transition only
  */
 data class IndCellImp(
     override val address: CellAddress,
@@ -44,10 +45,6 @@ data class IndCellImp(
             address=newAddress,
             content = newContent
         )
-    }
-
-    override fun reRun(): Cell? {
-        return reRunRs().component1()
     }
 
     override fun reRunRs(): Rse<Cell> {

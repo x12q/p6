@@ -6,14 +6,14 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-data class IntNum(val _v: Int) : NumberUnit(_v) {
+data class IntNum(val v: Int) :ExUnit {
     companion object{
         fun Int.exUnit(): IntNum {
             return IntNum(this)
         }
     }
-    override fun run(): Result<Int, ErrorReport> {
-        return Ok(this.v as Int)
+    override fun runRs(): Result<Int, ErrorReport> {
+        return Ok(this.v)
     }
 
     override fun shift(
@@ -24,11 +24,11 @@ data class IntNum(val _v: Int) : NumberUnit(_v) {
     }
 
     override fun toFormula(): String {
-        return this._v.toString()
+        return this.v.toString()
     }
 
     override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
-        return _v.toString()
+        return v.toString()
     }
 }
 

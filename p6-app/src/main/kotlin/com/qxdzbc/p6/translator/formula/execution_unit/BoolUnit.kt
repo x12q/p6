@@ -31,7 +31,7 @@ value class BoolUnit(val v: Boolean) : ExUnit {
         return v.toTF()
     }
 
-    override fun run(): Result<Boolean, ErrorReport> {
+    override fun runRs(): Result<Boolean, ErrorReport> {
         return Ok(v)
     }
 }

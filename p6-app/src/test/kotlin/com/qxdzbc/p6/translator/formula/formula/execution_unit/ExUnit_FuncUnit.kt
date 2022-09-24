@@ -1,19 +1,18 @@
 package com.qxdzbc.p6.translator.formula.formula.execution_unit
 
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.Func
+import com.qxdzbc.p6.translator.formula.execution_unit.FuncUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.IntNum.Companion.exUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.exUnit
 import org.mockito.kotlin.mock
 import kotlin.test.*
 
-internal class ExUnit_Func {
+internal class ExUnit_FuncUnit {
 
     @Test
     fun toFormula() {
-        val u = Func(
+        val u = FuncUnit(
             funcName = "qwe",
             args = listOf(
                 1.exUnit(),

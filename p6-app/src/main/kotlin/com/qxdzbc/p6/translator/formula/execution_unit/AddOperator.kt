@@ -76,13 +76,13 @@ data class AddOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         }
     }
 
-    override fun run(): Result<Any, ErrorReport> {
-        val r1Rs = u1.run()
+    override fun runRs(): Result<Any, ErrorReport> {
+        val r1Rs = u1.runRs()
         val rt: Result<Any, ErrorReport> = r1Rs.andThen { r1 ->
-            val r2Rs = u2.run()
+            val r2Rs = u2.runRs()
             r2Rs.andThen { r2 ->
-                val trueR1 = ExUnit.extractR(r1)
-                val trueR2 = ExUnit.extractR(r2, "")
+                val trueR1 = ExUnits.extractFromCellOrNull(r1)?:0
+                val trueR2 = ExUnits.extractFromCellOrNull(r2)?:0
                 when {
                     trueR1 is Number && trueR2 is Number -> return Ok(trueR1.toDouble() + (trueR2.toDouble()))
                     trueR1 is String -> {

@@ -13,7 +13,6 @@ import com.github.michaelbull.result.Ok
 import kotlin.test.*
 import kotlin.math.pow
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -93,12 +92,12 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate function call`() {
         val inputMap = mapOf(
-            "=F1(12,\"ax\",F2(A1),1+2.2)" to Func(
+            "=F1(12,\"ax\",F2(A1),1+2.2)" to FuncUnit(
                 funcName = "F1",
                 args = listOf(
                     IntNum(12),
                     StrUnit("ax"),
-                    Func(
+                    FuncUnit(
                         funcName = "F2",
                         args = listOf(
                             GetCell(
@@ -304,7 +303,7 @@ class JvmFormulaTranslatorTest {
         for ((i, o) in input) {
             val output = translator.translate(i)
             assertTrue (output is Ok,i)
-            assertEquals(Ok(o), output.component1()!!.run())
+            assertEquals(Ok(o), output.component1()!!.runRs())
         }
     }
 

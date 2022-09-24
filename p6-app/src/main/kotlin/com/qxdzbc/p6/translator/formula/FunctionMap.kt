@@ -13,7 +13,3 @@ interface FunctionMap : Map<String, FunctionDef> {
     fun addFunc(name:String, func: FunctionDef): FunctionMap
     fun removeFunc(name:String): FunctionMap
 }
-
-interface FunctionBackConverterMap {
-
-}

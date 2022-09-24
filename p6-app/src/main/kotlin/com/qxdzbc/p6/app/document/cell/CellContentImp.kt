@@ -98,7 +98,7 @@ data class CellContentImp(
         get() {
             if (exUnit != null) {
                 try {
-                    val cv: CellValue = CellValue.fromRs(exUnit.run())
+                    val cv: CellValue = CellValue.fromRs(exUnit.runRs())
                     cellValueMs.value = cv
                 } catch (e: Throwable) {
                     when (e) {
@@ -129,7 +129,7 @@ data class CellContentImp(
         if (this.exUnit == null) {
             return Ok(this)
         } else {
-            cellValueMs.value = CellValue.fromRs(exUnit.run())
+            cellValueMs.value = CellValue.fromRs(exUnit.runRs())
             return Ok(this)
         }
     }

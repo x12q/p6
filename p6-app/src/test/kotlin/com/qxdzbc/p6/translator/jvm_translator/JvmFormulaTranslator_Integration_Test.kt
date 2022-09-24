@@ -134,7 +134,7 @@ class JvmFormulaTranslator_Integration_Test {
             assertTrue { rs is Ok }
             val u = rs.component1()
             assertNotNull(u)
-            val oRs = u.run()
+            val oRs = u.runRs()
             if (expect is Ok) {
                 assertEquals(expect, oRs)
             } else {
