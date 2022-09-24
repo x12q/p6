@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.slider
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 
 /**
@@ -8,6 +9,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
  * A slider can shift its ranges up, down, left, right, but cannot change the width of the ranges.
  */
 interface GridSlider {
+    val currentDisplayedRange:RangeAddress
 
     /**
      * The top-left of a grid. This is the root of the slider

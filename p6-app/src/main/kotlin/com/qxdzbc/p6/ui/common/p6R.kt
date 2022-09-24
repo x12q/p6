@@ -10,6 +10,8 @@ import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -44,6 +46,15 @@ object p6R {
             val red = Modifier.border(1.dp, Color.Red)
             @Composable
             fun textFieldBorderMod()=Modifier.border(1.dp,color= MaterialTheme.colors.onPrimary, shape = p6R.shape.textFieldShape)
+        }
+    }
+
+    object canvas{
+        object stroke{
+            val dashLine = Stroke(
+                width = 2.0f,
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+            )
         }
     }
 

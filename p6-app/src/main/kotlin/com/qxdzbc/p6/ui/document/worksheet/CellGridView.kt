@@ -93,7 +93,6 @@ fun CellGridView(
                 ) {
                     for (rowIndex: Int in slider.visibleRowRange) {
                         val cellAddress = CellAddress(colIndex, rowIndex)
-//                        val cell = wsState.worksheet.getCell(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
                         val height = wsState.getRowHeight(rowIndex) ?: p6R.size.value.defaultRowHeight
 
@@ -141,9 +140,9 @@ fun CellGridView(
         }
 
         MBox {// this Mbox is for preventing massive cells re-drawing
-            val innerSheetlayout = wsState.cellGridLayoutCoors
-            val pos = if (innerSheetlayout != null && innerSheetlayout.isAttached) {
-                innerSheetlayout.windowToLocal(wsState.selectRectState.rect.topLeft)
+            val gridLayoutCoors = wsState.cellGridLayoutCoors
+            val pos = if (gridLayoutCoors != null && gridLayoutCoors.isAttached) {
+                gridLayoutCoors.windowToLocal(wsState.selectRectState.rect.topLeft)
             } else {
                 wsState.selectRectState.rect.topLeft
             }

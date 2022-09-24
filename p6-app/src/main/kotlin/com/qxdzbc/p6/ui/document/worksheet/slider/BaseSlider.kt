@@ -1,9 +1,12 @@
 package com.qxdzbc.p6.ui.document.worksheet.slider
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 
 abstract class BaseSlider : GridSlider {
+    override val currentDisplayedRange: RangeAddress
+        get() = RangeAddress(visibleColRange,visibleRowRange)
     override val lastVisibleColNotMargin: Int
         get() = if (marginCol != null) {
             maxOf(lastVisibleCol - 1, 0)
