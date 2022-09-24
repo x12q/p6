@@ -6,12 +6,12 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.common.compose.view.MBox
 
 fun main() {
-    TestApp {
+    P6TestApp {
         val st = rememberScrollState(0)
         val rst = rememberScrollState(0)
         MBox(

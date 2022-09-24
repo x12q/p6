@@ -106,7 +106,7 @@ fun Ruler(
                                 .fillMaxWidth()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomStart)
-                                .pointerHoverIcon(p6R.mouse.downResize)
+                                .pointerHoverIcon(p6R.mouse.icon.downResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showRowResizeBarThumb(itemIndex,state)
                                 }
@@ -187,7 +187,7 @@ fun Ruler(
                                 .fillMaxHeight()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomEnd)
-                                .pointerHoverIcon(p6R.mouse.rightResize)
+                                .pointerHoverIcon(p6R.mouse.icon.rightResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showColResizeBarThumb(itemIndex,state)
                                 }

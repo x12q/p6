@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
 import org.fife.ui.rtextarea.RTextScrollPane
@@ -18,7 +18,7 @@ import javax.swing.JButton
 import javax.swing.JPanel
 
 fun main(){
-    TestApp{
+    P6TestApp{
         SwingPanel(
             background = Color.White,
             modifier = Modifier.size(1000.dp, 500.dp),

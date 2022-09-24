@@ -7,6 +7,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 
 interface CellEditorState {
@@ -78,7 +79,7 @@ interface CellEditorState {
     fun clearAllText(): CellEditorState
 
     val isActiveMs: Ms<Boolean>
-    val isActive: Boolean
+    var isActive: Boolean
 
     val isActiveAndAllowRangeSelector:Boolean
 

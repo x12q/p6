@@ -50,7 +50,7 @@ class CursorAndCellEditorTest {
         val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
         cellEditorAction.openCellEditor(cursor1Ms.value)
         cellEditorAction.updateText("=SUM(B2:C4)")
-        cellEditorAction.runFormula()
+        cellEditorAction.runFormulaOrSaveValueToCell()
         cellEditorAction.openCellEditor(cursor1Ms.value)
         val formulaBar:FormulaBarState? = ts.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
 
@@ -357,7 +357,7 @@ class CursorAndCellEditorTest {
         cellEditorState = cellEditorState.setCurrentText("=1+2+3")
 
         // x: run the formula
-        cellEditorAction.runFormula()
+        cellEditorAction.runFormulaOrSaveValueToCell()
 
         //
         assertEquals(6.0, appState.getCell(targetWb, targetWsName, targetCell)?.currentCellValue?.currentValue)

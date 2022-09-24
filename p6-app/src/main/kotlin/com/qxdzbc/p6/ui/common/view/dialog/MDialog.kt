@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogState
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -69,7 +69,7 @@ fun MDialog(
     }
 }
 
-fun main() = TestApp {
+fun main() = P6TestApp {
     MaterialTheme(colors = P6AllWhiteColors, typography = P6DefaultTypoGraphy) {
         MDialog("Title ABC") {
             Text("QWE")

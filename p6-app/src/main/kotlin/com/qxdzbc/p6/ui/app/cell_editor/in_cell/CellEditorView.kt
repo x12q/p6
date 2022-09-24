@@ -17,6 +17,7 @@ import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.common.p6R
 
 /**
@@ -27,7 +28,7 @@ fun CellEditorView(
     state: CellEditorState,
     action: CellEditorAction,
     isFocused:Boolean,
-    defaultSize: DpSize,
+    defaultSize: DpSize = DpSize(100.dp,50.dp),
     modifier: Modifier = Modifier
 ) {
     val fc = remember { FocusRequester() }
@@ -36,11 +37,18 @@ fun CellEditorView(
     } else {
         Modifier.size(0.dp, 0.dp)
     }
+    LaunchedEffect(isFocused) {
+        if(isFocused){
+            fc.requestFocus()
+        }
+    }
+
     MBox(
         modifier = modifier
             .then(sizeMod)
             .background(Color.White)
             .then(p6R.border.mod.cursorBorder)
+            .then(p6R.padding.mod.stdTextFieldPadding)
     ) {
         UseP6TextSelectionColor {
             BasicTextField(
@@ -50,22 +58,17 @@ fun CellEditorView(
                 },
                 modifier = Modifier
                     .focusRequester(fc)
-                    .width(IntrinsicSize.Min)
+//                    .width(IntrinsicSize.Min)
                     .onPreviewKeyEvent {
                         action.handleKeyboardEvent(it.toPKeyEvent())
                     }
             )
         }
     }
-    SideEffect {
-        if(isFocused){
-            fc.requestFocus()
-        }
-    }
+//    SideEffect {
+//        if(isFocused){
+//            fc.requestFocus()
+//        }
+//    }
 }
 
-fun main(){
-    testApp {
-
-    }
-}

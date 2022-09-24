@@ -13,9 +13,9 @@ interface CellEditorAction : MakeCellEditorDisplayText, OpenCellEditorAction {
     fun focus()
 
     /**
-     * run the current formula inside the cell editor
+     * run the current formula inside the cell editor if there's a formula. Otherwise parse and save the current value in the editor into the target cell
      */
-    fun runFormula()
+    fun runFormulaOrSaveValueToCell()
 
     /**
      * close the cell editor

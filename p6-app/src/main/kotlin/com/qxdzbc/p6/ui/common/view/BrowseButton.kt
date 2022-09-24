@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.p6R
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 
 @Composable
 fun BrowseButton(
@@ -41,7 +41,7 @@ fun BrowseButton(
 }
 
 fun main() {
-    TestApp {
+    P6TestApp {
         BrowseButton { }
     }
 }

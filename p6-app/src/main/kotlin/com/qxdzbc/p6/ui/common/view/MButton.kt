@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.p6R
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
 
 /**
@@ -36,7 +36,7 @@ fun MButton(onClick: () -> Unit = {}, modifier: Modifier = Modifier, content: @C
 }
 
 fun main() {
-    TestApp {
+    P6TestApp {
         MaterialTheme(colors =  P6AllWhiteColors) {
             Column {
                 MButton {

@@ -41,7 +41,7 @@ import kotlinx.coroutines.GlobalScope
 import java.nio.file.Paths
 
 
-class TestSample {
+class TestSample: TestAppScope {
     val wsn1 = TestSample.wsn1
     val wsn2 = TestSample.wsn2
 
@@ -97,7 +97,7 @@ class TestSample {
         .msgApiCommonLogger(Loggers.msgApiCommonLogger)
         .build()
 
-    val p6Comp = DaggerP6Component.builder()
+    override val p6Comp = DaggerP6Component.builder()
         .username("user_name")
         .messageApiComponent(msgApiComponent)
         .applicationCoroutineScope(kernelCoroutineScope)
@@ -230,7 +230,10 @@ class TestSample {
     }
 
     val appStateMs = p6Comp.appStateMs()
-    var appState by appStateMs
+    override val ts: TestSample=this
+    override var appState by appStateMs
+    override val sc: StateContainer
+        get() = this.stateCont
 
     val sampleCodeContainer by appState.centralScriptContainerMs
     val sampleCodeContainerMs get() = appState.centralScriptContainerMs

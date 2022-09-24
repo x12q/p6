@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellContentImp
@@ -68,7 +68,7 @@ fun EmptyCellView(
 }
 
 
-fun main() = TestApp {
+fun main() = P6TestApp {
     val address = CellAddress(1, 1)
     Column {
         Box(modifier = Modifier.size(p6R.size.value.defaultCellSize).border(1.dp, Color.Black)) {

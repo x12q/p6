@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 
 
 /**
@@ -59,7 +59,7 @@ fun SingleCursorNavigableColumn(
 }
 
 fun main() {
-    TestApp {
+    P6TestApp {
         val l = remember { (1..6).toList() }
         SingleCursorNavigableColumn(3, l.size - 1) { currentIndex ->
             for ((id, i) in l.withIndex()) {

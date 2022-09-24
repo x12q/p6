@@ -53,19 +53,9 @@ class CellEditorActionImp @Inject constructor(
         }
     }
 
-    private fun getWsState(editorState: CellEditorState): Ms<WorksheetState>? {
-        val wbKey = editorState.targetWbKey
-        val wsName = editorState.targetWsName
-        if (wbKey != null && wsName != null) {
-            return stateCont.getWsStateMs(wbKey, wsName)
-        } else {
-            return null
-        }
-    }
-
-    override fun runFormula() {
+    override fun runFormulaOrSaveValueToCell() {
         val editorState by stateCont.cellEditorStateMs
-        val wsStateMs = getWsState(editorState)
+        val wsStateMs:Ms<WorksheetState>? = editorState.targetCursorId?.let{stateCont.getWsStateMs(it)}
         val ws = wsStateMs?.value?.worksheet
         val wbKey = editorState.targetWbKey
         val wsName = editorState.targetWsName
@@ -190,7 +180,7 @@ class CellEditorActionImp @Inject constructor(
         if (editorState.isActive) {
             when (keyEvent.key) {
                 Key.Enter -> {
-                    runFormula()
+                    runFormulaOrSaveValueToCell()
                     return true
                 }
                 Key.Escape -> {

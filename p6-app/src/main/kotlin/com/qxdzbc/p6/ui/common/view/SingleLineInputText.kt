@@ -14,7 +14,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.p6R
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 
 /**
  * Border text field
@@ -51,7 +51,7 @@ fun SingleLineInputText(
 }
 
 fun main() {
-    TestApp {
+    P6TestApp {
         SingleLineInputText("TExt")
     }
 }

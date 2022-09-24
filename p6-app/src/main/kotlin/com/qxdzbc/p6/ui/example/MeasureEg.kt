@@ -22,12 +22,12 @@ import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    TestApp {
+    P6TestApp {
         val text = rms("")
         val topOffset = rms(0)
         val rightOffset = rms(0)

@@ -8,15 +8,22 @@ import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 import com.qxdzbc.p6.ui.theme.P6LightColors2
 
-fun TestApp(size: DpSize = DpSize(1500.dp, 600.dp), content: @Composable ApplicationScope.() -> Unit) = application {
-    val appScope = this
-    val windowState = rememberWindowState(size = size)
-    Window(onCloseRequest = ::exitApplication, windowState) {
-        MaterialTheme(colors = P6LightColors2, typography = P6DefaultTypoGraphy){
-            content(appScope)
+fun P6TestApp(size: DpSize = DpSize(1500.dp, 600.dp), content: @Composable ApplicationScope.() -> Unit) {
+    application {
+        val wState = rememberWindowState(size=size)
+        val appScope = this
+        Window(
+            onCloseRequest = ::exitApplication,
+            title = "Test app",
+            state = wState
+        ) {
+            MaterialTheme(colors = P6LightColors2, typography = P6DefaultTypoGraphy){
+                content(appScope)
+            }
         }
     }
 }

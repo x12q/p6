@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.build.BuildConfig
 import com.qxdzbc.p6.app.build.BuildVariant
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import java.util.*
 
 enum class BorderStyle {
@@ -122,7 +122,7 @@ fun BorderBox(
     }
 }
 
-fun main() = TestApp {
+fun main() = P6TestApp {
     val size = DpSize(200.dp, 100.dp)
     Column(modifier = Modifier.padding(20.dp)) {
         MBox(modifier = Modifier.size(size).border(10.dp, Color.Black)){

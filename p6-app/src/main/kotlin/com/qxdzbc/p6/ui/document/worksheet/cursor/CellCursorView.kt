@@ -47,13 +47,19 @@ fun CursorView(
     enableTestTag: Boolean = false,
     worksheetActionTable: WorksheetActionTable,
 ) {
-    val isFocused = rms { true }
-    isFocused.value = focusState.isCursorFocused
+//    val isFocused = rms { true }
+//    isFocused.value = focusState.isCursorFocused
     val mainCell: CellAddress = state.mainCell
     val anchorSize = cellLayoutCoorsMap[mainCell]?.size ?: DpSize(0.dp, 0.dp)
     val fc = remember { FocusRequester() }
     //bound layout of anchor cell
     var boundLayoutCoors: LayoutCoordinates? by rms(null)
+
+    LaunchedEffect(focusState.isCursorFocused) {
+        if (focusState.isCursorFocused) {
+            fc.requestFocus()
+        }
+    }
 
     // x: this invisible box match the cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, used markers)
     MBox(modifier = Modifier
@@ -154,11 +160,11 @@ fun CursorView(
         }
     }
 
-    SideEffect {
-        if (focusState.isCursorFocused) {
-            fc.requestFocus()
-        }
-    }
+//    SideEffect {
+//        if (focusState.isCursorFocused) {
+//            fc.requestFocus()
+//        }
+//    }
 }
 
 fun makeCursorTestTag(): String {

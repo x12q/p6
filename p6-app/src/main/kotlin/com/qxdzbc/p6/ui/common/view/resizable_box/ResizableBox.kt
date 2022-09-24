@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.build.DebugFunctions.debug
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.common.compose.view.MBox
 import java.util.*
@@ -129,7 +129,7 @@ fun ResizableBox(
 }
 
 private fun main() {
-    TestApp(size = DpSize(300.dp, 300.dp)) {
+    P6TestApp(size = DpSize(300.dp, 300.dp)) {
         BorderBox(modifier = Modifier.fillMaxHeight()) {
             BorderBox (modifier = Modifier.align(Alignment.BottomCenter)){
                 ResizableBox(style = ResizeStyle.TOP, /*modifier = Modifier.fillMaxHeight()*/) { }

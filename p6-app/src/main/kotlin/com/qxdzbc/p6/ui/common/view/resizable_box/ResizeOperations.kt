@@ -47,14 +47,14 @@ sealed interface ResizeOperations {
     }
 
     object left : ResizeOperations {
-        override val icon = p6R.mouse.leftResize
+        override val icon = p6R.mouse.icon.leftResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return -(currentMousePos.x - anchorMousePos.x)
         }
     }
 
     object right : ResizeOperations {
-        override val icon = p6R.mouse.rightResize
+        override val icon = p6R.mouse.icon.rightResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return currentMousePos.x - anchorMousePos.x
         }
@@ -62,7 +62,7 @@ sealed interface ResizeOperations {
     }
 
     object top : ResizeOperations {
-        override val icon = p6R.mouse.upResize
+        override val icon = p6R.mouse.icon.upResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return -(currentMousePos.y - anchorMousePos.y)
         }
@@ -70,7 +70,7 @@ sealed interface ResizeOperations {
     }
 
     object bot : ResizeOperations {
-        override val icon = p6R.mouse.downResize
+        override val icon = p6R.mouse.icon.downResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return currentMousePos.y - anchorMousePos.y
         }

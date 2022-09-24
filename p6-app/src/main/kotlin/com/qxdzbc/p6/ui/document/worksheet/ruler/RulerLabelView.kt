@@ -5,7 +5,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
 
 @Composable
@@ -20,7 +20,7 @@ fun RulerLabelView(
 
 
 fun main() {
-    TestApp {
+    P6TestApp {
         RulerLabelView("AAAA")
     }
 }

@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.app.cell_editor.in_cell.state
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -15,6 +16,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import javax.inject.Inject
 
 
@@ -60,7 +62,7 @@ data class CellEditorStateImp @Inject constructor(
             return CellEditorUtils.allowSelector(this.currentText)
         }
 
-    override val isActive: Boolean by isActiveMs
+    override var isActive: Boolean by isActiveMs
     override val isActiveAndAllowRangeSelector: Boolean
         get() = isActive && allowRangeSelector
     override val currentText: String get() = currentTextField.text

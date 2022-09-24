@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 
 @Composable
 fun MTabRow(
@@ -41,7 +41,7 @@ fun MTabRow(
 
 @OptIn(ExperimentalFoundationApi::class)
 fun main() {
-    TestApp {
+    P6TestApp {
         val ls = (1..20).map { it }
         var si by rms(0)
         MTabRow(

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.DirTextField
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
@@ -155,7 +155,7 @@ fun ConnectToKernelDialog(
 
 
 fun main() {
-    TestApp {
+    P6TestApp {
         ConnectToKernelDialog(
 
         )

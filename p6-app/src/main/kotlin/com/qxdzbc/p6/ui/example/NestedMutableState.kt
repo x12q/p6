@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.common.compose.TestApp
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
 
 data class BState(val b:Int,val b2:Int = 0)
@@ -36,7 +36,7 @@ data class AState(
  * C views are separated but they are not wrap in MBox, so, when C state change, it causes the re-drawing of A.
  */
 fun main() {
-    TestApp(size= DpSize(200.dp,300.dp)) {
+    P6TestApp(size= DpSize(200.dp,300.dp)) {
        val aStateMs = remember {
            ms(
                AState(
