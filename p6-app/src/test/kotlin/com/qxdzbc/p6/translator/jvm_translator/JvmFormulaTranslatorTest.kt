@@ -8,8 +8,6 @@ import com.qxdzbc.p6.translator.formula.function_def.AbstractFunctionDef
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import com.github.michaelbull.result.Ok
 import kotlin.test.*
@@ -19,8 +17,11 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.translator.formula.execution_unit.*
+import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.exUnit
 import test.TestSample
-import java.nio.file.Path
 import kotlin.reflect.KFunction
 
 class JvmFormulaTranslatorTest {
@@ -73,10 +74,10 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate cell access`() {
         val inputMap = mapOf(
-            "=A1" to ExUnit.GetCell(
+            "=A1" to GetCell(
                 funcName = P6FunctionDefinitions.getCellRs,
 
-                    wbKeySt.exUnit(), ExUnit.WsNameStUnit(wsNameSt), CellAddress("A1").exUnit(),
+                    wbKeySt.exUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").exUnit(),
 
                 functionMapSt = functionMap
             ),
@@ -92,25 +93,25 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate function call`() {
         val inputMap = mapOf(
-            "=F1(12,\"ax\",F2(A1),1+2.2)" to ExUnit.Func(
+            "=F1(12,\"ax\",F2(A1),1+2.2)" to Func(
                 funcName = "F1",
                 args = listOf(
-                    ExUnit.IntNum(12),
-                    ExUnit.StrUnit("ax"),
-                    ExUnit.Func(
+                    IntNum(12),
+                    StrUnit("ax"),
+                    Func(
                         funcName = "F2",
                         args = listOf(
-                            ExUnit.GetCell(
+                            GetCell(
                                 funcName = P6FunctionDefinitions.getCellRs,
-                                    wbKeySt.exUnit(), ExUnit.WsNameStUnit(wsNameSt), CellAddress("A1").exUnit(),
+                                    wbKeySt.exUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").exUnit(),
                                 functionMapSt = functionMap
                             )
                         ),
                         functionMapSt = functionMap
                     ),
-                    ExUnit.AddOperator(
-                        ExUnit.IntNum(1),
-                        ExUnit.DoubleNum(2.2)
+                    AddOperator(
+                        IntNum(1),
+                        DoubleNum(2.2)
                     )
                 ),
                 functionMapSt = functionMap
@@ -127,34 +128,34 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate get range, get cell`() {
         val validMap = mapOf(
-            "=\$A\$1" to ExUnit.GetCell(
+            "=\$A\$1" to GetCell(
                 funcName = P6FunctionDefinitions.getCellRs,
                     wbKeySt.exUnit(),
-                    ExUnit.WsNameStUnit(wsNameSt),
+                    WsNameStUnit(wsNameSt),
                     CellAddress("\$A\$1").exUnit()
                 ,
                 functionMapSt = functionMap
             ),
-            "=\$A1:B$3" to ExUnit.GetRange(
+            "=\$A1:B$3" to GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
                     wbKeySt.exUnit(),
-                    ExUnit.WsNameStUnit(wsNameSt),
+                    WsNameStUnit(wsNameSt),
                     RangeAddress("\$A1:B\$3").exUnit()
                 ,
                 functionMapSt = functionMap
             ),
-            "=A1:B3" to ExUnit.GetRange(
+            "=A1:B3" to GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
                     wbKeySt.exUnit(),
-                    ExUnit.WsNameStUnit(wsNameSt),
+                    WsNameStUnit(wsNameSt),
                     RangeAddress("A1:B3").exUnit()
             ,
                 functionMapSt = functionMap
             ),
-            "=A1:B3@Sheet1" to ExUnit.GetRange(
+            "=A1:B3@Sheet1" to GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
                     wbKeySt.exUnit(),
-                    ExUnit.WsNameStUnit(wsNameSt),
+                    WsNameStUnit(wsNameSt),
                     RangeAddress("A1:B3").exUnit(),
                 functionMapSt = functionMap
             ),
@@ -203,7 +204,7 @@ class JvmFormulaTranslatorTest {
 //            assertTrue { o is Ok }
 //            val e = o.component1()
 //            assertNotNull(e)
-//            assertTrue(e is ExUnit.Func)
+//            assertTrue(e is Func)
 ////
 //            assertEquals(expect, InvalidOutput(
 //                e.funcName,e.args.withIndex().map { (i,e)->

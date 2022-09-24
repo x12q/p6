@@ -16,8 +16,13 @@ import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.FunctionMap
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.*
+import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.FALSE
+import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.TRUE
+import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.exUnit
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import dagger.assisted.Assisted
@@ -40,7 +45,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
     private val wbKeyStExUnit = wbKeySt.exUnit()
 
     private val wsNameExUnit get() = wsName.exUnit()
-    private val wsNameStExUnit = ExUnit.WsNameStUnit(wsNameSt)
+    private val wsNameStExUnit = WsNameStUnit(wsNameSt)
 
     override fun visit(tree: ParseTree?): ExUnit? {
         return super.visit(tree)
@@ -64,7 +69,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         when (op?.type) {
             FormulaParser.SUB -> {
                 val exUnit: ExUnit? = this.visit(ctx.expr())
-                val rt: ExUnit? = exUnit?.let { ExUnit.UnarySubtract(it) }
+                val rt: ExUnit? = exUnit?.let { UnarySubtract(it) }
                 return rt
             }
             else -> return null
@@ -80,7 +85,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val expr0 = this.visit(ctx.expr(0))
             val expr1 = this.visit(ctx.expr(1))
             if (expr0 != null && expr1 != null) {
-                ExUnit.PowerBy(expr0, expr1)
+                PowerBy(expr0, expr1)
             } else {
                 null
             }
@@ -96,10 +101,10 @@ class JvmFormulaVisitor @AssistedInject constructor(
                 val op = ctx.op
                 val r = when (op?.type) {
                     FormulaParser.MUL -> {
-                        ExUnit.MultiplyOperator(expr0, expr1)
+                        MultiplyOperator(expr0, expr1)
                     }
                     FormulaParser.DIV -> {
-                        ExUnit.Div(expr0, expr1)
+                        DivOperator(expr0, expr1)
                     }
                     else -> null
                 }
@@ -119,10 +124,10 @@ class JvmFormulaVisitor @AssistedInject constructor(
                 val op = ctx.op
                 when (op?.type) {
                     FormulaParser.ADD -> {
-                        ExUnit.AddOperator(expr0, expr1)
+                        AddOperator(expr0, expr1)
                     }
                     FormulaParser.SUB -> {
-                        ExUnit.MinusOperator(expr0, expr1)
+                        MinusOperator(expr0, expr1)
                     }
                     else -> null
                 }
@@ -132,7 +137,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return rt
     }
 
-    override fun visitSheetPrefix(ctx: FormulaParser.SheetPrefixContext?): ExUnit.WsNameStUnit? {
+    override fun visitSheetPrefix(ctx: FormulaParser.SheetPrefixContext?): WsNameStUnit? {
         val e1 = this.visitSheetName(ctx?.sheetName())
         if (e1 != null) {
             return e1
@@ -141,28 +146,28 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return e2
     }
 
-    override fun visitSheetNameWithSpace(ctx: FormulaParser.SheetNameWithSpaceContext?): ExUnit.WsNameStUnit? {
+    override fun visitSheetNameWithSpace(ctx: FormulaParser.SheetNameWithSpaceContext?): WsNameStUnit? {
         val u = this.visitWithSpaceId(ctx?.withSpaceId())
         val rt = u?.run()?.component1()?.toSt()?.let {
-            ExUnit.WsNameStUnit(it)
+            WsNameStUnit(it)
         }
         return rt
     }
 
-    override fun visitSheetName(ctx: FormulaParser.SheetNameContext?): ExUnit.WsNameStUnit? {
+    override fun visitSheetName(ctx: FormulaParser.SheetNameContext?): WsNameStUnit? {
         val exUnit = this.visitNoSpaceId(ctx?.noSpaceId())
-        return exUnit?.run()?.component1()?.toSt()?.let { ExUnit.WsNameStUnit(it) }
+        return exUnit?.run()?.component1()?.toSt()?.let { WsNameStUnit(it) }
     }
 
-    override fun visitNoSpaceId(ctx: FormulaParser.NoSpaceIdContext?): ExUnit.StrUnit? {
+    override fun visitNoSpaceId(ctx: FormulaParser.NoSpaceIdContext?): StrUnit? {
         return ctx?.text?.exUnit()
     }
 
-    override fun visitWithSpaceId(ctx: FormulaParser.WithSpaceIdContext?): ExUnit.StrUnit? {
+    override fun visitWithSpaceId(ctx: FormulaParser.WithSpaceIdContext?): StrUnit? {
         return ctx?.text?.let { extractFromSingleQuote(it) }?.exUnit()
     }
 
-    override fun visitWbPrefix(ctx: FormulaParser.WbPrefixContext?): ExUnit.WbKeyStUnit? {
+    override fun visitWbPrefix(ctx: FormulaParser.WbPrefixContext?): WbKeyStUnit? {
         val rt1 = visitWbPrefixNoPath(ctx?.wbPrefixNoPath())
         if (rt1 != null) {
             return rt1
@@ -171,7 +176,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return rt2
     }
 
-    override fun visitWbPrefixNoPath(ctx: FormulaParser.WbPrefixNoPathContext?): ExUnit.WbKeyStUnit? {
+    override fun visitWbPrefixNoPath(ctx: FormulaParser.WbPrefixNoPathContext?): WbKeyStUnit? {
         val wbNameExUnitRs = this.visitWbName(ctx?.wbName())
         val wbName: String? = wbNameExUnitRs?.run()?.component1() as String?
         val wbk: WorkbookKey? = wbName?.let { WorkbookKey(it) }
@@ -179,7 +184,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return rt
     }
 
-    override fun visitWbPrefixWithPath(ctx: FormulaParser.WbPrefixWithPathContext?): ExUnit.WbKeyStUnit? {
+    override fun visitWbPrefixWithPath(ctx: FormulaParser.WbPrefixWithPathContext?): WbKeyStUnit? {
         val wbNameExUnitRs: ExUnit? = this.visitWbName(ctx?.wbName())
         val wbName: String? = wbNameExUnitRs?.run()?.component1() as String?
         val wbk: WorkbookKey? = wbName?.let {
@@ -215,7 +220,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
     }
 
     override fun visitFullRangeAddressExpr(ctx: FormulaParser.FullRangeAddressExprContext?): ExUnit? {
-        val wbKeyStExUnit: ExUnit.WbKeyStUnit = this.visitWbPrefix(ctx?.wbPrefix())?.let { hypoWbKeyStUnit ->
+        val wbKeyStExUnit: WbKeyStUnit = this.visitWbPrefix(ctx?.wbPrefix())?.let { hypoWbKeyStUnit ->
             val actualWbKeySt: St<WorkbookKey>? = hypoWbKeyStUnit
                 .run()
                 .component1()
@@ -228,10 +233,10 @@ class JvmFormulaVisitor @AssistedInject constructor(
 
         val wbkSt: St<WorkbookKey> = wbKeyStExUnit.run().component1() ?: wbKeySt
 
-        val wsNameStUnit: ExUnit.WsNameStUnit = this.visitSheetPrefix(ctx?.sheetPrefix())?.let { hypoWsNameStUnit ->
+        val wsNameStUnit: WsNameStUnit = this.visitSheetPrefix(ctx?.sheetPrefix())?.let { hypoWsNameStUnit ->
             val k = hypoWsNameStUnit.run().component1()?.let { wsName ->
                 val z = docCont.getWsNameSt(wbkSt, wsName.value)?.let {
-                    ExUnit.WsNameStUnit(it)
+                    WsNameStUnit(it)
                 }
                 z
             }
@@ -243,7 +248,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val cellAddressRs: Rse<CellAddress> = CellAddresses.fromLabelRs(rangeAddress)
             if (cellAddressRs is Ok) {
                 val raUnit = cellAddressRs.value.exUnit()
-                return ExUnit.GetCell(
+                return GetCell(
                     funcName = P6FunctionDefinitions.getCellRs,
                     wbKeyUnit = wbKeyStExUnit,
                     wsNameUnit = wsNameStUnit,
@@ -255,7 +260,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val rangeAddressRs: Rse<RangeAddress> = RangeAddresses.fromLabelRs(rangeAddress)
             if (rangeAddressRs is Ok) {
                 val raUnit = rangeAddressRs.value.exUnit()
-                return ExUnit.GetRange(
+                return GetRange(
                     funcName = P6FunctionDefinitions.getRangeRs,
                     wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStUnit, rangeAddressUnit = raUnit,
                     functionMapSt = functionMapMs,
@@ -276,7 +281,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
                     eLis.add(eRs)
                 }
             }
-            return ExUnit.Func(
+            return Func(
                 funcName = functionName,
                 args = eLis,
                 functionMapSt = functionMapMs
@@ -289,7 +294,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
 
     override fun visitFunctionName(ctx: FormulaParser.FunctionNameContext?): ExUnit? {
         return ctx?.text?.let {
-            ExUnit.StrUnit(it)
+            StrUnit(it)
         }
     }
 
@@ -298,7 +303,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val cell1 = ctx?.cellAddress(1)?.text
         if (cell0 != null && cell1 != null) {
             val raUnit = RangeAddress(CellAddress(cell0), CellAddress(cell1)).exUnit()
-            return ExUnit.GetRange(
+            return GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
                 wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStExUnit, rangeAddressUnit = raUnit,
                 functionMapSt = functionMapMs,
@@ -312,7 +317,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val cell0 = ctx?.text
         if (cell0 != null) {
             val raUnit = CellAddress(cell0).exUnit()
-            val rt = ExUnit.GetCell(
+            val rt = GetCell(
                 funcName = P6FunctionDefinitions.getCellRs,
                 wbKeyUnit = wbKeyStExUnit,
                 wsNameUnit = wsNameStExUnit,
@@ -329,7 +334,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val colAddress = ctx?.text
         if (colAddress != null) {
             val raUnit = RangeAddress(colAddress).exUnit()
-            return ExUnit.GetRange(
+            return GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
                 wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStExUnit, rangeAddressUnit = raUnit,
                 functionMapSt = functionMapMs,
@@ -343,7 +348,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val rowAddress = ctx?.text
         if (rowAddress != null) {
             val raUnit = RangeAddress(rowAddress).exUnit()
-            return ExUnit.GetRange(
+            return GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
                 wbKeyUnit = wbKeyStExUnit, wsNameUnit = wsNameStExUnit, rangeAddressUnit = raUnit,
                 functionMapSt = functionMapMs,
@@ -365,25 +370,25 @@ class JvmFormulaVisitor @AssistedInject constructor(
 
         if (boolNode != null) {
             when (boolNode.text) {
-                "TRUE" -> return ExUnit.TRUE
-                "FALSE" -> return ExUnit.FALSE
+                "TRUE" -> return TRUE
+                "FALSE" -> return FALSE
             }
         }
 
         if (floatNode != null) {
             val doubleNum = floatNode.text.toDoubleOrNull()
             if (doubleNum != null) {
-                return ExUnit.DoubleNum(doubleNum)
+                return DoubleNum(doubleNum)
             }
         }
         if (intNode != null) {
             val i = intNode.text.toIntOrNull()
             if (i != null) {
-                return ExUnit.IntNum(i)
+                return IntNum(i)
             } else {
                 val i2 = intNode.text.toDoubleOrNull()
                 if (i2 != null) {
-                    return ExUnit.DoubleNum(i2)
+                    return DoubleNum(i2)
                 }
             }
         }
@@ -392,7 +397,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val ot = textNode.text
             val t = ot?.substring(1, ot.length - 1)
             if (t != null) {
-                return ExUnit.StrUnit(t)
+                return StrUnit(t)
             }
         }
         return null

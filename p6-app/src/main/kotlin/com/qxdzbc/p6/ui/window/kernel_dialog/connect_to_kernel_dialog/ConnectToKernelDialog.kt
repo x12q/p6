@@ -82,7 +82,7 @@ fun ConnectToKernelDialog(
                             RadioButton(
                                 selected = usePath(), colors = color, enabled = false, onClick = {}
                             )
-                            Text("Use connection file path")
+                            Text("Use connection file")
                         }
                         MBox {
                             DirTextField(

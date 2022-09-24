@@ -35,6 +35,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.github.michaelbull.result.unwrap
+import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.TRUE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -70,7 +71,7 @@ class TestSample: TestAppScope {
         val sampleErrIndicator = ErrorIndicator.error(sampleErrorReport)
         val mockTranslator = object : P6Translator<ExUnit> {
             override fun translate(formula: String): Rs<ExUnit, ErrorReport> {
-                return ExUnit.TRUE.toOk()
+                return TRUE.toOk()
             }
         }
 
@@ -108,7 +109,7 @@ class TestSample: TestAppScope {
 
     val mockTranslator = object : P6Translator<ExUnit> {
         override fun translate(formula: String): Rs<ExUnit, ErrorReport> {
-            return ExUnit.TRUE.toOk()
+            return TRUE.toOk()
         }
     }
 
