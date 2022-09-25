@@ -6,8 +6,8 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-@JvmInline
-value class StrUnit(val v: String) : ExUnit {
+
+class StrUnit(val v: String) : ExUnit {
     companion object{
         fun String.exUnit(): StrUnit {
             return StrUnit(this)

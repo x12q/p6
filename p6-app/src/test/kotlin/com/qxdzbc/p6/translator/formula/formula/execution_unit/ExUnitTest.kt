@@ -28,8 +28,8 @@ internal class ExUnitTest {
         val c2 = CellAddress(3, 3)
     }
 
-    class IntNumTest {
-        val u = IntNum(100)
+    class IntUnitTest {
+        val u = IntUnit(100)
 
         @Test
         fun run() {
@@ -47,19 +47,6 @@ internal class ExUnitTest {
         }
     }
 
-    class MinusOperatorTest{
-        @Test
-        fun getRange(){
-            val u = MinusOperator(
-                CellAddressUnit(CellAddress("C3")),
-                CellAddressUnit(CellAddress("K3"))
-            )
-            assertEquals(
-                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
-                u.getRanges()
-            )
-        }
-    }
 
     class MultiplyOperatorTest{
         @Test
@@ -165,8 +152,8 @@ internal class ExUnitTest {
             val u2 = FuncUnit(
                 funcName = "add",
                 args = listOf(
-                    IntNum(3),
-                    IntNum(4),
+                    IntUnit(3),
+                    IntUnit(4),
                 ),
                 functionMapSt = fMap
             )
@@ -183,19 +170,19 @@ internal class ExUnitTest {
                     FuncUnit(
                         funcName = "add",
                         args = listOf(
-                            IntNum(3),
+                            IntUnit(3),
                             FuncUnit(
                                 funcName = "add",
                                 args = listOf(
-                                    IntNum(2),
-                                    IntNum(2),
+                                    IntUnit(2),
+                                    IntUnit(2),
                                 ),
                                 functionMapSt = fMap
                             ),
                         ),
                         functionMapSt = fMap
                     ),
-                    IntNum(5),
+                    IntUnit(5),
                 ),
                 functionMapSt = fMap
             )
@@ -209,7 +196,7 @@ internal class ExUnitTest {
                 funcName = "add",
                 args = listOf(
                     NothingUnit,
-                    IntNum(2),
+                    IntUnit(2),
                 ),
                 functionMapSt = fMap
             )
@@ -222,7 +209,7 @@ internal class ExUnitTest {
             val u = FuncUnit(
                 funcName = "someFunction",
                 args = listOf(
-                    IntNum(23),
+                    IntUnit(23),
                 ),
                 functionMapSt = fMap
             )
@@ -277,8 +264,8 @@ internal class ExUnitTest {
         fun toFormula() {
             assertEquals("TRUE", TRUE.toFormula())
             assertEquals("FALSE", FALSE.toFormula())
-            assertEquals("1", IntNum(1).toFormula())
-            assertEquals(1.23.toString(), DoubleNum(1.23).toFormula())
+            assertEquals("1", IntUnit(1).toFormula())
+            assertEquals(1.23.toString(), DoubleUnit(1.23).toFormula())
             assertEquals("\"abc\"", StrUnit("abc").toFormula())
         }
 
@@ -288,8 +275,8 @@ internal class ExUnitTest {
             val c2 = CellAddress("Q9")
             assertEquals(TRUE, TRUE.shift(c1, c2))
             assertEquals(FALSE, FALSE.shift(c1, c2))
-            assertEquals(IntNum(1), IntNum(1).shift(c1, c2))
-            assertEquals(DoubleNum(1.23), DoubleNum(1.23).shift(c1, c2))
+            assertEquals(IntUnit(1), IntUnit(1).shift(c1, c2))
+            assertEquals(DoubleUnit(1.23), DoubleUnit(1.23).shift(c1, c2))
             assertEquals(StrUnit("abc"), StrUnit("abc").shift(c1, c2))
         }
     }

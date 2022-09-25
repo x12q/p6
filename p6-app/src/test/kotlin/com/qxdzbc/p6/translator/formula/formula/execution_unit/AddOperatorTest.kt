@@ -1,16 +1,11 @@
 package com.qxdzbc.p6.translator.formula.formula.execution_unit
 
 import com.github.michaelbull.result.Ok
-import com.qxdzbc.p6.app.document.cell.CellContentImp
-import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.translator.formula.execution_unit.*
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import kotlin.test.*
-class AddOperatorTest {
+class AddOperatorTest : OperatorBaseTest(){
 
     @Test
     fun getRange(){
@@ -27,7 +22,7 @@ class AddOperatorTest {
     @Test
     fun `run on number`() {
         val u = AddOperator(
-            IntNum(1), DoubleNum(2.0)
+            IntUnit(1), DoubleUnit(2.0)
         )
         assertEquals(Ok(3.0), u.runRs())
     }
@@ -42,24 +37,23 @@ class AddOperatorTest {
 
     @Test
     fun `number + blank cell`() {
-        val mockGetCellUnit = mock<GetCell>().apply{
-            whenever(this.runRs()) doReturn  Ok(
-                IndCellImp(
-                address = CellAddress("Q2"),
-                content =  CellContentImp()
-            )
-            )
-        }
         val u = AddOperator(
-            IntNum(123),mockGetCellUnit
+            IntUnit(123),getBlankCellUnit
         )
         assertEquals(Ok(123.0), u.runRs())
 
         val u2 = AddOperator(
-            mockGetCellUnit,IntNum(222)
+            getBlankCellUnit,IntUnit(222)
         )
         assertEquals(Ok(222.0),u2.runRs())
-        assertEquals(222.0,u2.run())
+    }
+
+    @Test
+    fun `blank cell + blank cell`() {
+        val u = AddOperator(
+            getBlankCellUnit,getBlankCellUnit
+        )
+        assertEquals(Ok(0.0), u.runRs())
     }
 
 }

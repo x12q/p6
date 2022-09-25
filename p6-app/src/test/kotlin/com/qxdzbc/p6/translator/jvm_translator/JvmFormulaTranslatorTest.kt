@@ -95,7 +95,7 @@ class JvmFormulaTranslatorTest {
             "=F1(12,\"ax\",F2(A1),1+2.2)" to FuncUnit(
                 funcName = "F1",
                 args = listOf(
-                    IntNum(12),
+                    IntUnit(12),
                     StrUnit("ax"),
                     FuncUnit(
                         funcName = "F2",
@@ -109,8 +109,8 @@ class JvmFormulaTranslatorTest {
                         functionMapSt = functionMap
                     ),
                     AddOperator(
-                        IntNum(1),
-                        DoubleNum(2.2)
+                        IntUnit(1),
+                        DoubleUnit(2.2)
                     )
                 ),
                 functionMapSt = functionMap

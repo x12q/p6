@@ -378,17 +378,17 @@ class JvmFormulaVisitor @AssistedInject constructor(
         if (floatNode != null) {
             val doubleNum = floatNode.text.toDoubleOrNull()
             if (doubleNum != null) {
-                return DoubleNum(doubleNum)
+                return DoubleUnit(doubleNum)
             }
         }
         if (intNode != null) {
             val i = intNode.text.toIntOrNull()
             if (i != null) {
-                return IntNum(i)
+                return IntUnit(i)
             } else {
                 val i2 = intNode.text.toDoubleOrNull()
                 if (i2 != null) {
-                    return DoubleNum(i2)
+                    return DoubleUnit(i2)
                 }
             }
         }
