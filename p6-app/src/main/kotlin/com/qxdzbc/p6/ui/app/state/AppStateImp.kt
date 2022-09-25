@@ -44,6 +44,7 @@ import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
 
@@ -78,9 +79,9 @@ data class AppStateImp @Inject constructor(
     override val wbContMs: Ms<WorkbookContainer>
         get() = docCont.wbContMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
-    override val windowStateMsListMs: Ms<List<Ms<WindowState>>>
+    override val windowStateMsListMs: Ms<List<Ms<OuterWindowState>>>
         get() = subAppStateContMs.value.windowStateMsListMs
-    override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
+    override var windowStateMsList: List<MutableState<OuterWindowState>> by windowStateMsListMs
     override val wbStateContMs: Ms<WorkbookStateContainer>
         get() = subAppStateContMs.value.wbStateContMs
     override var errorContainer: ErrorContainer by errorContainerMs
@@ -358,6 +359,14 @@ data class AppStateImp @Inject constructor(
         return stateCont.getWindowStateMsByIdRs(windowId)
     }
 
+    override fun addOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer {
+        TODO("Not yet implemented")
+    }
+
     override fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>? {
         return stateCont.getCursorStateMs(wbKey, wsName)
     }
@@ -390,13 +399,13 @@ data class AppStateImp @Inject constructor(
         return this
     }
 
-    override fun createNewWindowStateMs(): Pair<AppState, Ms<WindowState>> {
+    override fun createNewWindowStateMs(): Pair<AppState, Ms<OuterWindowState>> {
         val p = stateCont.createNewWindowStateMs()
         stateCont = p.first
         return Pair(this, p.second)
     }
 
-    override fun createNewWindowStateMs(windowId: String): Pair<AppState, Ms<WindowState>> {
+    override fun createNewWindowStateMs(windowId: String): Pair<AppState, Ms<OuterWindowState>> {
         val p = stateCont.createNewWindowStateMs(windowId)
         stateCont = p.first
         return Pair(this, p.second)
@@ -414,10 +423,11 @@ data class AppStateImp @Inject constructor(
     override fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult {
         val windowStateMsRs = this.getWindowStateMsByWbKeyRs(workbookKey)
         if (windowStateMsRs is Ok) {
-            val windowstateMs = windowStateMsRs.value
+            val oWindowstateMs = windowStateMsRs.value
             val workbookStateMsRs = wbStateCont.getWbStateMsRs(workbookKey)
-
+            val windowstateMs = oWindowstateMs
             if (workbookStateMsRs is Ok) {
+
                 return QueryByWorkbookKeyResult(
                     windowStateOrNull = windowstateMs,
                     workbookStateMsOrNull = workbookStateMsRs.value,

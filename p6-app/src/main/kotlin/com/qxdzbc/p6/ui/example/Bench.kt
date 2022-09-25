@@ -13,11 +13,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun main() {
     P6TestApp {
         val numberMs = rms(123)
-        val cpNumber = rms(0)
         val cc = rememberCoroutineScope()
 
         var t1: String by rms("t1")
@@ -35,27 +37,18 @@ fun main() {
         Column {
             Box(modifier= Modifier.border(1.dp, Color.Black)){
                 BasicTextField(
-                    value = t1,
+                    value = "number ${numberMs.value}",
                     onValueChange = { t1 = it },
-                    modifier = Modifier.focusRequester(fc).onGloballyPositioned {
-                        println(it.size)
-                    }
-                        .widthIn(1.dp, Dp.Infinity)
-                        .width(IntrinsicSize.Min)
-
-
-
-                    ,
+                    modifier = Modifier.focusRequester(fc),
                 )
             }
-
-            BasicTextField(
-                value = t2,
-                onValueChange = { t2 = it },
-                modifier = Modifier.focusRequester(fc2)
-            )
-            MButton("Switch") {
-                f= !f
+            MButton("Start") {
+                cc.launch(Dispatchers.Default) {
+                    while(true){
+                        numberMs.value = numberMs.value+1
+                        delay(1000)
+                    }
+                }
             }
         }
     }

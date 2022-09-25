@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.ui.app.state
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
@@ -17,24 +19,25 @@ import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.p6.app.document.workbook.Workbook
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
 
-    override fun getWindowStateByIdRs(windowId:String):Rse<WindowState>{
+    override fun getWindowStateByIdRs(windowId:String): Rse<WindowState> {
         return getWindowStateMsByIdRs(windowId).map { it.value }
     }
-    override fun getWindowStateById(windowId:String):WindowState?{
+    override fun getWindowStateById(windowId:String): WindowState? {
         return getWindowStateMsById(windowId)?.value
     }
-    override fun getWindowStateByWbKeyRs(wbKey: WorkbookKey):Rse<WindowState>{
+    override fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState> {
         return getWindowStateMsByWbKeyRs(wbKey).map { it.value }
     }
-    override fun getWindowStateByWbKey(wbKey: WorkbookKey):WindowState?{
+    override fun getWindowStateByWbKey(wbKey: WorkbookKey): WindowState? {
         return getWindowStateMsByWbKey(wbKey)?.value
     }
 
-    override fun getWindowStateMsById(windowId: String): Ms<WindowState>?{
+    override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
         return getWindowStateMsByIdRs(windowId).component1()
     }
 

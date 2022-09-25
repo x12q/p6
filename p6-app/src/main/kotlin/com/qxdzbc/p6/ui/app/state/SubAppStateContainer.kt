@@ -17,13 +17,14 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 
 /**
  * An abstraction layer providing functions for looking up view states that is under app
  */
 interface SubAppStateContainer {
-    val windowStateMsListMs: Ms<List<Ms<WindowState>>>
-    var windowStateMsList: List<MutableState<WindowState>>
+    val windowStateMsListMs: Ms<List<Ms<OuterWindowState>>>
+    var windowStateMsList: List<Ms<OuterWindowState>>
 
     val wbStateContMs:Ms<WorkbookStateContainer>
     var wbStateCont: WorkbookStateContainer
@@ -37,8 +38,8 @@ interface SubAppStateContainer {
     fun removeWindowState(windowState: Ms<WindowState>):SubAppStateContainer
     fun removeWindowState(windowId:String):SubAppStateContainer
     fun addWindowState(windowState: Ms<WindowState>):SubAppStateContainer
-    fun createNewWindowStateMs(): Pair<SubAppStateContainer,Ms<WindowState>>
-    fun createNewWindowStateMs(windowId: String): Pair<SubAppStateContainer,Ms<WindowState>>
+    fun createNewWindowStateMs(): Pair<SubAppStateContainer,Ms<OuterWindowState>>
+    fun createNewWindowStateMs(windowId: String): Pair<SubAppStateContainer,Ms<OuterWindowState>>
 
     fun getWbStateMsRs(wbKeySt:St<WorkbookKey>): Rse<Ms<WorkbookState>>
     fun getWbStateMs(wbKeySt:St<WorkbookKey>):Ms<WorkbookState>?
@@ -94,4 +95,6 @@ interface SubAppStateContainer {
      */
     fun getActiveCursorMs(wbKey: WorkbookKey):Ms<CursorState>?
 
+    fun addOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer
+    fun removeOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer
 }

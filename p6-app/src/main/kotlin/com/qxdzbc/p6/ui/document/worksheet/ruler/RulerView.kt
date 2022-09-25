@@ -37,7 +37,7 @@ fun Ruler(
     val dimen = state.dimen
     val slider: GridSlider = state.sliderMs.value
     val itemIndexRange: IntRange = if (dimen == RulerType.Row) slider.visibleRowRange else slider.visibleColRange
-    Loggers.renderLogger.debug("render ruler")
+//    Loggers.renderLogger.debug("render ruler")
     val firstIndex: Int = itemIndexRange.first
     val lastIndex: Int = itemIndexRange.last
     Surface(color = MaterialTheme.colors.primaryVariant,

@@ -100,6 +100,10 @@ annotation class AppWindowStateListMs
 
 @Qualifier
 @Retention
+annotation class AppOuterWindowStateListMs
+
+@Qualifier
+@Retention
 annotation class WindowActivePointerMs
 
 @Qualifier

@@ -9,6 +9,7 @@ import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 /**
@@ -49,8 +50,8 @@ interface AppState : DocumentContainer, SubAppStateContainer {
     override fun addWbStateFor(wb: Workbook): AppState
     override fun removeWindowState(windowState: Ms<WindowState>): AppState
     override fun removeWindowState(windowId: String): AppState
-    override fun createNewWindowStateMs(): Pair<AppState, Ms<WindowState>>
-    override fun createNewWindowStateMs(windowId: String): Pair<AppState, Ms<WindowState>>
+    override fun createNewWindowStateMs(): Pair<AppState, Ms<OuterWindowState>>
+    override fun createNewWindowStateMs(windowId: String): Pair<AppState, Ms<OuterWindowState>>
     override fun addWindowState(windowState: Ms<WindowState>): AppState
 
     val docContMs: Ms<DocumentContainer>

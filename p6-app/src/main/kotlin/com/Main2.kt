@@ -41,6 +41,9 @@ import com.qxdzbc.p6.ui.window.WindowView
 import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.*
+import com.qxdzbc.p6.ui.window.WindowView2
+import com.qxdzbc.p6.ui.window.WindowView3
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.*
 import java.nio.file.Paths
 import kotlin.collections.fold
@@ -107,22 +110,24 @@ fun main() {
                         this.value = this.value.addOrOverwriteWbState(wbStateMs1).addOrOverwriteWbState(wbStateMs2)
                     }
                     val zz = listOf(
-                        ms(
-                            p6Comp.windowStateFactory().create(
-                                wbKeyMsSet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet(),
-                                activeWorkbookPointerMs = ms(
-                                    ActiveWorkbookPointerImp(
-                                        listOf(
-                                            wbStateMs1,
-                                            wbStateMs2
-                                        ).map { it.value.wb.keyMs }.toSet().firstOrNull()
+                        ms(p6Comp.outerWindowStateFactory().create(
+                            ms(
+                                p6Comp.windowStateFactory().create(
+                                    wbKeyMsSet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet(),
+                                    activeWorkbookPointerMs = ms(
+                                        ActiveWorkbookPointerImp(
+                                            listOf(
+                                                wbStateMs1,
+                                                wbStateMs2
+                                            ).map { it.value.wb.keyMs }.toSet().firstOrNull()
+                                        )
                                     )
-                                )
-                            ) as WindowState
-                        )
+                                ) as WindowState
+                            )
+                        ) as OuterWindowState)
                     ).fold(appState.stateCont)
                     { acc, e ->
-                        acc.addWindowState(e)
+                        acc.addOuterWindowState(e)
                     }
                     appState.stateCont = zz
                     appState
@@ -177,16 +182,27 @@ fun main() {
                         P6GlobalAccessPoint.setAppStateMs(appStateMs2)
                         val appState = appStateMs2.value
 
-
                         for (windowStateMs in appState.windowStateMsList) {
                             val windowState = windowStateMs.value
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
-                            WindowView(
-                                state = windowState,
-                                windowActionTable = windowActionTable,
-                                windowAction = windowAction,
-                            )
+//                                WindowView3(
+//                                    oState = windowState,
+//                                    windowActionTable = windowActionTable,
+//                                    windowAction = windowAction,
+//                                )
+                                WindowView(
+                                    state = windowState.innerWindowState,
+                                    windowActionTable = windowActionTable,
+                                    windowAction = windowAction,
+                                )
+
+//                            WindowView2(
+//                                appState = appState,
+//                                windowId = windowState.id,
+//                                windowActionTable = windowActionTable,
+//                                windowAction = windowAction,
+//                            )
                         }
 
                         if (appState.codeEditorIsOpen) {

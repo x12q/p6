@@ -24,7 +24,6 @@ class CreateNewWorksheetApplierImp @Inject constructor(
     override fun applyRs(res: RseNav<AddWorksheetResponse>): RseNav<AddWorksheetResponse> {
         val rt = res.andThen { addRs ->
             appState.wbCont = appState.wbCont.overwriteWB(addRs.newWb)
-            stateCont = stateCont.addWbStateFor(addRs.newWb)
             val wbMs=stateCont.getWbStateMs(addRs.newWb.key)
             if(wbMs!=null){
                 wbMs.value = wbMs.value.refreshWsState()

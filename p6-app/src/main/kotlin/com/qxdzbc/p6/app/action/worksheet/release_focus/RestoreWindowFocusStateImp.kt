@@ -23,7 +23,7 @@ class RestoreWindowFocusStateImp @Inject constructor(
     override fun restoreCellEditorAndCursorState(): Rse<Unit> {
         appState.cellEditorState = appState.cellEditorState.clearAllText().close()
         appState.windowStateMsList.map {
-            it.value.focusStateMs
+            it.value.innerWindowState.focusStateMs
         }.forEach {
             it.value = it.value.restoreDefault()
         }
@@ -42,7 +42,7 @@ class RestoreWindowFocusStateImp @Inject constructor(
     override fun setFocusConsideringRangeSelectorAllWindow(): Rse<Unit> {
         if (appState.cellEditorState.allowRangeSelector) {
             appState.windowStateMsList.forEach {wds->
-                wds.value.focusState = wds.value.focusState.focusOnEditor().freeFocusOnCursor()
+                wds.value.innerWindowState.focusState = wds.value.innerWindowState.focusState.focusOnEditor().freeFocusOnCursor()
             }
         }else{
             restoreCellEditorAndCursorState()

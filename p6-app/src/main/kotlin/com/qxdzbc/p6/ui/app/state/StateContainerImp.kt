@@ -32,10 +32,12 @@ import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.map
 import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
 
@@ -72,9 +74,9 @@ class StateContainerImp @Inject constructor(
         get() = appState.cellEditorStateMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
 
-    override val windowStateMsListMs: Ms<List<Ms<WindowState>>>
+    override val windowStateMsListMs: Ms<List<Ms<OuterWindowState>>>
         get() = subAppStateCont.windowStateMsListMs
-    override var windowStateMsList: List<MutableState<WindowState>> by windowStateMsListMs
+    override var windowStateMsList: List<MutableState<OuterWindowState>> by windowStateMsListMs
 
     override val wbStateContMs: Ms<WorkbookStateContainer>
         get() = subAppStateCont.wbStateContMs
@@ -104,13 +106,13 @@ class StateContainerImp @Inject constructor(
         return this
     }
 
-    override fun createNewWindowStateMs(): Pair<StateContainer, Ms<WindowState>> {
+    override fun createNewWindowStateMs(): Pair<StateContainer, Ms<OuterWindowState>> {
          val o=subAppStateCont.createNewWindowStateMs()
         subAppStateCont= o.first
         return this to o.second
     }
 
-    override fun createNewWindowStateMs(windowId: String): Pair<StateContainer, Ms<WindowState>> {
+    override fun createNewWindowStateMs(windowId: String): Pair<StateContainer, Ms<OuterWindowState>> {
         val o = subAppStateCont.createNewWindowStateMs(windowId)
         subAppStateCont = o.first
         return this to o.second
@@ -140,17 +142,30 @@ class StateContainerImp @Inject constructor(
         return subAppStateCont.getWindowStateMsByIdRs(windowId)
     }
 
+    override fun addOuterWindowState(windowState: Ms<OuterWindowState>): StateContainerImp {
+        subAppStateCont= subAppStateCont.addOuterWindowState(windowState)
+        return this
+    }
+
+    override fun removeOuterWindowState(windowState: Ms<OuterWindowState>): StateContainerImp {
+        subAppStateCont= subAppStateCont.removeOuterWindowState(windowState)
+        return this
+    }
+
     override fun getWindowStateMsDefaultRs(windowId: String?): Rse<Ms<WindowState>> {
-        val windowMsRs = if (windowId != null) {
-            getWindowStateMsByIdRs(windowId)
+        val windowMsRs:Rse<Ms<WindowState>> = if (windowId != null) {
+            val q:Rse<Ms<WindowState>> = getWindowStateMsByIdRs(windowId)
+            q
         } else {
             val activeWid = appState.activeWindowStateMs
             if (activeWid != null) {
-                Ok(activeWid)
+                val q = Ok(activeWid)
+                q
             } else {
-                val firstWid = windowStateMsList.firstOrNull()
+                val firstWid = windowStateMsList.firstOrNull()?.value?.innerWindowStateMs
                 if (firstWid != null) {
-                    Ok(firstWid)
+                    val q = Ok(firstWid)
+                    q
                 } else {
                     Err(AppStateErrors.InvalidWindowState.report3("Unable to get a default window state"))
                 }

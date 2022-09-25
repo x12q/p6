@@ -78,7 +78,7 @@ data class WorkbookContainerImp @Inject constructor(
                 is Err -> return rs
             }
         } else {
-            return WorkbookContainerErrors.InvalidWorkbook.report("Workbook at ${wb.key} does not exist, therefore, can't not be replaced")
+            return WorkbookContainerErrors.InvalidWorkbook.report("Workbook at ${wb.key} does not exist, therefore, can't not be overwritten")
                 .toErr()
         }
     }

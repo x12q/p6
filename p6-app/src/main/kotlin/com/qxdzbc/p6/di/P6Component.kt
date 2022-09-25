@@ -71,6 +71,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTable
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction
+import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import dagger.BindsInstance
@@ -130,6 +131,9 @@ interface P6Component {
 
     @P6Singleton
     fun windowStateFactory(): WindowStateFactory
+
+    @P6Singleton
+    fun outerWindowStateFactory(): OuterWindowStateFactory
 
     @P6Singleton
     fun codeEditorActionTable(): CodeEditorActionTable

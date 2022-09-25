@@ -22,6 +22,7 @@ import kotlinx.coroutines.CompletableDeferred
 import java.nio.file.Path
 
 interface WindowState : WithSize {
+
     val id:String
 
     val formulaColorProvider: FormulaColorProvider

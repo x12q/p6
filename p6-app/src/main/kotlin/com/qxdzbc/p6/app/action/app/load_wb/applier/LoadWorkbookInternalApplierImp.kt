@@ -36,8 +36,9 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
                 is Err ->{
                     // x: designated window does not exist and can't get a default window state => create a new window for the loaded workbook with the provided window id
                     val newWindowId = windowId ?: UUID.randomUUID().toString()
-                    val (newStateCont, newWindowStateMs) = stateCont.createNewWindowStateMs(newWindowId)
+                    val (newStateCont, newOuterWindowStateMs) = stateCont.createNewWindowStateMs(newWindowId)
                     stateCont = newStateCont
+                    val newWindowStateMs = newOuterWindowStateMs.value.innerWindowStateMs
                     globalWbStateCont.getWbStateMs(wb.key)?.also {
                         it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
                         newWindowStateMs.value.activeWbPointer = newWindowStateMs.value.activeWbPointer.pointTo(it.value.wbKeyMs)

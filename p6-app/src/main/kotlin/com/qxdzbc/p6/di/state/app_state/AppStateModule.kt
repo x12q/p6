@@ -40,6 +40,7 @@ import com.qxdzbc.p6.ui.script_editor.script_tree.action.ScriptTreeActionImp
 import com.qxdzbc.p6.ui.script_editor.script_tree.state.ScriptTreeState
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import com.qxdzbc.p6.ui.script_editor.state.SwingCodeEditorStateImp
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import dagger.Binds
 import dagger.Provides
@@ -151,7 +152,14 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         @AppWindowStateListMs
-        fun WindowStateList(): Ms<List<Ms<WindowState>>> {
+        fun WindowStateList(): Ms<List<Ms<OuterWindowState>>> {
+            return ms(listOf())
+        }
+
+        @Provides
+        @P6Singleton
+        @AppOuterWindowStateListMs
+        fun OuterWindowStateList(): Ms<List<Ms<OuterWindowState>>> {
             return ms(listOf())
         }
 

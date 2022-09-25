@@ -104,14 +104,8 @@ data class WindowStateImp @AssistedInject constructor(
         }
     override val activeWbStateMs: Ms<WorkbookState>?
         get() {
-            val activeWbKey = this.activeWbPointer.wbKey
-            if (activeWbKey!=null) {
-                return this.getWorkbookStateMs(activeWbKey)
-            }
-            return null
+            return this.activeWbPointer.wbKey?.let{this.getWorkbookStateMs(it)}
         }
-
-
 
     private fun getWorkbookStateMs(workbookKey: WorkbookKey): Ms<WorkbookState>? {
         return wbStateCont.getWbStateMs(workbookKey)

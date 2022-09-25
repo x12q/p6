@@ -30,10 +30,6 @@ import kotlinx.coroutines.launch
 import java.awt.event.WindowEvent
 import java.awt.event.WindowFocusListener
 
-enum class WindowTypes {
-    First,
-    Second,
-}
 
 @Composable
 fun WindowView(
@@ -42,7 +38,8 @@ fun WindowView(
     windowAction: WindowAction,
 ) {
     val windowState: WindowState = state
-    val activeWbStateMs = windowState.activeWbStateMs
+    val activeWbStateMs = windowState.activeWbStateMs // this line cause the force push-window-to-top
+//    println("hash x: ${activeWbStateMs?.hashCode()}")
     val oddityContainerMs = windowState.errorContainerMs
     val executionScope = rememberCoroutineScope()
     val launchOnMain = remember { CoroutineUtils.makeLaunchOnMain(executionScope) }
@@ -51,7 +48,7 @@ fun WindowView(
         onCloseRequest = {
             windowAction.onCloseWindowRequest(state.id)
         },
-        title = state.windowTitle,
+//        title = state.windowTitle,
         onPreviewKeyEvent = {
             false
         },
@@ -62,13 +59,12 @@ fun WindowView(
                   windowAction.setActiveWindow(state.id)
               }
 
-              override fun windowLostFocus(e: WindowEvent?) {
-
-              }
+              override fun windowLostFocus(e: WindowEvent?) {}
           })
         }
 
         Surface {
+            // event when I disable thhis, it still is pushed on top
             WindowFrame(
                 menu = {
                     WindowMenu(

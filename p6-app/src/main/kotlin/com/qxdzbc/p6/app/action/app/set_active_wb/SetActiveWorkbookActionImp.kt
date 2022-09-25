@@ -29,7 +29,8 @@ class SetActiveWorkbookActionImp @Inject constructor(
 
     override fun setActiveWb(wbk: WorkbookKey): Rse<Unit> {
         val windowStateRs = stateCont.getWindowStateByWbKeyRs(wbk)
-        val rt= windowStateRs.map {wds->
+        val rt= windowStateRs.map {owds->
+            val wds = owds
             appState.activeWindowPointer = appState.activeWindowPointer.pointTo(wds.id)
             stateCont.getWbKeyMs(wbk)?.also {
                 wds.activeWbPointer = wds.activeWbPointer.pointTo(it)
