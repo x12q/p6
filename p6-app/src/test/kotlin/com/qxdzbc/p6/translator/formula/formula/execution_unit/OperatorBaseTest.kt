@@ -1,4 +1,5 @@
 package com.qxdzbc.p6.translator.formula.formula.execution_unit
+
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.CellContentImp
@@ -12,59 +13,64 @@ import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import kotlin.test.*
+import kotlin.test.BeforeTest
+
 abstract class OperatorBaseTest {
-    lateinit var  ots:OperatorTestSample
-    lateinit var getBlankCellUnit:GetCell
-    lateinit var strUnit:StrUnit
-    lateinit var intUnit:IntUnit
-    lateinit var doubleUnit:DoubleUnit
+    lateinit var ots: OperatorTestSample
+    lateinit var getBlankCellUnit: GetCell
+    lateinit var strUnit: StrUnit
+    lateinit var intUnit: IntUnit
+    lateinit var doubleUnit: DoubleUnit
+
     @BeforeTest
-    fun b(){
+    fun b() {
         ots = OperatorTestSample()
         getBlankCellUnit = ots.getBlankCellUnit
         strUnit = ots.strUnit
-        intUnit=ots.intUnit
+        intUnit = ots.intUnit
         doubleUnit = ots.doubleUnit
     }
 }
 
-class OperatorTestSample{
-    val getBlankCellUnit = mock<GetCell>().apply{
-        whenever(this.runRs()) doReturn  Ok(
+class OperatorTestSample {
+    val getBlankCellUnit = mock<GetCell>().apply {
+        whenever(this.runRs()) doReturn Ok(
             IndCellImp(
                 address = CellAddress("Q2"),
-                content =  CellContentImp()
+                content = CellContentImp()
             )
         )
         whenever(this.run()) doReturn
-            IndCellImp(
-                address = CellAddress("Q2"),
-                content =  CellContentImp()
-            )
+                IndCellImp(
+                    address = CellAddress("Q2"),
+                    content = CellContentImp()
+                )
 
     }
 
-    val getIntCellUnit = mock<GetCell>().apply{
-        whenever(this.runRs()) doReturn  Ok(
-            IndCellImp(
-                address = CellAddress("Q2"),
-                content =  CellContentImp(
-                    cellValueMs = CellValue.Companion.from(33).toMs()
+    fun makeMockCellUnit(i: Any?): GetCell {
+        val getIntCellUnit = mock<GetCell>().apply {
+            whenever(this.runRs()) doReturn Ok(
+                IndCellImp(
+                    address = CellAddress("Q2"),
+                    content = CellContentImp(
+                        cellValueMs = CellValue.Companion.fromAny(i).toMs()
+                    )
                 )
             )
-        )
-
-        whenever(this.run()) doReturn
-            IndCellImp(
-                address = CellAddress("Q2"),
-                content =  CellContentImp(
-                    cellValueMs = CellValue.Companion.from(33).toMs()
-                )
-
-        )
+            whenever(this.run()) doReturn
+                    IndCellImp(
+                        address = CellAddress("Q2"),
+                        content = CellContentImp(
+                            cellValueMs = CellValue.Companion.fromAny(i).toMs()
+                        )
+                    )
+        }
+        return getIntCellUnit
     }
+
+    val getIntCellUnit = makeMockCellUnit(33)
     val strUnit = StrUnit("string unit value")
-    val intUnit=IntUnit(123)
+    val intUnit = IntUnit(123)
     val doubleUnit = DoubleUnit(123.0)
 }

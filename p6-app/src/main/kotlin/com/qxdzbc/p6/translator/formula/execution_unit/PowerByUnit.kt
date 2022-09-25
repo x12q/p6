@@ -17,7 +17,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnits.extractFromCellOr
 /**
  * ExUnit for "^" operator
  */
-data class PowerBy(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+data class PowerByUnit(val u1: ExUnit, val u2: ExUnit) : ExUnit {
     override fun getRangeIds(): List<RangeId> {
         return u1.getRangeIds() + u2.getRangeIds()
     }

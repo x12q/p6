@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.execution_unit.GetRange
 import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.WsNameStUnit
 import org.mockito.kotlin.mock
 import test.TestSample
@@ -22,7 +22,7 @@ internal class ExUnit_GetRange {
     fun toFormula() {
         val u = GetRange(
             funcName = "qwe",
-                wbKeyUnit=WorkbookKey("Wb1",null).toSt().exUnit(),
+                wbKeyUnit=WorkbookKey("Wb1",null).toSt().toExUnit(),
                 wsNameUnit=WsNameStUnit("Sheet1".toSt()),
                 rangeAddressUnit =RangeAddressUnit(RangeAddress("B2:K9")),
             functionMapSt = mock()
@@ -37,7 +37,7 @@ internal class ExUnit_GetRange {
         val wbk2 = WorkbookKey("Wb2",null)
         val u = GetRange(
             funcName = "qwe",
-            wbKeyUnit=wbk1.toSt().exUnit(),
+            wbKeyUnit=wbk1.toSt().toExUnit(),
             wsNameUnit= WsNameStUnit("Sheet1".toSt()),
             rangeAddressUnit = RangeAddressUnit(RangeAddress("B2:K9")),
             functionMapSt = mock()

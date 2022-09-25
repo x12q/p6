@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 class StrUnit(val v: String) : ExUnit {
     companion object{
-        fun String.exUnit(): StrUnit {
+        fun String.toExUnit(): StrUnit {
             return StrUnit(this)
         }
     }

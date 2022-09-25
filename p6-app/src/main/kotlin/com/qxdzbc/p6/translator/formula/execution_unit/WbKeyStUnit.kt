@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 data class WbKeyStUnit(val wbKeySt: St<WorkbookKey>) : ExUnit {
     companion object{
-        fun St<WorkbookKey>.exUnit(): WbKeyStUnit {
+        fun St<WorkbookKey>.toExUnit(): WbKeyStUnit {
             return WbKeyStUnit(this)
         }
     }

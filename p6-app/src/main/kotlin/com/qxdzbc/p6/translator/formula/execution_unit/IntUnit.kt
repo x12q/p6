@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 data class IntUnit(val v: Int) :ExUnit {
     companion object{
-        fun Int.exUnit(): IntUnit {
+        fun Int.toExUnit(): IntUnit {
             return IntUnit(this)
         }
     }

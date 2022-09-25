@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 data class CellAddressUnit(val cellAddress: CellAddress) : ExUnit {
     companion object{
-        fun CellAddress.exUnit(): CellAddressUnit {
+        fun CellAddress.toExUnit(): CellAddressUnit {
             return CellAddressUnit(this)
         }
     }

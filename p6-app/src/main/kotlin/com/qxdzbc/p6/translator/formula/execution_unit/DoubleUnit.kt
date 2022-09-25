@@ -8,10 +8,10 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 data class DoubleUnit(val v: Double):ExUnit {
     companion object{
-        fun Double.exUnit(): DoubleUnit {
+        fun Double.toExUnit(): DoubleUnit {
             return DoubleUnit(this)
         }
-        fun Float.exUnit(): DoubleUnit {
+        fun Float.toExUnit(): DoubleUnit {
             return DoubleUnit(this.toDouble())
         }
     }

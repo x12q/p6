@@ -12,7 +12,7 @@ value class BoolUnit(val v: Boolean) : ExUnit {
     companion object{
         val TRUE = BoolUnit(true)
         val FALSE = BoolUnit(false)
-        fun Boolean.exUnit(): BoolUnit {
+        fun Boolean.toExUnit(): BoolUnit {
             return BoolUnit(this)
         }
     }

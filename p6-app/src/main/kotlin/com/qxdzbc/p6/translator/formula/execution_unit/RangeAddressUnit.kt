@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 data class RangeAddressUnit(val rangeAddress: RangeAddress) : ExUnit {
     companion object{
-        fun RangeAddress.exUnit(): RangeAddressUnit {
+        fun RangeAddress.toExUnit(): RangeAddressUnit {
             return RangeAddressUnit(this)
         }
     }

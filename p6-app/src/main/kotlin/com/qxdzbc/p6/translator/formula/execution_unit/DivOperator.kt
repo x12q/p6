@@ -85,8 +85,12 @@ data class DivOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
                 val trueR2 = ExUnits.extractFromCellOrNull(r2)?:0
                 if (trueR1 is Number && trueR2 is Number) {
                     try {
-                        val result = trueR1.toDouble() / (trueR2.toDouble())
-                        Ok(result)
+                        if(trueR2 == 0 || trueR2 == 0.0){
+                            return CommonErrors.ExceptionError.report(ArithmeticException("can't divided by zero")).toErr()
+                        }else{
+                            val result = trueR1.toDouble() / (trueR2.toDouble())
+                            Ok(result)
+                        }
                     } catch (e: Throwable) {
                         CommonErrors.ExceptionError.report(e).toErr()
                     }

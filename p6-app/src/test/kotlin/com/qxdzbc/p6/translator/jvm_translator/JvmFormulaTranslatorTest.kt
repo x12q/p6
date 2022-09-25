@@ -17,9 +17,9 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.translator.formula.execution_unit.*
-import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.exUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.exUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.exUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
 import test.TestSample
 import kotlin.reflect.KFunction
 
@@ -76,7 +76,7 @@ class JvmFormulaTranslatorTest {
             "=A1" to GetCell(
                 funcName = P6FunctionDefinitions.getCellRs,
 
-                    wbKeySt.exUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").exUnit(),
+                    wbKeySt.toExUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").toExUnit(),
 
                 functionMapSt = functionMap
             ),
@@ -102,7 +102,7 @@ class JvmFormulaTranslatorTest {
                         args = listOf(
                             GetCell(
                                 funcName = P6FunctionDefinitions.getCellRs,
-                                    wbKeySt.exUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").exUnit(),
+                                    wbKeySt.toExUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").toExUnit(),
                                 functionMapSt = functionMap
                             )
                         ),
@@ -129,33 +129,33 @@ class JvmFormulaTranslatorTest {
         val validMap = mapOf(
             "=\$A\$1" to GetCell(
                 funcName = P6FunctionDefinitions.getCellRs,
-                    wbKeySt.exUnit(),
+                    wbKeySt.toExUnit(),
                     WsNameStUnit(wsNameSt),
-                    CellAddress("\$A\$1").exUnit()
+                    CellAddress("\$A\$1").toExUnit()
                 ,
                 functionMapSt = functionMap
             ),
             "=\$A1:B$3" to GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
-                    wbKeySt.exUnit(),
+                    wbKeySt.toExUnit(),
                     WsNameStUnit(wsNameSt),
-                    RangeAddress("\$A1:B\$3").exUnit()
+                    RangeAddress("\$A1:B\$3").toExUnit()
                 ,
                 functionMapSt = functionMap
             ),
             "=A1:B3" to GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
-                    wbKeySt.exUnit(),
+                    wbKeySt.toExUnit(),
                     WsNameStUnit(wsNameSt),
-                    RangeAddress("A1:B3").exUnit()
+                    RangeAddress("A1:B3").toExUnit()
             ,
                 functionMapSt = functionMap
             ),
             "=A1:B3@Sheet1" to GetRange(
                 funcName = P6FunctionDefinitions.getRangeRs,
-                    wbKeySt.exUnit(),
+                    wbKeySt.toExUnit(),
                     WsNameStUnit(wsNameSt),
-                    RangeAddress("A1:B3").exUnit(),
+                    RangeAddress("A1:B3").toExUnit(),
                 functionMapSt = functionMap
             ),
         )

@@ -62,33 +62,7 @@ internal class ExUnitTest {
         }
     }
 
-    class DivOperatorTest{
-        @Test
-        fun getRange(){
-            val u = DivOperator(
-                CellAddressUnit(CellAddress("C3")),
-                CellAddressUnit(CellAddress("K3"))
-            )
-            assertEquals(
-                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
-                u.getRanges()
-            )
-        }
-    }
 
-    class PowerByTest{
-        @Test
-        fun getRange(){
-            val u = PowerBy(
-                CellAddressUnit(CellAddress("C3")),
-                CellAddressUnit(CellAddress("K3"))
-            )
-            assertEquals(
-                listOf(RangeAddress(CellAddress("C3")), RangeAddress(CellAddress("K3"))),
-                u.getRanges()
-            )
-        }
-    }
 
     class UnarySubtractTest{
         @Test
