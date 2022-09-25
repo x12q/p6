@@ -70,7 +70,7 @@ class MinusOperatorTest:OperatorBaseTest(){
         val u = MinusOperator(
             intUnit, ots.getIntCellUnit
         )
-        val e = intUnit.v - ((ots.getIntCellUnit.runRs() as Cell).valueAfterRun as Double)
+        val e = intUnit.v - ((ots.getIntCellUnit.run() as Cell).valueAfterRun as Double)
         assertEquals(Ok(e),u.runRs())
     }
     @Test

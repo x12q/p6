@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 
-class StrUnit(val v: String) : ExUnit {
+data class StrUnit(val v: String) : ExUnit {
     companion object{
         fun String.toExUnit(): StrUnit {
             return StrUnit(this)
