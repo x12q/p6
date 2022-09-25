@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.mouseClickable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -30,7 +31,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 
 
 /**
- * Display worksheet content
+ * Display worksheet cells
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -44,10 +45,9 @@ fun CellGridView(
     MBox(
         modifier = modifier
             .fillMaxSize()
-            // this cause the view to shrink
-//                .wrapContentSize(unbounded = true, align = Alignment.TopStart)
             .onGloballyPositioned {
                 wsActions.updateCellGridLayoutCoors(it, wsState)
+                wsActions.computeSliderSize(wsState)
             }
             .onPointerEvent(PointerEventType.Press) {
                 if (it.buttons.isPrimaryPressed && it.keyboardModifiers.isNonePressed) {
@@ -77,7 +77,6 @@ fun CellGridView(
                 wsActions.stopDragSelection(wsState)
             }
     ) {
-        wsActions.determineSliderSize(wsState)
         Row(
             modifier = Modifier.wrapContentSize(
                 unbounded = true,
@@ -85,7 +84,7 @@ fun CellGridView(
             )
         ) {
             for (colIndex: Int in slider.visibleColRange) {
-                val width = wsState.getColumnWidthOrDefault(colIndex)
+                val colWidth = wsState.getColumnWidthOrDefault(colIndex)
                 Column(
                     modifier = Modifier
                         .wrapContentSize(
@@ -96,10 +95,10 @@ fun CellGridView(
                     for (rowIndex: Int in slider.visibleRowRange) {
                         val cellAddress = CellAddress(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
-                        val height = wsState.getRowHeight(rowIndex) ?: p6R.size.value.defaultRowHeight
+                        val rowHeight = wsState.getRowHeight(rowIndex) ?: p6R.size.value.defaultRowHeight
 
                         // x: pick border style base on the cell position
-                        val bs =
+                        val borderStyle =
                             if (colIndex == slider.lastVisibleCol && rowIndex == slider.lastVisibleRow) {
                                 BorderStyle.NONE
                             } else if (colIndex == slider.lastVisibleCol) {
@@ -117,10 +116,10 @@ fun CellGridView(
                             }
                         }.then(addTestTag(enableTestTag, makeCellTestTag2(cellAddress)))
                         BorderBox(
-                            style = bs,
+                            style = borderStyle,
                             borderColor = Color.LightGray,
                             modifier = Modifier
-                                .size(width.dp, height.dp)
+                                .size(colWidth.dp, rowHeight.dp)
                                 .onGloballyPositioned {
                                     wsActions.addCellLayoutCoor(cellAddress, it, wsState)
                                 }

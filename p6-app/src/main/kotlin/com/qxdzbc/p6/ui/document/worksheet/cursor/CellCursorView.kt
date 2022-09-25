@@ -49,7 +49,6 @@ fun CursorView(
     worksheetActionTable: WorksheetActionTable,
 ) {
     val mainCell: CellAddress = state.mainCell
-    val anchorSize = cellLayoutCoorsMap[mainCell]?.size ?: DpSize(0.dp, 0.dp)
     val fc = remember { FocusRequester() }
     //bound layout of anchor cell
     var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
@@ -60,7 +59,7 @@ fun CursorView(
         }
     }
 
-    // x: this a invisible box that matches the whole cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, referred cells)
+    // x: this an invisible box that matches the whole cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, referred cells)
     MBox(modifier = Modifier
         .fillMaxSize()
         .onGloballyPositioned {
@@ -89,16 +88,18 @@ fun CursorView(
         }
 
         MBox(modifier = Modifier.offset { editorOffset }) {
+            val editorSize = state.cellEditorState.targetCell?.let { cellLayoutCoorsMap[it] }?.size ?: DpSize(0.dp,0.dp)
             CellEditorView(
                 state = state.cellEditorState,
                 action = worksheetActionTable.cellEditorAction,
                 isFocused = focusState.isEditorFocused,
-                size = anchorSize,
+                size = editorSize,
             )
         }
 
         // x: this is anchorCell
         if (!state.cellEditorState.isActive || state.cellEditorState.rangeSelectorCursorId == state.id) {
+            val anchorSize = cellLayoutCoorsMap[mainCell]?.size ?: DpSize(0.dp, 0.dp)
             MBox(
                 modifier = Modifier
                     .then(modifier)

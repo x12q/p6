@@ -85,7 +85,7 @@ internal class WorksheetAction2ImpTest {
             visibleColRange = 1..5,
             visibleRowRange = 1..5,
         )
-        val n: GridSlider = actions.determineSliderSize(
+        val n: GridSlider = actions.computeSliderSize(
             o, DpSize(width = 100.dp, height = 200.dp),
             anchorCell = CellAddress(3, 2),
             colWidthGetter = { 30 },
@@ -96,7 +96,7 @@ internal class WorksheetAction2ImpTest {
         assertNull(n.marginRow)
         assertEquals(6,n.marginCol)
 
-        val n2: GridSlider = actions.determineSliderSize(
+        val n2: GridSlider = actions.computeSliderSize(
             o, DpSize(width = 100.dp, height = 200.dp),
             anchorCell = CellAddress(3, 2),
             colWidthGetter = { 30 },

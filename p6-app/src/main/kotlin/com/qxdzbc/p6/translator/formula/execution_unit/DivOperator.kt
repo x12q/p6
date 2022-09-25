@@ -8,6 +8,7 @@ import com.github.michaelbull.result.andThen
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -85,8 +86,8 @@ data class DivOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
                 val trueR2 = ExUnits.extractFromCellOrNull(r2)?:0
                 if (trueR1 is Number && trueR2 is Number) {
                     try {
-                        if(trueR2 == 0 || trueR2 == 0.0){
-                            return CommonErrors.ExceptionError.report(ArithmeticException("can't divided by zero")).toErr()
+                        if(trueR2 == 0 || trueR2 == 0.0 || trueR2 == 0L || trueR2 == 0F){
+                            return FormulaErrors.DivByZeroErr.report().toErr()
                         }else{
                             val result = trueR1.toDouble() / (trueR2.toDouble())
                             Ok(result)

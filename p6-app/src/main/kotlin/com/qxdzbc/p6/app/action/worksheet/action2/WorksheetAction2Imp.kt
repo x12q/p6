@@ -3,7 +3,6 @@ package com.qxdzbc.p6.app.action.worksheet.action2
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
@@ -14,9 +13,9 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
-import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import javax.inject.Inject
 
@@ -24,7 +23,8 @@ class WorksheetAction2Imp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val mouseOnWsAction: MouseOnWorksheetAction,
     @StateContainerMs val stateContMs: Ms<StateContainer>,
-) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction {
+    val computeSliderSizeAction: ComputeSliderSizeAction
+) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction, ComputeSliderSizeAction by computeSliderSizeAction {
 
     private var stateCont by stateContMs
     private var appState by appStateMs
@@ -118,10 +118,10 @@ class WorksheetAction2Imp @Inject constructor(
         val wsStateMs = appState.getWsStateMs(wsLoc)
         wsStateMs?.also {
             val wsState by it
-            it.value = wsState
+            val newState =wsState
                 .setCellGridLayoutCoorWrapper(newLayoutCoordinates.wrap())
+            it.value = newState
         }
-
     }
 
     override fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
@@ -132,62 +132,6 @@ class WorksheetAction2Imp @Inject constructor(
             val wsState by it
             it.value = wsState
                 .setwsLayoutCoorWrapper(newLayoutCoordinates.wrap())
-        }
-    }
-
-    fun determineSliderSize(
-        oldGridSlider: GridSlider,
-        availableSize: DpSize,
-        anchorCell: CellAddress,
-        colWidthGetter: (colIndex: Int) -> Int,
-        rowHeightGetter: (rowIndex: Int) -> Int,
-    ): GridSlider {
-        val limitWidth = availableSize.width.value
-        val limitHeight = availableSize.height.value
-
-        val fromCol = anchorCell.colIndex
-        var toCol = fromCol
-        var accumWidth = 0F
-        while (accumWidth < limitWidth) {
-            accumWidth += colWidthGetter(toCol)
-            toCol += 1
-        }
-
-        val fromRow = anchorCell.rowIndex
-        var toRow = fromRow
-        var accumHeight = 0F
-        while (accumHeight < limitHeight) {
-            accumHeight += rowHeightGetter(toRow)
-            toRow += 1
-        }
-        val lastRow = maxOf(toRow - 1, fromRow)
-        val lastCol = maxOf(toCol - 1, fromCol)
-
-        val newSlider = oldGridSlider
-            .setVisibleRowRange(fromRow..lastRow)
-            .setVisibleColRange(fromCol..lastCol)
-            .setMarginRow(if (accumHeight == limitHeight) null else lastRow)
-            .setMarginCol(if (accumWidth == limitWidth) null else lastCol)
-
-        return newSlider
-    }
-
-    override fun determineSliderSize(wsLoc: WbWsSt) {
-        stateCont.getWsState(wsLoc)?.also { wsState ->
-            val currentSlider = wsState.slider
-            val availableSize = wsState.cellGridLayoutCoorWrapper?.size
-            val newSlider = if (availableSize != null) {
-                determineSliderSize(
-                    currentSlider, availableSize, wsState.slider.topLeftCell,
-                    wsState::getColumnWidthOrDefault,
-                    wsState::getRowHeightOrDefault,
-                )
-            } else {
-                null
-            }
-            if (newSlider != null) {
-                wsState.sliderMs.value = newSlider
-            }
         }
     }
 }

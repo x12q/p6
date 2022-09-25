@@ -2,6 +2,8 @@ package com.qxdzbc.p6.di.action
 
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetActionImp
+import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
+import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeActionImp
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2Imp
 import com.qxdzbc.p6.app.action.worksheet.convert_proto_to_ws.ConvertProtoToWorksheet
@@ -35,6 +37,10 @@ import dagger.Binds
 
 @dagger.Module
 interface WorksheetActionModule {
+    @Binds
+    @P6Singleton
+    fun ComputeSliderSizeAction(i: ComputeSliderSizeActionImp): ComputeSliderSizeAction
+
     @Binds
     @P6Singleton
     fun RemoveAllCellAction(i: RemoveAllCellActionImp): RemoveAllCellAction

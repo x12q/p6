@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.state
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
@@ -25,17 +26,14 @@ import dagger.assisted.AssistedInject
  * a GridSlider + col/row limit
  */
 data class WorksheetStateImp @AssistedInject constructor(
+    // ====Assisted inject properties ======//
     @Assisted("1") override val wsMs: Ms<Worksheet>,
     @Assisted("2") override val sliderMs: Ms<GridSlider>,
     @Assisted("3") override val cursorStateMs: Ms<CursorState>,
-    @Assisted("4")
-    override val colRulerStateMs: Ms<RulerState>,
-    @Assisted("5")
-    override val rowRulerStateMs: Ms<RulerState>,
+    @Assisted("4") override val colRulerStateMs: Ms<RulerState>,
+    @Assisted("5") override val rowRulerStateMs: Ms<RulerState>,
 
-
-    //==========================================//
-
+    //====Automatically injected properties====//
     @DefaultCellLayoutMap
     override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
     @DefaultLayoutCoorMs

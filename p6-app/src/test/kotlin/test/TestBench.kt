@@ -21,7 +21,7 @@ class TestBench {
     }
     @Test
     fun t(){
-        s = "qwe"
-        println(s)
+        val k = 0.0
+        println(k!=0.toDouble())
     }
 }
