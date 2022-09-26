@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.Rs
@@ -9,7 +7,6 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.di.state.app_state.AppWindowStateListMs
 import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -23,9 +20,7 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.di.state.app_state.AppOuterWindowStateListMs
 import com.qxdzbc.p6.di.state.app_state.AppWindowStateMapMs
-import com.qxdzbc.p6.rpc.workbook.msg.WorkbookKeyWithErrorResponse
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import javax.inject.Inject
@@ -122,7 +117,7 @@ data class SubAppStateContainerImp @Inject constructor(
         return this
     }
     override fun addOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer {
-        windowStateMap = windowStateMap + (windowState.value.id to windowState)
+        windowStateMap = windowStateMap + (windowState.value.windowId to windowState)
         return this
     }
 

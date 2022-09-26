@@ -3,6 +3,8 @@ package com.qxdzbc.p6.ui.window.workbook_tab.bar
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -26,7 +28,34 @@ fun WorkbookTabBarView(
 
     MBox(modifier = Modifier.fillMaxSize()) {
         Row {
+//            LazyRow(modifier = Modifier.weight(1.0F)) {
+//                this.items(
+//                    items=state.tabStateList,
+//                    key={wbTabState->wbTabState.wbKey},
+//                    itemContent={tabState->
+//                        MBox(
+//                            modifier = Modifier
+//                                .requiredWidthIn(
+//                                    p6R.size.value.minWorkbookTabWidth.dp,
+//                                    p6R.size.value.maxWorkbookTabWidth.dp
+//                                )
+//                                .height(p6R.size.value.tabHeight.dp)
+//                        ) {
+//                            WorkbookTabView(
+//                                tabState,
+//                                onClick = {
+//                                    wbTabBarActions.moveToWorkbook(it)
+//                                },
+//                                onClose = {
+//                                    wbTabBarActions.close(it, state.windowId)
+//                                }
+//                            )
+//                        }
+//                    },
+//                )
+//            }
             MBox(modifier = Modifier.weight(1.0F).horizontalScroll(stateHorizontal)) {
+
                 Row {
                     for (tabState in state.tabStateList) {
                         MBox(
@@ -58,8 +87,7 @@ fun WorkbookTabBarView(
                     .width(p6R.size.value.tabHeight.dp)
                     .height(p6R.size.value.tabHeight.dp)
                     .align(Alignment.Bottom)
-                    .clickable { wbTabBarActions?.createNewWb(state.windowId) }
-//                    .background(MaterialTheme.colors.secondaryVariant)
+                    .clickable { wbTabBarActions.createNewWb(state.windowId) }
             ) {
                 Icon(
                     Icons.Filled.Add,

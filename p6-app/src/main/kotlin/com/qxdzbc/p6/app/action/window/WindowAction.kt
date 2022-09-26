@@ -5,12 +5,13 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.path.PPath
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
+import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import java.nio.file.Path
 
-interface WindowAction : KernelAction,SaveWorkbookAction, SetActiveWindowAction {
+interface WindowAction : KernelAction,SaveWorkbookAction, SetActiveWindowAction,CloseWindowAction {
     fun showCommonFileDialog(job: CompletableDeferred<Path?>, windowId: String)
     fun openCommonFileBrowserAndUpdatePath(tMs: Ms<String>, executionScope: CoroutineScope, windowId: String)
     fun closeCommonFileDialog(windowId: String)
@@ -19,7 +20,6 @@ interface WindowAction : KernelAction,SaveWorkbookAction, SetActiveWindowAction 
     fun closeDialogToStartKernel(windowId: String)
     fun openDialogToConnectToKernel(windowId: String)
     fun closeDialogToConnectToKernel(windowId: String)
-    fun onCloseWindowRequest(windowId: String)
     fun onFatalError()
     fun saveActiveWorkbook(path: Path?, windowId: String)
     fun openSaveFileDialog(windowId: String)

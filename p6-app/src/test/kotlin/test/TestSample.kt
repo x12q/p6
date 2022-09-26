@@ -259,7 +259,7 @@ class TestSample: TestAppScope {
             .addOuterWindowState(windowState1)
             .addOuterWindowState(windowState2)
         appState.activeWindowPointer = appState.activeWindowPointer.pointTo(
-            windowState1.value.id
+            windowState1.value.windowId
         )
 
         appState.centralScriptContainer = appState.centralScriptContainer.addMultiScriptsForce(

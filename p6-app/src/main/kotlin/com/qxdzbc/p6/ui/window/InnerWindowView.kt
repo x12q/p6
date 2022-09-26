@@ -27,29 +27,26 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun InnerWindowView3(
+fun InnerWindowView(
     oState: OuterWindowState,
     windowActionTable: WindowActionTable,
     windowAction: WindowAction,
 ) {
-    val state = oState.innerWindowState
-    val windowState: WindowState = state
-    val activeWbStateMs = windowState.activeWbStateMs
-    val oddityContainerMs = windowState.errorContainerMs
+    val state: WindowState = oState.innerWindowState
+    val activeWbStateMs = state.activeWbStateMs
+    val oddityContainerMs = state.errorContainerMs
     val executionScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Surface {
             WindowFrame(
-                menu = {
-
-                },
+                menu = {},
                 formulaBar = {
-                    FormulaBar(state = windowState.formulaBarState)
+                    FormulaBar(state = state.formulaBarState)
                 },
                 workbookTab = {
                     WorkbookTabBarView(
-                        state = windowState.wbTabBarState,
+                        state = state.wbTabBarState,
                         wbTabBarActions = windowActionTable.wbTabBarAction
                     )
                 },
@@ -65,7 +62,7 @@ fun InnerWindowView3(
                     }
                 },
                 statusBar = {
-                    StatusBar(windowState.statusBarState)
+                    StatusBar(state.statusBarState)
                 }
             )
         }
@@ -89,7 +86,7 @@ fun InnerWindowView3(
         }
     }
 
-    if (windowState.showStartKernelDialogState.isShowing) {
+    if (state.showStartKernelDialogState.isShowing) {
         StartKernelDialog(
             onOk = {
                 executionScope.launch(Dispatchers.IO) {
@@ -105,7 +102,7 @@ fun InnerWindowView3(
             }
         )
     }
-    if (windowState.showConnectToKernelDialogState.isShowing) {
+    if (state.showConnectToKernelDialogState.isShowing) {
         ConnectToKernelDialog(
             onOk = { path, content ->
                 executionScope.launch {
@@ -126,20 +123,20 @@ fun InnerWindowView3(
         )
     }
 
-    if (windowState.statusBarState.kernelStatusItemState.detailIsShown) {
-        KernelStatusDetailDialog(state = windowState.statusBarState.kernelStatusItemState,
+    if (state.statusBarState.kernelStatusItemState.detailIsShown) {
+        KernelStatusDetailDialog(state = state.statusBarState.kernelStatusItemState,
             onClickClose = {
-                windowState.statusBarState.kernelStatusItemState =
-                    windowState.statusBarState.kernelStatusItemState.hideDetail()
+                state.statusBarState.kernelStatusItemState =
+                    state.statusBarState.kernelStatusItemState.hideDetail()
             }
         )
     }
-    if (windowState.statusBarState.rpcServerStatusState.isShowingDetail) {
+    if (state.statusBarState.rpcServerStatusState.isShowingDetail) {
         RpcStatusDetailDialog(
-            state = windowState.statusBarState.rpcServerStatusState,
+            state = state.statusBarState.rpcServerStatusState,
             onClickClose = {
-                windowState.statusBarState.rpcServerStatusState =
-                    windowState.statusBarState.rpcServerStatusState.hideDetail()
+                state.statusBarState.rpcServerStatusState =
+                    state.statusBarState.rpcServerStatusState.hideDetail()
             }
         )
     }

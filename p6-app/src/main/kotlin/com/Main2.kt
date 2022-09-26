@@ -185,7 +185,7 @@ fun main() {
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
                                 WindowView2(
-                                    oState = windowState,
+                                    state = windowState,
                                     windowActionTable = windowActionTable,
                                     windowAction = windowAction,
                                 )

@@ -45,7 +45,7 @@ fun WindowView(
     Loggers.renderLogger.debug("render window view")
     Window(
         onCloseRequest = {
-            windowAction.onCloseWindowRequest(state.id)
+            windowAction.closeWindow(state.id)
         },
         title = state.windowTitle,
         onPreviewKeyEvent = {
