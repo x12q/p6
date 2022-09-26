@@ -156,6 +156,14 @@ interface AppStateModule {
             return ms(listOf())
         }
 
+
+        @Provides
+        @P6Singleton
+        @AppWindowStateMapMs
+        fun WindowStateMap(): Ms<Map<String, Ms<OuterWindowState>>> {
+            return ms(emptyMap())
+        }
+
         @Provides
         @P6Singleton
         @AppOuterWindowStateListMs

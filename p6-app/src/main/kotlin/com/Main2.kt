@@ -37,12 +37,10 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.c
 import com.qxdzbc.p6.ui.script_editor.ScriptEditor
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 import com.qxdzbc.p6.ui.theme.P6LightColors2
-import com.qxdzbc.p6.ui.window.WindowView
 import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.*
 import com.qxdzbc.p6.ui.window.WindowView2
-import com.qxdzbc.p6.ui.window.WindowView3
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.*
 import java.nio.file.Paths
@@ -125,11 +123,11 @@ fun main() {
                                 ) as WindowState
                             )
                         ) as OuterWindowState)
-                    ).fold(appState.stateCont)
+                    ).fold(appState.subAppStateCont)
                     { acc, e ->
                         acc.addOuterWindowState(e)
                     }
-                    appState.stateCont = zz
+                    appState.subAppStateCont = zz
                     appState
                 }
 
@@ -182,20 +180,20 @@ fun main() {
                         P6GlobalAccessPoint.setAppStateMs(appStateMs2)
                         val appState = appStateMs2.value
 
-                        for (windowStateMs in appState.windowStateMsList) {
+                        for (windowStateMs in appState.outerWindowStateMsList) {
                             val windowState = windowStateMs.value
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
-//                                WindowView3(
-//                                    oState = windowState,
-//                                    windowActionTable = windowActionTable,
-//                                    windowAction = windowAction,
-//                                )
-                                WindowView(
-                                    state = windowState.innerWindowState,
+                                WindowView2(
+                                    oState = windowState,
                                     windowActionTable = windowActionTable,
                                     windowAction = windowAction,
                                 )
+//                                WindowView(
+//                                    state = windowState.innerWindowState,
+//                                    windowActionTable = windowActionTable,
+//                                    windowAction = windowAction,
+//                                )
 
 //                            WindowView2(
 //                                appState = appState,

@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 import java.awt.event.WindowEvent
 import java.awt.event.WindowFocusListener
 
-
+@Deprecated("dont use, this is kept just in case")
 @Composable
 fun WindowView(
     state: WindowState,
@@ -39,7 +39,6 @@ fun WindowView(
 ) {
     val windowState: WindowState = state
     val activeWbStateMs = windowState.activeWbStateMs // this line cause the force push-window-to-top
-//    println("hash x: ${activeWbStateMs?.hashCode()}")
     val oddityContainerMs = windowState.errorContainerMs
     val executionScope = rememberCoroutineScope()
     val launchOnMain = remember { CoroutineUtils.makeLaunchOnMain(executionScope) }
@@ -48,7 +47,7 @@ fun WindowView(
         onCloseRequest = {
             windowAction.onCloseWindowRequest(state.id)
         },
-//        title = state.windowTitle,
+        title = state.windowTitle,
         onPreviewKeyEvent = {
             false
         },
@@ -98,7 +97,12 @@ fun WindowView(
                 }
             )
         }
-
+        if (windowState.openCommonFileDialog) {
+            FileDialog("Select file", isLoad = true, onResult = { path ->
+                windowAction.setCommonFileDialogResult(path, state.id)
+                windowAction.closeCommonFileDialog(state.id)
+            })
+        }
         if (windowState.saveDialogState.isOpen) {
             FileDialog("Save workbook", false,
                 onResult = { path ->
@@ -118,6 +122,8 @@ fun WindowView(
                     }
                 })
         }
+
+        // ============== ======= =====
 
         if (oddityContainerMs.value.isNotEmpty()) {
             for (bugMsg: ErrMsg in oddityContainerMs.value.errList) {
@@ -173,12 +179,7 @@ fun WindowView(
                 }
             )
         }
-        if (windowState.openCommonFileDialog) {
-            FileDialog("Select file", isLoad = true, onResult = { path ->
-                windowAction.setCommonFileDialogResult(path, state.id)
-                windowAction.closeCommonFileDialog(state.id)
-            })
-        }
+
         if (windowState.statusBarState.kernelStatusItemState.detailIsShown) {
             KernelStatusDetailDialog(state = windowState.statusBarState.kernelStatusItemState,
                 onClickClose = {

@@ -74,9 +74,7 @@ class StateContainerImp @Inject constructor(
         get() = appState.cellEditorStateMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
 
-    override val windowStateMsListMs: Ms<List<Ms<OuterWindowState>>>
-        get() = subAppStateCont.windowStateMsListMs
-    override var windowStateMsList: List<MutableState<OuterWindowState>> by windowStateMsListMs
+    override val windowStateMsList: List<Ms<WindowState>> get()=subAppStateCont.windowStateMsList
 
     override val wbStateContMs: Ms<WorkbookStateContainer>
         get() = subAppStateCont.wbStateContMs
@@ -138,6 +136,14 @@ class StateContainerImp @Inject constructor(
         return subAppStateCont.getFocusStateMsByWbKeyRs(wbKey)
     }
 
+    override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
+
+    override val outerWindowStateMsList: List<Ms<OuterWindowState>>
+        get() = subAppStateCont.outerWindowStateMsList
+
+    override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
+        get() = this.subAppStateCont.windowStateMapMs
+
     override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport> {
         return subAppStateCont.getWindowStateMsByIdRs(windowId)
     }
@@ -162,7 +168,7 @@ class StateContainerImp @Inject constructor(
                 val q = Ok(activeWid)
                 q
             } else {
-                val firstWid = windowStateMsList.firstOrNull()?.value?.innerWindowStateMs
+                val firstWid = windowStateMsList.firstOrNull()
                 if (firstWid != null) {
                     val q = Ok(firstWid)
                     q

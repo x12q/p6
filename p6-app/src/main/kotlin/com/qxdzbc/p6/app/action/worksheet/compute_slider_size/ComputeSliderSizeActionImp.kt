@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.compute_slider_size
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.common.compose.St
@@ -21,7 +20,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
             val currentSlider = wsState.slider
             val availableSize = wsState.cellGridLayoutCoorWrapper?.size
             val newSlider = if (availableSize != null) {
-                determineSliderSize(
+                computeSliderSize(
                     currentSlider, availableSize, wsState.slider.topLeftCell,
                     wsState::getColumnWidthOrDefault,
                     wsState::getRowHeightOrDefault,
@@ -35,7 +34,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
         }
     }
 
-    fun determineSliderSize(
+    override fun computeSliderSize(
         oldGridSlider: GridSlider,
         availableSize: DpSize,
         anchorCell: CellAddress,

@@ -73,7 +73,7 @@ internal class WorksheetAction2ImpTest {
             }
         }
         actions =
-            WorksheetAction2Imp(testSample.appStateMs, testSample.p6Comp.mouseOnWsAction(), testSample.stateContMs())
+            WorksheetAction2Imp(testSample.appStateMs, testSample.p6Comp.mouseOnWsAction(), testSample.stateContMs(),testSample.p6Comp.computeSliderSizeAction())
         for ((c, l) in layoutMap) {
             wsStateMs.value = wsStateMs.value.addCellLayoutCoor(c, l)
         }

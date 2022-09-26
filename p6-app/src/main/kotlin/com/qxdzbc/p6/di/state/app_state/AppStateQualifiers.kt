@@ -96,6 +96,10 @@ annotation class DefaultNullCellAddress
 
 @Qualifier
 @Retention
+annotation class AppWindowStateMapMs
+
+@Qualifier
+@Retention
 annotation class AppWindowStateListMs
 
 @Qualifier

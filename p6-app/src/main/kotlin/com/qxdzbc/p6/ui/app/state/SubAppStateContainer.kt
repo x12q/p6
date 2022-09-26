@@ -23,8 +23,11 @@ import com.qxdzbc.p6.ui.window.state.OuterWindowState
  * An abstraction layer providing functions for looking up view states that is under app
  */
 interface SubAppStateContainer {
-    val windowStateMsListMs: Ms<List<Ms<OuterWindowState>>>
-    var windowStateMsList: List<Ms<OuterWindowState>>
+    val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
+    var windowStateMap: Map<String, Ms<OuterWindowState>>
+
+    val outerWindowStateMsList: List<Ms<OuterWindowState>>
+    val windowStateMsList: List<Ms<WindowState>>
 
     val wbStateContMs:Ms<WorkbookStateContainer>
     var wbStateCont: WorkbookStateContainer

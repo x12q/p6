@@ -36,6 +36,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.github.michaelbull.result.unwrap
 import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.TRUE
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -214,20 +215,23 @@ class TestSample: TestAppScope {
             .addOrOverwriteWbState(makeSampleWBState(wbKey4Ms))
     }
 
-    private fun makeSampleWindowStateMs1(): Ms<WindowState> {
-        return ms(
+    private fun makeSampleWindowStateMs1(): Ms<OuterWindowState> {
+        val inner:Ms<WindowState> = ms(
             p6Comp.windowStateFactory().createDefault(
                 listOf(wbKey1Ms, wbKey2Ms).toSet()
             ),
         )
+        return ms(p6Comp.outerWindowStateFactory().create(inner))
     }
 
-    private fun makeSampleWindowStateMs2(): Ms<WindowState> {
-        return ms(
+    private fun makeSampleWindowStateMs2(): Ms<OuterWindowState> {
+
+        val inner :Ms<WindowState> = ms(
             p6Comp.windowStateFactory().createDefault(
                 listOf(wbKey3Ms, wbKey4Ms).toSet()
             ),
         )
+        return ms(p6Comp.outerWindowStateFactory().create(inner))
     }
 
     val appStateMs = p6Comp.appStateMs()
@@ -251,7 +255,9 @@ class TestSample: TestAppScope {
         appState.wbStateContMs.value = makeSampleWbStateContMs()
         val windowState1 = makeSampleWindowStateMs1()
         val windowState2= makeSampleWindowStateMs2()
-        appState.windowStateMsList = appState.windowStateMsList + windowState1 + windowState2
+        appState.subAppStateContMs.value = appState.subAppStateContMs.value
+            .addOuterWindowState(windowState1)
+            .addOuterWindowState(windowState2)
         appState.activeWindowPointer = appState.activeWindowPointer.pointTo(
             windowState1.value.id
         )

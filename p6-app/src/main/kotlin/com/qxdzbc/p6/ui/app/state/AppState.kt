@@ -20,7 +20,7 @@ interface AppState : DocumentContainer, SubAppStateContainer {
     var cellEditorState: CellEditorState
 
     val subAppStateContMs: Ms<SubAppStateContainer>
-    var stateCont: SubAppStateContainer
+    var subAppStateCont: SubAppStateContainer
 
     val centralScriptContainerMs: Ms<CentralScriptContainer>
     var centralScriptContainer: CentralScriptContainer
