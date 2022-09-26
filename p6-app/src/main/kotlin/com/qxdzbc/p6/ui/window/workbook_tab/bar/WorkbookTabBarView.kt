@@ -24,40 +24,13 @@ fun WorkbookTabBarView(
     state: WorkbookTabBarState,
     wbTabBarActions: WorkbookTabBarAction,
 ) {
-    val stateHorizontal = rememberScrollState(0)
-
     MBox(modifier = Modifier.fillMaxSize()) {
         Row {
-//            LazyRow(modifier = Modifier.weight(1.0F)) {
-//                this.items(
-//                    items=state.tabStateList,
-//                    key={wbTabState->wbTabState.wbKey},
-//                    itemContent={tabState->
-//                        MBox(
-//                            modifier = Modifier
-//                                .requiredWidthIn(
-//                                    p6R.size.value.minWorkbookTabWidth.dp,
-//                                    p6R.size.value.maxWorkbookTabWidth.dp
-//                                )
-//                                .height(p6R.size.value.tabHeight.dp)
-//                        ) {
-//                            WorkbookTabView(
-//                                tabState,
-//                                onClick = {
-//                                    wbTabBarActions.moveToWorkbook(it)
-//                                },
-//                                onClose = {
-//                                    wbTabBarActions.close(it, state.windowId)
-//                                }
-//                            )
-//                        }
-//                    },
-//                )
-//            }
-            MBox(modifier = Modifier.weight(1.0F).horizontalScroll(stateHorizontal)) {
-
-                Row {
-                    for (tabState in state.tabStateList) {
+            LazyRow(modifier = Modifier.weight(1.0F)) {
+                items(
+                    items=state.tabStateList,
+                    key={wbTabState->wbTabState.wbKey},
+                    itemContent={tabState->
                         MBox(
                             modifier = Modifier
                                 .requiredWidthIn(
@@ -76,9 +49,36 @@ fun WorkbookTabBarView(
                                 }
                             )
                         }
-                    }
-                }
+                    },
+                )
             }
+
+//            val stateHorizontal = rememberScrollState(0)
+//            MBox(modifier = Modifier.weight(1.0F).horizontalScroll(stateHorizontal)) {
+//
+//                Row {
+//                    for (tabState in state.tabStateList) {
+//                        MBox(
+//                            modifier = Modifier
+//                                .requiredWidthIn(
+//                                    p6R.size.value.minWorkbookTabWidth.dp,
+//                                    p6R.size.value.maxWorkbookTabWidth.dp
+//                                )
+//                                .height(p6R.size.value.tabHeight.dp)
+//                        ) {
+//                            WorkbookTabView(
+//                                tabState,
+//                                onClick = {
+//                                    wbTabBarActions.moveToWorkbook(it)
+//                                },
+//                                onClose = {
+//                                    wbTabBarActions.close(it, state.windowId)
+//                                }
+//                            )
+//                        }
+//                    }
+//                }
+//            }
 
             // x: this is the button to create new workbook
             BorderBox(

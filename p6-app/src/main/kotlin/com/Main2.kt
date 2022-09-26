@@ -3,7 +3,10 @@ package  com
 import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
@@ -11,40 +14,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.andThen
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.app_context.P6GlobalAccessPoint
 import com.qxdzbc.p6.app.common.utils.Loggers
-import com.qxdzbc.p6.di.DaggerP6Component
-import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorType
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.di.DaggerP6Component
+import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfigImp
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.di.DaggerMessageApiComponent
 import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.ui.common.p6R
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
 import com.qxdzbc.p6.ui.script_editor.ScriptEditor
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 import com.qxdzbc.p6.ui.theme.P6LightColors2
-import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
-import com.qxdzbc.p6.ui.window.state.WindowState
-import com.github.michaelbull.result.*
 import com.qxdzbc.p6.ui.window.WindowView2
+import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
+import com.qxdzbc.p6.ui.window.state.WindowState
 import kotlinx.coroutines.*
 import java.nio.file.Paths
-import kotlin.collections.fold
 
 fun main() {
     runBlocking {
@@ -108,21 +113,23 @@ fun main() {
                         this.value = this.value.addOrOverwriteWbState(wbStateMs1).addOrOverwriteWbState(wbStateMs2)
                     }
                     val zz = listOf(
-                        ms(p6Comp.outerWindowStateFactory().create(
-                            ms(
-                                p6Comp.windowStateFactory().create(
-                                    wbKeyMsSet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet(),
-                                    activeWorkbookPointerMs = ms(
-                                        ActiveWorkbookPointerImp(
-                                            listOf(
-                                                wbStateMs1,
-                                                wbStateMs2
-                                            ).map { it.value.wb.keyMs }.toSet().firstOrNull()
+                        ms(
+                            p6Comp.outerWindowStateFactory().create(
+                                ms(
+                                    p6Comp.windowStateFactory().create(
+                                        wbKeyMsSet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet(),
+                                        activeWorkbookPointerMs = ms(
+                                            ActiveWorkbookPointerImp(
+                                                listOf(
+                                                    wbStateMs1,
+                                                    wbStateMs2
+                                                ).map { it.value.wb.keyMs }.toSet().firstOrNull()
+                                            )
                                         )
-                                    )
-                                ) as WindowState
-                            )
-                        ) as OuterWindowState)
+                                    ) as WindowState
+                                )
+                            ) as OuterWindowState
+                        )
                     ).fold(appState.subAppStateCont)
                     { acc, e ->
                         acc.addOuterWindowState(e)
@@ -184,23 +191,16 @@ fun main() {
                             val windowState = windowStateMs.value
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
-                                WindowView2(
-                                    state = windowState,
-                                    windowActionTable = windowActionTable,
-                                    windowAction = windowAction,
-                                )
+                            WindowView2(
+                                state = windowState,
+                                windowActionTable = windowActionTable,
+                                windowAction = windowAction,
+                            )
 //                                WindowView(
 //                                    state = windowState.innerWindowState,
 //                                    windowActionTable = windowActionTable,
 //                                    windowAction = windowAction,
 //                                )
-
-//                            WindowView2(
-//                                appState = appState,
-//                                windowId = windowState.id,
-//                                windowActionTable = windowActionTable,
-//                                windowAction = windowAction,
-//                            )
                         }
 
                         if (appState.codeEditorIsOpen) {

@@ -3,6 +3,8 @@ package com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -25,14 +27,13 @@ fun SheetTabBarView(
     onRename: (sheetName: String) -> Unit = {},
     onDelete: (sheetName: String) -> Unit = {},
 ) {
-    val stateHorizontal = rememberScrollState(0)
     MBox(modifier = Modifier.fillMaxSize()) {
         Row {
-            MBox(modifier = Modifier.weight(1.0F)
-                .horizontalScroll(stateHorizontal)
-            ) {
-                Row {
-                    for (tabState in state.tabStateList) {
+            LazyRow(modifier = Modifier.weight(1.0F)) {
+                items(
+                    items=state.tabStateList,
+                    key={tabState->tabState.sheetName},
+                    itemContent={tabState->
                         MBox(modifier = Modifier
                             .align(Alignment.Bottom)
                             .requiredWidthIn(p6R.size.value.minTabWidth.dp, p6R.size.value.maxTabWidth.dp)
@@ -43,8 +44,26 @@ fun SheetTabBarView(
                             )
                         }
                     }
-                }
+                )
             }
+//            val stateHorizontal = rememberScrollState(0)
+//            MBox(modifier = Modifier.weight(1.0F)
+//                .horizontalScroll(stateHorizontal)
+//            ) {
+//                Row {
+//                    for (tabState in state.tabStateList) {
+//                        MBox(modifier = Modifier
+//                            .align(Alignment.Bottom)
+//                            .requiredWidthIn(p6R.size.value.minTabWidth.dp, p6R.size.value.maxTabWidth.dp)
+//                            .height(p6R.size.value.tabHeight.dp)
+//                        ) {
+//                            SheetTabView(state=tabState, onClick = onItemClick,
+//                                onRename = onRename, onDelete = onDelete,
+//                            )
+//                        }
+//                    }
+//                }
+//            }
 
             BorderBox(
                 style = BorderStyle.LEFT_RIGHT,
