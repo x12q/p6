@@ -13,7 +13,9 @@ import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.file_dialog.FileDialog
 import com.qxdzbc.p6.ui.window.menu.OuterWindowMenu
+import com.qxdzbc.p6.ui.window.menu.WindowMenu
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
+import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.event.WindowFocusListener
 
@@ -50,10 +52,10 @@ fun WindowView2(
         // x: set window title down here to prevent forced push-to-top effect when inner window state change
         window.title = state.windowTitle
         Column(modifier= Modifier.fillMaxSize()){
-            OuterWindowMenu(
+            WindowMenu(
                 fileMenuAction = windowActionTable.fileMenuAction,
                 codeMenuAction = windowActionTable.codeMenuAction,
-                outerWindowState = state
+                windowState = state.innerWindowState
             )
             MBox{
                 InnerWindowView(state, windowActionTable, windowAction)
