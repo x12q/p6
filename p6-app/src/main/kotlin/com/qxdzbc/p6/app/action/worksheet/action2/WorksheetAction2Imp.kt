@@ -88,9 +88,7 @@ class WorksheetAction2Imp @Inject constructor(
         layoutCoordinates: LayoutCoordinates,
         wsLoc: WbWsSt
     ) {
-        val wsStateMs = appState.getWsStateMs(
-            wsLoc
-        )
+        val wsStateMs = appState.getWsStateMs(wsLoc)
         if (wsStateMs != null) {
             wsStateMs.value = wsStateMs.value
                 .addCellLayoutCoor(cellAddress, layoutCoordinates.wrap())

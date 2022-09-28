@@ -50,7 +50,7 @@ fun CursorView(
 ) {
     val mainCell: CellAddress = state.mainCell
     val fc = remember { FocusRequester() }
-    //bound layout of anchor cell
+    // x: the whole surface layout coors
     var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
 
     LaunchedEffect(focusState.isCursorFocused) {

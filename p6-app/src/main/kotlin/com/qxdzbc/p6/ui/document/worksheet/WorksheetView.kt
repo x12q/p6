@@ -25,7 +25,7 @@ import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
 import com.qxdzbc.p6.ui.document.worksheet.cursor.CursorView
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBar
-import com.qxdzbc.p6.ui.document.worksheet.ruler.Ruler
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerView
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 
@@ -69,7 +69,7 @@ fun WorksheetView(
                     }
                     MBox {
                         val colRulerAction = worksheetActionTable.colRulerAction
-                        Ruler(
+                        RulerView(
                             state = wsState.colRulerState,
                             rulerAction = colRulerAction,
                             size = p6R.size.value.defaultRowHeight
@@ -79,7 +79,7 @@ fun WorksheetView(
                 Row {
                     MBox {
                         val rowRulerAction = worksheetActionTable.rowRulerAction
-                        Ruler(
+                        RulerView(
                             //x: this is row ruler
                             state = wsState.rowRulerState,
                             rulerAction = rowRulerAction,

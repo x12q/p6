@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.state
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
@@ -59,8 +58,14 @@ data class WorksheetStateImp @AssistedInject constructor(
     }
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
-        if (this.cellLayoutCoorMap[cellAddress] != layoutCoor) {
-            val newMap = this.cellLayoutCoorMap + (cellAddress to layoutCoor)
+        val oldLayout:LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
+        val newLayout:LayoutCoorWrapper = if(oldLayout?.layout!= layoutCoor.layout){
+            layoutCoor
+        }else{
+            layoutCoor.forceRefresh(!oldLayout.refreshVar)
+        }
+        if (oldLayout != newLayout) {
+            val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
             this.cellLayoutCoorMapMs.value = newMap
         }
         return this

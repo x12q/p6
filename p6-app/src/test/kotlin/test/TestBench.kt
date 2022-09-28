@@ -7,8 +7,23 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import kotlin.properties.Delegates
+import kotlin.reflect.KProperty
 import kotlin.test.*
 class TestBench {
+
+    class NumQ(var i: Int){
+        operator fun getValue(qq: Any?, property: KProperty<*>): Int {
+            return i
+        }
+
+        operator fun setValue(qq: Any?, property: KProperty<*>, i: Int) {
+             this.i = i
+        }
+    }
+    class QQ{
+        val numQ = NumQ(123)
+        var i2:Int by numQ
+    }
 
     data class A(val i:Int, val s:String)
     var s:String by Delegates.notNull<String>()
@@ -21,7 +36,9 @@ class TestBench {
     }
     @Test
     fun t(){
-        val k = 0.0
-        println(k!=0.toDouble())
+        val q = QQ()
+        println(q.i2)
+        q.i2 = 321
+        println(q.numQ.i)
     }
 }

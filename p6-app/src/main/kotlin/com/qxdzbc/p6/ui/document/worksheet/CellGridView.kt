@@ -118,6 +118,7 @@ fun CellGridView(
                         BorderBox(
                             style = borderStyle,
                             borderColor = Color.LightGray,
+                            padContent = true,
                             modifier = Modifier
                                 .size(colWidth.dp, rowHeight.dp)
                                 .onGloballyPositioned {

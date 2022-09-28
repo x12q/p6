@@ -21,4 +21,11 @@ interface LayoutCoorWrapper {
     fun ifAttached(f:(lc: LayoutCoorWrapper)->Unit)
     @Composable
     fun ifAttachedComposable(f:@Composable (lc: LayoutCoorWrapper)->Unit)
+
+
+    val refreshVar:Boolean
+    /**
+     * [layout] is sometimes mutated directly by compose runtime. This mean re-setting layout may or may not cause re-composition. To force re-composition, call this function with [i] being the opposite of [refreshVar] of this wrapper or the wrapper to be replaced by this wrapper.
+     */
+    fun forceRefresh(i:Boolean):LayoutCoorWrapper
 }

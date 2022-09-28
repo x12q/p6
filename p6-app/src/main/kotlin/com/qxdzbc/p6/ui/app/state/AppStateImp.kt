@@ -70,7 +70,7 @@ data class AppStateImp @Inject constructor(
     override val translatorContMs: Ms<TranslatorContainer>,
     @CellEditorStateMs
     override val cellEditorStateMs: Ms<CellEditorState>,
-) : AppState,AbsSubAppStateContainer() {
+) : AppState,AbsSubAppStateContainer(),SubAppStateContainer {
 
     override var docCont by docContMs
     override var subAppStateCont by subAppStateContMs

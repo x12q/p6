@@ -117,6 +117,10 @@ interface WorksheetState :WbWsSt {
     fun getRowHeightOrDefault(rowIndex: Int): Int
     fun addRowHeight(rowIndex: Int, rowHeight: Int): WorksheetState
     fun restoreRowHeightToDefault(rowIndex: Int): WorksheetState
+
+    /**
+     * change size of the row at [rowIndex] by adding [sizeDiff] to the current size
+     */
     fun changeRowSize(rowIndex: Int, sizeDiff: Float): WorksheetState
 
     val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>

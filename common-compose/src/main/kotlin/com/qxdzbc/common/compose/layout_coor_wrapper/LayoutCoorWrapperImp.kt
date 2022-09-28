@@ -10,24 +10,30 @@ import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
-data class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : LayoutCoorWrapper {
+data class LayoutCoorWrapperImp(
+    override val layout: LayoutCoordinates,
+    override val refreshVar: Boolean = true
+) : LayoutCoorWrapper {
     override val size: DpSize
         get() = layout.size.toDpSize()
 
-    override val boundInWindow: Rect get(){
-        if(layout.isAttached){
-            return layout.boundsInWindow()
-        }else{
-            return Rect(Offset(0F,0F), Size.Zero)
+    override val boundInWindow: Rect
+        get() {
+            if (layout.isAttached) {
+                return layout.boundsInWindow()
+            } else {
+                return Rect(Offset(0F, 0F), Size.Zero)
+            }
         }
-    }
-    override val posInWindow: Offset get(){
-        if(layout.isAttached){
-            return layout.positionInWindow()
-        }else{
-            return Offset(0F,0F)
+    override val posInWindow: Offset
+        get() {
+            if (layout.isAttached) {
+                return layout.positionInWindow()
+            } else {
+                return Offset(0F, 0F)
+            }
         }
-    }
+
     override fun localToWindow(local: Offset): Offset {
         return this.layout.localToWindow(local)
     }
@@ -36,19 +42,25 @@ data class LayoutCoorWrapperImp(override val layout: LayoutCoordinates) : Layout
         return this.layout.windowToLocal(window)
     }
 
-    override val isAttached: Boolean get() {
-        return layout.isAttached
+    override val isAttached: Boolean
+        get() {
+            return layout.isAttached
+        }
+
+    override fun ifAttached(f: (lc: LayoutCoorWrapper) -> Unit) {
+        if (this.layout.isAttached) {
+            f(this)
+        }
     }
 
-    override fun ifAttached(f: (lc: LayoutCoorWrapper)->Unit) {
-        if(this.layout.isAttached){
+    @Composable
+    override fun ifAttachedComposable(f: @Composable (lc: LayoutCoorWrapper) -> Unit) {
+        if (this.layout.isAttached) {
             f(this)
         }
     }
-    @Composable
-    override fun ifAttachedComposable(f:@Composable (lc: LayoutCoorWrapper) -> Unit) {
-        if(this.layout.isAttached){
-            f(this)
-        }
+
+    override fun forceRefresh(i: Boolean): LayoutCoorWrapper {
+        return this.copy(refreshVar = i)
     }
 }

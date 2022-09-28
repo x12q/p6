@@ -12,41 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.app.build.BuildConfig
-import com.qxdzbc.p6.app.build.BuildVariant
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import java.util.*
 
-enum class BorderStyle {
-    __BOT, __TOP, __LEFT, __RIGHT, __NONE;
-
-    companion object {
-        val ALL: EnumSet<BorderStyle> = EnumSet.of(__BOT, __TOP, __LEFT, __RIGHT)
-        val BOT_RIGHT = EnumSet.of(__BOT, __RIGHT)
-        val TOP_BOT = EnumSet.of(__TOP, __BOT)
-        val TOP_LEFT = EnumSet.of(__TOP, __LEFT)
-        val TOP = EnumSet.of(__TOP)
-        val BOT = EnumSet.of(__BOT)
-        val RIGHT = EnumSet.of(__RIGHT)
-        val LEFT = EnumSet.of(__LEFT)
-        val LEFT_RIGHT = EnumSet.of(__LEFT, __RIGHT)
-        val NONE = EnumSet.of(__NONE)
-
-        fun EnumSet<BorderStyle>.debugAll():EnumSet<BorderStyle>{
-            return debug(ALL)
-        }
-        fun EnumSet<BorderStyle>.debug(debugValue:EnumSet<BorderStyle>):EnumSet<BorderStyle>{
-            return if(BuildConfig.buildVariant == BuildVariant.DEBUG){
-                debugValue
-            }else{
-                NONE
-            }
-        }
-    }
-}
-
 /**
- * [padContent] = whether content is overlapped by the border or not
+ * [padContent]: whether content is overlapped by the border or not. By default, this property is false to mimic the behavior the provided compose border box.
  */
 @Composable
 fun BorderBox(
@@ -141,7 +111,7 @@ fun main() = P6TestApp {
             }
         }
 
-        BorderBox(style = BorderStyle.BOT_RIGHT, modifier = Modifier.size(size).background(Color.Cyan), thickness = 10) {
+        BorderBox(style = BorderStyle.BOT_RIGHT, modifier = Modifier.size(size).background(Color.Cyan), thickness = 10,padContent = false,) {
             Text("ABC")
         }
     }

@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.build.DebugFunctions.debug
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
-import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
@@ -28,7 +27,7 @@ import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Ruler(
+fun RulerView(
     state: RulerState,
     rulerAction: RulerAction,
     size: Int,

@@ -8,23 +8,23 @@ import androidx.compose.ui.layout.positionInWindow
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.state.app_state.StateContainerMs
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import javax.inject.Inject
 
 class RulerActionImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>
+    @StateContainerMs private val stateContMs: Ms<StateContainer>
 ) : RulerAction {
 
-    private var appState by appStateMs
+    private var sc by stateContMs
 
     private fun resizerIsNotActivate(rulerState: RulerState): Boolean {
-        val wsStateMs = appState.getWsStateMs(rulerState)
+        val wsStateMs = sc.getWsStateMs(rulerState)
         if (wsStateMs != null) {
             val wsState by wsStateMs
             return !wsState.colResizeBarState.isShow && !wsState.rowResizeBarState.isShow
@@ -41,7 +41,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun clickRulerItem(itemIndex: Int, rulerState: RulerState) {
-        val cursorStateMs = appState.getCursorStateMs(rulerState)
+        val cursorStateMs = sc.getCursorStateMs(rulerState)
 
         if (resizerIsNotActivate(rulerState) && cursorStateMs != null) {
             var cursorState by cursorStateMs
@@ -63,21 +63,21 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun changeColWidth(colIndex: Int, sizeDiff: Float, rulerState: RulerState) {
-        appState.getWsStateMs(rulerState)?.also { wsStateMs ->
+        sc.getWsStateMs(rulerState)?.also { wsStateMs ->
             wsStateMs.value = wsStateMs.value.changeColSize(colIndex, sizeDiff)
         }
 
     }
 
     override fun changeRowHeight(rowIndex: Int, sizeDiff: Float, rulerState: RulerState) {
-        appState.getWsStateMs(rulerState)?.also { wsStateMs ->
-            val r = wsStateMs.value.changeRowSize(rowIndex, sizeDiff)
-            wsStateMs.value = r
+        sc.getWsStateMs(rulerState)?.also { wsStateMs ->
+            val newWsState = wsStateMs.value.changeRowSize(rowIndex, sizeDiff)
+            wsStateMs.value = newWsState
         }
     }
 
     override fun showColResizeBarThumb(index: Int, rulerState: RulerState) {
-        appState.getWsStateMs(rulerState)?.also { wsStateMs ->
+        sc.getWsStateMs(rulerState)?.also { wsStateMs ->
             val wsState by wsStateMs
             val resizerLayout = rulerState.getResizerLayout(index)
             val wsLayout = wsState.wsLayoutCoorWrapper?.layout
@@ -92,7 +92,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun hideColResizeBarThumb(rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var colResizeBar by wsState.colResizeBarStateMs
             if (!colResizeBar.isActive) {
                 colResizeBar = colResizeBar.hideThumb()
@@ -101,7 +101,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun startColResizing(currentPos: Offset, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var colResizeBar by wsState.colResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
@@ -116,7 +116,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun moveColResizer(currentPos: Offset, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var colResizeBar by wsState.colResizeBarStateMs
             if (colResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
@@ -129,7 +129,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun finishColResizing(colIndex: Int, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var colResizeBar by wsState.colResizeBarStateMs
             if (colResizeBar.isShow) {
                 val sizeDiff = colResizeBar.position.x - colResizeBar.anchorPoint.x
@@ -141,7 +141,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun showRowResizeBarThumb(index: Int, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var rowResizeBar by wsState.rowResizeBarStateMs
             val resizerLayout = rulerState.getResizerLayout(index)
             val wsLayout = wsState.wsLayoutCoorWrapper?.layout
@@ -156,7 +156,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun hideRowResizeBarThumb(rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var rowResizeBar by wsState.rowResizeBarStateMs
             if (!rowResizeBar.isActive) {
                 rowResizeBar = rowResizeBar.hideThumb()
@@ -165,7 +165,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun startRowResizing(currentPos: Offset, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var rowResizeBar by wsState.rowResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
@@ -180,7 +180,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun moveRowResizer(currentPos: Offset, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var rowResizeBar by wsState.rowResizeBarStateMs
             if (rowResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
@@ -193,7 +193,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun finishRowResizing(rowIndex: Int, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var rowResizeBar by wsState.rowResizeBarStateMs
             if (rowResizeBar.isShow) {
                 val sizeDiff = rowResizeBar.position.y - rowResizeBar.anchorPoint.y
@@ -205,7 +205,7 @@ class RulerActionImp @Inject constructor(
 
     override fun startDragSelection(mousePosition: Offset, rulerState: RulerState) {
         if (resizerIsNotActivate(rulerState)) {
-            appState.getWsState(rulerState)?.also { wsState ->
+            sc.getWsState(rulerState)?.also { wsState ->
                 var selectRectState by rulerState.itemSelectRectMs
                 val rulerLayout = rulerState.rulerLayout
                 val mouseWindowPos = if (rulerLayout != null && rulerLayout.isAttached) {
@@ -220,7 +220,7 @@ class RulerActionImp @Inject constructor(
 
     //
     override fun makeMouseDragSelectionIfPossible(mousePosition: Offset, rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var selectRectState by rulerState.itemSelectRectMs
             var cursorState by wsState.cursorStateMs
             if (selectRectState.isActive) {
@@ -261,7 +261,7 @@ class RulerActionImp @Inject constructor(
     }
 
     private fun getRulerStateMs(rulerState: RulerState): Ms<RulerState>? {
-        return appState.getWsStateMs(rulerState)?.let {
+        return sc.getWsStateMs(rulerState)?.let {
             if (rulerState.dimen == RulerType.Row) {
                 it.value.rowRulerStateMs
             } else {
@@ -272,18 +272,15 @@ class RulerActionImp @Inject constructor(
 
     override fun stopDragSelection(rulerState: RulerState) {
         val srMs = getSelectRectState(rulerState)
-        if (srMs != null) {
-            srMs.value = srMs.value.deactivate().hide()
-        }
+        srMs.value = srMs.value.deactivate().hide()
+
     }
 
     override fun updateItemLayout(itemIndex: Int, itemLayout: LayoutCoorWrapper, rulerState: RulerState) {
         getRulerStateMs(rulerState)?.also {
             it.value = it.value.addItemLayout(itemIndex, itemLayout)
             val srMs = getSelectRectState(rulerState)
-            if (srMs != null) {
-                srMs.value = srMs.value.deactivate().hide()
-            }
+            srMs.value = srMs.value.deactivate().hide()
         }
     }
 
@@ -294,7 +291,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun shiftClick(itemIndex: Int,rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var cursorState by wsState.cursorStateMs
             val newRange = when (rulerState.dimen) {
                 RulerType.Col -> {
@@ -314,7 +311,7 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun ctrlClick(itemIndex: Int,rulerState: RulerState) {
-        appState.getWsState(rulerState)?.also { wsState ->
+        sc.getWsState(rulerState)?.also { wsState ->
             var cursorState by wsState.cursorStateMs
             val newRange = when (rulerState.dimen) {
                 RulerType.Col -> {
