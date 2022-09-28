@@ -15,15 +15,18 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
 data class RulerStateImp constructor(
     override val wsIdSt:St<WorksheetId>,
-    override val dimen: RulerType,
+    override val type: RulerType,
     override val sliderMs: Ms<GridSlider>,
-    override val defaultItemSize: Int = if (dimen == RulerType.Col) p6R.size.value.defaultColumnWidth else p6R.size.value.defaultRowHeight,
+    override val defaultItemSize: Int = if (type == RulerType.Col) p6R.size.value.defaultColumnWidth else p6R.size.value.defaultRowHeight,
     private val itemLayoutMapMs: Ms<Map<Int, LayoutCoorWrapper>> = ms(emptyMap()),
     override val itemSelectRectMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
     private val rulerLayoutMs: Ms<LayoutCoorWrapper?> = ms(null),
     private val itemSizeMapMs: Ms<Map<Int, Int>> = ms(emptyMap()),
     override val resizerLayoutMap: Map<Int, LayoutCoordinates> = emptyMap(),
 ) : RulerState {
+    override val wsId: WorksheetId
+        get() = wsIdSt.value
+
     override fun setWsIdSt(wsIdSt: St<WorksheetId>): RulerState {
         return this.copy(wsIdSt=wsIdSt)
     }
@@ -99,8 +102,13 @@ data class RulerStateImp constructor(
         return this
     }
 
+    override val wbKeySt: St<WorkbookKey>
+        get() = wsId.wbKeySt
+    override val wsNameSt: St<String>
+        get() = wsId.wsNameSt
+
     override val wbKey: WorkbookKey
-        get() = wsIdSt.value.wbKey
+        get() = wsId.wbKey
     override val wsName: String
-        get() = wsIdSt.value.wsName
+        get() = wsId.wsName
 }

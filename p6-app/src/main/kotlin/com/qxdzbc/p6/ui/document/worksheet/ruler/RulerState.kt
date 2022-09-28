@@ -5,14 +5,16 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
-interface RulerState: WbWs {
+interface RulerState: WbWsSt {
     val wsIdSt:St<WorksheetId>
+    val wsId:WorksheetId
     fun setWsIdSt(wsIdSt:St<WorksheetId>):RulerState
-    val dimen: RulerType
+    val type: RulerType
     val sliderMs: Ms<GridSlider>
 
     val resizerLayoutMap:Map<Int,LayoutCoordinates>
@@ -26,6 +28,9 @@ interface RulerState: WbWs {
 
     val itemSelectRectMs: Ms<SelectRectState>
     val itemSelectRect: SelectRectState get() = itemSelectRectMs.value
+//
+//    val selectedItemList:List<Pair<Int,LayoutCoorWrapper>>
+//    fun setSelectedItemList(i:List<Pair<Int,LayoutCoorWrapper>>):RulerState
 
     val itemLayoutMap: Map<Int, LayoutCoorWrapper>
     fun addItemLayout(itemIndex: Int, layoutCoordinates: LayoutCoorWrapper): RulerState

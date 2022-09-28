@@ -24,7 +24,7 @@ import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
@@ -67,6 +67,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
+import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTable
@@ -230,7 +231,7 @@ interface P6Component {
     fun cellViewAction(): UpdateCellAction
 
     @P6Singleton
-    fun makeDisplayText(): MakeCellEditorDisplayText
+    fun makeDisplayText(): MakeCellEditorDisplayTextAction
 
     @P6Singleton
     fun openCellEditorAction(): OpenCellEditorAction
@@ -260,6 +261,7 @@ interface P6Component {
     fun multiCellUpdateAction(): MultiCellUpdateAction
     fun newWorksheetAction(): NewWorksheetAction
     fun computeSliderSizeAction(): ComputeSliderSizeAction
+    fun rulerAction(): RulerAction
 
     @Component.Builder
     interface Builder {

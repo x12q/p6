@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.document.worksheet.select_rect
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 
 /**
  * A rectangle for selection

@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
  */
 fun interface OpenCellEditorAction {
     /**
-     * Open cell editor on a worksheet identified with [wsId]
+     * Open cell editor on a worksheet identified with [wbws]
      */
-    fun openCellEditor(wsId: WbWs)
+    fun openCellEditor(wbws: WbWs)
 }

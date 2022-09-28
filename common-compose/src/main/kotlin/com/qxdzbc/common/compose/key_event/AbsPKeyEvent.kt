@@ -9,7 +9,7 @@ import com.qxdzbc.common.compose.KeyUtils.isArrowKey
 import com.qxdzbc.common.compose.KeyUtils.isSingleModifier
 
 abstract class AbsPKeyEvent: PKeyEvent {
-    override fun isRangeSelectorToleratedKey(): Boolean {
+    override fun isRangeSelectorAcceptedKey(): Boolean {
         return this.isRangeSelectorNonNavKey() || this.isRangeSelectorNavKey()
     }
 

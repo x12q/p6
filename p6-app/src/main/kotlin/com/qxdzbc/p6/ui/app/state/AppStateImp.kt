@@ -43,6 +43,8 @@ import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
@@ -366,6 +368,30 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun removeOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRulerStateMsRs(wbws: WbWs, type: RulerType): Rse<Ms<RulerState>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRulerStateMsRs(wbwsSt: WbWsSt, type: RulerType): Rse<Ms<RulerState>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRulerStateMs(wbwsSt: WbWsSt, type: RulerType): Ms<RulerState>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState? {
         TODO("Not yet implemented")
     }
 

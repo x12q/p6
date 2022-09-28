@@ -5,20 +5,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInWindow
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelectorAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import javax.inject.Inject
 
 class RulerActionImp @Inject constructor(
-    @StateContainerMs private val stateContMs: Ms<StateContainer>
+    @StateContainerMs private val stateContMs: Ms<StateContainer>,
+    private val makeCellEditorText: MakeCellEditorDisplayTextAction,
+    val updateCellEditorText: UpdateCellEditorTextWithRangeSelectorAction,
 ) : RulerAction {
 
     private var sc by stateContMs
@@ -34,31 +40,46 @@ class RulerActionImp @Inject constructor(
     }
 
     private fun selectRowOrCol2(ii: Int, rulerState: RulerState): RangeAddress {
-        return when (rulerState.dimen) {
+        return when (rulerState.type) {
             RulerType.Col -> RangeAddresses.wholeCol(ii)
             RulerType.Row -> RangeAddresses.wholeRow(ii)
         }
     }
 
-    override fun clickRulerItem(itemIndex: Int, rulerState: RulerState) {
-        val cursorStateMs = sc.getCursorStateMs(rulerState)
+    /**
+     * Update cell editor text if range selector is allowed. Otherwise, close cell editor
+     */
+    private fun updateCellEditorTextIfNeed(){
+        updateCellEditorText.updateRangeSelectorText()
+        if (sc.cellEditorState.isActive) {
+            if (!sc.cellEditorState.allowRangeSelector) {
+                sc.cellEditorState = sc.cellEditorState.close()
+            }
+        }
+    }
 
-        if (resizerIsNotActivate(rulerState) && cursorStateMs != null) {
-            var cursorState by cursorStateMs
-            when (rulerState.dimen) {
+    override fun clickRulerItem(itemIndex: Int, wbwsSt: WbWsSt, type: RulerType) {
+
+        val cursorStateMs = sc.getCursorStateMs(wbwsSt)
+        val rulerState = sc.getRulerStateMs(wbwsSt, type)?.value
+
+        if (rulerState != null && resizerIsNotActivate(rulerState) && cursorStateMs != null) {
+            val cursorState by cursorStateMs
+            when (type) {
                 RulerType.Col -> {
-                    cursorState = cursorState
+                    cursorStateMs.value = cursorState
                         .removeAllExceptAnchorCell()
                         .selectWholeCol(itemIndex)
                         .setMainCell(CellAddresses.firstOfCol(itemIndex))
                 }
                 RulerType.Row -> {
-                    cursorState = cursorState
+                    cursorStateMs.value = cursorState
                         .removeAllExceptAnchorCell()
                         .selectWholeRow(itemIndex)
                         .setMainCell(CellAddresses.firstOfRow(itemIndex))
                 }
             }
+            this.updateCellEditorTextIfNeed()
         }
     }
 
@@ -206,14 +227,16 @@ class RulerActionImp @Inject constructor(
     override fun startDragSelection(mousePosition: Offset, rulerState: RulerState) {
         if (resizerIsNotActivate(rulerState)) {
             sc.getWsState(rulerState)?.also { wsState ->
-                var selectRectState by rulerState.itemSelectRectMs
+                val selectRectStateMs = rulerState.itemSelectRectMs
+                val selectRectState by selectRectStateMs
                 val rulerLayout = rulerState.rulerLayout
                 val mouseWindowPos = if (rulerLayout != null && rulerLayout.isAttached) {
                     rulerLayout.localToWindow(mousePosition)
                 } else {
                     mousePosition
                 }
-                selectRectState = selectRectState.activate().setAnchorPoint(mouseWindowPos)
+                selectRectStateMs.value = selectRectState.activate().setAnchorPoint(mouseWindowPos)
+                this.updateCellEditorTextIfNeed()
             }
         }
     }
@@ -222,7 +245,8 @@ class RulerActionImp @Inject constructor(
     override fun makeMouseDragSelectionIfPossible(mousePosition: Offset, rulerState: RulerState) {
         sc.getWsState(rulerState)?.also { wsState ->
             var selectRectState by rulerState.itemSelectRectMs
-            var cursorState by wsState.cursorStateMs
+            val cursorStateMs = wsState.cursorStateMs
+            val cursorState by cursorStateMs
             if (selectRectState.isActive) {
                 val rulerLayout = rulerState.rulerLayout
                 val mouseWindowPos = if (rulerLayout != null && rulerLayout.isAttached) {
@@ -232,25 +256,25 @@ class RulerActionImp @Inject constructor(
                 }
                 selectRectState = selectRectState.setMovingPoint(mouseWindowPos).show()
 
-                val selectedItems = rulerState.itemLayoutMap.entries.filter { (_, layout) ->
-                    val itemRect = layout.boundInWindow
-                    selectRectState.rect.overlaps(itemRect)
+                val selectedItems = rulerState.itemLayoutMap.entries.filter { (_, itemLayout) ->
+                    selectRectState.rect.overlaps(itemLayout.boundInWindow)
                 }
                 if (selectedItems.isNotEmpty()) {
-                    var mergedRange = selectRowOrCol2(selectedItems.first().key, rulerState)
-                    for ((i, l) in selectedItems) {
-                        mergedRange = mergedRange.mergeWith(selectRowOrCol2(i, rulerState))
+                    val mergedRange:RangeAddress = selectedItems.fold(
+                        selectRowOrCol2(selectedItems.first().key, rulerState)
+                    ) { acc:RangeAddress, (i:Int, l:LayoutCoorWrapper) ->
+                        acc.mergeWith(selectRowOrCol2(i, rulerState))
                     }
-                    val newAnchorCell = if (cursorState.mainCell !in mergedRange) {
-                        mergedRange.topLeft
-                    } else {
+                    val newAnchorCell: CellAddress = if (cursorState.mainCell in mergedRange) {
                         cursorState.mainCell
+                    } else {
+                        mergedRange.topLeft
                     }
-                    cursorState = cursorState.setMainRange(mergedRange).setMainCell(newAnchorCell)
+                    cursorStateMs.value = cursorState.setMainRange(mergedRange).setMainCell(newAnchorCell)
                 } else {
-                    cursorState = cursorState.removeMainRange()
+                    cursorStateMs.value = cursorState.removeMainRange()
                 }
-
+                this.updateCellEditorTextIfNeed()
             }
         }
 
@@ -262,7 +286,7 @@ class RulerActionImp @Inject constructor(
 
     private fun getRulerStateMs(rulerState: RulerState): Ms<RulerState>? {
         return sc.getWsStateMs(rulerState)?.let {
-            if (rulerState.dimen == RulerType.Row) {
+            if (rulerState.type == RulerType.Row) {
                 it.value.rowRulerStateMs
             } else {
                 it.value.colRulerStateMs
@@ -273,6 +297,7 @@ class RulerActionImp @Inject constructor(
     override fun stopDragSelection(rulerState: RulerState) {
         val srMs = getSelectRectState(rulerState)
         srMs.value = srMs.value.deactivate().hide()
+        this.updateCellEditorTextIfNeed()
 
     }
 
@@ -290,10 +315,10 @@ class RulerActionImp @Inject constructor(
         }
     }
 
-    override fun shiftClick(itemIndex: Int,rulerState: RulerState) {
+    override fun shiftClick(itemIndex: Int, rulerState: RulerState) {
         sc.getWsState(rulerState)?.also { wsState ->
             var cursorState by wsState.cursorStateMs
-            val newRange = when (rulerState.dimen) {
+            val newRange = when (rulerState.type) {
                 RulerType.Col -> {
                     val currentCol = cursorState.mainCell.colIndex
                     RangeAddresses.wholeMultiCol(currentCol, itemIndex)
@@ -310,10 +335,10 @@ class RulerActionImp @Inject constructor(
         }
     }
 
-    override fun ctrlClick(itemIndex: Int,rulerState: RulerState) {
+    override fun ctrlClick(itemIndex: Int, rulerState: RulerState) {
         sc.getWsState(rulerState)?.also { wsState ->
             var cursorState by wsState.cursorStateMs
-            val newRange = when (rulerState.dimen) {
+            val newRange = when (rulerState.type) {
                 RulerType.Col -> {
                     RangeAddresses.wholeCol(itemIndex)
                 }
@@ -329,9 +354,9 @@ class RulerActionImp @Inject constructor(
         }
     }
 
-    override fun updateResizerLayout(itemIndex: Int, layout: LayoutCoordinates,rulerState: RulerState) {
+    override fun updateResizerLayout(itemIndex: Int, layout: LayoutCoordinates, rulerState: RulerState) {
         val rulerStateMs = getRulerStateMs(rulerState)
-        if(rulerStateMs!=null){
+        if (rulerStateMs != null) {
             rulerStateMs.value = rulerStateMs.value.addResizerLayout(itemIndex, layout)
         }
     }

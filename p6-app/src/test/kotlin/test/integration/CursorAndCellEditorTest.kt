@@ -11,12 +11,16 @@ import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
+import org.junit.runner.manipulation.Alphanumeric
 import org.mockito.kotlin.*
 import test.TestSample
 import test.test_implementation.MockPKeyEvent
@@ -28,10 +32,30 @@ class CursorAndCellEditorTest {
     val appState get() = ts.appState
     val p6Comp get() = ts.p6Comp
     val cellEditorAction get() = p6Comp.cellEditorAction()
+    val sc get()=ts.stateCont
 
     @BeforeTest
     fun b() {
         ts = TestSample()
+    }
+
+    @Test
+    fun `click on ruler item when editing cell, allow range select`(){
+        val rulerAction: RulerAction = ts.p6Comp.rulerAction()
+        val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1,ts.wsn1))
+        assertNotNull(wbwsSt)
+        cellEditorAction.openCellEditor(wbwsSt)
+        cellEditorAction.updateText("=")
+        val col = 20
+        val col2 = 220
+        val colLabel = CellLabelNumberSystem.numberToLabel(col)
+        val colLabel2 = CellLabelNumberSystem.numberToLabel(col2)
+
+        assertEquals("=",sc.cellEditorState.displayText)
+        rulerAction.clickRulerItem(col,wbwsSt,RulerType.Col)
+        assertEquals("=${colLabel}:${colLabel}",sc.cellEditorState.displayText)
+        rulerAction.clickRulerItem(col2,wbwsSt,RulerType.Col)
+        assertEquals("=${colLabel2}:${colLabel2}",sc.cellEditorState.displayText)
     }
 
     @Test
@@ -421,7 +445,7 @@ class CursorAndCellEditorTest {
 
         // x: handle key that ends range selector state
         val key = mock<PKeyEvent> {
-            whenever(it.isRangeSelectorToleratedKey()) doReturn false
+            whenever(it.isRangeSelectorAcceptedKey()) doReturn false
         }
         cellEditorAction.handleKeyboardEvent(key)
         assertEquals("=1+A3", cellEditorState.currentText)
@@ -464,7 +488,7 @@ class CursorAndCellEditorTest {
             stateContMs = ts.stateContMs()
         )
         val keyEvent = mock<PKeyEvent> {
-            whenever(it.isRangeSelectorToleratedKey()) doReturn true
+            whenever(it.isRangeSelectorAcceptedKey()) doReturn true
         }
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))

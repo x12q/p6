@@ -31,15 +31,15 @@ class OpenCellEditorImp @Inject constructor(
     val appState by appStateMs
     val docCont by docContSt
     val stateCont by stateContMs
-    override fun openCellEditor(wsId: WbWs) {
-        val ws = docCont.getWs(wsId)
-        val cursorStateMs = stateCont.getCursorStateMs(wsId)
+    override fun openCellEditor(wbws: WbWs) {
+        val ws = docCont.getWs(wbws)
+        val cursorStateMs = stateCont.getCursorStateMs(wbws)
         if(ws!=null && cursorStateMs!=null){
             val cursorState by cursorStateMs
             var cellEditorState by appState.cellEditorStateMs
             if(!cellEditorState.isActive){
                 val cursorMainCell: Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
-                val windowStateMs = appState.getWindowStateMsByWbKey(wsId.wbKey)
+                val windowStateMs = appState.getWindowStateMsByWbKey(wbws.wbKey)
                 val windowId = windowStateMs?.value?.id
                 val fcsMs = windowStateMs?.value?.focusStateMs
                 cursorMainCell.onSuccess { cell->

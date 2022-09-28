@@ -5,22 +5,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.p6.app.command.Commands
-import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
-import com.qxdzbc.common.compose.key_event.PKeyEvent
-import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import javax.inject.Inject
 
@@ -28,14 +27,13 @@ class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
     private val cursorAction: CursorAction,
-    private val makeDisplayText: MakeCellEditorDisplayText,
+    private val makeDisplayText: MakeCellEditorDisplayTextAction,
     private val openCellEditor: OpenCellEditorAction,
     @StateContainerMs
-    private val stateContMs:Ms<StateContainer>
+    private val stateContMs: Ms<StateContainer>
 ) : CellEditorAction,
-    MakeCellEditorDisplayText by makeDisplayText,
-    OpenCellEditorAction by openCellEditor
-{
+    MakeCellEditorDisplayTextAction by makeDisplayText,
+    OpenCellEditorAction by openCellEditor {
 
     private var stateCont by stateContMs
     var editorState by stateCont.cellEditorStateMs
@@ -55,7 +53,7 @@ class CellEditorActionImp @Inject constructor(
 
     override fun runFormulaOrSaveValueToCell() {
         val editorState by stateCont.cellEditorStateMs
-        val wsStateMs:Ms<WorksheetState>? = editorState.targetCursorId?.let{stateCont.getWsStateMs(it)}
+        val wsStateMs: Ms<WorksheetState>? = editorState.targetCursorId?.let { stateCont.getWsStateMs(it) }
         val ws = wsStateMs?.value?.worksheet
         val wbKey = editorState.targetWbKey
         val wsName = editorState.targetWsName
@@ -76,12 +74,12 @@ class CellEditorActionImp @Inject constructor(
                 )
             } else {
                 CellUpdateRequest(
-                    cellId=CellIdDM(
+                    cellId = CellIdDM(
                         wbKey = wbKey,
                         wsName = wsName,
                         address = editTarget,
                     ),
-                    cellContent= CellContentDM.fromAny(cell?.currentValue)
+                    cellContent = CellContentDM.fromAny(cell?.currentValue)
                 )
             }
             var value: String? = null
@@ -92,7 +90,7 @@ class CellEditorActionImp @Inject constructor(
                 value = codeText
             }
             val request = CellUpdateRequest(
-                cellId=CellIdDM(
+                cellId = CellIdDM(
                     wbKey = wbKey,
                     wsName = wsName,
                     address = editTarget,
@@ -124,10 +122,10 @@ class CellEditorActionImp @Inject constructor(
         editorState = editorState.clearAllText().close()
     }
 
-    override fun updateText(newText: String, ) {
-        var editorState by stateCont.cellEditorStateMs
+    override fun updateText(newText: String) {
+        val editorState by stateCont.cellEditorStateMs
         if (editorState.isActive) {
-            editorState = editorState
+            stateCont.cellEditorStateMs.value = editorState
                 .setCurrentText(newText)
         }
     }
@@ -163,16 +161,16 @@ class CellEditorActionImp @Inject constructor(
         }
     }
 
-    fun passKeyEventToRangeSelector(keyEvent: PKeyEvent, editorState: CellEditorState): Boolean {
-        val wbws = editorState.rangeSelectorCursorId
-        if (wbws != null) {
-            val rt = stateCont.getCursorState(wbws)?.let { cs: CursorState ->
-                cursorAction.handleKeyboardEvent(keyEvent, cs)
-            } ?: false
-            return rt
-        } else {
-            return false
-        }
+    /**
+     * pass keyboard event caught by a cell editor to its range-selector (which is a cell cursor).
+     */
+    private fun passKeyEventToRangeSelector(keyEvent: PKeyEvent, editorState: CellEditorState): Boolean {
+        val rt: Boolean = editorState.rangeSelectorCursorId?.let {
+            stateCont.getCursorState(it)
+        }?.let { cs ->
+            cursorAction.handleKeyboardEvent(keyEvent, cs)
+        } ?: false
+        return rt
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
@@ -189,17 +187,17 @@ class CellEditorActionImp @Inject constructor(
                 }
                 else -> {
                     if (editorState.allowRangeSelector) {
-                        if (keyEvent.isRangeSelectorToleratedKey()) {
+                        if (keyEvent.isRangeSelectorAcceptedKey()) {
                             val rt = passKeyEventToRangeSelector(keyEvent, editorState)
-                            if(keyEvent.isRangeSelectorNavKey()){
+                            if (keyEvent.isRangeSelectorNavKey()) {
                                 // x: generate rs text
                                 val rsText = makeDisplayText
                                     .makeRangeSelectorText(stateCont.cellEditorState)
                                 // x: update range selector text
                                 editorState = editorState.setRangeSelectorText(rsText)
                             }
-                            return  rt
-                        }else{
+                            return rt
+                        } else {
                             editorState = editorState.stopGettingRangeAddress()
                             return false //propagate the key event to the editor text field
                         }

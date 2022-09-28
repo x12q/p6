@@ -28,7 +28,7 @@ interface WorksheetStateFactory {
         colRulerStateMs: Ms<RulerState> = ms(
             RulerStateImp(
                 wsIdSt = wsMs.value.idMs,
-                dimen = RulerType.Col,
+                type = RulerType.Col,
                 sliderMs = sliderMs,
 
                 )
@@ -37,7 +37,7 @@ interface WorksheetStateFactory {
         rowRulerStateMs: Ms<RulerState> = ms(
             RulerStateImp(
                 wsIdSt = wsMs.value.idMs,
-                dimen = RulerType.Row,
+                type = RulerType.Row,
                 sliderMs = sliderMs
             )
         ),

@@ -3,10 +3,12 @@ package com.qxdzbc.p6.ui.document.worksheet.ruler.actions
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 
 interface RulerAction {
-    fun clickRulerItem(itemIndex: Int, rulerState: RulerState)
+    fun clickRulerItem(itemIndex: Int, wbwsSt:WbWsSt,type:RulerType)
     fun changeColWidth(colIndex: Int, sizeDiff: Float, rulerState: RulerState)
     fun changeRowHeight(rowIndex: Int, sizeDiff: Float, rulerState: RulerState)
     fun showColResizeBarThumb(index: Int, rulerState: RulerState)
@@ -20,6 +22,7 @@ interface RulerAction {
     fun moveRowResizer(currentPos: Offset, rulerState: RulerState)
     fun finishRowResizing(rowIndex: Int, rulerState: RulerState)
     fun startDragSelection(mousePosition: Offset, rulerState: RulerState)
+//    fun startDragSelection(itemIndex:Int, rulerState: RulerState)
     fun makeMouseDragSelectionIfPossible(mousePosition: Offset, rulerState: RulerState)
     fun stopDragSelection(rulerState: RulerState)
     fun updateItemLayout(itemIndex: Int, itemLayout: LayoutCoorWrapper, rulerState: RulerState)

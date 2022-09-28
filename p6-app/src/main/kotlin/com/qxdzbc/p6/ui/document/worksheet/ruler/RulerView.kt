@@ -33,7 +33,7 @@ fun RulerView(
     size: Int,
     rulerModifier: Modifier = Modifier,
 ) {
-    val dimen = state.dimen
+    val dimen = state.type
     val slider: GridSlider = state.sliderMs.value
     val itemIndexRange: IntRange = if (dimen == RulerType.Row) slider.visibleRowRange else slider.visibleColRange
 //    Loggers.renderLogger.debug("render ruler")
@@ -79,7 +79,7 @@ fun RulerView(
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {
                                     if (it.keyboardModifiers.isNonePressed) {
-                                        rulerAction.clickRulerItem(itemIndex,state)
+                                        rulerAction.clickRulerItem(itemIndex,state,state.type)
                                     } else {
                                         if (it.keyboardModifiers.isShiftPressed) {
                                             rulerAction.shiftClick(itemIndex,state)
@@ -161,7 +161,7 @@ fun RulerView(
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {
                                     if (it.keyboardModifiers.isNonePressed) {
-                                        rulerAction.clickRulerItem(itemIndex,state)
+                                        rulerAction.clickRulerItem(itemIndex,state,state.type)
                                     } else {
                                         if (it.keyboardModifiers.isShiftPressed) {
                                             rulerAction.shiftClick(itemIndex,state)

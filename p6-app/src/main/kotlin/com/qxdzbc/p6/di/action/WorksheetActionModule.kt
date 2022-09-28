@@ -14,8 +14,8 @@ import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplie
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplierImp
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataActionImp
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextImp
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextActionImp
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActionImp
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
@@ -29,14 +29,31 @@ import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellActionImp
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
+import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelectorAction
+import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelectorActionImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorActionImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerActionImp
+import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
+import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellActionImp
+import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
+import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellActionImp
 import dagger.Binds
 
 @dagger.Module
 interface WorksheetActionModule {
+    @Binds
+    @P6Singleton
+    fun UpdateCellEditorTextWithRangeSelectorAction(i: UpdateCellEditorTextWithRangeSelectorActionImp):UpdateCellEditorTextWithRangeSelectorAction
+    @Binds
+    @P6Singleton
+    fun SelectWholeRowForAllSelectedCellAction(i: SelectWholeRowForAllSelectedCellActionImp):SelectWholeRowForAllSelectedCellAction
+
+    @Binds
+    @P6Singleton
+    fun SelectWholeColumnForAllSelectedCellAction(i: SelectWholeColumnForAllSelectedCellActionImp):SelectWholeColumnForAllSelectedCellAction
+
     @Binds
     @P6Singleton
     fun ComputeSliderSizeAction(i: ComputeSliderSizeActionImp): ComputeSliderSizeAction
@@ -67,7 +84,7 @@ interface WorksheetActionModule {
 
     @Binds
     @P6Singleton
-    fun MakeCellEditorDisplayText(i: MakeCellEditorDisplayTextImp): MakeCellEditorDisplayText
+    fun MakeCellEditorDisplayText(i: MakeCellEditorDisplayTextActionImp): MakeCellEditorDisplayTextAction
 
     @Binds
     @P6Singleton

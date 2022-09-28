@@ -16,8 +16,29 @@ interface PKeyEvent {
             return PKeyEventImp(this)
         }
     }
-    fun isRangeSelectorToleratedKey():Boolean
+
+    /**
+     * is a key accepted by a range selector
+     */
+    fun isRangeSelectorAcceptedKey():Boolean
+
+    /**
+     * is a key a navigation key accepted by a range selector. Including:
+     *  - arrow keys
+     *  - ctrl + shift + arrow keys
+     *  - ctrl + arrow keys
+     *  - shift + arrow keys
+     *  - home key
+     *  - end key
+     */
     fun isRangeSelectorNavKey():Boolean
+
+    /**
+     * is a key a non-navigation key accepted by a range selector. Including:
+     *  - ctrl
+     *  - shift
+     *  - alt
+     */
     fun isRangeSelectorNonNavKey():Boolean
 }
 

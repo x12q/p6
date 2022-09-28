@@ -37,6 +37,8 @@ import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
@@ -156,6 +158,30 @@ class StateContainerImp @Inject constructor(
     override fun removeOuterWindowState(windowState: Ms<OuterWindowState>): StateContainerImp {
         subAppStateCont= subAppStateCont.removeOuterWindowState(windowState)
         return this
+    }
+
+    override fun getRulerStateMsRs(wbws: WbWs, type: RulerType): Rse<Ms<RulerState>> {
+        return subAppStateCont.getRulerStateMsRs(wbws,type)
+    }
+
+    override fun getRulerStateMsRs(wbwsSt: WbWsSt, type: RulerType): Rse<Ms<RulerState>> {
+        return subAppStateCont.getRulerStateMsRs(wbwsSt,type)
+    }
+
+    override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
+        return subAppStateCont.getRulerStateMs(wbws,type)
+    }
+
+    override fun getRulerStateMs(wbwsSt: WbWsSt, type: RulerType): Ms<RulerState>? {
+        return subAppStateCont.getRulerStateMs(wbwsSt,type)
+    }
+
+    override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
+        return subAppStateCont.getRulerState(wbws, type)
+    }
+
+    override fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState? {
+        return subAppStateCont.getRulerState(wbwsSt, type)
     }
 
     override fun getWindowStateMsDefaultRs(windowId: String?): Rse<Ms<WindowState>> {

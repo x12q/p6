@@ -4,9 +4,11 @@ import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
+import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
 
 
-interface CursorAction {
+interface CursorAction : SelectWholeColumnForAllSelectedCellAction, SelectWholeRowForAllSelectedCellAction {
 
     /**
      * f2 key
@@ -22,8 +24,6 @@ interface CursorAction {
     fun ctrlShiftUp(wbws: WbWs)
     fun ctrlShiftDown(wbws: WbWs)
     fun ctrlLeft(wbws: WbWs)
-    fun selectWholeCol(wbws: WbWs)
-    fun selectWholeRow(wbws: WbWs)
     fun up(wbws: WbWs)
     fun down(wbws: WbWs)
     fun left(wbws: WbWs)

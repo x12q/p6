@@ -17,8 +17,8 @@ class MockPKeyEvent(
 ) : AbsPKeyEvent() {
     override val keyEvent: KeyEvent get() = throw UnsupportedOperationException("mock key event does support getting the real key event")
 
-    override fun isRangeSelectorToleratedKey(): Boolean {
-        return isRangeSelectorToleratedKey ?: super.isRangeSelectorToleratedKey()
+    override fun isRangeSelectorAcceptedKey(): Boolean {
+        return isRangeSelectorToleratedKey ?: super.isRangeSelectorAcceptedKey()
     }
 
     override fun isRangeSelectorNavKey(): Boolean {

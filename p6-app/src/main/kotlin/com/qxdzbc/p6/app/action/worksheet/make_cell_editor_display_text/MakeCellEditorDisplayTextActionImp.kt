@@ -12,16 +12,13 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import javax.inject.Inject
 
-class MakeCellEditorDisplayTextImp @Inject constructor(
+class MakeCellEditorDisplayTextActionImp @Inject constructor(
     @SubAppStateContainerSt
     val stateContSt:St<@JvmSuppressWildcards SubAppStateContainer>
-) : MakeCellEditorDisplayText {
+) : MakeCellEditorDisplayTextAction {
 
     private val stateCont by stateContSt
-    /**
-     * make text that is displayed on the cell editor UI.
-     * When the cell editor is extracting cell address from the range selector, display text = current text + range-selector address,
-     */
+
     override fun makeRangeSelectorText(editorState: CellEditorState): TextFieldValue {
         if(editorState.allowRangeSelector){
             val rangeSelector:CursorState? = editorState.rangeSelectorCursorId?.let {

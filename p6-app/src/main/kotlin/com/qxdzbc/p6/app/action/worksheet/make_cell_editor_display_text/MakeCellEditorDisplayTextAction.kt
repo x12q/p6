@@ -4,8 +4,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
 
 /**
- * Extract the [TextFieldValue] for the current [CellEditorState]
+ * make text that is displayed on the cell editor UI.
+ * When the cell editor is extracting cell address from the range selector, display text = current text + range-selector address
  */
-fun interface MakeCellEditorDisplayText {
+fun interface MakeCellEditorDisplayTextAction {
     fun makeRangeSelectorText(editorState: CellEditorState): TextFieldValue
 }

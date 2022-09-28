@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayText
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
@@ -21,7 +21,7 @@ class ClickOnCellImp @Inject constructor(
     @SubAppStateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
-    private val makeDisplayText: MakeCellEditorDisplayText,
+    private val makeDisplayText: MakeCellEditorDisplayTextAction,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
 ) : ClickOnCell {
     private val stateCont by stateContSt
