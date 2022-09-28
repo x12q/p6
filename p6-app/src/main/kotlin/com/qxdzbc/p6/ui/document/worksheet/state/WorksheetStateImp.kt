@@ -1,15 +1,15 @@
 package com.qxdzbc.p6.ui.document.worksheet.state
 
 import androidx.compose.runtime.getValue
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.ui.common.p6R
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
@@ -53,21 +53,20 @@ data class WorksheetStateImp @AssistedInject constructor(
     override val rowRange: IntRange = p6R.worksheetValue.defaultRowRange,
 ) : BaseWorksheetState() {
 
-    override val id: WorksheetId get(){
-        return idMs.value
-    }
+    override val id: WorksheetId
+        get() {
+            return idMs.value
+        }
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
-        val oldLayout:LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
-        val newLayout:LayoutCoorWrapper = if(oldLayout?.layout!= layoutCoor.layout){
+        val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
+        val newLayout: LayoutCoorWrapper = if (oldLayout?.layout != layoutCoor.layout) {
             layoutCoor
-        }else{
+        } else {
             layoutCoor.forceRefresh(!oldLayout.refreshVar)
         }
-        if (oldLayout != newLayout) {
-            val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
-            this.cellLayoutCoorMapMs.value = newMap
-        }
+        val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
+        this.cellLayoutCoorMapMs.value = newMap
         return this
     }
 
@@ -184,7 +183,7 @@ data class WorksheetStateImp @AssistedInject constructor(
         get() = this.idMs.value.wsName
 
     override fun setWsMs(wsMs: Ms<Worksheet>): WorksheetState {
-        val newState= this.copy(wsMs = wsMs)
+        val newState = this.copy(wsMs = wsMs)
         val newWsStateIdSt = wsMs.value.idMs
         cursorState.id = cursorState.id.setWsStateIdSt(newWsStateIdSt)
         rowRulerStateMs.value = rowRulerState.setWsIdSt(newWsStateIdSt)
