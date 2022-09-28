@@ -43,6 +43,7 @@ import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
@@ -379,6 +380,10 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getRulerStateMsRs(rulerSig: RulerSig): Rse<Ms<RulerState>> {
+        TODO("Not yet implemented")
+    }
+
     override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
         TODO("Not yet implemented")
     }
@@ -387,11 +392,19 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getRulerStateMs(rulerSig: RulerSig): Ms<RulerState>? {
+        TODO("Not yet implemented")
+    }
+
     override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
         TODO("Not yet implemented")
     }
 
     override fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRulerState(rulerSig: RulerSig): RulerState? {
         TODO("Not yet implemented")
     }
 

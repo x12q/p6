@@ -20,6 +20,7 @@ import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
@@ -129,6 +130,10 @@ data class SubAppStateContainerImp @Inject constructor(
         }
     }
 
+    override fun getRulerStateMsRs(rulerSig: RulerSig): Rse<Ms<RulerState>> {
+        return this.getRulerStateMsRs(rulerSig,rulerSig.type)
+    }
+
     override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
         return getRulerStateMsRs(wbws, type).component1()
     }
@@ -137,12 +142,20 @@ data class SubAppStateContainerImp @Inject constructor(
         return getRulerStateMsRs(wbwsSt, type).component1()
     }
 
+    override fun getRulerStateMs(rulerSig: RulerSig): Ms<RulerState>? {
+        return this.getRulerStateMs(rulerSig,rulerSig.type)
+    }
+
     override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
         return this.getRulerStateMs(wbws, type)?.value
     }
 
     override fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState? {
         return this.getRulerStateMs(wbwsSt, type)?.value
+    }
+
+    override fun getRulerState(rulerSig: RulerSig): RulerState? {
+        return this.getRulerState(rulerSig,rulerSig.type)
     }
 
     override fun removeWindowState(windowId: String): SubAppStateContainer {

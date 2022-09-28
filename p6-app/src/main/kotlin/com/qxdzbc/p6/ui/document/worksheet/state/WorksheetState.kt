@@ -11,6 +11,7 @@ import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 
@@ -131,6 +132,7 @@ interface WorksheetState :WbWsSt {
 
     fun refreshCellState():WorksheetState
     fun refresh():WorksheetState
+    fun getRulerState(rulerType: RulerType):RulerState
 }
 
 

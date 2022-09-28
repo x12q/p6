@@ -17,6 +17,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
@@ -105,8 +106,13 @@ interface SubAppStateContainer {
 
     fun getRulerStateMsRs(wbws:WbWs, type: RulerType):Rse<Ms<RulerState>>
     fun getRulerStateMsRs(wbwsSt: WbWsSt, type: RulerType):Rse<Ms<RulerState>>
+    fun getRulerStateMsRs(rulerSig:RulerSig):Rse<Ms<RulerState>>
+
     fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>?
     fun getRulerStateMs(wbwsSt: WbWsSt, type: RulerType): Ms<RulerState>?
+    fun getRulerStateMs(rulerSig:RulerSig): Ms<RulerState>?
+
     fun getRulerState(wbws: WbWs, type: RulerType): RulerState?
     fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState?
+    fun getRulerState(rulerSig:RulerSig): RulerState?
 }

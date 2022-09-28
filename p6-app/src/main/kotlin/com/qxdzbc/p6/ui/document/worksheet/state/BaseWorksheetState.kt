@@ -3,8 +3,16 @@ package com.qxdzbc.p6.ui.document.worksheet.state
 import androidx.compose.runtime.MutableState
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellState
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 
 abstract class BaseWorksheetState : WorksheetState {
+    override fun getRulerState(rulerType: RulerType): RulerState {
+        return when(rulerType){
+            RulerType.Row->this.rowRulerState
+            RulerType.Col->this.colRulerState
+        }
+    }
 
     override fun getCellState(label: String): CellState? {
         return this.getCellState(CellAddress(label))

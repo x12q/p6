@@ -42,16 +42,16 @@ fun RulerView(
     Surface(color = MaterialTheme.colors.primaryVariant,
         modifier = Modifier
             .onGloballyPositioned {
-                rulerAction.updateRulerLayout(it,state)
+                rulerAction.updateRulerLayout(it, state,)
             }
             .onPointerEvent(PointerEventType.Press) {
                 val mp = it.changes.first().position
-                rulerAction.startDragSelection(mp,state)
+                rulerAction.startDragSelection(mp, state,)
             }
             .onPointerEvent(PointerEventType.Move) {
                 if (it.keyboardModifiers.isNonePressed) {
                     val mp = it.changes.first().position
-                    rulerAction.makeMouseDragSelectionIfPossible(mp,state)
+                    rulerAction.makeMouseDragSelectionIfPossible(mp, state,)
                 }
             }
             .onPointerEvent(PointerEventType.Release) {
@@ -79,7 +79,7 @@ fun RulerView(
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {
                                     if (it.keyboardModifiers.isNonePressed) {
-                                        rulerAction.clickRulerItem(itemIndex,state,state.type)
+                                        rulerAction.clickRulerItem(itemIndex, state)
                                     } else {
                                         if (it.keyboardModifiers.isShiftPressed) {
                                             rulerAction.shiftClick(itemIndex,state)
@@ -90,7 +90,7 @@ fun RulerView(
                                     }
                                 }
                                 .onGloballyPositioned {
-                                    rulerAction.updateItemLayout(itemIndex, it.wrap(),state)
+                                    rulerAction.updateItemLayout(itemIndex, it.wrap(), state,)
                                 }
 
                         ) {
@@ -161,7 +161,7 @@ fun RulerView(
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {
                                     if (it.keyboardModifiers.isNonePressed) {
-                                        rulerAction.clickRulerItem(itemIndex,state,state.type)
+                                        rulerAction.clickRulerItem(itemIndex, state)
                                     } else {
                                         if (it.keyboardModifiers.isShiftPressed) {
                                             rulerAction.shiftClick(itemIndex,state)
@@ -172,7 +172,7 @@ fun RulerView(
                                     }
                                 }
                                 .onGloballyPositioned {
-                                    rulerAction.updateItemLayout(itemIndex, it.wrap(),state)
+                                    rulerAction.updateItemLayout(itemIndex, it.wrap(), state,)
                                 }
                         )
                         {

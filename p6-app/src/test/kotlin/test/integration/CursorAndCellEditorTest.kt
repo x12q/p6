@@ -16,11 +16,9 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
-import org.junit.runner.manipulation.Alphanumeric
 import org.mockito.kotlin.*
 import test.TestSample
 import test.test_implementation.MockPKeyEvent
@@ -52,9 +50,9 @@ class CursorAndCellEditorTest {
         val colLabel2 = CellLabelNumberSystem.numberToLabel(col2)
 
         assertEquals("=",sc.cellEditorState.displayText)
-        rulerAction.clickRulerItem(col,wbwsSt,RulerType.Col)
+        rulerAction.clickRulerItem(col, wbwsSt)
         assertEquals("=${colLabel}:${colLabel}",sc.cellEditorState.displayText)
-        rulerAction.clickRulerItem(col2,wbwsSt,RulerType.Col)
+        rulerAction.clickRulerItem(col2, wbwsSt)
         assertEquals("=${colLabel2}:${colLabel2}",sc.cellEditorState.displayText)
     }
 

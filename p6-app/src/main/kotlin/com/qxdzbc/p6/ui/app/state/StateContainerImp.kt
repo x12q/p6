@@ -37,6 +37,7 @@ import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
@@ -168,6 +169,10 @@ class StateContainerImp @Inject constructor(
         return subAppStateCont.getRulerStateMsRs(wbwsSt,type)
     }
 
+    override fun getRulerStateMsRs(rulerSig: RulerSig): Rse<Ms<RulerState>> {
+        return subAppStateCont.getRulerStateMsRs(rulerSig)
+    }
+
     override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
         return subAppStateCont.getRulerStateMs(wbws,type)
     }
@@ -176,12 +181,20 @@ class StateContainerImp @Inject constructor(
         return subAppStateCont.getRulerStateMs(wbwsSt,type)
     }
 
+    override fun getRulerStateMs(rulerSig: RulerSig): Ms<RulerState>? {
+        return subAppStateCont.getRulerStateMs(rulerSig)
+    }
+
     override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
         return subAppStateCont.getRulerState(wbws, type)
     }
 
     override fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState? {
         return subAppStateCont.getRulerState(wbwsSt, type)
+    }
+
+    override fun getRulerState(rulerSig: RulerSig): RulerState? {
+        return subAppStateCont.getRulerState(rulerSig)
     }
 
     override fun getWindowStateMsDefaultRs(windowId: String?): Rse<Ms<WindowState>> {
