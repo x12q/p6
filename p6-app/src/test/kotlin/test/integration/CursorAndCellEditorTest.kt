@@ -5,6 +5,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
@@ -14,8 +15,11 @@ import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
@@ -42,6 +46,15 @@ class CursorAndCellEditorTest {
         val rulerAction: RulerAction = ts.p6Comp.rulerAction()
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1,ts.wsn1))
         assertNotNull(wbwsSt)
+        val rulerSig = object: RulerSig{
+            override val type: RulerType
+                get() = RulerType.Col
+            override val wbKeySt: St<WorkbookKey>
+                get() = wbwsSt.wbKeySt
+            override val wsNameSt: St<String>
+                get() = wbwsSt.wsNameSt
+        }
+
         cellEditorAction.openCellEditor(wbwsSt)
         cellEditorAction.updateText("=")
         val col = 20
@@ -50,9 +63,9 @@ class CursorAndCellEditorTest {
         val colLabel2 = CellLabelNumberSystem.numberToLabel(col2)
 
         assertEquals("=",sc.cellEditorState.displayText)
-        rulerAction.clickRulerItem(col, wbwsSt)
+        rulerAction.clickRulerItem(col, rulerSig)
         assertEquals("=${colLabel}:${colLabel}",sc.cellEditorState.displayText)
-        rulerAction.clickRulerItem(col2, wbwsSt)
+        rulerAction.clickRulerItem(col2, rulerSig)
         assertEquals("=${colLabel2}:${colLabel2}",sc.cellEditorState.displayText)
     }
 
