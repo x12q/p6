@@ -61,6 +61,8 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
+import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2Imp
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -262,6 +264,7 @@ interface P6Component {
     fun newWorksheetAction(): NewWorksheetAction
     fun computeSliderSizeAction(): ComputeSliderSizeAction
     fun rulerAction(): RulerAction
+    fun worksheetAction2(): WorksheetAction2
 
     @Component.Builder
     interface Builder {

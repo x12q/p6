@@ -149,7 +149,7 @@ class CellEditorActionImp @Inject constructor(
                                 stateCont.getCursorStateMs(wbws)?.let { cursorStateMs ->
                                     editorState.targetCell?.let { editTarget ->
                                         cursorStateMs.value = cursorStateMs.value
-                                            .removeAllExceptAnchorCell()
+                                            .removeAllExceptMainCell()
                                             .setMainCell(editTarget)
                                     }
                                 }

@@ -66,13 +66,13 @@ class RulerActionImp @Inject constructor(
             when (rulerSig.type) {
                 RulerType.Col -> {
                     cursorStateMs.value = cursorState
-                        .removeAllExceptAnchorCell()
+                        .removeAllExceptMainCell()
                         .selectWholeCol(itemIndex)
                         .setMainCell(CellAddresses.firstOfCol(itemIndex))
                 }
                 RulerType.Row -> {
                     cursorStateMs.value = cursorState
-                        .removeAllExceptAnchorCell()
+                        .removeAllExceptMainCell()
                         .selectWholeRow(itemIndex)
                         .setMainCell(CellAddresses.firstOfRow(itemIndex))
                 }

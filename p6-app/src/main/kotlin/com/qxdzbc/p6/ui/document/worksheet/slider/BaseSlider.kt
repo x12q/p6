@@ -46,39 +46,48 @@ abstract class BaseSlider : GridSlider {
             }
         }
 
-    override fun followCursor(newCursorState: CursorState): GridSlider {
-        val slider = this
-        // move slider with cursor
-        val newMainCell: CellAddress = newCursorState.mainCell
-//        if (!slider.containAddress(newMainCell)) {
-        if (!slider.containAddressNotMargin(newMainCell)) {
+    override fun followCursorMainRangeBotRight(cursorState: CursorState): GridSlider {
+        val cell = cursorState.mainRange?.botRight
+        val rt = cell?.let {
+            this.followCell(it)
+        } ?: this
+        return rt
+    }
+
+    override fun followCell(cellAddress: CellAddress): GridSlider {
+        val newMainCell: CellAddress = cellAddress
+        if (!this.containAddressNotMargin(newMainCell)) {
             // x: cursor in the far right
-            val maxColDif = newMainCell.colIndex - slider.lastVisibleColNotMargin
+            val maxColDif = newMainCell.colIndex - this.lastVisibleColNotMargin
             if (maxColDif > 0) {
-                return slider.shiftRight(maxColDif)
+                return this.shiftRight(maxColDif)
             } else {
                 // x: cursor in the far left
-                val minColDif = slider.firstVisibleCol - newMainCell.colIndex
+                val minColDif = this.firstVisibleCol - newMainCell.colIndex
                 if (minColDif > 0) {
-                    return slider.shiftLeft(minColDif)
+                    return this.shiftLeft(minColDif)
                 }
             }
 
-//            val maxRowDif = newMainCell.rowIndex - slider.lastVisibleRow
-            val maxRowDif = newMainCell.rowIndex - slider.lastVisibleRowNotMargin
+            val maxRowDif = newMainCell.rowIndex - this.lastVisibleRowNotMargin
             if (maxRowDif > 0) {
                 // x: cursor at bot
-                return slider.shiftDown(maxRowDif)
+                return this.shiftDown(maxRowDif)
             } else {
                 // x: cursor at top
-                val minRowDif = slider.firstVisibleRow - newMainCell.rowIndex
+                val minRowDif = this.firstVisibleRow - newMainCell.rowIndex
                 if (minRowDif > 0) {
-                    return slider.shiftUp(minRowDif)
+                    return this.shiftUp(minRowDif)
                 }
             }
             return this
         } else {
             return this
         }
+    }
+
+    override fun followCursorMainCell(cursorState: CursorState): GridSlider {
+        val newMainCell: CellAddress = cursorState.mainCell
+        return this.followCell(newMainCell)
     }
 }

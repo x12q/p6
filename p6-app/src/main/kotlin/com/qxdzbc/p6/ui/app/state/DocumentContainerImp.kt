@@ -44,6 +44,10 @@ class DocumentContainerImp @Inject constructor(
         return this.getWs(wbWs)?.id
     }
 
+    override fun getWbWsStRs(wbWs: WbWs): Rse<WbWsSt> {
+        return this.getWsRs(wbWs).map { it.id }
+    }
+
     override fun getWbKeySt(wbKey: WorkbookKey): St<WorkbookKey>? {
         return this.getWb(wbKey)?.keyMs
     }

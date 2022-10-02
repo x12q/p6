@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.app.error_router
 
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -29,6 +30,8 @@ interface ErrorRouter {
      * Attempt to search for window state obj using both window id and workbook key
      */
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?, workbookKey:WorkbookKey?)
+    fun publishToWindow(errorReport: ErrorReport?, windowId:String?, wbKeySt:St<WorkbookKey>?)
+
     fun publish(errorReport: ErrorReportWithNavInfo)
     fun <T> publishIfPossible(resNav: RseNav<T>)
 }

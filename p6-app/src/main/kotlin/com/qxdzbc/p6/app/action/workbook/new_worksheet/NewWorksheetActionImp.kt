@@ -39,7 +39,7 @@ class NewWorksheetActionImp @Inject constructor(
                 val wb = wbState.wb
                 val canAdd = request.newWorksheetName?.let { !wb.containSheet(it) } ?: true
                 val z = if (canAdd) {
-                    val q = wb.createNewWs2(request.newWorksheetName)
+                    val q = wb.createNewWs_MoreDetail(request.newWorksheetName)
                     Ok(
                         CreateNewWorksheetResponse(
                             newWb = q.newWb,

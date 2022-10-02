@@ -46,6 +46,7 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
@@ -140,6 +141,10 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun getWsNameMs(wbKeySt: St<WorkbookKey>, wsName: String): Ms<String>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWbWsStRs(wbWs: WbWs): Rse<WbWsSt> {
         TODO("Not yet implemented")
     }
 
@@ -405,6 +410,14 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun getRulerState(rulerSig: RulerSig): RulerState? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSliderMsRs(wbwsSt: WbWsSt): Rse<Ms<GridSlider>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
         TODO("Not yet implemented")
     }
 

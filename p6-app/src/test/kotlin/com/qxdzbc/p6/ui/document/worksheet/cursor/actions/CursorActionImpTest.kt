@@ -1,12 +1,18 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
+import androidx.compose.runtime.getValue
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import test.TestSample
 import kotlin.test.*
 
@@ -15,11 +21,126 @@ class CursorActionImpTest {
     lateinit var ts:TestSample
     lateinit var cursorAction: CursorAction
     lateinit var cellEditorAction:CellEditorAction
+    lateinit var wsStateMs:Ms<WorksheetState>
+
+    lateinit var sliderMs:Ms<GridSlider>
+    lateinit var cursorMs:Ms<CursorState>
+    val slider: GridSlider get()= sliderMs.value
+    val cursor:CursorState get()=cursorMs.value
     @BeforeTest
     fun b(){
         ts = TestSample()
         cursorAction = ts.p6Comp.cursorAction()
         cellEditorAction = ts.p6Comp.cellEditorAction()
+        val w = ts.stateCont.getWsStateMs(WbWs(ts.wbKey1,ts.wsn1))
+        assertNotNull(w)
+        wsStateMs = w
+        sliderMs = wsStateMs.value.sliderMs
+        cursorMs = wsStateMs.value.cursorStateMs
+    }
+
+    @Test
+    fun `shift +arrow out of the slider boundary`(){
+        val wbws = wsStateMs.value
+        val oldSlider = slider
+        val cursor by cursorMs
+
+        ///
+        val e1 = CellAddress(
+            col = 5,
+            row = 20
+        )
+        cursorMs.value = cursor.setMainCell(e1)
+
+        assertEquals(e1,cursor.mainCell)
+        cursorAction.shiftDown(wbws)
+        assertEquals(
+            RangeAddress(CellAddress(5,21),e1),
+            cursor.mainRange
+        )
+        val eSlider1 = oldSlider.setVisibleRowRange(2 .. 21)
+        assertEquals(eSlider1,slider)
+
+        ///
+        val e2 = CellAddress(
+            col = 20,
+            row = 3
+        )
+        cursorMs.value = cursor.removeAllExceptMainCell().setMainCell(e2)
+        cursorAction.shiftRight(wbws)
+        assertEquals(
+            RangeAddress(CellAddress(21,3),e2),
+            cursor.mainRange
+        )
+        val eSlider2 = eSlider1.setVisibleColRange(2 .. 21)
+        assertEquals(eSlider2,slider)
+
+        ///
+        val e3 = CellAddress(
+            col = 2,
+            row = 3
+        )
+        cursorMs.value = cursor.removeAllExceptMainCell().setMainCell(e3)
+        cursorAction.shiftLeft(wbws)
+        assertEquals(
+            RangeAddress(CellAddress(1,3),e3),
+            cursor.mainRange
+        )
+        val eSlider3 = eSlider2.setVisibleColRange(1 .. 20)
+        assertEquals(eSlider3,slider)
+
+        ///
+        val e4 =CellAddress(
+            col = 1,
+            row = 2
+        )
+
+        cursorMs.value = cursor.removeAllExceptMainCell().setMainCell(e4)
+        cursorAction.shiftUp(wbws)
+        assertEquals(
+            RangeAddress(CellAddress(1,1),e4),
+            cursor.mainRange
+        )
+        val eSlider4 = eSlider3.setVisibleRowRange(1 .. 20)
+        assertEquals(eSlider4,slider)
+    }
+
+    @Test
+    fun `shift +arrow within slider`(){
+        val oldSlider = slider
+        val cursor by cursorMs
+        val e5 = CellAddress("E5")
+        cursorMs.value = cursor.setMainCell(e5)
+        val wbws = wsStateMs.value
+
+        fun testUnChange(){
+            assertEquals(e5,cursor.mainCell)
+            assertEquals(oldSlider,slider)
+        }
+
+        assertEquals(e5,cursor.mainCell)
+        assertNull(cursor.mainRange)
+
+        cursorAction.shiftDown(wbws)
+        val r1 = RangeAddress(e5,e5.downOneRow())
+        assertEquals(r1,cursor.mainRange)
+        testUnChange()
+
+
+        cursorAction.shiftRight(wbws)
+        val r2 = RangeAddress(e5,e5.downOneRow().rightOneCol())
+        assertEquals(r2,cursor.mainRange)
+        testUnChange()
+
+        cursorAction.shiftUp(wbws)
+        val r3 = RangeAddress(e5, e5.rightOneCol())
+        assertEquals(r3,cursor.mainRange)
+        testUnChange()
+
+        cursorAction.shiftLeft(wbws)
+        val r4 = RangeAddress(e5)
+        assertEquals(r4,cursor.mainRange)
+        testUnChange()
     }
 
     @Test

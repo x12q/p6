@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
@@ -32,7 +31,6 @@ import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
 import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
@@ -40,6 +38,7 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
@@ -197,6 +196,14 @@ class StateContainerImp @Inject constructor(
         return subAppStateCont.getRulerState(rulerSig)
     }
 
+    override fun getSliderMsRs(wbwsSt: WbWsSt): Rse<Ms<GridSlider>> {
+        return subAppStateCont.getSliderMsRs(wbwsSt)
+    }
+
+    override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
+        return subAppStateCont.getSliderMs(wbwsSt)
+    }
+
     override fun getWindowStateMsDefaultRs(windowId: String?): Rse<Ms<WindowState>> {
         val windowMsRs:Rse<Ms<WindowState>> = if (windowId != null) {
             val q:Rse<Ms<WindowState>> = getWindowStateMsByIdRs(windowId)
@@ -270,6 +277,10 @@ class StateContainerImp @Inject constructor(
 
     override fun getWsNameMs(wbKeySt: St<WorkbookKey>, wsName: String): Ms<String>? {
         return docCont.getWsNameMs(wbKeySt, wsName)
+    }
+
+    override fun getWbWsStRs(wbWs: WbWs): Rse<WbWsSt> {
+        return docCont.getWbWsStRs(wbWs)
     }
 
     override fun getWbRs(wbKey: WorkbookKey): Rs<Workbook, ErrorReport> {

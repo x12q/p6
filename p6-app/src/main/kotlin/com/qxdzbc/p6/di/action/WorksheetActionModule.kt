@@ -16,6 +16,8 @@ import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataActionImp
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextActionImp
+import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
+import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellActionImp
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetActionImp
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
@@ -43,6 +45,10 @@ import dagger.Binds
 
 @dagger.Module
 interface WorksheetActionModule {
+    @Binds
+    @P6Singleton
+    fun MakeSliderFollowCellAction(i:MakeSliderFollowCellActionImp): MakeSliderFollowCellAction
+
     @Binds
     @P6Singleton
     fun UpdateCellEditorTextWithRangeSelectorAction(i: UpdateCellEditorTextWithRangeSelectorActionImp):UpdateCellEditorTextWithRangeSelectorAction

@@ -60,7 +60,9 @@ data class WorksheetStateImp @AssistedInject constructor(
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
         val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
-        val newLayout: LayoutCoorWrapper = if (oldLayout?.layout != layoutCoor.layout) {
+        val newLayout: LayoutCoorWrapper = if(oldLayout== null){
+            layoutCoor
+        }else if (oldLayout?.layout != layoutCoor.layout) {
             layoutCoor
         } else {
             layoutCoor.forceRefresh(!oldLayout.refreshVar)
@@ -121,9 +123,19 @@ data class WorksheetStateImp @AssistedInject constructor(
             return this.id.wsNameSt
         }
 
-    override fun setSlider(i: GridSlider): WorksheetState {
+    override fun setSliderAndRefreshDependentStates(i: GridSlider): WorksheetState {
         this.sliderMs.value = i
-        return this
+        var wsState:WorksheetState = this
+        wsState = wsState.removeAllCellLayoutCoor()
+
+        colRulerStateMs.value = colRulerState
+            .clearItemLayoutCoorsMap()
+            .clearResizerLayoutCoorsMap()
+
+        rowRulerStateMs.value = rowRulerState
+            .clearItemLayoutCoorsMap()
+            .clearResizerLayoutCoorsMap()
+        return wsState
     }
 
     override val cellStateCont: CellStateContainer

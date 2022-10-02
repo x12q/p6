@@ -47,9 +47,13 @@ interface DocumentContainer : WorkbookGetter {
     fun getWsNameMs(wbKeySt:St<WorkbookKey>, wsName: String): Ms<String>?
 
     /**
-     * @return [WbWsSt] from an existing worksheet, null if such worksheet does not exist
+     * @return [WbWsSt] from a [WbWs], null if such combination does not exist
      */
     fun getWbWsSt(wbWs: WbWs): WbWsSt?
+    /**
+     * @return [WbWsSt] from a [WbWs], Err if such combination does not exist
+     */
+    fun getWbWsStRs(wbWs: WbWs):Rse<WbWsSt>
 
     fun getWsRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport>
     fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Worksheet, ErrorReport>

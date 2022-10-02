@@ -147,7 +147,7 @@ interface CursorState : WbWsSt {
     fun setFragRanges(ranges:Collection<RangeAddress>): CursorState
     fun removeAllSelectedFragRange(): CursorState
 
-    fun removeAllExceptAnchorCell(): CursorState
+    fun removeAllExceptMainCell(): CursorState
 
     val rowFromFragCells: List<Int>
     val rowFromRange: List<IntRange>

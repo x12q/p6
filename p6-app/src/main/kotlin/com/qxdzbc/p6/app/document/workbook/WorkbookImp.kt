@@ -82,12 +82,12 @@ data class WorkbookImp(
     }
 
     @kotlin.jvm.Throws(Exception::class)
-    override fun createNewWs2(name: String?): CreateNewWorksheetResponse {
-        val rs = this.createNewWorksheetRs2(name)
+    override fun createNewWs_MoreDetail(name: String?): CreateNewWorksheetResponse {
+        val rs = this.createNewWsRs_MoreDetail(name)
         return rs.getOrThrow()
     }
 
-    override fun createNewWorksheetRs2(name: String?): Rse<CreateNewWorksheetResponse> {
+    override fun createNewWsRs_MoreDetail(name: String?): Rse<CreateNewWorksheetResponse> {
         val actualName = name ?: WorkbookUtils.generateNewSheetName(this.worksheets.map { it.name })
         if (actualName in this.worksheetMap.keys) {
             return WorkbookErrors.WorksheetAlreadyExist.report(actualName).toErr()

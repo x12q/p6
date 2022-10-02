@@ -53,8 +53,13 @@ interface Workbook : WithSize {
      * @throws Exception if unable to create a new worksheet
      */
     fun createNewWs(name: String? = null): Workbook
-    fun createNewWs2(name: String? = null): CreateNewWorksheetResponse
+    fun createNewWs_MoreDetail(name: String? = null): CreateNewWorksheetResponse
     fun createNewWsRs(name: String? = null): Result<Workbook, ErrorReport>
+
+    /**
+     * create a new ws, return a more detailed result than [createNewWsRs]
+     */
+    fun createNewWsRs_MoreDetail(name: String?): Rse<CreateNewWorksheetResponse>
 
     fun removeSheet(index: Int): Workbook
     fun removeSheet(name: String): Workbook
@@ -81,6 +86,5 @@ interface Workbook : WithSize {
         return this.getWs(sheetName) != null
     }
 
-    fun createNewWorksheetRs2(name: String?): Rse<CreateNewWorksheetResponse>
     fun removeAllWs(): Workbook
 }

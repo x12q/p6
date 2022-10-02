@@ -227,7 +227,7 @@ data class CursorStateImp @AssistedInject constructor(
         if (rangeConstraint.contains(newCellAddress)) {
             return this
                 .setMainCell(newCellAddress)
-                .removeAllExceptAnchorCell()
+                .removeAllExceptMainCell()
         } else {
             return this
         }
@@ -238,7 +238,7 @@ data class CursorStateImp @AssistedInject constructor(
         if (rangeConstraint.contains(newCellAddress)) {
             return this
                 .setMainCell(newCellAddress)
-                .removeAllExceptAnchorCell()
+                .removeAllExceptMainCell()
         } else {
             return this
         }
@@ -249,7 +249,7 @@ data class CursorStateImp @AssistedInject constructor(
         if (rangeConstraint.contains(newCellAddress)) {
             return this
                 .setMainCell(newCellAddress)
-                .removeAllExceptAnchorCell()
+                .removeAllExceptMainCell()
         } else {
             return this
         }
@@ -260,7 +260,7 @@ data class CursorStateImp @AssistedInject constructor(
         if (rangeConstraint.contains(newCellAddress)) {
             return this
                 .setMainCell(newCellAddress)
-                .removeAllExceptAnchorCell()
+                .removeAllExceptMainCell()
         } else {
             return this
         }

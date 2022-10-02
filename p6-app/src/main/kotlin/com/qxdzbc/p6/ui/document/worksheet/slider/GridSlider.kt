@@ -78,9 +78,18 @@ interface GridSlider {
     fun shiftDown(v: Int): GridSlider
 
     /**
-     * move slider in relative to a cursor.
+     * move slider in relative to a cursor's main cell
      * @return a new slider, or itself if the slider does not move
      */
-    fun followCursor(newCursorState: CursorState): GridSlider
+    fun followCursorMainCell(cursorState: CursorState): GridSlider
+
+    /**
+     * Follow the bot-right cell of a cursor main range
+     */
+    fun followCursorMainRangeBotRight(cursorState: CursorState): GridSlider
+    /**
+     * Follow a cell, if it is out of this gridslider, produce a new slider that contain that cell on the appropriate edge
+     */
+    fun followCell(cellAddress: CellAddress):GridSlider
     val lastVisibleRowNotMargin: Int
 }

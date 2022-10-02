@@ -13,11 +13,13 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSliderImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import test.TestSample
@@ -30,7 +32,7 @@ import kotlin.test.*
 internal class WorksheetAction2ImpTest {
     lateinit var ws: Worksheet
     lateinit var wsStateMs: Ms<WorksheetState>
-    lateinit var actions: WorksheetAction2Imp
+    lateinit var actions: WorksheetAction2
     val cursorStateMs get() = wsState.cursorStateMs
     val cursorState: CursorState get() = wsStateMs.value.cursorStateMs.value
     val wsState: WorksheetState get() = wsStateMs.value
@@ -65,6 +67,7 @@ internal class WorksheetAction2ImpTest {
                     val cellAddress = CellAddress(c, r)
                     val mockLayout: LayoutCoorWrapper = mock {
                         whenever(it.boundInWindow).thenReturn(rect)
+                        whenever(it.refreshVar) doReturn false
                     }
                     layoutMap[cellAddress] = mockLayout
 
@@ -72,8 +75,7 @@ internal class WorksheetAction2ImpTest {
                 }
             }
         }
-        actions =
-            WorksheetAction2Imp(testSample.appStateMs, testSample.p6Comp.mouseOnWsAction(), testSample.stateContMs(),testSample.p6Comp.computeSliderSizeAction())
+        actions = testSample.p6Comp.worksheetAction2()
         for ((c, l) in layoutMap) {
             wsStateMs.value = wsStateMs.value.addCellLayoutCoor(c, l)
         }
@@ -118,7 +120,7 @@ internal class WorksheetAction2ImpTest {
                 rowIndex = slider.visibleRowRange.random()
             )
         )
-        actions.makeSliderFollowCursor(newCursor, ws)
+        actions.makeSliderFollowCursorMainCell(newCursor, ws)
         println(wsState.slider)
 
         assertEquals(oldSlider.visibleColRange.add(d), slider.visibleColRange)
@@ -133,7 +135,7 @@ internal class WorksheetAction2ImpTest {
         )
 
         val oldSlider2 = slider
-        actions.makeSliderFollowCursor(cursor2, ws)
+        actions.makeSliderFollowCursorMainCell(cursor2, ws)
 
         assertEquals(oldSlider2.visibleRowRange.add(d), slider.visibleRowRange)
         assertEquals(oldSlider2.firstVisibleRow + d, slider.firstVisibleRow)

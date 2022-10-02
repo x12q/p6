@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.app.error_router
 
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -23,6 +24,10 @@ class ErrorRouterDoNothing : ErrorRouter {
     }
 
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?) {
+        println("do nothing")
+    }
+
+    override fun publishToWindow(errorReport: ErrorReport?, windowId: String?, wbKeySt: St<WorkbookKey>?) {
         println("do nothing")
     }
 

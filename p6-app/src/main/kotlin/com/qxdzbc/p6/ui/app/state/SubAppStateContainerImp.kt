@@ -23,6 +23,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
@@ -156,6 +157,14 @@ data class SubAppStateContainerImp @Inject constructor(
 
     override fun getRulerState(rulerSig: RulerSig): RulerState? {
         return this.getRulerState(rulerSig,rulerSig.type)
+    }
+
+    override fun getSliderMsRs(wbwsSt: WbWsSt): Rse<Ms<GridSlider>> {
+        return this.getWsStateRs(wbwsSt).map { it.sliderMs }
+    }
+
+    override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
+        return this.getWsStateRs(wbwsSt).component1()?.sliderMs
     }
 
     override fun removeWindowState(windowId: String): SubAppStateContainer {

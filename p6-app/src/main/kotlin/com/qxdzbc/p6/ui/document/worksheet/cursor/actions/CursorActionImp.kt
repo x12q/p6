@@ -19,6 +19,7 @@ import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.action.range.RangeIdImp
+import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
@@ -44,6 +45,7 @@ class CursorActionImp @Inject constructor(
     private val pasteRangeAction: PasteRangeAction,
     private val selectWholeCol:SelectWholeColumnForAllSelectedCellAction,
     private val selectWholeRow:SelectWholeRowForAllSelectedCellAction,
+    private val makeSliderFollowCellAct:MakeSliderFollowCellAction,
 ) : CursorAction,SelectWholeColumnForAllSelectedCellAction by selectWholeCol,SelectWholeRowForAllSelectedCellAction by selectWholeRow {
 
     private val sc by stateContSt
@@ -322,8 +324,8 @@ class CursorActionImp @Inject constructor(
             val wsState by wsStateMs
             val cursorState by wsState.cursorStateMs
             val targetCell = CellAddress(wsState.firstCol, cursorState.mainCell.rowIndex)
-            val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptAnchorCell()
-            wsAction.makeSliderFollowCursor(newCursorState, wbws)
+            val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptMainCell()
+            wsAction.makeSliderFollowCursorMainCell(newCursorState, wbws)
         }
     }
 
@@ -334,9 +336,9 @@ class CursorActionImp @Inject constructor(
             val wsState by wsStateMs
             val cursorState by wsState.cursorStateMs
             val targetCell = CellAddress(wsState.lastCol, cursorState.mainCell.rowIndex)
-            val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptAnchorCell()
+            val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptMainCell()
             wsState.cursorStateMs.value = newCursorState
-            wsAction.makeSliderFollowCursor(newCursorState, wbws)
+            wsAction.makeSliderFollowCursorMainCell(newCursorState, wbws)
         }
     }
 
@@ -353,7 +355,7 @@ class CursorActionImp @Inject constructor(
                 cursorState.setMainCell(CellAddress(colIndex, row))
             } else {
                 cursorState
-                    .setMainCell(CellAddress(colIndex, wsState.firstRow)).removeAllExceptAnchorCell()
+                    .setMainCell(CellAddress(colIndex, wsState.firstRow)).removeAllExceptMainCell()
             }
         }
         return rt
@@ -367,7 +369,7 @@ class CursorActionImp @Inject constructor(
             val newCursorState = ctrlUpNoUpdate(wbws)
             if (newCursorState != null) {
                 cursorStateMs.value = newCursorState
-                wsAction.makeSliderFollowCursor(newCursorState, wbws)
+                wsAction.makeSliderFollowCursorMainCell(newCursorState, wbws)
             }
         }
     }
@@ -385,7 +387,7 @@ class CursorActionImp @Inject constructor(
             } else {
                 cursorState
                     .setMainCell(CellAddress(colIndex, wsState.lastRow))
-                    .removeAllExceptAnchorCell()
+                    .removeAllExceptMainCell()
             }
         }
         return rt
@@ -399,7 +401,7 @@ class CursorActionImp @Inject constructor(
             val newCursor = ctrlDownNoUpdate(wbws)
             if (newCursor != null) {
                 cursorStateMs.value = newCursor
-                wsAction.makeSliderFollowCursor(newCursor, wbws)
+                wsAction.makeSliderFollowCursorMainCell(newCursor, wbws)
             }
         }
     }
@@ -412,7 +414,7 @@ class CursorActionImp @Inject constructor(
             val newCursorState = ctrlRightNoUpdate(wbws)
             if (newCursorState != null) {
                 cursorStateMs.value = newCursorState
-                wsAction.makeSliderFollowCursor(newCursorState, wbws)
+                wsAction.makeSliderFollowCursorMainCell(newCursorState, wbws)
             }
         }
     }
@@ -437,7 +439,7 @@ class CursorActionImp @Inject constructor(
             } else {
                 return cursorState
                     .setMainCell(CellAddress(wsState.lastCol, rowIndex))
-                    .removeAllExceptAnchorCell()
+                    .removeAllExceptMainCell()
             }
         } else {
             return null
@@ -458,7 +460,7 @@ class CursorActionImp @Inject constructor(
                 if (minRow != null && maxRow != null) {
                     val cell3 = CellAddress(cell1.colIndex, minRow)
                     val cell4 = CellAddress(cell1.colIndex, maxRow)
-                    wsState.cursorStateMs.value = cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                    wsState.cursorStateMs.value = cursorState.setMainCell(cell1).removeAllExceptMainCell().addFragRange(
                         RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                     )
                 }
@@ -481,7 +483,7 @@ class CursorActionImp @Inject constructor(
                         val cell3 = CellAddress(cell1.colIndex, minRow)
                         val cell4 = CellAddress(cell1.colIndex, maxRow)
                         wsState.cursorStateMs.value =
-                            cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                            cursorState.setMainCell(cell1).removeAllExceptMainCell().addFragRange(
                                 RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                             )
                     }
@@ -504,7 +506,7 @@ class CursorActionImp @Inject constructor(
                         val cell3 = CellAddress(maxCol, cell1.rowIndex)
                         val cell4 = CellAddress(minCol, cell1.rowIndex)
                         wsState.cursorStateMs.value =
-                            cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                            cursorState.setMainCell(cell1).removeAllExceptMainCell().addFragRange(
                                 RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                             )
                     }
@@ -528,7 +530,7 @@ class CursorActionImp @Inject constructor(
                     if (maxCol != null && minCol != null) {
                         val cell3 = CellAddress(maxCol, cell1.rowIndex)
                         val cell4 = CellAddress(minCol, cell1.rowIndex)
-                        cursorState = cursorState.setMainCell(cell1).removeAllExceptAnchorCell().addFragRange(
+                        cursorState = cursorState.setMainCell(cell1).removeAllExceptMainCell().addFragRange(
                             RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                         )
                     }
@@ -542,7 +544,7 @@ class CursorActionImp @Inject constructor(
         sc.getCursorStateMs(wbws)?.also { cursorStateMs ->
             this.ctrlLeftNoUpdate(wbws)?.also { newCursor ->
                 cursorStateMs.value = newCursor
-                wsAction.makeSliderFollowCursor(newCursor, wbws)
+                wsAction.makeSliderFollowCursorMainCell(newCursor, wbws)
             }
         }
     }
@@ -563,7 +565,7 @@ class CursorActionImp @Inject constructor(
             } else {
                 cursorState
                     .setMainCell(CellAddress(wsState.firstCol, anchoRowIndex))
-                    .removeAllExceptAnchorCell()
+                    .removeAllExceptMainCell()
             }
         }
         return rt
@@ -574,7 +576,7 @@ class CursorActionImp @Inject constructor(
     ) {
         sc.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.up()
-            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, wbws)
         }
     }
 
@@ -583,7 +585,7 @@ class CursorActionImp @Inject constructor(
     ) {
         sc.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.down()
-            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, wbws)
         }
     }
 
@@ -592,21 +594,21 @@ class CursorActionImp @Inject constructor(
     ) {
         sc.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.left()
-            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, wbws)
         }
     }
 
     override fun right(wbws: WbWs) {
         sc.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.right()
-            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, wbws)
         }
     }
 
     override fun moveCursorTo(wbws: WbWs, cellLabel: String) {
         sc.getCursorStateMs(wbws)?.also { cursorStateMs ->
             cursorStateMs.value = cursorStateMs.value.setMainCell(CellAddress(cellLabel))
-            wsAction.makeSliderFollowCursor(cursorStateMs.value, wbws)
+            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, wbws)
         }
     }
 
@@ -617,7 +619,9 @@ class CursorActionImp @Inject constructor(
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.upOneRow()))
-            wsAction.makeSliderFollowCursor(cursorState, wbws)
+            wsAction.makeSliderFollowCursorMainCell(cursorState, wbws)
+            val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
         }
 
     }
@@ -631,7 +635,9 @@ class CursorActionImp @Inject constructor(
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.downOneRow()))
-            wsAction.makeSliderFollowCursor(cursorState, wbws)
+//            wsAction.makeSliderFollowCursorMainCell(cursorState, wbws)
+            val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
         }
     }
 
@@ -644,7 +650,9 @@ class CursorActionImp @Inject constructor(
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.leftOneCol()))
-            wsAction.makeSliderFollowCursor(cursorState, wbws)
+//            wsAction.makeSliderFollowCursorMainCell(cursorState, wbws)
+            val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
         }
     }
 
@@ -657,7 +665,9 @@ class CursorActionImp @Inject constructor(
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.rightOneCol()))
-            wsAction.makeSliderFollowCursor(cursorState, wbws)
+//            wsAction.makeSliderFollowCursorMainCell(cursorState, wbws)
+            val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
         }
     }
 

@@ -13,7 +13,7 @@ abstract class BaseCursorState : CursorState {
     override fun attemptToMergeAllIntoOne(): CursorState {
         val newMain = this.mergeAllIntoOne()
         if (newMain != null) {
-            return this.removeAllExceptAnchorCell().setMainRange(newMain)
+            return this.removeAllExceptMainCell().setMainRange(newMain)
         } else {
             return this
         }
@@ -86,7 +86,7 @@ abstract class BaseCursorState : CursorState {
 
     }
 
-    override fun removeAllExceptAnchorCell(): CursorState {
+    override fun removeAllExceptMainCell(): CursorState {
         return this.removeAllFragmentedCells().removeMainRange().removeAllSelectedFragRange()
     }
 

@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
@@ -67,7 +66,13 @@ interface WorksheetState :WbWsSt {
 
     val sliderMs: Ms<GridSlider>
     val slider: GridSlider get() = sliderMs.value
-    fun setSlider(i:GridSlider):WorksheetState
+
+    /**
+     * Set new slider, and refresh states that are affected by this, including:
+     *  - ruler states
+     *  - cell layouts
+     */
+    fun setSliderAndRefreshDependentStates(i:GridSlider):WorksheetState
 
     val selectRectStateMs: Ms<SelectRectState>
     val selectRectState: SelectRectState get() = selectRectStateMs.value

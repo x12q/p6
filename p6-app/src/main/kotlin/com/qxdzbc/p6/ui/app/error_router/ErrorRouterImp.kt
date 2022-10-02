@@ -10,6 +10,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
+import com.qxdzbc.common.compose.St
 import javax.inject.Inject
 
 class ErrorRouterImp @Inject constructor(
@@ -71,6 +72,10 @@ class ErrorRouterImp @Inject constructor(
         } else {
             publishToApp(errorReport)
         }
+    }
+
+    override fun publishToWindow(errorReport: ErrorReport?, windowId: String?, wbKeySt: St<WorkbookKey>?) {
+        TODO("Not yet implemented")
     }
 
     override fun publish(errorReport: ErrorReportWithNavInfo) {

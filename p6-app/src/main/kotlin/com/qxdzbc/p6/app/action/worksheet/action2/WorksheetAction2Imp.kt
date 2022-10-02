@@ -14,8 +14,8 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
+import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import javax.inject.Inject
 
@@ -23,43 +23,18 @@ class WorksheetAction2Imp @Inject constructor(
     @AppStateMs private val appStateMs: Ms<AppState>,
     private val mouseOnWsAction: MouseOnWorksheetAction,
     @StateContainerMs val stateContMs: Ms<StateContainer>,
-    val computeSliderSizeAction: ComputeSliderSizeAction
+    private val computeSliderSizeAction: ComputeSliderSizeAction,
+    private val makeSliderFollowCellAct: MakeSliderFollowCellAction,
 ) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction, ComputeSliderSizeAction by computeSliderSizeAction {
 
     private var stateCont by stateContMs
     private var appState by appStateMs
 
-    override fun makeSliderFollowCursor(
+    override fun makeSliderFollowCursorMainCell(
         newCursor: CursorState,
         wsLoc: WbWs,
     ) {
-        val wsStateMs: Ms<WorksheetState>? = appState.getWsStateMs(wsLoc)
-        if (wsStateMs != null) {
-
-            val oldSlider = wsStateMs.value.slider
-            val newSlider = oldSlider.followCursor(newCursor)
-            if (newSlider != oldSlider) {
-                val colRulerStateMs: Ms<RulerState> = wsStateMs.value.colRulerStateMs
-                val rowRulerStateMs: Ms<RulerState> = wsStateMs.value.rowRulerStateMs
-                val wsState by wsStateMs
-                val colRulerState by colRulerStateMs
-                val rowRulerState by rowRulerStateMs
-
-                wsStateMs.value = wsState
-//                    .setTopLeftCell(newSlider.topLeftCell)
-                    .setSlider(newSlider)
-                // x: clear all cached layout coors whenever slider moves to prevent memory from overflowing.
-                this.removeAllCellLayoutCoor(wsState)
-
-                colRulerStateMs.value = colRulerState
-                    .clearItemLayoutCoorsMap()
-                    .clearResizerLayoutCoorsMap()
-
-                rowRulerStateMs.value = rowRulerState
-                    .clearItemLayoutCoorsMap()
-                    .clearResizerLayoutCoorsMap()
-            }
-        }
+        makeSliderFollowCellAct.makeSliderFollowCell(wsLoc,newCursor.mainCell)
     }
 
     override fun scroll(x: Int, y: Int, wsLoc: WbWsSt) {
@@ -75,8 +50,7 @@ class WorksheetAction2Imp @Inject constructor(
             }
             if (newSlider != sliderState) {
                 wsStateMs.value = wsState
-//                    .setTopLeftCell(newSlider.topLeftCell)
-                    .setSlider(newSlider)
+                    .setSliderAndRefreshDependentStates(newSlider)
                 wsState.cellLayoutCoorMapMs.value =
                     wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddress(cellAddress) }
             }

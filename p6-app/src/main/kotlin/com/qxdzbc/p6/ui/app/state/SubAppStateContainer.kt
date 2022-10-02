@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.MutableState
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
@@ -20,6 +19,7 @@ import com.github.michaelbull.result.Result
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 
 /**
@@ -115,4 +115,7 @@ interface SubAppStateContainer {
     fun getRulerState(wbws: WbWs, type: RulerType): RulerState?
     fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState?
     fun getRulerState(rulerSig:RulerSig): RulerState?
+
+    fun getSliderMsRs(wbwsSt: WbWsSt):Rse<Ms<GridSlider>>
+    fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>?
 }
