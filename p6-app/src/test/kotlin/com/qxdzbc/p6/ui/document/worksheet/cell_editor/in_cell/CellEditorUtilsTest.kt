@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.cell_editor.in_cell
 
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.CellEditorUtils
+import com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils
 import org.junit.Test
 
 import org.junit.Assert.*

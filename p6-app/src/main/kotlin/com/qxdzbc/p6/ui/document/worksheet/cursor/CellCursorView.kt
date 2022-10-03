@@ -25,8 +25,8 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.CellEditorView
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.CellEditorView
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction

@@ -53,21 +53,6 @@ fun CellView(
     }
 }
 
-
-@Composable
-fun EmptyCellView(
-    boxModifier: Modifier = Modifier,
-) {
-    val color = Color.Transparent
-    MBox(
-        modifier = boxModifier
-            .fillMaxSize()
-            .background(color)
-    ) {
-    }
-}
-
-
 fun main() = P6TestApp {
     val address = CellAddress(1, 1)
     Column {

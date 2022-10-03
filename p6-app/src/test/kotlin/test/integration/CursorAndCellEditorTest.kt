@@ -11,13 +11,12 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
-import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorActionImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
@@ -424,19 +423,13 @@ class CursorAndCellEditorTest {
 
         // x: input text
         cellEditorAction.updateText("=1+")
-
         assertEquals("=1+", cellEditorState.currentText)
         assertEquals("=1+", cellEditorState.displayTextField.text)
         assertNull(cellEditorState.rangeSelectorTextField)
         assertTrue(cellEditorState.allowRangeSelector)
 
-        // x: issue directional key event
-        val arrowDownKey = MockPKeyEvent(
-            key = Key.DirectionDown,
-            type = KeyEventType.KeyDown,
-            isRangeSelectorToleratedKey = true,
-            isRangeSelectorNavKey = true
-        )
+        // x: issue arrow down key event
+        val arrowDownKey = MockPKeyEvent.arrowDown
         cellEditorAction.handleKeyboardEvent(arrowDownKey)
 
         // x: check state after handle keyboard event
@@ -446,7 +439,7 @@ class CursorAndCellEditorTest {
         assertEquals("=1+A2", cellEditorState.displayTextField.text)
         assertEquals("=1+", cellEditorState.currentText)
 
-        // x: handle another key event
+        // x: handle another down array key event
         cellEditorAction.handleKeyboardEvent(arrowDownKey)
         assertTrue(cellEditorState.allowRangeSelector)
         assertEquals(CellAddress("A3"), rangeSelector.mainCell)
@@ -454,10 +447,14 @@ class CursorAndCellEditorTest {
         assertEquals("=1+A3", cellEditorState.displayTextField.text)
         assertEquals("=1+", cellEditorState.currentText)
 
-        // x: handle key that ends range selector state
-        val key = mock<PKeyEvent> {
-            whenever(it.isRangeSelectorAcceptedKey()) doReturn false
-        }
+        // x: handle key (character Q) that ends range selector state
+        // x: temporary text is copied to the current text field.
+        val key = MockPKeyEvent(
+            key = Key.Q,
+            type = KeyEventType.KeyDown,
+            isAcceptedByRangeSelector = false,
+            isRangeSelectorNavKey = false,
+        )
         cellEditorAction.handleKeyboardEvent(key)
         assertEquals("=1+A3", cellEditorState.currentText)
         assertNull(cellEditorState.rangeSelectorTextField)
@@ -498,9 +495,8 @@ class CursorAndCellEditorTest {
             openCellEditor = p6Comp.openCellEditorAction(),
             stateContMs = ts.stateContMs()
         )
-        val keyEvent = mock<PKeyEvent> {
-            whenever(it.isRangeSelectorAcceptedKey()) doReturn true
-        }
+
+        val keyEvent =MockPKeyEvent.arrowDown
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
         cellEditorAction.updateText("=")
@@ -517,7 +513,8 @@ class CursorAndCellEditorTest {
         cellEditorAction.handleKeyboardEvent(keyEvent)
         verify(spyCursorAction).handleKeyboardEvent(
             keyEvent,
-            appState.getCursorState(appState.cellEditorState.rangeSelectorCursorId!!)!!
+//            appState.getCursorState(appState.cellEditorState.rangeSelectorCursorId!!)!!
+            appState.cellEditorState.rangeSelectorCursorId!!
         )
     }
 

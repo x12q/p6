@@ -123,6 +123,7 @@ class CursorActionImp @Inject constructor(
         if (wsState != null) {
             val cursorState by wsState.cursorStateMs
             return if (keyEvent.type == KeyEventType.KeyDown) {
+//                return if (true) {
                 if (keyEvent.isCtrlPressedAlone) {
                     handleKeyWithCtrlDown(keyEvent, cursorState)
                 } else if (keyEvent.isShiftPressedAlone) {
@@ -145,7 +146,7 @@ class CursorActionImp @Inject constructor(
                                 true
                             }
                             Key.Delete -> {
-                                delete(cursorState)
+                                onDeleteKey(cursorState)
                                 true
                             }
                             Key.F2 -> {
@@ -189,7 +190,6 @@ class CursorActionImp @Inject constructor(
         } else {
             return false
         }
-
     }
 
     private fun handleKeyboardEventWhenShiftDown(
@@ -675,7 +675,7 @@ class CursorActionImp @Inject constructor(
         openCellEditor.openCellEditor(wbws)
     }
 
-    override fun delete(wbws: WbWs) {
+    override fun onDeleteKey(wbws: WbWs) {
         sc.getCursorState(wbws)?.also { cursorState: CursorState ->
             val req = DeleteMultiAtCursorRequest(
                 wbKey = cursorState.id.wbKey,

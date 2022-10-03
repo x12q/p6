@@ -3,6 +3,8 @@ package com.qxdzbc.p6.di
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleter
+import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleterImp
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
@@ -14,6 +16,10 @@ import dagger.Provides
 
 @dagger.Module
 interface TranslatorModule {
+
+    @Binds
+    @P6Singleton
+    fun FormulaAutoCompleter(i: FormulaAutoCompleterImp):FormulaAutoCompleter
 
     @Binds
     @P6Singleton

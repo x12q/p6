@@ -28,8 +28,8 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainerImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorStateImp
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.kernel.MsKernelContext
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorAction
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionImp
@@ -41,7 +41,6 @@ import com.qxdzbc.p6.ui.script_editor.script_tree.state.ScriptTreeState
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import com.qxdzbc.p6.ui.script_editor.state.SwingCodeEditorStateImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
-import com.qxdzbc.p6.ui.window.state.WindowState
 import dagger.Binds
 import dagger.Provides
 

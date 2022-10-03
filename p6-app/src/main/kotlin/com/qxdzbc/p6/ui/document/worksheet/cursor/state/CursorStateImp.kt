@@ -10,8 +10,8 @@ import com.qxdzbc.p6.di.state.app_state.CellEditorStateMs
 import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorStateImp
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import dagger.assisted.AssistedInject

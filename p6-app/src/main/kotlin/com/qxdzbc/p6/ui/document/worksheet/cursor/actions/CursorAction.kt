@@ -7,7 +7,9 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
 
-
+/**
+ * TODO add St alternative to all functions
+ */
 interface CursorAction : SelectWholeColumnForAllSelectedCellAction, SelectWholeRowForAllSelectedCellAction {
 
     /**
@@ -33,10 +35,8 @@ interface CursorAction : SelectWholeColumnForAllSelectedCellAction, SelectWholeR
     fun shiftDown(wbws: WbWs)
     fun shiftLeft(wbws: WbWs)
     fun shiftRight(wbws: WbWs)
-    /**
-     * on pressing delete key
-     */
-    fun delete(wbws: WbWs)
+
+    fun onDeleteKey(wbws: WbWs)
     fun undo(wbws: WbWs)
     fun handleKeyboardEvent(keyEvent: PKeyEvent, wbws: WbWs): Boolean
     fun pasteRange(wbws: WbWs)

@@ -4,12 +4,11 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
@@ -20,7 +19,7 @@ class CursorActionImpTest {
 
     lateinit var ts:TestSample
     lateinit var cursorAction: CursorAction
-    lateinit var cellEditorAction:CellEditorAction
+    lateinit var cellEditorAction: CellEditorAction
     lateinit var wsStateMs:Ms<WorksheetState>
 
     lateinit var sliderMs:Ms<GridSlider>
@@ -45,7 +44,7 @@ class CursorActionImpTest {
         val oldSlider = slider
         val cursor by cursorMs
 
-        ///
+        // shift + down
         val e1 = CellAddress(
             col = 5,
             row = 20
@@ -61,7 +60,7 @@ class CursorActionImpTest {
         val eSlider1 = oldSlider.setVisibleRowRange(2 .. 21)
         assertEquals(eSlider1,slider)
 
-        ///
+        // shift + right
         val e2 = CellAddress(
             col = 20,
             row = 3
@@ -75,7 +74,7 @@ class CursorActionImpTest {
         val eSlider2 = eSlider1.setVisibleColRange(2 .. 21)
         assertEquals(eSlider2,slider)
 
-        ///
+        // shift + left
         val e3 = CellAddress(
             col = 2,
             row = 3
@@ -89,7 +88,7 @@ class CursorActionImpTest {
         val eSlider3 = eSlider2.setVisibleColRange(1 .. 20)
         assertEquals(eSlider3,slider)
 
-        ///
+        // shift + up
         val e4 =CellAddress(
             col = 1,
             row = 2

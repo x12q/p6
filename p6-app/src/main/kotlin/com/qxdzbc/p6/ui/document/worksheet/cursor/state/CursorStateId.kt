@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.state
 
 import androidx.compose.runtime.State
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
@@ -8,11 +9,6 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
  * For identifying a cursor
  */
 interface CursorStateId : WbWsSt{
-    val wsStateIDMs: State<WorksheetId>
+    val wsStateIDMs: St<WorksheetId>
     fun setWsStateIdSt(wsStateIDSt: State<WorksheetId>):CursorStateId
-    fun isSame(another:CursorStateId):Boolean{
-        val c1=this.wbKey == another.wbKey
-        val c2 = this.wsName == another.wsName
-        return c1 && c2
-    }
 }

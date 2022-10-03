@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.app.cell_editor.in_cell.state
+package com.qxdzbc.p6.ui.app.cell_editor.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -11,12 +11,11 @@ import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.di.state.app_state.CellEditorInitCursorIdSt
 import com.qxdzbc.p6.di.state.app_state.DefaultNullCellAddress
 import com.qxdzbc.p6.di.state.app_state.NullTextFieldValue
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.CellEditorUtils
+import com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import javax.inject.Inject
 
 
@@ -99,16 +98,12 @@ data class CellEditorStateImp @Inject constructor(
         return this.copy(rangeSelectorTextField = newTextField)
     }
 
-    /**
-     * TODO fix it so that the text cursor is at the end of the new text
-     */
     override fun setCurrentText(newText: String): CellEditorState {
+        val tf = this.currentTextField
         return this.copy(
-            currentTextField = this.currentTextField
-                .copy(text = newText)
+            currentTextField = tf
+                .copy(text = newText, selection = TextRange(newText.length))
         )
-        // the code below will crash the app
-        //            .copy(text = newText,selection=TextRange(newText.length)))
     }
 
     override fun setCurrentTextField(newTextField: TextFieldValue): CellEditorState {

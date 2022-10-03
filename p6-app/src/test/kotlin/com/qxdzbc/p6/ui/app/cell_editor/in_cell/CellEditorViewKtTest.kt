@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.app.cell_editor.CellEditorView
 import test.BaseTest
 import test.testRunApp
 

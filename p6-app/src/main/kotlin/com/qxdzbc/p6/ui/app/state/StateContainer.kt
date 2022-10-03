@@ -3,14 +3,9 @@ package com.qxdzbc.p6.ui.app.state
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
-import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -20,7 +15,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
  */
 interface StateContainer : SubAppStateContainer, DocumentContainer {
     val cellEditorStateMs:Ms<CellEditorState>
-    var cellEditorState:CellEditorState
+    var cellEditorState: CellEditorState
     val appStateMs:Ms<AppState>
     var appState:AppState
 

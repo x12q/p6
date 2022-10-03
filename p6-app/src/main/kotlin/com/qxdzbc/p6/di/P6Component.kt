@@ -56,14 +56,14 @@ import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionTable
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
-import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2Imp
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
+import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleter
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
@@ -265,6 +265,8 @@ interface P6Component {
     fun computeSliderSizeAction(): ComputeSliderSizeAction
     fun rulerAction(): RulerAction
     fun worksheetAction2(): WorksheetAction2
+    fun formulaCompleter(): FormulaAutoCompleter
+    fun cursorEditorAction(): CellEditorAction
 
     @Component.Builder
     interface Builder {

@@ -9,7 +9,31 @@ import com.qxdzbc.common.compose.KeyUtils.isArrowKey
 import com.qxdzbc.common.compose.KeyUtils.isSingleModifier
 
 abstract class AbsPKeyEvent: PKeyEvent {
-    override fun isRangeSelectorAcceptedKey(): Boolean {
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    override val isLeftBracket: Boolean
+        get() {
+            return this.isFreeOfModificationKey && this.key == Key.LeftBracket
+        }
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    override val isLeftCurlyBracket: Boolean
+        get() {
+            return this.isShiftPressedInCombination && this.key == Key.LeftBracket
+        }
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    override val isLeftParentheses:Boolean get(){
+        when(this.key){
+            Key.Nine->{
+                return this.isShiftPressedInCombination
+            }
+            Key.NumPadLeftParenthesis -> return true
+            else -> return false
+        }
+    }
+
+    override fun isAcceptedByRangeSelector(): Boolean {
         return this.isRangeSelectorNonNavKey() || this.isRangeSelectorNavKey()
     }
 

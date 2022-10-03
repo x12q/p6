@@ -11,8 +11,16 @@ object KeyEventUtils{
         return isCtrlPressed && !isShiftPressed && !isAltPressed && !isMetaPressed
     }
 
+    val KeyEvent.isAltPressedAlone:Boolean get(){
+        return !isCtrlPressed && !isShiftPressed && isAltPressed && !isMetaPressed
+    }
+
     val KeyEvent.isShiftPressedAlone:Boolean get(){
         return !isCtrlPressed && isShiftPressed && !isAltPressed && !isMetaPressed
+    }
+
+    val KeyEvent.isFreeOfModificationKey:Boolean get(){
+        return !isCtrlPressed && !isShiftPressed && !isAltPressed && !isMetaPressed
     }
 
 }

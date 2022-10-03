@@ -28,6 +28,8 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
+import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
+import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
 import com.qxdzbc.p6.ui.common.p6R
 import com.qxdzbc.p6.ui.common.color_generator.*
 import com.qxdzbc.p6.ui.kernel.KernelAction
@@ -45,6 +47,10 @@ import com.qxdzbc.p6.app.action.remote_request_maker.QueueRequestMaker as QueueR
 
 @Module
 interface P6Module {
+    @Binds
+    @P6Singleton
+    fun TextDiffer(i: TextDifferImp):TextDiffer
+
     @Binds
     @P6Singleton
     fun FormulaColorProvider(i:FormulaColorProviderImp): FormulaColorProvider

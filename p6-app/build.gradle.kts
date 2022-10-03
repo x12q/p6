@@ -56,8 +56,12 @@ val composeTestVersion = "1.1.1"
 val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
+val apacheCommonTextVersion = "1.10.0"
 //val p6Version:String by rootProject.extra["p6Version"] as String
 dependencies {
+
+    implementation("org.apache.commons:commons-text:${apacheCommonTextVersion}")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 
     implementation("com.fifesoft:rsyntaxtextarea:3.2.0")

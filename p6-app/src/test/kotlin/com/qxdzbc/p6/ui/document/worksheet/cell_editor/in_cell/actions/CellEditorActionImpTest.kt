@@ -1,57 +1,74 @@
 package com.qxdzbc.p6.ui.document.worksheet.cell_editor.in_cell.actions
 
-import androidx.compose.ui.focus.FocusRequester
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import kotlin.test.BeforeTest
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.input.key.Key
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
+import test.BaseTest
+import test.test_implementation.MockPKeyEvent
+import kotlin.test.*
 
-internal class CellEditorActionImpTest {
+internal class CellEditorActionImpTest :BaseTest(){
 
-    lateinit var actions: CellEditorActionImp
-    lateinit var stateMs: Ms<CellEditorState>
-    lateinit var wsStateMs: Ms<WorksheetState>
-    lateinit var wsActions: WorksheetAction
-    lateinit var fc: FocusRequester
-
+    lateinit var actions: CellEditorAction
+    lateinit var wbws:WbWsSt
+    val editorState get() = ts.stateCont.cellEditorStateMs.value
     @BeforeTest
-    fun beforeTest() {
-//        wsActions = mock()
-//        fc = mock()
-//        stateMs = ms(
-//            CellEditorStateImp2(
-//                cellAddress = CellAddress(1, 1),
-//                currentText = "",
-//                isActive = false,
-//                focusRequester = fc,
-//                cursorIdMs = ms(mock())
-//            )
-//        )
-//
-//        actions = CellEditorActionImp(
-//            stateMs, wsActions, wsStateMs
-//        )
+    override fun b() {
+        super.b()
+        actions = ts.p6Comp.cursorEditorAction()
+        wbws = ts.wb1.getWs(ts.wsn1)!!
+        actions.openCellEditor(wbws)
     }
 
-//    @Test
-//    fun focus() {
-//    }
-//
-//    @Test
-//    fun enter() {
-//    }
-//
-//    @Test
-//    fun escape() {
-//    }
-//
-//    @Test
-//    fun onTextChange() {
-//    }
-//
-//    @Test
-//    fun handleSpecialKey() {
-//    }
+    @AfterTest
+    fun afterTes(){
+        actions.closeEditor()
+        ts.stateCont.cellEditorStateMs.value = editorState.clearAllText()
+    }
+
+    @Test
+    fun testAutoCompleteParentheses(){
+        val parenthesis = MockPKeyEvent(
+            isParentheses = true
+        )
+        actions.handleKeyboardEvent(parenthesis)
+        assertEquals("()",editorState.currentText)
+        assertEquals("()",editorState.displayText)
+        assertEquals("()",editorState.displayTextField.text)
+//        println(">>>>" + editorState.displayTextField.toString())
+        val selectionRange = with(editorState.currentTextField.selection){
+            start .. end
+        }
+        assertEquals(1 .. 1,selectionRange)
+    }
+
+    @Test
+    fun testAutoCompleteBracket(){
+        val parenthesis = MockPKeyEvent(
+            isBracket = true
+        )
+        actions.handleKeyboardEvent(parenthesis)
+        assertEquals("[]",editorState.currentText)
+        assertEquals("[]",editorState.displayText)
+        val selectionRange = with(editorState.currentTextField.selection){
+            start .. end
+        }
+        assertEquals(1 .. 1,selectionRange)
+    }
+
+    @Test
+    fun testAutoCompleteCurlyBracket(){
+        val parenthesis = MockPKeyEvent(
+            isCurlyBracket = true
+        )
+        actions.handleKeyboardEvent(parenthesis)
+        assertEquals("{}",editorState.currentText)
+        assertEquals("{}",editorState.displayText)
+        val selectionRange = with(editorState.currentTextField.selection){
+            start .. end
+        }
+        assertEquals(1 .. 1,selectionRange)
+    }
 }

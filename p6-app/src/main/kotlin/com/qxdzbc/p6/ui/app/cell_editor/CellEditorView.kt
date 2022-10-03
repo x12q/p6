@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.app.cell_editor.in_cell
+package com.qxdzbc.p6.ui.app.cell_editor
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,14 +9,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.key_event.PKeyEvent.Companion.toPKeyEvent
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.common.p6R
 
 /**
@@ -60,9 +59,9 @@ fun CellEditorView(
             BasicTextField(
                 value = state.displayTextField,
                 onValueChange = {
+                    it.composition
                     action.updateTextField(it)
                 },
-
                 modifier = Modifier
                     .then(sizeMod)
                     .then(p6R.padding.mod.stdTextFieldPadding)

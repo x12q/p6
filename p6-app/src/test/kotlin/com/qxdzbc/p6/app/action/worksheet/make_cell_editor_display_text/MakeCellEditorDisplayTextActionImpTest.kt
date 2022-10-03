@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import org.mockito.kotlin.doReturn
@@ -20,7 +20,7 @@ class MakeCellEditorDisplayTextActionImpTest {
     val currentText=  "currentText+"
     val currentTextField = TextFieldValue(currentText)
     lateinit var rangeSelectorCursorMs:Ms<CursorState>
-    lateinit var editorState:CellEditorState
+    lateinit var editorState: CellEditorState
 
     @BeforeTest
     fun b() {

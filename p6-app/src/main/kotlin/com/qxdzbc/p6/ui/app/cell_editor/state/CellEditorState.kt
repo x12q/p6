@@ -1,13 +1,10 @@
-package com.qxdzbc.p6.ui.app.cell_editor.in_cell.state
+package com.qxdzbc.p6.ui.app.cell_editor.state
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
-import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 
 interface CellEditorState {
@@ -15,7 +12,7 @@ interface CellEditorState {
     /**
      * move [rangeSelectorTextField]'s content to [currentTextField], then nullify [rangeSelectorTextField]
      */
-    fun stopGettingRangeAddress():CellEditorState
+    fun stopGettingRangeAddress(): CellEditorState
 
     val allowRangeSelector: Boolean
 
@@ -26,7 +23,7 @@ interface CellEditorState {
     val rangeSelectorIsSameAsTargetCursor: Boolean
         get() = rangeSelectorCursorId?.let { rs ->
             targetCursorId?.let {
-                it.isSame(rs)
+                it.isSameContent(rs)
             }
         } ?: false
 
@@ -43,17 +40,8 @@ interface CellEditorState {
     val targetCell: CellAddress?
     fun setEditTarget(newCellAddress: CellAddress?): CellEditorState
 
-
     val targetWbKey: WorkbookKey? get() = targetCursorId?.wbKey
     val targetWsName: String? get() = targetCursorId?.wsName
-    val targetWbWs: WbWs?
-        get() {
-            if (targetWbKey != null && targetWsName != null) {
-                return WbWsImp(targetWbKey!!, targetWsName!!)
-            } else {
-                return null
-            }
-        }
 
     val displayTextField: TextFieldValue
     val displayText: String

@@ -5,7 +5,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerSt
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey

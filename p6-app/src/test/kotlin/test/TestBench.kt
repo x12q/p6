@@ -1,14 +1,12 @@
 package test
-import com.qxdzbc.p6.app.communication.res_req_template.WithErrorReport
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.CharCommandsVisitor
+import org.apache.commons.text.diff.CommandVisitor
+import org.apache.commons.text.diff.StringsComparator
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
-import kotlin.test.*
+import kotlin.test.Test
+
+
 class TestBench {
 
     class NumQ(var i: Int){
@@ -27,6 +25,7 @@ class TestBench {
 
     data class A(val i:Int, val s:String)
     var s:String by Delegates.notNull<String>()
+
     fun aaaa () = sequence<Int> {
         var param = Pair(0,1)
         while(true){
@@ -34,11 +33,8 @@ class TestBench {
             param = Pair(param.second,param.first+param.second)
         }
     }
+
     @Test
     fun t(){
-        val q = QQ()
-        println(q.i2)
-        q.i2 = 321
-        println(q.numQ.i)
     }
 }

@@ -5,7 +5,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 
 
 /**
- * Col-row
+ * lockable Col-row
  */
 data class CR(
     val n: Int,

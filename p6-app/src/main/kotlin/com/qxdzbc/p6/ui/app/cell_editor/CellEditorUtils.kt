@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.app.cell_editor.in_cell
+package com.qxdzbc.p6.ui.app.cell_editor
 
 object CellEditorUtils {
     /**

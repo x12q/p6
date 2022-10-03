@@ -12,7 +12,7 @@ abstract class BaseTest {
 
 
     @BeforeTest
-    fun b() {
+    open fun b() {
         ts = TestSample()
     }
 

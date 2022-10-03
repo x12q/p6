@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.state.CellEditorState
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 
 /**
  * make text that is displayed on the cell editor UI.

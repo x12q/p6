@@ -29,8 +29,8 @@ import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusStateI
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellActionImp
 import com.qxdzbc.p6.di.P6Singleton
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorAction
-import com.qxdzbc.p6.ui.app.cell_editor.in_cell.actions.CellEditorActionImp
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorActionImp
 import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelectorAction
 import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelectorActionImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction

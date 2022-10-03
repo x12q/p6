@@ -17,6 +17,9 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.onSuccess
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import javax.inject.Inject
 
 class OpenCellEditorImp @Inject constructor(
@@ -35,29 +38,41 @@ class OpenCellEditorImp @Inject constructor(
         val ws = docCont.getWs(wbws)
         val cursorStateMs = stateCont.getCursorStateMs(wbws)
         if(ws!=null && cursorStateMs!=null){
-            val cursorState by cursorStateMs
-            var cellEditorState by appState.cellEditorStateMs
-            if(!cellEditorState.isActive){
-                val cursorMainCell: Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
-                val windowStateMs = appState.getWindowStateMsByWbKey(wbws.wbKey)
-                val windowId = windowStateMs?.value?.id
-                val fcsMs = windowStateMs?.value?.focusStateMs
-                cursorMainCell.onSuccess { cell->
-                    if (cell.isEditable) {
-                        if(fcsMs!=null){
-                            fcsMs.value =fcsMs.value.focusOnEditor()
-                        }
-                        val cellText = cell.editableValue(cursorState.wbKey,cursorState.wsName)
-                        cellEditorState = cellEditorState
-                            .setCurrentText(cellText)
-                            .setEditTarget(cursorState.mainCell)
-                            .open(cursorState.idMs)
-                    } else {
-                        errorRouter.publishToWindow(CellErrors.NotEditable.report(cell.address), windowId)
+            openCellEditor(ws,cursorStateMs)
+        }
+    }
+
+    override fun openCellEditor(wbwsSt: WbWsSt) {
+        val ws = docCont.getWs(wbwsSt)
+        val cursorStateMs = stateCont.getCursorStateMs(wbwsSt)
+        if(ws!=null && cursorStateMs!=null){
+            openCellEditor(ws,cursorStateMs)
+        }
+    }
+
+    private fun openCellEditor(ws:Worksheet,cursorStateMs:Ms<CursorState>){
+        val cursorState by cursorStateMs
+        var cellEditorState by appState.cellEditorStateMs
+        if(!cellEditorState.isActive){
+            val cursorMainCell: Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
+            val windowStateMs = appState.getWindowStateMsByWbKey(ws.wbKey)
+            val windowId = windowStateMs?.value?.id
+            val fcsMs = windowStateMs?.value?.focusStateMs
+            cursorMainCell.onSuccess { cell->
+                if (cell.isEditable) {
+                    if(fcsMs!=null){
+                        fcsMs.value =fcsMs.value.focusOnEditor()
                     }
-                }.onFailure {
-                    errorRouter.publishToWindow(it, windowId)
+                    val cellText = cell.editableValue(cursorState.wbKey,cursorState.wsName)
+                    cellEditorState = cellEditorState
+                        .setCurrentText(cellText)
+                        .setEditTarget(cursorState.mainCell)
+                        .open(cursorState.idMs)
+                } else {
+                    errorRouter.publishToWindow(CellErrors.NotEditable.report(cell.address), windowId)
                 }
+            }.onFailure {
+                errorRouter.publishToWindow(it, windowId)
             }
         }
     }
