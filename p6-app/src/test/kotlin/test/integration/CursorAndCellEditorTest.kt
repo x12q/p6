@@ -493,7 +493,8 @@ class CursorAndCellEditorTest {
             cursorAction = spyCursorAction,
             makeDisplayText = p6Comp.makeDisplayText(),
             openCellEditor = p6Comp.openCellEditorAction(),
-            stateContMs = ts.stateContMs()
+            stateContMs = ts.stateContMs(),
+            textDiffer = p6Comp.textDiffer()
         )
 
         val keyEvent =MockPKeyEvent.arrowDown
