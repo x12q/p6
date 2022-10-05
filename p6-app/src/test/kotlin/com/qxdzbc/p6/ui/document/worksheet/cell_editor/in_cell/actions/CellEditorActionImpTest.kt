@@ -1,19 +1,23 @@
 package com.qxdzbc.p6.ui.document.worksheet.cell_editor.in_cell.actions
 
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import test.BaseTest
 import test.test_implementation.MockPKeyEvent
-import kotlin.test.*
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-internal class CellEditorActionImpTest :BaseTest(){
+internal class CellEditorActionImpTest : BaseTest() {
 
     lateinit var actions: CellEditorAction
-    lateinit var wbws:WbWsSt
-    val editorState get() = ts.stateCont.cellEditorStateMs.value
+    lateinit var wbws: WbWsSt
+    val editorStateMs get() = ts.stateCont.cellEditorStateMs
+    val editorState get() = editorStateMs.value
+
     @BeforeTest
     override fun b() {
         super.b()
@@ -23,52 +27,41 @@ internal class CellEditorActionImpTest :BaseTest(){
     }
 
     @AfterTest
-    fun afterTes(){
+    fun afterTes() {
         actions.closeEditor()
         ts.stateCont.cellEditorStateMs.value = editorState.clearAllText()
     }
 
-    @Test
-    fun testAutoCompleteParentheses(){
-        val parenthesis = MockPKeyEvent(
-            isParentheses = true
-        )
-        actions.handleKeyboardEvent(parenthesis)
-        assertEquals("()",editorState.currentText)
-        assertEquals("()",editorState.displayText)
-        assertEquals("()",editorState.displayTextField.text)
-//        println(">>>>" + editorState.displayTextField.toString())
-        val selectionRange = with(editorState.currentTextField.selection){
-            start .. end
-        }
-        assertEquals(1 .. 1,selectionRange)
+    fun testBrace(b1:String, b2:String) {
+        val pair = "${b1}${b2}"
+        actions.updateTextField(TextFieldValue(b1, TextRange(1)))
+        assertEquals(pair, editorState.currentText)
+        assertEquals(pair, editorState.displayText)
+        assertEquals(pair, editorState.displayTextField.text)
+        assertEquals(TextRange(1), editorState.currentTextField.selection)
+
+        editorStateMs.value = editorState.clearAllText()
+        actions.updateTextField(TextFieldValue("abc",TextRange(3)))
+        actions.updateTextField(TextFieldValue("abc${b1}",TextRange(4)))
+        assertEquals("abc${pair}", editorState.currentText)
+        assertEquals("abc${pair}", editorState.displayText)
+        assertEquals("abc${pair}", editorState.displayTextField.text)
+        assertEquals(TextRange(4), editorState.currentTextField.selection)
+
+
+        editorStateMs.value = editorState.clearAllText()
+        actions.updateTextField(TextFieldValue("abc12345",TextRange(8)))
+        actions.updateTextField(TextFieldValue("abc1${b1}45",TextRange(5)))
+        assertEquals("abc1${pair}45", editorState.currentText)
+        assertEquals("abc1${pair}45", editorState.displayText)
+        assertEquals("abc1${pair}45", editorState.displayTextField.text)
+        assertEquals(TextRange(5), editorState.currentTextField.selection)
     }
 
     @Test
-    fun testAutoCompleteBracket(){
-        val parenthesis = MockPKeyEvent(
-            isBracket = true
-        )
-        actions.handleKeyboardEvent(parenthesis)
-        assertEquals("[]",editorState.currentText)
-        assertEquals("[]",editorState.displayText)
-        val selectionRange = with(editorState.currentTextField.selection){
-            start .. end
-        }
-        assertEquals(1 .. 1,selectionRange)
-    }
-
-    @Test
-    fun testAutoCompleteCurlyBracket(){
-        val parenthesis = MockPKeyEvent(
-            isCurlyBracket = true
-        )
-        actions.handleKeyboardEvent(parenthesis)
-        assertEquals("{}",editorState.currentText)
-        assertEquals("{}",editorState.displayText)
-        val selectionRange = with(editorState.currentTextField.selection){
-            start .. end
-        }
-        assertEquals(1 .. 1,selectionRange)
+    fun testAutoCompleteParentheses() {
+        testBrace("(",")")
+        testBrace("[","]")
+        testBrace("{","}")
     }
 }

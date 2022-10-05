@@ -130,11 +130,14 @@ class CellEditorActionImp @Inject constructor(
      * **For testing only.**
      * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [updateTextField] in the app instead.
      */
+    @Deprecated("dont use, this one is not suitable for production")
     override fun updateText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
         if (editorState.isActive) {
             stateCont.cellEditorStateMs.value = editorState
                 .setCurrentText(newText)
+//            val newTextField = editorState.currentTextField.copy(text=newText)
+//            this.updateTextField(newTextField)
         }
     }
 
@@ -150,7 +153,7 @@ class CellEditorActionImp @Inject constructor(
         if (editorState.isActive) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
             println(ntf)
-            ntf = constructNewText(ntf)
+            ntf = autoCompleteBracesIfPossible(ntf)
 
             val newEditorState = editorState
                 .setCurrentTextField(ntf)
@@ -179,7 +182,7 @@ class CellEditorActionImp @Inject constructor(
         }
     }
 
-    fun constructNewText(newTextField: TextFieldValue): TextFieldValue {
+    fun autoCompleteBracesIfPossible(newTextField: TextFieldValue): TextFieldValue {
         val oldTf = editorState.currentTextField
         val ntf = newTextField
         if(oldTf == ntf){
@@ -216,41 +219,10 @@ class CellEditorActionImp @Inject constructor(
         return rt
     }
 
-    private fun handleLeftParentheses(): Boolean {
-        return handleAutoCompleteCase('(', ')')
-    }
-
-    private fun handleBrackets(): Boolean {
-        return handleAutoCompleteCase('[', ']')
-    }
-
-    private fun handleCurlyBracket(): Boolean {
-        return handleAutoCompleteCase('{', '}')
-    }
-
-    private fun handleAutoCompleteCase(c1: Char, c2: Char): Boolean {
-        val currentText = editorState.currentTextField
-        val newText = currentText.copy(
-            text = currentText.text + c1 + c2,
-            selection = TextRange(currentText.selection.end + 1)
-        )
-        updateTextField(newText)
-        return true
-    }
-
     @OptIn(ExperimentalComposeUiApi::class)
     override fun handleKeyboardEvent(keyEvent: PKeyEvent): Boolean {
         if (editorState.isActive) {
             if (keyEvent.type == KeyEventType.KeyDown) {
-                if (keyEvent.isLeftParentheses) {
-//                    val q= handleLeftParentheses()
-//                    return q
-//                }else if(keyEvent.isLeftBracket){
-//                    return handleBrackets()
-//                } else if(keyEvent.isLeftCurlyBracket){
-//                    return handleCurlyBracket()
-                    return false
-                } else {
                     when (keyEvent.key) {
                         Key.Enter -> {
                             if (keyEvent.isAltPressedAlone) {
@@ -292,7 +264,7 @@ class CellEditorActionImp @Inject constructor(
                             }
                         }
                     }
-                }
+
             } else {
                 return false
             }

@@ -12,13 +12,9 @@ class TextDifferImp @Inject constructor() : TextDiffer {
         val visitor = CharCommandsVisitor()
         comparator.script.visit(visitor)
 
-//        if(visitor.hasAdditionOnly){
             return TextAndRange(
                 text = visitor.addition,
                 range = newTextFieldValue.selection
             )
-//        }else{
-//            return null
-//        }
     }
 }

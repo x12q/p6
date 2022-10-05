@@ -38,7 +38,6 @@ interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorActi
      *  - Enter key = run the formula instead of inserting new lines
      *  - Alt+Enter = insert new line
      *  - Escape key = close the cell editor
-     *  - auto complete certain special character (parentheses, square brackets)
      *  - pass key event to range selector if possible
      */
     fun handleKeyboardEvent(keyEvent: PKeyEvent): Boolean
