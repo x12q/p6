@@ -37,7 +37,7 @@ import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfigImp
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.di.DaggerMessageApiComponent
 import com.qxdzbc.p6.message.di.MessageApiComponent
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
@@ -68,7 +68,7 @@ fun main() {
                     .serviceLogger(Loggers.serviceLogger)
                     .msgApiCommonLogger(Loggers.msgApiCommonLogger)
                     .apply {
-                        val defaultKernelConfigRs = KernelConfigImp.fromFile(Paths.get(p6R.defaultPythonConfigFile))
+                        val defaultKernelConfigRs = KernelConfigImp.fromFile(Paths.get(P6R.defaultPythonConfigFile))
                         if (defaultKernelConfigRs is Ok) {
                             this.kernelConfig(defaultKernelConfigRs.value)
                         }

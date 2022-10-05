@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.slider
 
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 
 
 
@@ -10,10 +10,10 @@ object GridSliders {
     }
 
     fun create(
-        visibleColRange: IntRange = p6R.worksheetValue.defaultVisibleColRange,
-        visibleRowRange: IntRange = p6R.worksheetValue.defaultVisibleRowRange,
-        colLimit: IntRange = p6R.worksheetValue.defaultColRange,
-        rowLimit: IntRange = p6R.worksheetValue.defaultRowRange,
+        visibleColRange: IntRange = P6R.worksheetValue.defaultVisibleColRange,
+        visibleRowRange: IntRange = P6R.worksheetValue.defaultVisibleRowRange,
+        colLimit: IntRange = P6R.worksheetValue.defaultColRange,
+        rowLimit: IntRange = P6R.worksheetValue.defaultRowRange,
     ): GridSlider {
         return LimitedSlider(
             slider = GridSliderImp(

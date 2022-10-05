@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 
 @Composable
@@ -28,7 +28,7 @@ fun BrowseButton(
                 onClick()
             }
         }) {
-            Box(modifier = Modifier.border(width = 1.dp, color = c, shape = p6R.shape.buttonShape)) {
+            Box(modifier = Modifier.border(width = 1.dp, color = c, shape = P6R.shape.buttonShape)) {
                 Icon(
                     imageVector = Icons.Filled.MoreHoriz,
                     contentDescription = "Browse",

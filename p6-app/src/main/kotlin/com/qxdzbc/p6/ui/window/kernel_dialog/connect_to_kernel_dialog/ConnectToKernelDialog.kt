@@ -14,7 +14,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
@@ -71,7 +71,7 @@ fun ConnectToKernelDialog(
         },
         onCancel = onCancel
     ) {
-        val color = p6R.color.radioButtonColor()
+        val color = P6R.color.radioButtonColor()
         MBox(modifier = Modifier) {
             Column {
                 MBox {
@@ -123,7 +123,7 @@ fun ConnectToKernelDialog(
                                     .border(
                                         1.dp,
                                         color = MaterialTheme.colors.onPrimary,
-                                        shape = p6R.shape.textFieldShape
+                                        shape = P6R.shape.textFieldShape
                                     )
                                     .fillMaxWidth()
                                     .height(120.dp),

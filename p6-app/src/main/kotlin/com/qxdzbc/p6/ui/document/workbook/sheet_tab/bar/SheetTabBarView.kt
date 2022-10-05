@@ -1,11 +1,9 @@
 package com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -36,8 +34,8 @@ fun SheetTabBarView(
                     itemContent={tabState->
                         MBox(modifier = Modifier
                             .align(Alignment.Bottom)
-                            .requiredWidthIn(p6R.size.value.minTabWidth.dp, p6R.size.value.maxTabWidth.dp)
-                            .height(p6R.size.value.tabHeight.dp)
+                            .requiredWidthIn(P6R.size.value.minTabWidth.dp, P6R.size.value.maxTabWidth.dp)
+                            .height(P6R.size.value.tabHeight.dp)
                         ) {
                             SheetTabView(state=tabState, onClick = onItemClick,
                                 onRename = onRename, onDelete = onDelete,

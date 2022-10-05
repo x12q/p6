@@ -6,7 +6,7 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
 import com.qxdzbc.common.compose.Ms
 
@@ -47,14 +47,14 @@ sealed interface ResizeOperations {
     }
 
     object left : ResizeOperations {
-        override val icon = p6R.mouse.icon.leftResize
+        override val icon = P6R.mouse.icon.leftResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return -(currentMousePos.x - anchorMousePos.x)
         }
     }
 
     object right : ResizeOperations {
-        override val icon = p6R.mouse.icon.rightResize
+        override val icon = P6R.mouse.icon.rightResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return currentMousePos.x - anchorMousePos.x
         }
@@ -62,7 +62,7 @@ sealed interface ResizeOperations {
     }
 
     object top : ResizeOperations {
-        override val icon = p6R.mouse.icon.upResize
+        override val icon = P6R.mouse.icon.upResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return -(currentMousePos.y - anchorMousePos.y)
         }
@@ -70,7 +70,7 @@ sealed interface ResizeOperations {
     }
 
     object bot : ResizeOperations {
-        override val icon = p6R.mouse.icon.downResize
+        override val icon = P6R.mouse.icon.downResize
         override fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float {
             return currentMousePos.y - anchorMousePos.y
         }

@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddressImp
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import kotlin.test.*
 
 class RangeAddressImpTest {
@@ -320,7 +320,7 @@ class RangeAddressImpTest {
     fun testLabel_wholeCol() {
         val p = RangeAddressImp(
             topLeft = CellAddresses.fromIndices(1, 1),
-            botRight = CellAddresses.fromIndices(2, p6R.worksheetValue.rowLimit)
+            botRight = CellAddresses.fromIndices(2, P6R.worksheetValue.rowLimit)
         )
         assertEquals("A:B", p.rawLabel)
         assertEquals("A:B", p.label)
@@ -330,7 +330,7 @@ class RangeAddressImpTest {
     fun testLabel_wholeRow() {
         val p = RangeAddressImp(
             topLeft = CellAddresses.fromIndices(1, 1),
-            botRight = CellAddresses.fromIndices(p6R.worksheetValue.colLimit, 5)
+            botRight = CellAddresses.fromIndices(P6R.worksheetValue.colLimit, 5)
         )
         assertEquals("1:5", p.rawLabel)
         assertEquals("1:5", p.label)

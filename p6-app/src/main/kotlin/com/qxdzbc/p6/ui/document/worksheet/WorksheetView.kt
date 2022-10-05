@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -57,8 +57,8 @@ fun WorksheetView(
                         style = BorderStyle.BOT_RIGHT,
                         modifier = Modifier.size(
                             DpSize(
-                                p6R.size.value.rowRulerWidth.dp,
-                                p6R.size.value.defaultRowHeight.dp
+                                P6R.size.value.rowRulerWidth.dp,
+                                P6R.size.value.defaultRowHeight.dp
                             )
                         )
                     ) {
@@ -72,7 +72,7 @@ fun WorksheetView(
                         RulerView(
                             state = wsState.colRulerState,
                             rulerAction = colRulerAction,
-                            size = p6R.size.value.defaultRowHeight
+                            size = P6R.size.value.defaultRowHeight
                         )
                     }
                 }
@@ -83,7 +83,7 @@ fun WorksheetView(
                             //x: this is row ruler
                             state = wsState.rowRulerState,
                             rulerAction = rowRulerAction,
-                            size = p6R.size.value.rowRulerWidth
+                            size = P6R.size.value.rowRulerWidth
                         )
                     }
                     MBox(

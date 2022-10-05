@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.proto.DocProtos
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
 
@@ -116,14 +116,14 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     override val rawLabel: String
         get() {
             val firstAddressOnFirstRow = topLeft.rowIndex == 1
-            val lastAddressOnLastRow = botRight.rowIndex == p6R.worksheetValue.rowLimit
+            val lastAddressOnLastRow = botRight.rowIndex == P6R.worksheetValue.rowLimit
             if (firstAddressOnFirstRow && lastAddressOnLastRow) {
                 val firstColLabel = CellLabelNumberSystem.numberToLabel(topLeft.colIndex)
                 val lastColLabel = CellLabelNumberSystem.numberToLabel(botRight.colIndex)
                 return "${firstColLabel}:${lastColLabel}"
             }
             val firstAddressOnFirstCol = topLeft.colIndex == 1
-            val lastAddressOnLastCol = botRight.colIndex == p6R.worksheetValue.colLimit
+            val lastAddressOnLastCol = botRight.colIndex == P6R.worksheetValue.colLimit
             if (firstAddressOnFirstCol && lastAddressOnLastCol) {
                 return "${topLeft.rowIndex}:${botRight.rowIndex}"
             }

@@ -16,7 +16,7 @@ import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 
 /**
  * Note: the editor should be white, has a border identical to cursor border
@@ -52,7 +52,7 @@ fun CellEditorView(
         modifier = modifier
             .then(boxSizeMod)
             .background(Color.White)
-            .then(p6R.border.mod.cursorBorder)
+            .then(P6R.border.mod.cursorBorder)
 
     ) {
         UseP6TextSelectionColor {
@@ -64,7 +64,7 @@ fun CellEditorView(
                 },
                 modifier = Modifier
                     .then(sizeMod)
-                    .then(p6R.padding.mod.stdTextFieldPadding)
+                    .then(P6R.padding.mod.stdTextFieldPadding)
                     .focusRequester(fc)
                     .onPreviewKeyEvent {
                         action.handleKeyboardEvent(it.toPKeyEvent())

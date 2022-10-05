@@ -67,7 +67,9 @@ interface CellEditorState {
     fun clearAllText(): CellEditorState
 
     val isActiveMs: Ms<Boolean>
-    var isActive: Boolean
+    val isActive: Boolean
+    val isNotActive:Boolean
+
 
     val isActiveAndAllowRangeSelector:Boolean
 

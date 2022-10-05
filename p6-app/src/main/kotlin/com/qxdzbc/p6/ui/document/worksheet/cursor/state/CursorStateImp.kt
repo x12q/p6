@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.CellEditorStateMs
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
@@ -18,6 +18,7 @@ import dagger.assisted.AssistedInject
 import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import dagger.assisted.Assisted
 
 
@@ -28,15 +29,15 @@ data class CursorStateImp @AssistedInject constructor(
     @CellEditorStateMs
     override val cellEditorStateMs: Ms<CellEditorState>,
     @NullRangeAddress
-    override val mainRange: RangeAddress?,
+    override val mainRange: RangeAddress? = null,
     @EmptyCellAddressSet
-    override val fragmentedCells: Set<@JvmSuppressWildcards CellAddress>,
+    override val fragmentedCells: Set<@JvmSuppressWildcards CellAddress> = emptySet(),
     @EmptyRangeAddressSet
-    override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress>,
+    override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress> = emptySet(),
     @DefaultTopLeftCellAddress
-    override val mainCell: CellAddress,
+    override val mainCell: CellAddress = CellAddresses.A1,
     @DefaultRangeConstraint
-    override val rangeConstraint: RangeConstraint,
+    override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
     @DefaultClipBoardRange
     override val clipboardRange: RangeAddress = RangeAddresses.InvalidRange,
 ) : BaseCursorState() {
@@ -48,7 +49,7 @@ data class CursorStateImp @AssistedInject constructor(
             val mainCell = CellAddress(1, 1)
             return CursorStateImp(
                 mainCell = mainCell,
-                rangeConstraint = p6R.worksheetValue.defaultRangeConstraint,
+                rangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
                 mainRange = null,
                 fragmentedCells = emptySet(),
                 fragmentedRanges = emptySet(),

@@ -30,4 +30,16 @@ interface SelectRectState {
     fun deactivate(): SelectRectState {
         return this.setActiveStatus(false)
     }
+
+    val isMovingDownward:Boolean
+    fun isMovingDownward(ratio:Double=1.0):Boolean
+
+    val isMovingUpward:Boolean
+    fun isMovingUpward(ratio:Double=1.0):Boolean
+
+    val isMovingToTheLeft:Boolean
+    fun isMovingToTheLeft(ratio:Double=1.0):Boolean
+
+    val isMovingToTheRight:Boolean
+    fun isMovingToTheRight(ratio:Double=1.0):Boolean
 }

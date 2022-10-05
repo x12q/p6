@@ -61,7 +61,9 @@ data class CellEditorStateImp @Inject constructor(
             return CellEditorUtils.allowSelector(this.currentText)
         }
 
-    override var isActive: Boolean by isActiveMs
+    override val isActive: Boolean by isActiveMs
+    override val isNotActive: Boolean
+        get() = !isActive
     override val isActiveAndAllowRangeSelector: Boolean
         get() = isActive && allowRangeSelector
     override val currentText: String get() = currentTextField.text

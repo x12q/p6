@@ -13,7 +13,7 @@ import com.qxdzbc.p6.app.common.utils.WorkbookUtils
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
@@ -88,7 +88,7 @@ fun WorkbookView(
 
             if (openRenameDialog) {
                 Dialogs.RenameDialog(
-                    title = p6R.text.renameSheetDialogTitle,
+                    title = P6R.text.renameSheetDialogTitle,
                     initName = renameTarget,
                     onOk = { newName ->
                         wbAction.renameWorksheetRs(

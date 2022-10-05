@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
@@ -56,7 +56,7 @@ fun CellView(
 fun main() = P6TestApp {
     val address = CellAddress(1, 1)
     Column {
-        Box(modifier = Modifier.size(p6R.size.value.defaultCellSize).border(1.dp, Color.Black)) {
+        Box(modifier = Modifier.size(P6R.size.value.defaultCellSize).border(1.dp, Color.Black)) {
             CellView(
                 CellStateImp(
                     address = address,
@@ -79,7 +79,7 @@ fun main() = P6TestApp {
                 )
             )
         }
-        Box(modifier = Modifier.size(p6R.size.value.defaultCellSize).border(1.dp, Color.Black)) {
+        Box(modifier = Modifier.size(P6R.size.value.defaultCellSize).border(1.dp, Color.Black)) {
             CellView(
                 CellStateImp(
                     address = address,

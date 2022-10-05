@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.mouseClickable
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -14,7 +13,7 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -95,7 +94,7 @@ fun CellGridView(
                     for (rowIndex: Int in slider.visibleRowRange) {
                         val cellAddress = CellAddress(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
-                        val rowHeight = wsState.getRowHeight(rowIndex) ?: p6R.size.value.defaultRowHeight
+                        val rowHeight = wsState.getRowHeight(rowIndex) ?: P6R.size.value.defaultRowHeight
 
                         // x: pick border style base on the cell position
                         val borderStyle =

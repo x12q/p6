@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.app.build.DebugFunctions.debug
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraintImp
 import java.awt.Cursor
-object p6R {
+object P6R {
     const val defaultPythonConfigFile = "config/p6PythonDefaultConfig.json"
 
     object worksheetValue {
@@ -41,7 +41,7 @@ object p6R {
 
     object border {
         object mod {
-            val cursorBorder = Modifier.border(2.dp,Color.Blue)
+            val cursorBorder = Modifier.border(2.dp,color.cursorColor)
             val black = Modifier.border(1.dp, Color.Black)
             val red = Modifier.border(1.dp, Color.Red)
         }
@@ -107,6 +107,7 @@ object p6R {
 
     object color {
         val textSelectionColor = Color(0xFF4286F4)
+        val cursorColor = Color.Blue
         val dBlack get() = Color.Black.debug()
         val dRed get() = Color.Red.debug()
         val dGreen get() = Color.Green.debug()
@@ -129,6 +130,7 @@ object p6R {
             val leftResize = PointerIcon(Cursor(Cursor.W_RESIZE_CURSOR))
             val rightResize = PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR))
             val upResize = PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR))
+            val thumbMouseIcon = PointerIcon(Cursor(Cursor.CROSSHAIR_CURSOR))
         }
     }
 }

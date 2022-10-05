@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.range.RangeErrors
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressProto
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.github.michaelbull.result.Ok
 
 
@@ -55,7 +55,7 @@ object RangeAddresses {
                     val lastCR = CellAddresses.maxOf(firstColCR,lastColCR)
                     val rt= RangeAddress(
                         CellAddress(firstCR,CR(1,firstCR.isLocked)),
-                        CellAddress(lastCR,CR(p6R.worksheetValue.rowLimit,lastCR.isLocked))
+                        CellAddress(lastCR,CR(P6R.worksheetValue.rowLimit,lastCR.isLocked))
                     ).toOk()
                     return rt
                 }
@@ -70,7 +70,7 @@ object RangeAddresses {
 
                     return RangeAddress(
                         CellAddress(CR(1,first.isLocked), first),
-                        CellAddress(CR(p6R.worksheetValue.colLimit,last.isLocked), last)
+                        CellAddress(CR(P6R.worksheetValue.colLimit,last.isLocked), last)
                     ).toOk()
                 }
             }else{
@@ -133,14 +133,14 @@ object RangeAddresses {
     fun wholeCol(colIndex: Int): RangeAddress {
         return from2Cells(
             address1 = CellAddresses.fromIndices(colIndex, 1),
-            address2 = CellAddresses.fromIndices(colIndex, p6R.worksheetValue.rowLimit),
+            address2 = CellAddresses.fromIndices(colIndex, P6R.worksheetValue.rowLimit),
         )
     }
 
     fun wholeRow(rowIndex: Int): RangeAddress {
         return from2Cells(
             address1 = CellAddresses.fromIndices(1, rowIndex),
-            address2 = CellAddresses.fromIndices(p6R.worksheetValue.colLimit, rowIndex),
+            address2 = CellAddresses.fromIndices(P6R.worksheetValue.colLimit, rowIndex),
         )
     }
 

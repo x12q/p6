@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.state.ws.*
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
@@ -48,9 +48,9 @@ data class WorksheetStateImp @AssistedInject constructor(
     @DefaultRowResizeBarStateMs
     override val rowResizeBarStateMs: Ms<ResizeBarState>,
     @DefaultColRangeQualifier
-    override val colRange: IntRange = p6R.worksheetValue.defaultColRange,
+    override val colRange: IntRange = P6R.worksheetValue.defaultColRange,
     @DefaultRowRangeQualifier
-    override val rowRange: IntRange = p6R.worksheetValue.defaultRowRange,
+    override val rowRange: IntRange = P6R.worksheetValue.defaultRowRange,
 ) : BaseWorksheetState() {
 
     override val id: WorksheetId

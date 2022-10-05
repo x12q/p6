@@ -30,7 +30,7 @@ import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.color_generator.*
 import com.qxdzbc.p6.ui.kernel.KernelAction
 import com.qxdzbc.p6.ui.kernel.KernelActionImp
@@ -168,13 +168,13 @@ interface P6Module {
         @Provides
         @DefaultColRangeQualifier
         fun defaultColRange(): IntRange {
-            return p6R.worksheetValue.defaultColRange
+            return P6R.worksheetValue.defaultColRange
         }
 
         @Provides
         @DefaultRowRangeQualifier
         fun defaultRowRange(): IntRange {
-            return p6R.worksheetValue.defaultRowRange
+            return P6R.worksheetValue.defaultRowRange
         }
 
         @Provides

@@ -12,7 +12,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
 
@@ -23,7 +23,7 @@ import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
 fun MButton(onClick: () -> Unit = {}, modifier: Modifier = Modifier, content: @Composable () -> Unit = {}) {
     Button(
         onClick = onClick,
-        shape = p6R.shape.buttonShape,
+        shape = P6R.shape.buttonShape,
         modifier = modifier.size(71.dp, 24.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(

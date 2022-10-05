@@ -13,7 +13,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 
 /**
@@ -32,8 +32,8 @@ fun SingleLineInputText(
     MBox(
         modifier = Modifier
             .then(modifier)
-            .clip(p6R.shape.textFieldShape)
-            .border(1.dp, borderColor, p6R.shape.textFieldShape)
+            .clip(P6R.shape.textFieldShape)
+            .border(1.dp, borderColor, P6R.shape.textFieldShape)
             .padding(5.dp)
     ) {
         UseP6TextSelectionColor {

@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 
 
@@ -42,7 +42,7 @@ fun OkCancel(
 ) {
     Row {
         OkButton(okModifier, onOk)
-        Spacer(modifier = Modifier.width(p6R.padding.value.betweenButton))
+        Spacer(modifier = Modifier.width(P6R.padding.value.betweenButton))
         CancelButton(cancelModifier, onCancel)
     }
 }

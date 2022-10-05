@@ -46,4 +46,53 @@ data class SelectRectStateImp(
         }
         return this.copy(isActive = isDown)
     }
+
+    override val isMovingDownward: Boolean
+        get() = movingPoint.y > anchorPoint.y
+
+    override fun isMovingDownward(ratio: Double): Boolean {
+        if(isMovingDownward){
+            val r = rect
+            return r.width/r.height <= ratio
+        }else{
+            return false
+        }
+    }
+
+    override val isMovingUpward: Boolean
+        get() = movingPoint.y < anchorPoint.y
+
+    override fun isMovingUpward(ratio: Double): Boolean {
+        if(isMovingUpward){
+            val r = rect
+            return r.width/r.height <= ratio
+        }else{
+            return false
+        }
+    }
+
+    override val isMovingToTheLeft: Boolean
+        get() = movingPoint.x < anchorPoint.x
+
+    override fun isMovingToTheLeft(ratio: Double): Boolean {
+        if(isMovingToTheLeft){
+            val r = rect
+            return r.height/r.width <= ratio
+        }else{
+            return false
+        }
+    }
+
+    override val isMovingToTheRight: Boolean
+        get() = movingPoint.x > anchorPoint.x
+
+    override fun isMovingToTheRight(ratio: Double): Boolean {
+        if(isMovingToTheRight){
+            val r = rect
+            return r.height/r.width <= ratio
+        }else{
+            return false
+        }
+    }
+
 }

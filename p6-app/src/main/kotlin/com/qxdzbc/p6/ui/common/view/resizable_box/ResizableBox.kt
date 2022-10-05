@@ -22,7 +22,9 @@ import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.common.compose.view.MBox
 import java.util.*
-
+/**
+ * A ResizableBox is a box that can be resized by dragging its edges with a mouse. Mouse icon also change when it hovers over the edges of this box.
+ */
 @Composable
 fun ResizableBox(
     style: EnumSet<ResizeStyle> = ResizeStyle.ALL,
@@ -40,6 +42,9 @@ fun ResizableBox(
     )
 }
 
+/**
+ * A ResizableBox is a box that can be resized by dragging its edges with a mouse. Mouse icon also change when it hovers over the edges of this box.
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ResizableBox(

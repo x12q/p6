@@ -27,7 +27,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.CellEditorView
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.common.p6R
+import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
@@ -37,6 +37,8 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
  * Cursor view consist of:
  *  - an invisible view that handle user keyboard input
  *  - views depicting selected, copied, referred cells, ranges
+ *
+ *  TODO move [cellLayoutCoorsMap] into [state]
  */
 @Composable
 fun CursorView(
@@ -66,7 +68,7 @@ fun CursorView(
             boundLayoutCoorsWrapper = it.wrap()
         }) {
         val blc = boundLayoutCoorsWrapper
-        val anchorOffset: IntOffset = if (blc != null && blc.isAttached) {
+        val mainCellOffset: IntOffset = if (blc != null && blc.isAttached) {
             val mainCellPosition: Offset? = cellLayoutCoorsMap[mainCell]?.posInWindow
             if (mainCellPosition != null) {
                 blc.windowToLocal(mainCellPosition).toIntOffset()
@@ -97,17 +99,16 @@ fun CursorView(
             )
         }
 
-        // x: this is anchorCell
-        if (!state.cellEditorState.isActive || state.cellEditorState.rangeSelectorCursorId == state.id) {
-            val anchorSize = cellLayoutCoorsMap[mainCell]?.size ?: DpSize(0.dp, 0.dp)
+        // x: this is the main cell
+        if (state.cellEditorState.isNotActive || state.cellEditorState.rangeSelectorCursorId == state.id) {
+            val mainCellSize = cellLayoutCoorsMap[mainCell]?.size ?: DpSize(0.dp, 0.dp)
             MBox(
-                modifier = Modifier
-                    .then(modifier)
+                modifier = modifier
                     .focusRequester(fc)
                     .focusable(true)
-                    .offset { anchorOffset }
-                    .size(anchorSize)
-                    .then(p6R.border.mod.cursorBorder)
+                    .offset { mainCellOffset }
+                    .size(mainCellSize)
+                    .then(P6R.border.mod.cursorBorder)
                     .onPreviewKeyEvent { keyEvent ->
                         cursorAction.handleKeyboardEvent(keyEvent.toPKeyEvent(), state)
                     }
@@ -117,7 +118,6 @@ fun CursorView(
         if (blc != null && blc.isAttached) {
             //x: draw boxes over selected/copied/referred cells
             Canvas(modifier = Modifier.fillMaxSize()) {
-
                 // x: draw boxes around referred range
                 val visibleRefRangeAndColor: Map<RangeAddress?, Color> = refRangeAndColorMap.mapKeys { (range, _) ->
                     range.intersect(currentDisplayedRange)
@@ -140,7 +140,7 @@ fun CursorView(
                                     color = c,
                                     topLeft = offset,
                                     size = size,
-                                    style = p6R.canvas.stroke.dashLine
+                                    style = P6R.canvas.stroke.dashLine
                                 )
                                 // x: filled rect
                                 drawRect(
@@ -176,7 +176,7 @@ fun CursorView(
                                 color = Color.Magenta,
                                 topLeft = offset,
                                 size = cellLayout.size.toSize(),
-                                style = p6R.canvas.stroke.dashLine
+                                style = P6R.canvas.stroke.dashLine
                             )
                         }
                     }
