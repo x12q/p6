@@ -146,10 +146,22 @@ internal class ThumbStateImpTest {
             movingPoint = Offset(x = 0 * w + 3, y = 4 * h + 3)
         )
         val s3 = s.setSelectRectState(rect)
-        val c3 = s3.getRelevantCells()
+        val relCellMap = s3.getRelevantCells()
         assertEquals(
             (1..3).map { CellAddress(it, 5) },
-            c3.keys.toList()
+            relCellMap.keys.toList()
         )
+
+        val (topCell, botCell) = s3.getTopBotCells()!!
+        val cellA5 = CellAddress("A5")
+        assertEquals(cellA5, topCell)
+        assertEquals(c5, botCell)
+
+        assertEquals(celllayoutMap[cellA5]?.posInWindow, s3.selectedRangeOffset)
+        val width = relCellMap.map { (c, l) -> l.size.width.value }.sum()
+        val expectedSize = DpSize(width.dp, relCellMap[c5]!!.size.height)
+        assertEquals(expectedSize, s3.selectedRangeSize)
+
+
     }
 }
