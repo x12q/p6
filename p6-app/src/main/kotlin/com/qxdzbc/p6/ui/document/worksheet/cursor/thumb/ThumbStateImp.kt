@@ -73,35 +73,49 @@ data class ThumbStateImp(
         return relevantCells
     }
 
-    fun getTopBotCells(): Pair<CellAddress, CellAddress> {
+    fun getTopBotCells(): Pair<CellAddress, CellAddress>? {
         val relevantCells = getRelevantCells()
-        val range = RangeAddress(relevantCells.keys.toList())
-        val topCell = range.topLeft
-        val botCell = range.botRight
-        return topCell to botCell
+        if(relevantCells.isNotEmpty()){
+            val range = RangeAddress(relevantCells.keys.toList())
+            val topCell = range.topLeft
+            val botCell = range.botRight
+            return topCell to botCell
+        }else{
+            return null
+        }
     }
 
     override val selectedRangeSize: DpSize
         get() {
-            val (topCell, botCell) = getTopBotCells()
-            val topCellLayout = cellLayoutCoorMap[topCell]
-            val botCellLayout = cellLayoutCoorMap[botCell]
-            if (topCellLayout != null && botCellLayout != null) {
-                val topOffset = topCellLayout.boundInWindow.topLeft
-                val botOffset = botCellLayout.boundInWindow.bottomRight
-                return DpSize(
-                    width = (botOffset.x - topOffset.x).dp,
-                    height = (botOffset.y - topOffset.y).dp
-                )
-            } else {
+            val tb = getTopBotCells()
+            if(tb!=null){
+                val (topCell, botCell) = tb
+                val topCellLayout = cellLayoutCoorMap[topCell]
+                val botCellLayout = cellLayoutCoorMap[botCell]
+                if (topCellLayout != null && botCellLayout != null) {
+                    val topOffset = topCellLayout.boundInWindow.topLeft
+                    val botOffset = botCellLayout.boundInWindow.bottomRight
+                    return DpSize(
+                        width = (botOffset.x - topOffset.x).dp,
+                        height = (botOffset.y - topOffset.y).dp
+                    )
+                } else {
+                    return DpSize.Zero
+                }
+            }else{
                 return DpSize.Zero
             }
         }
     override val selectedRangeOffset: Offset
         get() {
-            val (topCell, botCell) = getTopBotCells()
-            val topCellLayout = cellLayoutCoorMap[topCell]
-            return topCellLayout?.posInWindow ?: Offset.Zero
+            val tb = getTopBotCells()
+            if(tb!=null){
+                val (topCell, botCell) = tb
+                val topCellLayout = cellLayoutCoorMap[topCell]
+                return topCellLayout?.posInWindow ?: Offset.Zero
+            }else{
+                return Offset.Zero
+            }
         }
 
     override fun setSelectRectState(i: SelectRectState): ThumbStateImp {
