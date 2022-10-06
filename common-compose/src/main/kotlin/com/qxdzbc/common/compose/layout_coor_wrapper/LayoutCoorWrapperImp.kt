@@ -8,14 +8,20 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.DpSize
+import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
 data class LayoutCoorWrapperImp(
     override val layout: LayoutCoordinates,
     override val refreshVar: Boolean = true
 ) : LayoutCoorWrapper {
-    override val size: DpSize
-        get() = layout.size.toDpSize()
+
+    override val sizeOrZero: DpSize get() = size?: DpSize.Zero
+
+    override val size: DpSize?
+        get() = layout.ifAttached {lc->
+            lc.size.toDpSize()
+        }
 
     override val boundInWindowOrZero: Rect get() = boundInWindow ?: Rect(Offset.Zero, Size.Zero)
 

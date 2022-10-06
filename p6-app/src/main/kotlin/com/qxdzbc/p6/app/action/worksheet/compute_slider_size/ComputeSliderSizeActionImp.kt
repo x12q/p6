@@ -18,7 +18,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
     override fun computeSliderSize(wsLoc: WbWsSt) {
         stateCont.getWsState(wsLoc)?.also { wsState ->
             val currentSlider = wsState.slider
-            val availableSize = wsState.cellGridLayoutCoorWrapper?.size
+            val availableSize = wsState.cellGridLayoutCoorWrapper?.sizeOrZero
             val newSlider = if (availableSize != null) {
                 computeSliderSize(
                     currentSlider, availableSize, wsState.slider.topLeftCell,

@@ -94,7 +94,7 @@ fun CursorView(
         }
 
         MBox(modifier = Modifier.offset { editorOffset }) {
-            val editorSize = state.cellEditorState.targetCell?.let { cellLayoutCoorsMap[it] }?.size ?: DpSize(0.dp,0.dp)
+            val editorSize = state.cellEditorState.targetCell?.let { cellLayoutCoorsMap[it] }?.sizeOrZero ?: DpSize(0.dp,0.dp)
             CellEditorView(
                 state = state.cellEditorState,
                 action = worksheetActionTable.cellEditorAction,
@@ -105,7 +105,7 @@ fun CursorView(
 
         // x: this is the main cell
         if (state.cellEditorState.isNotActive || state.cellEditorState.rangeSelectorCursorId == state.id) {
-            val mainCellSize = cellLayoutCoorsMap[mainCell]?.size ?: DpSize(0.dp, 0.dp)
+            val mainCellSize = cellLayoutCoorsMap[mainCell]?.sizeOrZero ?: DpSize(0.dp, 0.dp)
             MBox(
                 modifier = modifier
                     .focusRequester(fc)
@@ -148,10 +148,10 @@ fun CursorView(
                             if (topLeftCoor.isAttached && botRightCoor.isAttached) {
                                 val offset = blc.windowToLocal(topLeftCoor.posInWindowOrZero)
                                 val size = if(r.isCell()){
-                                    topLeftCoor.size.toSize()
+                                    topLeftCoor.sizeOrZero.toSize()
                                 }else{
                                     val botRightOffset = blc.windowToLocal(botRightCoor.posInWindowOrZero)
-                                    Size(botRightOffset.x - offset.x + botRightCoor.size.width.value, botRightOffset.y - offset.y+botRightCoor.size.height.value)
+                                    Size(botRightOffset.x - offset.x + botRightCoor.sizeOrZero.width.value, botRightOffset.y - offset.y+botRightCoor.sizeOrZero.height.value)
                                 }
                                 // x: dash line
                                 drawRect(
@@ -180,7 +180,7 @@ fun CursorView(
                                 drawRect(
                                     color = Color.Blue.copy(alpha = 0.2F),
                                     topLeft = offset,
-                                    size = cellLayout.size.toSize(),
+                                    size = cellLayout.sizeOrZero.toSize(),
                                 )
                             }
                         }
@@ -193,7 +193,7 @@ fun CursorView(
                             drawRect(
                                 color = Color.Magenta,
                                 topLeft = offset,
-                                size = cellLayout.size.toSize(),
+                                size = cellLayout.sizeOrZero.toSize(),
                                 style = P6R.canvas.stroke.dashLine
                             )
                         }

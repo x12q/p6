@@ -10,9 +10,11 @@ object LayoutCoorsUtils{
     fun LayoutCoordinates.wrap(): LayoutCoorWrapper {
         return LayoutCoorWrapperImp(this)
     }
-    fun LayoutCoordinates?.ifAttached(f:(lc:LayoutCoordinates)->Unit) {
+    fun <T> LayoutCoordinates?.ifAttached(f:(lc:LayoutCoordinates)->T):T? {
         if (this != null && this.isAttached) {
-            f(this)
+            return f(this)
+        }else{
+            return null
         }
     }
     @Composable

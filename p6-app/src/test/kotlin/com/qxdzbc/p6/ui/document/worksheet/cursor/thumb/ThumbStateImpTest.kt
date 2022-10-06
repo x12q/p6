@@ -29,20 +29,40 @@ internal class ThumbStateImpTest {
     @BeforeTest
     fun b() {
 
-        for (c in 1..20) {
-            for (r in 1..20) {
+        for (c in 1..30) {
+            for (r in 1..30) {
                 celllayoutMap[CellAddress(c, r)] = mock<LayoutCoorWrapper>() {
                     val offset = Offset(
                         x = w * (c - 1),
                         y = h * (r - 1),
                     )
                     val size = Size(width = w, height = h)
-                    whenever(it.size) doReturn size.toDpSize()
-                    whenever(it.posInWindowOrZero) doReturn offset
-                    whenever(it.boundInWindowOrZero) doReturn Rect(
-                        offset = offset,
-                        size = size
-                    )
+                    whenever(it.sizeOrZero) doReturn size.toDpSize()
+                    /*
+                    only cell within col[1->20], row[1->20] are attached and have a valid size and offset
+                     */
+                    whenever(it.isAttached) doReturn (r<=20 && c <=20)
+                    if(r<=20 && c <=20){
+                        whenever(it.posInWindowOrZero) doReturn offset
+                        whenever(it.boundInWindowOrZero) doReturn Rect(
+                            offset = offset,
+                            size = size
+                        )
+                        whenever(it.posInWindow) doReturn offset
+                        whenever(it.boundInWindow) doReturn Rect(
+                            offset = offset,
+                            size = size
+                        )
+
+                    }else{
+                        whenever(it.posInWindowOrZero) doReturn Offset.Zero
+                        whenever(it.boundInWindowOrZero) doReturn Rect(
+                            offset = Offset.Zero,
+                            size = Size.Zero
+                        )
+                        whenever(it.posInWindow) doReturn null
+                        whenever(it.boundInWindow) doReturn null
+                    }
                 }
             }
         }
@@ -80,8 +100,8 @@ internal class ThumbStateImpTest {
 
         assertEquals(celllayoutMap[c5]?.posInWindowOrZero, s1.selectedRangeWindowOffsetOrZero)
 
-        val height = relCellMap.map { (c, l) -> l.size.height.value }.sum()
-        val expectedSize = DpSize(relCellMap[c5]!!.size.width, height.dp)
+        val height = relCellMap.map { (c, l) -> l.sizeOrZero.height.value }.sum()
+        val expectedSize = DpSize(relCellMap[c5]!!.sizeOrZero.width, height.dp)
         assertEquals(expectedSize, s1.selectedRangeSizeOrZero)
     }
 
@@ -106,8 +126,8 @@ internal class ThumbStateImpTest {
 
         assertEquals(celllayoutMap[cellC1]?.posInWindowOrZero, s2.selectedRangeWindowOffsetOrZero)
 
-        val height = relCellMap.map { (c, l) -> l.size.height.value }.sum()
-        val expectedSize = DpSize(relCellMap[c5]!!.size.width, height.dp)
+        val height = relCellMap.map { (c, l) -> l.sizeOrZero.height.value }.sum()
+        val expectedSize = DpSize(relCellMap[c5]!!.sizeOrZero.width, height.dp)
         assertEquals(expectedSize, s2.selectedRangeSizeOrZero)
     }
 
@@ -130,8 +150,8 @@ internal class ThumbStateImpTest {
         assertEquals(cellE5, botCell)
 
         assertEquals(celllayoutMap[c5]?.posInWindowOrZero, s3.selectedRangeWindowOffsetOrZero)
-        val width = relCellMap.map { (c, l) -> l.size.width.value }.sum()
-        val expectedSize = DpSize(width.dp, relCellMap[c5]!!.size.height)
+        val width = relCellMap.map { (c, l) -> l.sizeOrZero.width.value }.sum()
+        val expectedSize = DpSize(width.dp, relCellMap[c5]!!.sizeOrZero.height)
         assertEquals(expectedSize, s3.selectedRangeSizeOrZero)
 
     }
@@ -156,8 +176,8 @@ internal class ThumbStateImpTest {
         assertEquals(c5, botCell)
 
         assertEquals(celllayoutMap[cellA5]?.posInWindowOrZero, s3.selectedRangeWindowOffsetOrZero)
-        val width = relCellMap.map { (c, l) -> l.size.width.value }.sum()
-        val expectedSize = DpSize(width.dp, relCellMap[c5]!!.size.height)
+        val width = relCellMap.map { (c, l) -> l.sizeOrZero.width.value }.sum()
+        val expectedSize = DpSize(width.dp, relCellMap[c5]!!.sizeOrZero.height)
         assertEquals(expectedSize, s3.selectedRangeSizeOrZero)
     }
 }

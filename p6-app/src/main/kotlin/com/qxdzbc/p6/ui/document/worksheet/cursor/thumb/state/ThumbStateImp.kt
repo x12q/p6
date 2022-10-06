@@ -58,7 +58,7 @@ data class ThumbStateImp @AssistedInject constructor(
                     val c1 = cellAddress.colIndex == mainCell.colIndex
                     val c2 = cellAddress.rowIndex <= mainCell.rowIndex
                     val c3 = cellLayout.posInWindow?.y?.let{y->
-                        y + cellLayout.size.height.value >= selectRectState.movingPoint.y
+                        y + cellLayout.sizeOrZero.height.value >= selectRectState.movingPoint.y
                     } ?: false
                     c1 && c2 && c3
                 }
@@ -67,7 +67,7 @@ data class ThumbStateImp @AssistedInject constructor(
                     val c1 = cellAddress.rowIndex == mainCell.rowIndex
                     val c2 = cellAddress.colIndex <= mainCell.colIndex
                     val c3 = cellLayout.posInWindow?.x?.let{ x->
-                        x + cellLayout.size.width.value >= selectRectState.movingPoint.x
+                        x + cellLayout.sizeOrZero.width.value >= selectRectState.movingPoint.x
                     } ?: false
                     c1 && c2 && c3
                 }

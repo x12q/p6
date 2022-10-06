@@ -12,10 +12,28 @@ import androidx.compose.ui.unit.DpSize
  */
 interface LayoutCoorWrapper {
     val layout: LayoutCoordinates
-    val size:DpSize
+
+    val sizeOrZero:DpSize
+    val size:DpSize?
+
+    /**
+     * return zero Rect if the current bound is not available
+     */
     val boundInWindowOrZero: Rect
+
+    /**
+     * Bound in window is null if [layout] is not attached
+     */
     val boundInWindow: Rect?
+
+    /**
+     * return zero offset if the current position is not available
+     */
     val posInWindowOrZero:Offset
+
+    /**
+     * position in window is null if [layout] is not attached
+     */
     val posInWindow:Offset?
     fun localToWindow(local:Offset):Offset
     fun windowToLocal(window:Offset):Offset

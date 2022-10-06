@@ -127,7 +127,7 @@ fun ScriptTree(
                         MBox(
                             modifier = Modifier
                                 .offset {p }
-                                .size(itemLayout.size)
+                                .size(itemLayout.sizeOrZero)
                                 .background(Color.Blue.copy(alpha = 0.7F))
                         )
                     }
