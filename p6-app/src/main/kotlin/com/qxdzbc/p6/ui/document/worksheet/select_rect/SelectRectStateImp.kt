@@ -10,6 +10,9 @@ data class SelectRectStateImp(
     override val movingPoint: Offset = Offset(0F, 0F),
     override val isActive: Boolean = false
 ) : SelectRectState {
+    override fun setShow(i: Boolean): SelectRectState {
+        return this.copy(isShow=i)
+    }
 
     override fun show(): SelectRectState {
         if (!this.isShow) {

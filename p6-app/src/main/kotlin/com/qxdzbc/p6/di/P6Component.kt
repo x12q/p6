@@ -70,7 +70,8 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateFactory
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.DragThumbAction
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
@@ -271,6 +272,7 @@ interface P6Component {
     fun cursorEditorAction(): CellEditorAction
     fun textDiffer(): TextDiffer
     fun thumbStateFactory(): ThumbStateFactory
+    fun dragThumbAction(): DragThumbAction
 
     @Component.Builder
     interface Builder {

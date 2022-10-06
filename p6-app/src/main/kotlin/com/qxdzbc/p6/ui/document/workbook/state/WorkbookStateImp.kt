@@ -35,7 +35,7 @@ import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateFactory
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp

@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb
+package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.DpSize
@@ -8,19 +8,22 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 
 interface ThumbState {
+
+    val size:DpSize
+    val offsetNegate:DpSize
+
     val cursorId: CursorStateId
     val mainCell:CellAddress
 
     val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper>
 
     val isShowingSelectedRange:Boolean
-    fun setIsShowingSelectedRange(i:Boolean):ThumbState
 
     val selectedRangeSize:DpSize
-    val selectedRangeOffset:Offset
+    val selectedRangeWindowOffset:Offset
 
 
     val selectRectState: SelectRectState
-    fun setSelectRectState(i:SelectRectState):ThumbState
+    fun setSelectRectState(i:SelectRectState): ThumbState
 
 }

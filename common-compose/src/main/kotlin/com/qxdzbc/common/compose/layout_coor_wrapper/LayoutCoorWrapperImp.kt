@@ -22,7 +22,7 @@ data class LayoutCoorWrapperImp(
             if (layout.isAttached) {
                 return layout.boundsInWindow()
             } else {
-                return Rect(Offset(0F, 0F), Size.Zero)
+                return Rect(Offset.Zero, Size.Zero)
             }
         }
     override val posInWindow: Offset

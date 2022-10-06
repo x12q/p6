@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -32,6 +33,7 @@ import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
 
 /**
  * Cursor view consist of:
@@ -45,13 +47,13 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 @Composable
 fun CursorView(
     state: CursorState,
-    cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper>,
     currentDisplayedRange: RangeAddress,
     cursorAction: CursorAction,
     focusState: CursorFocusState,
     modifier: Modifier = Modifier,
     worksheetActionTable: WorksheetActionTable,
 ) {
+    val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> = state.cellLayoutCoorsMap
     val mainCell: CellAddress = state.mainCell
     val fc = remember { FocusRequester() }
     // x: the whole surface layout coors
@@ -115,6 +117,20 @@ fun CursorView(
                         cursorAction.handleKeyboardEvent(keyEvent.toPKeyEvent(), state)
                     }
             )
+            val thumbState = state.thumbState
+            MBox(
+                modifier = Modifier
+                    .offset(
+                        x=mainCellOffset.x.dp + mainCellSize.width - thumbState.offsetNegate.width,
+                        y=mainCellOffset.y.dp + mainCellSize.height - thumbState.offsetNegate.height,
+                    )
+                    .border(1.dp,Color.White)
+            ){
+                ThumbView(
+                    state = state.thumbState,
+                    action = worksheetActionTable.thumbAction
+                )
+            }
         }
         val refRangeAndColorMap: Map<RangeAddress, Color> = cursorAction.getFormulaRangeAndColor(state)
         if (blc != null && blc.isAttached) {
@@ -182,6 +198,16 @@ fun CursorView(
                             )
                         }
                     }
+                }
+                val thumbState = state.thumbState
+                if(thumbState.isShowingSelectedRange){
+                    println("offset: ${blc.windowToLocal(thumbState.selectedRangeWindowOffset)}")
+                    println("size: ${thumbState.selectedRangeSize.toSize()}")
+                    drawRect(
+                        color = Color.Red.copy(alpha =0.4F),
+                        topLeft = blc.windowToLocal(thumbState.selectedRangeWindowOffset),
+                        size = thumbState.selectedRangeSize.toSize(),
+                    )
                 }
             }
         }

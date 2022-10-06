@@ -1,11 +1,10 @@
-package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb
+package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -21,11 +20,12 @@ data class ThumbStateImp @AssistedInject constructor(
     @Assisted("1") private val cursorStateIdSt: St<CursorStateId>,
     @Assisted("2") private val mainCellSt:St<CellAddress>,
     @Assisted("3")private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
-    @False
-    override val isShowingSelectedRange: Boolean = false,
     @DefaultSelectRectState
     override val selectRectState: SelectRectState = SelectRectStateImp(),
 ) : ThumbState {
+
+    override val size: DpSize = DpSize(8.dp,8.dp)
+    override val offsetNegate: DpSize = DpSize(5.dp,5.dp)
 
     override val cursorId: CursorStateId by cursorStateIdSt
 
@@ -33,9 +33,8 @@ data class ThumbStateImp @AssistedInject constructor(
 
     override val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorMapSt
 
-    override fun setIsShowingSelectedRange(i: Boolean): ThumbState {
-        return this.copy(isShowingSelectedRange = i)
-    }
+    override val isShowingSelectedRange: Boolean get()=selectRectState.isShow
+
 
     fun getCellAtTheCross(): Map<CellAddress, LayoutCoorWrapper> {
         return cellLayoutCoorMap.filterKeys {
@@ -101,10 +100,11 @@ data class ThumbStateImp @AssistedInject constructor(
                 if (topCellLayout != null && botCellLayout != null) {
                     val topOffset = topCellLayout.boundInWindow.topLeft
                     val botOffset = botCellLayout.boundInWindow.bottomRight
-                    return DpSize(
-                        width = (botOffset.x - topOffset.x).dp,
-                        height = (botOffset.y - topOffset.y).dp
+                    val rt= DpSize(
+                        width = (maxOf(botOffset.x - topOffset.x,0f)).dp,
+                        height = (maxOf(botOffset.y - topOffset.y,0f)).dp
                     )
+                    return rt
                 } else {
                     return DpSize.Zero
                 }
@@ -112,7 +112,7 @@ data class ThumbStateImp @AssistedInject constructor(
                 return DpSize.Zero
             }
         }
-    override val selectedRangeOffset: Offset
+    override val selectedRangeWindowOffset: Offset
         get() {
             val tb = getTopBotCells()
             if(tb!=null){

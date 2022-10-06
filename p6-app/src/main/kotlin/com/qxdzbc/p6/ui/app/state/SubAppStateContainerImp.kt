@@ -20,6 +20,7 @@ import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
@@ -165,6 +166,16 @@ data class SubAppStateContainerImp @Inject constructor(
 
     override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
         return this.getWsStateRs(wbwsSt).component1()?.sliderMs
+    }
+
+    override fun getThumbStateMsRs(wbwsSt: WbWsSt): Rse<Ms<ThumbState>> {
+        return this.getWsStateMsRs(wbwsSt).flatMap {
+            Ok(it.value.cursorStateMs.value.thumbStateMs)
+        }
+    }
+
+    override fun getThumbStateMs(wbwsSt: WbWsSt): Ms<ThumbState>? {
+        return getThumbStateMsRs(wbwsSt).component1()
     }
 
     override fun removeWindowState(windowId: String): SubAppStateContainer {

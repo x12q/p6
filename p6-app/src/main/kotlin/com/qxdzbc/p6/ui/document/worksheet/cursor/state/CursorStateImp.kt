@@ -18,7 +18,7 @@ import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import dagger.assisted.Assisted

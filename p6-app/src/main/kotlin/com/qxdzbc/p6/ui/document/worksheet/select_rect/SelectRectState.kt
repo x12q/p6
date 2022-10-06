@@ -9,6 +9,7 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
  */
 interface SelectRectState {
     val isShow: Boolean
+    fun setShow(i:Boolean):SelectRectState
     fun show(): SelectRectState
     fun hide(): SelectRectState
 

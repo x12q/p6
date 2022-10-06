@@ -19,7 +19,7 @@ import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateImp
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
 import org.mockito.kotlin.mock
 import test.TestSample

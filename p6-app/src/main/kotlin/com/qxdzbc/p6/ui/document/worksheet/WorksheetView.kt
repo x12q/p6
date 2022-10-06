@@ -107,7 +107,6 @@ fun WorksheetView(
                             CursorView(
                                 state = wsState.cursorState,
                                 currentDisplayedRange= wsState.slider.currentDisplayedRange,
-                                cellLayoutCoorsMap = wsState.cellLayoutCoorMap,
                                 cursorAction = cursorAction,
                                 focusState=focusState,
                                 modifier = Modifier

@@ -35,6 +35,7 @@ import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
@@ -202,6 +203,14 @@ class StateContainerImp @Inject constructor(
 
     override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
         return subAppStateCont.getSliderMs(wbwsSt)
+    }
+
+    override fun getThumbStateMsRs(wbwsSt: WbWsSt): Rse<Ms<ThumbState>> {
+        return subAppStateCont.getThumbStateMsRs(wbwsSt)
+    }
+
+    override fun getThumbStateMs(wbwsSt: WbWsSt): Ms<ThumbState>? {
+        return subAppStateCont.getThumbStateMs(wbwsSt)
     }
 
     override fun getWindowStateMsDefaultRs(windowId: String?): Rse<Ms<WindowState>> {

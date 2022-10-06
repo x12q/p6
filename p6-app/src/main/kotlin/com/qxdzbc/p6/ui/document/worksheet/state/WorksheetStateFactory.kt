@@ -11,7 +11,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateFactory
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
@@ -73,7 +73,7 @@ interface WorksheetStateFactory {
             wsMs: Ms<Worksheet>,
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
-            thumbStateFactory:ThumbStateFactory,
+            thumbStateFactory: ThumbStateFactory,
         ): WorksheetState {
             val worksheet = wsMs.value
             val wsIdMs: St<WorksheetId> = worksheet.idMs

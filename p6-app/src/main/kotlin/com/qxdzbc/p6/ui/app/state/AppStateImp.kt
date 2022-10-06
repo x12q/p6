@@ -43,6 +43,7 @@ import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
@@ -418,6 +419,14 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getThumbStateMsRs(wbwsSt: WbWsSt): Rse<Ms<ThumbState>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getThumbStateMs(wbwsSt: WbWsSt): Ms<ThumbState>? {
         TODO("Not yet implemented")
     }
 

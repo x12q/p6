@@ -13,8 +13,6 @@ import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateImp
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
@@ -63,12 +61,16 @@ data class WorksheetStateImp @AssistedInject constructor(
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
         val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
+        // x: force refresh cell layout wrapper to force the app to redraw cell when col/row is resize. This is to fix the bug in which cell cursor is not resized when col/row is resized
+        // x: TODO this might be optimized further to reduce redrawing.
         val newLayout: LayoutCoorWrapper = if(oldLayout== null){
             layoutCoor
-        }else if (oldLayout?.layout != layoutCoor.layout) {
-            layoutCoor
-        } else {
-            layoutCoor.forceRefresh(!oldLayout.refreshVar)
+        }else {
+            if (oldLayout.layout != layoutCoor.layout) {
+                layoutCoor
+            } else {
+                layoutCoor.forceRefresh(!oldLayout.refreshVar)
+            }
         }
         val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
         this.cellLayoutCoorMapMs.value = newMap
