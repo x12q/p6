@@ -122,7 +122,7 @@ fun ScriptTree(
                 val layout = currentNodeState.layoutCoorWrapperMs.value
                 layout?.ifAttachedComposable {itemLayout->
                     l.ifAttachedComposable {
-                        val wp = itemLayout.posInWindow
+                        val wp = itemLayout.posInWindowOrZero
                         val p = it.windowToLocal(wp).toIntOffset()
                         MBox(
                             modifier = Modifier

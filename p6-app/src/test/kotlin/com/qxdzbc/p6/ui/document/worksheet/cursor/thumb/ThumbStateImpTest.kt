@@ -38,8 +38,8 @@ internal class ThumbStateImpTest {
                     )
                     val size = Size(width = w, height = h)
                     whenever(it.size) doReturn size.toDpSize()
-                    whenever(it.posInWindow) doReturn offset
-                    whenever(it.boundInWindow) doReturn Rect(
+                    whenever(it.posInWindowOrZero) doReturn offset
+                    whenever(it.boundInWindowOrZero) doReturn Rect(
                         offset = offset,
                         size = size
                     )
@@ -78,11 +78,11 @@ internal class ThumbStateImpTest {
         assertEquals(c5, topCell)
         assertEquals(CellAddress("C8"), botCell)
 
-        assertEquals(celllayoutMap[c5]?.posInWindow, s1.selectedRangeWindowOffset)
+        assertEquals(celllayoutMap[c5]?.posInWindowOrZero, s1.selectedRangeWindowOffsetOrZero)
 
         val height = relCellMap.map { (c, l) -> l.size.height.value }.sum()
         val expectedSize = DpSize(relCellMap[c5]!!.size.width, height.dp)
-        assertEquals(expectedSize, s1.selectedRangeSize)
+        assertEquals(expectedSize, s1.selectedRangeSizeOrZero)
     }
 
     @Test
@@ -104,11 +104,11 @@ internal class ThumbStateImpTest {
         assertEquals(cellC1, topCell)
         assertEquals(c5, botCell)
 
-        assertEquals(celllayoutMap[cellC1]?.posInWindow, s2.selectedRangeWindowOffset)
+        assertEquals(celllayoutMap[cellC1]?.posInWindowOrZero, s2.selectedRangeWindowOffsetOrZero)
 
         val height = relCellMap.map { (c, l) -> l.size.height.value }.sum()
         val expectedSize = DpSize(relCellMap[c5]!!.size.width, height.dp)
-        assertEquals(expectedSize, s2.selectedRangeSize)
+        assertEquals(expectedSize, s2.selectedRangeSizeOrZero)
     }
 
     @Test
@@ -129,10 +129,10 @@ internal class ThumbStateImpTest {
         assertEquals(c5, topCell)
         assertEquals(cellE5, botCell)
 
-        assertEquals(celllayoutMap[c5]?.posInWindow, s3.selectedRangeWindowOffset)
+        assertEquals(celllayoutMap[c5]?.posInWindowOrZero, s3.selectedRangeWindowOffsetOrZero)
         val width = relCellMap.map { (c, l) -> l.size.width.value }.sum()
         val expectedSize = DpSize(width.dp, relCellMap[c5]!!.size.height)
-        assertEquals(expectedSize, s3.selectedRangeSize)
+        assertEquals(expectedSize, s3.selectedRangeSizeOrZero)
 
     }
 
@@ -155,9 +155,9 @@ internal class ThumbStateImpTest {
         assertEquals(cellA5, topCell)
         assertEquals(c5, botCell)
 
-        assertEquals(celllayoutMap[cellA5]?.posInWindow, s3.selectedRangeWindowOffset)
+        assertEquals(celllayoutMap[cellA5]?.posInWindowOrZero, s3.selectedRangeWindowOffsetOrZero)
         val width = relCellMap.map { (c, l) -> l.size.width.value }.sum()
         val expectedSize = DpSize(width.dp, relCellMap[c5]!!.size.height)
-        assertEquals(expectedSize, s3.selectedRangeSize)
+        assertEquals(expectedSize, s3.selectedRangeSizeOrZero)
     }
 }

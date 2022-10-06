@@ -256,7 +256,7 @@ class RulerActionImp @Inject constructor(
                 selectRectState = selectRectState.setMovingPoint(mouseWindowPos).show()
 
                 val selectedItems = rulerState.itemLayoutMap.entries.filter { (_, itemLayout) ->
-                    selectRectState.rect.overlaps(itemLayout.boundInWindow)
+                    selectRectState.rect.overlaps(itemLayout.boundInWindowOrZero)
                 }
                 if (selectedItems.isNotEmpty()) {
                     val mergedRange:RangeAddress = selectedItems.fold(

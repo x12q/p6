@@ -8,7 +8,6 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.state.ws.DefaultSelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
@@ -18,14 +17,14 @@ import dagger.assisted.AssistedInject
 
 data class ThumbStateImp @AssistedInject constructor(
     @Assisted("1") private val cursorStateIdSt: St<CursorStateId>,
-    @Assisted("2") private val mainCellSt:St<CellAddress>,
-    @Assisted("3")private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
+    @Assisted("2") private val mainCellSt: St<CellAddress>,
+    @Assisted("3") private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
     @DefaultSelectRectState
     override val selectRectState: SelectRectState = SelectRectStateImp(),
 ) : ThumbState {
 
-    override val size: DpSize = DpSize(8.dp,8.dp)
-    override val offsetNegate: DpSize = DpSize(5.dp,5.dp)
+    override val size: DpSize = DpSize(8.dp, 8.dp)
+    override val offsetNegate: DpSize = DpSize(5.dp, 5.dp)
 
     override val cursorId: CursorStateId by cursorStateIdSt
 
@@ -33,7 +32,7 @@ data class ThumbStateImp @AssistedInject constructor(
 
     override val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorMapSt
 
-    override val isShowingSelectedRange: Boolean get()=selectRectState.isShow
+    override val isShowingSelectedRange: Boolean get() = selectRectState.isShow
 
 
     fun getCellAtTheCross(): Map<CellAddress, LayoutCoorWrapper> {
@@ -49,27 +48,37 @@ data class ThumbStateImp @AssistedInject constructor(
             val ratio = 1.0
             if (isMovingDownward(ratio)) {
                 crossCells.filter { (cellAddress, cellLayout) ->
-                    cellAddress.colIndex == mainCell.colIndex
-                            && cellAddress.rowIndex >= mainCell.rowIndex
-                            && (cellLayout.posInWindow.y <= selectRectState.movingPoint.y)
+                    val c1 = cellAddress.colIndex == mainCell.colIndex
+                    val c2 = cellAddress.rowIndex >= mainCell.rowIndex
+                    val c3 = cellLayout.posInWindow?.y?.let { it <= selectRectState.movingPoint.y } ?: false
+                    c1 && c2 && c3
                 }
             } else if (isMovingUpward(ratio)) {
                 crossCells.filter { (cellAddress, cellLayout) ->
-                    cellAddress.colIndex == mainCell.colIndex
-                            && cellAddress.rowIndex <= mainCell.rowIndex
-                            && cellLayout.posInWindow.y + cellLayout.size.height.value >= selectRectState.movingPoint.y
+                    val c1 = cellAddress.colIndex == mainCell.colIndex
+                    val c2 = cellAddress.rowIndex <= mainCell.rowIndex
+                    val c3 = cellLayout.posInWindow?.y?.let{y->
+                        y + cellLayout.size.height.value >= selectRectState.movingPoint.y
+                    } ?: false
+                    c1 && c2 && c3
                 }
             } else if (isMovingToTheLeft(ratio)) {
                 crossCells.filter { (cellAddress, cellLayout) ->
-                    cellAddress.rowIndex == mainCell.rowIndex
-                            && cellAddress.colIndex <= mainCell.colIndex
-                            && cellLayout.posInWindow.x + cellLayout.size.width.value >= selectRectState.movingPoint.x
+                    val c1 = cellAddress.rowIndex == mainCell.rowIndex
+                    val c2 = cellAddress.colIndex <= mainCell.colIndex
+                    val c3 = cellLayout.posInWindow?.x?.let{ x->
+                        x + cellLayout.size.width.value >= selectRectState.movingPoint.x
+                    } ?: false
+                    c1 && c2 && c3
                 }
             } else if (isMovingToTheRight(ratio)) {
                 crossCells.filter { (cellAddress, cellLayout) ->
-                    cellAddress.rowIndex == mainCell.rowIndex
-                            && cellAddress.colIndex >= mainCell.colIndex
-                            && cellLayout.posInWindow.x <= selectRectState.movingPoint.x
+                    val c1 = cellAddress.rowIndex == mainCell.rowIndex
+                    val c2 = cellAddress.colIndex >= mainCell.colIndex
+                    val c3 = cellLayout.posInWindow?.x?.let{x->
+                        x <= selectRectState.movingPoint.x
+                    } ?: false
+                    c1 && c2 && c3
                 }
             } else {
                 emptyMap()
@@ -80,47 +89,60 @@ data class ThumbStateImp @AssistedInject constructor(
 
     fun getTopBotCells(): Pair<CellAddress, CellAddress>? {
         val relevantCells = getRelevantCells()
-        if(relevantCells.isNotEmpty()){
+        if (relevantCells.isNotEmpty()) {
             val range = RangeAddress(relevantCells.keys.toList())
             val topCell = range.topLeft
             val botCell = range.botRight
             return topCell to botCell
-        }else{
+        } else {
             return null
         }
     }
 
-    override val selectedRangeSize: DpSize
+    override val selectedRangeSizeOrZero: DpSize get() = selectedRangeSize ?: DpSize.Zero
+
+    override val selectedRangeSize: DpSize?
         get() {
             val tb = getTopBotCells()
-            if(tb!=null){
+            if (tb != null) {
                 val (topCell, botCell) = tb
                 val topCellLayout = cellLayoutCoorMap[topCell]
                 val botCellLayout = cellLayoutCoorMap[botCell]
                 if (topCellLayout != null && botCellLayout != null) {
-                    val topOffset = topCellLayout.boundInWindow.topLeft
-                    val botOffset = botCellLayout.boundInWindow.bottomRight
-                    val rt= DpSize(
-                        width = (maxOf(botOffset.x - topOffset.x,0f)).dp,
-                        height = (maxOf(botOffset.y - topOffset.y,0f)).dp
-                    )
-                    return rt
+                    if (topCellLayout.isAttached && botCellLayout.isAttached) {
+                        val topOffset = topCellLayout.boundInWindowOrZero.topLeft
+                        val botOffset = botCellLayout.boundInWindowOrZero.bottomRight
+                        val rt = DpSize(
+                            width = (maxOf(botOffset.x - topOffset.x, 0f)).dp,
+                            height = (maxOf(botOffset.y - topOffset.y, 0f)).dp
+                        )
+                        return rt
+                    } else {
+                        return null
+                    }
                 } else {
-                    return DpSize.Zero
+                    return null
                 }
-            }else{
-                return DpSize.Zero
+            } else {
+                return null
             }
         }
-    override val selectedRangeWindowOffset: Offset
+
+    override val selectedRangeWindowOffsetOrZero: Offset get() = selectedRangeWindowOffset ?: Offset.Zero
+
+    override val selectedRangeWindowOffset: Offset?
         get() {
             val tb = getTopBotCells()
-            if(tb!=null){
+            if (tb != null) {
                 val (topCell, botCell) = tb
                 val topCellLayout = cellLayoutCoorMap[topCell]
-                return topCellLayout?.posInWindow ?: Offset.Zero
-            }else{
-                return Offset.Zero
+                if (topCellLayout != null && topCellLayout.isAttached ?: false) {
+                    return topCellLayout.posInWindowOrZero ?: Offset.Zero
+                } else {
+                    return null
+                }
+            } else {
+                return null
             }
         }
 

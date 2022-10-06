@@ -73,7 +73,7 @@ fun CursorView(
         }) {
         val blc = boundLayoutCoorsWrapper
         val mainCellOffset: IntOffset = if (blc != null && blc.isAttached) {
-            val mainCellPosition: Offset? = cellLayoutCoorsMap[mainCell]?.posInWindow
+            val mainCellPosition: Offset? = cellLayoutCoorsMap[mainCell]?.posInWindowOrZero
             if (mainCellPosition != null) {
                 blc.windowToLocal(mainCellPosition).toIntOffset()
             } else {
@@ -85,7 +85,7 @@ fun CursorView(
         val editorState: CellEditorState = state.cellEditorState
         val editTarget: CellAddress? = editorState.targetCell
         val editorOffset = if (blc != null && blc.isAttached) {
-            val editTargetOffset = editTarget?.let { cellLayoutCoorsMap[it]?.posInWindow }
+            val editTargetOffset = editTarget?.let { cellLayoutCoorsMap[it]?.posInWindowOrZero }
             editTargetOffset?.let {
                 blc.windowToLocal(it).toIntOffset()
             } ?: IntOffset(0, 0)
@@ -146,11 +146,11 @@ fun CursorView(
                         val botRightCoor = cellLayoutCoorsMap[r.botRight]
                         if (topLeftCoor != null && botRightCoor != null) {
                             if (topLeftCoor.isAttached && botRightCoor.isAttached) {
-                                val offset = blc.windowToLocal(topLeftCoor.posInWindow)
+                                val offset = blc.windowToLocal(topLeftCoor.posInWindowOrZero)
                                 val size = if(r.isCell()){
                                     topLeftCoor.size.toSize()
                                 }else{
-                                    val botRightOffset = blc.windowToLocal(botRightCoor.posInWindow)
+                                    val botRightOffset = blc.windowToLocal(botRightCoor.posInWindowOrZero)
                                     Size(botRightOffset.x - offset.x + botRightCoor.size.width.value, botRightOffset.y - offset.y+botRightCoor.size.height.value)
                                 }
                                 // x: dash line
@@ -176,7 +176,7 @@ fun CursorView(
                         //x: draw selection box over currently selected cell/range
                         if (state.isPointingTo(cellAddress)) {
                             if (blc.isAttached) {
-                                val offset: Offset = blc.windowToLocal(cellLayout.posInWindow)
+                                val offset: Offset = blc.windowToLocal(cellLayout.posInWindowOrZero)
                                 drawRect(
                                     color = Color.Blue.copy(alpha = 0.2F),
                                     topLeft = offset,
@@ -189,7 +189,7 @@ fun CursorView(
                     // x: draw copied range
                     if (state.containInClipboard(cellAddress)) {
                         if (blc.isAttached) {
-                            val offset = blc.windowToLocal(cellLayout.posInWindow)
+                            val offset = blc.windowToLocal(cellLayout.posInWindowOrZero)
                             drawRect(
                                 color = Color.Magenta,
                                 topLeft = offset,
@@ -201,13 +201,15 @@ fun CursorView(
                 }
                 val thumbState = state.thumbState
                 if(thumbState.isShowingSelectedRange){
-                    println("offset: ${blc.windowToLocal(thumbState.selectedRangeWindowOffset)}")
-                    println("size: ${thumbState.selectedRangeSize.toSize()}")
-                    drawRect(
-                        color = Color.Red.copy(alpha =0.4F),
-                        topLeft = blc.windowToLocal(thumbState.selectedRangeWindowOffset),
-                        size = thumbState.selectedRangeSize.toSize(),
-                    )
+                    if(blc.isAttached){
+                        println("offset: ${thumbState.selectedRangeWindowOffset?.let{blc.windowToLocal(it)}}")
+                        println("size: ${thumbState.selectedRangeSize}")
+                        drawRect(
+                            color = Color.Red.copy(alpha =0.4F),
+                            topLeft = blc.windowToLocal(thumbState.selectedRangeWindowOffsetOrZero),
+                            size = thumbState.selectedRangeSizeOrZero.toSize(),
+                        )
+                    }
                 }
             }
         }

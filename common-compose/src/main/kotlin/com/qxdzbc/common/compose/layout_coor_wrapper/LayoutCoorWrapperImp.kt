@@ -17,20 +17,23 @@ data class LayoutCoorWrapperImp(
     override val size: DpSize
         get() = layout.size.toDpSize()
 
-    override val boundInWindow: Rect
+    override val boundInWindowOrZero: Rect get() = boundInWindow ?: Rect(Offset.Zero, Size.Zero)
+
+    override val boundInWindow: Rect?
         get() {
             if (layout.isAttached) {
                 return layout.boundsInWindow()
             } else {
-                return Rect(Offset.Zero, Size.Zero)
+                return null
             }
         }
-    override val posInWindow: Offset
+    override val posInWindowOrZero: Offset get() = posInWindow ?: Offset(0F, 0F)
+    override val posInWindow: Offset?
         get() {
             if (layout.isAttached) {
                 return layout.positionInWindow()
             } else {
-                return Offset(0F, 0F)
+                return null
             }
         }
 

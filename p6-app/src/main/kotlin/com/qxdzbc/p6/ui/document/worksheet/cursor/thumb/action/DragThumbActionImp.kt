@@ -38,7 +38,7 @@ class DragThumbActionImp @Inject constructor(
 
     override fun startDrag_forTest(wbws: WbWsSt, cellAddress: CellAddress) {
         forTest(wbws, cellAddress) {
-            startDrag(wbws, it.posInWindow)
+            startDrag(wbws, it.posInWindowOrZero)
         }
     }
 
@@ -57,7 +57,7 @@ class DragThumbActionImp @Inject constructor(
 
     override fun drag_forTest(wbws: WbWsSt, cellAddress: CellAddress) {
         forTest(wbws, cellAddress) {
-            drag(wbws, it.posInWindow)
+            drag(wbws, it.posInWindowOrZero)
         }
     }
 
@@ -77,7 +77,7 @@ class DragThumbActionImp @Inject constructor(
 
     override fun endDrag_forTest(wbws: WbWsSt, cellAddress: CellAddress) {
         forTest(wbws, cellAddress) {
-            endDrag(wbws, it.posInWindow)
+            endDrag(wbws, it.posInWindowOrZero)
         }
     }
 

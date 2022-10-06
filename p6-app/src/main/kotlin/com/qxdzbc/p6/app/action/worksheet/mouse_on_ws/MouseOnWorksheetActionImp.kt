@@ -56,7 +56,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
                 .setAnchorPoint(mousePosition)
                 .activate()
             for ((cellAddress, layout) in wsState.cellLayoutCoorMap) {
-                val cellRect = layout.boundInWindow
+                val cellRect = layout.boundInWindowOrZero
                 if (cellRect.contains(selectRect.anchorPoint)) {
                     startDragSelection(wsState, cellAddress)
                     break
@@ -91,7 +91,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
             if (selectRect.isActive) {
                 wsState.selectRectStateMs.value = selectRect.setMovingPoint(mousePosition).show()
                 val currentCellMouseOn:CellAddress? = wsState.cellLayoutCoorMap.entries.firstOrNull { (_, layout) ->
-                    val cellRect = layout.boundInWindow
+                    val cellRect = layout.boundInWindowOrZero
                     cellRect.contains(mousePosition)
                 }?.key
                 if (currentCellMouseOn != null) {

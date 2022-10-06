@@ -1,7 +1,10 @@
 package test
+import com.qxdzbc.p6.bench.n2
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.CharCommandsVisitor
 import org.apache.commons.text.diff.CommandVisitor
 import org.apache.commons.text.diff.StringsComparator
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 import kotlin.test.Test
@@ -33,8 +36,8 @@ class TestBench {
             param = Pair(param.second,param.first+param.second)
         }
     }
-
     @Test
     fun t(){
+
     }
 }

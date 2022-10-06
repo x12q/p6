@@ -13,8 +13,10 @@ import androidx.compose.ui.unit.DpSize
 interface LayoutCoorWrapper {
     val layout: LayoutCoordinates
     val size:DpSize
-    val boundInWindow: Rect
-    val posInWindow:Offset
+    val boundInWindowOrZero: Rect
+    val boundInWindow: Rect?
+    val posInWindowOrZero:Offset
+    val posInWindow:Offset?
     fun localToWindow(local:Offset):Offset
     fun windowToLocal(window:Offset):Offset
     val isAttached:Boolean

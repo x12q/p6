@@ -19,8 +19,10 @@ interface ThumbState {
 
     val isShowingSelectedRange:Boolean
 
-    val selectedRangeSize:DpSize
-    val selectedRangeWindowOffset:Offset
+    val selectedRangeSizeOrZero:DpSize
+    val selectedRangeSize:DpSize?
+    val selectedRangeWindowOffsetOrZero:Offset
+    val selectedRangeWindowOffset:Offset?
 
 
     val selectRectState: SelectRectState
