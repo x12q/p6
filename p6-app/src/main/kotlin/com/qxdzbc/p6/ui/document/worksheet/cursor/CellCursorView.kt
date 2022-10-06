@@ -39,6 +39,8 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
  *  - views depicting selected, copied, referred cells, ranges
  *
  *  TODO move [cellLayoutCoorsMap] into [state]
+ *  cell layout map is originally part of a worksheet. But cursor view and thumb view need that map to position themselves. But the map itself should not be part of the cursor state by nature sense.
+ *  Putting the map into the cursor state will simplify the CursorView signature
  */
 @Composable
 fun CursorView(

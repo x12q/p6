@@ -14,7 +14,7 @@ internal class CursorStateImpTest {
 
     @BeforeTest
     fun beforeTest() {
-        cursorState = CursorStateImp.default(mock())
+        cursorState = CursorStateImp.default(mock(),mock())
     }
 
     @Test
@@ -162,7 +162,7 @@ internal class CursorStateImpTest {
     @Test
     fun isPointingTo() {
         val cursorState = CursorStateImp
-            .default(mock())
+            .default(mock(), mock())
             .setMainCell(CellAddress(1, 2))
         assertTrue(cursorState.isPointingTo(CellAddress(1, 2)))
         assertFalse(cursorState.isPointingTo(CellAddress(1, 3)))

@@ -18,13 +18,20 @@ import dagger.assisted.AssistedInject
 import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateImp
 import dagger.assisted.Assisted
 
 
 data class CursorStateImp @AssistedInject constructor(
     @Assisted("1")
     override val idMs: Ms<CursorStateId>,
+    @Assisted("2")
+    override val cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>,
+//    @Assisted("3")
+//    override val thumbStateMs: Ms<ThumbState>,
     //=============================================//
     @CellEditorStateMs
     override val cellEditorStateMs: Ms<CellEditorState>,
@@ -44,10 +51,13 @@ data class CursorStateImp @AssistedInject constructor(
     override val isEditing: Boolean by isEditingMs
     companion object {
         fun default(
-            cursorIdMs: Ms<CursorStateId>
+            cursorIdMs: Ms<CursorStateId>,
+            cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>,
         ): CursorStateImp {
             val mainCell = CellAddress(1, 1)
             return CursorStateImp(
+                idMs = cursorIdMs,
+                cellLayoutCoorsMapSt = cellLayoutCoorsMapSt,
                 mainCell = mainCell,
                 rangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
                 mainRange = null,
@@ -60,15 +70,16 @@ data class CursorStateImp @AssistedInject constructor(
                         isActiveMs = false.toMs(),
                     )
                 ),
-                idMs = cursorIdMs
             )
         }
 
         fun default2(
             worksheetIDMs: Ms<WorksheetId>,
+            cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>,
         ): CursorStateImp {
             return default(
-                ms(CursorIdImp(wsStateIDMs = worksheetIDMs))
+                cursorIdMs = ms(CursorIdImp(wsStateIDMs = worksheetIDMs)),
+                cellLayoutCoorsMapSt = cellLayoutCoorsMapSt,
             )
         }
 
@@ -222,6 +233,9 @@ data class CursorStateImp @AssistedInject constructor(
     }
 
     override var id: CursorStateId by idMs
+    override val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorsMapSt
+
+//    override var thumbState: ThumbStateImp by thumbStateMs
 
     override fun up(): CursorState {
         val newCellAddress = mainCell.upOneRow()

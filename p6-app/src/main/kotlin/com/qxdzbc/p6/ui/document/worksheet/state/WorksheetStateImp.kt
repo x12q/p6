@@ -13,6 +13,8 @@ import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateImp
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
@@ -31,10 +33,10 @@ data class WorksheetStateImp @AssistedInject constructor(
     @Assisted("3") override val cursorStateMs: Ms<CursorState>,
     @Assisted("4") override val colRulerStateMs: Ms<RulerState>,
     @Assisted("5") override val rowRulerStateMs: Ms<RulerState>,
-
+    @Assisted("6") override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
     //====Automatically injected properties====//
-    @DefaultCellLayoutMap
-    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
+//    @DefaultCellLayoutMap
+//    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
     @DefaultLayoutCoorMs
     override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
     @DefaultLayoutCoorMs
@@ -52,6 +54,7 @@ data class WorksheetStateImp @AssistedInject constructor(
     @DefaultRowRangeQualifier
     override val rowRange: IntRange = P6R.worksheetValue.defaultRowRange,
 ) : BaseWorksheetState() {
+
 
     override val id: WorksheetId
         get() {

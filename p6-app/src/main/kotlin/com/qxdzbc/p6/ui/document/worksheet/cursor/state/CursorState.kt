@@ -5,6 +5,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
@@ -14,6 +15,12 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 interface CursorState : WbWsSt {
     val idMs:Ms<CursorStateId>
     var id:CursorStateId
+
+    val cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>
+    val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper>
+
+//    val thumbStateMs:Ms<ThumbState>
+//    var thumbState:ThumbStateImp
 
     /**
      * clipboard range indicates the range that was just copied into the clipboard

@@ -3,12 +3,20 @@ package com.qxdzbc.p6.ui.document.workbook.state
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.ErrorUtils.getOrThrow
+import com.qxdzbc.common.ResultUtils.toOk
+import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.command.CommandStacks
-import com.qxdzbc.common.Rse
-import com.qxdzbc.common.ErrorUtils.getOrThrow
-import com.qxdzbc.common.ResultUtils.toOk
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.script.ScriptContainer
 import com.qxdzbc.p6.app.document.script.ScriptContainerImp
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -19,22 +27,19 @@ import com.qxdzbc.p6.di.state.wb.DefaultCommandStack
 import com.qxdzbc.p6.di.state.wb.DefaultScriptContMs
 import com.qxdzbc.p6.di.state.wb.DefaultWsStateMap
 import com.qxdzbc.p6.di.state.ws.DefaultActiveWorksheetPointer
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
-import com.qxdzbc.p6.ui.document.worksheet.state.*
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -44,7 +49,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     @Assisted("2") override val windowId: String?,
     // ======================================= //
     @DefaultWsStateMap
-    override val wsStateMap: Map< St<@JvmSuppressWildcards String>,@JvmSuppressWildcards MutableState<WorksheetState>>,
+    override val wsStateMap: Map<St<@JvmSuppressWildcards String>, @JvmSuppressWildcards MutableState<WorksheetState>>,
     @DefaultActiveWorksheetPointer
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
     @True private val refreshVar: Boolean = true,
@@ -82,25 +87,28 @@ data class WorkbookStateImp @AssistedInject constructor(
             cursorStateFactory: CursorStateFactory,
             scriptContMs: Ms<ScriptContainer> = ms(ScriptContainerImp())
         ): WorkbookStateImp {
-            val wsStateMap: Map<St<String>, MutableState<WorksheetState>> = wbMs.value.worksheetMsList.map { wsMs ->
-                val ws by wsMs
-                val wsIdMs: Ms<WorksheetId> = ms(
-                    WorksheetIdImp(
-                        wsNameMs = ws.nameMs,
-                        wbKeySt = wbMs.value.keyMs,
+            val wsStateMap: Map<St<String>, Ms<WorksheetState>> = wbMs.value.worksheetMsList
+                .map { wsMs ->
+                    val wsIdMs: Ms<WorksheetId> = ms(
+                        WorksheetIdImp(
+                            wsNameMs = wsMs.value.nameMs,
+                            wbKeySt = wbMs.value.keyMs,
+                        )
                     )
-                )
-                val cursorIdMs: Ms<CursorStateId> = ms(CursorIdImp(wsIdMs))
-                ms(
-                    wsStateFactory.create(
-                        wsMs = wsMs,
-                        sliderMs = gridSliderFactory.create().toMs(),
-                        cursorStateMs = cursorStateFactory.create(
-                            idMs = cursorIdMs,
-                        ).toMs()
-                    ) as WorksheetState
-                )
-            }.associateBy { it.value.wsNameSt }
+                    val cursorIdMs: Ms<CursorStateId> = ms(CursorIdImp(wsIdMs))
+                    val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
+                    ms(
+                        wsStateFactory.create(
+                            wsMs = wsMs,
+                            sliderMs = gridSliderFactory.create().toMs(),
+                            cursorStateMs = cursorStateFactory.create(
+                                idMs = cursorIdMs,
+                                cellLayoutCoorsMapSt = cellLayoutCoorMapMs
+                            ).toMs(),
+                            cellLayoutCoorMapMs = cellLayoutCoorMapMs
+                        ) as WorksheetState
+                    )
+                }.associateBy { it.value.wsNameSt }
 
             return WorkbookStateImp(
                 wbMs = wbMs,
@@ -136,7 +144,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     }
 
     override fun getWsStateMs(sheetName: String): MutableState<WorksheetState>? {
-        val rt = wsStateMap.values.firstOrNull { it.value.wsName== sheetName }
+        val rt = wsStateMap.values.firstOrNull { it.value.wsName == sheetName }
         return rt
     }
 
@@ -153,7 +161,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     }
 
     override fun getWsStateMsRs(wsNameSt: St<String>): Rse<Ms<WorksheetState>> {
-        val w=getWsStateMs(wsNameSt)
+        val w = getWsStateMs(wsNameSt)
         return w?.let {
             Ok(it)
         }
@@ -212,17 +220,17 @@ data class WorkbookStateImp @AssistedInject constructor(
     override fun refreshWsState(): WorkbookState {
         var newStateMap: Map<St<String>, MutableState<WorksheetState>> = mutableMapOf()
         val sheetList: List<Ms<Worksheet>> = this.wb.worksheetMsList
-        for (wsMs:Ms<Worksheet> in sheetList) {
+        for (wsMs: Ms<Worksheet> in sheetList) {
             val ws: Worksheet = wsMs.value
             val wsStateMs: Ms<WorksheetState>? = this.getWsStateMs(ws.name)
             if (wsStateMs != null) {
                 // x: keep the existing state
                 wsStateMs.value = wsStateMs.value.refreshCellState()
-                newStateMap= newStateMap + (wsStateMs.value.wsNameSt to wsStateMs)
+                newStateMap = newStateMap + (wsStateMs.value.wsNameSt to wsStateMs)
             } else {
                 // x: create new state for new sheet
                 val newState = this.createDefaultWsState(wsMs)
-                newStateMap= newStateMap+ (newState.value.wsNameSt to newState)
+                newStateMap = newStateMap + (newState.value.wsNameSt to newState)
             }
         }
         return this.copy(wsStateMap = newStateMap)
@@ -276,7 +284,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     private fun createDefaultWsState(worksheet: Ms<Worksheet>): Ms<WorksheetState> {
         val wsMs = worksheet
         val wsState = wsStateFactory.createRefresh(
-            worksheetMs = wsMs,
+            wsMs = wsMs,
             gridSliderFactory = this.gridSliderFactory,
             cursorStateFactory = this.cursorStateFactory,
         )
@@ -286,6 +294,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     override fun setWindowId(windowId: String?): WorkbookState {
         return this.copy(windowId = windowId)
     }
+
     @kotlin.jvm.Throws(Exception::class)
     override fun overWriteWb(newWb: Workbook): WorkbookState {
         return this.overWriteWbRs(newWb).getOrThrow()

@@ -13,12 +13,14 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
-data class ThumbStateImp(
-    private val cursorStateSt: St<CursorState>,
+data class ThumbStateImp @AssistedInject constructor(
+    @Assisted("1") private val cursorStateSt: St<CursorState>,
+    @Assisted("2")private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap()),
     override val isShowingSelectedRange: Boolean = false,
     override val selectRectState: SelectRectState = SelectRectStateImp(),
-    private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap()),
 ) : ThumbState {
 
     override val cursorId: CursorStateId get() = cursorStateSt.value.id

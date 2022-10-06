@@ -161,7 +161,5 @@ internal class ThumbStateImpTest {
         val width = relCellMap.map { (c, l) -> l.size.width.value }.sum()
         val expectedSize = DpSize(width.dp, relCellMap[c5]!!.size.height)
         assertEquals(expectedSize, s3.selectedRangeSize)
-
-
     }
 }

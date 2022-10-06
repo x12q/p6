@@ -4,6 +4,8 @@ import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
@@ -41,36 +43,51 @@ interface WorksheetStateFactory {
                 sliderMs = sliderMs
             )
         ),
+        @Assisted("6") cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>
     ): WorksheetStateImp
 
     companion object {
+        /**
+         * Create a worksheet state and refresh it immediately
+         */
         fun WorksheetStateFactory.createRefresh(
-            worksheetMs: Ms<Worksheet>,
+            wsMs: Ms<Worksheet>,
             sliderMs: Ms<GridSlider>,
             cursorStateMs: Ms<CursorState>,
+            cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
         ): WorksheetState {
             return this.create(
-                worksheetMs, sliderMs, cursorStateMs).refreshCellState()
+                wsMs=wsMs,
+                sliderMs=sliderMs,
+                cursorStateMs=cursorStateMs,
+                cellLayoutCoorMapMs = cellLayoutCoorMapMs
+            ).refresh()
         }
 
+        /**
+         * Create a worksheet state and refresh it immediately
+         */
         fun WorksheetStateFactory.createRefresh(
-            worksheetMs: Ms<Worksheet>,
+            wsMs: Ms<Worksheet>,
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
         ): WorksheetState {
-            val worksheet = worksheetMs.value
+            val worksheet = wsMs.value
             val wsIdMs: St<WorksheetId> = worksheet.idMs
             val cursorAddress: Ms<CursorStateId> = ms(
                 CursorIdImp(wsIdMs)
             )
+            val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
             val wsState = createRefresh(
-                worksheetMs = worksheetMs,
+                wsMs = wsMs,
                 sliderMs = ms(gridSliderFactory.create()),
                 cursorStateMs = ms(
                     cursorStateFactory.create(
                         idMs = cursorAddress,
+                        cellLayoutCoorsMapSt = cellLayoutCoorMapMs
                     )
-                )
+                ),
+                cellLayoutCoorMapMs=cellLayoutCoorMapMs,
             )
             return wsState
         }

@@ -14,6 +14,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
 import org.mockito.kotlin.mock
@@ -96,16 +97,19 @@ class WorksheetStateImpTest {
                 wbKeySt = wb0.keyMs
             )
         )
+        val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
         wsState = wsStateFactory.createRefresh(
-//            idMs = wssIdMs,
-            worksheetMs = wb0.getWsMs(0)!!,
+            wsMs = wb0.getWsMs(0)!!,
             sliderMs = p6Comp.gridSliderFactory().create().toMs(),
             cursorStateMs = ms(
                 CursorStateImp
                     .default2(
-                        worksheetIDMs = wssIdMs
+                        worksheetIDMs = wssIdMs,
+                        cellLayoutCoorsMapSt=cellLayoutCoorMapMs,
                     )
-            )
+            ),
+            cellLayoutCoorMapMs =cellLayoutCoorMapMs
+
         ) as WorksheetStateImp
         worksheetIDMs = wsState.idMs
     }
