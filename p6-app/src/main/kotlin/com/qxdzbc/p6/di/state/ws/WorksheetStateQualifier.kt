@@ -33,6 +33,10 @@ annotation class DefaultCellStateContainer
 
 @Qualifier
 @Retention
+annotation class DefaultSelectRectState
+
+@Qualifier
+@Retention
 annotation class DefaultSelectRectStateMs
 
 @Qualifier
@@ -46,6 +50,10 @@ annotation class DefaultRowResizeBarStateMs
 @Qualifier
 @Retention
 annotation class DefaultTopLeftCellAddress
+
+@Qualifier
+@Retention
+annotation class DefaultTopLeftCellAddressMs
 
 @Qualifier
 @Retention

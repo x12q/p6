@@ -41,7 +41,7 @@ internal class GridSliderImpTest {
             marginCol = 10,
         )
         // x: cursor on left-most col
-        val cursor = CursorStateImp.default2(wsId, mock())
+        val cursor = CursorStateImp.default2(wsId, mock(),mock())
             .setMainCell(CellAddress(gridSlider.firstVisibleCol - 1, 2))
         val m1 = gridSlider.followCursorMainCell(cursor)
         assertNotNull(m1)
@@ -50,7 +50,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleRowRange, m1.visibleRowRange)
 
         // x: cursor on the margin col
-        val cursor2 = CursorStateImp.default2(wsId, mock()).setMainCell(
+        val cursor2 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(gridSlider.lastVisibleCol, 2)
         )
         val m2 = gridSlider.followCursorMainCell(cursor2)
@@ -60,7 +60,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleRowRange, m2.visibleRowRange)
 
         // x: cursor on margin row
-        val cursor3 = CursorStateImp.default2(wsId, mock()).setMainCell(
+        val cursor3 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(5, gridSlider.lastVisibleRow)
         )
         val m3 = gridSlider.followCursorMainCell(cursor3)
@@ -70,7 +70,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleColRange, m3.visibleColRange)
 
         // x: cursor on top row
-        val cursor4 = CursorStateImp.default2(wsId, mock()).setMainCell(
+        val cursor4 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(5, gridSlider.firstVisibleRow - 1)
         )
         val m4 = gridSlider.followCursorMainCell(cursor4)
@@ -84,7 +84,7 @@ internal class GridSliderImpTest {
     @Test
     fun `followCursor no margin`() {
         // cursor on left-most col
-        val cursor = CursorStateImp.default2(wsId, mock()).setMainCell(
+        val cursor = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(gridSlider.firstVisibleCol - 1, 2)
         )
         val m1 = gridSlider.followCursorMainCell(cursor)
@@ -94,7 +94,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleRowRange, m1.visibleRowRange)
 
         // cursor on right-most col
-        val cursor2 = CursorStateImp.default2(wsId, mock()).setMainCell(
+        val cursor2 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(gridSlider.lastVisibleCol + 1, 2)
         )
         val m2 = gridSlider.followCursorMainCell(cursor2)
@@ -104,7 +104,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleRowRange, m2.visibleRowRange)
 
         // cursor on bot row
-        val cursor3 = CursorStateImp.default2(wsId, mock()).setMainCell(
+        val cursor3 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(5, gridSlider.lastVisibleRow + 1)
         )
         val m3 = gridSlider.followCursorMainCell(cursor3)
@@ -114,7 +114,7 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleColRange, m3.visibleColRange)
 
         // cursor on top row
-        val cursor4 = CursorStateImp.default2(wsId, mock()).setMainCell(
+        val cursor4 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(5, gridSlider.firstVisibleRow - 1)
         )
         val m4 = gridSlider.followCursorMainCell(cursor4)

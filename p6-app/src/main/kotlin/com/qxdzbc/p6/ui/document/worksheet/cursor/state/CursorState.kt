@@ -7,6 +7,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
 /**
@@ -19,8 +20,8 @@ interface CursorState : WbWsSt {
     val cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper>
 
-//    val thumbStateMs:Ms<ThumbState>
-//    var thumbState:ThumbStateImp
+    val thumbStateMs:Ms<ThumbState>
+    var thumbState: ThumbState
 
     /**
      * clipboard range indicates the range that was just copied into the clipboard
@@ -56,8 +57,12 @@ interface CursorState : WbWsSt {
      */
     val rangeConstraint: RangeConstraint
 
-
+    val mainCellSt:St<CellAddress>
     val mainCell: CellAddress
+    /**
+     * point the cursor to a new cell
+     */
+    fun setMainCell(newCellAddress: CellAddress): CursorState
 
     /**
      * main range is for shift+arrow selection
@@ -93,12 +98,6 @@ interface CursorState : WbWsSt {
      * move the cursor right 1 col
      */
     fun right(): CursorState
-
-    /**
-     * point the cursor to a new cell
-     */
-    fun setMainCell(newCellAddress: CellAddress): CursorState
-
 
     /**
      * point the cursor to a new range

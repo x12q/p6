@@ -6,10 +6,12 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
@@ -71,20 +73,28 @@ interface WorksheetStateFactory {
             wsMs: Ms<Worksheet>,
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
+            thumbStateFactory:ThumbStateFactory,
         ): WorksheetState {
             val worksheet = wsMs.value
             val wsIdMs: St<WorksheetId> = worksheet.idMs
-            val cursorAddress: Ms<CursorStateId> = ms(
+            val cursorIdMs: Ms<CursorStateId> = ms(
                 CursorIdImp(wsIdMs)
             )
             val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
-            val wsState = createRefresh(
+            val mainCellMs:Ms<CellAddress> = ms(CellAddresses.A1)
+            val wsState:WorksheetState = createRefresh(
                 wsMs = wsMs,
                 sliderMs = ms(gridSliderFactory.create()),
                 cursorStateMs = ms(
                     cursorStateFactory.create(
-                        idMs = cursorAddress,
-                        cellLayoutCoorsMapSt = cellLayoutCoorMapMs
+                        idMs = cursorIdMs,
+                        cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
+                        thumbStateMs = ms(thumbStateFactory.create(
+                            cursorStateIdSt = cursorIdMs,
+                            mainCellSt = mainCellMs,
+                            cellLayoutCoorMapSt = cellLayoutCoorMapMs,
+                        )),
+                        mainCellMs = mainCellMs
                     )
                 ),
                 cellLayoutCoorMapMs=cellLayoutCoorMapMs,

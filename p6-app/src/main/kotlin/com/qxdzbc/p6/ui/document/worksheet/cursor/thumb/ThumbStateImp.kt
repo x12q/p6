@@ -9,7 +9,8 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.di.False
+import com.qxdzbc.p6.di.state.ws.DefaultSelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
@@ -17,15 +18,18 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 data class ThumbStateImp @AssistedInject constructor(
-    @Assisted("1") private val cursorStateSt: St<CursorState>,
-    @Assisted("2")private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap()),
+    @Assisted("1") private val cursorStateIdSt: St<CursorStateId>,
+    @Assisted("2") private val mainCellSt:St<CellAddress>,
+    @Assisted("3")private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
+    @False
     override val isShowingSelectedRange: Boolean = false,
+    @DefaultSelectRectState
     override val selectRectState: SelectRectState = SelectRectStateImp(),
 ) : ThumbState {
 
-    override val cursorId: CursorStateId get() = cursorStateSt.value.id
+    override val cursorId: CursorStateId by cursorStateIdSt
 
-    override val mainCell: CellAddress get() = cursorStateSt.value.mainCell
+    override val mainCell: CellAddress by mainCellSt
 
     override val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorMapSt
 

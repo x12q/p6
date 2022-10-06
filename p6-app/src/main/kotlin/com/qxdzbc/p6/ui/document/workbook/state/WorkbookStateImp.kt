@@ -17,6 +17,7 @@ import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.script.ScriptContainer
 import com.qxdzbc.p6.app.document.script.ScriptContainerImp
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -34,6 +35,7 @@ import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
@@ -59,6 +61,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     private val wsStateFactory: WorksheetStateFactory,
     private val gridSliderFactory: LimitedGridSliderFactory,
     private val cursorStateFactory: CursorStateFactory,
+    private val thumbStateFactory: ThumbStateFactory,
     @DefaultScriptContMs
     override val scriptContMs: Ms<ScriptContainer>,
 ) : WorkbookState {
@@ -68,14 +71,16 @@ data class WorkbookStateImp @AssistedInject constructor(
             wsStateFactory: WorksheetStateFactory,
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
+            thumbStateFactory: ThumbStateFactory,
         ): WorkbookStateImp {
             val activeSheetName = wbMs.value.getWs(0)?.nameMs
             return default(
-                wbMs,
-                ms(ActiveWorksheetPointerImp(activeSheetName)),
+                wbMs=wbMs,
+                activeSheetPointerMs=ms(ActiveWorksheetPointerImp(activeSheetName)),
                 wsStateFactory = wsStateFactory,
                 gridSliderFactory = gridSliderFactory,
                 cursorStateFactory = cursorStateFactory,
+                thumbStateFactory = thumbStateFactory
             )
         }
 
@@ -85,6 +90,7 @@ data class WorkbookStateImp @AssistedInject constructor(
             wsStateFactory: WorksheetStateFactory,
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
+            thumbStateFactory: ThumbStateFactory,
             scriptContMs: Ms<ScriptContainer> = ms(ScriptContainerImp())
         ): WorkbookStateImp {
             val wsStateMap: Map<St<String>, Ms<WorksheetState>> = wbMs.value.worksheetMsList
@@ -97,13 +103,20 @@ data class WorkbookStateImp @AssistedInject constructor(
                     )
                     val cursorIdMs: Ms<CursorStateId> = ms(CursorIdImp(wsIdMs))
                     val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
+                    val mainCellMs = ms(CellAddresses.A1)
                     ms(
                         wsStateFactory.create(
                             wsMs = wsMs,
                             sliderMs = gridSliderFactory.create().toMs(),
                             cursorStateMs = cursorStateFactory.create(
                                 idMs = cursorIdMs,
-                                cellLayoutCoorsMapSt = cellLayoutCoorMapMs
+                                cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
+                                thumbStateMs = ms(thumbStateFactory.create(
+                                    cursorStateIdSt =cursorIdMs,
+                                    mainCellSt = mainCellMs,
+                                    cellLayoutCoorMapSt = cellLayoutCoorMapMs
+                                )),
+                                mainCellMs = mainCellMs
                             ).toMs(),
                             cellLayoutCoorMapMs = cellLayoutCoorMapMs
                         ) as WorksheetState
@@ -118,6 +131,7 @@ data class WorkbookStateImp @AssistedInject constructor(
                 gridSliderFactory = gridSliderFactory,
                 cursorStateFactory = cursorStateFactory,
                 scriptContMs = scriptContMs,
+                thumbStateFactory = thumbStateFactory,
                 windowId = null
             )
 
@@ -287,6 +301,8 @@ data class WorkbookStateImp @AssistedInject constructor(
             wsMs = wsMs,
             gridSliderFactory = this.gridSliderFactory,
             cursorStateFactory = this.cursorStateFactory,
+            thumbStateFactory = this.thumbStateFactory
+
         )
         return ms(wsState.refreshCellState())
     }

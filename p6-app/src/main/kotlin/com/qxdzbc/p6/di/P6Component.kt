@@ -70,6 +70,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
@@ -269,6 +270,7 @@ interface P6Component {
     fun formulaCompleter(): FormulaAutoCompleter
     fun cursorEditorAction(): CellEditorAction
     fun textDiffer(): TextDiffer
+    fun thumbStateFactory(): ThumbStateFactory
 
     @Component.Builder
     interface Builder {

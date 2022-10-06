@@ -19,16 +19,16 @@ class WorkbookStateImpTest {
     lateinit var wbState: WorkbookStateImp
     lateinit var wb0: Workbook
     lateinit var wb1: Workbook
-    lateinit var testSample:TestSample
+    lateinit var ts:TestSample
 
     @BeforeTest
     fun b() {
-        testSample = TestSample()
+        ts = TestSample()
         wb0 = WorkbookImp(
-            testSample.wbKey2Ms,
+            ts.wbKey2Ms,
         ).addMultiSheetOrOverwrite(
             listOf(
-                WorksheetImp("Sheet1_2".toMs(),testSample.wbKey2Ms).let {
+                WorksheetImp("Sheet1_2".toMs(),ts.wbKey2Ms).let {
                     val z = it
                         .addOrOverwrite(
                             IndCellImp(CellAddress("A1"), CellContentImp(
@@ -61,14 +61,15 @@ class WorkbookStateImpTest {
                 }
             )
         )
-        val wbContMs = testSample.wbContMs
+        val wbContMs = ts.wbContMs
         wbContMs.value = wbContMs.value.overwriteWB(wb0).overwriteWB(wb1)
 
         wbState = WorkbookStateImp.default(
             wbMs = wbContMs.value.getWbMs(wb0.key)!!,
-            wsStateFactory = testSample.p6Comp.worksheetStateFactory(),
-            gridSliderFactory = testSample.p6Comp.gridSliderFactory(),
-            cursorStateFactory = testSample.p6Comp.cursorStateFactory(),
+            wsStateFactory = ts.p6Comp.worksheetStateFactory(),
+            gridSliderFactory = ts.p6Comp.gridSliderFactory(),
+            cursorStateFactory = ts.p6Comp.cursorStateFactory(),
+            thumbStateFactory = ts.p6Comp.thumbStateFactory()
         )
     }
 

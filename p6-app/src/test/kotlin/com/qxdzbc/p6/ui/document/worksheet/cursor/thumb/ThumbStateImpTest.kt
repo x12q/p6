@@ -10,6 +10,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -46,11 +47,9 @@ internal class ThumbStateImpTest {
                 }
             }
         }
-        val cursorState = mock<CursorState>() {
-            whenever(it.mainCell) doReturn CellAddress("C5")
-        }
         s = ThumbStateImp(
-            cursorStateSt = ms(cursorState),
+            cursorStateIdSt = ms(mock()),
+            mainCellSt = ms(CellAddress("C5")),
             cellLayoutCoorMapSt = ms(celllayoutMap),
         )
     }

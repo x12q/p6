@@ -1,37 +1,40 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.state
 
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.CellEditorStateMs
-import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
+import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
-import dagger.assisted.AssistedInject
-import com.qxdzbc.p6.di.state.ws.*
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.app.document.cell.address.CellAddresses
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbStateImp
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
 
 data class CursorStateImp @AssistedInject constructor(
     @Assisted("1")
     override val idMs: Ms<CursorStateId>,
     @Assisted("2")
-    override val cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>,
-//    @Assisted("3")
-//    override val thumbStateMs: Ms<ThumbState>,
+    override val cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
+    @Assisted("3")
+    override val thumbStateMs: Ms<ThumbState>,
+//    @DefaultTopLeftCellAddressMs
+    @Assisted("4")
+    val mainCellMs: Ms<CellAddress> = ms(CellAddresses.A1),
     //=============================================//
     @CellEditorStateMs
     override val cellEditorStateMs: Ms<CellEditorState>,
@@ -41,45 +44,54 @@ data class CursorStateImp @AssistedInject constructor(
     override val fragmentedCells: Set<@JvmSuppressWildcards CellAddress> = emptySet(),
     @EmptyRangeAddressSet
     override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress> = emptySet(),
-    @DefaultTopLeftCellAddress
-    override val mainCell: CellAddress = CellAddresses.A1,
+
     @DefaultRangeConstraint
     override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
     @DefaultClipBoardRange
     override val clipboardRange: RangeAddress = RangeAddresses.InvalidRange,
 ) : BaseCursorState() {
+
     override val isEditing: Boolean by isEditingMs
+
+    override val mainCellSt: St<CellAddress> get() = mainCellMs
+
+    override val mainCell: CellAddress by mainCellMs
+
     companion object {
         fun default(
             cursorIdMs: Ms<CursorStateId>,
-            cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>,
+            cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
+            thumbStateMs: Ms<ThumbState>,
+            mainCellMs:Ms<CellAddress> = ms(CellAddresses.A1)
         ): CursorStateImp {
-            val mainCell = CellAddress(1, 1)
             return CursorStateImp(
                 idMs = cursorIdMs,
                 cellLayoutCoorsMapSt = cellLayoutCoorsMapSt,
-                mainCell = mainCell,
+                mainCellMs = mainCellMs,
                 rangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
                 mainRange = null,
                 fragmentedCells = emptySet(),
                 fragmentedRanges = emptySet(),
                 cellEditorStateMs = ms(
                     CellEditorStateImp(
-                        targetCell = mainCell,
+                        targetCell = mainCellMs.value,
                         targetCursorIdSt = cursorIdMs,
                         isActiveMs = false.toMs(),
                     )
                 ),
+                thumbStateMs = thumbStateMs
             )
         }
 
         fun default2(
             worksheetIDMs: Ms<WorksheetId>,
-            cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>,
+            cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
+            thumbStateMs: Ms<ThumbState>,
         ): CursorStateImp {
             return default(
                 cursorIdMs = ms(CursorIdImp(wsStateIDMs = worksheetIDMs)),
                 cellLayoutCoorsMapSt = cellLayoutCoorsMapSt,
+                thumbStateMs = thumbStateMs
             )
         }
 
@@ -218,7 +230,7 @@ data class CursorStateImp @AssistedInject constructor(
         }
     }
 
-    override val isEditingMs: St<Boolean> get()=cellEditorState.isActiveMs
+    override val isEditingMs: St<Boolean> get() = cellEditorState.isActiveMs
 
     override fun setClipboardRange(rangeAddress: RangeAddress): CursorState {
         return this.copy(clipboardRange = rangeAddress)
@@ -233,9 +245,12 @@ data class CursorStateImp @AssistedInject constructor(
     }
 
     override var id: CursorStateId by idMs
-    override val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorsMapSt
 
-//    override var thumbState: ThumbStateImp by thumbStateMs
+    override val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorsMapSt
+//    override val thumbStateMs: Ms<ThumbState>
+//        get() = TODO("Not yet implemented")
+//
+    override var thumbState: ThumbState by thumbStateMs
 
     override fun up(): CursorState {
         val newCellAddress = mainCell.upOneRow()
@@ -283,10 +298,10 @@ data class CursorStateImp @AssistedInject constructor(
 
     override fun setMainCell(newCellAddress: CellAddress): CursorState {
         if (rangeConstraint.contains(newCellAddress) && mainCell != newCellAddress) {
-            return this.copy(mainCell = newCellAddress)
-        } else {
-            return this
+            this.mainCellMs.value = newCellAddress
         }
+        return this
+
     }
 
     override fun addFragRanges(rangeAddressList: Collection<RangeAddress>): CursorState {

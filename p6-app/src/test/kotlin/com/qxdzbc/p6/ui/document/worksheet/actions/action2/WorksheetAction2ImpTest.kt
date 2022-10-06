@@ -114,8 +114,8 @@ internal class WorksheetAction2ImpTest {
     fun updateSlider() {
         val d = 3
         val oldSlider = slider
-        val newCursor = CursorStateImp.default(mock(),mock()).copy(
-            mainCell = CellAddresses.fromIndices(
+        val newCursor = CursorStateImp.default(mock(),mock(), mock()).setMainCell(
+            CellAddresses.fromIndices(
                 colIndex = slider.visibleColRange.last + d,
                 rowIndex = slider.visibleRowRange.random()
             )
@@ -127,8 +127,8 @@ internal class WorksheetAction2ImpTest {
         assertEquals(oldSlider.firstVisibleCol + d, slider.firstVisibleCol)
         assertEquals(oldSlider.lastVisibleCol + d, slider.lastVisibleCol)
 
-        val cursor2 = CursorStateImp.default(mock(),mock()).copy(
-            mainCell = CellAddresses.fromIndices(
+        val cursor2 = CursorStateImp.default(mock(),mock(),mock()).setMainCell(
+            CellAddresses.fromIndices(
                 colIndex = slider.visibleColRange.random(),
                 rowIndex = slider.visibleRowRange.add(d).last
             )

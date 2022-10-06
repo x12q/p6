@@ -64,9 +64,15 @@ interface WorksheetStateModule {
         }
 
         @Provides
+        @DefaultSelectRectState
+        fun SelectRectState(): SelectRectState {
+            return SelectRectStateImp()
+        }
+
+        @Provides
         @DefaultSelectRectStateMs
-        fun SelectRectStateMs(): Ms<SelectRectState> {
-            return ms(SelectRectStateImp())
+        fun SelectRectStateMs(@DefaultSelectRectState i:SelectRectState): Ms<SelectRectState> {
+            return ms(i)
         }
 
         @Provides
@@ -85,6 +91,12 @@ interface WorksheetStateModule {
         @DefaultTopLeftCellAddress
         fun DefaultTopLeftCellAddress(): CellAddress {
             return CellAddresses.A1
+        }
+
+        @Provides
+        @DefaultTopLeftCellAddressMs
+        fun DefaultTopLeftCellAddressMs(@DefaultTopLeftCellAddress i:CellAddress):Ms <CellAddress> {
+            return ms(i)
         }
 
         @Provides
