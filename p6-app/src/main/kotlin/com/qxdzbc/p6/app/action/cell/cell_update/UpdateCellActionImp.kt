@@ -27,7 +27,16 @@ class UpdateCellActionImp @Inject constructor(
     val sc by scSt
     val translatorCont by translatorContainerMs
 
-    override fun updateCell2(request: CellUpdateRequest, publishError:Boolean): Rse<Unit> {
+    override fun updateCellDM(request: CellUpdateRequestDM, publishError:Boolean): Rse<Unit> {
+        val cellRs = sc.getCellRs(request.cellId)
+        return cellRs.flatMap { cell->
+            updateCell(CellUpdateRequest(
+                cell.id,request.cellContent
+            ),publishError)
+        }
+    }
+
+    override fun updateCell(request: CellUpdateRequest, publishError: Boolean): Rse<Unit> {
         val getWsMsRs = sc.getWsStateMsRs(request)
         val rt = getWsMsRs.flatMap {wsStateMs->
             val wsMs = wsStateMs.value.wsMs
@@ -36,7 +45,7 @@ class UpdateCellActionImp @Inject constructor(
             val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
             val content = request.cellContent.toStateObj(translator)
             val updateWsRs = ws.updateCellContentRs(
-                request.cellAddress, content
+                request.cellId.address, content
             )
             updateWsRs.flatMap {
                 wsMs.value = it

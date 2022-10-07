@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action
 
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
@@ -28,8 +28,8 @@ internal class EndThumbDragActionImpTest : BaseTest(){
             wbKey = ts.wbKey1,
             wsName = ts.wsn1
         )
-        updateCellAct.updateCell2(
-            request = CellUpdateRequest(
+        updateCellAct.updateCellDM(
+            request = CellUpdateRequestDM(
                 cellId = c10Id,
                 cellContent = CellContentDM.fromAny(c10Value)
             )

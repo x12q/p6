@@ -3,7 +3,7 @@ package com.qxdzbc.p6.rpc.worksheet
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.mapError
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequestDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
@@ -53,7 +53,7 @@ class WorksheetRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val req = request.toModel()
-                    val rs = rpcActs.updateMultiCell(req, false)
+                    val rs = rpcActs.updateMultiCellDM(req, false)
                     val ssr = SingleSignalResponse.fromRs(rs)
                     ssr
                 }.await()
@@ -169,8 +169,8 @@ class WorksheetRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val i: CellDM = request.toModel()
-                    val o = rpcActs.updateCell2(
-                        CellUpdateRequest(
+                    val o = rpcActs.updateCellDM(
+                        CellUpdateRequestDM(
                             cellId = i.id,
                             cellContent = i.content
                         )

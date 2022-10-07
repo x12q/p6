@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -144,8 +144,8 @@ class CursorActionImpTest {
 
     @Test
     fun getFormulaRangeDrawInfo(){
-        ts.p6Comp.cellViewAction().updateCell2(
-            CellUpdateRequest(
+        ts.p6Comp.cellViewAction().updateCellDM(
+            CellUpdateRequestDM(
                 cellId= CellIdDM(
                     wbKey = ts.wbKey1, wsName = ts.wsn1, address = CellAddress("B3")
                 )

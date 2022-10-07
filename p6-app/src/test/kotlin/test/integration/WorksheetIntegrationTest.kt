@@ -1,7 +1,7 @@
 package test.integration
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
@@ -34,8 +34,8 @@ class WorksheetIntegrationTest {
         val ws1 by ws1Ms
         val ws2 by ws2Ms
 
-        updateCellAction.updateCell2(
-            CellUpdateRequest(
+        updateCellAction.updateCellDM(
+            CellUpdateRequestDM(
                 cellId = CellIdDM(
                     wbKey = ws1.wbKey,
                     wsName = ws1.name,
@@ -45,8 +45,8 @@ class WorksheetIntegrationTest {
             )
         )
         assertEquals(123.0, ws1.getCell("B23")?.currentValue)
-        updateCellAction.updateCell2(
-            CellUpdateRequest(
+        updateCellAction.updateCellDM(
+            CellUpdateRequestDM(
                 cellId = CellIdDM(
                     wbKey = ws2.wbKey,
                     wsName = ws2.name,

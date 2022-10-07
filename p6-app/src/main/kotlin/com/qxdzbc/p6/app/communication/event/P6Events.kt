@@ -34,7 +34,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Event
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 
 @Deprecated("don't use, this is kept for just-in-case purposes only")
 object P6Events {
@@ -90,8 +90,8 @@ object P6Events {
 
         object Update : P6EventMetaDef {
             override val event = P6Event("${CE}1", "cell update")
-            override val Request: Any = CellUpdateRequest::class
-            override val Response: Any = CellUpdateRequest::class
+            override val Request: Any = CellUpdateRequestDM::class
+            override val Response: Any = CellUpdateRequestDM::class
         }
 
         object CellMultiUpdate : P6EventMetaDef {

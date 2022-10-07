@@ -49,7 +49,7 @@ internal class MultiCellUpdateActionImpTest {
         assertTrue(wsState.worksheet.isEmpty())
 
         // x: action
-        val rs = act.updateMultiCell(request)
+        val rs = act.updateMultiCellDM(request)
 
         // x: post condition
         assertTrue(rs is Ok)

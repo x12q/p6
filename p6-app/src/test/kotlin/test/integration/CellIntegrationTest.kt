@@ -1,7 +1,7 @@
 package test.integration
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
@@ -21,14 +21,14 @@ class CellIntegrationTest {
     fun `circular reference`() {
         val stateCont by ts.p6Comp.stateContMs()
         val cellViewAction = ts.p6Comp.cellViewAction()
-        cellViewAction.updateCell2(
-            CellUpdateRequest(
+        cellViewAction.updateCellDM(
+            CellUpdateRequestDM(
                 CellIdDM(CellAddress("A1"), ts.wbKey1, ts.wsn1),
                 cellContent = CellContentDM.fromFormula("=B1")
             )
         )
-        cellViewAction.updateCell2(
-            CellUpdateRequest(
+        cellViewAction.updateCellDM(
+            CellUpdateRequestDM(
                 CellIdDM(CellAddress("B1"),ts.wbKey1, ts.wsn1,),
                 CellContentDM.fromFormula("=A1")
             )

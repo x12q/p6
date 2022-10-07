@@ -2,7 +2,7 @@ package com.qxdzbc.p6.rpc.cell
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -10,7 +10,6 @@ import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
@@ -23,7 +22,6 @@ import com.qxdzbc.p6.rpc.common_data_structure.StrMsg
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -47,7 +45,7 @@ class CellRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val req = request.toModel()
-                    val o = acts.updateCell2(req, false)
+                    val o = acts.updateCellDM(req, false)
                     o
                 }.await()
             }

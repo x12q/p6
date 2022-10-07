@@ -74,7 +74,7 @@ data class CellAddressImp constructor(
         }
         val rt = mutableListOf<CellAddress>()
         for (x in colRange){
-            rt.add(this.increaseRowBy(x))
+            rt.add(this.increaseColBy(x))
         }
         return rt
     }

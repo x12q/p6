@@ -29,7 +29,7 @@ class MultiCellUpdateActionImp @Inject constructor(
     val sc by stateContSt
     val tc by tcSt
 
-    override fun updateMultiCell(request: MultiCellUpdateRequestDM, publishErr: Boolean): Rse<Unit> {
+    override fun updateMultiCellDM(request: MultiCellUpdateRequestDM, publishErr: Boolean): Rse<Unit> {
         val wsStateMsRs = sc.getWsStateMsRs(request)
         val rt = updateMultiCell(wsStateMsRs,request.cellUpdateList)
         rt.onFailure {

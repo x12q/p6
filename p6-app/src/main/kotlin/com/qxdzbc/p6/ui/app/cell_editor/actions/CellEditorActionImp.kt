@@ -9,7 +9,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.key_event.PKeyEvent
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
@@ -68,7 +68,7 @@ class CellEditorActionImp @Inject constructor(
             val codeText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
 
             val reverseRequest = if (cell?.fullFormula != null) {
-                CellUpdateRequest(
+                CellUpdateRequestDM(
                     cellId = CellIdDM(
                         wbKey = wbKey,
                         wsName = wsName,
@@ -77,7 +77,7 @@ class CellEditorActionImp @Inject constructor(
                     cellContent = CellContentDM.fromFormula(cell.fullFormula)
                 )
             } else {
-                CellUpdateRequest(
+                CellUpdateRequestDM(
                     cellId = CellIdDM(
                         wbKey = wbKey,
                         wsName = wsName,
@@ -93,7 +93,7 @@ class CellEditorActionImp @Inject constructor(
             } else {
                 value = codeText
             }
-            val request = CellUpdateRequest(
+            val request = CellUpdateRequestDM(
                 cellId = CellIdDM(
                     wbKey = wbKey,
                     wsName = wsName,
@@ -106,8 +106,8 @@ class CellEditorActionImp @Inject constructor(
             )
 
             val command = Commands.makeCommand(
-                run = { updateCellAction.updateCell2(request) },
-                undo = { updateCellAction.updateCell2(reverseRequest) }
+                run = { updateCellAction.updateCellDM(request) },
+                undo = { updateCellAction.updateCellDM(reverseRequest) }
             )
             stateCont.getWbState(wbKey)?.also {
                 val cMs = it.commandStackMs
