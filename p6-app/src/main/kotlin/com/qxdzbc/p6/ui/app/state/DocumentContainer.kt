@@ -10,6 +10,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
@@ -92,6 +93,7 @@ interface DocumentContainer : WorkbookGetter {
     fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Cell?
     fun getCell(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell?
     fun getCell(cellId: CellIdDM): Cell?
+    fun getCell(cellId: CellId): Cell?
 
     fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
     fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>

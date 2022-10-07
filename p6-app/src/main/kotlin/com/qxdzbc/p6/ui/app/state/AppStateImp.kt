@@ -41,6 +41,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
@@ -318,6 +319,10 @@ data class AppStateImp @Inject constructor(
     }
 
     override fun getCell(cellId: CellIdDM): Cell? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCell(cellId: CellId): Cell? {
         TODO("Not yet implemented")
     }
 

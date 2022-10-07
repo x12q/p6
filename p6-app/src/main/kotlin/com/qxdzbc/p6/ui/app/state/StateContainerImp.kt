@@ -33,6 +33,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
@@ -461,6 +462,10 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getCell(cellId: CellIdDM): Cell? {
+        return docCont.getCell(cellId)
+    }
+
+    override fun getCell(cellId: CellId): Cell? {
         return docCont.getCell(cellId)
     }
 
