@@ -202,8 +202,6 @@ fun CursorView(
                 val thumbState = state.thumbState
                 if(thumbState.isShowingSelectedRange){
                     if(blc.isAttached){
-                        println("offset: ${thumbState.selectedRangeWindowOffset?.let{blc.windowToLocal(it)}}")
-                        println("size: ${thumbState.selectedRangeSize}")
                         drawRect(
                             color = Color.Red.copy(alpha =0.4F),
                             topLeft = blc.windowToLocal(thumbState.selectedRangeWindowOffsetOrZero),

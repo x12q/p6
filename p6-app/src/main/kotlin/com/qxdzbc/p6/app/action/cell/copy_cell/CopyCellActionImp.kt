@@ -21,13 +21,15 @@ class CopyCellActionImp @Inject constructor(
     @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : CopyCellAction {
+
     private val stateCont by stateContSt
+
     override fun copyCell(request: CopyCellRequest): Rse<Unit> {
-        val fMs = stateCont.getCellMs(request.fromCell)
-        val tMs: Ms<Cell>? = stateCont.getCellMs(request.toCell)
-        if (fMs != null) {
-            if (fMs.value.content.isNotEmpty()) {
-                if (tMs == null) {
+        val fromCellMs:Ms<Cell>? = stateCont.getCellMs(request.fromCell)
+        val toCellMs: Ms<Cell>? = stateCont.getCellMs(request.toCell)
+        if (fromCellMs != null) {
+            if (fromCellMs.value.content.isNotEmpty()) {
+                if (toCellMs == null) {
                     // x: destination cell does not exist, create it if possible
                     val getWsRs:Rse<Ms<Worksheet>> = stateCont.getWsMsRs(request.toCell)
                     when (getWsRs) {
@@ -44,7 +46,7 @@ class CopyCellActionImp @Inject constructor(
                             when (tms2Rs) {
                                 is Ok -> {
                                     val tms2:Ms<Cell> = tms2Rs.value
-                                    tms2.value = tms2.value.setContent(fMs.value.content)
+                                    tms2.value = tms2.value.setContent(fromCellMs.value.content)
                                     wsStateMs?.let {
                                         it.value = it.value.refresh()
                                     }
@@ -60,20 +62,20 @@ class CopyCellActionImp @Inject constructor(
                         }
                     }
                 } else {
-                    tMs.value = tMs.value.setContent(fMs.value.content)
+                    toCellMs.value = toCellMs.value.setContent(fromCellMs.value.content)
                 }
             } else {
-                if (tMs != null) {
-                    if (tMs.value.content.isNotEmpty()) {
-                        tMs.value = tMs.value.setContent(fMs.value.content)
+                if (toCellMs != null) {
+                    if (toCellMs.value.content.isNotEmpty()) {
+                        toCellMs.value = toCellMs.value.setContent(fromCellMs.value.content)
                     }
                 }
             }
             return Ok(Unit)
         } else {
-            if (tMs != null) {
-                if (tMs.value.content.isNotEmpty()) {
-                    tMs.value = tMs.value.setContent(CellContentImp.empty)
+            if (toCellMs != null) {
+                if (toCellMs.value.content.isNotEmpty()) {
+                    toCellMs.value = toCellMs.value.setContent(CellContentImp.empty)
                 }
             }
             return Ok(Unit)

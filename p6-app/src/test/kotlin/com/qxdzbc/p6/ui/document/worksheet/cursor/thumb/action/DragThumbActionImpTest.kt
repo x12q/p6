@@ -24,6 +24,5 @@ internal class DragThumbActionImpTest:BaseTest(){
         val c3 = CellAddress("C3")
         cursorStateMs.value = cursorStateMs.value.setMainCell(c3)
         act.startDrag_forTest(wbwsSt, c3)
-
     }
 }

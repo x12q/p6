@@ -452,6 +452,14 @@ class StateContainerImp @Inject constructor(
         return docCont.getCell(wbKey, wsName, cellAddress)
     }
 
+    override fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
+        return docCont.getCell(wbKeySt, wsNameSt, cellAddress)
+    }
+
+    override fun getCell(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
+        return docCont.getCell(wbwsSt, cellAddress)
+    }
+
     override fun getCell(cellId: CellIdDM): Cell? {
         return docCont.getCell(cellId)
     }

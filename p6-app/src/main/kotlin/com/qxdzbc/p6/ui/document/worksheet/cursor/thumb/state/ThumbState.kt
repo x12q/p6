@@ -28,4 +28,15 @@ interface ThumbState {
     val selectRectState: SelectRectState
     fun setSelectRectState(i:SelectRectState): ThumbState
 
+    /**
+     * return a pair of [CellAddress] denoting the top and bottom cell in the current selected range.
+     */
+    fun getTopBotCells(): Pair<CellAddress, CellAddress>?
+
+    /**
+     * Return a pair [CellAddress] denoting the starting cell and ending cell.
+     * Starting cell is the cell where the drag action start from, this is always the main cell.
+     * Ending cell is where the drag action end. Ending cell could be above or below the starting cell.
+     */
+    fun getStartEndCells():Pair<CellAddress, CellAddress>
 }

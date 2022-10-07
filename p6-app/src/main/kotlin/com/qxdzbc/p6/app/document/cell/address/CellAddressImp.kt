@@ -66,6 +66,32 @@ data class CellAddressImp constructor(
         return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex
     }
 
+    override fun generateCellSequenceToCol(col: Int): List<CellAddress> {
+        val colRange = if(col>=this.colIndex){
+            0 .. col-this.colIndex
+        }else{
+            col - this.colIndex .. 0
+        }
+        val rt = mutableListOf<CellAddress>()
+        for (x in colRange){
+            rt.add(this.increaseRowBy(x))
+        }
+        return rt
+    }
+
+    override fun generateCellSequenceToRow(row: Int): List<CellAddress> {
+        val colRange = if(row>=this.rowIndex){
+            0 .. row-this.rowIndex
+        }else{
+            row - this.rowIndex .. 0
+        }
+        val rt = mutableListOf<CellAddress>()
+        for (x in colRange){
+            rt.add(this.increaseRowBy(x))
+        }
+        return rt
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other is CellAddress) {
             return this.colIndex == other.colIndex && this.rowIndex == other.rowIndex && this.isColLocked == other.isColLocked && this.isRowLocked == other.isRowLocked

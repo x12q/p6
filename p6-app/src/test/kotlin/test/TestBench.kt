@@ -36,8 +36,18 @@ class TestBench {
             param = Pair(param.second,param.first+param.second)
         }
     }
+
+    fun generateNumbers(start:Double,count:Int):List<Double>{
+        val l = mutableListOf<Double>()
+        var x = 0
+        while(x<count){
+            l.add(start+0)
+            x++
+        }
+        return l
+    }
     @Test
     fun t(){
-
+        println(generateNumbers(1.2,10))
     }
 }

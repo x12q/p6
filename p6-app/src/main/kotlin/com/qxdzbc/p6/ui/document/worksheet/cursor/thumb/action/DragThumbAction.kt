@@ -11,6 +11,6 @@ interface DragThumbAction {
     fun drag_forTest(wbws: WbWsSt, cellAddress: CellAddress)
     fun drag(wbws: WbWsSt, mouseWindowOffset:Offset)
 
-    fun endDrag_forTest(wbws: WbWsSt, cellAddress: CellAddress)
-    fun endDrag(wbws: WbWsSt, mouseWindowOffset:Offset)
+    fun endDrag_forTest(wbws: WbWsSt, cellAddress: CellAddress,isCtrPressed:Boolean)
+    fun endDrag(wbws: WbWsSt, mouseWindowOffset:Offset, isCtrPressed:Boolean)
 }

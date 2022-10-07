@@ -35,10 +35,7 @@ import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelector
 import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelectorActionImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorActionImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.DragThumbAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.DragThumbActionImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.ThumbAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.ThumbActionImp
+import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.*
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerActionImp
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
@@ -49,6 +46,10 @@ import dagger.Binds
 
 @dagger.Module
 interface WorksheetActionModule {
+
+    @Binds
+    @P6Singleton
+    fun EndThumbDragAction(i:EndThumbDragActionImp):EndThumbDragAction
 
     @Binds
     @P6Singleton

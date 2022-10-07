@@ -99,4 +99,7 @@ interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
     }
 
     fun isSame(other: CellAddress): Boolean
+
+    fun generateCellSequenceToCol(col:Int):List<CellAddress>
+    fun generateCellSequenceToRow(row:Int):List<CellAddress>
 }

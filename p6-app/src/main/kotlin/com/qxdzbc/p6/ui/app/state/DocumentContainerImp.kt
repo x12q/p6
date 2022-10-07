@@ -281,6 +281,15 @@ class DocumentContainerImp @Inject constructor(
         return this.getCellRs(wbKey, wsName, cellAddress).component1()
     }
 
+    override fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
+        val rt= this.getCellMsRs(wbKeySt, wsNameSt, cellAddress).component1()?.value
+        return rt
+    }
+
+    override fun getCell(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
+        return this.getCell(wbwsSt.wbKeySt,wbwsSt.wsNameSt,cellAddress)
+    }
+
     override fun getCell(cellId: CellIdDM): Cell? {
         return getCellRs(cellId).component1()
     }
