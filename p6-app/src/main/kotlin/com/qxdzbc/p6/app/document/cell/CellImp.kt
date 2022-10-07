@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.document.cell
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toModel
@@ -96,7 +97,12 @@ data class CellImp(
     }
 
     override fun setContent(content: CellContent): Cell {
-        return this.copy(content = content)
+        val newContent = CellContentImp(
+            cellValueMs = ms(content.currentCellValue),
+            exUnit = content.exUnit
+        )
+//        return this.copy(content = content)
+        return this.copy(content = newContent)
     }
 
     override fun setCellValue(i: CellValue): Cell {

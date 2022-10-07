@@ -100,6 +100,20 @@ interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
 
     fun isSame(other: CellAddress): Boolean
 
-    fun generateCellSequenceToCol(col:Int):List<CellAddress>
-    fun generateCellSequenceToRow(row:Int):List<CellAddress>
+    /**
+     * Generate a sequence of cell address starting from this cell to the cell at:
+     *  - row == this cell's row
+     *  - col == [col]
+     *  @param col target column
+     *  @param includeThis include this cell in the result or not
+     */
+    fun generateCellSequenceToCol(col:Int,includeThis:Boolean=true):List<CellAddress>
+    /**
+     * Generate a sequence of cell address starting from this cell to the cell at:
+     *  - col == this cell's col
+     *  - row == [row]
+     *  @param row target column
+     *  @param includeThis include this cell in the result or not
+     */
+    fun generateCellSequenceToRow(row:Int,includeThis:Boolean=true):List<CellAddress>
 }

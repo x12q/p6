@@ -61,6 +61,8 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
+import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellActionImp
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleter
@@ -276,6 +278,7 @@ interface P6Component {
     fun thumbStateFactory(): ThumbStateFactory
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
+    fun copyCellAction(): CopyCellAction
 
     @Component.Builder
     interface Builder {

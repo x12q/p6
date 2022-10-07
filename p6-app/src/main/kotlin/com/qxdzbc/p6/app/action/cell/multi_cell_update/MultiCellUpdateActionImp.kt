@@ -42,7 +42,7 @@ class MultiCellUpdateActionImp @Inject constructor(
 
     override fun updateMultiCell(request: MultiCellUpdateRequest, publishErr: Boolean): Rse<Unit> {
         val wsStateMsRs = sc.getWsStateMsRs(request)
-        val rt = updateMultiCell(wsStateMsRs,request.cellUpdateList)
+        val rt = this.updateMultiCell(wsStateMsRs,request.cellUpdateList)
         rt.onFailure {
             if (publishErr) {
                 errorRouter.publishToWindow(it, request.wbKey)
