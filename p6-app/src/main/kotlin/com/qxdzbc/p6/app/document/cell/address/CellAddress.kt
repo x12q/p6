@@ -29,6 +29,8 @@ interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
     val colCR:CR
     val rowCR:CR
 
+    fun nextLockState():CellAddress
+
     val isColLocked: Boolean
     fun setLockCol(i:Boolean):CellAddress
     fun unlockCol():CellAddress

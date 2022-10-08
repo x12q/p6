@@ -8,6 +8,8 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
 interface RangeAddress : RangeConstraint, Shiftable {
 
+    fun nextLockState():RangeAddress
+
     val cellIterator: Iterator<CellAddress>
 
     val label: String

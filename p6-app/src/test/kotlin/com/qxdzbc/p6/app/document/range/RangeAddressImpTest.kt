@@ -9,6 +9,14 @@ import kotlin.test.*
 
 class RangeAddressImpTest {
     @Test
+    fun nextLockState(){
+        val r = RangeAddress("A1:C3")
+        val r2 = r.nextLockState()
+        assertEquals(r.topLeft.nextLockState(),r2.topLeft)
+        assertEquals(r.botRight.nextLockState(),r2.botRight)
+    }
+
+    @Test
     fun getCellCycle() {
         val rangeAddr = RangeAddress("C5:G13")
         val r = rangeAddr

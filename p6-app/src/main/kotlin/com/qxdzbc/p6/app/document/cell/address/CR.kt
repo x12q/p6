@@ -38,6 +38,8 @@ data class CR(
         }
     }
 
+    val isNotLocked get()=!isLocked
+
     fun lock():CR{
         return this.copy(isLocked = true)
     }

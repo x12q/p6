@@ -9,6 +9,11 @@ import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCell
 interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorAction {
 
     /**
+     * cycle lock state of the cell/range address at the cursor position
+     */
+//    fun cycleLockState()
+
+    /**
      * Focus on the cell editor
      */
     fun focus()

@@ -20,6 +20,21 @@ data class CellAddressImp constructor(
 
     override val colIndex: Int = colCR.n
     override val rowIndex: Int = rowCR.n
+
+    override fun nextLockState(): CellAddress {
+        if(this.colCR.isLocked && this.rowCR.isLocked){
+            return this.copy(colCR = colCR.unlock())
+        }else if(this.colCR.isNotLocked && this.rowCR.isNotLocked){
+            return this.copy(colCR = colCR.lock(), rowCR=rowCR.lock())
+        }else if(this.colCR.isLocked && this.rowCR.isNotLocked){
+            return this.copy(colCR = colCR.unlock())
+        }else if(this.colCR.isNotLocked && this.rowCR.isLocked){
+            return this.copy(colCR = colCR.lock(),rowCR=rowCR.unlock())
+        }else{
+            return this
+        }
+    }
+
     override val isColLocked: Boolean = colCR.isLocked
     override fun setLockCol(i: Boolean): CellAddress {
         val ccr = colCR.copy(isLocked = i)

@@ -73,6 +73,13 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     override val colRange: IntRange = topLeft.colIndex..botRight.colIndex
     override val rowRange: IntRange = topLeft.rowIndex..botRight.rowIndex
 
+    override fun nextLockState(): RangeAddress {
+        return this.copy(
+            topLeft = topLeft.nextLockState(),
+            botRight = botRight.nextLockState()
+        )
+    }
+
     override val cellIterator: Iterator<CellAddress>
         get() {
             return object : Iterator<CellAddress> {

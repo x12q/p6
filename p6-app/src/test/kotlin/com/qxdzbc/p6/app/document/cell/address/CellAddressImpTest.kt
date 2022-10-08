@@ -13,6 +13,30 @@ class CellAddressImpTest {
     }
 
     @Test
+    fun cycleLockState(){
+        val c = CellAddressImp(1,1)
+        assertTrue(c.colCR.isNotLocked)
+        assertTrue(c.rowCR.isNotLocked)
+
+        val c2 = c.nextLockState()
+        assertTrue(c2.colCR.isLocked)
+        assertTrue(c2.rowCR.isLocked)
+
+        val c3 = c2.nextLockState()
+        assertTrue(c3.colCR.isNotLocked)
+        assertTrue(c3.rowCR.isLocked)
+
+        val c4 = c3.nextLockState()
+        assertTrue(c4.colCR.isLocked)
+        assertTrue(c4.rowCR.isNotLocked)
+
+        val c5 = c4.nextLockState()
+        assertTrue(c5.colCR.isNotLocked)
+        assertTrue(c5.rowCR.isNotLocked)
+
+    }
+
+    @Test
     fun `generateCellSequenceToCol larger col`() {
         val col = e5.colIndex + 6
         val expectation = (e5.colIndex..col).map {
