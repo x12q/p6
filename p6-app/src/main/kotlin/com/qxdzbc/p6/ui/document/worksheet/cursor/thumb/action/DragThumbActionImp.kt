@@ -78,6 +78,11 @@ class DragThumbActionImp @Inject constructor(
                             .setMovingPoint(mouseWindowOffset)
                             .show()
                     )
+                ts.offsetNegate
+                // x: remove all selections from the current cursor
+                sc.getCursorStateMs(ts.cursorId)?.also { cursorMs->
+                    cursorMs.value = cursorMs.value.removeAllExceptMainCell()
+                }
             }
         }
     }

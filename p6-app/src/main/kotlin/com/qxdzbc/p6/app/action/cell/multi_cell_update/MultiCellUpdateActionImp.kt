@@ -77,7 +77,7 @@ class MultiCellUpdateActionImp @Inject constructor(
                 // x: update state obj
                 if (ws != wsStateMs.value.wsMs.value) {
                     wsStateMs.value.wsMs.value = ws
-                    wsStateMs.value = wsStateMs.value.refreshCellState()
+                    wsStateMs.value = wsStateMs.value.refresh()
                 }
                 sc.getWbStateMs(ws.wbKey)?.also {
                     it.value.wbMs.value = it.value.wb.reRun()

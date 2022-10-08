@@ -96,6 +96,7 @@ interface SubAppStateContainer {
     fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>?
     fun getCursorState(wbKey: WorkbookKey, wsName: String): CursorState?
     fun getCursorStateMs(wbws: WbWs): Ms<CursorState>?
+    fun getCursorStateMs(wbwsSt: WbWsSt): Ms<CursorState>?
     fun getCursorState(wbws: WbWs): CursorState?
 
     /**

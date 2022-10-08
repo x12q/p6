@@ -88,14 +88,8 @@ data class ThumbStateImp @AssistedInject constructor(
     }
 
     override fun getTopBotCells(): Pair<CellAddress, CellAddress>? {
-        val relevantCells = getRelevantCells()
-        if (relevantCells.isNotEmpty()) {
-            val range = RangeAddress(relevantCells.keys.toList())
-            val topCell = range.topLeft
-            val botCell = range.botRight
-            return topCell to botCell
-        } else {
-            return null
+        return selectedRange?.let {
+            it.topLeft to it.botRight
         }
     }
 
@@ -110,6 +104,17 @@ data class ThumbStateImp @AssistedInject constructor(
         }?:(mainCell to mainCell)
         return rt
     }
+
+    override val selectedRange: RangeAddress?
+        get() {
+            val relevantCells = getRelevantCells()
+            if (relevantCells.isNotEmpty()) {
+                val range = RangeAddress(relevantCells.keys.toList())
+                return range
+            } else {
+                return null
+            }
+        }
 
     override val selectedRangeSizeOrZero: DpSize get() = selectedRangeSize ?: DpSize.Zero
 

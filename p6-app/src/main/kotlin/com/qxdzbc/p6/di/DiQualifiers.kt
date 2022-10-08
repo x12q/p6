@@ -4,6 +4,19 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention
+annotation class PartialTreeExtractor
+
+@Qualifier
+@Retention
+annotation class PartialVisitor
+
+@Qualifier
+@Retention
+annotation class PartialTranslator
+
+
+@Qualifier
+@Retention
 annotation class NullInt
 
 @Qualifier

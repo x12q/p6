@@ -1,13 +1,11 @@
 package test
-import com.qxdzbc.p6.bench.n2
-import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.CharCommandsVisitor
-import org.apache.commons.text.diff.CommandVisitor
-import org.apache.commons.text.diff.StringsComparator
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
+import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.translator.partial_extrator.PartialJvmFormulaVisitor
+import com.qxdzbc.p6.translator.partial_extrator.PartialFormulaTreeExtractor
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 
 class TestBench {
@@ -37,17 +35,15 @@ class TestBench {
         }
     }
 
-    fun generateNumbers(start:Double,count:Int):List<Double>{
-        val l = mutableListOf<Double>()
-        var x = 0
-        while(x<count){
-            l.add(start+0)
-            x++
-        }
-        return l
-    }
     @Test
     fun t(){
-        println(generateNumbers(1.2,10))
+        val formula = "=F1(A1+A2"
+        val te = PartialFormulaTreeExtractor()
+        val tree = te.extractTree(formula)
+        val visitor = PartialJvmFormulaVisitor()
+
+        assertTrue(tree is Ok)
+        val out = visitor.visit(tree.value)
+        println(out)
     }
 }

@@ -65,6 +65,7 @@ import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellActionImp
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
+import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleter
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
@@ -279,6 +280,8 @@ interface P6Component {
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
     fun copyCellAction(): CopyCellAction
+    @PartialTranslator
+    fun partialTranslator(): P6Translator<String?>
 
     @Component.Builder
     interface Builder {

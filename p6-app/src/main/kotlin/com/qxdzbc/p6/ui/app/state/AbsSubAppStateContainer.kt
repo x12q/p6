@@ -24,6 +24,10 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
 
+    override fun getCursorStateMs(wbwsSt: WbWsSt): Ms<CursorState>? {
+        return this.getWsState(wbwsSt)?.cursorStateMs
+    }
+
     override fun getWindowStateByIdRs(windowId:String): Rse<WindowState> {
         return getWindowStateMsByIdRs(windowId).map { it.value }
     }
