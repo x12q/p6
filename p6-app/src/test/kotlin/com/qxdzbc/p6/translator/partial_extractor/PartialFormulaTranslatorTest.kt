@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.translator.jvm_translator
+package com.qxdzbc.p6.translator.partial_extractor
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -31,17 +31,27 @@ internal class PartialFormulaTranslatorTest : BaseTest() {
             "=1*((\$A\$3))" to "\$A\$3",
             "=F2(1+2+A1:B33" to "A1:B33",
             "=F2(1+2+\$A1:B33" to "\$A1:B33",
+            "=F2(\"A3\"" to null,
+            "=F2(" to null,
+            "=F2()" to null,
+            "=F2(\"qwe\"+A2" to "A2",
+            "=F2(A" to null,
+
         )
         for ((i, o) in m) {
             assertEquals(Ok(o), translator.translate(i))
         }
+    }
 
+    @Test
+    fun translator_fail() {
         val fail = listOf(
             "A3",
             "1+A3",
             "1+ \"A3\"",
+
         )
-        for (f in fail){
+        for (f in fail) {
             assertTrue(translator.translate(f) is Err)
         }
     }

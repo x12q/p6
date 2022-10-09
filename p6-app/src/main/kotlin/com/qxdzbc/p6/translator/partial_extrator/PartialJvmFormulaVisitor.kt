@@ -58,7 +58,10 @@ class PartialJvmFormulaVisitor @Inject constructor() : FormulaBaseVisitor<String
     override fun visitFunctionCall(ctx: FormulaParser.FunctionCallContext?): String? {
         val functionName = ctx?.functionName()?.text
         if (functionName != null) {
-            return this.visit(ctx.expr().lastOrNull())
+            return ctx.expr().lastOrNull()?.let{
+             this.visit(it)
+            }
+
         } else {
             return null
         }

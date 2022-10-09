@@ -11,6 +11,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 import com.qxdzbc.p6.app.command.Commands
@@ -35,7 +36,9 @@ class CellEditorActionImp @Inject constructor(
     @StateContainerMs
     private val stateContMs: Ms<StateContainer>,
     private val textDiffer: TextDiffer,
+    val cycleLockStateAct: CycleFormulaLockStateAction,
 ) : CellEditorAction,
+    CycleFormulaLockStateAction by cycleLockStateAct,
     MakeCellEditorDisplayTextAction by makeDisplayText,
     OpenCellEditorAction by openCellEditor {
 
@@ -224,6 +227,10 @@ class CellEditorActionImp @Inject constructor(
         if (editorState.isActive) {
             if (keyEvent.type == KeyEventType.KeyDown) {
                     when (keyEvent.key) {
+                        Key.F4 ->{
+                            cycleFormulaLockState()
+                            return true
+                        }
                         Key.Enter -> {
                             if (keyEvent.isAltPressedAlone) {
                                 val currentText = editorState.currentTextField

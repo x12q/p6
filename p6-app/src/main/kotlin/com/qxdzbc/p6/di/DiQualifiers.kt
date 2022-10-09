@@ -14,6 +14,14 @@ annotation class PartialVisitor
 @Retention
 annotation class PartialTranslator
 
+@Qualifier
+@Retention
+annotation class CellRangeVisitor_Qualifier
+
+@Qualifier
+@Retention
+annotation class CellRangeExtractor_Qualifier
+
 
 @Qualifier
 @Retention

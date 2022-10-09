@@ -3,15 +3,11 @@ package com.qxdzbc.p6.ui.app.cell_editor.actions
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 
-interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorAction {
-
-    /**
-     * cycle lock state of the cell/range address at the cursor position
-     */
-//    fun cycleLockState()
+interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorAction, CycleFormulaLockStateAction {
 
     /**
      * Focus on the cell editor

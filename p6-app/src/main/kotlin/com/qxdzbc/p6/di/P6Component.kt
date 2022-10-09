@@ -62,11 +62,12 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
-import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellActionImp
+import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleter
+import com.qxdzbc.p6.translator.cell_range_extractor.CellRangeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -75,7 +76,6 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.DragThumbAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.EndThumbDragAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.EndThumbDragActionImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
@@ -282,6 +282,9 @@ interface P6Component {
     fun copyCellAction(): CopyCellAction
     @PartialTranslator
     fun partialTranslator(): P6Translator<String?>
+    @CellRangeExtractor_Qualifier
+    fun cellRangeExtractor(): CellRangeExtractor
+    fun cycleFormulaLockStateAct(): CycleFormulaLockStateAction
 
     @Component.Builder
     interface Builder {
