@@ -25,12 +25,16 @@ interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorActi
     fun closeEditor()
 
     /**
-     * update the text in the cell editor
+     * **For testing only.**
+     * Be careful when using this function. It directly updates the text content and may erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [updateTextField] in the app.
      */
     fun updateText(newText: String)
 
     /**
-     * update the text in the cell editor
+     * This function does the following:
+     *  - update the text field displayed by the cell editor
+     *  - point the new text to the correct location which could be either the current text, or the temp text, depending on the current state of the state editor. If the range selector is activated, the new text will be stored in the temp text, and only when the range selector is deactivated, the temp text is moved to the current text.
+     *  - update the internal parse tree of cell editor
      */
     fun updateTextField(newTextField: TextFieldValue)
 

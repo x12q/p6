@@ -16,6 +16,10 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.p6.di.state.ws.cursor.DefaultCursorParseTree
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
 
@@ -35,11 +39,23 @@ data class CellEditorStateImp @Inject constructor(
     override val rangeSelectorCursorIdSt: St<@JvmSuppressWildcards CursorStateId>? = null,
     @NullTextFieldValue
     override val rangeSelectorTextField: TextFieldValue? = null,
+    @DefaultCursorParseTree
+    override val parseTreeMs:Ms<ParseTree?> = StateUtils.ms(null)
 ) : CellEditorState {
     companion object {
         fun defaultForTest(): CellEditorStateImp {
             return CellEditorStateImp(null, false.toMs())
         }
+    }
+
+    override val parseTree: ParseTree? get() = parseTreeMs.value
+    override fun setParseTree(i: ParseTree?): CellEditorState {
+        this.parseTreeMs.value = i
+        return this
+    }
+
+    override fun clearAll(): CellEditorState {
+        return this.clearAllText().setParseTree(null)
     }
 
     override fun stopGettingRangeAddress(): CellEditorState {

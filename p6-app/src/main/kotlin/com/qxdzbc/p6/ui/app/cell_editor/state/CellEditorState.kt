@@ -5,10 +5,22 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import org.antlr.v4.runtime.tree.ParseTree
 
 interface CellEditorState {
 
+    val parseTreeMs:Ms<ParseTree?>
+    val parseTree: ParseTree?
+    fun setParseTree(i: ParseTree?): CellEditorState
+
+    /**
+     * return this cell ceditor to empty state, in which:
+     *  - empty text
+     *  - null parse tree
+     */
+    fun clearAll():CellEditorState
     /**
      * move [rangeSelectorTextField]'s content to [currentTextField], then nullify [rangeSelectorTextField]
      */

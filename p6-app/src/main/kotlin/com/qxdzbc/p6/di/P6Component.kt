@@ -68,6 +68,7 @@ import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeA
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleter
 import com.qxdzbc.p6.translator.cell_range_extractor.CellRangeExtractor
+import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -280,11 +281,13 @@ interface P6Component {
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
     fun copyCellAction(): CopyCellAction
-    @PartialTranslator
-    fun partialTranslator(): P6Translator<String?>
+//    @PartialTranslator
+//    fun partialTranslator(): P6Translator<String?>
     @CellRangeExtractor_Qualifier
     fun cellRangeExtractor(): CellRangeExtractor
     fun cycleFormulaLockStateAct(): CycleFormulaLockStateAction
+    @PartialTreeExtractor
+    fun partialTreeExtractor(): TreeExtractor
 
     @Component.Builder
     interface Builder {

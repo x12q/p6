@@ -1,6 +1,8 @@
 package com.qxdzbc.p6.di.state.ws
 
 import javax.inject.Qualifier
+
+
 @Qualifier
 @Retention
 annotation class DefaultRowRangeQualifier

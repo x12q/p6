@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import org.mockito.kotlin.mock
 import test.TestUtils.compare2ListIgnoreOrder
@@ -25,7 +26,7 @@ internal class CursorStateImpTest {
             "K12","L12", "X12",
             "F1","F2","E1","E2",
         ).map{CellAddress(it)}
-        val (rr, unUsed) = CursorStateImp.exhaustiveMergeCell(cells)
+        val (rr, unUsed) = RangeAddresses.exhaustiveMergeCell(cells)
         assertTrue { compare2ListIgnoreOrder(
             listOf("C2:C4","A1:A3","K12:L12","E1:F2").map{ RangeAddress(it) },
             rr) }
@@ -45,7 +46,7 @@ internal class CursorStateImpTest {
         val expect = listOf(
             "D8:G13", "J9:K15",
         ).map { RangeAddress(it) }
-        val rs = CursorStateImp.exhaustiveMergeRanges(l1)
+        val rs = RangeAddresses.exhaustiveMergeRanges(l1)
         assertEquals(2, rs.size)
         assertTrue { rs.containsAll(expect) }
     }
@@ -58,7 +59,7 @@ internal class CursorStateImpTest {
             RangeAddress("C3:C9"),
             RangeAddress("C11:C15")
         )
-        val (cellWasConsumed,l2) = CursorStateImp.exhaustiveMergeRanges(CellAddress("C10"), l1)
+        val (cellWasConsumed,l2) = RangeAddresses.exhaustiveMergeRanges(CellAddress("C10"), l1)
 
         assertTrue { cellWasConsumed }
         assertEquals(listOf(

@@ -11,6 +11,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressProto
 import com.qxdzbc.p6.ui.common.P6R
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 
 
 object RangeAddresses {
@@ -168,5 +169,141 @@ object RangeAddresses {
             address1 = this.topLeft.toModel(),
             address2 =  this.botRight.toModel()
         )
+    }
+
+    internal fun exhaustiveMergeCellsIntoOneRange(
+        cells: List<CellAddress>,
+        rangeAddress: RangeAddress
+    ): Pair<RangeAddress, List<CellAddress>> {
+        val cRanges = cells.map { RangeAddress(it) }
+        val (resultRange, unUsedRanges) = exhaustiveMergeRangesIntoOneRange(cRanges, rangeAddress)
+        return Pair(
+            resultRange,
+            unUsedRanges.map { it.topLeft }
+        )
+    }
+
+
+
+    /**
+     * attempt to exhaustively merge a list of ranges into one range
+     */
+    internal fun exhaustiveMergeRangesIntoOneRange(
+        ranges: List<RangeAddress>,
+        rangeAddress: RangeAddress
+    ): Pair<RangeAddress, List<RangeAddress>> {
+        var iterRange = rangeAddress
+        val unUsedRanges = mutableListOf<RangeAddress>()
+        var candidateRanges = ranges
+        var merged = false
+        while (true) {
+            for (range in candidateRanges) {
+                val tr = iterRange.strictMerge(range)
+                if (tr != null) {
+                    iterRange = tr
+                    merged = true
+                } else {
+                    unUsedRanges.add(range)
+                }
+            }
+            if (!merged) {
+                break
+            }
+            candidateRanges = unUsedRanges.map { it }
+            unUsedRanges.clear()
+            merged = false
+        }
+        return Pair(iterRange, unUsedRanges)
+    }
+
+    internal fun exhaustiveMergeCell(cellList: List<CellAddress>): Pair<List<RangeAddress>, List<CellAddress>> {
+        val r = exhaustiveMergeRanges(cellList.map { RangeAddress(it) })
+        val unUsedCells = r.filter { it.isCell() }.map { it.topLeft }
+        val resultRanges = r.filter { !it.isCell() }
+        return Pair(resultRanges, unUsedCells)
+    }
+
+    internal fun exhaustiveMergeCellsToRanges(
+        cells: List<CellAddress>,
+        ranges: List<RangeAddress>
+    ): Pair<List<RangeAddress>, List<CellAddress>> {
+        val cellRanges = cells.map { RangeAddress(it) }
+        val rs = exhaustiveMergeRanges(ranges + cellRanges)
+        val unUsedCell = rs.filter { it.isCell() }.map { it.topLeft }
+        val newRanges = rs.filter { it.isCell().not() }
+        return Pair(newRanges, unUsedCell)
+    }
+
+    /**
+     * attempt to merge a cell into a list of range.
+     * If the cell is merged into a range in the list, proceed to exhaustively merge all the range if possible.
+     * @return a list of ranges that cannot be further merged
+     */
+    internal fun exhaustiveMergeRanges(
+        cellAddress: CellAddress,
+        fragRanges: List<RangeAddress>
+    ): Pair<Boolean, List<RangeAddress>> {
+        val expandedRangeList = mutableListOf<RangeAddress>()
+        var ignoreTheRest = false
+        var cellWasConsumed = false
+        for (range in fragRanges) {
+            if (!ignoreTheRest) {
+                val expandedRange = range.strictMerge(cellAddress)
+                if (expandedRange != null) {
+                    expandedRangeList.add(expandedRange)
+                    cellWasConsumed = true
+                    ignoreTheRest = true
+                } else {
+                    expandedRangeList.add(range)
+                }
+            } else {
+                expandedRangeList.add(range)
+            }
+        }
+        return Pair(cellWasConsumed, exhaustiveMergeRanges(expandedRangeList))
+    }
+
+    /**
+     * exhaustively merge a list of range.
+     * @return a list of ranges that cannot be further merged
+     */
+    fun exhaustiveMergeRanges(rangeList: Collection<RangeAddress>): List<RangeAddress> {
+        var l = rangeList
+        while (true) {
+            val newL = exhaustiveMergeRange_OneIteration(l.toList())
+            if (l.size == newL.size) {
+                break
+            } else {
+                l = newL
+            }
+        }
+        return l.toList()
+    }
+
+    private fun exhaustiveMergeRange_OneIteration(rangeList: List<RangeAddress>): List<RangeAddress> {
+        if (rangeList.isEmpty() || rangeList.size == 1) {
+            return rangeList
+        } else {
+            val l = mutableListOf<RangeAddress>()
+            val used = mutableSetOf<RangeAddress>()
+            for ((x, r1) in rangeList.withIndex()) {
+                var merged = false
+                for (y in x + 1 until rangeList.size) {
+                    val r2 = rangeList[y]
+                    val r = r1.strictMerge(r2)
+                    if (r != null) {
+                        l.add(r)
+                        used.add(r1)
+                        used.add(r2)
+                        merged = true
+                        break
+                    }
+                }
+                if (!merged && r1 !in used) {
+                    l.add(r1)
+                }
+            }
+            return l
+        }
     }
 }

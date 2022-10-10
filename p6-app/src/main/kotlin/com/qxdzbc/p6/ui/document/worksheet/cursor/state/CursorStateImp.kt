@@ -15,6 +15,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.CellEditorStateMs
 import com.qxdzbc.p6.di.state.ws.*
+import com.qxdzbc.p6.di.state.ws.cursor.DefaultCursorParseTree
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.common.P6R
@@ -23,6 +24,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import org.antlr.v4.runtime.tree.ParseTree
 
 
 data class CursorStateImp @AssistedInject constructor(
@@ -32,7 +34,6 @@ data class CursorStateImp @AssistedInject constructor(
     override val cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
     @Assisted("3")
     override val thumbStateMs: Ms<ThumbState>,
-//    @DefaultTopLeftCellAddressMs
     @Assisted("4")
     val mainCellMs: Ms<CellAddress> = ms(CellAddresses.A1),
     //=============================================//
@@ -44,11 +45,11 @@ data class CursorStateImp @AssistedInject constructor(
     override val fragmentedCells: Set<@JvmSuppressWildcards CellAddress> = emptySet(),
     @EmptyRangeAddressSet
     override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress> = emptySet(),
-
     @DefaultRangeConstraint
     override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
     @DefaultClipBoardRange
     override val clipboardRange: RangeAddress = RangeAddresses.InvalidRange,
+
 ) : BaseCursorState() {
 
     override val isEditing: Boolean by isEditingMs
@@ -94,140 +95,6 @@ data class CursorStateImp @AssistedInject constructor(
                 thumbStateMs = thumbStateMs
             )
         }
-
-        internal fun exhaustiveMergeCellsIntoOneRange(
-            cells: List<CellAddress>,
-            rangeAddress: RangeAddress
-        ): Pair<RangeAddress, List<CellAddress>> {
-            val cRanges = cells.map { RangeAddress(it) }
-            val (resultRange, unUsedRanges) = exhaustiveMergeRangesIntoOneRange(cRanges, rangeAddress)
-            return Pair(
-                resultRange,
-                unUsedRanges.map { it.topLeft }
-            )
-        }
-
-        /**
-         * attempt to exhaustively merge a list of ranges into one range
-         */
-        internal fun exhaustiveMergeRangesIntoOneRange(
-            ranges: List<RangeAddress>,
-            rangeAddress: RangeAddress
-        ): Pair<RangeAddress, List<RangeAddress>> {
-            var iterRange = rangeAddress
-            val unUsedRanges = mutableListOf<RangeAddress>()
-            var candidateRanges = ranges
-            var merged = false
-            while (true) {
-                for (range in candidateRanges) {
-                    val tr = iterRange.strictMerge(range)
-                    if (tr != null) {
-                        iterRange = tr
-                        merged = true
-                    } else {
-                        unUsedRanges.add(range)
-                    }
-                }
-                if (!merged) {
-                    break
-                }
-                candidateRanges = unUsedRanges.map { it }
-                unUsedRanges.clear()
-                merged = false
-            }
-            return Pair(iterRange, unUsedRanges)
-        }
-
-        internal fun exhaustiveMergeCell(cellList: List<CellAddress>): Pair<List<RangeAddress>, List<CellAddress>> {
-            val r = exhaustiveMergeRanges(cellList.map { RangeAddress(it) })
-            val unUsedCells = r.filter { it.isCell() }.map { it.topLeft }
-            val resultRanges = r.filter { !it.isCell() }
-            return Pair(resultRanges, unUsedCells)
-        }
-
-        internal fun exhaustiveMergeCellsToRanges(
-            cells: List<CellAddress>,
-            ranges: List<RangeAddress>
-        ): Pair<List<RangeAddress>, List<CellAddress>> {
-            val cellRanges = cells.map { RangeAddress(it) }
-            val rs = exhaustiveMergeRanges(ranges + cellRanges)
-            val unUsedCell = rs.filter { it.isCell() }.map { it.topLeft }
-            val newRanges = rs.filter { it.isCell().not() }
-            return Pair(newRanges, unUsedCell)
-        }
-
-        /**
-         * attempt to merge a cell into a list of range.
-         * If the cell is merged into a range in the list, proceed to exhaustively merge all the range if possible.
-         * @return a list of ranges that cannot be further merged
-         */
-        internal fun exhaustiveMergeRanges(
-            cellAddress: CellAddress,
-            fragRanges: List<RangeAddress>
-        ): Pair<Boolean, List<RangeAddress>> {
-            val expandedRangeList = mutableListOf<RangeAddress>()
-            var ignoreTheRest = false
-            var cellWasConsumed = false
-            for (range in fragRanges) {
-                if (!ignoreTheRest) {
-                    val expandedRange = range.strictMerge(cellAddress)
-                    if (expandedRange != null) {
-                        expandedRangeList.add(expandedRange)
-                        cellWasConsumed = true
-                        ignoreTheRest = true
-                    } else {
-                        expandedRangeList.add(range)
-                    }
-                } else {
-                    expandedRangeList.add(range)
-                }
-            }
-            return Pair(cellWasConsumed, exhaustiveMergeRanges(expandedRangeList))
-        }
-
-        /**
-         * exhaustively merge a list of range.
-         * @return a list of ranges that cannot be further merged
-         */
-        fun exhaustiveMergeRanges(rangeList: Collection<RangeAddress>): List<RangeAddress> {
-            var l = rangeList
-            while (true) {
-                val newL = exhaustiveMergeRange_OneIteration(l.toList())
-                if (l.size == newL.size) {
-                    break
-                } else {
-                    l = newL
-                }
-            }
-            return l.toList()
-        }
-
-        private fun exhaustiveMergeRange_OneIteration(rangeList: List<RangeAddress>): List<RangeAddress> {
-            if (rangeList.isEmpty() || rangeList.size == 1) {
-                return rangeList
-            } else {
-                val l = mutableListOf<RangeAddress>()
-                val used = mutableSetOf<RangeAddress>()
-                for ((x, r1) in rangeList.withIndex()) {
-                    var merged = false
-                    for (y in x + 1 until rangeList.size) {
-                        val r2 = rangeList[y]
-                        val r = r1.strictMerge(r2)
-                        if (r != null) {
-                            l.add(r)
-                            used.add(r1)
-                            used.add(r2)
-                            merged = true
-                            break
-                        }
-                    }
-                    if (!merged && r1 !in used) {
-                        l.add(r1)
-                    }
-                }
-                return l
-            }
-        }
     }
 
     override val isEditingMs: St<Boolean> get() = cellEditorState.isActiveMs
@@ -247,9 +114,6 @@ data class CursorStateImp @AssistedInject constructor(
     override var id: CursorStateId by idMs
 
     override val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorsMapSt
-//    override val thumbStateMs: Ms<ThumbState>
-//        get() = TODO("Not yet implemented")
-//
     override var thumbState: ThumbState by thumbStateMs
 
     override fun up(): CursorState {

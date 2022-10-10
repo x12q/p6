@@ -3,6 +3,8 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.state
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddresses.exhaustiveMergeRanges
+import org.antlr.v4.runtime.tree.ParseTree
 
 /**
  * This contains default function implementation for all CursorState implementation.
@@ -21,7 +23,7 @@ abstract class BaseCursorState : CursorState {
 
     override fun mergeAllIntoOne(): RangeAddress? {
         val cellAsRanges = this.fragmentedCells.map { RangeAddress(it) }
-        val mergedRanges = CursorStateImp.exhaustiveMergeRanges(this.allRanges + cellAsRanges)
+        val mergedRanges = exhaustiveMergeRanges(this.allRanges + cellAsRanges)
         if (mergedRanges.size == 1) {
             return mergedRanges[0]
         } else {

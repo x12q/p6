@@ -5,15 +5,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import test.BaseTest
-import test.test_implementation.MockPKeyEvent
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.*
 
 internal class CellEditorActionImpTest : BaseTest() {
 
-    lateinit var actions: CellEditorAction
+    lateinit var act: CellEditorAction
     lateinit var wbws: WbWsSt
     val editorStateMs get() = ts.stateCont.cellEditorStateMs
     val editorState get() = editorStateMs.value
@@ -21,37 +17,36 @@ internal class CellEditorActionImpTest : BaseTest() {
     @BeforeTest
     override fun b() {
         super.b()
-        actions = ts.p6Comp.cursorEditorAction()
+        act = ts.p6Comp.cursorEditorAction()
         wbws = ts.wb1.getWs(ts.wsn1)!!
-        actions.openCellEditor(wbws)
+        act.openCellEditor(wbws)
     }
 
     @AfterTest
     fun afterTes() {
-        actions.closeEditor()
+        act.closeEditor()
         ts.stateCont.cellEditorStateMs.value = editorState.clearAllText()
     }
 
     fun testBrace(b1:String, b2:String) {
         val pair = "${b1}${b2}"
-        actions.updateTextField(TextFieldValue(b1, TextRange(1)))
+        act.updateTextField(TextFieldValue(b1, TextRange(1)))
         assertEquals(pair, editorState.currentText)
         assertEquals(pair, editorState.displayText)
         assertEquals(pair, editorState.displayTextField.text)
         assertEquals(TextRange(1), editorState.currentTextField.selection)
 
         editorStateMs.value = editorState.clearAllText()
-        actions.updateTextField(TextFieldValue("abc",TextRange(3)))
-        actions.updateTextField(TextFieldValue("abc${b1}",TextRange(4)))
+        act.updateTextField(TextFieldValue("abc",TextRange(3)))
+        act.updateTextField(TextFieldValue("abc${b1}",TextRange(4)))
         assertEquals("abc${pair}", editorState.currentText)
         assertEquals("abc${pair}", editorState.displayText)
         assertEquals("abc${pair}", editorState.displayTextField.text)
         assertEquals(TextRange(4), editorState.currentTextField.selection)
 
-
         editorStateMs.value = editorState.clearAllText()
-        actions.updateTextField(TextFieldValue("abc12345",TextRange(8)))
-        actions.updateTextField(TextFieldValue("abc1${b1}45",TextRange(5)))
+        act.updateTextField(TextFieldValue("abc12345",TextRange(8)))
+        act.updateTextField(TextFieldValue("abc1${b1}45",TextRange(5)))
         assertEquals("abc1${pair}45", editorState.currentText)
         assertEquals("abc1${pair}45", editorState.displayText)
         assertEquals("abc1${pair}45", editorState.displayTextField.text)
@@ -63,5 +58,50 @@ internal class CellEditorActionImpTest : BaseTest() {
         testBrace("(",")")
         testBrace("[","]")
         testBrace("{","}")
+    }
+
+    @Test
+    fun updateTextField(){
+        assertNull(sc.cellEditorState.parseTree)
+        act.updateText("")
+        assertNull(sc.cellEditorState.parseTree)
+        act.updateText("=")
+        val pt1 = sc.cellEditorState.parseTree
+        assertNotNull(pt1)
+        act.updateText("=F1(A1)")
+        val pt2 = sc.cellEditorState.parseTree
+        assertNotNull(pt2)
+        assertNotEquals(pt1,pt2)
+    }
+
+    @Test
+    fun closeEditor(){
+        // x: pre conditions
+        act.updateText("=F1(A1)")
+        assertNotNull(sc.cellEditorState.parseTree)
+        assertTrue(sc.cellEditorState.currentText.isNotEmpty())
+        assertTrue(sc.cellEditorState.displayText.isNotEmpty())
+        assertTrue(sc.cellEditorState.currentTextField.text.isNotEmpty())
+        // x: act
+        act.closeEditor()
+        // x: post conditions
+        assertNull(sc.cellEditorState.parseTree)
+        assertTrue(sc.cellEditorState.currentText.isEmpty())
+        assertTrue(sc.cellEditorState.displayText.isEmpty())
+        assertTrue(sc.cellEditorState.currentTextField.text.isEmpty())
+    }
+
+    @Test
+    fun openEditor(){
+        // x: pre conditions
+        act.closeEditor()
+        assertNull(sc.cellEditorState.parseTree)
+        assertTrue(sc.cellEditorState.currentText.isEmpty())
+        assertTrue(sc.cellEditorState.displayText.isEmpty())
+        assertTrue(sc.cellEditorState.currentTextField.text.isEmpty())
+        // x: act
+        act.openCellEditor(wbws)
+        // x: post conditions
+
     }
 }

@@ -1,12 +1,12 @@
 package com.qxdzbc.p6.ui.app.cell_editor.actions
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
@@ -16,10 +16,12 @@ import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorActio
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.di.PartialTreeExtractor
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
+import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -37,6 +39,8 @@ class CellEditorActionImp @Inject constructor(
     private val stateContMs: Ms<StateContainer>,
     private val textDiffer: TextDiffer,
     val cycleLockStateAct: CycleFormulaLockStateAction,
+    @PartialTreeExtractor
+    val treeExtractor: TreeExtractor
 ) : CellEditorAction,
     CycleFormulaLockStateAction by cycleLockStateAct,
     MakeCellEditorDisplayTextAction by makeDisplayText,
@@ -126,7 +130,7 @@ class CellEditorActionImp @Inject constructor(
         if (fcsMs != null) {
             fcsMs.value = fcsMs.value.focusOnCursor()
         }
-        editorStateMs.value = editorState.clearAllText().close()
+        editorStateMs.value = editorState.clearAll().close()
     }
 
     /**
@@ -137,10 +141,8 @@ class CellEditorActionImp @Inject constructor(
     override fun updateText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
         if (editorState.isActive) {
-            stateCont.cellEditorStateMs.value = editorState
-                .setCurrentText(newText)
-//            val newTextField = editorState.currentTextField.copy(text=newText)
-//            this.updateTextField(newTextField)
+            val newTextField = editorState.currentTextField.copy(text=newText)
+            this.updateTextField(newTextField)
         }
     }
 
@@ -148,10 +150,11 @@ class CellEditorActionImp @Inject constructor(
      * This function does the following:
      *  - update the text field displayed by the cell editor
      *  - point the new text to the correct location which could be either the current text, or the temp text, depending on the current state of the state editor. If the range selector is activated, the new text will be stored in the temp text, and only when the range selector is deactivated, the temp text is moved to the current text.
+     *  - update the internal parse tree of cell editor
      *
      */
     override fun updateTextField(newTextField: TextFieldValue) {
-        var editorState by stateCont.cellEditorStateMs
+        val editorState by stateCont.cellEditorStateMs
         var ntf = newTextField
         if (editorState.isActive) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
@@ -162,33 +165,42 @@ class CellEditorActionImp @Inject constructor(
                 .setCurrentTextField(ntf)
                 .apply {
                     /*
-                    when editor switch allow-range-selector flag
-                    from true to false, move the respective cursor
-                    to the currently edited cell
+                    when the cell editor switches off allow-range-selector flag, if the range-selector cursor and target cursor are the same, reset its state and point it to he currently edited cell so that on the UI it moves back to the currently edited cell. This is a side effect.
                     */
                     val from_Allow_To_Disallow: Boolean = oldAllowRangeSelector && !this.allowRangeSelector
-                    if (editorState.rangeSelectorIsSameAsTargetCursor) {
-                        if (from_Allow_To_Disallow) {
-                            editorState.targetCursorId?.let { wbws ->
-                                stateCont.getCursorStateMs(wbws)?.let { cursorStateMs ->
-                                    editorState.targetCell?.let { editTarget ->
-                                        cursorStateMs.value = cursorStateMs.value
-                                            .removeAllExceptMainCell()
-                                            .setMainCell(editTarget)
-                                    }
+                    if (from_Allow_To_Disallow) {
+                        if (editorState.rangeSelectorIsSameAsTargetCursor) {
+                            editorState.targetCursorId?.let { cursorId ->
+                                stateCont.getCursorStateMs(cursorId)
+                            }?.let { targetCursorMs ->
+                                editorState.targetCell?.let { targetCell ->
+                                    targetCursorMs.value = targetCursorMs.value
+                                        .removeAllExceptMainCell()
+                                        .setMainCell(targetCell)
                                 }
                             }
                         }
                     }
+                }.let { cellEditor ->
+                    val newCE = treeExtractor.extractTree(cellEditor.currentText)
+                        .mapBoth(
+                            success = {
+                                cellEditor.setParseTree(it)
+                            },
+                            failure = {
+                                cellEditor
+                            }
+                        )
+                    newCE
                 }
-            editorState = newEditorState
+            stateCont.cellEditorStateMs.value = newEditorState
         }
     }
 
     fun autoCompleteBracesIfPossible(newTextField: TextFieldValue): TextFieldValue {
         val oldTf = editorState.currentTextField
         val ntf = newTextField
-        if(oldTf == ntf){
+        if (oldTf == ntf) {
             return ntf
         }
 
@@ -200,11 +212,11 @@ class CellEditorActionImp @Inject constructor(
                 "{" -> "{}"
                 else -> null
             }
-            val cursorPosition = tnr.range.end-1
+            val cursorPosition = tnr.range.end - 1
             val newText: String = braces?.let {
-                ntf.text.substring(0, cursorPosition) + it + ntf.text.substring(cursorPosition+1, ntf.text.length)
+                ntf.text.substring(0, cursorPosition) + it + ntf.text.substring(cursorPosition + 1, ntf.text.length)
             } ?: ntf.text
-            val newRange:TextRange = braces?.let {
+            val newRange: TextRange = braces?.let {
                 ntf.selection
             } ?: ntf.selection
             ntf.copy(text = newText, selection = newRange)
@@ -226,51 +238,51 @@ class CellEditorActionImp @Inject constructor(
     override fun handleKeyboardEvent(keyEvent: PKeyEvent): Boolean {
         if (editorState.isActive) {
             if (keyEvent.type == KeyEventType.KeyDown) {
-                    when (keyEvent.key) {
-                        Key.F4 ->{
-                            cycleFormulaLockState()
-                            return true
+                when (keyEvent.key) {
+                    Key.F4 -> {
+                        cycleFormulaLockState()
+                        return true
+                    }
+                    Key.Enter -> {
+                        if (keyEvent.isAltPressedAlone) {
+                            val currentText = editorState.currentTextField
+                            val newText = currentText.copy(
+                                text = currentText.text + "\n",
+                                selection = TextRange(currentText.selection.end + 1)
+                            )
+                            updateTextField(newText)
+                        } else {
+                            runFormulaOrSaveValueToCell()
                         }
-                        Key.Enter -> {
-                            if (keyEvent.isAltPressedAlone) {
-                                val currentText = editorState.currentTextField
-                                val newText = currentText.copy(
-                                    text = currentText.text + "\n",
-                                    selection = TextRange(currentText.selection.end + 1)
-                                )
-                                updateTextField(newText)
-                            } else {
-                                runFormulaOrSaveValueToCell()
-                            }
-                            return true
-                        }
-                        Key.Escape -> {
-                            closeEditor()
-                            return true
-                        }
-                        else -> {
-                            if (editorState.allowRangeSelector) {
-                                if (keyEvent.isAcceptedByRangeSelector()) {
-                                    val rt = passKeyEventToRangeSelector(keyEvent, editorState)
-                                    if (keyEvent.isRangeSelectorNavKey()) {
-                                        // x: generate rs text
-                                        val rsText = makeDisplayText
-                                            .makeRangeSelectorText(stateCont.cellEditorState)
-                                        // x: update range selector text
-                                        editorStateMs.value = editorState.setRangeSelectorText(rsText)
-                                    }
-                                    return rt
-                                } else {
-                                    editorStateMs.value = editorState.stopGettingRangeAddress()
-                                    //propagate the key event further
-                                    return false
+                        return true
+                    }
+                    Key.Escape -> {
+                        closeEditor()
+                        return true
+                    }
+                    else -> {
+                        if (editorState.allowRangeSelector) {
+                            if (keyEvent.isAcceptedByRangeSelector()) {
+                                val rt = passKeyEventToRangeSelector(keyEvent, editorState)
+                                if (keyEvent.isRangeSelectorNavKey()) {
+                                    // x: generate rs text
+                                    val rsText = makeDisplayText
+                                        .makeRangeSelectorText(stateCont.cellEditorState)
+                                    // x: update range selector text
+                                    editorStateMs.value = editorState.setRangeSelectorText(rsText)
                                 }
+                                return rt
                             } else {
+                                editorStateMs.value = editorState.stopGettingRangeAddress()
                                 //propagate the key event further
                                 return false
                             }
+                        } else {
+                            //propagate the key event further
+                            return false
                         }
                     }
+                }
 
             } else {
                 return false
