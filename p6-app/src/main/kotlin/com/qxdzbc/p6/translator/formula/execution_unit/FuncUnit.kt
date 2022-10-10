@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.FunctionMap
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 data class FuncUnit(
     override val funcName: String,
@@ -31,12 +31,12 @@ data class FuncUnit(
     }
 
     override fun toColorFormula(
-        colorProvider: ColorProvider,
+        colorMap: ColorMap,
         wbKey: WorkbookKey?,
         wsName: String?
     ): AnnotatedString {
         val u = this
-        val argsStr = u.args.map { it.toColorFormula(colorProvider,wbKey, wsName) }.filterNotNull()
+        val argsStr = u.args.map { it.toColorFormula(colorMap,wbKey, wsName) }.filterNotNull()
         val rt= buildAnnotatedString {
             append(u.funcName)
             append("(")

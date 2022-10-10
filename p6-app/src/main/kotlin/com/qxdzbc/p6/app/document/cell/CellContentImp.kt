@@ -17,7 +17,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellContentProto
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
  * Content = Formula + value
@@ -39,8 +39,8 @@ data class CellContentImp(
         }
     }
 
-    override fun colorFormula(colorProvider: ColorProvider, wbKey: WorkbookKey?, wsName: String?): AnnotatedString? {
-        return exUnit?.toColorFormula(colorProvider, wbKey, wsName)?.let {
+    override fun colorFormula(colorMap: ColorMap, wbKey: WorkbookKey?, wsName: String?): AnnotatedString? {
+        return exUnit?.toColorFormula(colorMap, wbKey, wsName)?.let {
             buildAnnotatedString {
                 append("=")
                 append(it)

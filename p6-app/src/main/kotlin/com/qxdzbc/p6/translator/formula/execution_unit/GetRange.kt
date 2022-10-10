@@ -14,7 +14,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 data class GetRange(
     override val funcName: String = P6FunctionDefinitions.getRangeRs,
@@ -45,12 +45,12 @@ data class GetRange(
     }
 
     override fun toColorFormula(
-        colorProvider: ColorProvider,
+        colorMap: ColorMap,
         wbKey: WorkbookKey?,
         wsName: String?
     ): AnnotatedString {
         val str: String = toShortFormula(wbKey, wsName)
-        val color: Color? = colorProvider.getColor(this)
+        val color: Color? = colorMap.getColor(this)
         val rt: AnnotatedString = buildAnnotatedString {
             if (color != null) {
                 withStyle(style = SpanStyle(color = color)) {

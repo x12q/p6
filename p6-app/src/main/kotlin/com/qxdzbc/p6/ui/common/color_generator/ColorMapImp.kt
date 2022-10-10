@@ -3,15 +3,15 @@ package com.qxdzbc.p6.ui.common.color_generator
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.translator.formula.execution_unit.ColorKey
 
-class ColorProviderImp(
+class ColorMapImp(
     private val colorMap: Map<ColorKey, Color>
-) : ColorProvider {
+) : ColorMap {
 
     constructor(
         colorKeys: List<ColorKey>,
         colors: List<Color>
     ) : this(
-        colors.withIndex().associateBy(
+        colorMap = colors.withIndex().associateBy(
             keySelector = { (i, c) -> colorKeys[i] },
             valueTransform = { (i, c) -> c }
         )

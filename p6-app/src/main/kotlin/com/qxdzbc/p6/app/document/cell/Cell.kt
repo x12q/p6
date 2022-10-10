@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellProto
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 
 interface Cell :Shiftable,WbWsSt{
@@ -46,7 +46,7 @@ interface Cell :Shiftable,WbWsSt{
     val currentCellValue: CellValue
     val editableValue: String
     fun editableValue(wbKey: WorkbookKey?, wsName: String): String
-    fun colorEditableValue(colorProvider: ColorProvider, wbKey: WorkbookKey?, wsName: String): AnnotatedString
+    fun colorEditableValue(colorMap: ColorMap, wbKey: WorkbookKey?, wsName: String): AnnotatedString
 
     /**
      * a shortcut to the value stored in [cellValueAfterRun]

@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.ui.common.color_generator.FormulaColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
@@ -25,7 +25,7 @@ interface WindowState : WithSize {
 
     val id:String
 
-    val formulaColorProvider: FormulaColorProvider
+    val formulaColorGenerator: MultiColorGenerator
 
     val focusStateMs:Ms<WindowFocusState>
     var focusState:WindowFocusState

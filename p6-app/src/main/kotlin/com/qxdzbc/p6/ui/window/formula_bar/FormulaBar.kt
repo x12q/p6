@@ -12,7 +12,6 @@ fun FormulaBar(
     state:FormulaBarState
 ){
     MBox(Modifier.fillMaxSize()){
-//        BasicText(text =state.text,modifier = Modifier.align(Alignment.CenterStart))
         BasicText(text =state.annotatedText,modifier = Modifier.align(Alignment.CenterStart))
     }
 }

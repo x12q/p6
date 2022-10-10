@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.window.formula_bar
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import com.qxdzbc.p6.ui.common.color_generator.ColorProviderImp
+import com.qxdzbc.p6.ui.common.color_generator.ColorMapImp
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 class FormulaBarStateImp(
@@ -27,12 +27,12 @@ class FormulaBarStateImp(
                 val cell = wsState.worksheet.getCell(cellAddress)
 
                 if(cell!=null){
-                    val cellRangeExUnits = cell.content.exUnit?.getCellRangeExUnit() ?: emptyList()
-                    val colorProvider = ColorProviderImp(
+                    val cellRangeExUnits = cell.content.exUnit?.getCellRangeExUnit()?.toSet()?.toList() ?: emptyList()
+                    val colorMap = ColorMapImp(
                         colorKeys = cellRangeExUnits,
-                        colors =  windowState.formulaColorProvider.getColors(cellRangeExUnits.size)
+                        colors =  windowState.formulaColorGenerator.getColors(cellRangeExUnits.size)
                     )
-                    return cell.colorEditableValue(colorProvider,wsState.wbKey, wsState.name)
+                    return cell.colorEditableValue(colorMap,wsState.wbKey, wsState.name)
                 }else{
                     return  AnnotatedString ("")
                 }

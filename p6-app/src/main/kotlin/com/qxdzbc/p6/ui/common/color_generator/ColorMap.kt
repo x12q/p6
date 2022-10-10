@@ -4,9 +4,9 @@ import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.translator.formula.execution_unit.ColorKey
 
 /**
- * Provide color by key
+ * a map of colors
  */
-interface ColorProvider {
+interface ColorMap {
     fun getColor(colorKey: ColorKey): Color?
 }
 

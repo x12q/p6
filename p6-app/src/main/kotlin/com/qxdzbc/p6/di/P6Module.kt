@@ -53,7 +53,7 @@ interface P6Module {
 
     @Binds
     @P6Singleton
-    fun FormulaColorProvider(i:FormulaColorProviderImp): FormulaColorProvider
+    fun FormulaColorProvider(i:FormulaColorGeneratorImp): MultiColorGenerator
 
     @Binds
     @P6Singleton

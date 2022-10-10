@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 abstract class BaseCell : Cell {
     override fun reRun(): Cell? {
@@ -20,12 +20,12 @@ abstract class BaseCell : Cell {
     }
 
     override fun colorEditableValue(
-        colorProvider: ColorProvider,
+        colorMap: ColorMap,
         wbKey: WorkbookKey?,
         wsName: String
     ): AnnotatedString {
         if(this.isFormula){
-            return this.content.colorFormula(colorProvider,wbKey, wsName) ?: AnnotatedString("")
+            return this.content.colorFormula(colorMap,wbKey, wsName) ?: AnnotatedString("")
         }else{
             return AnnotatedString(this.cellValueAfterRun.editableValue ?: "")
         }

@@ -24,7 +24,7 @@ import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.common.color_generator.FormulaColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
@@ -41,7 +41,7 @@ class CursorActionImp @Inject constructor(
     private val openCellEditor: OpenCellEditorAction,
     @StateContainerSt
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
-    private val formulaColorProvider: FormulaColorProvider,
+    private val formulaColorGenerator: MultiColorGenerator,
     private val pasteRangeAction: PasteRangeAction,
     private val selectWholeCol:SelectWholeColumnForAllSelectedCellAction,
     private val selectWholeRow:SelectWholeRowForAllSelectedCellAction,
@@ -101,7 +101,7 @@ class CursorActionImp @Inject constructor(
                 sc.getCell(wbws.wbKey,wbws.wsName,it)
             }
             val ranges = targetCell?.content?.exUnit?.getRangeIds()?: emptyList()
-            val colors = formulaColorProvider.getColors(ranges.size)
+            val colors = formulaColorGenerator.getColors(ranges.size)
             val colorMap:Map<RangeAddress, Color> = buildMap {
                 for((i,rid) in ranges.withIndex()){
                     if(rid.wbKey == wbws.wbKey && rid.wsName == wbws.wsName){

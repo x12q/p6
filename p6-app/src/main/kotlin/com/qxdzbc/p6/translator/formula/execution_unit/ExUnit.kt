@@ -12,7 +12,7 @@ import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
  * An ExUnit (execution unit) is an obj representing a formula, when it runs it will return something that can be stored by a Cell.
@@ -43,11 +43,11 @@ interface ExUnit : Shiftable, ColorKey {
      * convert this ExUnit back into a formula string in which each range/cell address is colored.
      */
     fun toColorFormula(
-        colorProvider: ColorProvider,
+        colorMap: ColorMap,
         wbKey: WorkbookKey?,
         wsName: String?
     ): AnnotatedString? {
-        val color: Color? = colorProvider.getColor(this)
+        val color: Color? = colorMap.getColor(this)
         val str: String? = toShortFormula(wbKey, wsName)
         val rt: AnnotatedString? = str?.let {
             buildAnnotatedString {

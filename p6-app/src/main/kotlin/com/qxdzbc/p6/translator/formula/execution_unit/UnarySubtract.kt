@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.color_generator.ColorProvider
+import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
  * ExUnit for unary "-"
@@ -28,11 +28,11 @@ data class UnarySubtract(val u: ExUnit) : ExUnit {
     }
 
     override fun toColorFormula(
-        colorProvider: ColorProvider,
+        colorMap: ColorMap,
         wbKey: WorkbookKey?,
         wsName: String?
     ): AnnotatedString? {
-        val f1 = u.toColorFormula(colorProvider, wbKey, wsName)
+        val f1 = u.toColorFormula(colorMap, wbKey, wsName)
         if (f1 != null) {
             return buildAnnotatedString {
                 append("-")
