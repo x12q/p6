@@ -26,10 +26,12 @@ class CellRangeVisitor @Inject constructor() : FormulaBaseVisitor<List<CellRange
     }
 
     override fun visitFullRangeAddressExpr(ctx: FormulaParser.FullRangeAddressExprContext?): List<CellRangePosition> {
-        val l = ctx?.let{listOf(
+        val l = ctx?.let{
+            val labelLoc = ((it.sheetPrefix()?.text ?: "")+(it.wbPrefix()?.text ?:"")).ifEmpty { null }
+            listOf(
             CellRangePosition(
                 cellRangeLabel = it.rangeAddress()?.text ?:"",
-                labelLoc = (it.sheetPrefix()?.text ?: "")+(it.wbPrefix()?.text ?:""),
+                labelLoc = labelLoc,
                 start = TokenPosition(it.start.startIndex),
                 stop = TokenPosition(it.stop.stopIndex)
             )
