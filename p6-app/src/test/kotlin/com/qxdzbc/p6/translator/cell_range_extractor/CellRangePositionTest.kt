@@ -6,7 +6,7 @@ internal class CellRangePositionTest{
     @Test
     fun `contain 1 line`(){
         val c = CellRangePosition(
-            text="asd",
+            cellRangeLabel="asd",
             start = TokenPosition(
                 charIndex = 3
             ),

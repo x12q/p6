@@ -4,7 +4,8 @@ import org.antlr.v4.runtime.ParserRuleContext
 
 
 data class CellRangePosition(
-    val text:String,
+    val cellRangeLabel:String,
+    val labelLoc:String? = null,
     val start:TokenPosition,
     val stop:TokenPosition
 ){
@@ -12,7 +13,7 @@ data class CellRangePosition(
         fun from(ruleContext: ParserRuleContext):CellRangePosition{
             val c = ruleContext
             return CellRangePosition(
-                text =  c.text ?: "",
+                cellRangeLabel =  c.text ?: "",
                 start = TokenPosition(
                     charIndex = c.start.startIndex
                 ),

@@ -11,6 +11,7 @@ import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import javax.inject.Inject
 
+@Deprecated("don't use")
 class PartialFormulaTranslator @Inject constructor(
     @PartialTreeExtractor
     val treeExtractor:TreeExtractor,

@@ -7,6 +7,7 @@ import java.nio.file.Path
 import javax.inject.Inject
 import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.toExUnit as toExUnit1
 
+@Deprecated("dont use")
 class PartialJvmFormulaVisitor @Inject constructor() : FormulaBaseVisitor<String?>() {
     override fun visitZFormula(ctx: FormulaParser.ZFormulaContext?): String? {
         val rt = this.visit(ctx?.expr())

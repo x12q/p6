@@ -36,10 +36,10 @@ interface TranslatorModule {
     fun CellRangeVisitor(i: CellRangeVisitor): CellRangeVisitor
 //    fun CellRangeVisitor(i: CellRangeVisitor): FormulaBaseVisitor<List<CellRangePosition>>
 
-    @Binds
-    @P6Singleton
-    @PartialTranslator
-    fun PartialFormulaTranslator(i: PartialFormulaTranslator): P6Translator<String?>
+//    @Binds
+//    @P6Singleton
+//    @PartialTranslator
+//    fun PartialFormulaTranslator(i: PartialFormulaTranslator): P6Translator<String?>
 
     @Binds
     @P6Singleton

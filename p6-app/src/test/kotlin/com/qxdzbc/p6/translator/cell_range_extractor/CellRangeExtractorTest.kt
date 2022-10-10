@@ -6,7 +6,6 @@ import test.BaseTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 internal class CellRangeExtractorTest : BaseTest() {
     lateinit var extractor: P6Translator<List<CellRangePosition>>
@@ -24,17 +23,17 @@ internal class CellRangeExtractorTest : BaseTest() {
                     "\n\n" +
                     "+F3()*F4(A1:B9)" to listOf(
                 CellRangePosition(
-                    text = "A1",
+                    cellRangeLabel = "A1",
                     start = TokenPosition( 4),
                     stop = TokenPosition( 5),
                 ),
                 CellRangePosition(
-                    text = "A2",
+                    cellRangeLabel = "A2",
                     start = TokenPosition( 10),
                     stop = TokenPosition( 11),
                 ),
                 CellRangePosition(
-                    text = "A1:B9",
+                    cellRangeLabel = "A1:B9",
                     start = TokenPosition( 33),
                     stop = TokenPosition( 37),
                 ),
