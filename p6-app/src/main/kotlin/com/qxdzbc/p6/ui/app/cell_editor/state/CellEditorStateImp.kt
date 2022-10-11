@@ -1,9 +1,12 @@
 package com.qxdzbc.p6.ui.app.cell_editor.state
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.DefaultTextFieldValue
 import com.qxdzbc.p6.di.False
@@ -11,14 +14,9 @@ import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.di.state.app_state.CellEditorInitCursorIdSt
 import com.qxdzbc.p6.di.state.app_state.DefaultNullCellAddress
 import com.qxdzbc.p6.di.state.app_state.NullTextFieldValue
-import com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.p6.di.state.ws.cursor.DefaultCursorParseTree
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
@@ -40,7 +38,7 @@ data class CellEditorStateImp @Inject constructor(
     @NullTextFieldValue
     override val rangeSelectorTextField: TextFieldValue? = null,
     @DefaultCursorParseTree
-    override val parseTreeMs:Ms<ParseTree?> = StateUtils.ms(null)
+    override val parseTreeMs: Ms<ParseTree?> = StateUtils.ms(null)
 ) : CellEditorState {
     companion object {
         fun defaultForTest(): CellEditorStateImp {
@@ -65,7 +63,7 @@ data class CellEditorStateImp @Inject constructor(
 
     private fun moveTextFromRangeSelectorTextToCurrentText(): CellEditorState {
         if (rangeSelectorTextField != null) {
-            return this.setCurrentText(rangeSelectorTextField.text).setRangeSelectorText(null)
+            return this.setCurrentText(rangeSelectorTextField.text).setRangeSelectorTextField(null)
         } else {
             return this
         }
@@ -74,7 +72,9 @@ data class CellEditorStateImp @Inject constructor(
     @False
     override val allowRangeSelector: Boolean
         get() {
-            return CellEditorUtils.allowSelector(this.currentText)
+//            return this.rangeSelectorText?.let { CellEditorUtils.checkIfAllowSelector(it) }
+//                ?: CellEditorUtils.checkIfAllowSelector(this.currentText)
+            return CellEditorUtils.checkIfAllowSelector(this.currentText)
         }
 
     override val isActive: Boolean by isActiveMs
@@ -101,9 +101,9 @@ data class CellEditorStateImp @Inject constructor(
     override val displayTextField: TextFieldValue
         get() {
             if (this.isActive) {
-                val rst:TextFieldValue = this.rangeSelectorTextField ?: return this.currentTextField
+                val rst: TextFieldValue = this.rangeSelectorTextField ?: this.currentTextField
                 return rst
-            }else{
+            } else {
                 return this.currentTextField
             }
         }
@@ -112,7 +112,7 @@ data class CellEditorStateImp @Inject constructor(
     override val rangeSelectorText: String?
         get() = rangeSelectorTextField?.text
 
-    override fun setRangeSelectorText(newTextField: TextFieldValue?): CellEditorState {
+    override fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorState {
         return this.copy(rangeSelectorTextField = newTextField)
     }
 
@@ -128,8 +128,16 @@ data class CellEditorStateImp @Inject constructor(
         return this.copy(currentTextField = newTextField)
     }
 
+    override fun setDisplayTextField(newTextField: TextFieldValue): CellEditorState {
+        if (this.isActiveAndAllowRangeSelector) {
+            return this.setRangeSelectorTextField(newTextField)
+        } else {
+            return this.setCurrentTextField(newTextField)
+        }
+    }
+
     override fun clearAllText(): CellEditorState {
-        return this.setCurrentText("").setRangeSelectorText(null)
+        return this.setCurrentText("").setRangeSelectorTextField(null)
     }
 
     /**
@@ -144,6 +152,6 @@ data class CellEditorStateImp @Inject constructor(
         isActiveMs.value = false
         return this.copy(targetCursorIdSt = null, targetCell = null)
             .stopGettingRangeAddress()
-            .setRangeSelectorText(null)
+            .setRangeSelectorTextField(null)
     }
 }

@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.app.cell_editor.actions
 
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
@@ -26,9 +25,9 @@ interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorActi
 
     /**
      * **For testing only.**
-     * Be careful when using this function. It directly updates the text content and may erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [updateTextField] in the app.
+     * Be careful when using this function. It directly updates the text content and may erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [onTextChange] in the app.
      */
-    fun updateText(newText: String)
+    fun onTextChange(newText: String)
 
     /**
      * This function does the following:
@@ -36,7 +35,7 @@ interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorActi
      *  - point the new text to the correct location which could be either the current text, or the temp text, depending on the current state of the state editor. If the range selector is activated, the new text will be stored in the temp text, and only when the range selector is deactivated, the temp text is moved to the current text.
      *  - update the internal parse tree of cell editor
      */
-    fun updateTextField(newTextField: TextFieldValue)
+    fun onTextChange(newTextField: TextFieldValue)
 
     /**
      * This function is for handling keyboard events that a cell editor receives. This overrides certain actions/events of a typical text editor, such as:

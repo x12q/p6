@@ -8,20 +8,11 @@ annotation class PartialTreeExtractor
 
 @Qualifier
 @Retention
-annotation class PartialVisitor
+annotation class PartialCellRangeExtractor_Qualifier
 
 @Qualifier
 @Retention
-annotation class PartialTranslator
-
-@Qualifier
-@Retention
-annotation class CellRangeVisitor_Qualifier
-
-@Qualifier
-@Retention
-annotation class CellRangeExtractor_Qualifier
-
+annotation class TextElementVisitor_Qualifier
 
 @Qualifier
 @Retention

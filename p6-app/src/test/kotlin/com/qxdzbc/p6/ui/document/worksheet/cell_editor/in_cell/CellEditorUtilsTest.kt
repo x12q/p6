@@ -26,7 +26,7 @@ class CellEditorUtilsTest {
         )
 
         for (str in m) {
-            assertTrue( CellEditorUtils.allowSelector(str))
+            assertTrue( CellEditorUtils.checkIfAllowSelector(str))
         }
 
         val m2 = listOf(
@@ -43,7 +43,7 @@ class CellEditorUtilsTest {
             "abc",
         )
         for (str in m2) {
-            assertFalse( CellEditorUtils.allowSelector(str))
+            assertFalse( CellEditorUtils.checkIfAllowSelector(str))
         }
     }
 }

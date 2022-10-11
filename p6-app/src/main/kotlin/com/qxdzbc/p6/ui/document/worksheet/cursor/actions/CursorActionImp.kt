@@ -24,6 +24,7 @@ import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.di.state.app_state.StateContainerSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
@@ -41,7 +42,7 @@ class CursorActionImp @Inject constructor(
     private val openCellEditor: OpenCellEditorAction,
     @StateContainerSt
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
-    private val formulaColorGenerator: MultiColorGenerator,
+    private val formulaColorGenerator: FormulaColorGenerator,
     private val pasteRangeAction: PasteRangeAction,
     private val selectWholeCol:SelectWholeColumnForAllSelectedCellAction,
     private val selectWholeRow:SelectWholeRowForAllSelectedCellAction,
@@ -94,6 +95,10 @@ class CursorActionImp @Inject constructor(
         }
     }
 
+    /**
+     * Get a map of [RangeAddress] and color from the cell which the cell cursor is currently at
+     * @param wbws where the cursor is locating
+     */
     override fun getFormulaRangeAndColor(wbws: WbWs): Map<RangeAddress, Color> {
         val cellEditorState by sc.cellEditorStateMs
         if(cellEditorState.isActive){

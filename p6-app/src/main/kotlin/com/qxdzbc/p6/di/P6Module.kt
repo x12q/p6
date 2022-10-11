@@ -22,8 +22,16 @@ import com.qxdzbc.p6.app.coderunner.PythonCodeRunner
 import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.communication.event.P6EventTableImp
+import com.qxdzbc.p6.di.action.ActionModule
+import com.qxdzbc.p6.di.applier.ApplierModule
+import com.qxdzbc.p6.di.document.DocumentModule
+import com.qxdzbc.p6.di.request_maker.RMModule
+import com.qxdzbc.p6.di.rpc.RpcModule
+import com.qxdzbc.p6.di.state.StateModule
+import com.qxdzbc.p6.di.state.app_state.AppStateModule
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
+import com.qxdzbc.p6.di.status_bar.StatusBarModule
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
@@ -45,7 +53,23 @@ import org.zeromq.ZMQ
 import com.qxdzbc.p6.app.action.remote_request_maker.QueueRequestMaker as QueueRequestMaker1
 
 
-@Module
+@Module(
+    includes = [
+        UtilModule::class,
+        RMModule::class,
+        ApplierModule::class,
+        MsgApiModule::class,
+        ActionTableModule::class,
+        AppStateModule::class,
+        DocumentModule::class,
+        TranslatorModule::class,
+        StatusBarModule::class,
+        ActionModule::class,
+        RpcModule::class,
+        StateModule::class,
+        CoroutineModule::class,
+    ]
+)
 interface P6Module {
     @Binds
     @P6Singleton
@@ -53,7 +77,7 @@ interface P6Module {
 
     @Binds
     @P6Singleton
-    fun FormulaColorProvider(i:FormulaColorGeneratorImp): MultiColorGenerator
+    fun FormulaColorProvider(i:FormulaColorGeneratorImp): FormulaColorGenerator
 
     @Binds
     @P6Singleton

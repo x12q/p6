@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.translator.partial_extrator
+package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.github.michaelbull.result.Err
 import com.qxdzbc.common.error.ErrorReport
@@ -12,6 +12,9 @@ import org.antlr.v4.runtime.*
 import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
+/**
+ * A tree extractor that work on partially completed formula
+ */
 class PartialFormulaTreeExtractor @Inject constructor() : TreeExtractor {
     override fun extractTree(formula: String): Result<ParseTree, ErrorReport> {
         var parserErrorData: TranslatorErrors.ParserErr.Data? = null

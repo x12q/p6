@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.di.action
 
+import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
+import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorActionImp
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateImp
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
@@ -11,6 +13,10 @@ import dagger.Binds
 
 @dagger.Module
 interface CellEditorActionModule {
+    @Binds
+    @P6Singleton
+    fun ColorFormulaInCellEditorAction(i: ColorFormulaInCellEditorActionImp):ColorFormulaInCellEditorAction
+
     @Binds
     @P6Singleton
     fun CycleFormulaLockState(i: CycleFormulaLockStateImp): CycleFormulaLockStateAction

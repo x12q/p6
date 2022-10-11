@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.action.range.range_to_clipboard
 
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
-import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
+import com.qxdzbc.p6.app.action.range.RangeIdDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.toModel
 import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWindowIdAndWorkbookKey2
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey

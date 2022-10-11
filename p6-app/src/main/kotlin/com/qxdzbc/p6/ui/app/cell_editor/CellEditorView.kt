@@ -59,8 +59,7 @@ fun CellEditorView(
             BasicTextField(
                 value = state.displayTextField,
                 onValueChange = {
-                    it.composition
-                    action.updateTextField(it)
+                    action.onTextChange(it)
                 },
                 modifier = Modifier
                     .then(sizeMod)

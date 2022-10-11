@@ -18,7 +18,7 @@ class UpdateRangeSelectorTextImp @Inject constructor(
     override fun updateRangeSelectorText() {
         if(cellEditorState.isActiveAndAllowRangeSelector){
             val t:TextFieldValue = makeDisplayText.makeRangeSelectorText(cellEditorState)
-            cellEditorStateMs.value = cellEditorState.setRangeSelectorText(t)
+            cellEditorStateMs.value = cellEditorState.setRangeSelectorTextField(t)
         }
     }
 }

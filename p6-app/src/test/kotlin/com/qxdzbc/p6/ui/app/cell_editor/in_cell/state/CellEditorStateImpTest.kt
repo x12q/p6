@@ -16,7 +16,7 @@ class CellEditorStateImpTest {
     @Test
     fun stopGettingRange(){
         val state = CellEditorStateImp.defaultForTest()
-        val s2 = state.setCurrentText("=").setRangeSelectorText(TextFieldValue("=A1"))
+        val s2 = state.setCurrentText("=").setRangeSelectorTextField(TextFieldValue("=A1"))
         assertTrue(s2.allowRangeSelector)
         assertEquals("=",s2.currentText)
         assertEquals("=A1",s2.rangeSelectorTextField?.text)

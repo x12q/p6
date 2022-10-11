@@ -16,7 +16,7 @@ class UpdateCellEditorTextWithRangeSelectorActionImp @Inject constructor(
     override fun updateRangeSelectorText() {
         if (sc.cellEditorState.isActiveAndAllowRangeSelector) {
             val text = makeCellEditorText.makeRangeSelectorText(sc.cellEditorState)
-            sc.cellEditorState = sc.cellEditorState.setRangeSelectorText(text)
+            sc.cellEditorState = sc.cellEditorState.setRangeSelectorTextField(text)
         }
     }
 }

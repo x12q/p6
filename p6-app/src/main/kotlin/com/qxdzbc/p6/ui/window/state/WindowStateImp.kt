@@ -31,6 +31,7 @@ import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
+import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -68,7 +69,7 @@ data class WindowStateImp @AssistedInject constructor(
     private val wbStateFactory: WorkbookStateFactory,
     @FocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,
-    override val formulaColorGenerator: MultiColorGenerator,
+    override val formulaColorGenerator: FormulaColorGenerator,
 ) : BaseWindowState() {
     override val wbKeySet: Set<WorkbookKey> get()= wbKeyMsSet.map{it.value}.toSet()
     override var showStartKernelDialogState: ShowDialogState by showStartKernelDialogStateMs

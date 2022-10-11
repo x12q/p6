@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
-import com.qxdzbc.p6.app.action.range.IndRangeIdImp
+import com.qxdzbc.p6.app.action.range.RangeIdDM
 import com.qxdzbc.p6.app.document.cell.Cells
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -31,14 +31,14 @@ class RangePasterImp2Test {
             )
         )
         val rangeCopy = RangeCopy(
-            rangeId = IndRangeIdImp(
+            rangeId = RangeIdDM(
                 rangeAddress = RangeAddress("A1:A3"),
                 wbKey = wbk,
                 wsName = "S1"
             ),
             cells = wb.worksheets[0].cells
         )
-        val target= IndRangeIdImp(
+        val target= RangeIdDM(
             rangeAddress = RangeAddress("B5:C9"),
             wbKey = wbk,
             wsName = "S1"

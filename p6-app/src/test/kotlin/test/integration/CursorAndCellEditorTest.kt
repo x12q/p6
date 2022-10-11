@@ -41,6 +41,11 @@ class CursorAndCellEditorTest {
     }
 
     @Test
+    fun `test coloring formula while editing`(){
+
+    }
+
+    @Test
     fun `click on ruler item when editing cell, allow range select`(){
         val rulerAction: RulerAction = ts.p6Comp.rulerAction()
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1,ts.wsn1))
@@ -55,7 +60,7 @@ class CursorAndCellEditorTest {
         }
 
         cellEditorAction.openCellEditor(wbwsSt)
-        cellEditorAction.updateText("=")
+        cellEditorAction.onTextChange("=")
         val col = 20
         val col2 = 220
         val colLabel = CellLabelNumberSystem.numberToLabel(col)
@@ -83,7 +88,7 @@ class CursorAndCellEditorTest {
 
         val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
         cellEditorAction.openCellEditor(cursor1Ms.value)
-        cellEditorAction.updateText("=SUM(B2:C4)")
+        cellEditorAction.onTextChange("=SUM(B2:C4)")
         cellEditorAction.runFormulaOrSaveValueToCell()
         cellEditorAction.openCellEditor(cursor1Ms.value)
         val formulaBar:FormulaBarState? = ts.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
@@ -422,7 +427,7 @@ class CursorAndCellEditorTest {
         val rangeSelector by rangeSelectorMs
 
         // x: input text
-        cellEditorAction.updateText("=1+")
+        cellEditorAction.onTextChange("=1+")
         assertEquals("=1+", cellEditorState.currentText)
         assertEquals("=1+", cellEditorState.displayTextField.text)
         assertNull(cellEditorState.rangeSelectorTextField)
@@ -462,14 +467,14 @@ class CursorAndCellEditorTest {
         assertFalse(cellEditorState.allowRangeSelector)
 
         // x: another case: moving from allow range selector to not allow by typing in a not tolerated character
-        cellEditorAction.updateText("=1+A3+")
+        cellEditorAction.onTextChange("=1+A3+")
         assertTrue(cellEditorState.allowRangeSelector)
         assertNull(cellEditorState.rangeSelectorTextField)
         assertEquals("=1+A3+", cellEditorState.displayTextField.text)
         assertEquals("=1+A3+", cellEditorState.currentText)
 
         // x: simulate typing "1" into the cell editor
-        cellEditorAction.updateText("=1+A3+1")
+        cellEditorAction.onTextChange("=1+A3+1")
         assertFalse(cellEditorState.allowRangeSelector)
         assertNull(cellEditorState.rangeSelectorTextField?.text)
         assertEquals("=1+A3+1", cellEditorState.displayTextField.text)
@@ -496,13 +501,14 @@ class CursorAndCellEditorTest {
             stateContMs = ts.stateContMs(),
             textDiffer = p6Comp.textDiffer(),
             cycleLockStateAct = p6Comp.cycleFormulaLockStateAct(),
-            treeExtractor = p6Comp.partialTreeExtractor()
+            treeExtractor = p6Comp.partialTreeExtractor(),
+            colorFormulaAction = p6Comp.colorFormulaAction()
         )
 
         val keyEvent =MockPKeyEvent.arrowDown
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
-        cellEditorAction.updateText("=")
+        cellEditorAction.onTextChange("=")
 
         // x: move to another sheet
         val request = SetActiveWorksheetRequest(
@@ -541,7 +547,7 @@ class CursorAndCellEditorTest {
 
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
-        cellEditorAction.updateText("=")
+        cellEditorAction.onTextChange("=")
         assertTrue { wds.value.focusState.isEditorFocused }
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.targetCursorIdSt)
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.rangeSelectorCursorIdSt)

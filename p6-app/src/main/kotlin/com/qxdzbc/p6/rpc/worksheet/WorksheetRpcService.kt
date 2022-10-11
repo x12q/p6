@@ -6,7 +6,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequestDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
+import com.qxdzbc.p6.app.action.range.RangeIdDM.Companion.toModel
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.address.CellAddress

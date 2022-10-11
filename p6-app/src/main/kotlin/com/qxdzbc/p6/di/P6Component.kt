@@ -35,18 +35,10 @@ import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
-import com.qxdzbc.p6.di.action.ActionModule
-import com.qxdzbc.p6.di.applier.ApplierModule
-import com.qxdzbc.p6.di.document.DocumentModule
-import com.qxdzbc.p6.di.request_maker.RMModule
 import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
-import com.qxdzbc.p6.di.rpc.RpcModule
-import com.qxdzbc.p6.di.state.StateModule
-import com.qxdzbc.p6.di.state.app_state.AppStateModule
 import com.qxdzbc.p6.di.state.app_state.AppStateMs
 import com.qxdzbc.p6.di.state.app_state.StateContainerMs
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
-import com.qxdzbc.p6.di.status_bar.StatusBarModule
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
@@ -62,13 +54,14 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
+import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
+import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorActionImp
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.translator.P6Translator
-import com.qxdzbc.p6.translator.autocomplete.FormulaAutoCompleter
-import com.qxdzbc.p6.translator.cell_range_extractor.CellRangeExtractor
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
+import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -98,20 +91,7 @@ import org.zeromq.ZMQ
 @Component(
     modules = [
         P6Module::class,
-        UtilModule::class,
-        RMModule::class,
-        ApplierModule::class,
-        MsgApiModule::class,
-        ActionTableModule::class,
-        AppStateModule::class,
-        DocumentModule::class,
-        TranslatorModule::class,
-        StatusBarModule::class,
-        ActionModule::class,
-        RpcModule::class,
-        StateModule::class,
-        CoroutineModule::class,
-    ]
+    ],
 )
 interface P6Component {
     @P6Singleton
@@ -152,7 +132,6 @@ interface P6Component {
     fun codeEditorActionTable(): CodeEditorActionTable
 
     fun p6EventTable(): P6EventTable
-
 
     fun appAction(): AppAction
 
@@ -203,9 +182,6 @@ interface P6Component {
 
     @P6Singleton
     fun gson(): Gson
-
-//    @P6Singleton
-//    fun workbookRequestMaker(): WorkbookRM
 
     @P6Singleton
     fun worksheetRequestMaker(): WorksheetRM
@@ -274,20 +250,20 @@ interface P6Component {
     fun computeSliderSizeAction(): ComputeSliderSizeAction
     fun rulerAction(): RulerAction
     fun worksheetAction2(): WorksheetAction2
-    fun formulaCompleter(): FormulaAutoCompleter
     fun cursorEditorAction(): CellEditorAction
     fun textDiffer(): TextDiffer
     fun thumbStateFactory(): ThumbStateFactory
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
     fun copyCellAction(): CopyCellAction
-//    @PartialTranslator
-//    fun partialTranslator(): P6Translator<String?>
-    @CellRangeExtractor_Qualifier
-    fun cellRangeExtractor(): CellRangeExtractor
+    @PartialCellRangeExtractor_Qualifier
+    fun cellRangeExtractorAsTranslator(): P6Translator<TextElementResult>
     fun cycleFormulaLockStateAct(): CycleFormulaLockStateAction
     @PartialTreeExtractor
     fun partialTreeExtractor(): TreeExtractor
+    fun colorFormulaActionImp(): ColorFormulaInCellEditorActionImp
+    fun colorFormulaAction(): ColorFormulaInCellEditorAction
+
 
     @Component.Builder
     interface Builder {

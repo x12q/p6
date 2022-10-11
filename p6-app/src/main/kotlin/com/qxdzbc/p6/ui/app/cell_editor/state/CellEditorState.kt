@@ -26,6 +26,9 @@ interface CellEditorState {
      */
     fun stopGettingRangeAddress(): CellEditorState
 
+    /**
+     * A cell editor allows range selector to be used when the last character of the formula is one of the characters in [com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils.activationChars]
+     */
     val allowRangeSelector: Boolean
 
     val rangeSelectorCursorIdSt: St<CursorStateId>?
@@ -59,11 +62,15 @@ interface CellEditorState {
     val displayText: String
 
     /**
-     * [rangeSelectorTextField] = [currentText] + range address that produced by the cursor denoted by [rangeSelectorCursorId]. The content of [rangeSelectorTextField] will be moved into [currentText] when the range selector is done with its work
+     * A temporary text field that stores a temporary text when users are using the cursor at [rangeSelectorCursorId] to select a cell/range. During this selection time, [rangeSelectorTextField] is displayed on the view instead of [currentTextField].
+     *
+     * [rangeSelectorTextField] = [currentTextField] + selected range address.
+     *
+     * The content of [rangeSelectorTextField] will be copied into [currentTextField] when the range selector is done with its work, then it will be nullified. This is done by function [stopGettingRangeAddress]
      */
     val rangeSelectorTextField: TextFieldValue?
     val rangeSelectorText: String?
-    fun setRangeSelectorText(newTextField: TextFieldValue?): CellEditorState
+    fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorState
 
     /**
      * current text is the one that hold the formula that will be run at the end
@@ -74,10 +81,18 @@ interface CellEditorState {
     fun setCurrentTextField(newTextField: TextFieldValue): CellEditorState
 
     /**
+     * if this cell editor is active and allow range selector, update the [rangeSelectorTextField], otherwise update the [currentTextField]
+     */
+    fun setDisplayTextField(newTextField: TextFieldValue):CellEditorState
+
+    /**
      * clear both current text and range selector text
      */
     fun clearAllText(): CellEditorState
 
+    /**
+     * A cell editor is active when it is being opened
+     */
     val isActiveMs: Ms<Boolean>
     val isActive: Boolean
     val isNotActive:Boolean

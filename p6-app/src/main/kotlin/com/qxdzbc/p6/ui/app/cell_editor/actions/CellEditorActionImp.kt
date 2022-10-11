@@ -11,6 +11,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.key_event.PKeyEvent
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
@@ -40,7 +41,8 @@ class CellEditorActionImp @Inject constructor(
     private val textDiffer: TextDiffer,
     val cycleLockStateAct: CycleFormulaLockStateAction,
     @PartialTreeExtractor
-    val treeExtractor: TreeExtractor
+    val treeExtractor: TreeExtractor,
+    val colorFormulaAction: ColorFormulaInCellEditorAction
 ) : CellEditorAction,
     CycleFormulaLockStateAction by cycleLockStateAct,
     MakeCellEditorDisplayTextAction by makeDisplayText,
@@ -135,25 +137,25 @@ class CellEditorActionImp @Inject constructor(
 
     /**
      * **For testing only.**
-     * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [updateTextField] in the app instead.
+     * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [onTextChange] in the app instead.
      */
     @Deprecated("dont use, this one is not suitable for production")
-    override fun updateText(newText: String) {
+    override fun onTextChange(newText: String) {
         val editorState by stateCont.cellEditorStateMs
         if (editorState.isActive) {
             val newTextField = editorState.currentTextField.copy(text=newText)
-            this.updateTextField(newTextField)
+            this.onTextChange(newTextField)
         }
     }
 
     /**
-     * This function does the following:
+     * This function is called when users type with their keyboards into the editor. It does the following:
      *  - update the text field displayed by the cell editor
      *  - point the new text to the correct location which could be either the current text, or the temp text, depending on the current state of the state editor. If the range selector is activated, the new text will be stored in the temp text, and only when the range selector is deactivated, the temp text is moved to the current text.
      *  - update the internal parse tree of cell editor
      *
      */
-    override fun updateTextField(newTextField: TextFieldValue) {
+    override fun onTextChange(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
         var ntf = newTextField
         if (editorState.isActive) {
@@ -165,7 +167,7 @@ class CellEditorActionImp @Inject constructor(
                 .setCurrentTextField(ntf)
                 .apply {
                     /*
-                    when the cell editor switches off allow-range-selector flag, if the range-selector cursor and target cursor are the same, reset its state and point it to he currently edited cell so that on the UI it moves back to the currently edited cell. This is a side effect.
+                    when the cell editor switches off allow-range-selector flag, if the range-selector cursor and target cursor are the same, reset the cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
                     */
                     val from_Allow_To_Disallow: Boolean = oldAllowRangeSelector && !this.allowRangeSelector
                     if (from_Allow_To_Disallow) {
@@ -182,6 +184,7 @@ class CellEditorActionImp @Inject constructor(
                         }
                     }
                 }.let { cellEditor ->
+                    // update the parse tree inside the cell editor
                     val newCE = treeExtractor.extractTree(cellEditor.currentText)
                         .mapBoth(
                             success = {
@@ -194,6 +197,8 @@ class CellEditorActionImp @Inject constructor(
                     newCE
                 }
             stateCont.cellEditorStateMs.value = newEditorState
+            // color the currently displayed text
+            colorFormulaAction.colorFormulaInCellEditor()
         }
     }
 
@@ -250,7 +255,7 @@ class CellEditorActionImp @Inject constructor(
                                 text = currentText.text + "\n",
                                 selection = TextRange(currentText.selection.end + 1)
                             )
-                            updateTextField(newText)
+                            onTextChange(newText)
                         } else {
                             runFormulaOrSaveValueToCell()
                         }
@@ -269,16 +274,16 @@ class CellEditorActionImp @Inject constructor(
                                     val rsText = makeDisplayText
                                         .makeRangeSelectorText(stateCont.cellEditorState)
                                     // x: update range selector text
-                                    editorStateMs.value = editorState.setRangeSelectorText(rsText)
+                                    editorStateMs.value = editorState.setRangeSelectorTextField(rsText)
                                 }
                                 return rt
                             } else {
                                 editorStateMs.value = editorState.stopGettingRangeAddress()
-                                //propagate the key event further
+                                // propagate the key event further
                                 return false
                             }
                         } else {
-                            //propagate the key event further
+                            // propagate the key event further
                             return false
                         }
                     }

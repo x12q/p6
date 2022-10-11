@@ -5,7 +5,7 @@ object CellEditorUtils {
      * characters that signal the enabling of range selector
      */
     val activationChars = arrayOf('(','+','-','*','/',':','=')
-    fun allowSelector(formula:String):Boolean{
+    fun checkIfAllowSelector(formula:String):Boolean{
         val isFunction = formula.firstOrNull() == '='
         if(isFunction){
             if(formula.length==1){

@@ -1,14 +1,12 @@
 package test
 
-import com.github.michaelbull.result.Ok
-import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
-import com.qxdzbc.p6.translator.cell_range_extractor.CellRangeVisitor
-import com.qxdzbc.p6.translator.partial_extrator.PartialFormulaTreeExtractor
-import org.antlr.v4.runtime.tree.ParseTree
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 import kotlin.test.Test
-import kotlin.test.assertTrue
 
 
 class TestBench {
@@ -42,11 +40,15 @@ class TestBench {
 
     @Test
     fun t() {
-        val formula = "=F1(A1+F2(A2)+\"str_value\"+11)+F3()"
-        val te = PartialFormulaTreeExtractor()
-        val treeRs = te.extractTree(formula)
-        val visitor = CellRangeVisitor()
-        val l = visitor.visit(treeRs.component1()!!)
-        println(l)
+        val t = buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Color.Red)){
+                append("qwe")
+            }
+            withStyle(style = SpanStyle(color = Color.Green)){
+                append("123")
+            }
+        }
+
+        println(s)
     }
 }

@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.DocProtos.RangeIdProto
 
-data class IndRangeIdImp(
+data class RangeIdDM(
     override val rangeAddress: RangeAddress,
     override val wbKey: WorkbookKey,
     override val wsName: String
@@ -21,8 +21,8 @@ data class IndRangeIdImp(
     }
 
     companion object{
-        fun RangeIdProto.toModel(): IndRangeIdImp {
-            return IndRangeIdImp(
+        fun RangeIdProto.toModel(): RangeIdDM {
+            return RangeIdDM(
                 rangeAddress = rangeAddress.toModel(),
                 wbKey = wbKey.toModel(),
                 wsName = wsName

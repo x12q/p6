@@ -1,13 +1,7 @@
-package com.qxdzbc.p6.translator.partial_extractor
+package com.qxdzbc.p6.translator.partial_text_element_extractor
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.translator.P6Translator
 import test.BaseTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 internal class PartialFormulaTranslatorTest : BaseTest() {
     lateinit var translator: P6Translator<String?>

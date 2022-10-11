@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.document.range
 
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
-import com.qxdzbc.p6.app.action.range.IndRangeIdImp.Companion.toModel
+import com.qxdzbc.p6.app.action.range.RangeIdDM.Companion.toModel
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toShallowModel
 import com.qxdzbc.p6.proto.RangeProtos.RangeCopyProto
