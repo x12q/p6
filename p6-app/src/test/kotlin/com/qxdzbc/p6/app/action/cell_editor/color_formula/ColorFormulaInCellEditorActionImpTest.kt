@@ -9,6 +9,7 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
     lateinit var act:ColorFormulaInCellEditorActionImp
     lateinit var cellEditorAct:CellEditorAction
     lateinit var wbwsSt:WbWsSt
+    val cellEditorState get()=ts.sc.cellEditorState
     @BeforeTest
     override fun b() {
         super.b()
@@ -32,8 +33,8 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
 
         val t3 = "=A1+B2  C2"
         cellEditorAct.onTextChange(t3)
-        cellEditorAct.onTextChange(t3)
-        assertEquals(t3,ts.sc.cellEditorState.displayText)
-        assertEquals(t3,ts.sc.cellEditorState.currentText)
+        val newState=act.colorFormulaInCellEditor(cellEditorState)
+        assertEquals(t3,newState.displayText)
+        assertEquals(t3,newState.currentText)
     }
 }

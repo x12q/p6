@@ -198,7 +198,7 @@ class CellEditorActionImp @Inject constructor(
                 }
             stateCont.cellEditorStateMs.value = newEditorState
             // color the currently displayed text
-            colorFormulaAction.colorFormulaInCellEditor()
+//            colorFormulaAction.colorFormulaInCellEditor()
         }
     }
 
