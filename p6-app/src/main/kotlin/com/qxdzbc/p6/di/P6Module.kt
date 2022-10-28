@@ -23,6 +23,7 @@ import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.communication.event.P6EventTableImp
 import com.qxdzbc.p6.di.action.ActionModule
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.applier.ApplierModule
 import com.qxdzbc.p6.di.document.DocumentModule
 import com.qxdzbc.p6.di.request_maker.RMModule
@@ -44,6 +45,7 @@ import com.qxdzbc.p6.ui.kernel.KernelAction
 import com.qxdzbc.p6.ui.kernel.KernelActionImp
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouter
 import com.qxdzbc.p6.ui.script_editor.ScriptEditorErrorRouterImp
+import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -51,7 +53,6 @@ import org.zeromq.SocketType
 import org.zeromq.ZContext
 import org.zeromq.ZMQ
 import com.qxdzbc.p6.app.action.remote_request_maker.QueueRequestMaker as QueueRequestMaker1
-
 
 @Module(
     includes = [
@@ -70,10 +71,11 @@ import com.qxdzbc.p6.app.action.remote_request_maker.QueueRequestMaker as QueueR
         CoroutineModule::class,
     ]
 )
+@ContributesTo(P6AnvilScope::class)
 interface P6Module {
-    @Binds
-    @P6Singleton
-    fun TextDiffer(i: TextDifferImp):TextDiffer
+//    @Binds
+//    @P6Singleton
+//    fun TextDiffer(i: TextDifferImp):TextDiffer
 
     @Binds
     @P6Singleton

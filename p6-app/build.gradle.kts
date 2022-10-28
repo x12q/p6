@@ -11,6 +11,7 @@ plugins {
     id("org.jetbrains.compose") version "1.1.1"
     id("maven-publish")
     idea
+    id ("com.squareup.anvil") version "2.4.1-1-6"
 }
 
 idea {
@@ -74,9 +75,7 @@ dependencies {
 
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
-//    implementation("com.qxdzbc:common-compose:${p6Version}")
-//    implementation("com.qxdzbc:err:${p6Version}")
-//    implementation("com.qxdzbc:common:${p6Version}")
+
     implementation(project(":err"))
     implementation(project(":common"))
     implementation(project(":common-compose"))
@@ -108,8 +107,8 @@ dependencies {
 
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-inline:${mockitoVersion}")
-
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
     testImplementation("io.mockk:mockk:1.12.3")
     testImplementation("org.jetbrains.compose.ui:ui-test-junit4:${composeTestVersion}")
     testImplementation("org.jetbrains.compose.ui:ui-test-junit4-desktop:${composeTestVersion}")

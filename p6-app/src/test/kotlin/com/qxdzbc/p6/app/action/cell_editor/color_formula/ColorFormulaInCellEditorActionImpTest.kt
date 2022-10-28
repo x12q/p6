@@ -21,10 +21,10 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
     fun colorFormula(){
         val wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!
         cellEditorAct.openCellEditor(wbwsSt)
-//        cellEditorAct.onTextChange("=F1")
+        cellEditorAct.onTextChange("=F1")
 
-//        assertEquals("=F1",ts.sc.cellEditorState.displayText)
-//        assertEquals("=F1",ts.sc.cellEditorState.currentText)
+        assertEquals("=F1",ts.sc.cellEditorState.displayText)
+        assertEquals("=F1",ts.sc.cellEditorState.currentText)
 //
 //        val t2 = "=F1    "
 //        cellEditorAct.onTextChange(t2)

@@ -59,6 +59,7 @@ import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEdit
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
@@ -80,6 +81,7 @@ import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
+import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
@@ -88,7 +90,13 @@ import org.zeromq.ZMQ
 
 
 @P6Singleton
-@Component(
+//@Component(
+//    modules = [
+//        P6Module::class,
+//    ],
+//)
+@MergeComponent(
+    scope = P6AnvilScope::class,
     modules = [
         P6Module::class,
     ],

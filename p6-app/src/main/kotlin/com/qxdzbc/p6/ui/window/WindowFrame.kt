@@ -34,9 +34,8 @@ fun WindowFrame(
     modifier: Modifier = Modifier,
 ) {
     Loggers.renderLogger.debug("render window frame")
-    MBox(modifier = Modifier
+    MBox(modifier = modifier
         .fillMaxSize()
-        .then(modifier)
     ) {
         Column {
             BorderBox(style = BorderStyle.BOT, modifier = Modifier.fillMaxWidth()) {

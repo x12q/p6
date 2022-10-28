@@ -2,8 +2,7 @@ package com.qxdzbc.common.compose
 
 import androidx.compose.runtime.*
 
-typealias Ms<T> = MutableState<T>
-typealias St<T> = State<T>
+
 
 object StateUtils {
     /**
