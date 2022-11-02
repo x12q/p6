@@ -22,9 +22,9 @@ interface RMModule {
 
     @Binds
     @P6Singleton
-    fun RequestMakerForTemplate(i: TemplateRMImp): TemplateRM
+    fun TemplateRM(i: TemplateRMImp): TemplateRM
 
     @Binds
     @P6Singleton
-    fun BaseRequestMaker(i: BaseRemoteRMImp): BaseRemoteRM
+    fun BaseRemoteRM(i: BaseRemoteRMImp): BaseRemoteRM
 }

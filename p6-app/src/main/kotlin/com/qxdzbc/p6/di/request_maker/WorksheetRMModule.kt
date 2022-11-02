@@ -16,20 +16,19 @@ interface WorksheetRMModule {
 
     @Binds
     @P6Singleton
-    fun UpdateMultiCellRMLocal(i: UpdateMultiCellRMImp): UpdateMultiCellRM1
+    fun UpdateMultiCellRM1(i: UpdateMultiCellRMImp): UpdateMultiCellRM1
 
     @Binds
     @P6Singleton
-
-    fun RenameWorksheetRMLocal(i: RenameWorksheetRMImp): RenameWorksheetRM
-
-    @Binds
-    @P6Singleton
-    fun DeleteMultiRMLocal(i: DeleteMultiRMImp): DeleteMultiRM
-
+    fun RenameWorksheetRM(i: RenameWorksheetRMImp): RenameWorksheetRM
 
     @Binds
     @P6Singleton
-    fun bindWorksheetRequestMaker(mk: WorksheetRMImp): WorksheetRM
+    fun DeleteMultiRM(i: DeleteMultiRMImp): DeleteMultiRM
+
+
+    @Binds
+    @P6Singleton
+    fun WorksheetRM(mk: WorksheetRMImp): WorksheetRM
 
 }

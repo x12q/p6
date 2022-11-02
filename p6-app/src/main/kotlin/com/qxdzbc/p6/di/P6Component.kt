@@ -192,9 +192,6 @@ interface P6Component {
     fun gson(): Gson
 
     @P6Singleton
-    fun worksheetRequestMaker(): WorksheetRM
-
-    @P6Singleton
     fun cellRequestMaker(): CellRM
 
     @P6Singleton

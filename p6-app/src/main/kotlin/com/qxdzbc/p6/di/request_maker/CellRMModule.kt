@@ -10,5 +10,5 @@ interface CellRMModule {
 
     @Binds
     @P6Singleton
-    fun CellRequestMaker(cmk: CellRMImp): CellRM
+    fun CellRM(cmk: CellRMImp): CellRM
 }

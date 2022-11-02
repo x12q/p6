@@ -11,9 +11,9 @@ import dagger.Binds
 interface WorkbookRMModule {
     @Binds
     @P6Singleton
-    fun AddWorksheetRM(i: CreateNewWorksheetRMImp): CreateNewWorksheetRM
+    fun CreateNewWorksheetRM(i: CreateNewWorksheetRMImp): CreateNewWorksheetRM
 
     @Binds
     @P6Singleton
-    fun DeleteWorksheetRMLocal(i: DeleteWorksheetRMImp): DeleteWorksheetRM
+    fun DeleteWorksheetRM(i: DeleteWorksheetRMImp): DeleteWorksheetRM
 }

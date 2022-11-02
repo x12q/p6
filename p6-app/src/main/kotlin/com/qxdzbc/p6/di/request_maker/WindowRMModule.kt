@@ -9,5 +9,5 @@ import dagger.Binds
 interface WindowRMModule {
     @Binds
     @P6Singleton
-    fun WindowRequestMaker(i: WindowRMImp): WindowRM
+    fun WindowRM(i: WindowRMImp): WindowRM
 }

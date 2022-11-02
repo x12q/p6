@@ -23,27 +23,23 @@ import dagger.Binds
 interface AppRMModule {
     @Binds
     @P6Singleton
-
-    fun RestartKernelRMImp(i: RestartKernelRMImp): RestartKernelRM
-
-    @Binds
-    @P6Singleton
-
-    fun MakeCreateNewWbRequestLocal(i: CreateNewWbRMImp): CreateNewWbRM
+    fun RestartKernelRM(i: RestartKernelRMImp): RestartKernelRM
 
     @Binds
     @P6Singleton
-
-    fun MakeCloseWorkbookRequestLocal(i: CloseWorkbookRMImp): CloseWorkbookRM
-
-    @Binds
-    @P6Singleton
-
-    fun SetActiveWorksheetRMLocal(i: SetActiveWorksheetRMImp): SetActiveWorksheetRM
+    fun CreateNewWbRM(i: CreateNewWbRMImp): CreateNewWbRM
 
     @Binds
     @P6Singleton
-    fun AppRequestMaker(mk: AppRMImp): AppRM
+    fun CloseWorkbookRM(i: CloseWorkbookRMImp): CloseWorkbookRM
+
+    @Binds
+    @P6Singleton
+    fun SetActiveWorksheetRM(i: SetActiveWorksheetRMImp): SetActiveWorksheetRM
+
+    @Binds
+    @P6Singleton
+    fun AppRM(mk: AppRMImp): AppRM
 
 
     @Binds
@@ -53,12 +49,10 @@ interface AppRMModule {
 
     @Binds
     @P6Singleton
-
-    fun SaveWorkbookRMLocal(i: SaveWorkbookRMImp): SaveWorkbookRM
+    fun SaveWorkbookRM(i: SaveWorkbookRMImp): SaveWorkbookRM
 
     @Binds
     @P6Singleton
-
-    fun LoadWorkbookRMLocal(i: LoadWorkbookRMImp): LoadWorkbookRM
+    fun LoadWorkbookRM(i: LoadWorkbookRMImp): LoadWorkbookRM
 
 }

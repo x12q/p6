@@ -18,23 +18,23 @@ import dagger.Binds
 @dagger.Module
 interface ActionTableModule {
     @Binds
-    @com.qxdzbc.p6.di.P6Singleton
+    @P6Singleton
     fun CodeEditorActionTable(i: CodeEditorActionTableImp): CodeEditorActionTable
 
     @Binds
-    @com.qxdzbc.p6.di.P6Singleton
+    @P6Singleton
     fun AppActionTable(i: AppActionTableImp): AppActionTable
 
     @Binds
-    @com.qxdzbc.p6.di.P6Singleton
+    @P6Singleton
     fun windowActionTable(i: WindowActionTableImp): WindowActionTable
 
     @Binds
-    @com.qxdzbc.p6.di.P6Singleton
+    @P6Singleton
     fun workbookActionTable(i: WorkbookActionTableImp): WorkbookActionTable
 
     @Binds
-    @com.qxdzbc.p6.di.P6Singleton
+    @P6Singleton
     fun worksheetActionTable(i: WorksheetActionTableImp): WorksheetActionTable
 
 }
