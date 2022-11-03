@@ -62,7 +62,6 @@ data class AppStateImp @Inject constructor(
     override val activeWindowPointerMs: Ms<ActiveWindowPointer> = ms(ActiveWindowPointerImp(null)),
     @AppScriptContMs
     val appScriptContainerMs: Ms<ScriptContainer> = ms(ScriptContainerImp()),
-    @CentralScriptContMs
     override val centralScriptContainerMs: Ms<CentralScriptContainer>,
     @CodeEditorStateMs
     override val codeEditorStateMs: Ms<CodeEditorState>,

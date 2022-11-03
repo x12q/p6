@@ -176,7 +176,6 @@ interface AppStateModule {
         fun CodeEditorState(
             @WbContainerMs
             wbContMs: Ms<WorkbookContainer>,
-            @CentralScriptContMs
             centralScriptContainerMs: Ms<CentralScriptContainer>
         ): Ms<CodeEditorState> {
             return ms(
@@ -224,10 +223,8 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @CentralScriptContMs
         fun CentralScriptContainer(
             @AppScriptContMs s: Ms<ScriptContainer>,
-//            @WbStateContMs
             wc:Ms<WorkbookStateContainer>
         ): Ms<CentralScriptContainer> {
             return ms(
