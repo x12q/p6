@@ -50,8 +50,8 @@ import dagger.Provides
 @dagger.Module
 interface AppStateModule {
 
-    @Binds
-    fun CellEditorState(i: CellEditorStateImp): CellEditorState
+//    @Binds
+//    fun CellEditorState(i: CellEditorStateImp): CellEditorState
 
     @Binds
     @P6Singleton
@@ -67,27 +67,27 @@ interface AppStateModule {
     @P6Singleton
     fun StateContainerSt(i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
 
-    @Binds
-    fun TranslatorContainer(i:TranslatorContainerImp):TranslatorContainer
+//    @Binds
+//    fun TranslatorContainer(i:TranslatorContainerImp):TranslatorContainer
+//
+//    @Binds
+//    fun DocumentContainer(i:DocumentContainerImp):DocumentContainer
+//
+//    @Binds
+//    fun StateContainer(i: SubAppStateContainerImp):SubAppStateContainer
+//
+//    @Binds
+//    @P6Singleton
+//    @MsKernelContextQualifier
+//    fun ReactiveKernel(i:MsKernelContext):KernelContext
+//
+//    @Binds
+//    @P6Singleton
+//    fun CodeEditorAction(i: CodeEditorActionImp): CodeEditorAction
 
-    @Binds
-    fun DocumentContainer(i:DocumentContainerImp):DocumentContainer
-
-    @Binds
-    fun StateContainer(i: SubAppStateContainerImp):SubAppStateContainer
-
-    @Binds
-    @P6Singleton
-    @MsKernelContextQualifier
-    fun ReactiveKernel(i:MsKernelContext):KernelContext
-
-    @Binds
-    @P6Singleton
-    fun CodeEditorAction(i: CodeEditorActionImp): CodeEditorAction
-
-    @Binds
-    @P6Singleton
-    fun ScriptTreeAction(i: ScriptTreeActionImp): ScriptTreeAction
+//    @Binds
+//    @P6Singleton
+//    fun ScriptTreeAction(i: ScriptTreeActionImp): ScriptTreeAction
 
     companion object {
         @Provides
@@ -128,7 +128,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-//        @WbStateContMs
         fun WorkbookStateContMs(wbStateFactory: WorkbookStateFactory): Ms<WorkbookStateContainer> {
             return ms(WorkbookStateContainerImp(wbStateFactory=wbStateFactory))
         }
@@ -145,7 +144,6 @@ interface AppStateModule {
         fun WindowStateMap(): Ms<Map<String, Ms<OuterWindowState>>> {
             return ms(emptyMap())
         }
-
 
         @Provides
         @P6Singleton

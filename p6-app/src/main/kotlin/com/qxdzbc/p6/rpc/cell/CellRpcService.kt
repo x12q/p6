@@ -10,23 +10,28 @@ import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.ActionDispatcherDefault
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
+import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.common_data_structure.StrMsg
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType= CellServiceGrpc.CellServiceImplBase::class)
 class CellRpcService @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val acts: CellRpcActions,

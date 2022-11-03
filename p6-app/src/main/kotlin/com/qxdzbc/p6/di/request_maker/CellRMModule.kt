@@ -8,7 +8,7 @@ import dagger.Binds
 @dagger.Module
 interface CellRMModule {
 
-    @Binds
-    @P6Singleton
-    fun CellRM(cmk: CellRMImp): CellRM
+//    @Binds
+//    @P6Singleton
+//    fun CellRM(cmk: CellRMImp): CellRM
 }

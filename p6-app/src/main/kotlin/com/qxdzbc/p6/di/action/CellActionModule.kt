@@ -10,11 +10,11 @@ import dagger.Binds
 
 @dagger.Module
 interface CellActionModule {
-    @Binds
-    @P6Singleton
-    fun CopyCellAction(i:CopyCellActionImp): CopyCellAction
-
-    @Binds
-    @P6Singleton
-    fun MultiCellUpdateAction(i: MultiCellUpdateActionImp):MultiCellUpdateAction
+//    @Binds
+//    @P6Singleton
+//    fun CopyCellAction(i:CopyCellActionImp): CopyCellAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun MultiCellUpdateAction(i: MultiCellUpdateActionImp):MultiCellUpdateAction
 }

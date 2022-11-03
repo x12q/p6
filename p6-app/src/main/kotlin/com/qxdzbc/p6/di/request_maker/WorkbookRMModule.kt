@@ -9,11 +9,11 @@ import dagger.Binds
 
 @dagger.Module
 interface WorkbookRMModule {
-    @Binds
-    @P6Singleton
-    fun CreateNewWorksheetRM(i: CreateNewWorksheetRMImp): CreateNewWorksheetRM
-
-    @Binds
-    @P6Singleton
-    fun DeleteWorksheetRM(i: DeleteWorksheetRMImp): DeleteWorksheetRM
+//    @Binds
+//    @P6Singleton
+//    fun CreateNewWorksheetRM(i: CreateNewWorksheetRMImp): CreateNewWorksheetRM
+//
+//    @Binds
+//    @P6Singleton
+//    fun DeleteWorksheetRM(i: DeleteWorksheetRMImp): DeleteWorksheetRM
 }

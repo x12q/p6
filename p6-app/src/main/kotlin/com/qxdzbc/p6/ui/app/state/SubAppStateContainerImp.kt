@@ -15,6 +15,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
@@ -29,9 +30,10 @@ import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
-
+@ContributesBinding(P6AnvilScope::class,boundType=SubAppStateContainer::class)
 data class SubAppStateContainerImp @Inject constructor(
     override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>,
     override val wbStateContMs: Ms<WorkbookStateContainer>,

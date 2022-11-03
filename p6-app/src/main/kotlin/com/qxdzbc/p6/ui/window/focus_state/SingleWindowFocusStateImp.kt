@@ -4,12 +4,16 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.di.TrueMs
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 /**
  * A focus state that can only focus on 1 or 0 thing at a time
  */
+@ContributesBinding(P6AnvilScope::class)
 data class SingleWindowFocusStateImp @Inject constructor(
     @TrueMs
     private val isCursorFocusedMs:Ms<Boolean>,

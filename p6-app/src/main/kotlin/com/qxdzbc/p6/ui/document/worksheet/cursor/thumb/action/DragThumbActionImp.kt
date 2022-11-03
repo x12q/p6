@@ -10,12 +10,16 @@ import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class DragThumbActionImp @Inject constructor(
     val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
     private val copyCellAct: CopyCellAction,

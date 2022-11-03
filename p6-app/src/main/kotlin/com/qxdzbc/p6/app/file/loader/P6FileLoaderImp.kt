@@ -15,14 +15,18 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.UtilQualifier
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.inject.Inject
 import kotlin.io.path.name
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class P6FileLoaderImp @Inject constructor(
     val transContSt:St<@JvmSuppressWildcards TranslatorContainer>,
     @UtilQualifier.ReadFileFunction

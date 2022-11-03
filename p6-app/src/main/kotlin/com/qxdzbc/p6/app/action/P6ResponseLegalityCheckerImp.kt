@@ -6,9 +6,12 @@ import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrapError
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 @Deprecated("don't use, this is kept for just-in-case purposes only")
+@ContributesBinding(P6AnvilScope::class)
 class P6ResponseLegalityCheckerImp @Inject constructor(
     private val errorRouter: ErrorRouter,
 ) : P6ResponseLegalityChecker {

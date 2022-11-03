@@ -10,9 +10,13 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import kotlin.io.path.Path
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class SaveWorkbookRMImp @Inject constructor(
     private val saver: P6Saver,
     val stateContMs:Ms<StateContainer>,

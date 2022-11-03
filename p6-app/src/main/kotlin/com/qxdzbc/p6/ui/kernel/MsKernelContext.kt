@@ -9,12 +9,19 @@ import com.qxdzbc.p6.message.api.connection.kernel_context.KernelStatus
 import com.qxdzbc.p6.message.api.message.protocol.KernelConnectionFileContent
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
+import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
 
 /**
  * The purpose of this kernel context is that it can influence a Ms of [KernelStatus] on its event
  */
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
+@MsKernelContextQualifier
 class MsKernelContext @Inject constructor(
     private val kernelContext: KernelContext,
     private val kernelStatusStateMs: Ms<KernelStatus>

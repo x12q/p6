@@ -8,8 +8,10 @@ import com.qxdzbc.p6.app.action.app.restart_kernel.RestartKernelResponse
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@ContributesBinding(P6AnvilScope::class)
 class RestartKernelApplierImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
     val stateContMs:Ms<StateContainer>,

@@ -20,11 +20,11 @@ import dagger.Binds
 )
 interface RMModule {
 
-    @Binds
-    @P6Singleton
-    fun TemplateRM(i: TemplateRMImp): TemplateRM
-
-    @Binds
-    @P6Singleton
-    fun BaseRemoteRM(i: BaseRemoteRMImp): BaseRemoteRM
+//    @Binds
+//    @P6Singleton
+//    fun TemplateRM(i: TemplateRMImp): TemplateRM
+//
+//    @Binds
+//    @P6Singleton
+//    fun BaseRemoteRM(i: BaseRemoteRMImp): BaseRemoteRM
 }

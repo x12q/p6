@@ -7,7 +7,7 @@ import dagger.Binds
 
 @dagger.Module
 interface WindowRMModule {
-    @Binds
-    @P6Singleton
-    fun WindowRM(i: WindowRMImp): WindowRM
+//    @Binds
+//    @P6Singleton
+//    fun WindowRM(i: WindowRMImp): WindowRM
 }

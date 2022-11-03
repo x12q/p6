@@ -13,8 +13,12 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.mapError
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class SetActiveWorksheetRMImp @Inject constructor(
     private val appStateMs: Ms<AppState>
 ) : SetActiveWorksheetRM {

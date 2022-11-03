@@ -11,9 +11,13 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetRMImp @Inject constructor(
     val appStateMs: Ms<AppState>
 ) : DeleteWorksheetRM {

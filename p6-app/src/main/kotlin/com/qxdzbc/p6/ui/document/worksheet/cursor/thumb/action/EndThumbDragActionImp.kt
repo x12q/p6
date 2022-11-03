@@ -8,14 +8,18 @@ import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class EndThumbDragActionImp @Inject constructor(
     val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
     private val copyCellAct: CopyCellAction,

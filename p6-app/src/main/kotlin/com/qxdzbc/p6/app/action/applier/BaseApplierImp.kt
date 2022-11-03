@@ -11,8 +11,12 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class BaseApplierImp @Inject constructor(
     private val errorApplier: ErrorApplier,
     private val errorRouter: ErrorRouter,

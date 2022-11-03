@@ -11,13 +11,17 @@ import com.qxdzbc.p6.ui.common.view.OkButton
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class P6SaverImp @Inject constructor() : P6Saver {
     override fun save(wb: Workbook, path: Path): Result<Unit, ErrorReport> {
         try {

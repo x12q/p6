@@ -11,16 +11,20 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.DefaultTextFieldValue
 import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.FalseMs
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.state.app_state.CellEditorInitCursorIdSt
 import com.qxdzbc.p6.di.state.app_state.DefaultNullCellAddress
 import com.qxdzbc.p6.di.state.app_state.NullTextFieldValue
 import com.qxdzbc.p6.di.state.ws.cursor.DefaultCursorParseTree
+import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.squareup.anvil.annotations.ContributesBinding
 import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
-
+@ContributesBinding(P6AnvilScope::class)
 data class CellEditorStateImp @Inject constructor(
     @CellEditorInitCursorIdSt
     override val targetCursorIdSt: St<@JvmSuppressWildcards CursorStateId>?,

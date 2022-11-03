@@ -19,30 +19,30 @@ import dagger.Binds
 
 @dagger.Module
 interface WindowActionModule {
-    @Binds
-    @P6Singleton
-    fun CloseWindowAction(i: CloseWindowActionImp):CloseWindowAction
-
-    @Binds
-    @P6Singleton
-    fun PickDefaultActiveWbAction(i:PickDefaultActiveWbActionImp): PickDefaultActiveWbAction
-
-    @Binds
-    @P6Singleton
-    fun MoveToWbAction(i: MoveToWbActionImp):MoveToWbAction
-
-    @Binds
-    @P6Singleton
-    fun WindowAction(i: WindowActionImp): WindowAction
-    @Binds
-    @P6Singleton
-    fun FileMenuAction(i:FileMenuActionImp): FileMenuAction
-
-    @Binds
-    @P6Singleton
-    fun CodeMenuAction(i:CodeMenuActionImp): CodeMenuAction
-
-    @Binds
-    @P6Singleton
-    fun WorkbookTabBarAction(i: WorkbookTabBarActionImp):WorkbookTabBarAction
+//    @Binds
+//    @P6Singleton
+//    fun CloseWindowAction(i: CloseWindowActionImp):CloseWindowAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun PickDefaultActiveWbAction(i:PickDefaultActiveWbActionImp): PickDefaultActiveWbAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun MoveToWbAction(i: MoveToWbActionImp):MoveToWbAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun WindowAction(i: WindowActionImp): WindowAction
+//    @Binds
+//    @P6Singleton
+//    fun FileMenuAction(i:FileMenuActionImp): FileMenuAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun CodeMenuAction(i:CodeMenuActionImp): CodeMenuAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun WorkbookTabBarAction(i: WorkbookTabBarActionImp):WorkbookTabBarAction
 }

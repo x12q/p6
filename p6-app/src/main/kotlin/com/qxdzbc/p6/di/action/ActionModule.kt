@@ -21,12 +21,4 @@ import dagger.Binds
 )
 interface ActionModule {
 
-    @Binds
-    @P6Singleton
-    fun CellAction(i: UpdateCellActionImp): UpdateCellAction
-
-    @Binds
-    @P6Singleton
-    fun P6ResponseLegalityCheckerImp(i: P6ResponseLegalityCheckerImp): P6ResponseLegalityChecker
-
 }

@@ -6,8 +6,12 @@ import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType=WorkbookAction::class)
 class WorkbookActionImp @Inject constructor(
     private val newWsAction:NewWorksheetAction,
     private val delWsAct: DeleteWorksheetAction,

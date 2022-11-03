@@ -11,18 +11,17 @@ import com.qxdzbc.p6.app.action.script.new_script.rm.NewScriptRM as NewScriptRM1
 
 @dagger.Module
 interface ScriptRMModule {
-    @Binds
-    @P6Singleton
-
-    fun NewScriptRMLocal(i: NewScriptRMImp): NewScriptRM1
-
-    @Binds
-    @P6Singleton
-    @Fake
-    fun FakeNewScriptRM(i: FakeNewScriptRM): NewScriptRM1
-
-    @Binds
-    @P6Singleton
-    fun ScriptRequestMaker(i: ScriptRMImp): ScriptRM
+//    @Binds
+//    @P6Singleton
+//    fun NewScriptRMLocal(i: NewScriptRMImp): NewScriptRM1
+//
+//    @Binds
+//    @P6Singleton
+//    @Fake
+//    fun FakeNewScriptRM(i: FakeNewScriptRM): NewScriptRM1
+//
+//    @Binds
+//    @P6Singleton
+//    fun ScriptRequestMaker(i: ScriptRMImp): ScriptRM
 
 }

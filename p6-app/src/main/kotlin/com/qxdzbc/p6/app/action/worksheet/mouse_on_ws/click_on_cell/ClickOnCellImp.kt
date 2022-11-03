@@ -13,8 +13,13 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class ClickOnCellImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,

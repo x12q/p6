@@ -18,10 +18,14 @@ import com.github.michaelbull.result.mapBoth
 import com.google.gson.Gson
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.file_util.FileUtil
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
+import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Paths
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class RestartKernelRMImp @Inject constructor(
     @MsKernelContextQualifier
     private val kernelContext: KernelContext,

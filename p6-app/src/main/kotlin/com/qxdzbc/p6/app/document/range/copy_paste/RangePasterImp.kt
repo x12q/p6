@@ -4,8 +4,12 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Result
 import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class RangePasterImp @Inject constructor(
     val singleCellPaster: SingleCellPaster,
     val rangeRangePasterImp: RangeRangePasterImp,

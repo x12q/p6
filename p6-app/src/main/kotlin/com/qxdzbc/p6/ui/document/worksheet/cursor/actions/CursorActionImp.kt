@@ -22,6 +22,8 @@ import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.document.cell.Cell
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
@@ -31,10 +33,12 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType = CursorAction::class)
 @OptIn(ExperimentalComposeUiApi::class)
 class CursorActionImp @Inject constructor(
     private val wsAction: WorksheetAction,

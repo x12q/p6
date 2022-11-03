@@ -3,8 +3,12 @@ package com.qxdzbc.p6.app.action.workbook.set_active_ws
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.applier.SetActiveWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.rm.SetActiveWorksheetRM
 import com.qxdzbc.p6.app.common.utils.RseNav
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class SetActiveWorksheetActionImp @Inject constructor(
     private val rm: SetActiveWorksheetRM,
     private val applier: SetActiveWorksheetApplier,

@@ -9,8 +9,12 @@ import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeResponse
 
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class PasteRangeApplierImp @Inject constructor(
     private val wbUpdateApplier: WorkbookUpdateCommonApplier,
     private val appStateMs:Ms<AppState>,

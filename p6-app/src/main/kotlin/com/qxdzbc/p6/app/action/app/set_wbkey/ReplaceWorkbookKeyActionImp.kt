@@ -7,12 +7,14 @@ import com.github.michaelbull.result.map
 import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouters.publishErrIfNeedSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@ContributesBinding(P6AnvilScope::class)
 class ReplaceWorkbookKeyActionImp @Inject constructor(
     val stateContMs:Ms<StateContainer>,
     val errorRouter: ErrorRouter,

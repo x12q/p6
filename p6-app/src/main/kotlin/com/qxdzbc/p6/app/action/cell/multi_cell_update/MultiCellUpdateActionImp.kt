@@ -7,14 +7,19 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.AppCoroutineScope
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class MultiCellUpdateActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val tcSt: St<@JvmSuppressWildcards TranslatorContainer>,

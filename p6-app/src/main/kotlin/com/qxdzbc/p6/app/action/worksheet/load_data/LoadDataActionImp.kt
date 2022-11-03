@@ -8,6 +8,8 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
@@ -18,8 +20,10 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class LoadDataActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val errorRouter: ErrorRouter,

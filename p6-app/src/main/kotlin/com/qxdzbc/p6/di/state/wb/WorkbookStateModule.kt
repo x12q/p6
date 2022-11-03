@@ -14,9 +14,8 @@ import dagger.Provides
 
 @dagger.Module
 interface WorkbookStateModule {
-    @Binds
-    fun ScriptContainer(i:ScriptContainerImp): ScriptContainer
-
+//    @Binds
+//    fun ScriptContainer(i:ScriptContainerImp): ScriptContainer
 
     companion object
     {

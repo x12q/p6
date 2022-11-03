@@ -17,7 +17,9 @@ import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorActio
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
@@ -28,8 +30,10 @@ import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType=CellEditorAction::class)
 class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,

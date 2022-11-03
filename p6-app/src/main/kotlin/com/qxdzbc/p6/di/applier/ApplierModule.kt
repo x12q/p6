@@ -15,15 +15,15 @@ import dagger.Binds
     ]
 )
 interface ApplierModule {
-    @Binds
-    @P6Singleton
-    fun TemplateResponseApplier(i: ErrorApplierImp): ErrorApplier
-
-    @Binds
-    @P6Singleton
-    fun WorkbookUpdateCommonApplier(i: WorkbookUpdateCommonApplierImp): WorkbookUpdateCommonApplier
-
-    @Binds
-    @P6Singleton
-    fun BaseResApplier2(i: BaseApplierImp):BaseApplier
+//    @Binds
+//    @P6Singleton
+//    fun TemplateResponseApplier(i: ErrorApplierImp): ErrorApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun WorkbookUpdateCommonApplier(i: WorkbookUpdateCommonApplierImp): WorkbookUpdateCommonApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun BaseResApplier2(i: BaseApplierImp):BaseApplier
 }
