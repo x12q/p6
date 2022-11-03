@@ -61,8 +61,7 @@ interface AppStateModule {
 
     @Binds
     @P6Singleton
-    @DocumentContainerSt
-    fun DocumentContainerSt(@DocumentContainerMs i:Ms<DocumentContainer>):St<DocumentContainer>
+    fun DocumentContainerSt(i:Ms<DocumentContainer>):St<DocumentContainer>
 
     @Binds
     @P6Singleton
@@ -105,21 +104,18 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @TranslatorContainerMs
         fun TranslatorContainerMs(i:TranslatorContainer):Ms<TranslatorContainer>{
             return ms(i)
         }
 
         @Provides
         @P6Singleton
-        @TranslatorContainerSt
-        fun TranslatorContainerSt(@TranslatorContainerMs i:Ms<TranslatorContainer>):St<TranslatorContainer>{
+        fun TranslatorContainerSt(i:Ms<TranslatorContainer>):St<TranslatorContainer>{
             return i
         }
 
         @Provides
         @P6Singleton
-        @DocumentContainerMs
         fun DocumentContainerMs(i:DocumentContainer):Ms<DocumentContainer>{
             return ms(i)
         }
@@ -140,38 +136,20 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @KernelStatusQualifier
         fun KernelStatusMs(kernel: KernelContext): Ms<KernelStatus> {
             return ms(kernel.kernelStatus)
         }
 
         @Provides
         @P6Singleton
-        @AppWindowStateListMs
-        fun WindowStateList(): Ms<List<Ms<OuterWindowState>>> {
-            return ms(listOf())
-        }
-
-
-        @Provides
-        @P6Singleton
-        @AppWindowStateMapMs
         fun WindowStateMap(): Ms<Map<String, Ms<OuterWindowState>>> {
             return ms(emptyMap())
         }
 
-        @Provides
-        @P6Singleton
-        @AppOuterWindowStateListMs
-        fun OuterWindowStateList(): Ms<List<Ms<OuterWindowState>>> {
-            return ms(listOf())
-        }
 
         @Provides
         @P6Singleton
-        @CodeEditorStateMs
         fun CodeEditorState(
-            @WbContainerMs
             wbContMs: Ms<WorkbookContainer>,
             centralScriptContainerMs: Ms<CentralScriptContainer>
         ): Ms<CodeEditorState> {
@@ -185,13 +163,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @ScriptTreeStateMs
-        fun ScriptTreeState(@CodeEditorStateMs codeEditorStateMs: Ms<CodeEditorState>): Ms<ScriptTreeState> {
-            return codeEditorStateMs.value.scriptTreeStateMs
-        }
-
-        @Provides
-        @P6Singleton
         @AppOddityContMs
         fun AppOddityContainerMs(): Ms<ErrorContainer> {
             return ms(ErrorContainerImp())
@@ -199,14 +170,12 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @WbContainerMs
         fun WbContainer(wb:WorkbookContainerImp): Ms<WorkbookContainer> {
             return ms(wb)
         }
 
         @Provides
         @P6Singleton
-        @WindowActivePointerMs
         fun InitActiveWindowPointer(): Ms<ActiveWindowPointer> {
             return ms(ActiveWindowPointerImp(null))
         }
@@ -251,7 +220,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @CellEditorStateMs
         fun CellEditorStateMs(i: CellEditorState):Ms<CellEditorState>{
             return ms(i)
         }

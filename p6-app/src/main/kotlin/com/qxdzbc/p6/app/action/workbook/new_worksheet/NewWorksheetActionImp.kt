@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfos.noNav
 import com.qxdzbc.p6.app.document.workbook.WorkbookErrors
 
-import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
+
 
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -22,7 +22,7 @@ class NewWorksheetActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     val appStateMs: Ms<AppState>,
     private val scMs: Ms<StateContainer>,
-    @DocumentContainerMs private val dcMs: Ms<DocumentContainer>,
+    private val dcMs: Ms<DocumentContainer>,
 ) : NewWorksheetAction {
     var sc by scMs
     var dc by dcMs

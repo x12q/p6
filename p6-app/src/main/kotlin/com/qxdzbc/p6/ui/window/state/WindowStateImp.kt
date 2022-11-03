@@ -4,8 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.ErrorUtils.getOrThrow
-import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
-import com.qxdzbc.p6.di.state.app_state.WbContainerMs
+
 import com.qxdzbc.p6.di.status_bar.StatusBarStateQualifier
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -30,6 +29,7 @@ import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
+import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -56,7 +56,6 @@ data class WindowStateImp @AssistedInject constructor(
     ),
     @Assisted override val commonFileDialogJob: CompletableDeferred<Path?>? = null,
 
-    @WbContainerMs
     override val wbContMs: Ms<WorkbookContainer>,
     override val wbStateContMs: Ms<WorkbookStateContainer>,
     @StatusBarStateQualifier

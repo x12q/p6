@@ -16,7 +16,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.di.UtilQualifier
-import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
+
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import java.nio.file.Files
 import java.nio.file.Path
@@ -24,7 +24,6 @@ import javax.inject.Inject
 import kotlin.io.path.name
 
 class P6FileLoaderImp @Inject constructor(
-    @TranslatorContainerSt
     val transContSt:St<@JvmSuppressWildcards TranslatorContainer>,
     @UtilQualifier.ReadFileFunction
     val readFileToByteArray:Function1<@JvmSuppressWildcards Path,@JvmSuppressWildcards ByteArray> = Files::readAllBytes

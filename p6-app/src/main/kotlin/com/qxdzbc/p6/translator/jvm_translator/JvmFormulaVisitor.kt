@@ -12,7 +12,6 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.FunctionMapMs
-import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.FunctionMap
@@ -35,7 +34,6 @@ class JvmFormulaVisitor @AssistedInject constructor(
     @Assisted("2") private val wsNameSt: St<String>,
     @FunctionMapMs
     private val functionMapMs: Ms<FunctionMap>,
-    @DocumentContainerSt
     private val docContMs: St<@JvmSuppressWildcards DocumentContainer>
 ) : FormulaBaseVisitor<ExUnit>() {
     private val docCont: DocumentContainer by docContMs

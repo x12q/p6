@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
+
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -20,7 +20,6 @@ data class LazyRange @AssistedInject constructor(
     @Assisted("1") override val address: RangeAddress,
     @Assisted("2") val wsNameSt: St<String>,
     @Assisted("3") val wbKeySt: St<WorkbookKey>,
-    @DocumentContainerMs
     val documentContMs: Ms<DocumentContainer>
 ) : Range{
     val wbKey by wbKeySt

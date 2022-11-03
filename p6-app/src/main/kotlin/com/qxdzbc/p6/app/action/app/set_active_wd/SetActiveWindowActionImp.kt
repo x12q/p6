@@ -7,14 +7,11 @@ import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-
-import com.qxdzbc.p6.di.state.app_state.WindowActivePointerMs
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class SetActiveWindowActionImp @Inject constructor(
-    @WindowActivePointerMs
     val activeWdPointerMs: Ms<ActiveWindowPointer>,
     val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : SetActiveWindowAction {

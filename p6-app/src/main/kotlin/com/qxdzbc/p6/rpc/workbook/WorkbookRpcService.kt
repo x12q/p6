@@ -28,7 +28,7 @@ import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.ActionDispatcherMain
 import com.qxdzbc.p6.di.AppCoroutineScope
-import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
+
 
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
@@ -51,7 +51,6 @@ class WorkbookRpcService @Inject constructor(
 //    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
     private val rpcActions: WorkbookRpcActions,
-    @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
     private val stateContMs: Ms<SubAppStateContainer>,
     @AppCoroutineScope

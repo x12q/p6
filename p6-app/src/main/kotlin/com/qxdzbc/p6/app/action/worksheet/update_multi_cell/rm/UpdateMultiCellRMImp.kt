@@ -10,7 +10,6 @@ import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.CellContentImp
-import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -25,7 +24,7 @@ import javax.inject.Inject
 
 class UpdateMultiCellRMImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
-    @TranslatorContainerMs val translatorContainerMs: Ms<TranslatorContainer>
+    val translatorContainerMs: Ms<TranslatorContainer>
 ) : UpdateMultiCellRM {
 
     var translatorCont by translatorContainerMs

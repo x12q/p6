@@ -13,9 +13,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.state.app_state.CellEditorStateMs
 import com.qxdzbc.p6.di.state.ws.*
-import com.qxdzbc.p6.di.state.ws.cursor.DefaultCursorParseTree
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.common.P6R
@@ -24,7 +22,6 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import org.antlr.v4.runtime.tree.ParseTree
 
 
 data class CursorStateImp @AssistedInject constructor(
@@ -37,7 +34,6 @@ data class CursorStateImp @AssistedInject constructor(
     @Assisted("4")
     val mainCellMs: Ms<CellAddress> = ms(CellAddresses.A1),
     //=============================================//
-    @CellEditorStateMs
     override val cellEditorStateMs: Ms<CellEditorState>,
     @NullRangeAddress
     override val mainRange: RangeAddress? = null,

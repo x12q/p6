@@ -38,7 +38,6 @@ import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
 
 
-import com.qxdzbc.p6.di.state.app_state.WbContainerMs
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
@@ -166,7 +165,6 @@ interface P6Component {
     fun appStateMs(): Ms<AppState>
 
     @P6Singleton
-    @WbContainerMs
     fun wbContainerMs(): Ms<WorkbookContainer>
 
     @P6Singleton

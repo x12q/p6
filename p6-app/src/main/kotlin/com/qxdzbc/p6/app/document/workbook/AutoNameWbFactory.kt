@@ -10,7 +10,6 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
-import com.qxdzbc.p6.di.state.app_state.WbContainerMs
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -18,7 +17,6 @@ import javax.inject.Inject
  * A wb factory that can automatically generate names for new workbooks
  */
 class AutoNameWbFactory @Inject constructor(
-    @WbContainerMs
     val wbContMs: Ms<WorkbookContainer>,
     val wsNameGenerator: WsNameGenerator,
 ) : WorkbookFactory {

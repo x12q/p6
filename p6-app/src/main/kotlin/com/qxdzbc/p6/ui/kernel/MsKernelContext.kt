@@ -2,7 +2,6 @@ package com.qxdzbc.p6.ui.kernel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.di.state.app_state.KernelStatusQualifier
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfig
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
@@ -18,7 +17,6 @@ import javax.inject.Inject
  */
 class MsKernelContext @Inject constructor(
     private val kernelContext: KernelContext,
-    @KernelStatusQualifier
     private val kernelStatusStateMs: Ms<KernelStatus>
 ) : KernelContext by kernelContext {
     var kernelStatusState by kernelStatusStateMs

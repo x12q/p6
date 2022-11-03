@@ -7,8 +7,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.AppCoroutineScope
-
-import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -19,7 +17,6 @@ import javax.inject.Inject
 
 class MultiCellUpdateActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    @TranslatorContainerSt
     val tcSt: St<@JvmSuppressWildcards TranslatorContainer>,
     val errorRouter: ErrorRouter,
     @AppCoroutineScope

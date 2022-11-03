@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.script_editor.script_tree.action
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.di.state.app_state.CodeEditorStateMs
+
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class ScriptTreeActionImp @Inject constructor(
     val codeEditorAction: CodeEditorAction,
-    @CodeEditorStateMs val codeEditorStateMs: Ms<CodeEditorState>,
+    val codeEditorStateMs: Ms<CodeEditorState>,
 ) : ScriptTreeAction {
 
     private var codeEditorState by codeEditorStateMs
