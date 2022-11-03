@@ -246,7 +246,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @TranslatorMapMs
         fun TranslatorMapMs(): Ms<TranslatorMap> {
             return ms(TranslatorMapImp())
         }

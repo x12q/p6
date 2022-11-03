@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.InitSingleTranslatorMap
-import com.qxdzbc.p6.di.state.app_state.TranslatorMapMs
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMap
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
@@ -22,7 +21,6 @@ import javax.inject.Inject
  * a mutable layer
  */
 class TranslatorContainerImp @Inject constructor(
-    @TranslatorMapMs
     val attachedTranslatorMapMs: Ms<TranslatorMap>,
     @InitSingleTranslatorMap
     private val independentTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,

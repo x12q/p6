@@ -4,19 +4,11 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention
-annotation class RangeSelectorStateMs
-
-@Qualifier
-@Retention
 annotation class MsKernelContextQualifier
 
 @Qualifier
 @Retention
 annotation class KernelStatusQualifier
-
-@Qualifier
-@Retention
-annotation class TranslatorMapMs
 
 @Qualifier
 @Retention
