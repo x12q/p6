@@ -12,7 +12,7 @@ import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.rm.UpdateMultiCellRM
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
+
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState

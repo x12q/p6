@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.script.new_script.NewScriptRequest
 import com.qxdzbc.p6.app.action.script.new_script.NewScriptResponse
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
+
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err

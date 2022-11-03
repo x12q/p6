@@ -16,10 +16,6 @@ annotation class InitSingleTranslatorMap
 
 @Qualifier
 @Retention
-annotation class AppStateMs
-
-@Qualifier
-@Retention
 annotation class CentralScriptContMs
 
 @Qualifier
@@ -29,10 +25,6 @@ annotation class AppScriptContMs
 @Qualifier
 @Retention
 annotation class AppOddityContMs
-
-@Qualifier
-@Retention
-annotation class StateContainerMs
 
 @Qualifier
 @Retention
