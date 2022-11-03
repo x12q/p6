@@ -11,14 +11,13 @@ import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import javax.inject.Inject
 
 class CopyCellActionImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : CopyCellAction {
 

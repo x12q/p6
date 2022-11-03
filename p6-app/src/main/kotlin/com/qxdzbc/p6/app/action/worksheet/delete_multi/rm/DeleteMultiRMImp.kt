@@ -15,14 +15,14 @@ import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class DeleteMultiRMImp @Inject constructor(
     val appStateMs: Ms<AppState>,
-    @StateContainerSt val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
 ) : DeleteMultiRM {
     val stateCont by stateContSt
 

@@ -8,7 +8,7 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest
@@ -21,7 +21,6 @@ import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import javax.inject.Inject
 
 class LoadDataActionImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val errorRouter: ErrorRouter,
     @TranslatorContainerSt

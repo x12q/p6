@@ -7,7 +7,7 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.CellRM
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 class UpdateCellActionImp @Inject constructor(
     private val cellRM: CellRM,
-    @StateContainerSt
     val scSt:St<@JvmSuppressWildcards StateContainer>,
     @TranslatorContainerSt
     val translatorContainerMs: St<@JvmSuppressWildcards TranslatorContainer>,

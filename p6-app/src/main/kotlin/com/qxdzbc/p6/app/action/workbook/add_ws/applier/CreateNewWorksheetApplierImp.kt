@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.common.utils.RseNav
 
-import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
+
 import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class CreateNewWorksheetApplierImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
-    @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>
+    private val stateContMs:Ms<SubAppStateContainer>
 ) : CreateNewWorksheetApplier {
     private var stateCont by stateContMs
     private var appState by appStateMs

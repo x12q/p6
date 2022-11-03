@@ -10,12 +10,12 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class PasteRangeRMImp @Inject constructor(
-    @StateContainerSt private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     private val paster: RangePaster
 ) : PasteRangeRM {
 

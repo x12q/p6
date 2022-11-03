@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
@@ -28,7 +28,6 @@ import javax.inject.Inject
 
 
 class CellRpcService @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val acts: CellRpcActions,
     @ActionDispatcherDefault

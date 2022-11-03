@@ -9,13 +9,12 @@ import com.qxdzbc.p6.app.action.ActionErrors
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.proto.AppProtos
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class GetWorkbookActionImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : GetWorkbookAction {
 

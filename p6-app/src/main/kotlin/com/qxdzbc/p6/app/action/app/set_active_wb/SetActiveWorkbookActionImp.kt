@@ -10,7 +10,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.AppStateErrors
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -18,7 +18,6 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import javax.inject.Inject
 
 class SetActiveWorkbookActionImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val appStateMs: Ms<AppState>,
 ) : SetActiveWorkbookAction {

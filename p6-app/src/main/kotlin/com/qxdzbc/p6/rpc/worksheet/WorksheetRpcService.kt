@@ -13,7 +13,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
@@ -36,7 +36,6 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class WorksheetRpcService @Inject constructor(
-    @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val rpcActs: WorksheetRpcAction,
     @ActionDispatcherDefault

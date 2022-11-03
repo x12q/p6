@@ -22,7 +22,7 @@ import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.AppCoroutineScope
 
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.proto.AppProtos
 import com.qxdzbc.p6.proto.AppProtos.GetAllWorkbookResponseProto
 import com.qxdzbc.p6.proto.CommonProtos
@@ -44,7 +44,6 @@ import javax.inject.Inject
 
 class AppRpcService @Inject constructor(
     private val appStateMs: Ms<AppState>,
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val rpcActions: AppRpcAction,
     @ActionDispatcherDefault

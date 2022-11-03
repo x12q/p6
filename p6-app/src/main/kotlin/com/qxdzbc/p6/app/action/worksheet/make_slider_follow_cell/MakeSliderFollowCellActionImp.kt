@@ -10,7 +10,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouters.publishErrIfNeedSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -18,7 +18,6 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import javax.inject.Inject
 
 class MakeSliderFollowCellActionImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val errorRouter: ErrorRouter,
 ) : MakeSliderFollowCellAction {

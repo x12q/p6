@@ -60,14 +60,12 @@ data class AppStateImp @Inject constructor(
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     @WindowActivePointerMs
     override val activeWindowPointerMs: Ms<ActiveWindowPointer> = ms(ActiveWindowPointerImp(null)),
-    @AppScriptContMs
     val appScriptContainerMs: Ms<ScriptContainer> = ms(ScriptContainerImp()),
     override val centralScriptContainerMs: Ms<CentralScriptContainer>,
     @CodeEditorStateMs
     override val codeEditorStateMs: Ms<CodeEditorState>,
     val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
-    @SubAppStateContainerMs
     override val subAppStateContMs: Ms<SubAppStateContainer>,
     @DocumentContainerMs
     override val docContMs: Ms<DocumentContainer>,

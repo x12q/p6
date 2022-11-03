@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.di.PartialCellRangeExtractor_Qualifier
 import com.qxdzbc.p6.di.TextElementVisitor_Qualifier
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
@@ -15,7 +15,6 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class CycleFormulaLockStateImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     @PartialCellRangeExtractor_Qualifier
     val partialTextElementExtractor: P6Translator<TextElementResult>,

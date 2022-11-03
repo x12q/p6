@@ -8,14 +8,14 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class MoveToWbActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val appStateMs: Ms<AppState>,
-    @StateContainerSt private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
 ) : MoveToWbAction {
 
     private var appState by appStateMs

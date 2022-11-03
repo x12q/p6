@@ -15,11 +15,11 @@ interface ErrorContainer : WithSize {
     fun containErrorReportOfType(errorReport: ErrorReport):Boolean
     fun containErrorReport(errorReport: ErrorReport):Boolean
 }
-
+@Deprecated("dont use")
 fun Ms<ErrorContainer>.addError(errorReport: ErrorReport?) {
     this.value = this.value.addErrorReport(errorReport)
 }
-
+@Deprecated("dont use")
 fun Ms<ErrorContainer>.remove(errMsg:ErrMsg){
     this.value = this.value.add(errMsg)
 }

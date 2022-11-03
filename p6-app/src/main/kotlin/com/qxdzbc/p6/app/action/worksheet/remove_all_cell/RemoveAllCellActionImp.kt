@@ -5,12 +5,11 @@ import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class RemoveAllCellActionImp @Inject constructor(
-    @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
 ) : RemoveAllCellAction {
     val sc by stateContSt

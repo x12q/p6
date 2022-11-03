@@ -6,13 +6,12 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import javax.inject.Inject
 
 class SelectWholeColumnForAllSelectedCellActionImp @Inject constructor(
-    @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
 ) : SelectWholeColumnForAllSelectedCellAction {
 

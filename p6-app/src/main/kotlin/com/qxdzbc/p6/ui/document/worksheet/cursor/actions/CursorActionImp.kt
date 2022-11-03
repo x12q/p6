@@ -22,7 +22,7 @@ import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
@@ -40,7 +40,6 @@ class CursorActionImp @Inject constructor(
     private val wsAction: WorksheetAction,
     private val errorRouter: ErrorRouter,
     private val openCellEditor: OpenCellEditorAction,
-    @StateContainerSt
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     private val formulaColorGenerator: FormulaColorGenerator,
     private val pasteRangeAction: PasteRangeAction,

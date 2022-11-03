@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.action.app.save_wb.applier.SaveWorkbookApplier
 import com.qxdzbc.p6.app.action.app.save_wb.rm.SaveWorkbookRM
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.file.P6FileSaverErrors
@@ -15,7 +15,6 @@ import javax.inject.Inject
 import kotlin.io.path.absolutePathString
 
 class SaveWorkbookActionImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val errorRouter: ErrorRouter,
     val rm: SaveWorkbookRM,

@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.document.cell.CellErrors
 import com.qxdzbc.p6.app.document.cell.Cell
 
 import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
-import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerSt
+
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
@@ -23,7 +23,6 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import javax.inject.Inject
 
 class OpenCellEditorImp @Inject constructor(
-    @SubAppStateContainerSt
     val stateContMs:St<@JvmSuppressWildcards SubAppStateContainer>,
     @DocumentContainerSt
     val docContSt:St<@JvmSuppressWildcards DocumentContainer>,

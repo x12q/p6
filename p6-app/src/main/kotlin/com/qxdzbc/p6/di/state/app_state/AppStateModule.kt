@@ -66,8 +66,7 @@ interface AppStateModule {
 
     @Binds
     @P6Singleton
-    @SubAppStateContainerSt
-    fun StateContainerSt(@SubAppStateContainerMs i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
+    fun StateContainerSt(i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
 
     @Binds
     fun TranslatorContainer(i:TranslatorContainerImp):TranslatorContainer
@@ -100,7 +99,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @StateContainerSt
         fun StateContainerSt(i:Ms<StateContainer>):St<StateContainer>{
             return i
         }
@@ -128,7 +126,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @SubAppStateContainerMs
         fun SubAppStateContainerMs(i:SubAppStateContainer):Ms<SubAppStateContainer>{
             return ms(i)
         }
@@ -216,7 +213,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @AppScriptContMs
         fun AppScriptCont(): Ms<ScriptContainer> {
             return ms(ScriptContainerImp())
         }
@@ -224,7 +220,7 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         fun CentralScriptContainer(
-            @AppScriptContMs s: Ms<ScriptContainer>,
+            s: Ms<ScriptContainer>,
             wc:Ms<WorkbookStateContainer>
         ): Ms<CentralScriptContainer> {
             return ms(
