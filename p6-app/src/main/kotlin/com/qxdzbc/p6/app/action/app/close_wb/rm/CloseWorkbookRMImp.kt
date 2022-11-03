@@ -13,7 +13,7 @@ import com.github.michaelbull.result.*
 import javax.inject.Inject
 
 class CloseWorkbookRMImp @Inject constructor(
-    @StateContainerMs val stateContMs:Ms<StateContainer>
+    val stateContMs:Ms<StateContainer>
 ) : CloseWorkbookRM {
     private var stateCont by stateContMs
     private var globalWbStateCont by stateCont.wbStateContMs

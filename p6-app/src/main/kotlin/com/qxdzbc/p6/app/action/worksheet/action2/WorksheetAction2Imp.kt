@@ -20,9 +20,9 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import javax.inject.Inject
 
 class WorksheetAction2Imp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     private val mouseOnWsAction: MouseOnWorksheetAction,
-    @StateContainerMs val stateContMs: Ms<StateContainer>,
+    val stateContMs: Ms<StateContainer>,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
     private val makeSliderFollowCellAct: MakeSliderFollowCellAction,
 ) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction, ComputeSliderSizeAction by computeSliderSizeAction {

@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class CreateNewWorkbookApplierImp @Inject constructor(
     private val baseApplier: BaseApplier,
-    @StateContainerMs private val stateContMs: Ms<StateContainer>,
+    private val stateContMs: Ms<StateContainer>,
     private val pickDefaultActiveWb: PickDefaultActiveWbAction,
 ) : CreateNewWorkbookApplier {
 

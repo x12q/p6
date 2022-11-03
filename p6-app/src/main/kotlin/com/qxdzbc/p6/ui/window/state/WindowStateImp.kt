@@ -6,7 +6,6 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
 import com.qxdzbc.p6.di.state.app_state.WbContainerMs
-import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.p6.di.status_bar.StatusBarStateQualifier
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -32,7 +31,6 @@ import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
-import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CompletableDeferred
@@ -60,7 +58,6 @@ data class WindowStateImp @AssistedInject constructor(
 
     @WbContainerMs
     override val wbContMs: Ms<WorkbookContainer>,
-    @WbStateContMs
     override val wbStateContMs: Ms<WorkbookStateContainer>,
     @StatusBarStateQualifier
     override val statusBarStateMs: Ms<StatusBarState>,

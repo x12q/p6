@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 
 class MouseOnWorksheetActionImp @Inject constructor(
-    @AppStateMs
     private val appStateMs: Ms<AppState>,
     private val clickOnCell: ClickOnCell,
     private val makeDisplayText: MakeCellEditorDisplayTextAction,

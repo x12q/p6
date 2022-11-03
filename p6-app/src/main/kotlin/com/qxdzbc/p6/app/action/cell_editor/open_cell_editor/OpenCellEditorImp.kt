@@ -27,8 +27,7 @@ class OpenCellEditorImp @Inject constructor(
     val stateContMs:St<@JvmSuppressWildcards SubAppStateContainer>,
     @DocumentContainerSt
     val docContSt:St<@JvmSuppressWildcards DocumentContainer>,
-    @AppStateMs
-    val appStateMs:Ms<AppState>,
+    private val appStateMs:Ms<AppState>,
     val errorRouter: ErrorRouter,
 ) : OpenCellEditorAction {
     val appState by appStateMs

@@ -9,7 +9,7 @@ import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class UpdateWbApplierImp @Inject constructor(
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    val stateContMs:Ms<StateContainer>,
 ) : UpdateWbApplier {
     private var stateCont by stateContMs
     override fun updateWb(newWb: Workbook?) {

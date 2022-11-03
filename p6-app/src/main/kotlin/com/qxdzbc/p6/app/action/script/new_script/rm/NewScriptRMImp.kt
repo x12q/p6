@@ -13,7 +13,7 @@ import com.github.michaelbull.result.Ok
 import javax.inject.Inject
 
 class NewScriptRMImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>
+    val appStateMs: Ms<AppState>
 ) : NewScriptRM {
 
     private var appState by appStateMs

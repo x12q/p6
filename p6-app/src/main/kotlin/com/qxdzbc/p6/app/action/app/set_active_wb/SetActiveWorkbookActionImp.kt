@@ -20,8 +20,7 @@ import javax.inject.Inject
 class SetActiveWorkbookActionImp @Inject constructor(
     @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    @AppStateMs
-    val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
 ) : SetActiveWorkbookAction {
 
     private var appState: AppState by appStateMs

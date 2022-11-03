@@ -18,8 +18,7 @@ import javax.inject.Inject
 class RenameWorksheetActionImp @Inject constructor(
     val rm:RenameWorksheetRM,
     val applier:RenameWorksheetApplier,
-    @AppStateMs
-    val appStateMs:Ms<AppState>
+    private val appStateMs:Ms<AppState>
 ) : RenameWorksheetAction {
 
     private var appState by appStateMs

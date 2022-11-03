@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     private val kernelAction: KernelAction,
     private val closeWbAction: CloseWorkbookAction,
     @SubAppStateContainerMs private val stateContMs: Ms<SubAppStateContainer>,

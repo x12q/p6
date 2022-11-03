@@ -55,8 +55,9 @@ interface AppStateModule {
 
     @Binds
     @P6Singleton
-    @WbStateContSt
-    fun WorkbookStateContSt(@WbStateContMs i: Ms<WorkbookStateContainer>): St<WorkbookStateContainer>
+    fun WorkbookStateContSt(
+        i: Ms<WorkbookStateContainer>
+    ): St<WorkbookStateContainer>
 
     @Binds
     @P6Singleton
@@ -93,7 +94,6 @@ interface AppStateModule {
     companion object {
         @Provides
         @P6Singleton
-        @StateContainerMs
         fun StateContainerMs(i:StateContainerImp):Ms<StateContainer>{
             return ms(i)
         }
@@ -101,7 +101,7 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         @StateContainerSt
-        fun StateContainerSt(@StateContainerMs i:Ms<StateContainer>):St<StateContainer>{
+        fun StateContainerSt(i:Ms<StateContainer>):St<StateContainer>{
             return i
         }
 
@@ -135,7 +135,7 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @WbStateContMs
+//        @WbStateContMs
         fun WorkbookStateContMs(wbStateFactory: WorkbookStateFactory): Ms<WorkbookStateContainer> {
             return ms(WorkbookStateContainerImp(wbStateFactory=wbStateFactory))
         }
@@ -227,7 +227,8 @@ interface AppStateModule {
         @CentralScriptContMs
         fun CentralScriptContainer(
             @AppScriptContMs s: Ms<ScriptContainer>,
-            @WbStateContMs wc:Ms<WorkbookStateContainer>
+//            @WbStateContMs
+            wc:Ms<WorkbookStateContainer>
         ): Ms<CentralScriptContainer> {
             return ms(
                 CentralScriptContainerImp3(
@@ -239,7 +240,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @AppStateMs
         fun appStateMs(i: AppStateImp): Ms<AppState> {
             return ms(i)
         }

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class RenameWorksheetInternalApplierImp
 @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     private val errorRouter: ErrorRouter,
 ) : RenameWorksheetInternalApplier {
     var appState by appStateMs

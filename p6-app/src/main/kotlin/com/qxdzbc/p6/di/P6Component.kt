@@ -163,7 +163,6 @@ interface P6Component {
     fun wsAction(): WorksheetAction
 
     @P6Singleton
-    @AppStateMs
     fun appStateMs(): Ms<AppState>
 
     @P6Singleton
@@ -232,8 +231,6 @@ interface P6Component {
 
     fun clickOnCellAction(): ClickOnCell
     fun mouseOnWsAction(): MouseOnWorksheetAction
-
-    @StateContainerMs
     fun stateContMs(): MutableState<StateContainer>
     fun workbookFactory(): WorkbookFactory
     fun createNewWbAction(): CreateNewWorkbookAction

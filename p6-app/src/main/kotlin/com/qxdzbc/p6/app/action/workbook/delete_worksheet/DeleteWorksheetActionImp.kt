@@ -20,7 +20,6 @@ import javax.inject.Inject
 class DeleteWorksheetActionImp @Inject constructor(
     val rm:DeleteWorksheetRM,
     val applier:DeleteWorksheetApplier,
-    @AppStateMs
     private val appStateMs:Ms<AppState>
 ) : DeleteWorksheetAction {
 

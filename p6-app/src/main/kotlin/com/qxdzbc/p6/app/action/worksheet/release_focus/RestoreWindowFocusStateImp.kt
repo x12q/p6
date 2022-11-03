@@ -11,8 +11,7 @@ import com.github.michaelbull.result.*
 import javax.inject.Inject
 
 class RestoreWindowFocusStateImp @Inject constructor(
-    @AppStateMs
-    val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
 ) : RestoreWindowFocusState {
 
     var appState by appStateMs

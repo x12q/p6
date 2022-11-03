@@ -14,7 +14,6 @@ import com.github.michaelbull.result.andThen
 import javax.inject.Inject
 
 class CreateNewWorksheetApplierImp @Inject constructor(
-    @AppStateMs
     private val appStateMs: Ms<AppState>,
     @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>
 ) : CreateNewWorksheetApplier {

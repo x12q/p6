@@ -46,7 +46,6 @@ import java.nio.file.Path
 import javax.inject.Inject
 
 class StateContainerImp @Inject constructor(
-    @AppStateMs
     override val appStateMs: Ms<AppState>,
     @DocumentContainerMs
     val docContMs:Ms<DocumentContainer>,

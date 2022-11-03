@@ -16,7 +16,6 @@ import com.qxdzbc.common.compose.St
 import javax.inject.Inject
 
 class ClickOnCellImp @Inject constructor(
-    @AppStateMs
     private val appStateMs: Ms<AppState>,
     @SubAppStateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,

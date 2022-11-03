@@ -9,7 +9,7 @@ import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class WorkbookUpdateCommonApplierImp @Inject constructor(
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    val stateContMs:Ms<StateContainer>,
     private val baseApplier: BaseApplier
 ) : WorkbookUpdateCommonApplier {
     private var stateCont by stateContMs

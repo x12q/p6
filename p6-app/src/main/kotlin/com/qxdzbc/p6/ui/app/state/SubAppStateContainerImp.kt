@@ -16,7 +16,6 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.app_state.AppWindowStateMapMs
-import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
@@ -37,7 +36,6 @@ import javax.inject.Inject
 data class SubAppStateContainerImp @Inject constructor(
     @AppWindowStateMapMs
     override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>,
-    @WbStateContMs
     override val wbStateContMs: Ms<WorkbookStateContainer>,
     private val windowStateFactory: WindowStateFactory,
     private val oWindowStateFactory: OuterWindowStateFactory,

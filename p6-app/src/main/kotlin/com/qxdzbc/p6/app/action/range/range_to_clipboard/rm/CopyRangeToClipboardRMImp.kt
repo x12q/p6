@@ -14,7 +14,7 @@ import com.github.michaelbull.result.*
 import javax.inject.Inject
 
 class CopyRangeToClipboardRMImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     private val copier: RangeCopier,
 ) : CopyRangeToClipboardRM {
 

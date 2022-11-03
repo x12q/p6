@@ -8,7 +8,7 @@ import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class WindowEventApplierImp @Inject constructor(
-    @AppStateMs val appStateMs:Ms<AppState>
+    val appStateMs:Ms<AppState>
 ) : WindowEventApplier {
     var appState by appStateMs
 }

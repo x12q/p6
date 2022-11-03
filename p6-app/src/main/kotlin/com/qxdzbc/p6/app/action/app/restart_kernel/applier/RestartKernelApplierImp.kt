@@ -11,8 +11,8 @@ import com.qxdzbc.common.compose.Ms
 import javax.inject.Inject
 
 class RestartKernelApplierImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    private val appStateMs: Ms<AppState>,
+    val stateContMs:Ms<StateContainer>,
 ) : RestartKernelApplier {
     private var stateCont by stateContMs
     private var appState by appStateMs

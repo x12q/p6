@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 class AppActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
-    @AppStateMs
     private val appStateMs: Ms<AppState>,
 ) : AppAction {
 

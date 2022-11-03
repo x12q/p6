@@ -14,7 +14,7 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class ReplaceWorkbookKeyActionImp @Inject constructor(
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    val stateContMs:Ms<StateContainer>,
     val errorRouter: ErrorRouter,
 ) : ReplaceWorkbookKeyAction {
 

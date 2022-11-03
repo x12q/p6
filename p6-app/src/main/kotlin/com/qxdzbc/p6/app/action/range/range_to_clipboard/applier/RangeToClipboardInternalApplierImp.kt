@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.action.range.RangeId
 import javax.inject.Inject
 
 class RangeToClipboardInternalApplierImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>,
+    val appStateMs: Ms<AppState>,
 ) : RangeToClipboardInternalApplier {
     var appState by appStateMs
     override fun apply(rangeId: RangeId, windowId: String?) {

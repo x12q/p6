@@ -21,7 +21,6 @@ import javax.inject.Inject
 class DeleteMultiCellActionImp @Inject constructor(
     val rm: DeleteMultiRM,
     val applier: DeleteMultiApplier,
-    @AppStateMs
     private val appStateMs: Ms<AppState>,
     private val multiCellUpdateAct:MultiCellUpdateAction,
 ) : DeleteMultiCellAction {

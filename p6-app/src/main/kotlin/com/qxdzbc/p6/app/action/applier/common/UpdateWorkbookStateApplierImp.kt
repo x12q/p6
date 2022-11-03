@@ -9,7 +9,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import javax.inject.Inject
 
 class UpdateWorkbookStateApplierImp @Inject constructor(
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    val stateContMs:Ms<StateContainer>,
 ) : UpdateWorkbookStateApplier {
     private var stateCont by stateContMs
     override fun updateWbState(newWbState: WorkbookState?) {

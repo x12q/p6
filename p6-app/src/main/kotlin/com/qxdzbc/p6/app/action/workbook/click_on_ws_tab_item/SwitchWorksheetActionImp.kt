@@ -15,8 +15,7 @@ import javax.inject.Inject
 class SwitchWorksheetActionImp @Inject constructor(
     val setActiveWorksheetAction: SetActiveWorksheetAction,
     val restoreWindowFocusAction: RestoreWindowFocusState,
-    @AppStateMs
-    val appStateMs: Ms<AppState>
+    private val appStateMs: Ms<AppState>
 ) : SwitchWorksheetAction {
     var appState by appStateMs
     override fun switchToWorksheet(request: SetActiveWorksheetRequest): RseNav<SetActiveWorksheetResponse2> {

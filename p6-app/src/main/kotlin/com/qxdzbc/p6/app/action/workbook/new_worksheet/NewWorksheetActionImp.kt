@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 class NewWorksheetActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    @AppStateMs val appStateMs: Ms<AppState>,
-    @StateContainerMs private val scMs: Ms<StateContainer>,
+    val appStateMs: Ms<AppState>,
+    private val scMs: Ms<StateContainer>,
     @DocumentContainerMs private val dcMs: Ms<DocumentContainer>,
 ) : NewWorksheetAction {
     var sc by scMs

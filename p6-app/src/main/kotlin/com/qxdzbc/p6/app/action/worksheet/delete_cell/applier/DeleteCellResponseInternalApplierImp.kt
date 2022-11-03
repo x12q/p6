@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class DeleteCellResponseInternalApplierImp
 @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
 ) : DeleteCellResponseInternalApplier {
     var appState by appStateMs
     override fun apply(

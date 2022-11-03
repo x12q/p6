@@ -19,7 +19,6 @@ import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import javax.inject.Inject
 
 class ConvertProtoToWorksheetImp @Inject constructor(
-    @StateContainerMs
     val stateContMs: Ms<StateContainer>,
     @TranslatorContainerSt
     val translatorContainerSt: St<@JvmSuppressWildcards TranslatorContainer>,

@@ -23,8 +23,8 @@ import javax.inject.Inject
 class SaveWorkbookApplierImp @Inject constructor(
     private val baseApplier: BaseApplier,
     private val errorRouter: ErrorRouter,
-    @AppStateMs private val appStateMs: Ms<AppState>,
-    @StateContainerMs val stateContMs: Ms<StateContainer>,
+    private val appStateMs: Ms<AppState>,
+    val stateContMs: Ms<StateContainer>,
     private val replaceWbKeyAct: ReplaceWorkbookKeyAction,
 ) : SaveWorkbookApplier {
 

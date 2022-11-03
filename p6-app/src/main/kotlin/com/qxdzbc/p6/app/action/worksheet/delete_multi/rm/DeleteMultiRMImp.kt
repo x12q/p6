@@ -21,7 +21,7 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class DeleteMultiRMImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>,
+    val appStateMs: Ms<AppState>,
     @StateContainerSt val stateContSt: St<@JvmSuppressWildcards StateContainer>,
 ) : DeleteMultiRM {
     val stateCont by stateContSt

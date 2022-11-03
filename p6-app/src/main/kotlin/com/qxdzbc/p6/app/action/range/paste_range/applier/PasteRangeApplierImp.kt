@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class PasteRangeApplierImp @Inject constructor(
     private val wbUpdateApplier: WorkbookUpdateCommonApplier,
-    @AppStateMs private val appStateMs:Ms<AppState>,
+    private val appStateMs:Ms<AppState>,
 ) : PasteRangeApplier {
     private var appState by appStateMs
     override fun applyPasteRange(res: PasteRangeResponse?) {

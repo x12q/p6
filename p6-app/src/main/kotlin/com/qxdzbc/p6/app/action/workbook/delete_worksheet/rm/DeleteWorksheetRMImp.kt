@@ -15,7 +15,7 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import javax.inject.Inject
 
 class DeleteWorksheetRMImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>
+    val appStateMs: Ms<AppState>
 ) : DeleteWorksheetRM {
     var appState by appStateMs
 

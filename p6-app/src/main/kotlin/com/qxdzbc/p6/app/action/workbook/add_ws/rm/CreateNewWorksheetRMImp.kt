@@ -13,7 +13,6 @@ import com.github.michaelbull.result.*
 import javax.inject.Inject
 
 class CreateNewWorksheetRMImp @Inject constructor(
-    @AppStateMs
     private val appStateMs: Ms<AppState>
 ) : CreateNewWorksheetRM {
     private var appState by appStateMs

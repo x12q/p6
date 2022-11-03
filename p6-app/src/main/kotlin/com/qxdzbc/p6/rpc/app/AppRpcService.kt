@@ -43,8 +43,7 @@ import java.nio.file.Path
 import javax.inject.Inject
 
 class AppRpcService @Inject constructor(
-    @AppStateMs
-    val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val rpcActions: AppRpcAction,

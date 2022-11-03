@@ -13,7 +13,6 @@ import com.github.michaelbull.result.onSuccess
 import javax.inject.Inject
 
 class DeleteMultiApplierImp @Inject constructor(
-    @AppStateMs
     private val appStateMs: Ms<AppState>,
     private val errorRouter: ErrorRouter,
 ) : DeleteMultiApplier {

@@ -15,7 +15,7 @@ import kotlin.io.path.Path
 
 class SaveWorkbookRMImp @Inject constructor(
     private val saver: P6Saver,
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    val stateContMs:Ms<StateContainer>,
 ) : SaveWorkbookRM {
     private var stateCont by stateContMs
     override fun makeRequest(request: SaveWorkbookRequest): SaveWorkbookResponse {

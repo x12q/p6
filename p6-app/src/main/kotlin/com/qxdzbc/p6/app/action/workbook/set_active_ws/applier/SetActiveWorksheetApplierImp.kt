@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class SetActiveWorksheetApplierImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
 ) : SetActiveWorksheetApplier {
 
     private var appState by appStateMs

@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class MoveToWbActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     @StateContainerSt private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
 ) : MoveToWbAction {
 

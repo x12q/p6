@@ -14,7 +14,6 @@ import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
 import javax.inject.Inject
 
 class LoadWorkbookActionImp @Inject constructor(
-    @StateContainerMs
     val stateContMs: Ms<StateContainer>,
     val errorRouter: ErrorRouter,
     val rm: LoadWorkbookRM,

@@ -16,7 +16,7 @@ import com.github.michaelbull.result.mapError
 import javax.inject.Inject
 
 class SetActiveWorksheetRMImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>
+    private val appStateMs: Ms<AppState>
 ) : SetActiveWorksheetRM {
 
     private var appState by appStateMs

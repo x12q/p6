@@ -22,7 +22,6 @@ annotation class TranslatorMapMs
 @Retention
 annotation class InitSingleTranslatorMap
 
-
 @Qualifier
 @Retention
 annotation class AppStateMs
@@ -38,13 +37,6 @@ annotation class AppScriptContMs
 @Qualifier
 @Retention
 annotation class AppOddityContMs
-
-@Qualifier
-@Retention
-annotation class WbStateContMs
-@Qualifier
-@Retention
-annotation class WbStateContSt
 
 @Qualifier
 @Retention

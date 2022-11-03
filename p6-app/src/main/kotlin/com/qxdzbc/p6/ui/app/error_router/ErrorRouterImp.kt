@@ -14,7 +14,7 @@ import com.qxdzbc.common.compose.St
 import javax.inject.Inject
 
 class ErrorRouterImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>
+    private val appStateMs: Ms<AppState>
 ) : ErrorRouter {
     private var appState by appStateMs
     private var codeEditorState by appState.codeEditorStateMs

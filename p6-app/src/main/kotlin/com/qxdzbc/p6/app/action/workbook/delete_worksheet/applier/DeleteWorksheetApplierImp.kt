@@ -13,7 +13,7 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import javax.inject.Inject
 
 class DeleteWorksheetApplierImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
 ) : DeleteWorksheetApplier {
 
     var appState by appStateMs

@@ -24,7 +24,7 @@ import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import javax.inject.Inject
 
 class UpdateMultiCellRMImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     @TranslatorContainerMs val translatorContainerMs: Ms<TranslatorContainer>
 ) : UpdateMultiCellRM {
 

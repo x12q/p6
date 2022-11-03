@@ -23,7 +23,7 @@ import javax.inject.Inject
 import kotlin.reflect.KFunction
 
 class P6FunctionDefinitionsImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     @DocumentContainerSt private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
 ) : P6FunctionDefinitions {
 

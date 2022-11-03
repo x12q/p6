@@ -13,8 +13,8 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import javax.inject.Inject
 
 class CloseWorkbookInternalApplierImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>,
-    @StateContainerMs val stateContMs: Ms<StateContainer>,
+    val appStateMs: Ms<AppState>,
+    val stateContMs: Ms<StateContainer>,
     val pickDefaultActiveWb: PickDefaultActiveWbAction,
 ) : CloseWorkbookInternalApplier {
 

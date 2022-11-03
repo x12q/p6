@@ -21,7 +21,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import javax.inject.Inject
 
 class RulerActionImp @Inject constructor(
-    @StateContainerMs private val stateContMs: Ms<StateContainer>,
+    private val stateContMs: Ms<StateContainer>,
     val updateCellEditorText: UpdateCellEditorTextWithRangeSelectorAction,
 ) : RulerAction {
 

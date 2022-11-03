@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class FileMenuActionImp @Inject constructor(
     private val windowAction: WindowAction,
-    @AppStateMs private val appStateMs:Ms<AppState>
+    private val appStateMs:Ms<AppState>
 ) : FileMenuAction {
 
     private var appState by appStateMs

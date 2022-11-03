@@ -36,7 +36,6 @@ class CellEditorActionImp @Inject constructor(
     private val cursorAction: CursorAction,
     private val makeDisplayText: MakeCellEditorDisplayTextAction,
     private val openCellEditor: OpenCellEditorAction,
-    @StateContainerMs
     private val stateContMs: Ms<StateContainer>,
     private val textDiffer: TextDiffer,
     val cycleLockStateAct: CycleFormulaLockStateAction,

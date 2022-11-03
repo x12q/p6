@@ -12,7 +12,7 @@ import java.util.*
 import javax.inject.Inject
 
 class LoadWorkbookInternalApplierImp @Inject constructor(
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    val stateContMs:Ms<StateContainer>,
 ) : LoadWorkbookInternalApplier {
     private var stateCont by stateContMs
     private var globalWbCont by stateCont.wbContMs
