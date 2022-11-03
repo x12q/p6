@@ -20,14 +20,6 @@ annotation class NullInt
 
 @Qualifier
 @Retention
-annotation class FunctionMapMs
-
-@Qualifier
-@Retention
-annotation class FunctionMapSt
-
-@Qualifier
-@Retention
 annotation class False
 
 @Qualifier

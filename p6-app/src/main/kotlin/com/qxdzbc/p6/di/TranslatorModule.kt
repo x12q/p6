@@ -51,14 +51,12 @@ interface TranslatorModule {
 
         @Provides
         @P6Singleton
-        @FunctionMapMs
         fun FunctionMapMs(fm: FunctionMap): Ms<FunctionMap> {
             return fm.toMs()
         }
 
         @Provides
         @P6Singleton
-        @FunctionMapSt
         fun FunctionMapSt(i: Ms<FunctionMap>): St<FunctionMap> {
             return i
         }

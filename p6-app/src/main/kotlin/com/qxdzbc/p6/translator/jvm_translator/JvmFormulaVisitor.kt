@@ -11,7 +11,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.FunctionMapMs
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.FunctionMap
@@ -32,7 +31,6 @@ import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.toExUni
 class JvmFormulaVisitor @AssistedInject constructor(
     @Assisted("1") private val wbKeySt: St<WorkbookKey>,
     @Assisted("2") private val wsNameSt: St<String>,
-    @FunctionMapMs
     private val functionMapMs: Ms<FunctionMap>,
     private val docContMs: St<@JvmSuppressWildcards DocumentContainer>
 ) : FormulaBaseVisitor<ExUnit>() {
