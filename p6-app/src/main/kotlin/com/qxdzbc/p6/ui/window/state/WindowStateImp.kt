@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.di.state.window.FocusStateMs
+import com.qxdzbc.p6.di.state.window.DefaultFocusStateMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
@@ -63,7 +63,7 @@ data class WindowStateImp @AssistedInject constructor(
     @MsKernelContextQualifier
     override val kernel: KernelContext,
     private val wbStateFactory: WorkbookStateFactory,
-    @FocusStateMs
+    @DefaultFocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,
     override val formulaColorGenerator: FormulaColorGenerator,
 ) : BaseWindowState() {

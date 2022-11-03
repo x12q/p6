@@ -25,7 +25,7 @@ interface RangeApplierModule {
 
     @Binds
     @P6Singleton
-    @com.qxdzbc.p6.di.Fake
+    @Fake
     fun FakeRangeToClipboardApplier(i: FakeRangeToClipboardApplier): RangeToClipboardApplier
 
     @Binds

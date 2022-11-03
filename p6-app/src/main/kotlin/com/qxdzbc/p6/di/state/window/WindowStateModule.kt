@@ -13,7 +13,7 @@ interface WindowStateModule {
     fun FocusState(i: SingleWindowFocusStateImp):WindowFocusState
     companion object{
         @Provides
-        @FocusStateMs
+        @DefaultFocusStateMs
         fun FocusStateMs(i:WindowFocusState):Ms<WindowFocusState>{
             return ms(i)
         }

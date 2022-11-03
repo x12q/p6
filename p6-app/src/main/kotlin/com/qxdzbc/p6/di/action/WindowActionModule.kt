@@ -41,6 +41,7 @@ interface WindowActionModule {
     @Binds
     @P6Singleton
     fun CodeMenuAction(i:CodeMenuActionImp): CodeMenuAction
+
     @Binds
     @P6Singleton
     fun WorkbookTabBarAction(i: WorkbookTabBarActionImp):WorkbookTabBarAction
