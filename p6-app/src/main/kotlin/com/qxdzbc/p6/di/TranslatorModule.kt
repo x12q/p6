@@ -27,7 +27,7 @@ interface TranslatorModule {
 
     @Binds
     @P6Singleton
-    @PartialCellRangeExtractor_Qualifier
+    @PartialCellRangeExtractorQ
     fun PartialCellRangeExtractor(i: PartialTextElementExtractor): P6Translator<TextElementResult>
 
     @Binds

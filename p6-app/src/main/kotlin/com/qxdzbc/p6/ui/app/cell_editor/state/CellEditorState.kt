@@ -21,6 +21,7 @@ interface CellEditorState {
      *  - null parse tree
      */
     fun clearAll():CellEditorState
+
     /**
      * move [rangeSelectorTextField]'s content to [currentTextField], then nullify [rangeSelectorTextField]
      */

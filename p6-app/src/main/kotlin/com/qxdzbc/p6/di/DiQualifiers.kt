@@ -8,7 +8,7 @@ annotation class PartialTreeExtractor
 
 @Qualifier
 @Retention
-annotation class PartialCellRangeExtractor_Qualifier
+annotation class PartialCellRangeExtractorQ
 
 @Qualifier
 @Retention

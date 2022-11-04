@@ -59,7 +59,7 @@ fun CellEditorView(
             BasicTextField(
                 value = state.displayTextField,
                 onValueChange = {
-                    action.onTextChange(it)
+                    action.changeTextField(it)
                 },
                 modifier = Modifier
                     .then(sizeMod)

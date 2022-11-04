@@ -8,6 +8,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateActionImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -74,6 +75,7 @@ data class CursorStateImp @AssistedInject constructor(
                         targetCell = mainCellMs.value,
                         targetCursorIdSt = cursorIdMs,
                         isActiveMs = false.toMs(),
+                        checkRangeSelector = CheckRangeSelectorStateActionImp()
                     )
                 ),
                 thumbStateMs = thumbStateMs

@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.app.cell_editor.actions
 
+import androidx.compose.material.TextField
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
@@ -140,14 +141,13 @@ class CellEditorActionImp @Inject constructor(
 
     /**
      * **For testing only.**
-     * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [onTextChange] in the app instead.
+     * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [changeText] in the app instead.
      */
-    @Deprecated("dont use, this one is not suitable for production")
-    override fun onTextChange(newText: String) {
+    override fun changeText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
         if (editorState.isActive) {
-            val newTextField = editorState.currentTextField.copy(text=newText)
-            this.onTextChange(newTextField)
+            val newTextField = TextFieldValue(text=newText,selection= TextRange(newText.length))
+            this.changeTextField(newTextField)
         }
     }
 
@@ -158,7 +158,7 @@ class CellEditorActionImp @Inject constructor(
      *  - update the internal parse tree of cell editor
      *
      */
-    override fun onTextChange(newTextField: TextFieldValue) {
+    override fun changeTextField(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
         var ntf = newTextField
         if (editorState.isActive) {
@@ -258,7 +258,7 @@ class CellEditorActionImp @Inject constructor(
                                 text = currentText.text + "\n",
                                 selection = TextRange(currentText.selection.end + 1)
                             )
-                            onTextChange(newText)
+                            changeTextField(newText)
                         } else {
                             runFormulaOrSaveValueToCell()
                         }

@@ -28,7 +28,6 @@ class TestBench {
 
     data class A(val i: Int, val s: String)
 
-    var s: String by Delegates.notNull<String>()
 
     fun aaaa() = sequence<Int> {
         var param = Pair(0, 1)
@@ -49,6 +48,6 @@ class TestBench {
             }
         }
 
-        println(s)
+        println(t)
     }
 }
