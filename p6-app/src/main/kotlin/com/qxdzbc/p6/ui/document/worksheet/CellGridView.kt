@@ -159,5 +159,5 @@ fun CellGridView(
 }
 
 fun makeCellTestTag2(ca: CellAddress): String {
-    return ca.toRawLabel()
+    return ca.label
 }

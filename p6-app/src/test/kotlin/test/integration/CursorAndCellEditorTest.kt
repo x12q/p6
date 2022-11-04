@@ -189,7 +189,7 @@ class CursorAndCellEditorTest {
         // x: click
         val c = CellAddress("B5")
         mouseOnWsAction.clickOnCell(c,cursorLoc)
-        val expectedText = "=1+${c.toRawLabel()}"
+        val expectedText = "=1+${c.label}"
         val rangeSelector by appState.getCursorStateMs(cellEditorState.rangeSelectorCursorId!!)!!
         fun test(){
             assertEquals(expectedText,cellEditorState.displayText)
@@ -346,7 +346,7 @@ class CursorAndCellEditorTest {
         val rangeSelectorState = appState.getCursorState(cellEditorState.rangeSelectorCursorId!!)
         assertEquals(c, rangeSelectorState?.mainCell)
 
-        val expectText = "=1+${c.toRawLabel()}"
+        val expectText = "=1+${c.label}"
         assertEquals(expectText, cellEditorState.displayTextField.text)
         assertEquals(expectText, cellEditorState.rangeSelectorTextField?.text)
         assertEquals("=1+", cellEditorState.currentText)
@@ -355,7 +355,7 @@ class CursorAndCellEditorTest {
         val c2 = CellAddress("L8")
         clickOnCellAction.clickOnCell(c2, WbWs(wbk, wsn1))
         assertEquals(cellEditorState.targetCursorId, cellEditorState.rangeSelectorCursorId)
-        val expectText2 = "=1+${c2.toRawLabel()}"
+        val expectText2 = "=1+${c2.label}"
         assertEquals(expectText2, cellEditorState.displayTextField.text)
         assertEquals(expectText2, cellEditorState.rangeSelectorTextField?.text)
         assertEquals("=1+", cellEditorState.currentText)
@@ -364,7 +364,7 @@ class CursorAndCellEditorTest {
         val c3 = CellAddress("Z78")
         clickOnCellAction.clickOnCell(c3, WbWs(wbk2, wsn1))
         assertEquals(appState.getCursorState(WbWs(wbk2, wsn1))?.id, cellEditorState.rangeSelectorCursorId)
-        val expectText3 = "=1+${c3.toRawLabel()}@${wsn1}@${wbk2.name}"
+        val expectText3 = "=1+${c3.label}@${wsn1}@${wbk2.name}"
         assertEquals(expectText3, cellEditorState.displayTextField.text)
         assertEquals(expectText3, cellEditorState.rangeSelectorTextField?.text)
         assertEquals("=1+", cellEditorState.currentText)

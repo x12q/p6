@@ -63,7 +63,7 @@ fun WorksheetView(
                         )
                     ) {
                         Text(
-                            text = cursorState.mainCell.toRawLabel(),
+                            text = cursorState.mainCell.label,
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }

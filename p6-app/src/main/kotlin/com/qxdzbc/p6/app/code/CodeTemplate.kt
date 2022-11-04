@@ -16,7 +16,7 @@ object CodeTemplate {
         workbookKey: WorkbookKey,
     ): String {
         val rt = """
-        ${getCellFullPathTemplate(workbookKey, sheetName, cellAddress.toRawLabel())}.value = $directLiteral    
+        ${getCellFullPathTemplate(workbookKey, sheetName, cellAddress.label)}.value = $directLiteral    
         """.trimIndent()
         return rt
     }
@@ -25,9 +25,9 @@ object CodeTemplate {
     }
 
     fun formula(code: String, cellAddress: CellAddress, sheetName: String, workbookKey: WorkbookKey): String {
-        val label: String = formatAddress(cellAddress.toRawLabel())
+        val label: String = formatAddress(cellAddress.label)
         val rt = """
-        ${getCellFullPathTemplate(workbookKey, sheetName, cellAddress.toRawLabel())}.cell($label)
+        ${getCellFullPathTemplate(workbookKey, sheetName, cellAddress.label)}.cell($label)
         """.trimIndent() + ".formula = \"\"\"\n$code\n\"\"\".strip()"
         return rt
     }

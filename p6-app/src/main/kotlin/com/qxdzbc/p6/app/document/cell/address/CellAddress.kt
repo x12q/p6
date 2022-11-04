@@ -81,15 +81,9 @@ interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
         return this.increaseColBy(-1)
     }
 
-    fun toRawLabel(): String {
+    val label:String get(){
         val colLabel: String = CellLabelNumberSystem.numberToLabel(colIndex)
         return "${if(isColLocked)"\$" else "" }${colLabel}${if(isRowLocked)"\$" else "" }${rowIndex}"
-    }
-
-    val label:String get()=toLabel()
-
-    fun toLabel(): String {
-        return toRawLabel()
     }
 
     fun toProto(): DocProtos.CellAddressProto

@@ -56,7 +56,7 @@ data class CursorStateImp @AssistedInject constructor(
     override val mainCell: CellAddress by mainCellMs
 
     override fun mainSelectionStr(against: CursorStateId): String {
-        val c1 = mainRange?.rawLabel ?: mainCell.toRawLabel()
+        val c1 = mainRange?.rawLabel ?: mainCell.label
         val c2 = if(this.id == against){
             ""
         }else{

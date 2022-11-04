@@ -67,7 +67,7 @@ class CycleFormulaLockStateImp @Inject constructor(
             }?.let {
                 val newRangeAddress = it.nextLockState()
                 val newLabel = if (newRangeAddress.isCell()) {
-                    newRangeAddress.topLeft.toLabel()
+                    newRangeAddress.topLeft.label
                 } else {
                     newRangeAddress.label
                 } + (cellRangePos.labelLoc ?: "")

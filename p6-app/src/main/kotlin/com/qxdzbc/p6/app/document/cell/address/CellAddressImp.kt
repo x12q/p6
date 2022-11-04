@@ -171,7 +171,7 @@ data class CellAddressImp constructor(
     }
 
     override fun toString(): String {
-        return this.toRawLabel()
+        return this.label
     }
 
     override fun hashCode(): Int {

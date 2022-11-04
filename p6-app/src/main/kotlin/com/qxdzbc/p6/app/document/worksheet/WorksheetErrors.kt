@@ -16,7 +16,7 @@ object WorksheetErrors {
         )
         fun report(cellAddress: CellAddress): ErrorReport {
             return header
-                .setDescription("Cell address ${cellAddress.toLabel()} is invalid")
+                .setDescription("Cell address ${cellAddress.label} is invalid")
                 .toErrorReport()
         }
     }
@@ -24,7 +24,7 @@ object WorksheetErrors {
         return ErrorReport(
             header = ErrorHeader(
                 errorCode = "${UI_WSErr}0",
-                errorDescription = "Cell address ${cellAddress.toLabel()} is invalid"
+                errorDescription = "Cell address ${cellAddress.label} is invalid"
             )
         )
     }

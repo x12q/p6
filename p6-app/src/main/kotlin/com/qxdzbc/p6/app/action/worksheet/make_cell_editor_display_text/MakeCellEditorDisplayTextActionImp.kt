@@ -20,14 +20,18 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class MakeCellEditorDisplayTextActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
-    val fm: RangeAddressFormatter,
+    val formatter: RangeAddressFormatter,
 ) : MakeCellEditorDisplayTextAction {
 
     private val stateCont by stateContSt
 
     override fun makeRangeSelectorText(editorState: CellEditorState): TextFieldValue {
         if (editorState.allowRangeSelector) {
-            return makeRangeSelectorText(editorState.currentTextField,editorState.rangeSelectorCursorId,editorState.targetCursorId)
+            return makeRangeSelectorText(
+                editorState.currentTextField,
+                editorState.rangeSelectorCursorId,
+                editorState.targetCursorId
+            )
         } else {
             return editorState.currentTextField
         }
@@ -39,13 +43,13 @@ class MakeCellEditorDisplayTextActionImp @Inject constructor(
         cursorId: CursorStateId?
     ): TextFieldValue {
         val rangeSelector: CursorState? = selectorId?.let { stateCont.getCursorState(it) }
-        val rsWsName: String? = rangeSelector?.wsName
+        val rsWsName: String? = selectorId?.wsName
         val rsRange: RangeAddress? = rangeSelector?.let { getSelectedRange(it) }
-        val rsWbKey: WorkbookKey? = rangeSelector?.wbKey
+        val rsWbKey: WorkbookKey? = selectorId?.wbKey
 
         if (rsWsName != null && rsRange != null && rsWbKey != null) {
             val rangeStr: String = if (rsRange.isCell()) {
-                rsRange.topLeft.toRawLabel()
+                rsRange.topLeft.label
             } else {
                 rsRange.rawLabel
             }
@@ -55,9 +59,9 @@ class MakeCellEditorDisplayTextActionImp @Inject constructor(
             } else {
                 val sameWb = rsWbKey == cursorId?.wbKey
                 if (sameWb) {
-                    fm.formatStr(rangeStr,rsWsName,null,null)
+                    formatter.formatStr(rangeStr,rsWsName,null,null)
                 } else {
-                    fm.format(rangeStr,rsWsName,rsWbKey)
+                    formatter.format(rangeStr,rsWsName,rsWbKey)
                 }
             }
             val currentText = currentTextField.text

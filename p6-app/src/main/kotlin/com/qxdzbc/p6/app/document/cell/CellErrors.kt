@@ -10,7 +10,7 @@ object CellErrors {
         val header = ErrorHeader("${CellUIErr}0","Cell cannot be edited")
         fun report(cellAddress: CellAddress):ErrorReport{
             return ErrorReport(
-                header= header.setDescription("Cell ${cellAddress.toLabel()} cannot be edited")
+                header= header.setDescription("Cell ${cellAddress.label} cannot be edited")
             )
         }
     }
