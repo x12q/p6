@@ -11,8 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.key_event.PKeyEvent.Companion.toPKeyEvent
+import com.qxdzbc.common.compose.key_event.MKeyEvent.Companion.toMKeyEvent
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.app.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
@@ -66,7 +67,7 @@ fun CellEditorView(
                     .then(P6R.padding.mod.stdTextFieldPadding)
                     .focusRequester(fc)
                     .onPreviewKeyEvent {
-                        action.handleKeyboardEvent(it.toPKeyEvent())
+                        action.handleKeyboardEvent(it.toP6KeyEvent())
                     }
             )
         }

@@ -74,6 +74,7 @@ dependencies {
 
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
+
     implementation("com.qxdzbc:common:${p6Version}")
     implementation("com.qxdzbc:err:${p6Version}")
     implementation("com.qxdzbc:common-compose:${p6Version}")

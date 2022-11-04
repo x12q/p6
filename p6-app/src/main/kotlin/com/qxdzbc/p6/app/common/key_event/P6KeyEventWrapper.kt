@@ -1,13 +1,15 @@
-package com.qxdzbc.common.compose.key_event
+package com.qxdzbc.p6.app.common.key_event
 
 import androidx.compose.ui.input.key.*
-import com.qxdzbc.common.compose.KeyEventUtils.isFreeOfModificationKey
 import com.qxdzbc.common.compose.KeyEventUtils.isAltPressedAlone
 import com.qxdzbc.common.compose.KeyEventUtils.isCtrlPressedAlone
 import com.qxdzbc.common.compose.KeyEventUtils.isCtrlShiftPressed
+import com.qxdzbc.common.compose.KeyEventUtils.isFreeOfModificationKey
 import com.qxdzbc.common.compose.KeyEventUtils.isShiftPressedAlone
 
-data class PKeyEventWrapper(override val keyEvent: KeyEvent) : AbsPKeyEvent() {
+data class P6KeyEventWrapper(
+    override val keyEvent: KeyEvent
+): AbsP6KeyEvent(){
     override val key: Key
         get() = keyEvent.key
     override val isCtrlShiftPressed: Boolean

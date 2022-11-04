@@ -4,9 +4,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
-import com.qxdzbc.common.compose.key_event.AbsPKeyEvent
+import com.qxdzbc.common.compose.key_event.AbsMKeyEvent
+import com.qxdzbc.p6.app.common.key_event.AbsP6KeyEvent
 
-data class MockPKeyEvent @OptIn(ExperimentalComposeUiApi::class) constructor(
+data class MockMKeyEvent @OptIn(ExperimentalComposeUiApi::class) constructor(
     override val key: Key = Key.Unknown,
     override val type: KeyEventType = KeyEventType.KeyDown,
     override val isCtrlShiftPressed: Boolean = false,
@@ -21,11 +22,11 @@ data class MockPKeyEvent @OptIn(ExperimentalComposeUiApi::class) constructor(
     val isParentheses: Boolean? = null,
     val isBracket: Boolean? = null,
     val isCurlyBracket: Boolean? = null,
-) : AbsPKeyEvent() {
+) : AbsP6KeyEvent() {
 
     companion object {
         @OptIn(ExperimentalComposeUiApi::class)
-        val arrowDown = MockPKeyEvent(
+        val arrowDown = MockMKeyEvent(
             key = Key.DirectionDown,
             type = KeyEventType.KeyDown,
             isAcceptedByRangeSelector = true,

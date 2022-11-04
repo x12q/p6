@@ -24,7 +24,7 @@ import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import org.mockito.kotlin.*
 import test.TestSample
-import test.test_implementation.MockPKeyEvent
+import test.test_implementation.MockMKeyEvent
 import kotlin.test.*
 
 class CursorAndCellEditorTest {
@@ -426,59 +426,77 @@ class CursorAndCellEditorTest {
         assertNotNull(rangeSelectorMs)
         val rangeSelector by rangeSelectorMs
 
-        // x: input text
-        cellEditorAction.changeText("=1+")
-        assertEquals("=1+", cellEditorState.currentText)
-        assertEquals("=1+", cellEditorState.displayTextField.text)
-        assertNull(cellEditorState.rangeSelectorTextField)
-        assertTrue(cellEditorState.allowRangeSelector)
+        /**
+         * input a text that enables the range selector, then move around using keyboard arrows
+         */
+        fun stdCase(){
+            // x: input text
+            cellEditorAction.changeText("=1+")
+            assertEquals("=1+", cellEditorState.currentText)
+            assertEquals("=1+", cellEditorState.displayTextField.text)
+            assertNull(cellEditorState.rangeSelectorTextField)
+            assertTrue(cellEditorState.allowRangeSelector)
 
-        // x: issue arrow down key event
-        val arrowDownKey = MockPKeyEvent.arrowDown
-        cellEditorAction.handleKeyboardEvent(arrowDownKey)
+            // x: issue arrow down key event
+            val arrowDownKey = MockMKeyEvent.arrowDown
+            cellEditorAction.handleKeyboardEvent(arrowDownKey)
 
-        // x: check state after handle keyboard event
-        assertTrue(cellEditorState.allowRangeSelector)
-        assertEquals(CellAddress("A2"), rangeSelector.mainCell)
-        assertEquals("=1+A2", cellEditorState.rangeSelectorTextField?.text)
-        assertEquals("=1+A2", cellEditorState.displayTextField.text)
-        assertEquals("=1+", cellEditorState.currentText)
+            // x: check state after handle keyboard event
+            assertTrue(cellEditorState.allowRangeSelector)
+            assertEquals(CellAddress("A2"), rangeSelector.mainCell)
+            assertEquals("=1+A2", cellEditorState.rangeSelectorTextField?.text)
+            assertEquals("=1+A2", cellEditorState.displayTextField.text)
+            assertEquals("=1+", cellEditorState.currentText)
 
-        // x: handle another down array key event
-        cellEditorAction.handleKeyboardEvent(arrowDownKey)
-        assertTrue(cellEditorState.allowRangeSelector)
-        assertEquals(CellAddress("A3"), rangeSelector.mainCell)
-        assertEquals("=1+A3", cellEditorState.rangeSelectorTextField?.text)
-        assertEquals("=1+A3", cellEditorState.displayTextField.text)
-        assertEquals("=1+", cellEditorState.currentText)
+            // x: handle another down array key event
+            cellEditorAction.handleKeyboardEvent(arrowDownKey)
+            assertTrue(cellEditorState.allowRangeSelector)
+            assertEquals(CellAddress("A3"), rangeSelector.mainCell)
+            assertEquals("=1+A3", cellEditorState.rangeSelectorTextField?.text)
+            assertEquals("=1+A3", cellEditorState.displayTextField.text)
+            assertEquals("=1+", cellEditorState.currentText)
+        }
 
-        // x: handle key (character Q) that ends range selector state
-        // x: temporary text is copied to the current text field.
-        val key = MockPKeyEvent(
-            key = Key.Q,
-            type = KeyEventType.KeyDown,
-            isAcceptedByRangeSelector = false,
-            isRangeSelectorNavKey = false,
-        )
-        cellEditorAction.handleKeyboardEvent(key)
-        assertEquals("=1+A3", cellEditorState.currentText)
-        assertNull(cellEditorState.rangeSelectorTextField)
-        assertEquals("=1+A3", cellEditorState.displayTextField.text)
-        assertFalse(cellEditorState.allowRangeSelector)
+        fun handleKeyEvenThatDisableRangeSelector(){
+            // x: handle key (character Q) that ends range selector state
+            // x: temporary text is copied to the current text field.
+            val key = MockMKeyEvent(
+                key = Key.Q,
+                type = KeyEventType.KeyDown,
+                isAcceptedByRangeSelector = false,
+                isRangeSelectorNavKey = false,
+            )
+            cellEditorAction.handleKeyboardEvent(key)
+            assertEquals("=1+A3", cellEditorState.currentText)
+            assertNull(cellEditorState.rangeSelectorTextField)
+            assertEquals("=1+A3", cellEditorState.displayTextField.text)
+            assertFalse(cellEditorState.allowRangeSelector)
 
-        // x: another case: moving from allow range selector to not allow by typing in a not tolerated character
-        cellEditorAction.changeText("=1+A3+")
-        assertTrue(cellEditorState.allowRangeSelector)
-        assertNull(cellEditorState.rangeSelectorTextField)
-        assertEquals("=1+A3+", cellEditorState.displayTextField.text)
-        assertEquals("=1+A3+", cellEditorState.currentText)
+        }
 
-        // x: simulate typing "1" into the cell editor
-        cellEditorAction.changeText("=1+A3+1")
-        assertFalse(cellEditorState.allowRangeSelector)
-        assertNull(cellEditorState.rangeSelectorTextField?.text)
-        assertEquals("=1+A3+1", cellEditorState.displayTextField.text)
-        assertEquals("=1+A3+1", cellEditorState.currentText)
+        /**
+         *  another case: moving from allow range selector to not allow by typing in a not tolerated character
+         */
+        fun disableRangeSelectorWithNewText(){
+            cellEditorAction.changeText("=1+A3+")
+            assertTrue(cellEditorState.allowRangeSelector)
+            assertNull(cellEditorState.rangeSelectorTextField)
+            assertEquals("=1+A3+", cellEditorState.displayTextField.text)
+            assertEquals("=1+A3+", cellEditorState.currentText)
+
+            // x: simulate typing "1" into the cell editor
+            cellEditorAction.changeText("=1+A3+1")
+            assertFalse(cellEditorState.allowRangeSelector)
+            assertNull(cellEditorState.rangeSelectorTextField?.text)
+            assertEquals("=1+A3+1", cellEditorState.displayTextField.text)
+            assertEquals("=1+A3+1", cellEditorState.currentText)
+        }
+        disableRangeSelectorWithNewText()
+
+
+        // x: select range after braces "()" auto completion
+        cellEditorAction.changeText("=(")
+
     }
 
     @Test
@@ -505,7 +523,7 @@ class CursorAndCellEditorTest {
             colorFormulaAction = p6Comp.colorFormulaAction()
         )
 
-        val keyEvent =MockPKeyEvent.arrowDown
+        val keyEvent =MockMKeyEvent.arrowDown
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
         cellEditorAction.changeText("=")

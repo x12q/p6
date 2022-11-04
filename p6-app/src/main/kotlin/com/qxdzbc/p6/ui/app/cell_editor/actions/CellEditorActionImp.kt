@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.app.cell_editor.actions
 
-import androidx.compose.material.TextField
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
@@ -9,7 +8,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.common.compose.key_event.MKeyEvent
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
@@ -17,6 +16,7 @@ import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormul
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
 import com.qxdzbc.p6.app.command.Commands
+import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
@@ -235,7 +235,7 @@ class CellEditorActionImp @Inject constructor(
     /**
      * pass keyboard event caught by a cell editor to its range-selector (which is a cell cursor).
      */
-    private fun passKeyEventToRangeSelector(keyEvent: PKeyEvent, editorState: CellEditorState): Boolean {
+    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, editorState: CellEditorState): Boolean {
         val rt: Boolean = editorState.rangeSelectorCursorId?.let {
             cursorAction.handleKeyboardEvent(keyEvent, it)
         } ?: false
@@ -243,7 +243,7 @@ class CellEditorActionImp @Inject constructor(
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun handleKeyboardEvent(keyEvent: PKeyEvent): Boolean {
+    override fun handleKeyboardEvent(keyEvent: P6KeyEvent): Boolean {
         if (editorState.isActive) {
             if (keyEvent.type == KeyEventType.KeyDown) {
                 when (keyEvent.key) {

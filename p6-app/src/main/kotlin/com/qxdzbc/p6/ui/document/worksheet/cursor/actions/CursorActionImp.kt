@@ -17,17 +17,17 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
-import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.common.compose.key_event.MKeyEvent
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
+import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
-import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
@@ -124,7 +124,7 @@ class CursorActionImp @Inject constructor(
     }
 
     override fun handleKeyboardEvent(
-        keyEvent: PKeyEvent,
+        keyEvent: P6KeyEvent,
         wbws: WbWs,
     ): Boolean {
         val wsState = sc.getWsState(wbws)
@@ -201,7 +201,7 @@ class CursorActionImp @Inject constructor(
     }
 
     private fun handleKeyboardEventWhenShiftDown(
-        keyEvent: PKeyEvent,
+        keyEvent: P6KeyEvent,
         wbws: WbWs
     ): Boolean {
         if (keyEvent.isShiftPressedAlone) {
@@ -243,7 +243,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun handleKeyWithCtrlShift(keyEvent: PKeyEvent, wbws: WbWs): Boolean {
+    private fun handleKeyWithCtrlShift(keyEvent: P6KeyEvent, wbws: WbWs): Boolean {
         if (keyEvent.isCtrlShiftPressed) {
             return when (keyEvent.key) {
                 Key.DirectionUp -> {
@@ -269,7 +269,7 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    private fun handleKeyWithCtrlDown(keyEvent: PKeyEvent, wbws: WbWs): Boolean {
+    private fun handleKeyWithCtrlDown(keyEvent: P6KeyEvent, wbws: WbWs): Boolean {
         val cursorState = sc.getCursorState(wbws)
         if (cursorState != null) {
             if (keyEvent.isCtrlPressedAlone) {
