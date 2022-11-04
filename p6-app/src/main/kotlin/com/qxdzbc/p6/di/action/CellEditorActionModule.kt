@@ -13,19 +13,19 @@ import dagger.Binds
 
 @dagger.Module
 interface CellEditorActionModule {
-    @Binds
-    @P6Singleton
-    fun ColorFormulaInCellEditorAction(i: ColorFormulaInCellEditorActionImp):ColorFormulaInCellEditorAction
-
-    @Binds
-    @P6Singleton
-    fun CycleFormulaLockState(i: CycleFormulaLockStateImp): CycleFormulaLockStateAction
-
-    @Binds
-    @P6Singleton
-    fun OpenCellEditor(i:OpenCellEditorImp): OpenCellEditorAction
-
-    @Binds
-    @P6Singleton
-    fun UpdateRangeSelectorText(i: UpdateRangeSelectorTextImp): UpdateRangeSelectorText
+//    @Binds
+//    @P6Singleton
+//    fun ColorFormulaInCellEditorAction(i: ColorFormulaInCellEditorActionImp):ColorFormulaInCellEditorAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun CycleFormulaLockState(i: CycleFormulaLockStateImp): CycleFormulaLockStateAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun OpenCellEditor(i:OpenCellEditorImp): OpenCellEditorAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun UpdateRangeSelectorText(i: UpdateRangeSelectorTextImp): UpdateRangeSelectorText
 }

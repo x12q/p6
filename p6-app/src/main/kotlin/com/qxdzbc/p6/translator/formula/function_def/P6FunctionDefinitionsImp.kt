@@ -14,8 +14,7 @@ import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.DocumentContainerSt
+
 import com.qxdzbc.p6.translator.formula.execution_unit.FunctionExecutor
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
@@ -23,8 +22,8 @@ import javax.inject.Inject
 import kotlin.reflect.KFunction
 
 class P6FunctionDefinitionsImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
-    @DocumentContainerSt private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
+    private val appStateMs: Ms<AppState>,
+    private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
 ) : P6FunctionDefinitions {
 
     private var appState by appStateMs

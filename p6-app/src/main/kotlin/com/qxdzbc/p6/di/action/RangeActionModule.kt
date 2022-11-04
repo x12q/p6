@@ -7,7 +7,7 @@ import dagger.Binds
 
 @dagger.Module
 interface RangeActionModule {
-    @Binds
-    @P6Singleton
-    fun RangeToClipboardAction(i:RangeToClipboardActionImp): RangeToClipboardAction
+//    @Binds
+//    @P6Singleton
+//    fun RangeToClipboardAction(i:RangeToClipboardActionImp): RangeToClipboardAction
 }

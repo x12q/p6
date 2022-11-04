@@ -7,8 +7,8 @@ import dagger.Binds
 
 @dagger.Module
 interface WindowApplierModule {
-    @Binds
-    @P6Singleton
-    fun WindowEventApplier(i: WindowEventApplierImp): WindowEventApplier
+//    @Binds
+//    @P6Singleton
+//    fun WindowEventApplier(i: WindowEventApplierImp): WindowEventApplier
 
 }

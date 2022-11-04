@@ -4,20 +4,23 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.di.PartialCellRangeExtractor_Qualifier
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.PartialCellRangeExtractorQ
 import com.qxdzbc.p6.di.TextElementVisitor_Qualifier
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class CycleFormulaLockStateImp @Inject constructor(
-    @StateContainerSt
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    @PartialCellRangeExtractor_Qualifier
+    @PartialCellRangeExtractorQ
     val partialTextElementExtractor: P6Translator<TextElementResult>,
     @TextElementVisitor_Qualifier
     val visitor: FormulaBaseVisitor<TextElementResult>
@@ -64,7 +67,7 @@ class CycleFormulaLockStateImp @Inject constructor(
             }?.let {
                 val newRangeAddress = it.nextLockState()
                 val newLabel = if (newRangeAddress.isCell()) {
-                    newRangeAddress.topLeft.toLabel()
+                    newRangeAddress.topLeft.label
                 } else {
                     newRangeAddress.label
                 } + (cellRangePos.labelLoc ?: "")

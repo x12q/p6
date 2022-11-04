@@ -14,26 +14,25 @@ import dagger.Binds
 
 @dagger.Module
 interface RangeRMModule {
-    @Binds
-    @P6Singleton
-    fun PasteRangeRM(i: PasteRangeRMImp): PasteRangeRM
-
-    @Binds
-    @P6Singleton
-
-    fun CopyRangeToClipboardRM(i: CopyRangeToClipboardRMImp): CopyRangeToClipboardRM
-
-    @Binds
-    @P6Singleton
-    @Fake
-    fun FakePasteRangeRM(i: FakePasteRangeRM): PasteRangeRM
-
-    @Binds
-    @P6Singleton
-    fun RangeRM(i: RangeRMImp): RangeRM
-
-    @Binds
-    @P6Singleton
-    @Fake
-    fun FakeCopyRangeToClipboardRM(i: FakeCopyRangeToClipboardRM): CopyRangeToClipboardRM
+//    @Binds
+//    @P6Singleton
+//    fun PasteRangeRM(i: PasteRangeRMImp): PasteRangeRM
+//
+//    @Binds
+//    @P6Singleton
+//    fun CopyRangeToClipboardRM(i: CopyRangeToClipboardRMImp): CopyRangeToClipboardRM
+//
+//    @Binds
+//    @P6Singleton
+//    @Fake
+//    fun FakePasteRangeRM(i: FakePasteRangeRM): PasteRangeRM
+//
+//    @Binds
+//    @P6Singleton
+//    fun RangeRM(i: RangeRMImp): RangeRM
+//
+//    @Binds
+//    @P6Singleton
+//    @Fake
+//    fun FakeCopyRangeToClipboardRM(i: FakeCopyRangeToClipboardRM): CopyRangeToClipboardRM
 }

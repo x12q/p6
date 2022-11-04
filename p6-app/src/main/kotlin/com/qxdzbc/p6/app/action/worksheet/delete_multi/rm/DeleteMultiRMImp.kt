@@ -14,15 +14,19 @@ import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+
+
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class DeleteMultiRMImp @Inject constructor(
-    @AppStateMs val appStateMs: Ms<AppState>,
-    @StateContainerSt val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val appStateMs: Ms<AppState>,
+    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
 ) : DeleteMultiRM {
     val stateCont by stateContSt
 

@@ -11,24 +11,24 @@ import dagger.Binds
 
 @dagger.Module
 interface RangeApplierModule {
-    @Binds
-    @P6Singleton
-    fun RangeEventApplier(i: RangeApplierImp): RangeApplier
-
-    @Binds
-    @P6Singleton
-    fun RangeToClipboardInternalApplier(i: RangeToClipboardInternalApplierImp): RangeToClipboardInternalApplier
-
-    @Binds
-    @P6Singleton
-    fun RangeToClipboardApplier(i: RangeToClipboardApplierImp): RangeToClipboardApplier
-
-    @Binds
-    @P6Singleton
-    @com.qxdzbc.p6.di.Fake
-    fun FakeRangeToClipboardApplier(i: FakeRangeToClipboardApplier): RangeToClipboardApplier
-
-    @Binds
-    @P6Singleton
-    fun PasteRangeApplier(i: PasteRangeApplierImp): PasteRangeApplier
+//    @Binds
+//    @P6Singleton
+//    fun RangeEventApplier(i: RangeApplierImp): RangeApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun RangeToClipboardInternalApplier(i: RangeToClipboardInternalApplierImp): RangeToClipboardInternalApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun RangeToClipboardApplier(i: RangeToClipboardApplierImp): RangeToClipboardApplier
+//
+//    @Binds
+//    @P6Singleton
+//    @Fake
+//    fun FakeRangeToClipboardApplier(i: FakeRangeToClipboardApplier): RangeToClipboardApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun PasteRangeApplier(i: PasteRangeApplierImp): PasteRangeApplier
 }

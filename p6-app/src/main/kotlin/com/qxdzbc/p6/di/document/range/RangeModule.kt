@@ -6,10 +6,10 @@ import dagger.Binds
 
 @dagger.Module
 interface RangeModule {
-    @Binds
-    @P6Singleton
-    fun RangeCopier(i: RangeCopierImp): RangeCopier
-    @Binds
-    @P6Singleton
-    fun RangePaster(i: RangePasterImp):RangePaster
+//    @Binds
+//    @P6Singleton
+//    fun RangeCopier(i: RangeCopierImp): RangeCopier
+//    @Binds
+//    @P6Singleton
+//    fun RangePaster(i: RangePasterImp):RangePaster
 }

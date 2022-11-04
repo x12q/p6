@@ -6,11 +6,10 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
+
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.CellContentImp
-import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -20,12 +19,16 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.mapBoth
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class UpdateMultiCellRMImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
-    @TranslatorContainerMs val translatorContainerMs: Ms<TranslatorContainer>
+    private val appStateMs: Ms<AppState>,
+    val translatorContainerMs: Ms<TranslatorContainer>
 ) : UpdateMultiCellRM {
 
     var translatorCont by translatorContainerMs

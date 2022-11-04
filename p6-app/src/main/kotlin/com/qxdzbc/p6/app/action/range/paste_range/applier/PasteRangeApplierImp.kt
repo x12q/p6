@@ -6,14 +6,18 @@ import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplier
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeResponse
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
+
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class PasteRangeApplierImp @Inject constructor(
     private val wbUpdateApplier: WorkbookUpdateCommonApplier,
-    @AppStateMs private val appStateMs:Ms<AppState>,
+    private val appStateMs:Ms<AppState>,
 ) : PasteRangeApplier {
     private var appState by appStateMs
     override fun applyPasteRange(res: PasteRangeResponse?) {

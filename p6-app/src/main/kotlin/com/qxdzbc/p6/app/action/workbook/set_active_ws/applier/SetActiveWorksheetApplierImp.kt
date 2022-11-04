@@ -4,17 +4,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetResponse2
 import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
+
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.onSuccess
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class SetActiveWorksheetApplierImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
 ) : SetActiveWorksheetApplier {
 
     private var appState by appStateMs

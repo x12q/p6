@@ -99,7 +99,7 @@ class TestSample: TestAppScope {
         .msgApiCommonLogger(Loggers.msgApiCommonLogger)
         .build()
 
-    override val p6Comp = DaggerP6Component.builder()
+    override val p6Comp = DaggerTestComponent.builder()
         .username("user_name")
         .messageApiComponent(msgApiComponent)
         .applicationCoroutineScope(kernelCoroutineScope)

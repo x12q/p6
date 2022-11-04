@@ -97,7 +97,7 @@ data class GetCell(
         val a3 = cellAddressUnit
         val currentWbKey = a1.wbKeySt.value
         val currentWsName = a2.nameSt.value
-        val cellAddress: String = a3.cellAddress.toLabel()
+        val cellAddress: String = a3.cellAddress.label
         if (currentWbKey == wbKey) {
             if (currentWsName == wsName) {
                 return cellAddress

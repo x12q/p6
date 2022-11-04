@@ -16,28 +16,28 @@ import dagger.Binds
 
 @dagger.Module
 interface RpcModule {
-    @Binds
-    @P6Singleton
-    fun WorksheetServiceImplBase(i: WorksheetRpcService): WorksheetServiceGrpc.WorksheetServiceImplBase
-
-    @Binds
-    @P6Singleton
-    fun AppServiceImplBase(i: AppRpcService): AppServiceGrpc.AppServiceImplBase
-
-    @Binds
-    @P6Singleton
-    fun WorkbookService(i: WorkbookRpcService): WorkbookServiceGrpc.WorkbookServiceImplBase
-
-    @Binds
-    @P6Singleton
-    fun CellRpcService(i: CellRpcService): CellServiceGrpc.CellServiceImplBase
-
-    @Binds
-    @P6Singleton
-    fun P6RpcServer(i: P6RpcServerImp):P6RpcServer
-
-    @Binds
-    @P6Singleton
-    @MsRpcServerQualifier
-    fun ReactiveP6RpcServer(i:MsP6RpcServer):P6RpcServer
+//    @Binds
+//    @P6Singleton
+//    fun WorksheetServiceImplBase(i: WorksheetRpcService): WorksheetServiceGrpc.WorksheetServiceImplBase
+//
+//    @Binds
+//    @P6Singleton
+//    fun AppServiceImplBase(i: AppRpcService): AppServiceGrpc.AppServiceImplBase
+//
+//    @Binds
+//    @P6Singleton
+//    fun WorkbookService(i: WorkbookRpcService): WorkbookServiceGrpc.WorkbookServiceImplBase
+//
+//    @Binds
+//    @P6Singleton
+//    fun CellRpcService(i: CellRpcService): CellServiceGrpc.CellServiceImplBase
+//
+//    @Binds
+//    @P6Singleton
+//    fun P6RpcServer(i: P6RpcServerImp):P6RpcServer
+//
+//    @Binds
+//    @P6Singleton
+//    @MsRpcServerQualifier
+//    fun ReactiveP6RpcServer(i:MsP6RpcServer):P6RpcServer
 }

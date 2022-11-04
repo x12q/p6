@@ -2,7 +2,8 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.common.compose.key_event.PKeyEvent
+import com.qxdzbc.common.compose.key_event.MKeyEvent
+import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
@@ -38,7 +39,7 @@ interface CursorAction : SelectWholeColumnForAllSelectedCellAction, SelectWholeR
 
     fun onDeleteKey(wbws: WbWs)
     fun undo(wbws: WbWs)
-    fun handleKeyboardEvent(keyEvent: PKeyEvent, wbws: WbWs): Boolean
+    fun handleKeyboardEvent(keyEvent: P6KeyEvent, wbws: WbWs): Boolean
     fun pasteRange(wbws: WbWs)
     fun rangeToClipboard(wbws: WbWs)
 

@@ -11,13 +11,16 @@ import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest2
 import com.qxdzbc.p6.app.action.range.paste_range.applier.PasteRangeApplier
 import com.qxdzbc.p6.app.action.range.paste_range.rm.PasteRangeRM
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class PasteRangeActionImp @Inject constructor(
-    @StateContainerSt
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val rangeRM: PasteRangeRM,
     private val rangeApplier: PasteRangeApplier,

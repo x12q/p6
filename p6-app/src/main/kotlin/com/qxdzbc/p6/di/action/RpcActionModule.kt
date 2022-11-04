@@ -15,23 +15,23 @@ import dagger.Binds
 
 @dagger.Module
 interface RpcActionModule {
-    @Binds
-    @P6Singleton
-    fun CellRpcActions(i: CellRpcActionsImp):CellRpcActions
-
-    @Binds
-    @P6Singleton
-    fun WorkbookRpcActions(i:WorkbookRpcActionsImp): WorkbookRpcActions
-
-    @Binds
-    @P6Singleton
-    fun WorksheetRpcAction(i:WorksheetRpcActionImp): WorksheetRpcAction
-
-    @Binds
-    @P6Singleton
-    fun rpcAction(i: AppRpcActionsImp):AppRpcActions
-
-    @Binds
-    @P6Singleton
-    fun AppRpcAction(i:AppRpcActionImp): AppRpcAction
+//    @Binds
+//    @P6Singleton
+//    fun CellRpcActions(i: CellRpcActionsImp):CellRpcActions
+//
+//    @Binds
+//    @P6Singleton
+//    fun WorkbookRpcActions(i:WorkbookRpcActionsImp): WorkbookRpcActions
+//
+//    @Binds
+//    @P6Singleton
+//    fun WorksheetRpcAction(i:WorksheetRpcActionImp): WorksheetRpcAction
+//
+//    @Binds
+//    @P6Singleton
+//    fun rpcAction(i: AppRpcActionsImp):AppRpcActions
+//
+//    @Binds
+//    @P6Singleton
+//    fun AppRpcAction(i:AppRpcActionImp): AppRpcAction
 }

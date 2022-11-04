@@ -16,23 +16,23 @@ import dagger.Module
 
 @Module
 interface WorksheetApplierModule {
-    @Binds
-    @P6Singleton
-    fun WorkbookUpdateApplier(i: WorkbookUpdateApplierImp): WorkbookUpdateApplier
-
-    @Binds
-    @P6Singleton
-    fun DeleteCellResponseInternalApplier(i: DeleteCellResponseInternalApplierImp): DeleteCellResponseInternalApplier
-
-    @Binds
-    @P6Singleton
-    fun DeleteCellResponseApplier(i: DeleteCellResponseApplierImp): DeleteCellResponseApplier
-
-    @Binds
-    @P6Singleton
-    fun RenameWorksheetInternalApplier(i: RenameWorksheetInternalApplierImp): RenameWorksheetInternalApplier
-
-    @Binds
-    @P6Singleton
-    fun RenameWorksheetApplier(i: RenameWorksheetApplierImp): RenameWorksheetApplier
+//    @Binds
+//    @P6Singleton
+//    fun WorkbookUpdateApplier(i: WorkbookUpdateApplierImp): WorkbookUpdateApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun DeleteCellResponseInternalApplier(i: DeleteCellResponseInternalApplierImp): DeleteCellResponseInternalApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun DeleteCellResponseApplier(i: DeleteCellResponseApplierImp): DeleteCellResponseApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun RenameWorksheetInternalApplier(i: RenameWorksheetInternalApplierImp): RenameWorksheetInternalApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun RenameWorksheetApplier(i: RenameWorksheetApplierImp): RenameWorksheetApplier
 }

@@ -30,11 +30,11 @@ data class CellAddressUnit(val cellAddress: CellAddress) : ExUnit {
     }
 
     override fun toFormula(): String {
-        return cellAddress.toLabel()
+        return cellAddress.label
     }
 
     override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
-        return cellAddress.toLabel()
+        return cellAddress.label
     }
 
     override fun runRs(): Result<CellAddress, ErrorReport> {

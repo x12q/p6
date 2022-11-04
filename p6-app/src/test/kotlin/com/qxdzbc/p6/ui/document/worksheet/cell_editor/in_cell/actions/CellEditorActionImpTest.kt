@@ -30,23 +30,23 @@ internal class CellEditorActionImpTest : BaseTest() {
 
     fun testBrace(b1:String, b2:String) {
         val pair = "${b1}${b2}"
-        act.onTextChange(TextFieldValue(b1, TextRange(1)))
+        act.changeTextField(TextFieldValue(b1, TextRange(1)))
         assertEquals(pair, editorState.currentText)
         assertEquals(pair, editorState.displayText)
         assertEquals(pair, editorState.displayTextField.text)
         assertEquals(TextRange(1), editorState.currentTextField.selection)
 
         editorStateMs.value = editorState.clearAllText()
-        act.onTextChange(TextFieldValue("abc",TextRange(3)))
-        act.onTextChange(TextFieldValue("abc${b1}",TextRange(4)))
+        act.changeTextField(TextFieldValue("abc",TextRange(3)))
+        act.changeTextField(TextFieldValue("abc${b1}",TextRange(4)))
         assertEquals("abc${pair}", editorState.currentText)
         assertEquals("abc${pair}", editorState.displayText)
         assertEquals("abc${pair}", editorState.displayTextField.text)
         assertEquals(TextRange(4), editorState.currentTextField.selection)
 
         editorStateMs.value = editorState.clearAllText()
-        act.onTextChange(TextFieldValue("abc12345",TextRange(8)))
-        act.onTextChange(TextFieldValue("abc1${b1}45",TextRange(5)))
+        act.changeTextField(TextFieldValue("abc12345",TextRange(8)))
+        act.changeTextField(TextFieldValue("abc1${b1}45",TextRange(5)))
         assertEquals("abc1${pair}45", editorState.currentText)
         assertEquals("abc1${pair}45", editorState.displayText)
         assertEquals("abc1${pair}45", editorState.displayTextField.text)
@@ -63,12 +63,12 @@ internal class CellEditorActionImpTest : BaseTest() {
     @Test
     fun updateTextField(){
         assertNull(sc.cellEditorState.parseTree)
-        act.onTextChange("")
+        act.changeText("")
         assertNull(sc.cellEditorState.parseTree)
-        act.onTextChange("=")
+        act.changeText("=")
         val pt1 = sc.cellEditorState.parseTree
         assertNotNull(pt1)
-        act.onTextChange("=F1(A1)")
+        act.changeText("=F1(A1)")
         val pt2 = sc.cellEditorState.parseTree
         assertNotNull(pt2)
         assertNotEquals(pt1,pt2)
@@ -77,7 +77,7 @@ internal class CellEditorActionImpTest : BaseTest() {
     @Test
     fun closeEditor(){
         // x: pre conditions
-        act.onTextChange("=F1(A1)")
+        act.changeText("=F1(A1)")
         assertNotNull(sc.cellEditorState.parseTree)
         assertTrue(sc.cellEditorState.currentText.isNotEmpty())
         assertTrue(sc.cellEditorState.displayText.isNotEmpty())

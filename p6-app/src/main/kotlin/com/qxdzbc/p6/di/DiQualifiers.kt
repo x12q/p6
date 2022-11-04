@@ -8,7 +8,7 @@ annotation class PartialTreeExtractor
 
 @Qualifier
 @Retention
-annotation class PartialCellRangeExtractor_Qualifier
+annotation class PartialCellRangeExtractorQ
 
 @Qualifier
 @Retention
@@ -17,14 +17,6 @@ annotation class TextElementVisitor_Qualifier
 @Qualifier
 @Retention
 annotation class NullInt
-
-@Qualifier
-@Retention
-annotation class FunctionMapMs
-
-@Qualifier
-@Retention
-annotation class FunctionMapSt
 
 @Qualifier
 @Retention

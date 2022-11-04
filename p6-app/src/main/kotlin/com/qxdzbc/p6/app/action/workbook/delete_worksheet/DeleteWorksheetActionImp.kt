@@ -6,7 +6,7 @@ import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.rm.DeleteWorksheetRM
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
+
 
 import com.qxdzbc.p6.rpc.workbook.WorkbookRpcMsgErrors
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -14,13 +14,16 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetActionImp @Inject constructor(
     val rm:DeleteWorksheetRM,
     val applier:DeleteWorksheetApplier,
-    @AppStateMs
     private val appStateMs:Ms<AppState>
 ) : DeleteWorksheetAction {
 

@@ -3,16 +3,18 @@ package com.qxdzbc.p6.app.action.app.restart_kernel.applier
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.app.restart_kernel.RestartKernelResponse
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.StateContainerMs
+
+
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@ContributesBinding(P6AnvilScope::class)
 class RestartKernelApplierImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
-    @StateContainerMs val stateContMs:Ms<StateContainer>,
+    private val appStateMs: Ms<AppState>,
+    val stateContMs:Ms<StateContainer>,
 ) : RestartKernelApplier {
     private var stateCont by stateContMs
     private var appState by appStateMs

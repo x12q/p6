@@ -7,22 +7,26 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.StateContainerMs
+
+
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType=WorksheetAction2::class)
 class WorksheetAction2Imp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<AppState>,
     private val mouseOnWsAction: MouseOnWorksheetAction,
-    @StateContainerMs val stateContMs: Ms<StateContainer>,
+    val stateContMs: Ms<StateContainer>,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
     private val makeSliderFollowCellAct: MakeSliderFollowCellAction,
 ) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction, ComputeSliderSizeAction by computeSliderSizeAction {

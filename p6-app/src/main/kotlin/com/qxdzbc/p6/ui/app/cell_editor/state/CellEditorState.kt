@@ -21,6 +21,7 @@ interface CellEditorState {
      *  - null parse tree
      */
     fun clearAll():CellEditorState
+
     /**
      * move [rangeSelectorTextField]'s content to [currentTextField], then nullify [rangeSelectorTextField]
      */
@@ -44,7 +45,7 @@ interface CellEditorState {
 
     /**
      * This is for locating the edit target.
-     * Which workbook, worksheet does the target cell belong to?
+     * Which workbook, worksheet does the target cursor belong to?
      */
     val targetCursorIdSt: St<CursorStateId>?
     val targetCursorId: CursorStateId?

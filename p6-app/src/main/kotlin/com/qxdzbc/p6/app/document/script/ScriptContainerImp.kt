@@ -10,7 +10,11 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.CollectionUtils.replaceKey
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 
+@ContributesBinding(P6AnvilScope::class,boundType=ScriptContainer::class)
 data class ScriptContainerImp(override val map: Map<String, String> = emptyMap()) : ScriptContainer,
     Map<String, String> by map {
 

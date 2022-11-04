@@ -8,7 +8,6 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.di.state.app_state.WbStateContMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -26,7 +25,6 @@ import javax.inject.Inject
 import kotlin.io.path.absolute
 
 data class WorkbookContainerImp @Inject constructor(
-    @WbStateContMs
     private val wbStateContMs: Ms<WorkbookStateContainer>,
     private val wbStateFactory: WorkbookStateFactory,
 ) : AbsWorkbookContainer() {

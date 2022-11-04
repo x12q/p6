@@ -6,13 +6,17 @@ import androidx.compose.ui.window.ApplicationScope
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
-import javax.inject.Inject
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.squareup.anvil.annotations.ContributesBinding
+import javax.inject.Inject
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class CloseWindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
-    @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>,
+    private val stateContMs:Ms<SubAppStateContainer>,
 ) : CloseWindowAction {
 
     private var stateCont by stateContMs

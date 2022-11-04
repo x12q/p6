@@ -2,12 +2,17 @@ package com.qxdzbc.p6.app.action.remote_request_maker
 
 import com.qxdzbc.p6.app.communication.res_req_template.ToP6Msg
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.*
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.message.api.connection.service.zmq_services.msg.P6Response
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 /**
  * Provide sending method for a number of template request
  */
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class TemplateRMImp @Inject constructor(
     private val base: BaseRemoteRM,
     private val p6ErrHandler: P6ResponseErrorHandler,

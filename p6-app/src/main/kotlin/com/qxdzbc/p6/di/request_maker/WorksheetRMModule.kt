@@ -14,21 +14,21 @@ import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.rm.UpdateMultiCellRM
 @dagger.Module
 interface WorksheetRMModule {
 
-    @Binds
-    @P6Singleton
-    fun UpdateMultiCellRM1(i: UpdateMultiCellRMImp): UpdateMultiCellRM1
-
-    @Binds
-    @P6Singleton
-    fun RenameWorksheetRM(i: RenameWorksheetRMImp): RenameWorksheetRM
-
-    @Binds
-    @P6Singleton
-    fun DeleteMultiRM(i: DeleteMultiRMImp): DeleteMultiRM
-
-
-    @Binds
-    @P6Singleton
-    fun WorksheetRM(mk: WorksheetRMImp): WorksheetRM
+//    @Binds
+//    @P6Singleton
+//    fun UpdateMultiCellRM1(i: UpdateMultiCellRMImp): UpdateMultiCellRM1
+//
+//    @Binds
+//    @P6Singleton
+//    fun RenameWorksheetRM(i: RenameWorksheetRMImp): RenameWorksheetRM
+//
+//    @Binds
+//    @P6Singleton
+//    fun DeleteMultiRM(i: DeleteMultiRMImp): DeleteMultiRM
+//
+//
+//    @Binds
+//    @P6Singleton
+//    fun WorksheetRM(mk: WorksheetRMImp): WorksheetRM
 
 }

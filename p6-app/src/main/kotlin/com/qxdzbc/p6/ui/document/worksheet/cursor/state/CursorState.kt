@@ -60,6 +60,13 @@ interface CursorState : WbWsSt {
 
     val mainCellSt:St<CellAddress>
     val mainCell: CellAddress
+
+    /**
+     * Construct a string representing this cursor main selection address. Prioritize main range over main cell.
+     *
+     * Eg: "A1:B3@Sheet1@Wbkey2"
+     */
+    fun mainSelectionStr(against:CursorStateId):String
     /**
      * point the cursor to a new cell
      */

@@ -134,7 +134,7 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
             if (firstAddressOnFirstCol && lastAddressOnLastCol) {
                 return "${topLeft.rowIndex}:${botRight.rowIndex}"
             }
-            return "${topLeft.toRawLabel()}:${botRight.toRawLabel()}"
+            return "${topLeft.label}:${botRight.label}"
         }
 
     override operator fun contains(cellAddress: CellAddress): Boolean {

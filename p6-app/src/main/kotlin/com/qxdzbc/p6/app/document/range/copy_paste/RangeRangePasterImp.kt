@@ -16,8 +16,7 @@ import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
-import com.qxdzbc.p6.di.state.app_state.TranslatorContainerMs
+
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import java.awt.Toolkit
@@ -28,8 +27,8 @@ import javax.inject.Inject
  * Paste a range with clipboard source being a range
  */
 class RangeRangePasterImp @Inject constructor(
-    @StateContainerSt private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
-    @TranslatorContainerMs private val transContMs:Ms<TranslatorContainer>
+    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    private val transContMs:Ms<TranslatorContainer>
 ) : RangePaster {
     val stateCont by stateContSt
 

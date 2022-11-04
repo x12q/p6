@@ -28,12 +28,15 @@ import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.ActionDispatcherMain
 import com.qxdzbc.p6.di.AppCoroutineScope
-import com.qxdzbc.p6.di.state.app_state.DocumentContainerMs
-import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+
+
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorkbookProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
+import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.WorkbookServiceGrpc
 import com.qxdzbc.p6.rpc.workbook.msg.GetAllWorksheetsResponse
 import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
@@ -42,18 +45,18 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.*
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType= WorkbookServiceGrpc.WorkbookServiceImplBase::class)
 class WorkbookRpcService @Inject constructor(
 //    @AppStateMs
 //    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
     private val rpcActions: WorkbookRpcActions,
-    @DocumentContainerMs
     private val documentContMs: Ms<DocumentContainer>,
-    @SubAppStateContainerMs
     private val stateContMs: Ms<SubAppStateContainer>,
     @AppCoroutineScope
     val crtScope: CoroutineScope,

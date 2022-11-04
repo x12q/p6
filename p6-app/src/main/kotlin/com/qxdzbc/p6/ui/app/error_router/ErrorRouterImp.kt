@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
+
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -14,7 +14,7 @@ import com.qxdzbc.common.compose.St
 import javax.inject.Inject
 
 class ErrorRouterImp @Inject constructor(
-    @AppStateMs private val appStateMs: Ms<AppState>
+    private val appStateMs: Ms<AppState>
 ) : ErrorRouter {
     private var appState by appStateMs
     private var codeEditorState by appState.codeEditorStateMs

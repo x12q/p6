@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.coderunner.CodeRunner
 import com.qxdzbc.p6.app.action.script.ScriptApplier
 import com.qxdzbc.p6.app.action.script.ScriptRM
 import com.qxdzbc.p6.app.action.script.new_script.NewScriptRequest
-import com.qxdzbc.p6.di.state.app_state.CodeEditorStateMs
+
 import com.qxdzbc.p6.app.document.script.ScriptEntry
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -18,14 +18,18 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.onSuccess
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class CodeEditorActionImp @Inject constructor(
-    @CodeEditorStateMs private val codeEditorStateMs: Ms<CodeEditorState>,
+    private val codeEditorStateMs: Ms<CodeEditorState>,
     private val codeRunner: CodeRunner,
     @com.qxdzbc.p6.di.AppCoroutineScope private val executionScope: CoroutineScope,
     private val ceErrRouter: ScriptEditorErrorRouter,

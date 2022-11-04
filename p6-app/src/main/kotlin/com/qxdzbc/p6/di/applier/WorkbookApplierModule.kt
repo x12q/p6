@@ -10,11 +10,11 @@ import dagger.Binds
 
 @dagger.Module
 interface WorkbookApplierModule {
-    @Binds
-    @P6Singleton
-    fun AddWsApplier(i: CreateNewWorksheetApplierImp): CreateNewWorksheetApplier
-
-    @Binds
-    @P6Singleton
-    fun DeleteWorksheetApplier(i: DeleteWorksheetApplierImp): DeleteWorksheetApplier
+//    @Binds
+//    @P6Singleton
+//    fun AddWsApplier(i: CreateNewWorksheetApplierImp): CreateNewWorksheetApplier
+//
+//    @Binds
+//    @P6Singleton
+//    fun DeleteWorksheetApplier(i: DeleteWorksheetApplierImp): DeleteWorksheetApplier
 }

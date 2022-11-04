@@ -21,25 +21,25 @@ import java.nio.file.Path
 
 @Module
 interface UtilModule {
-    @Binds
-    @P6Singleton
-    fun CellLiteralParser(i:CellLiteralParserImp): CellLiteralParser
+//    @Binds
+//    @P6Singleton
+//    fun CellLiteralParser(i:CellLiteralParserImp): CellLiteralParser
 
-    @Binds
-    @P6Singleton
-    fun P6Saver(i:P6SaverImp): P6Saver
+//    @Binds
+//    @P6Singleton
+//    fun P6Saver(i:P6SaverImp): P6Saver
 
-    @Binds
-    @P6Singleton
-    fun P6Loader(i:P6FileLoaderImp):P6FileLoader
+//    @Binds
+//    @P6Singleton
+//    fun P6Loader(i:P6FileLoaderImp):P6FileLoader
 
-    @Binds
-    @P6Singleton
-    fun WsNameGenerator(i:WsNameGeneratorImp): WsNameGenerator
+//    @Binds
+//    @P6Singleton
+//    fun WsNameGenerator(i:WsNameGeneratorImp): WsNameGenerator
 
-    @Binds
-    @P6Singleton
-    fun WorkbookFactory(i: AutoNameWbFactory):WorkbookFactory
+//    @Binds
+//    @P6Singleton
+//    fun WorkbookFactory(i: AutoNameWbFactory):WorkbookFactory
 
 
     companion object{

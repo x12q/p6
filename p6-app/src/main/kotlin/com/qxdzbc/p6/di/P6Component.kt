@@ -36,9 +36,8 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.StateContainerMs
-import com.qxdzbc.p6.di.state.app_state.WbContainerMs
+
+
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
@@ -90,11 +89,6 @@ import org.zeromq.ZMQ
 
 
 @P6Singleton
-//@Component(
-//    modules = [
-//        P6Module::class,
-//    ],
-//)
 @MergeComponent(
     scope = P6AnvilScope::class,
     modules = [
@@ -163,11 +157,9 @@ interface P6Component {
     fun wsAction(): WorksheetAction
 
     @P6Singleton
-    @AppStateMs
     fun appStateMs(): Ms<AppState>
 
     @P6Singleton
-    @WbContainerMs
     fun wbContainerMs(): Ms<WorkbookContainer>
 
     @P6Singleton
@@ -206,69 +198,6 @@ interface P6Component {
 
     @EventServerPort
     fun eventServerPort(): Int
-
-    @AppCoroutineScope
-    fun executionScope(): CoroutineScope
-
-    @P6Singleton
-    fun wbTabBarAction(): WorkbookTabBarAction
-
-    @P6Singleton
-    fun cellEditorAction(): CellEditorAction
-
-    @P6Singleton
-    fun cellLiteralParser(): CellLiteralParser
-
-    @P6Singleton
-    fun cellViewAction(): UpdateCellAction
-
-    @P6Singleton
-    fun makeDisplayText(): MakeCellEditorDisplayTextAction
-
-    @P6Singleton
-    fun openCellEditorAction(): OpenCellEditorAction
-    fun translatorFactory(): JvmFormulaTranslatorFactory
-    fun visitorFactory2(): JvmFormulaVisitorFactory
-
-    fun clickOnCellAction(): ClickOnCell
-    fun mouseOnWsAction(): MouseOnWorksheetAction
-
-    @StateContainerMs
-    fun stateContMs(): MutableState<StateContainer>
-    fun workbookFactory(): WorkbookFactory
-    fun createNewWbAction(): CreateNewWorkbookAction
-    fun setActiveWorkbookAction(): SetActiveWorkbookAction
-    fun fileLoader(): P6FileLoader
-    fun loadWbAction(): LoadWorkbookAction
-    fun pickDefaultActiveWbAction(): PickDefaultActiveWbAction
-    fun saveWbAction(): SaveWorkbookAction
-    fun getWorkbookAction(): GetWorkbookAction
-    fun baseApplier(): BaseApplier
-    fun closeWbAct(): CloseWorkbookAction
-    fun setActiveWindowAction(): SetActiveWindowAction
-    fun updateCellAction(): UpdateCellAction
-    fun loadDataAction(): LoadDataAction
-    fun removeAllCellAction(): RemoveAllCellAction
-    fun removeAllWorksheetAction(): RemoveAllWorksheetAction
-    fun multiCellUpdateAction(): MultiCellUpdateAction
-    fun newWorksheetAction(): NewWorksheetAction
-    fun computeSliderSizeAction(): ComputeSliderSizeAction
-    fun rulerAction(): RulerAction
-    fun worksheetAction2(): WorksheetAction2
-    fun cursorEditorAction(): CellEditorAction
-    fun textDiffer(): TextDiffer
-    fun thumbStateFactory(): ThumbStateFactory
-    fun dragThumbAction(): DragThumbAction
-    fun endThumbDragAction(): EndThumbDragAction
-    fun copyCellAction(): CopyCellAction
-    @PartialCellRangeExtractor_Qualifier
-    fun cellRangeExtractorAsTranslator(): P6Translator<TextElementResult>
-    fun cycleFormulaLockStateAct(): CycleFormulaLockStateAction
-    @PartialTreeExtractor
-    fun partialTreeExtractor(): TreeExtractor
-    fun colorFormulaActionImp(): ColorFormulaInCellEditorActionImp
-    fun colorFormulaAction(): ColorFormulaInCellEditorAction
-
 
     @Component.Builder
     interface Builder {

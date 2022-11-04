@@ -17,24 +17,24 @@ import dagger.Binds
  */
 @dagger.Module
 interface ActionTableModule {
-    @Binds
-    @P6Singleton
-    fun CodeEditorActionTable(i: CodeEditorActionTableImp): CodeEditorActionTable
+//    @Binds
+//    @P6Singleton
+//    fun CodeEditorActionTable(i: CodeEditorActionTableImp): CodeEditorActionTable
 
-    @Binds
-    @P6Singleton
-    fun AppActionTable(i: AppActionTableImp): AppActionTable
+//    @Binds
+//    @P6Singleton
+//    fun AppActionTable(i: AppActionTableImp): AppActionTable
 
-    @Binds
-    @P6Singleton
-    fun windowActionTable(i: WindowActionTableImp): WindowActionTable
+//    @Binds
+//    @P6Singleton
+//    fun windowActionTable(i: WindowActionTableImp): WindowActionTable
 
-    @Binds
-    @P6Singleton
-    fun workbookActionTable(i: WorkbookActionTableImp): WorkbookActionTable
+//    @Binds
+//    @P6Singleton
+//    fun workbookActionTable(i: WorkbookActionTableImp): WorkbookActionTable
 
-    @Binds
-    @P6Singleton
-    fun worksheetActionTable(i: WorksheetActionTableImp): WorksheetActionTable
+//    @Binds
+//    @P6Singleton
+//    fun worksheetActionTable(i: WorksheetActionTableImp): WorksheetActionTable
 
 }

@@ -6,8 +6,12 @@ import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType=AppRpcAction::class)
 class AppRpcActionImp @Inject constructor(
 //    private val addWsAction: CreateNewWorksheetAction,
 //    private val setWbKeyAction: ReplaceWorkbookKeyAction,

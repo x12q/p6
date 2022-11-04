@@ -21,8 +21,10 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.AppCoroutineScope
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+
+
 import com.qxdzbc.p6.proto.AppProtos
 import com.qxdzbc.p6.proto.AppProtos.GetAllWorkbookResponseProto
 import com.qxdzbc.p6.proto.CommonProtos
@@ -34,6 +36,7 @@ import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
 import com.qxdzbc.p6.rpc.workbook.msg.WorkbookKeyWithErrorResponse
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -41,11 +44,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Path
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class,boundType=AppServiceGrpc.AppServiceImplBase::class)
 class AppRpcService @Inject constructor(
-    @AppStateMs
-    val appStateMs: Ms<AppState>,
-    @StateContainerSt
+    private val appStateMs: Ms<AppState>,
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val rpcActions: AppRpcAction,
     @ActionDispatcherDefault

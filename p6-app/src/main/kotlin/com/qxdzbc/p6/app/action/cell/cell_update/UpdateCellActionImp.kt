@@ -7,20 +7,20 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.CellRM
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
-import com.qxdzbc.p6.di.state.app_state.TranslatorContainerSt
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+
+
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@ContributesBinding(P6AnvilScope::class)
 class UpdateCellActionImp @Inject constructor(
     private val cellRM: CellRM,
-    @StateContainerSt
     val scSt:St<@JvmSuppressWildcards StateContainer>,
-    @TranslatorContainerSt
     val translatorContainerMs: St<@JvmSuppressWildcards TranslatorContainer>,
     val errorRouter: ErrorRouter,
 ) : UpdateCellAction {

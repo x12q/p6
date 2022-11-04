@@ -142,7 +142,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
                         wbKey = ts.wbKey1,
                         wsName = ts.wsn1,
                     )
-                )!!.currentValue, c.toLabel()
+                )!!.currentValue, c.label
             )
         }
     }
@@ -172,7 +172,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
                         wbKey = ts.wbKey1,
                         wsName = ts.wsn1,
                     )
-                )!!.currentValue, c.toLabel()
+                )!!.currentValue, c.label
             )
         }
     }

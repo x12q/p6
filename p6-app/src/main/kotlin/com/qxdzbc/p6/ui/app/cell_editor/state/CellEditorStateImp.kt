@@ -7,20 +7,24 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateAction
+import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateActionImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.DefaultTextFieldValue
 import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.FalseMs
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.state.app_state.CellEditorInitCursorIdSt
 import com.qxdzbc.p6.di.state.app_state.DefaultNullCellAddress
 import com.qxdzbc.p6.di.state.app_state.NullTextFieldValue
 import com.qxdzbc.p6.di.state.ws.cursor.DefaultCursorParseTree
-import com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.squareup.anvil.annotations.ContributesBinding
 import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
-
+@ContributesBinding(P6AnvilScope::class)
 data class CellEditorStateImp @Inject constructor(
     @CellEditorInitCursorIdSt
     override val targetCursorIdSt: St<@JvmSuppressWildcards CursorStateId>?,
@@ -38,11 +42,12 @@ data class CellEditorStateImp @Inject constructor(
     @NullTextFieldValue
     override val rangeSelectorTextField: TextFieldValue? = null,
     @DefaultCursorParseTree
-    override val parseTreeMs: Ms<ParseTree?> = StateUtils.ms(null)
+    override val parseTreeMs: Ms<ParseTree?> = StateUtils.ms(null),
+    private val checkRangeSelector:CheckRangeSelectorStateAction,
 ) : CellEditorState {
     companion object {
         fun defaultForTest(): CellEditorStateImp {
-            return CellEditorStateImp(null, false.toMs())
+            return CellEditorStateImp(null, false.toMs(), checkRangeSelector = CheckRangeSelectorStateActionImp())
         }
     }
 
@@ -69,12 +74,9 @@ data class CellEditorStateImp @Inject constructor(
         }
     }
 
-    @False
     override val allowRangeSelector: Boolean
         get() {
-//            return this.rangeSelectorText?.let { CellEditorUtils.checkIfAllowSelector(it) }
-//                ?: CellEditorUtils.checkIfAllowSelector(this.currentText)
-            return CellEditorUtils.checkIfAllowSelector(this.currentText)
+            return checkRangeSelector.check(this.currentText,this.currentTextField.selection.end)
         }
 
     override val isActive: Boolean by isActiveMs

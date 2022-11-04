@@ -6,18 +6,21 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.TextElementVisitor_Qualifier
-import com.qxdzbc.p6.di.state.app_state.StateContainerSt
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class ColorFormulaInCellEditorActionImp @Inject constructor(
-    @StateContainerSt
     val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     val formulaColorGenerator: FormulaColorGenerator,
     @TextElementVisitor_Qualifier

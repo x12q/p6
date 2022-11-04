@@ -3,20 +3,23 @@ package com.qxdzbc.p6.app.action.workbook.add_ws.applier
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.di.state.app_state.AppStateMs
-import com.qxdzbc.p6.di.state.app_state.SubAppStateContainerMs
+
+
 import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class CreateNewWorksheetApplierImp @Inject constructor(
-    @AppStateMs
     private val appStateMs: Ms<AppState>,
-    @SubAppStateContainerMs private val stateContMs:Ms<SubAppStateContainer>
+    private val stateContMs:Ms<SubAppStateContainer>
 ) : CreateNewWorksheetApplier {
     private var stateCont by stateContMs
     private var appState by appStateMs

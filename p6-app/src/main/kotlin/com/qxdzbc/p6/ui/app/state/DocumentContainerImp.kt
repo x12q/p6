@@ -24,14 +24,15 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.state.app_state.WbContainerMs
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
-
+@ContributesBinding(P6AnvilScope::class)
 class DocumentContainerImp @Inject constructor(
-    @WbContainerMs override val wbContMs: Ms<WorkbookContainer>,
+    override val wbContMs: Ms<WorkbookContainer>,
     private val lazyRangeFactory: LazyRangeFactory,
 ) : DocumentContainer {
 

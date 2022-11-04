@@ -2,17 +2,22 @@ package com.qxdzbc.p6.ui.script_editor.script_tree.action
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.di.state.app_state.CodeEditorStateMs
+
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.script_editor.action.CodeEditorAction
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class)
 class ScriptTreeActionImp @Inject constructor(
     val codeEditorAction: CodeEditorAction,
-    @CodeEditorStateMs val codeEditorStateMs: Ms<CodeEditorState>,
+    val codeEditorStateMs: Ms<CodeEditorState>,
 ) : ScriptTreeAction {
 
     private var codeEditorState by codeEditorStateMs
