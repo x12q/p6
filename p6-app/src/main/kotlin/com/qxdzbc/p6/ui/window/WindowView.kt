@@ -12,16 +12,14 @@ import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.file_dialog.FileDialog
-import com.qxdzbc.p6.ui.window.menu.OuterWindowMenu
 import com.qxdzbc.p6.ui.window.menu.WindowMenu
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
-import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.event.WindowFocusListener
 
 
 @Composable
-fun WindowView2(
+fun WindowView(
     state: OuterWindowState,
     windowActionTable: WindowActionTable,
     windowAction: WindowAction,

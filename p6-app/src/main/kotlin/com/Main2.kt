@@ -44,7 +44,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.c
 import com.qxdzbc.p6.ui.script_editor.ScriptEditor
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 import com.qxdzbc.p6.ui.theme.P6LightColors2
-import com.qxdzbc.p6.ui.window.WindowView2
+import com.qxdzbc.p6.ui.window.WindowView
 import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -191,7 +191,7 @@ fun main() {
                             val windowState = windowStateMs.value
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
-                            WindowView2(
+                            WindowView(
                                 state = windowState,
                                 windowActionTable = windowActionTable,
                                 windowAction = windowAction,
