@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.worksheet
+package com.qxdzbc.p6.app.action.worksheet.update_cell_editor_text_with_range_selector
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St

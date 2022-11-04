@@ -16,7 +16,7 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.document.worksheet.UpdateCellEditorTextWithRangeSelectorAction
+import com.qxdzbc.p6.app.action.worksheet.update_cell_editor_text_with_range_selector.UpdateCellEditorTextWithRangeSelectorAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
