@@ -21,7 +21,7 @@ fun RPCStatusView(
         onClick()
     }) {
         val text = if (state.isRunning) {
-            "RPC server is running"
+            "RPC server on ${state.port}"
         } else {
             "RPC server is not available"
         }

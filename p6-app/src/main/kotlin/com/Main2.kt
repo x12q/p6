@@ -196,11 +196,6 @@ fun main() {
                                 windowActionTable = windowActionTable,
                                 windowAction = windowAction,
                             )
-//                                WindowView(
-//                                    state = windowState.innerWindowState,
-//                                    windowActionTable = windowActionTable,
-//                                    windowAction = windowAction,
-//                                )
                         }
 
                         if (appState.codeEditorIsOpen) {
