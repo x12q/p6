@@ -86,6 +86,8 @@ interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
         return "${if(isColLocked)"\$" else "" }${colLabel}${if(isRowLocked)"\$" else "" }${rowIndex}"
     }
 
+    val label:String get()=toLabel()
+
     fun toLabel(): String {
         return toRawLabel()
     }

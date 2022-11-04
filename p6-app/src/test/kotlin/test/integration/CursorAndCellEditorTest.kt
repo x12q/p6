@@ -5,6 +5,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
@@ -24,7 +26,7 @@ import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import org.mockito.kotlin.*
 import test.TestSample
-import test.test_implementation.MockMKeyEvent
+import test.test_implementation.MockP6KeyEvent
 import kotlin.test.*
 
 class CursorAndCellEditorTest {
@@ -438,7 +440,7 @@ class CursorAndCellEditorTest {
             assertTrue(cellEditorState.allowRangeSelector)
 
             // x: issue arrow down key event
-            val arrowDownKey = MockMKeyEvent.arrowDown
+            val arrowDownKey = MockP6KeyEvent.arrowDown
             cellEditorAction.handleKeyboardEvent(arrowDownKey)
 
             // x: check state after handle keyboard event
@@ -460,7 +462,7 @@ class CursorAndCellEditorTest {
         fun handleKeyEvenThatDisableRangeSelector(){
             // x: handle key (character Q) that ends range selector state
             // x: temporary text is copied to the current text field.
-            val key = MockMKeyEvent(
+            val key = MockP6KeyEvent(
                 key = Key.Q,
                 type = KeyEventType.KeyDown,
                 isAcceptedByRangeSelector = false,
@@ -471,7 +473,6 @@ class CursorAndCellEditorTest {
             assertNull(cellEditorState.rangeSelectorTextField)
             assertEquals("=1+A3", cellEditorState.displayTextField.text)
             assertFalse(cellEditorState.allowRangeSelector)
-
         }
 
         /**
@@ -491,11 +492,24 @@ class CursorAndCellEditorTest {
             assertEquals("=1+A3+1", cellEditorState.displayTextField.text)
             assertEquals("=1+A3+1", cellEditorState.currentText)
         }
+
+        fun `select range after braces auto completion`(){
+            // x: select range after braces "()" auto completion
+            cellEditorAction.changeTextField(TextFieldValue(
+                "=()",
+                TextRange(2) // cursor right behind the "("
+            ))
+            assertTrue(cellEditorState.allowRangeSelector)
+            cellEditorAction.handleKeyboardEvent(MockP6KeyEvent.arrowDown)
+            val displayTextField = cellEditorState.displayTextField
+            assertEquals("=(A2)",displayTextField.text)
+            assertEquals(TextRange(4),displayTextField.selection)
+
+        }
         disableRangeSelectorWithNewText()
+        handleKeyEvenThatDisableRangeSelector()
+        `select range after braces auto completion`()
 
-
-        // x: select range after braces "()" auto completion
-        cellEditorAction.changeText("=(")
 
     }
 
@@ -523,7 +537,7 @@ class CursorAndCellEditorTest {
             colorFormulaAction = p6Comp.colorFormulaAction()
         )
 
-        val keyEvent =MockMKeyEvent.arrowDown
+        val keyEvent =MockP6KeyEvent.arrowDown
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
         cellEditorAction.changeText("=")

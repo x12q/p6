@@ -30,6 +30,7 @@ import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -234,9 +235,11 @@ class CellEditorActionImp @Inject constructor(
 
     /**
      * pass keyboard event caught by a cell editor to its range-selector (which is a cell cursor).
+     *
      */
-    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, editorState: CellEditorState): Boolean {
-        val rt: Boolean = editorState.rangeSelectorCursorId?.let {
+    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId:CursorStateId?): Boolean {
+//        val rt: Boolean = editorState.rangeSelectorCursorId?.let {
+        val rt: Boolean = rangeSelectorId?.let {
             cursorAction.handleKeyboardEvent(keyEvent, it)
         } ?: false
         return rt
@@ -271,9 +274,9 @@ class CellEditorActionImp @Inject constructor(
                     else -> {
                         if (editorState.allowRangeSelector) {
                             if (keyEvent.isAcceptedByRangeSelector()) {
-                                val rt = passKeyEventToRangeSelector(keyEvent, editorState)
+                                val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorCursorId)
                                 if (keyEvent.isRangeSelectorNavKey()) {
-                                    // x: generate rs text
+                                    // x: generate range selector text
                                     val rsText = makeDisplayText
                                         .makeRangeSelectorText(stateCont.cellEditorState)
                                     // x: update range selector text

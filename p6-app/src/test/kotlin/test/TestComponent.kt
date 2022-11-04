@@ -37,6 +37,7 @@ import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.code.PythonCommander
 import com.qxdzbc.p6.app.coderunner.CodeRunner
+import com.qxdzbc.p6.app.common.formatter.RangeAddressFormatter
 import com.qxdzbc.p6.app.communication.event.P6EventTable
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
@@ -255,6 +256,7 @@ interface TestComponent {
     fun partialTreeExtractor(): TreeExtractor
     fun colorFormulaActionImp(): ColorFormulaInCellEditorActionImp
     fun colorFormulaAction(): ColorFormulaInCellEditorAction
+    fun rangeFormatter(): RangeAddressFormatter
 
     @Component.Builder
     interface Builder {
