@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialCellRangeExtractorQ
-import com.qxdzbc.p6.di.TextElementVisitor_Qualifier
+import com.qxdzbc.p6.di.TextElementVisitorQ
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
@@ -22,7 +22,7 @@ class CycleFormulaLockStateImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     @PartialCellRangeExtractorQ
     val partialTextElementExtractor: P6Translator<TextElementResult>,
-    @TextElementVisitor_Qualifier
+    @TextElementVisitorQ
     val visitor: FormulaBaseVisitor<TextElementResult>
 ) : CycleFormulaLockStateAction {
 

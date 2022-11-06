@@ -25,7 +25,7 @@ data class TextElementResult(
     }
 
     /**
-     * scan the sorted list of element, detect elements that are not coninuous (stop index of prev element != start index of the next element + 1)
+     * scan the sorted list of element, detect elements that are not continuous (stop index of prev element != start index of the next element + 1)
      */
     fun allSortedWithPadding():List<TextElement>{
         val all = allSorted()

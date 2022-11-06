@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.key_event.MKeyEvent.Companion.toMKeyEvent
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
@@ -31,13 +30,13 @@ fun CellEditorView(
     modifier: Modifier = Modifier
 ) {
     val fc = remember { FocusRequester() }
-    val sizeMod = if (state.isActive) {
+    val sizeMod = if (state.isOpen) {
         Modifier.widthIn(min=size.width).heightIn(min = size.height).width(IntrinsicSize.Min)
     } else {
         Modifier.size(0.dp, 0.dp)
     }
 
-    val boxSizeMod = if (state.isActive) {
+    val boxSizeMod = if (state.isOpen) {
         Modifier
     } else {
         Modifier.size(0.dp, 0.dp)

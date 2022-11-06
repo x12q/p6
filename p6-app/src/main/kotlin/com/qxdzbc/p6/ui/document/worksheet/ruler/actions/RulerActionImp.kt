@@ -7,6 +7,7 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInWindow
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
@@ -16,7 +17,6 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.app.action.worksheet.update_cell_editor_text_with_range_selector.UpdateCellEditorTextWithRangeSelectorAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class RulerActionImp @Inject constructor(
     private val stateContMs: Ms<StateContainer>,
-    val updateCellEditorText: UpdateCellEditorTextWithRangeSelectorAction,
+    val updateCellEditorText: UpdateRangeSelectorText,
 ) : RulerAction {
 
     private var sc by stateContMs
@@ -53,7 +53,7 @@ class RulerActionImp @Inject constructor(
      */
     private fun updateCellEditorTextIfNeed(){
         updateCellEditorText.updateRangeSelectorText()
-        if (sc.cellEditorState.isActive) {
+        if (sc.cellEditorState.isOpen) {
             if (!sc.cellEditorState.allowRangeSelector) {
                 sc.cellEditorState = sc.cellEditorState.close()
             }

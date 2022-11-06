@@ -17,7 +17,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
-import com.qxdzbc.common.compose.key_event.MKeyEvent
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeAction
@@ -104,7 +103,7 @@ class CursorActionImp @Inject constructor(
      */
     override fun getFormulaRangeAndColor(wbws: WbWs): Map<RangeAddress, Color> {
         val cellEditorState by sc.cellEditorStateMs
-        if(cellEditorState.isActive){
+        if(cellEditorState.isOpen){
             val targetCell: Cell? = cellEditorState.targetCell?.let {
                 sc.getCell(wbws.wbKey,wbws.wsName,it)
             }

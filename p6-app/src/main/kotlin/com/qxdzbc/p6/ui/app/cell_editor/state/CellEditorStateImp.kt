@@ -11,9 +11,7 @@ import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeS
 import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateActionImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.DefaultTextFieldValue
-import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.FalseMs
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.state.app_state.CellEditorInitCursorIdSt
 import com.qxdzbc.p6.di.state.app_state.DefaultNullCellAddress
@@ -29,7 +27,7 @@ data class CellEditorStateImp @Inject constructor(
     @CellEditorInitCursorIdSt
     override val targetCursorIdSt: St<@JvmSuppressWildcards CursorStateId>?,
     @FalseMs
-    override val isActiveMs: Ms<Boolean>,
+    override val isOpenMs: Ms<Boolean>,
     @DefaultTextFieldValue
     override val currentTextField: TextFieldValue = TextFieldValue(
         text = "",
@@ -79,11 +77,11 @@ data class CellEditorStateImp @Inject constructor(
             return checkRangeSelector.check(this.currentText,this.currentTextField.selection.end)
         }
 
-    override val isActive: Boolean by isActiveMs
-    override val isNotActive: Boolean
-        get() = !isActive
+    override val isOpen: Boolean by isOpenMs
+    override val isNotOpen: Boolean
+        get() = !isOpen
     override val isActiveAndAllowRangeSelector: Boolean
-        get() = isActive && allowRangeSelector
+        get() = isOpen && allowRangeSelector
     override val currentText: String get() = currentTextField.text
 
     override val rangeSelectorCursorId: CursorStateId?
@@ -102,7 +100,7 @@ data class CellEditorStateImp @Inject constructor(
 
     override val displayTextField: TextFieldValue
         get() {
-            if (this.isActive) {
+            if (this.isOpen) {
                 val rst: TextFieldValue = this.rangeSelectorTextField ?: this.currentTextField
                 return rst
             } else {
@@ -146,12 +144,12 @@ data class CellEditorStateImp @Inject constructor(
      * Open this cell editor at the cursor whose id is [cursorIdMs]
      */
     override fun open(cursorIdMs: St<CursorStateId>): CellEditorState {
-        isActiveMs.value = true
+        isOpenMs.value = true
         return this.copy(targetCursorIdSt = cursorIdMs, rangeSelectorCursorIdSt = cursorIdMs)
     }
 
     override fun close(): CellEditorState {
-        isActiveMs.value = false
+        isOpenMs.value = false
         return this.copy(targetCursorIdSt = null, targetCell = null)
             .stopGettingRangeAddress()
             .setRangeSelectorTextField(null)

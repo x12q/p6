@@ -85,7 +85,7 @@ data class CursorStateImp @AssistedInject constructor(
                     CellEditorStateImp(
                         targetCell = mainCellMs.value,
                         targetCursorIdSt = cursorIdMs,
-                        isActiveMs = false.toMs(),
+                        isOpenMs = false.toMs(),
                         checkRangeSelector = CheckRangeSelectorStateActionImp()
                     )
                 ),
@@ -106,7 +106,7 @@ data class CursorStateImp @AssistedInject constructor(
         }
     }
 
-    override val isEditingMs: St<Boolean> get() = cellEditorState.isActiveMs
+    override val isEditingMs: St<Boolean> get() = cellEditorState.isOpenMs
 
     override fun setClipboardRange(rangeAddress: RangeAddress): CursorState {
         return this.copy(clipboardRange = rangeAddress)

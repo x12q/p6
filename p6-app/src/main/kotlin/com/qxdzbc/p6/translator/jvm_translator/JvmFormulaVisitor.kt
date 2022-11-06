@@ -43,6 +43,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
     private val wsNameExUnit get() = wsName.toExUnit1()
     private val wsNameStExUnit = WsNameStUnit(wsNameSt)
 
+
     override fun visit(tree: ParseTree?): ExUnit? {
         return super.visit(tree)
     }
@@ -52,9 +53,15 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return rt
     }
 
-    override fun visitFunCall(ctx: FormulaParser.FunCallContext?): ExUnit? {
-        return this.visit(ctx?.functionCall())
+    override fun visitInvokation(ctx: FormulaParser.InvokationContext?): ExUnit? {
+        val str:String = "Sas"
+        val i = str.length
     }
+
+//    override fun visitFunCall(ctx: FormulaParser.FunCallContext?): ExUnit? {
+//        return this.visit(ctx?.functionCall())
+//    }
+
 
     override fun visitLiteral(ctx: FormulaParser.LiteralContext?): ExUnit? {
         return this.visitLit(ctx?.lit())

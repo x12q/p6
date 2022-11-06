@@ -51,7 +51,7 @@ class OpenCellEditorImp @Inject constructor(
     private fun openCellEditor(ws:Worksheet,cursorStateMs:Ms<CursorState>){
         val cursorState by cursorStateMs
         var cellEditorState by appState.cellEditorStateMs
-        if(!cellEditorState.isActive){
+        if(!cellEditorState.isOpen){
             val cursorMainCell: Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
             val windowStateMs = appState.getWindowStateMsByWbKey(ws.wbKey)
             val windowId = windowStateMs?.value?.id

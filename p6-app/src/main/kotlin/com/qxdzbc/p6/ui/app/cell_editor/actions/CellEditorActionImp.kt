@@ -8,13 +8,12 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.key_event.MKeyEvent
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.CellValue
@@ -27,7 +26,6 @@ import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
-import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
@@ -40,7 +38,7 @@ class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
     private val cursorAction: CursorAction,
-    private val makeDisplayText: MakeCellEditorDisplayTextAction,
+    private val makeDisplayText: MakeCellEditorTextAction,
     private val openCellEditor: OpenCellEditorAction,
     private val stateContMs: Ms<StateContainer>,
     private val textDiffer: TextDiffer,
@@ -50,7 +48,7 @@ class CellEditorActionImp @Inject constructor(
     val colorFormulaAction: ColorFormulaInCellEditorAction
 ) : CellEditorAction,
     CycleFormulaLockStateAction by cycleLockStateAct,
-    MakeCellEditorDisplayTextAction by makeDisplayText,
+    MakeCellEditorTextAction by makeDisplayText,
     OpenCellEditorAction by openCellEditor {
 
     private val stateCont by stateContMs
@@ -146,7 +144,7 @@ class CellEditorActionImp @Inject constructor(
      */
     override fun changeText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
-        if (editorState.isActive) {
+        if (editorState.isOpen) {
             val newTextField = TextFieldValue(text=newText,selection= TextRange(newText.length))
             this.changeTextField(newTextField)
         }
@@ -162,7 +160,7 @@ class CellEditorActionImp @Inject constructor(
     override fun changeTextField(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
         var ntf = newTextField
-        if (editorState.isActive) {
+        if (editorState.isOpen) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
             println(ntf)
             ntf = autoCompleteBracesIfPossible(ntf)
@@ -247,7 +245,7 @@ class CellEditorActionImp @Inject constructor(
 
     @OptIn(ExperimentalComposeUiApi::class)
     override fun handleKeyboardEvent(keyEvent: P6KeyEvent): Boolean {
-        if (editorState.isActive) {
+        if (editorState.isOpen) {
             if (keyEvent.type == KeyEventType.KeyDown) {
                 when (keyEvent.key) {
                     Key.F4 -> {

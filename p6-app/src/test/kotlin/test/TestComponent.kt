@@ -30,7 +30,7 @@ import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
@@ -213,7 +213,7 @@ interface TestComponent {
     fun cellViewAction(): UpdateCellAction
 
     @P6Singleton
-    fun makeDisplayText(): MakeCellEditorDisplayTextAction
+    fun makeDisplayText(): MakeCellEditorTextAction
 
     @P6Singleton
     fun openCellEditorAction(): OpenCellEditorAction

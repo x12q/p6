@@ -56,7 +56,7 @@ class RestoreWindowFocusStateImp @Inject constructor(
 
     override fun setFocusStateConsideringRangeSelector(wbKey: WorkbookKey): Rse<Unit> {
         val cellEditorState = appState.cellEditorState
-        val selectingRangeForEditor =cellEditorState.isActive && cellEditorState.allowRangeSelector
+        val selectingRangeForEditor =cellEditorState.isOpen && cellEditorState.allowRangeSelector
         if (selectingRangeForEditor) {
             appState.getWindowStateMsByWbKey(wbKey)?.also {wds->
                 wds.value.focusState = wds.value.focusState.focusOnEditor().freeFocusOnCursor()

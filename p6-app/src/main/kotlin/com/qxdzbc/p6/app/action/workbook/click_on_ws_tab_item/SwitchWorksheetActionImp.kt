@@ -25,7 +25,7 @@ class SwitchWorksheetActionImp @Inject constructor(
     override fun switchToWorksheet(request: SetActiveWorksheetRequest): RseNav<SetActiveWorksheetResponse2> {
         restoreWindowFocusAction.setFocusStateConsideringRangeSelector(request.wbKey)
         var cellEditorState by appState.cellEditorStateMs
-        if(cellEditorState.isActive && cellEditorState.allowRangeSelector){
+        if(cellEditorState.isOpen && cellEditorState.allowRangeSelector){
             appState.getCursorStateMs(request)?.also {
                 cellEditorState = cellEditorState.setRangeSelectorCursorId(it.value.idMs)
             }

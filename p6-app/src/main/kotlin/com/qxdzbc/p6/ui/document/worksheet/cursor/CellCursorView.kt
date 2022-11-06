@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.common.compose.key_event.MKeyEvent.Companion.toMKeyEvent
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
@@ -105,7 +104,7 @@ fun CursorView(
         }
 
         // x: this is the main cell
-        if (state.cellEditorState.isNotActive || state.cellEditorState.rangeSelectorCursorId == state.id) {
+        if (state.cellEditorState.isNotOpen || state.cellEditorState.rangeSelectorCursorId == state.id) {
             val mainCellSize = cellLayoutCoorsMap[mainCell]?.sizeOrZero ?: DpSize(0.dp, 0.dp)
             MBox(
                 modifier = modifier

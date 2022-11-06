@@ -18,23 +18,19 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!
     }
     @Test
-    fun colorFormula(){
+    fun `colorFormula preserve text content`(){
         val wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!
         cellEditorAct.openCellEditor(wbwsSt)
         cellEditorAct.changeText("=F1")
 
-        assertEquals("=F1",ts.sc.cellEditorState.displayText)
         assertEquals("=F1",ts.sc.cellEditorState.currentText)
-//
-//        val t2 = "=F1    "
-//        cellEditorAct.onTextChange(t2)
-//        assertEquals(t2,ts.sc.cellEditorState.displayText)
-//        assertEquals(t2,ts.sc.cellEditorState.currentText)
 
-        val t3 = "=A1+B2  C2"
+        val t3 = "=A1+B2+C2"
         cellEditorAct.changeText(t3)
-        val newState=act.colorFormulaInCellEditor(cellEditorState)
-        assertEquals(t3,newState.displayText)
-        assertEquals(t3,newState.currentText)
+        val currentText = cellEditorState.currentTextField.text
+        val newState=act.formatCurrentFormulaInCellEditor(cellEditorState)
+        // test that text content is preserved after coloring
+//        assertEquals(t3,newState.displayText)
+        assertEquals(currentText,newState.currentText)
     }
 }
