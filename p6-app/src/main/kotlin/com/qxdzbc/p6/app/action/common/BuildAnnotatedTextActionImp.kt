@@ -24,7 +24,7 @@ class BuildAnnotatedTextActionImp @Inject constructor() : BuildAnnotatedTextActi
         val rt=buildAnnotatedString {
             for ((i, e) in sortedTextElements.withIndex()) {
                 if(e.start>prevIndex){
-                    val dif = e.start - prevIndex -1
+                    val dif = e.start - prevIndex
                     append(" ".repeat(dif))
                 }
                 when(e){
@@ -42,7 +42,7 @@ class BuildAnnotatedTextActionImp @Inject constructor() : BuildAnnotatedTextActi
                         }
                     }
                 }
-                prevIndex = e.stop
+                prevIndex = e.stopForSubStr
             }
         }
         return rt

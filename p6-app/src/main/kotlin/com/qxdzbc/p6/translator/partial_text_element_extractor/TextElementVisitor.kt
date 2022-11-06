@@ -43,7 +43,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(OtherElement.from(ctx.op))
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0)) ?: TextElementResult.empty
@@ -62,7 +62,9 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(
+                    OtherElement.from(ctx.op)
+                )
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0)) ?: TextElementResult.empty
@@ -110,7 +112,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(OtherElement.from(ctx.op))
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0)) ?: TextElementResult.empty
@@ -151,7 +153,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                     }
                     else -> null
                 }?.let { opText ->
-                    TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                    TextElementResult.from(OtherElement.from(ctx.op))
                 }
             } ?: TextElementResult.empty
 
@@ -218,7 +220,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(OtherElement.from(ctx.op))
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0))  ?: TextElementResult.empty

@@ -29,8 +29,18 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
         cellEditorAct.changeText(t3)
         val currentText = cellEditorState.currentTextField.text
         val newState=act.formatFormulaInCellEditor(cellEditorState)
-        // test that text content is preserved after coloring
-//        assertEquals(t3,newState.displayText)
         assertEquals(currentText,newState.currentText)
+        val spanIndices=newState.currentTextField.annotatedString.spanStyles.map{
+            it.start .. it.end
+        }
+        assertEquals(
+            listOf(
+                1 .. 2+1,
+                4 .. 5+1,
+                7 .. 8+1
+            )
+            ,
+        spanIndices
+        )
     }
 }
