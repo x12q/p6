@@ -28,7 +28,7 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
         val t3 = "=A1+B2+C2"
         cellEditorAct.changeText(t3)
         val currentText = cellEditorState.currentTextField.text
-        val newState=act.formatCurrentFormulaInCellEditor(cellEditorState)
+        val newState=act.formatFormulaInCellEditor(cellEditorState)
         // test that text content is preserved after coloring
 //        assertEquals(t3,newState.displayText)
         assertEquals(currentText,newState.currentText)

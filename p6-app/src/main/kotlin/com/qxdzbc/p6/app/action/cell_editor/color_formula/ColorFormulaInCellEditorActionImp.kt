@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common.BuildAnnotatedTextAction
 import com.qxdzbc.p6.di.P6Singleton
@@ -32,12 +31,12 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
     val sc by stateContSt
 
     override fun formatCurrentFormulaInCellEditor() {
-         sc.cellEditorStateMs.value = formatCurrentFormulaInCellEditor(sc.cellEditorStateMs.value)
+         sc.cellEditorStateMs.value = formatFormulaInCellEditor(sc.cellEditorStateMs.value)
     }
 
-    override fun formatCurrentFormulaInCellEditor(i: CellEditorState): CellEditorState {
+    override fun formatFormulaInCellEditor(i: CellEditorState): CellEditorState {
         if (i.isOpen){
-            val trailingSpace:String = i.currentTextField.text.let {
+            val trailingSpace:String = i.currentText.let {
                 val trailTrimmed = it.trimEnd()
                 val diff = it.length - trailTrimmed.length
                 if (diff > 0) {
@@ -50,8 +49,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
                 visitor.visit(it)
             }
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
-//            val allElements = teRs?.allSortedWithPadding()
-            val allElements = teRs?.allSorted()
+            val allElements = teRs?.all
             if (allElements?.isNotEmpty() == true && creList?.isNotEmpty() == true) {
                 val colors = formulaColorGenerator.getColors(creList.size)
                 val newTextField: AnnotatedString = buildAnnotatedString {
@@ -64,7 +62,6 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
                     annotatedString = newTextField
                 )
                 return i.setCurrentTextField(newTf)
-//                return i.setDisplayTextField(newTf)
             } else {
                 return i
             }

@@ -538,7 +538,7 @@ class CursorAndCellEditorTest {
             stateContMs = ts.stateContMs(),
             textDiffer = p6Comp.textDiffer(),
             cycleLockStateAct = p6Comp.cycleFormulaLockStateAct(),
-            treeExtractor = p6Comp.partialTreeExtractor(),
+            treeExtractor = p6Comp.partialFormulaTreeExtractor(),
             colorFormulaAction = p6Comp.colorFormulaAction()
         )
 

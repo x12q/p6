@@ -14,7 +14,10 @@ import javax.inject.Inject
 class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementResult>() {
     override fun visitZFormula(ctx: FormulaParser.ZFormulaContext?): TextElementResult {
         val equalSign = this.visitStartFormulaSymbol(ctx?.startFormulaSymbol())
-        val rt = equalSign+(this.visit(ctx?.expr())?: TextElementResult.empty)
+        val errorResult = ctx?.children?.filter{it is ErrorNode}?.map {
+            visitErrorNode(it as ErrorNode)
+        }?.fold(TextElementResult.empty){acc,e-> acc+e}?: TextElementResult.empty
+        val rt = equalSign+(this.visit(ctx?.expr())?: TextElementResult.empty)+errorResult
         return rt
     }
 
@@ -78,7 +81,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         return rt
     }
 
-    override fun visitFullRangeAddressExpr(ctx: FormulaParser.FullRangeAddressExprContext?): TextElementResult {
+    override fun visitFullRangeAddress(ctx: FormulaParser.FullRangeAddressContext?): TextElementResult {
         val l = ctx?.let {
             val labelLoc = ((it.sheetPrefix()?.text ?: "") + (it.wbPrefix()?.text ?: "")).ifEmpty { null }
             CellRangeElement(
@@ -116,12 +119,13 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
     }
 
     override fun visitErrorNode(node: ErrorNode?): TextElementResult {
-        return node?.text?.let {
+        val rt= node?.text?.let {
             OtherElement(
                 text=it,
                 range=node.symbol.startIndex .. node.symbol.stopIndex
             ).toResult()
         }?:TextElementResult.empty
+        return rt
     }
 
     override fun visitLiteral(ctx: FormulaParser.LiteralContext?): TextElementResult {

@@ -13,6 +13,7 @@ import com.github.michaelbull.result.Ok
 import kotlin.test.*
 import kotlin.math.pow
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -21,6 +22,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion
 import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
 import test.TestSample
+import java.nio.file.Path
 import kotlin.reflect.KFunction
 
 class JvmFormulaTranslatorTest {
@@ -161,7 +163,7 @@ class JvmFormulaTranslatorTest {
         )
         for ((i, expect) in validMap) {
             val o = translator.translate(i)
-            assertTrue { o is Ok }
+            assertTrue(o is Ok,i)
             val e = o.component1()
             assertEquals(expect, e,i+"\n")
         }
@@ -203,14 +205,14 @@ class JvmFormulaTranslatorTest {
 //            assertTrue { o is Ok }
 //            val e = o.component1()
 //            assertNotNull(e)
-//            assertTrue(e is Func)
-////
+//            assertTrue(e is FuncUnit)
+//
 //            assertEquals(expect, InvalidOutput(
 //                e.funcName,e.args.withIndex().map { (i,e)->
 //                    when(i){
 //                        0 -> (e.run()as Rse<St<WorkbookKey>>).component1()!!.value
 //                        1 -> (e.run() as Rse<St<String>>).component1()!!.value
-//                        else-> e.run().component1()!!
+//                        else-> e.run()!!
 //                    }
 //                }
 //            ),i)

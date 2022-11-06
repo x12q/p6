@@ -14,14 +14,17 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class BuildAnnotatedTextActionImp @Inject constructor() : BuildAnnotatedTextAction {
-    override fun buildAnnotatedText(textElements: List<TextElement>, spans: List<SpanStyle>): AnnotatedString {
+    override fun buildAnnotatedText(
+        textElements: List<TextElement>,
+        spans: List<SpanStyle>
+    ): AnnotatedString {
         val sortedTextElements = textElements.sortedBy { it.start }
         val spanElements = textElements.filter { it !is OtherElement }
         var prevIndex = 0
         val rt=buildAnnotatedString {
             for ((i, e) in sortedTextElements.withIndex()) {
                 if(e.start>prevIndex){
-                    val dif = e.start - prevIndex
+                    val dif = e.start - prevIndex -1
                     append(" ".repeat(dif))
                 }
                 when(e){

@@ -49,12 +49,11 @@ import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.rpc.P6RpcServer
-import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
-import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
-import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
+import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
+import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementExtractor
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
@@ -249,11 +248,9 @@ interface TestComponent {
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
     fun copyCellAction(): CopyCellAction
-    @PartialCellRangeExtractorQ
-    fun cellRangeExtractorAsTranslator(): P6Translator<TextElementResult>
+    fun partialTextElementExtractor(): PartialTextElementExtractor
     fun cycleFormulaLockStateAct(): CycleFormulaLockStateAction
-    @PartialTreeExtractor
-    fun partialTreeExtractor(): TreeExtractor
+    fun partialFormulaTreeExtractor(): PartialFormulaTreeExtractor
     fun colorFormulaActionImp(): ColorFormulaInCellEditorActionImp
     fun colorFormulaAction(): ColorFormulaInCellEditorAction
     fun rangeFormatter(): RangeAddressFormatter
