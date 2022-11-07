@@ -16,7 +16,6 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
-import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
@@ -65,7 +64,7 @@ class CellRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
             val cell: Cell? = sc.getCell(cid)
-            val rt = StrMsg(cell?.displayValue ?: "")
+            val rt = StrMsg(cell?.displayStr ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
     }

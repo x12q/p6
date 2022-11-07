@@ -12,15 +12,17 @@ import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
+/**
+ * CellContent = formula + cell value
+ */
 interface CellContent:CanCheckEmpty,Shiftable {
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
     ): CellContent
     val exUnit: ExUnit?
-    val cellValueMs:Ms<CellValue>
     val cellValueAfterRun: CellValue
-    val currentCellValue: CellValue
+    val cellValue: CellValue
 
     fun toDm():CellContentDM
 

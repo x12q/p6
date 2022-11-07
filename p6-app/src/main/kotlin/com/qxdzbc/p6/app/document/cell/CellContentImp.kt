@@ -25,7 +25,7 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
  * This implementation hold a mutable [CellValue] instance([cellValueMs]), whenever [cellValueAfterRun] is access, a new instance of cell value is computed. This is for auto formula computation
  */
 data class CellContentImp(
-    override val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
+    private val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
 ) : CellContent {
     override val fullFormula: String?
@@ -50,14 +50,14 @@ data class CellContentImp(
 
     override fun toProto(): CellContentProto {
         return CellContentProto.newBuilder()
-            .setCellValue(this.currentCellValue.toProto())
+            .setCellValue(this.cellValue.toProto())
             .setFormula(this.fullFormula)
             .build()
     }
 
     override fun equals(other: Any?): Boolean {
         if (other is CellContent) {
-            val c1 = currentCellValue == other.currentCellValue
+            val c1 = cellValue == other.cellValue
             val c2 = fullFormula == other.fullFormula
             return c1 && c2
         } else {
@@ -115,12 +115,13 @@ data class CellContentImp(
                     }
                 }
             }
-            return currentCellValue
+            val rt= cellValue
+            return rt
         }
-    override val currentCellValue: CellValue by this.cellValueMs
+    override val cellValue: CellValue by this.cellValueMs
     override fun toDm(): CellContentDM {
         return CellContentDM(
-            cellValue = this.currentCellValue,
+            cellValue = this.cellValue,
             formula = this.fullFormula
         )
     }
@@ -129,8 +130,11 @@ data class CellContentImp(
         if (this.exUnit == null) {
             return Ok(this)
         } else {
-            cellValueMs.value = CellValue.fromRs(exUnit.runRs())
-            return Ok(this)
+            val exUnitRs = exUnit.runRs()
+//            cellValueMs.value = CellValue.fromRs(exUnitRs)
+            val newCellValue = CellValue.fromRs(exUnitRs)
+            val rt = this.setValue(newCellValue)
+            return Ok(rt)
         }
     }
 
@@ -153,7 +157,7 @@ data class CellContentImp(
 
     override val displayStr: String
         get() {
-            return currentCellValue.displayStr
+            return cellValue.displayStr
         }
 
     override val isFormula: Boolean
@@ -169,7 +173,7 @@ data class CellContentImp(
 
     override fun hashCode(): Int {
         var result = fullFormula?.hashCode() ?: 0
-        result = 31 * result + currentCellValue.hashCode()
+        result = 31 * result + cellValue.hashCode()
         return result
     }
 }

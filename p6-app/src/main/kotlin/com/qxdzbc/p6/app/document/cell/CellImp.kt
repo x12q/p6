@@ -98,7 +98,7 @@ data class CellImp(
 
     override fun setContent(content: CellContent): Cell {
         val newContent = CellContentImp(
-            cellValueMs = ms(content.currentCellValue),
+            cellValueMs = ms(content.cellValue),
             exUnit = content.exUnit
         )
 //        return this.copy(content = content)

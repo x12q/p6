@@ -29,7 +29,8 @@ data class GetCell(
 
     @Suppress("UNCHECKED_CAST")
     override fun runRs(): Result<Cell, ErrorReport> {
-        return super.runRs() as Result<Cell, ErrorReport>
+        val rt= super.runRs() as Result<Cell, ErrorReport>
+        return rt
     }
 
     override val functionMap by functionMapSt

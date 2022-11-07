@@ -29,6 +29,7 @@ import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
@@ -254,6 +255,7 @@ interface TestComponent {
     fun colorFormulaActionImp(): ColorFormulaInCellEditorActionImp
     fun colorFormulaAction(): ColorFormulaInCellEditorAction
     fun rangeFormatter(): RangeAddressFormatter
+    fun deleteMultiCellAction(): DeleteMultiCellAction
 
     @Component.Builder
     interface Builder {

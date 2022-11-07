@@ -205,12 +205,13 @@ data class CellValue constructor(
                 return transErrorReport.toString()
             }
             if (cell != null) {
-                return cell.displayValue
+                return cell.displayStr
             }
             if (range != null) {
                 if (range.isCell) {
                     val cell = range.cells[0]
-                    return cell.valueAfterRun?.toString() ?: ""
+//                    return cell.valueAfterRun?.toString() ?: ""
+                    return cell.displayStr
                 } else {
                     return "Range[${range.address.label}]"
                 }

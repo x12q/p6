@@ -53,7 +53,7 @@ class UpdateCellActionImp @Inject constructor(
                 if(wbMs!=null){
                     wbMs.value = wbMs.value.reRun()
                 }else{
-                    wsMs.value = wsMs.value.reRun()
+                    wsMs.value = ws.reRun()
                 }
                 Unit.toOk()
             }

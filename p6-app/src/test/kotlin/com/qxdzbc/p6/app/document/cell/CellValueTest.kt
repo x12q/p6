@@ -12,7 +12,7 @@ import kotlin.test.*
 class CellValueTest {
     val mockCell = mock<Cell>().apply {
         whenever(this.valueAfterRun).thenReturn("ABC")
-        whenever(this.displayValue) doReturn "ABC"
+        whenever(this.displayStr) doReturn "ABC"
     }
     val singleCellRange = mock<Range>().apply {
         whenever(isCell) doReturn true
@@ -105,7 +105,7 @@ class CellValueTest {
         assertEquals("1.2", CellValue(number = 1.2).displayStr)
         assertEquals("TRUE", CellValue(bool = true).displayStr)
         assertEquals("FALSE", CellValue(bool = false).displayStr)
-        assertEquals(mockCell.displayValue, CellValue(cell = mockCell).displayStr)
+        assertEquals(mockCell.displayStr, CellValue(cell = mockCell).displayStr)
         assertEquals("ABC", CellValue(range = singleCellRange).displayStr)
         assertEquals("Range[${mockRange2.address.label}]", CellValue(range = mockRange2).displayStr)
     }

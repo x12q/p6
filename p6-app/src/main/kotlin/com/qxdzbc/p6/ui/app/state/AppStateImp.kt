@@ -302,6 +302,10 @@ data class AppStateImp @Inject constructor(
         return docCont.getCell(wbKey, wsName, cellAddress)
     }
 
+    override fun getCell(wbws: WbWs, cellAddress: CellAddress): Cell? {
+        TODO("Not yet implemented")
+    }
+
     override fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
         TODO("Not yet implemented")
     }

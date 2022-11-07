@@ -49,11 +49,11 @@ abstract class BaseCell : Cell {
         }
     override val fullFormula: String? get() = content.fullFormula
     override val shortFormula: String? get() = content.shortFormula(this.wbKey,this.wsName)
-    override val displayValue: String get() {
+    override val displayStr: String get() {
         try{
             return content.displayStr
         }catch (e:Throwable){
-            return "ERR"
+            return "#ERR"
         }
     }
     override val isEditable: Boolean get() = true
@@ -63,8 +63,8 @@ abstract class BaseCell : Cell {
     override val cellValueAfterRun: CellValue get() = content.cellValueAfterRun
     override val valueAfterRun: Any? get() = this.cellValueAfterRun.valueAfterRun
     override val currentCellValue: CellValue
-        get() = content.currentCellValue
+        get() = content.cellValue
     override val currentValue: Any?
-        get() = content.currentCellValue.currentValue
+        get() = content.cellValue.currentValue
     override val isFormula: Boolean get() = content.isFormula
 }
