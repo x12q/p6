@@ -31,7 +31,9 @@ data class CellValue constructor(
         val empty = CellValue()
         fun fromRs(rs: Result<Any, ErrorReport>): CellValue {
             when (rs) {
-                is Err -> return CellValue(errorReport = rs.error)
+                is Err -> {
+                    return CellValue(errorReport = rs.error)
+                }
                 is Ok -> {
                     return fromAny(rs.value)
                 }
@@ -114,7 +116,7 @@ data class CellValue constructor(
         }
     }
 
-    private val all = listOfNotNull(number, bool, str, errorReport, range, cell, transErrorReport)
+    val all = listOfNotNull(number, bool, str, errorReport, range, cell, transErrorReport)
 
     val currentValue: Any? get() = all.firstOrNull()
 

@@ -24,7 +24,7 @@ abstract class BaseFunc : ExUnit {
                 is Ok -> {
                     val funcDef: FunctionDef = funcRs.value
                     val func: KFunction<Any> = funcDef.function
-                    val functionExecutor: FunctionExecutor = funcDef.functionExecutor ?: FunctionExecutor.Default
+
                     val errs: List<ErrorReport> =
                         argValueRs.filterIsInstance<Err<ErrorReport>>().map { it.component2() }
                     if (errs.isNotEmpty()) {
@@ -34,6 +34,7 @@ abstract class BaseFunc : ExUnit {
                             .map { it.component1() }
                             .toTypedArray()
                         try {
+                            val functionExecutor: FunctionExecutor = funcDef.functionExecutor ?: FunctionExecutor.Default
                             val funcOutput = functionExecutor.execute(func, argValues)
                             return funcOutput as Result<Any, ErrorReport>
                         } catch (e: Exception) {

@@ -98,18 +98,23 @@ data class CellContentImp(
         get() {
             if (exUnit != null) {
                 try {
-                    val cv: CellValue = CellValue.fromRs(exUnit.runRs())
-                    cellValueMs.value = cv
+                    val exUnitRs = exUnit.runRs()
+                    val cv: CellValue = CellValue.fromRs(exUnitRs)
+                    internalSetCellValue(cv)
                 } catch (e: Throwable) {
                     when (e) {
                         is StackOverflowError -> {
-                            cellValueMs.value = CellValue.from(
-                                CellErrors.OverflowError.report()
+                            internalSetCellValue(
+                                CellValue.from(
+                                    CellErrors.OverflowError.report()
+                                )
                             )
                         }
                         else -> {
-                            cellValueMs.value = CellValue.from(
-                                CommonErrors.ExceptionError.report(e)
+                            internalSetCellValue(
+                                CellValue.from(
+                                    CommonErrors.ExceptionError.report(e)
+                                )
                             )
                         }
                     }
@@ -131,9 +136,9 @@ data class CellContentImp(
             return Ok(this)
         } else {
             val exUnitRs = exUnit.runRs()
-//            cellValueMs.value = CellValue.fromRs(exUnitRs)
             val newCellValue = CellValue.fromRs(exUnitRs)
-            val rt = this.setValue(newCellValue)
+//            val rt = this.setValueAndDeleteExUnit(newCellValue)
+            val rt = this.setCellValue(newCellValue)
             return Ok(rt)
         }
     }
@@ -166,9 +171,21 @@ data class CellContentImp(
             return f != null && f.isNotEmpty()
         }
 
-    override fun setValue(cv: CellValue): CellContent {
+    private fun internalSetCellValue(cv:CellValue){
         cellValueMs.value = cv
+        if(cv.isErr){
+            "qwe"
+        }
+    }
+
+    override fun setValueAndDeleteExUnit(cv: CellValue): CellContent {
+        internalSetCellValue(cv)
         return this.copy(exUnit = null)
+    }
+
+    override fun setCellValue(cv: CellValue): CellContent {
+        internalSetCellValue(cv)
+        return this
     }
 
     override fun hashCode(): Int {

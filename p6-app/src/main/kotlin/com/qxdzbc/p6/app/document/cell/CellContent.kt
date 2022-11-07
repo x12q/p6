@@ -46,7 +46,8 @@ interface CellContent:CanCheckEmpty,Shiftable {
     fun reRunRs():Rse<CellContent>
     val editableStr: String
     val displayStr: String
-    fun setValue(cv: CellValue): CellContent
+    fun setValueAndDeleteExUnit(cv: CellValue): CellContent
+    fun setCellValue(cv: CellValue): CellContent
     val isFormula: Boolean
 
     fun toProto(): DocProtos.CellContentProto

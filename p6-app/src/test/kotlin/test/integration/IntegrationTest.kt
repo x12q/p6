@@ -26,6 +26,7 @@ import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class IntegrationTest {
 
@@ -39,12 +40,44 @@ class IntegrationTest {
     }
 
     /**
+     * A1: =B1
+     * B1: =A1+2
+     * Both should have error
+     */
+    @Test
+    fun `bug case - circular reference`(){
+        val updateCellAct = ts.p6Comp.updateCellAction()
+        val wbws = WbWs(ts.wbKey1,ts.wsn1)
+        updateCellAct.updateCellDM(
+            request= CellUpdateRequestDM(
+                cellId = CellIdDM(CellAddress("A1"),wbws),
+                cellContent = CellContentDM.fromFormula("=B1")
+            ),
+            publishError = false
+        )
+
+        updateCellAct.updateCellDM(
+            request= CellUpdateRequestDM(
+                cellId = CellIdDM(CellAddress("B1"),wbws),
+                cellContent = CellContentDM.fromFormula("=A1+2")
+            ),
+            publishError = false
+        )
+
+        val a1 = sc.getCell(wbws,CellAddress("A1"))!!
+        val b1 = sc.getCell(wbws,CellAddress("B1"))!!
+        assertTrue(a1.currentCellValue.isErr, a1.currentValue.toString())
+        assertTrue(b1.currentCellValue.isErr,b1.currentValue.toString())
+
+    }
+
+    /**
      * input "=A1" into A1 => receive an error message inside the cell
      * input "=A1+1" into B1 => error msg in A1 should remain the same
      * delete B1 => error msg in A1 should remain the same
      */
     @Test
-    fun `test eror mess when having cell circular reference `(){
+    fun `bug case- cell error should not change during worksheet operation`(){
         val updateCellAct = ts.p6Comp.updateCellAction()
         val deleteMultiCellAction:DeleteMultiCellAction = ts.p6Comp.deleteMultiCellAction()
         val wbws = WbWs(ts.wbKey1,ts.wsn1)
@@ -56,7 +89,12 @@ class IntegrationTest {
             publishError = false
         )
         val cell1 = sc.getCell(wbws, CellAddress("A1"))!!
-        val errorMsg = cell1.displayStr
+
+        val originalErrMsg = cell1.displayStr
+       cell1.valueAfterRun
+        val ms2= cell1.displayStr
+        assertEquals(ms2,originalErrMsg)
+
         updateCellAct.updateCellDM(
             request= CellUpdateRequestDM(
                 cellId = CellIdDM(CellAddress("B1"),wbws),
@@ -65,8 +103,7 @@ class IntegrationTest {
             publishError = false
         )
         val cell2 = sc.getCell(wbws, CellAddress("A1"))!!
-
-        assertEquals(errorMsg,cell2.displayStr)
+        assertEquals(originalErrMsg,cell2.displayStr)
 
         deleteMultiCellAction.deleteMultiCell(
             RemoveMultiCellRequest(
@@ -75,7 +112,7 @@ class IntegrationTest {
                 wsName = wbws.wsName
             )
         )
-        assertEquals(errorMsg,sc.getCell(wbws, CellAddress("A1"))!!.displayStr)
+        assertEquals(originalErrMsg,sc.getCell(wbws, CellAddress("A1"))!!.displayStr)
     }
 
     /**

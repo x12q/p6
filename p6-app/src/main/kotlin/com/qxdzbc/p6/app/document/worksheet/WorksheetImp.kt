@@ -149,7 +149,7 @@ data class WorksheetImp(
     override fun updateCellValue(cellAddress: CellAddress, value: Any?): Result<Worksheet, ErrorReport> {
         val cellRs = this.getCellOrDefaultRs(cellAddress)
         val rt = cellRs.map { cell ->
-            val newContent = cell.content.setValue(CellValue.fromAny(value))
+            val newContent = cell.content.setValueAndDeleteExUnit(CellValue.fromAny(value))
             val newCell = cell.setContent(newContent)
             this.addOrOverwrite(newCell)
         }

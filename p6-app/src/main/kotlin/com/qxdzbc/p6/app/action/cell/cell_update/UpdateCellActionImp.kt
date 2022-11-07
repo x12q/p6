@@ -7,6 +7,7 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.CellRM
+import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
@@ -43,7 +44,7 @@ class UpdateCellActionImp @Inject constructor(
             val ws by wsMs
             val wbMs = sc.getWbMs(ws.wbKeySt)
             val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
-            val content = request.cellContent.toStateObj(translator)
+            val content: CellContent = request.cellContent.toStateObj(translator)
             val updateWsRs = ws.updateCellContentRs(
                 request.cellId.address, content
             )

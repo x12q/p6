@@ -62,6 +62,9 @@ class P6FunctionDefinitionsImp @Inject constructor(
      * A list of all available formula function
      */
     internal val all = listOf<FunctionDef>(
+        /**
+         * SUM function definition
+         */
         object : AbstractFunctionDef() {
             override val functionExecutor: FunctionExecutor = object : FunctionExecutor {
                 override fun execute(func: KFunction<Any>, args: Array<Any?>): Any {

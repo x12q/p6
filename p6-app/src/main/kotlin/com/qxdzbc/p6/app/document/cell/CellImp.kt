@@ -79,10 +79,6 @@ data class CellImp(
         return this.setAddress(newAddress).setContent(newContent)
     }
 
-//    override fun reRun(): Cell? {
-//        return reRunRs().component1()
-//    }
-
     override fun reRunRs(): Rse<Cell> {
         val c = content.reRunRs()
         val rt = c.map { this.copy(content = it) }
@@ -107,7 +103,7 @@ data class CellImp(
 
     override fun setCellValue(i: CellValue): Cell {
         val rs = this.content
-            .setValue(i)
+            .setValueAndDeleteExUnit(i)
         return this.setContent(rs)
     }
 

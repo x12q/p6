@@ -3,7 +3,6 @@ package com.qxdzbc.p6.app.document.cell
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.document.cell.*
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
@@ -74,7 +73,7 @@ data class IndCellImp(
 
     override fun setCellValue(i: CellValue): Cell {
         val rs = this.content
-            .setValue(i)
+            .setValueAndDeleteExUnit(i)
         return this.setContent(rs)
     }
 
