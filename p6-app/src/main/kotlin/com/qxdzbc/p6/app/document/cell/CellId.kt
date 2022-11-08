@@ -15,6 +15,8 @@ data class CellId(
     override val wsNameSt: St<String>
 ) : WbWsSt {
 
+    constructor(address: CellAddress,wbwsSt:WbWsSt):this(address,wbwsSt.wbKeySt,wbwsSt.wsNameSt)
+
     companion object {
         fun CellIdProto.toShallowModel(): CellId {
             return CellId(

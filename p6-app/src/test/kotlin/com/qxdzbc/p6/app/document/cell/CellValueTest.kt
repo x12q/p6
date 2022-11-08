@@ -12,7 +12,7 @@ import kotlin.test.*
 class CellValueTest {
     val mockCell = mock<Cell>().apply {
         whenever(this.valueAfterRun).thenReturn("ABC")
-        whenever(this.displayText) doReturn "ABC"
+        whenever(this.attemptToAccessDisplayText()) doReturn "ABC"
     }
     val singleCellRange = mock<Range>().apply {
         whenever(isCell) doReturn true
@@ -33,19 +33,6 @@ class CellValueTest {
             )
         }
     }
-
-//    @Test
-//    fun valueAfterRun() {
-//        assertEquals(1.0, CellValue(number = 1.0).valueAfterRun)
-//        assertEquals(true, CellValue(bool = true).valueAfterRun)
-//        assertEquals("qwe", CellValue(str = "qwe").valueAfterRun)
-//        val mockErr = mock<ErrorReport>()
-//        assertEquals(mockErr, CellValue(errorReport = mockErr).valueAfterRun)
-//        assertEquals(null, CellValue().valueAfterRun)
-//        assertEquals("ABC", CellValue(cell = mockCell).valueAfterRun)
-//        assertEquals("ABC", CellValue(range = singleCellRange).valueAfterRun)
-//        assertEquals(mockRange2, CellValue(range = mockRange2).valueAfterRun)
-//    }
 
     @Test
     fun `setValue fail`() {
@@ -105,7 +92,7 @@ class CellValueTest {
         assertEquals("1.2", CellValue(number = 1.2).displayText)
         assertEquals("TRUE", CellValue(bool = true).displayText)
         assertEquals("FALSE", CellValue(bool = false).displayText)
-        assertEquals(mockCell.displayText, CellValue(cell = mockCell).displayText)
+        assertEquals(mockCell.attemptToAccessDisplayText(), CellValue(cell = mockCell).displayText)
         assertEquals("ABC", CellValue(range = singleCellRange).displayText)
         assertEquals("Range[${mockRange2.address.label}]", CellValue(range = mockRange2).displayText)
     }

@@ -38,7 +38,7 @@ interface CellEditorState {
     val rangeSelectorIsSameAsTargetCursor: Boolean
         get() = rangeSelectorCursorId?.let { rs ->
             targetCursorId?.let {
-                it.isSameContent(rs)
+                it.isSameWbWs(rs)
             }
         } ?: false
 

@@ -44,7 +44,8 @@ interface Cell :Shiftable,WbWsSt{
     /**
      * value to be displayed on the cell UI
      */
-    val displayText: String
+    fun attemptToAccessDisplayText(): String
+    val cachedDisplayText:String
 
     /**
      * Evaluate display text

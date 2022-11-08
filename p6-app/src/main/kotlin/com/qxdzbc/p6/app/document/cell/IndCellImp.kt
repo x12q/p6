@@ -17,7 +17,7 @@ data class IndCellImp(
     override val address: CellAddress,
     override val content: CellContent = CellContentImp(),
     override val error0: ErrorReport? = null,
-    override val displayText: String = "",
+    override val cachedDisplayText: String = "",
 ) : BaseCell() {
 
     companion object {
@@ -50,6 +50,10 @@ data class IndCellImp(
 
     override val id: CellId
         get() = throw UnsupportedOperationException()
+
+    override fun attemptToAccessDisplayText(): String {
+        return cachedDisplayText
+    }
 
     override fun evaluateDisplayText(): Cell {
         throw UnsupportedOperationException()

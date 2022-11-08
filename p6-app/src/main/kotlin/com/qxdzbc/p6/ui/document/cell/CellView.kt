@@ -44,7 +44,7 @@ fun CellView(
     ) {
         if (cell != null) {
             Text(
-                cell.displayText,
+                cell.cachedDisplayText,
                 modifier = textModifier
                     .align(state.alignment),
                 style = state.textStyle

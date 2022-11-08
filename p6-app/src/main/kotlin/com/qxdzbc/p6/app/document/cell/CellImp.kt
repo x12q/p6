@@ -23,8 +23,7 @@ data class CellImp(
     override val id: CellId,
     override val content: CellContent = CellContentImp(),
     override val error0: ErrorReport? = null,
-    override val displayText: String = "",
-//    private val displayTextMs: Ms<String> = ms("")
+    override val cachedDisplayText:String="",
 ) : BaseCell(), WbWsSt by id {
 
     companion object {
@@ -99,10 +98,14 @@ data class CellImp(
     override val address: CellAddress
         get() = id.address
 
+    override fun attemptToAccessDisplayText(): String{
+        return this.content.displayText
+    }
+
     override fun evaluateDisplayText(): Cell {
         try {
-            val dt = content.displayStr
-            return this.copy(displayText = dt)
+            val dt = content.displayText
+            return this.copy(cachedDisplayText = dt)
         } catch (e: Throwable) {
             val newError0 = when (e) {
                 is StackOverflowError -> {
@@ -112,7 +115,7 @@ data class CellImp(
                     CommonErrors.ExceptionError.report(e)
                 }
             }
-            return this.copy(error0 = newError0, displayText = "#ERR")
+            return this.copy(error0 = newError0, cachedDisplayText = "#ERR")
         }
     }
 
@@ -148,8 +151,9 @@ data class CellImp(
         return rt
     }
 
-    override fun toString(): String {
-        return "CellImp[address=${address},content=${content}]"
-    }
+//    override fun toString(): String {
+//        return "CellImp[address=${address},content=${content}]"
+//        return "CellImp"
+//    }
 }
 

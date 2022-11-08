@@ -1,11 +1,11 @@
 package com.qxdzbc.p6.app.document.cell
 
-import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.document.range.Range
+import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 
 /**
  * A class that holds the value (value only, not including the formula) of a cell
@@ -19,11 +19,51 @@ data class CellValue constructor(
     val errorReport: ErrorReport? = null,
     val transErrorReport: ErrorReport? = null,
 ) {
+
+    override fun hashCode(): Int {
+        var result = number?.hashCode() ?: 0
+        result = 31 * result + (bool?.hashCode() ?: 0)
+        result = 31 * result + (str?.hashCode() ?: 0)
+        result = 31 * result + (range?.hashCode() ?: 0)
+        result = 31 * result + (errorReport?.hashCode() ?: 0)
+        result = 31 * result + (transErrorReport?.hashCode() ?: 0)
+        result = 31 * result + (cell?.id?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is CellValue) {
+             val c1 = number == other.number
+            val c2 = bool == other.bool
+            val c3 = str == other.str
+            val c4 = range == other.range
+            val c5 = cell?.id == other.cell?.id
+            val c6 = errorReport == other.errorReport
+            val c7 = transErrorReport == other.transErrorReport
+            return c1 && c2 && c3 && c4 && c5 && c6 && c7
+        }else{
+            return false
+        }
+    }
+
     init {
         val nonNullCount = listOfNotNull(number, bool, str, errorReport, range, cell).size
         if (nonNullCount > 1) {
             throw IllegalArgumentException("There are $nonNullCount non-null values. CellValue can only hold 0 or 1 non-null value.")
         }
+    }
+
+    override fun toString(): String {
+        /*
+         val number: Double? = null,
+    val bool: Boolean? = null,
+    val str: String? = null,
+    val range: Range? = null,
+    val cell: Cell? = null,
+    val errorReport: ErrorReport? = null,
+    val transErrorReport: ErrorReport? = null,
+         */
+        return this.hashCode().toString()
     }
 
     companion object {
@@ -33,6 +73,7 @@ data class CellValue constructor(
                 is Err -> {
                     return CellValue(errorReport = rs.error)
                 }
+
                 is Ok -> {
                     return fromAny(rs.value)
                 }
@@ -119,28 +160,6 @@ data class CellValue constructor(
 
     val value: Any? get() = all.firstOrNull()
 
-//    val valueAfterRun: Any?
-//        get() {
-//            try{
-//                val o = all.firstOrNull()
-//                when (o) {
-//                    is Range -> {
-//                        if (o.isCell) {
-//                            val rt = o.cells[0].valueAfterRun
-//                            return rt
-//                        } else {
-//                            return o
-//                        }
-//                    }
-//                    is Cell -> return o.valueAfterRun
-//                    else -> return o
-//                }
-//            }catch (e:Throwable){
-//                return CommonErrors.ExceptionError.report(e)
-//            }
-//
-//        }
-
     val isBool get() = this.bool != null
     val isNumber get() = this.number != null
     val isStr get() = this.str != null
@@ -206,13 +225,12 @@ data class CellValue constructor(
                 return transErrorReport.toString()
             }
             if (cell != null) {
-                return cell.displayText
+                return cell.attemptToAccessDisplayText()
             }
             if (range != null) {
                 if (range.isCell) {
                     val cell = range.cells[0]
-//                    return cell.valueAfterRun?.toString() ?: ""
-                    return cell.displayText
+                    return cell.attemptToAccessDisplayText()
                 } else {
                     return "Range[${range.address.label}]"
                 }

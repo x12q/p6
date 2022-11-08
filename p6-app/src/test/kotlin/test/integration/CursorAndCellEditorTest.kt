@@ -41,11 +41,6 @@ class CursorAndCellEditorTest {
     }
 
     @Test
-    fun `test coloring formula while editing`(){
-
-    }
-
-    @Test
     fun `click on ruler item when editing cell, allow range select`(){
         val rulerAction: RulerAction = ts.p6Comp.rulerAction()
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1,ts.wsn1))

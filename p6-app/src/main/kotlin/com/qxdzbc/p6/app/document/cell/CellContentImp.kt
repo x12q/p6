@@ -57,16 +57,6 @@ data class CellContentImp(
             .build()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other is CellContent) {
-            val c1 = cellValue == other.cellValue
-            val c2 = fullFormula == other.fullFormula
-            return c1 && c2
-        } else {
-            return false
-        }
-    }
-
     companion object {
         fun randomNumericContent():CellContentImp{
             return CellContentImp(
@@ -154,7 +144,6 @@ data class CellContentImp(
         } else {
             val exUnitRs = exUnit.runRs()
             val newCellValue = CellValue.fromRs(exUnitRs)
-//            val rt = this.setValueAndDeleteExUnit(newCellValue)
             val rt = this.setCellValue(newCellValue)
             return Ok(rt)
         }
@@ -177,7 +166,7 @@ data class CellContentImp(
         return fullFormula == null && cellValueAfterRun.isEmpty()
     }
 
-    override val displayStr: String
+    override val displayText: String
         get() {
             return cellValue.displayText
         }
@@ -200,6 +189,16 @@ data class CellContentImp(
     override fun setCellValue(cv: CellValue): CellContent {
         internalSetCellValue(cv)
         return this
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is CellContent) {
+            val c1 = cellValue == other.cellValue
+            val c2 = exUnit == other.exUnit
+            return c1 && c2
+        } else {
+            return false
+        }
     }
 
     override fun hashCode(): Int {

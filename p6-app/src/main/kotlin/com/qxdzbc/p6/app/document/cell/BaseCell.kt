@@ -11,7 +11,7 @@ abstract class BaseCell : Cell {
     }
 
     override fun isSimilar(c: Cell): Boolean {
-        val sameAddress = address == c.address
+        val sameAddress = id.isSimilar(c.id)
         val similarContent = content == c.content
         return sameAddress && similarContent
     }

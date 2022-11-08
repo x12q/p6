@@ -343,7 +343,7 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport> {
-        TODO("Not yet implemented")
+        return docCont.getWsRs(wbws)
     }
 
     override fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet? {
@@ -443,6 +443,10 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getCellRs(cellId: CellIdDM): Rs<Cell, ErrorReport> {
+        return docCont.getCellRs(cellId)
+    }
+
+    override fun getCellRs(cellId: CellId): Rs<Cell, ErrorReport> {
         return docCont.getCellRs(cellId)
     }
 

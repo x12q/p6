@@ -70,9 +70,9 @@ internal class EndThumbDragActionImpTest : BaseTest() {
             isCtrPressed = false
         )
         assertEquals(2.0,ts.sc.getCell(wbkSt, wsnSt, CellAddress("B1"))!!.currentValue)
-        assertEquals("2",ts.sc.getCell(wbkSt, wsnSt, CellAddress("B1"))!!.displayText)
+        assertEquals("2",ts.sc.getCell(wbkSt, wsnSt, CellAddress("B1"))!!.attemptToAccessDisplayText())
         assertEquals(3.0,ts.sc.getCell(wbkSt, wsnSt, CellAddress("B2"))!!.currentValue)
-        assertEquals("3",ts.sc.getCell(wbkSt, wsnSt, CellAddress("B2"))!!.displayText)
+        assertEquals("3",ts.sc.getCell(wbkSt, wsnSt, CellAddress("B2"))!!.attemptToAccessDisplayText())
     }
 
 
