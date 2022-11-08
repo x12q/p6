@@ -38,41 +38,6 @@ class IntegrationTest {
     }
 
     /**
-     * A1: =B1
-     * B1: =A1
-     * Both should have error display value, and have correct reference to each other. No error should be thrown.
-     */
-    @Test
-    fun `bug case - circular reference`(){
-        val updateCellAct = ts.p6Comp.updateCellAction()
-        val wbws = WbWs(ts.wbKey1,ts.wsn1)
-        updateCellAct.updateCellDM(
-            request= CellUpdateRequestDM(
-                cellId = CellIdDM(CellAddress("A1"),wbws),
-                cellContent = CellContentDM.fromFormula("=B1")
-            ),
-            publishError = false
-        )
-        updateCellAct.updateCellDM(
-            request= CellUpdateRequestDM(
-                cellId = CellIdDM(CellAddress("B1"),wbws),
-                cellContent = CellContentDM.fromFormula("=A1")
-            ),
-            publishError = false
-        )
-        val b1 = sc.getCellOrDefault(wbws, CellAddress("B1"))!!
-        val a1 = sc.getCellOrDefault(wbws, CellAddress("A1"))!!
-        val c1 = (a1.currentValue as Cell).content.cellValue
-        val c2 = b1.content.cellValue
-        assertEquals(c1,c2)
-
-            /*
-            it could be that when ws reRun, it reruns A1 first, then A1 refer to an old B1. Then B1 rerun, create a new B1 that is different from the one that A1 hold
-             */
-
-    }
-
-    /**
      * input "=A1" into A1 => receive an error message inside the cell
      * input "=A1+1" into B1 => error msg in A1 should remain the same
      * delete B1 => error msg in A1 should remain the same

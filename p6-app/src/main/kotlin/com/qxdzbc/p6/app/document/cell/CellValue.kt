@@ -6,6 +6,7 @@ import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.common.utils.TypeUtils.checkStAndCast
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 
@@ -35,7 +36,7 @@ data class CellValue constructor(
 
     override fun equals(other: Any?): Boolean {
         if (other is CellValue) {
-             val c1 = number == other.number
+            val c1 = number == other.number
             val c2 = bool == other.bool
             val c3 = str == other.str
             val c4 = range == other.range
@@ -43,7 +44,7 @@ data class CellValue constructor(
             val c6 = errorReport == other.errorReport
             val c7 = transErrorReport == other.transErrorReport
             return c1 && c2 && c3 && c4 && c5 && c6 && c7
-        }else{
+        } else {
             return false
         }
     }
@@ -70,7 +71,7 @@ data class CellValue constructor(
 
     companion object {
         val empty = CellValue()
-        fun fromRs(rs: Result<Any, ErrorReport>): CellValue {
+        fun fromRs(rs: Result<Any?, ErrorReport>): CellValue {
             when (rs) {
                 is Err -> {
                     return CellValue(errorReport = rs.error)
@@ -93,15 +94,15 @@ data class CellValue constructor(
                 is Number -> return from(i.toDouble())
                 is Boolean -> return from(i)
                 is Range -> return from(i)
-                is St<*> ->{
-                    when(i.value){
-                        is Cell -> return from(i as St<Cell>)
-                        else -> return empty
-                    }
-                }
                 is ErrorReport -> return from(i)
                 else -> {
-                    return from(CellErrors.InvalidCellValue.report(i))
+                    val casted: St<Cell>? = i.checkStAndCast()
+                    if(casted!=null){
+                        val rt:CellValue= from(casted)
+                        return rt
+                    }else{
+                        return from(CellErrors.InvalidCellValue.report(i))
+                    }
                 }
             }
         }

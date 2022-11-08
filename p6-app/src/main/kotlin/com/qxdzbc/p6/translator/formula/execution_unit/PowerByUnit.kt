@@ -82,8 +82,10 @@ data class PowerByUnit(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         val rt = r1Rs.andThen { r1 ->
             val r2Rs = u2.runRs()
             r2Rs.andThen { r2 ->
-                val trueR1 = extractFromCellOrNull(r1)?:0
-                val trueR2 = extractFromCellOrNull(r2)?:0
+//                val trueR1 = extractFromCellOrNull(r1)?:0
+//                val trueR2 = extractFromCellOrNull(r2)?:0
+                val trueR1 = r1?.let{ExUnits.extractFromCellOrNull(r1)}?:0
+                val trueR2 = r2?.let{ExUnits.extractFromCellOrNull(r2)}?:0
                 if (trueR1 is Number && trueR2 is Number) {
                     Ok(trueR1.toDouble().pow(trueR2.toDouble()))
                 } else {

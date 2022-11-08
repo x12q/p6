@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.common.utils.TypeUtils.checkStAndCast
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.range.Range
 
@@ -16,18 +18,29 @@ object ExUnits {
      *
      * @param defaultValue: default value for when [r1] is a cell and empty
      */
-    fun extractFromCellOrDefaultOrNull(r1: Any, defaultValue: Any?): Any? {
-        val trueR1 = when (r1) {
-            is Cell -> r1.valueAfterRun ?: defaultValue
+    private fun extractFromCellOrDefaultOrNull(r1: Any, defaultValue: Any?): Any? {
+         when (r1) {
+            is Cell -> {
+                val rt= r1.valueAfterRun ?: defaultValue
+                return rt
+            }
             is Range -> {
                 if (r1.isCell) {
-                    r1.cells[0].valueAfterRun ?: defaultValue
+                    val rt=r1.cells[0].valueAfterRun ?: defaultValue
+                    return rt
                 } else {
-                    r1
+                    return r1
                 }
             }
-            else -> r1
+            else -> {
+                val casted:St<Cell>? = r1.checkStAndCast()
+                if(casted!=null){
+                    val rt= casted.value.valueAfterRun ?: defaultValue
+                    return rt
+                }else{
+                    return r1
+                }
+            }
         }
-        return trueR1
     }
 }

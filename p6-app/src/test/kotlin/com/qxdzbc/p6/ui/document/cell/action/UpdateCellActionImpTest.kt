@@ -73,10 +73,9 @@ internal class UpdateCellActionImpTest {
         )
         val b1 = sc.getCellOrDefault(wbws, CellAddress("B1"))!!
         val a1 = sc.getCellOrDefault(wbws, CellAddress("A1"))!!
-        assertEquals(b1,(a1.currentValue as St<Cell>).value)
-//        val c1 = (a1.currentValue as Cell).content.cellValue
-//        val c2 = b1.content.cellValue
-//        assertEquals(c1,c2)
+        assertEquals(b1,a1.currentCellValue.cell)
+        assertEquals(a1,b1.currentCellValue.cell)
+        assertEquals("#ERR",a1.cachedDisplayText)
     }
 }
 

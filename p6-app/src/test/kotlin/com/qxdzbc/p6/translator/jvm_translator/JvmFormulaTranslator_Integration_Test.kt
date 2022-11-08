@@ -41,7 +41,7 @@ class JvmFormulaTranslator_Integration_Test {
     lateinit var appStateMs: Ms<AppState>
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
     val wbCont: WorkbookContainer get() = ts.appState.wbContMs.value
-
+    val sc get()=ts.sc
     @BeforeTest
     fun b() {
         ts = TestSample()
@@ -121,11 +121,11 @@ class JvmFormulaTranslator_Integration_Test {
     }
 
     @Test
-    fun `translate call functions on real app`() {
-        val inputMap: Map<String, Result<Any, ErrorReport>> = mapOf(
-            "=A1" to appStateMs.value.getCellRsOrDefault(wbKey, wsName, CellAddress("A1")),
-            "=A1:B3@Sheet2" to appStateMs.value.getRangeRs(wbKey, "Sheet2", RangeAddress("A1:B3")),
-            "=A1:B3@'Sheet not exist'" to appStateMs.value.getRangeRs(wbKey, "Sheet not exist", RangeAddress("A1:B3")),
+    fun `translate formula that call a function`() {
+        val inputMap: Map<String, Result<Any?, ErrorReport>> = mapOf(
+            "=A1" to sc.getCellMsRs(wbKey, wsName, CellAddress("A1")),
+            "=A1:B3@Sheet2" to sc.getRangeRs(wbKey, "Sheet2", RangeAddress("A1:B3")),
+            "=A1:B3@'Sheet not exist'" to sc.getRangeRs(wbKey, "Sheet not exist", RangeAddress("A1:B3")),
             "=SUM(A1:C3)" to Ok(1.0 + 2 + 3),
             "=SUM(A1:D4)" to Err(FormulaErrors.InvalidFunctionArgument.report("")),
         )

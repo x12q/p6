@@ -28,8 +28,8 @@ data class GetCell(
 ) : ExUnit, BaseFunc() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun runRs(): Result<Cell, ErrorReport> {
-        val rt= super.runRs() as Result<Cell, ErrorReport>
+    override fun runRs(): Result<St<Cell>?, ErrorReport> {
+        val rt= super.runRs() as Result<St<Cell>?, ErrorReport>
         return rt
     }
 

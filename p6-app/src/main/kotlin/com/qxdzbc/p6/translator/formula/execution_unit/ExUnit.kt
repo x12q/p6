@@ -88,7 +88,7 @@ interface ExUnit : Shiftable, ColorKey {
     /**
      * returns something that can be stored in a cell.
      */
-    fun runRs(): Result<Any, ErrorReport>
+    fun runRs(): Result<Any?, ErrorReport>
     fun run(): Any? {
         return runRs().component1()
     }

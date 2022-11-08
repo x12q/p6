@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.translator.formula.formula.execution_unit
 
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.CellValue
@@ -17,10 +18,10 @@ import org.mockito.kotlin.whenever
 class OperatorTestSample {
     val getBlankCellUnit = mock<GetCell>().apply {
         whenever(this.runRs()) doReturn Ok(
-            IndCellImp(
+            ms(IndCellImp(
                 address = CellAddress("Q2"),
                 content = CellContentImp()
-            )
+            ))
         )
         whenever(this.run()) doReturn
                 IndCellImp(
@@ -33,12 +34,12 @@ class OperatorTestSample {
     fun makeMockCellUnit(i: Any?): GetCell {
         val getIntCellUnit = mock<GetCell>().apply {
             whenever(this.runRs()) doReturn Ok(
-                IndCellImp(
+                ms(IndCellImp(
                     address = CellAddress("Q2"),
                     content = CellContentImp(
                         cellValueMs = CellValue.fromAny(i).toMs()
                     )
-                )
+                ))
             )
             whenever(this.run()) doReturn
                     IndCellImp(

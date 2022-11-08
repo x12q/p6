@@ -5,6 +5,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
+import com.github.michaelbull.result.flatMap
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
@@ -78,11 +79,11 @@ data class AddOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
 
     override fun runRs(): Result<Any, ErrorReport> {
         val r1Rs = u1.runRs()
-        val rt: Result<Any, ErrorReport> = r1Rs.andThen { r1 ->
+        val rt: Result<Any, ErrorReport> = r1Rs.flatMap { r1 ->
             val r2Rs = u2.runRs()
-            r2Rs.andThen { r2 ->
-                val trueR1 = ExUnits.extractFromCellOrNull(r1)?:0
-                val trueR2 = ExUnits.extractFromCellOrNull(r2)?:0
+            r2Rs.flatMap { r2 ->
+                val trueR1 = r1?.let{ExUnits.extractFromCellOrNull(r1)}?:0
+                val trueR2 = r2?.let{ExUnits.extractFromCellOrNull(r2)}?:0
                 when {
                     trueR1 is Number && trueR2 is Number -> return Ok(trueR1.toDouble() + (trueR2.toDouble()))
                     trueR1 is String -> {
