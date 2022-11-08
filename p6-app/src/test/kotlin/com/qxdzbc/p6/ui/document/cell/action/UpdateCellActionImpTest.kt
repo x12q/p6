@@ -76,6 +76,8 @@ internal class UpdateCellActionImpTest {
         assertEquals(b1,a1.currentCellValue.cell)
         assertEquals(a1,b1.currentCellValue.cell)
         assertEquals("#ERR",a1.cachedDisplayText)
+        assertEquals("#ERR",b1.cachedDisplayText)
+
     }
 }
 
