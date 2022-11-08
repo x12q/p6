@@ -60,6 +60,8 @@ val p6Version = "1.0"
 val apacheCommonTextVersion = "1.10.0"
 dependencies {
 
+    testImplementation("org.hamcrest:hamcrest:2.2")
+
     implementation("org.apache.commons:commons-text:${apacheCommonTextVersion}")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")

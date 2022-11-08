@@ -5,7 +5,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Err
 
 object ExUnitErrors {
-    val prefix = "UI_ExUnitErrors_"
+    val prefix = "ExUnitErrors "
     object IncompatibleType{
         val header = ErrorHeader("${prefix}0","incompatible type")
         fun report(objs:List<Any>):ErrorReport{

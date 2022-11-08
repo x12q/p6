@@ -26,7 +26,6 @@ import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class IntegrationTest {
 
@@ -41,8 +40,8 @@ class IntegrationTest {
 
     /**
      * A1: =B1
-     * B1: =A1+2
-     * Both should have error
+     * B1: =A1
+     * Both should have error display value, and have correct reference to each other. No error should be thrown.
      */
     @Test
     fun `bug case - circular reference`(){
@@ -59,16 +58,15 @@ class IntegrationTest {
         updateCellAct.updateCellDM(
             request= CellUpdateRequestDM(
                 cellId = CellIdDM(CellAddress("B1"),wbws),
-                cellContent = CellContentDM.fromFormula("=A1+2")
+                cellContent = CellContentDM.fromFormula("=A1")
             ),
             publishError = false
         )
 
         val a1 = sc.getCell(wbws,CellAddress("A1"))!!
         val b1 = sc.getCell(wbws,CellAddress("B1"))!!
-        assertTrue(a1.currentCellValue.isErr, a1.currentValue.toString())
-        assertTrue(b1.currentCellValue.isErr,b1.currentValue.toString())
-
+        assertEquals(b1,a1.currentValue)
+        assertEquals(a1,b1.currentValue)
     }
 
     /**
@@ -90,9 +88,9 @@ class IntegrationTest {
         )
         val cell1 = sc.getCell(wbws, CellAddress("A1"))!!
 
-        val originalErrMsg = cell1.displayStr
+        val originalErrMsg = cell1.displayText
        cell1.valueAfterRun
-        val ms2= cell1.displayStr
+        val ms2= cell1.displayText
         assertEquals(ms2,originalErrMsg)
 
         updateCellAct.updateCellDM(
@@ -103,7 +101,7 @@ class IntegrationTest {
             publishError = false
         )
         val cell2 = sc.getCell(wbws, CellAddress("A1"))!!
-        assertEquals(originalErrMsg,cell2.displayStr)
+        assertEquals(originalErrMsg,cell2.displayText)
 
         deleteMultiCellAction.deleteMultiCell(
             RemoveMultiCellRequest(
@@ -112,7 +110,7 @@ class IntegrationTest {
                 wsName = wbws.wsName
             )
         )
-        assertEquals(originalErrMsg,sc.getCell(wbws, CellAddress("A1"))!!.displayStr)
+        assertEquals(originalErrMsg,sc.getCell(wbws, CellAddress("A1"))!!.displayText)
     }
 
     /**
@@ -183,7 +181,7 @@ class IntegrationTest {
         wbCont = wbCont.addWb(wb)
 
         val wb2 = wb.reRun()
-        assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
+        assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.value)
 
 
         val newWs = wb2.getWs(wsNameSt)!!.removeCell(CellAddress("A2"))
@@ -191,6 +189,6 @@ class IntegrationTest {
         wbCont = wbCont.overwriteWB(wb3)
         val wb4 = wb3.reRun()
 
-        assertEquals(4.0, wb4.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.valueAfterRun)
+        assertEquals(4.0, wb4.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.value)
     }
 }

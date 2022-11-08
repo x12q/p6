@@ -6,7 +6,6 @@ import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.error.CommonErrors
 
 /**
  * A class that holds the value (value only, not including the formula) of a cell
@@ -118,29 +117,29 @@ data class CellValue constructor(
 
     val all = listOfNotNull(number, bool, str, errorReport, range, cell, transErrorReport)
 
-    val currentValue: Any? get() = all.firstOrNull()
+    val value: Any? get() = all.firstOrNull()
 
-    val valueAfterRun: Any?
-        get() {
-            try{
-                val o = all.firstOrNull()
-                when (o) {
-                    is Range -> {
-                        if (o.isCell) {
-                            val rt = o.cells[0].valueAfterRun
-                            return rt
-                        } else {
-                            return o
-                        }
-                    }
-                    is Cell -> return o.valueAfterRun
-                    else -> return o
-                }
-            }catch (e:Throwable){
-                return CommonErrors.ExceptionError.report(e)
-            }
-
-        }
+//    val valueAfterRun: Any?
+//        get() {
+//            try{
+//                val o = all.firstOrNull()
+//                when (o) {
+//                    is Range -> {
+//                        if (o.isCell) {
+//                            val rt = o.cells[0].valueAfterRun
+//                            return rt
+//                        } else {
+//                            return o
+//                        }
+//                    }
+//                    is Cell -> return o.valueAfterRun
+//                    else -> return o
+//                }
+//            }catch (e:Throwable){
+//                return CommonErrors.ExceptionError.report(e)
+//            }
+//
+//        }
 
     val isBool get() = this.bool != null
     val isNumber get() = this.number != null
@@ -207,13 +206,13 @@ data class CellValue constructor(
                 return transErrorReport.toString()
             }
             if (cell != null) {
-                return cell.displayStr
+                return cell.displayText
             }
             if (range != null) {
                 if (range.isCell) {
                     val cell = range.cells[0]
 //                    return cell.valueAfterRun?.toString() ?: ""
-                    return cell.displayStr
+                    return cell.displayText
                 } else {
                     return "Range[${range.address.label}]"
                 }

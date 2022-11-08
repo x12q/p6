@@ -64,7 +64,7 @@ class CellRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
             val cell: Cell? = sc.getCell(cid)
-            val rt = StrMsg(cell?.displayStr ?: "")
+            val rt = StrMsg(cell?.displayText ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
     }

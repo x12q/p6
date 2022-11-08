@@ -37,7 +37,7 @@ interface Cell :Shiftable,WbWsSt{
     /**
      * value to be displayed on the cell UI
      */
-    val displayStr: String
+    val displayText: String
 
     /**
      * a shortcut to the [CellValue] store in [content]

@@ -1,8 +1,6 @@
 package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
-import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
@@ -51,7 +49,7 @@ abstract class BaseCell : Cell {
         }
     override val fullFormula: String? get() = content.fullFormula
     override val shortFormula: String? get() = content.shortFormula(this.wbKey, this.wsName)
-    override val displayStr: String
+    override val displayText: String
         get() {
             try {
                 return content.displayStr
@@ -65,38 +63,16 @@ abstract class BaseCell : Cell {
     }
 
     override val cellValueAfterRun: CellValue get() = content.cellValueAfterRun
-    fun interpretCellValue(cv: CellValue): Any? {
-        try {
-            val obj = cv.all.firstOrNull()
-            when (obj) {
-                is Range -> {
-                    if (obj.isCell) {
-                        val rt = obj.cells[0].valueAfterRun
-                        return rt
-                    } else {
-                        return obj
-                    }
-                }
-
-                is Cell -> return obj.valueAfterRun
-                else -> return obj
-            }
-        } catch (e: Throwable) {
-            return CommonErrors.ExceptionError.report(e)
-        }
-
-    }
 
     override val valueAfterRun: Any?
         get() {
             val cv = this.cellValueAfterRun
-//            val rt = cv.valueAfterRun
-            val rt = interpretCellValue(cv)
+            val rt = cv.value
             return rt
         }
     override val currentCellValue: CellValue
         get() = content.cellValue
     override val currentValue: Any?
-        get() = content.cellValue.currentValue
+        get() = content.cellValue.value
     override val isFormula: Boolean get() = content.isFormula
 }

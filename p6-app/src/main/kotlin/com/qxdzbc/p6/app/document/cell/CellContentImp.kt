@@ -94,6 +94,9 @@ data class CellContentImp(
         }
     }
 
+    /**
+     * re-run the ExUnit if possible and refresh the [cellValueMs] obj
+     */
     override val cellValueAfterRun: CellValue
         get() {
             if (exUnit != null) {
@@ -173,9 +176,6 @@ data class CellContentImp(
 
     private fun internalSetCellValue(cv:CellValue){
         cellValueMs.value = cv
-        if(cv.isErr){
-            "qwe"
-        }
     }
 
     override fun setValueAndDeleteExUnit(cv: CellValue): CellContent {
