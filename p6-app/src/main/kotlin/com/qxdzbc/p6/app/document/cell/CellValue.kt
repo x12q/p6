@@ -3,6 +3,8 @@ package com.qxdzbc.p6.app.document.cell
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.proto.DocProtos.CellValueProto
@@ -15,11 +17,11 @@ data class CellValue constructor(
     val bool: Boolean? = null,
     val str: String? = null,
     val range: Range? = null,
-    val cell: Cell? = null,
+    val cellSt: St<Cell>? = null,
     val errorReport: ErrorReport? = null,
     val transErrorReport: ErrorReport? = null,
 ) {
-
+    val cell: Cell? get() = cellSt?.value
     override fun hashCode(): Int {
         var result = number?.hashCode() ?: 0
         result = 31 * result + (bool?.hashCode() ?: 0)
@@ -80,6 +82,7 @@ data class CellValue constructor(
             }
         }
 
+        @Suppress("UNCHECKED_CAST")
         fun fromAny(any: Any?): CellValue {
             if (any == null) {
                 return empty
@@ -90,7 +93,12 @@ data class CellValue constructor(
                 is Number -> return from(i.toDouble())
                 is Boolean -> return from(i)
                 is Range -> return from(i)
-                is Cell -> return from(i)
+                is St<*> ->{
+                    when(i.value){
+                        is Cell -> return from(i as St<Cell>)
+                        else -> return empty
+                    }
+                }
                 is ErrorReport -> return from(i)
                 else -> {
                     return from(CellErrors.InvalidCellValue.report(i))
@@ -102,8 +110,12 @@ data class CellValue constructor(
             return CellValue(transErrorReport = errorReport)
         }
 
-        fun from(i: Cell): CellValue {
-            return CellValue(cell = i)
+        fun from(i: St<Cell>): CellValue {
+            return CellValue(cellSt = i)
+        }
+
+        fun fromCellForTest(i: Cell): CellValue {
+            return CellValue(cellSt = ms(i))
         }
 
         fun from(i: Range): CellValue {
@@ -156,7 +168,7 @@ data class CellValue constructor(
         }
     }
 
-    val all = listOfNotNull(number, bool, str, errorReport, range, cell, transErrorReport)
+    val all = listOfNotNull(number, bool, str, errorReport, range, cellSt, transErrorReport)
 
     val value: Any? get() = all.firstOrNull()
 
@@ -225,7 +237,7 @@ data class CellValue constructor(
                 return transErrorReport.toString()
             }
             if (cell != null) {
-                return cell.attemptToAccessDisplayText()
+                return cell!!.attemptToAccessDisplayText()
             }
             if (range != null) {
                 if (range.isCell) {

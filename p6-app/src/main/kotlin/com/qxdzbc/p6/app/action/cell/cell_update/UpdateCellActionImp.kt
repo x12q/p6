@@ -29,7 +29,7 @@ class UpdateCellActionImp @Inject constructor(
     val translatorCont by translatorContainerMs
 
     override fun updateCellDM(request: CellUpdateRequestDM, publishError:Boolean): Rse<Unit> {
-        val cellRs = sc.getCellRs(request.cellId)
+        val cellRs = sc.getCellRsOrDefault(request.cellId)
         return cellRs.flatMap { cell->
             updateCell(CellUpdateRequest(
                 cell.id,request.cellContent

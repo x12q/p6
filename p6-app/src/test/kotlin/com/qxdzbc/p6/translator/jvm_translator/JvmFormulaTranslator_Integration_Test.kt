@@ -123,7 +123,7 @@ class JvmFormulaTranslator_Integration_Test {
     @Test
     fun `translate call functions on real app`() {
         val inputMap: Map<String, Result<Any, ErrorReport>> = mapOf(
-            "=A1" to appStateMs.value.getCellRs(wbKey, wsName, CellAddress("A1")),
+            "=A1" to appStateMs.value.getCellRsOrDefault(wbKey, wsName, CellAddress("A1")),
             "=A1:B3@Sheet2" to appStateMs.value.getRangeRs(wbKey, "Sheet2", RangeAddress("A1:B3")),
             "=A1:B3@'Sheet not exist'" to appStateMs.value.getRangeRs(wbKey, "Sheet not exist", RangeAddress("A1:B3")),
             "=SUM(A1:C3)" to Ok(1.0 + 2 + 3),

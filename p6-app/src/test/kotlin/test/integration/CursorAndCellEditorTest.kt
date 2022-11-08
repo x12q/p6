@@ -394,7 +394,7 @@ class CursorAndCellEditorTest {
         cellEditorAction.runFormulaOrSaveValueToCell()
 
         //
-        assertEquals(6.0, appState.getCell(targetWb, targetWsName, targetCell)?.currentCellValue?.value)
+        assertEquals(6.0, appState.getCellOrDefault(targetWb, targetWsName, targetCell)?.currentCellValue?.value)
         assertNull(cellEditorState.targetCursorIdSt)
         assertNull(cellEditorState.targetCell)
         assertTrue(focusState.value.isCursorFocused)

@@ -60,8 +60,8 @@ class IntegrationTest {
             ),
             publishError = false
         )
-        val b1 = sc.getCell(wbws, CellAddress("B1"))!!
-        val a1 = sc.getCell(wbws, CellAddress("A1"))!!
+        val b1 = sc.getCellOrDefault(wbws, CellAddress("B1"))!!
+        val a1 = sc.getCellOrDefault(wbws, CellAddress("A1"))!!
         val c1 = (a1.currentValue as Cell).content.cellValue
         val c2 = b1.content.cellValue
         assertEquals(c1,c2)
@@ -89,7 +89,7 @@ class IntegrationTest {
             ),
             publishError = false
         )
-        val cell1 = sc.getCell(wbws, CellAddress("A1"))!!
+        val cell1 = sc.getCellOrDefault(wbws, CellAddress("A1"))!!
 
         val originalErrMsg = cell1.cachedDisplayText
        cell1.valueAfterRun
@@ -103,7 +103,7 @@ class IntegrationTest {
             ),
             publishError = false
         )
-        val cell2 = sc.getCell(wbws, CellAddress("A1"))!!
+        val cell2 = sc.getCellOrDefault(wbws, CellAddress("A1"))!!
         assertEquals(originalErrMsg,cell2.cachedDisplayText)
 
         deleteMultiCellAction.deleteMultiCell(
@@ -113,7 +113,7 @@ class IntegrationTest {
                 wsName = wbws.wsName
             )
         )
-        assertEquals(originalErrMsg,sc.getCell(wbws, CellAddress("A1"))!!.cachedDisplayText)
+        assertEquals(originalErrMsg,sc.getCellOrDefault(wbws, CellAddress("A1"))!!.cachedDisplayText)
     }
 
     /**

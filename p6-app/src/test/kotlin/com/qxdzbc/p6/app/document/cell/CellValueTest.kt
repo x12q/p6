@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.document.cell
 
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -48,7 +49,7 @@ class CellValueTest {
         assertFalse { CellValue(number = 123.0).isEmpty() }
         assertFalse { CellValue(str = "123.0").isEmpty() }
         assertFalse { CellValue(bool = true).isEmpty() }
-        assertFalse { CellValue(cell = mock()).isEmpty() }
+        assertFalse { CellValue(cellSt = mock()).isEmpty() }
         assertFalse { CellValue(range = mock()).isEmpty() }
         assertFalse { CellValue(errorReport = mock()).isEmpty() }
     }
@@ -60,7 +61,7 @@ class CellValueTest {
         assertEquals("1.2", CellValue(number = 1.2).editableValue)
         assertEquals("TRUE", CellValue(bool = true).editableValue)
         assertEquals("FALSE", CellValue(bool = false).editableValue)
-        assertEquals(null, CellValue(cell = mockCell).editableValue)
+        assertEquals(null, CellValue(cellSt = ms(mockCell)).editableValue)
         assertEquals(null, CellValue(range = singleCellRange).editableValue)
     }
 
@@ -77,7 +78,7 @@ class CellValueTest {
 //            assertTrue { it.isEditable }
         }
         val notEditables = listOf(
-            CellValue(cell = mockCell),
+            CellValue(cellSt = ms(mockCell)),
             CellValue(range = singleCellRange)
         )
         notEditables.forEach {
@@ -92,7 +93,7 @@ class CellValueTest {
         assertEquals("1.2", CellValue(number = 1.2).displayText)
         assertEquals("TRUE", CellValue(bool = true).displayText)
         assertEquals("FALSE", CellValue(bool = false).displayText)
-        assertEquals(mockCell.attemptToAccessDisplayText(), CellValue(cell = mockCell).displayText)
+        assertEquals(mockCell.attemptToAccessDisplayText(), CellValue(cellSt = ms(mockCell)).displayText)
         assertEquals("ABC", CellValue(range = singleCellRange).displayText)
         assertEquals("Range[${mockRange2.address.label}]", CellValue(range = mockRange2).displayText)
     }

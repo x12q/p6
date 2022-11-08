@@ -62,6 +62,7 @@ interface Worksheet : WithSize, WbWsSt {
 
     fun getCellMs(label: String): Ms<Cell>?
 
+    @Deprecated("don't use, faulty")
     fun getCellMsRs(cellAddress: CellAddress): Rse<Ms<Cell>>
 
     fun getCell(cellAddress: CellAddress): Cell?

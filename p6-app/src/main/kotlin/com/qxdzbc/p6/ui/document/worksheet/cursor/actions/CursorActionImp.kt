@@ -105,7 +105,7 @@ class CursorActionImp @Inject constructor(
         val cellEditorState by sc.cellEditorStateMs
         if(cellEditorState.isOpen){
             val targetCell: Cell? = cellEditorState.targetCell?.let {
-                sc.getCell(wbws.wbKey,wbws.wsName,it)
+                sc.getCellOrDefault(wbws.wbKey,wbws.wsName,it)
             }
             val ranges = targetCell?.content?.exUnit?.getRangeIds()?: emptyList()
             val colors = formulaColorGenerator.getColors(ranges.size)

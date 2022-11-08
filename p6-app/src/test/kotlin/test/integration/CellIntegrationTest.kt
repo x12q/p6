@@ -34,8 +34,8 @@ class CellIntegrationTest {
             )
         )
 
-        val a1 = stateCont.getCell(ts.wbKey1, ts.wsn1, CellAddress("A1"))
-        val b1 = stateCont.getCell(ts.wbKey1, ts.wsn1, CellAddress("B1"))
+        val a1 = stateCont.getCellOrDefault(ts.wbKey1, ts.wsn1, CellAddress("A1"))
+        val b1 = stateCont.getCellOrDefault(ts.wbKey1, ts.wsn1, CellAddress("B1"))
         println(a1?.address)
         println(b1?.address)
     }
