@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
@@ -49,14 +50,14 @@ abstract class BaseCell : Cell {
         }
     override val fullFormula: String? get() = content.fullFormula
     override val shortFormula: String? get() = content.shortFormula(this.wbKey, this.wsName)
-    override val displayText: String
-        get() {
-            try {
-                return content.displayStr
-            } catch (e: Throwable) {
-                return "#ERR"
-            }
-        }
+//    override val displayText: String
+//        get() {
+//            try {
+//                return content.displayStr
+//            } catch (e: Throwable) {
+//                return "#ERR"
+//            }
+//        }
     override val isEditable: Boolean get() = true
     override fun hasContent(): Boolean {
         return content.isNotEmpty()

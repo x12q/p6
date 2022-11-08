@@ -23,6 +23,12 @@ fun CellAddress(label: String): CellAddress {
 }
 
 interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
+
+    companion object{
+        fun random(colRange:IntRange=1 .. 20, rowRange:IntRange = 1 .. 20):CellAddress{
+            return CellAddress(colRange.random(), rowRange.random())
+        }
+    }
     override val colIndex: Int
     override val rowIndex: Int
 

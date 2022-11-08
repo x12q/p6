@@ -2,6 +2,7 @@ package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.Rse
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -12,6 +13,12 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 
 interface Cell :Shiftable,WbWsSt{
+
+    /**
+     * This is error caused by evaluation that happens outside of cell content
+     */
+    val error0: ErrorReport?
+    fun setError0(i: ErrorReport?):Cell
 
     fun isSimilar(c: Cell):Boolean
 
@@ -40,6 +47,11 @@ interface Cell :Shiftable,WbWsSt{
     val displayText: String
 
     /**
+     * Evaluate display text
+     */
+    fun evaluateDisplayText():Cell
+
+    /**
      * a shortcut to the [CellValue] store in [content]
      */
     val cellValueAfterRun: CellValue
@@ -49,7 +61,7 @@ interface Cell :Shiftable,WbWsSt{
     fun colorEditableValue(colorMap: ColorMap, wbKey: WorkbookKey?, wsName: String): AnnotatedString
 
     /**
-     * a shortcut to the value stored in [cellValueAfterRun]
+     * reRun the cell, refresh the internal value cache, then return it
      */
     val valueAfterRun: Any?
     val currentValue: Any?

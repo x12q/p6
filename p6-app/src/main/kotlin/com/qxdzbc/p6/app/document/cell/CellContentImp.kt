@@ -12,11 +12,13 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toCellValue
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellContentProto
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.IntUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
@@ -66,6 +68,18 @@ data class CellContentImp(
     }
 
     companion object {
+        fun randomNumericContent():CellContentImp{
+            return CellContentImp(
+                cellValueMs = ms((1 .. 1000).random().toCellValue()),
+                exUnit = null
+            )
+        }
+        fun randomExUnitContent():CellContentImp{
+            return CellContentImp(
+                cellValueMs = ms(CellValue.empty),
+                exUnit = IntUnit((1 .. 1000).random())
+            )
+        }
         val empty = CellContentImp()
 
         /**
@@ -165,7 +179,7 @@ data class CellContentImp(
 
     override val displayStr: String
         get() {
-            return cellValue.displayStr
+            return cellValue.displayText
         }
 
     override val isFormula: Boolean

@@ -4,6 +4,7 @@ import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.CanCheckEmpty
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey

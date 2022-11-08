@@ -173,14 +173,14 @@ data class CellValue constructor(
             if (this.isRange || this.isCell || this.isErr || this.isTranslatorErr) {
                 return null
             } else {
-                return displayStr
+                return displayText
             }
         }
 
     /**
      * @return a string value for displaying inside a cell. This is what the user see in the cell on a worksheet.
      */
-    val displayStr: String
+    val displayText: String
         get() {
             if (number != null) {
                 // handle int number

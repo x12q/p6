@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.document.cell
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
@@ -10,31 +11,26 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
  * a [Cell] implementation that is not tied to workbook key state nor worksheet name state.
- * For test and data transition only
+ * For test and data conversion only
  */
 data class IndCellImp(
     override val address: CellAddress,
     override val content: CellContent = CellContentImp(),
+    override val error0: ErrorReport? = null,
+    override val displayText: String = "",
 ) : BaseCell() {
 
     companion object {
-//        fun IndCellProto.toIndModel(translator: P6Translator<ExUnit>): IndCellImp {
-//            if(this.hasFormula() && this.formula.isNotEmpty()){
-//                val transRs = translator.translate(formula)
-//                val content = CellContentImp.fromTransRs(transRs)
-//                return IndCellImp(
-//                    address = id.cellAddress.toModel(),
-//                    content = content
-//                )
-//            }else{
-//                return IndCellImp(
-//                    address = id.cellAddress.toModel(),
-//                    content = CellContentImp(
-//                        cellValueMs = this.value.toModel().toMs(),
-//                    )
-//                )
-//            }
-//        }
+        fun random():IndCellImp{
+            return IndCellImp(
+                address = CellAddress.random(),
+                content = CellContentImp.randomNumericContent()
+            )
+        }
+    }
+
+    override fun setError0(i: ErrorReport?): Cell {
+        return this.copy(error0=i)
     }
 
     override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): Cell {
@@ -54,6 +50,11 @@ data class IndCellImp(
 
     override val id: CellId
         get() = throw UnsupportedOperationException()
+
+    override fun evaluateDisplayText(): Cell {
+        throw UnsupportedOperationException()
+    }
+
     override val wbKeySt: St<WorkbookKey>
         get() = throw UnsupportedOperationException()
     override val wbKey: WorkbookKey

@@ -100,14 +100,14 @@ class CellValueTest {
 
     @Test
     fun displayStr() {
-        assertEquals("abc", CellValue(str = "abc").displayStr)
-        assertEquals("1", CellValue(number = 1.0).displayStr)
-        assertEquals("1.2", CellValue(number = 1.2).displayStr)
-        assertEquals("TRUE", CellValue(bool = true).displayStr)
-        assertEquals("FALSE", CellValue(bool = false).displayStr)
-        assertEquals(mockCell.displayText, CellValue(cell = mockCell).displayStr)
-        assertEquals("ABC", CellValue(range = singleCellRange).displayStr)
-        assertEquals("Range[${mockRange2.address.label}]", CellValue(range = mockRange2).displayStr)
+        assertEquals("abc", CellValue(str = "abc").displayText)
+        assertEquals("1", CellValue(number = 1.0).displayText)
+        assertEquals("1.2", CellValue(number = 1.2).displayText)
+        assertEquals("TRUE", CellValue(bool = true).displayText)
+        assertEquals("FALSE", CellValue(bool = false).displayText)
+        assertEquals(mockCell.displayText, CellValue(cell = mockCell).displayText)
+        assertEquals("ABC", CellValue(range = singleCellRange).displayText)
+        assertEquals("Range[${mockRange2.address.label}]", CellValue(range = mockRange2).displayText)
     }
 
     @Test
