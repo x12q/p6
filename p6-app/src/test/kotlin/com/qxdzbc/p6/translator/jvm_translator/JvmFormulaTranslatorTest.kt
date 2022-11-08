@@ -13,7 +13,6 @@ import com.github.michaelbull.result.Ok
 import kotlin.test.*
 import kotlin.math.pow
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -22,7 +21,6 @@ import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion
 import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
 import test.TestSample
-import java.nio.file.Path
 import kotlin.reflect.KFunction
 
 class JvmFormulaTranslatorTest {
@@ -75,11 +73,11 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate cell access`() {
         val inputMap = mapOf(
-            "=A1" to GetCell(
+            "=A1" to GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
-
-                    wbKeySt.toExUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").toExUnit(),
-
+                cellAddressUnit= CellAddress("A1").toExUnit(),
+                wsNameUnit=WsNameStUnit(wsNameSt),
+                wbKeyUnit=wbKeySt.toExUnit(),
                 functionMapSt = functionMap
             ),
         )
@@ -102,9 +100,11 @@ class JvmFormulaTranslatorTest {
                     FuncUnit(
                         funcName = "F2",
                         args = listOf(
-                            GetCell(
+                            GetCellUnit(
                                 funcName = P6FunctionDefinitions.getCellRs,
-                                    wbKeySt.toExUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").toExUnit(),
+                                cellAddressUnit= CellAddress("A1").toExUnit(),
+                                wsNameUnit=WsNameStUnit(wsNameSt),
+                                wbKeyUnit=wbKeySt.toExUnit(),
                                 functionMapSt = functionMap
                             )
                         ),
@@ -129,12 +129,11 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate get range, get cell`() {
         val validMap = mapOf(
-            "=\$A\$1" to GetCell(
+            "=\$A\$1" to GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
-                    wbKeySt.toExUnit(),
-                    WsNameStUnit(wsNameSt),
-                    CellAddress("\$A\$1").toExUnit()
-                ,
+                cellAddressUnit= CellAddress("\$A\$1").toExUnit(),
+                wsNameUnit=WsNameStUnit(wsNameSt),
+                wbKeyUnit=wbKeySt.toExUnit(),
                 functionMapSt = functionMap
             ),
             "=\$A1:B$3" to GetRange(

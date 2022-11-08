@@ -12,11 +12,11 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.document.cell.*
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toShallowModel
 import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toModel
+import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toShallowModel
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.range.OneOffRange
 import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.p6.app.document.range.RangeImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -34,7 +34,6 @@ data class WorksheetImp(
     override val table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
     override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
 ) : BaseWorksheet() {
-
 
 
     companion object {
@@ -100,13 +99,24 @@ data class WorksheetImp(
 
     override fun reRun(): Worksheet {
         val cellMap = table.dataMap
-        for ((colIndex, col) in cellMap) {
-            for ((rowIndex, cell) in col) {
-                val newCell = cell.value.reRun()
-                if (newCell != null) {
-                    cell.value = newCell
-                }
+//        for ((colIndex, col) in cellMap) {
+//            for ((rowIndex, cell) in col) {
+//                val newCell = cell.value.reRun()
+//                if (newCell != null) {
+//                    cell.value = newCell
+//                }
+//            }
+//        }
+        val allCells = cellMsList
+        allCells.forEach { cellMs ->
+            val newCell = cellMs.value.reRun()
+            if (newCell != null) {
+                cellMs.value = newCell
             }
+        }
+        allCells.forEach {cellMs->
+            val newCell = cellMs.value.evaluateDisplayText()
+           cellMs.value = newCell
         }
         return this
     }
@@ -116,7 +126,7 @@ data class WorksheetImp(
     override fun range(address: RangeAddress): Result<Range, ErrorReport> {
         if (this.rangeConstraint.contains(address)) {
             return Ok(
-                RangeImp(
+                OneOffRange(
                     worksheet = this,
                     wbKeySt = wbKeySt,
                     address = address

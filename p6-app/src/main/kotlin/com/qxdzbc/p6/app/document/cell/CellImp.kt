@@ -91,7 +91,7 @@ data class CellImp(
         val c = content.reRunRs()
         val rt = c
             .map { this.copy(content = it) }
-            .map { it.evaluateDisplayText() }
+//            .map { it.evaluateDisplayText() }
         return rt
     }
 
@@ -104,7 +104,8 @@ data class CellImp(
 
     override fun evaluateDisplayText(): Cell {
         try {
-            val dt = content.displayText
+//            val dt = content.displayText
+            val dt = attemptToAccessDisplayText()
             return this.copy(cachedDisplayText = dt)
         } catch (e: Throwable) {
             val newError0 = when (e) {

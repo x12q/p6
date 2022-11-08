@@ -231,7 +231,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val cellAddressRs: Rse<CellAddress> = CellAddresses.fromLabelRs(rangeAddress)
             if (cellAddressRs is Ok) {
                 val raUnit = cellAddressRs.value.toExUnit()
-                return GetCell(
+                return GetCellUnit(
                     funcName = P6FunctionDefinitions.getCellRs,
                     wbKeyUnit = wbKeyStExUnit,
                     wsNameUnit = wsNameStUnit,
@@ -305,7 +305,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val cell0 = ctx?.text
         if (cell0 != null) {
             val raUnit = CellAddress(cell0).toExUnit()
-            val rt = GetCell(
+            val rt = GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
                 wbKeyUnit = wbKeyStExUnit,
                 wsNameUnit = wsNameStExUnit,

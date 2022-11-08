@@ -19,11 +19,11 @@ import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
-data class GetCell(
+data class GetCellUnit(
     override val funcName: String = P6FunctionDefinitions.getCellRs,
-    val wbKeyUnit: WbKeyStUnit,
-    val wsNameUnit: WsNameStUnit,
     val cellAddressUnit: CellAddressUnit,
+    val wsNameUnit: WsNameStUnit,
+    val wbKeyUnit: WbKeyStUnit,
     val functionMapSt: St<FunctionMap>,
 ) : ExUnit, BaseFunc() {
 

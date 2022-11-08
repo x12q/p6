@@ -4,7 +4,7 @@ import com.qxdzbc.common.compose.StateUtils.toSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.GetCell
+import com.qxdzbc.p6.translator.formula.execution_unit.GetCellUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.WsNameStUnit
 import org.mockito.kotlin.mock
@@ -24,7 +24,7 @@ internal class ExUnit_GetCell {
 
     @Test
     fun toFormula() {
-        val u = GetCell(
+        val u = GetCellUnit(
             funcName = "qwe",
             wbKeyUnit = WorkbookKey("Wb1").toSt().toExUnit(),
             wsNameUnit = WsNameStUnit("Sheet1".toSt()),
@@ -39,7 +39,7 @@ internal class ExUnit_GetCell {
     fun toFormulaSelective() {
         val wbk1 = WorkbookKey("Wb1", null)
         val wbk2 = WorkbookKey("Wb2", null)
-        val u = GetCell(
+        val u = GetCellUnit(
             funcName = "qwe",
             wbKeyUnit = wbk1.toSt().toExUnit(),
             wsNameUnit = WsNameStUnit("Sheet1".toSt()),

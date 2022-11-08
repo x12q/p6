@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.document.cell
 
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.map
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -31,8 +32,8 @@ class CellImpTest {
         )
         assertEquals("",cell.cachedDisplayText)
         assertEquals(null,cell.error0)
-        val c2Rs = cell.reRunRs()
-        assertTrue(c2Rs is Ok)
+        val c2Rs = cell.reRunRs().map { it.evaluateDisplayText() }
+        assertTrue(c2Rs is Ok
         val c2 = c2Rs.value
         assertEquals("123",c2.cachedDisplayText)
         assertEquals(null,c2.error0)
