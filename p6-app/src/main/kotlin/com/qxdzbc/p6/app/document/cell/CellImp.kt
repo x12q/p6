@@ -116,7 +116,7 @@ data class CellImp(
                     CommonErrors.ExceptionError.report(e)
                 }
             }
-            return this.copy(error0 = newError0, cachedDisplayText = "#ERR")
+            return this.copy(error0 = newError0, cachedDisplayText = ErrorDisplayText.err)
         }
     }
 

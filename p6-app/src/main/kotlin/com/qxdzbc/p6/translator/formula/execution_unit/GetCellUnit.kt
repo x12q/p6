@@ -27,6 +27,10 @@ data class GetCellUnit(
     val functionMapSt: St<FunctionMap>,
 ) : ExUnit, BaseFunc() {
 
+    override fun toString(): String {
+        return "GetCellUnit(${cellAddressUnit.cellAddress.label}, ${wsNameUnit.nameSt.value}, ${wbKeyUnit.wbKeySt.value.name})"
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun runRs(): Result<St<Cell>?, ErrorReport> {
         val rt= super.runRs() as Result<St<Cell>?, ErrorReport>

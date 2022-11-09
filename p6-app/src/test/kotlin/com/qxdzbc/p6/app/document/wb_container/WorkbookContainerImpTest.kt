@@ -51,6 +51,6 @@ class WorkbookContainerImpTest{
 
     @Test
     fun getWorkbookList() {
-        assertEquals(wbList, cont.wbList)
+        assertEquals(wbList, cont.allWbs)
     }
 }

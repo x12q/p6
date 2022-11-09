@@ -1,15 +1,16 @@
 package com.qxdzbc.p6.ui.document.cell.action
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.app.document.cell.ErrorDisplayText
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -19,12 +20,37 @@ import kotlin.test.assertNotNull
 internal class UpdateCellActionImpTest {
     lateinit var ts: TestSample
     lateinit var act: UpdateCellAction
-    val sc get()=ts.sc
+    val sc get() = ts.sc
 
     @BeforeTest
     fun b() {
         ts = TestSample()
         act = ts.p6Comp.updateCellAction()
+    }
+
+    @Test
+    fun `bug - A1+1 in A1`() {
+        val wbws = WbWs(ts.wbKey1, ts.wsn1)
+        ColdInit()
+//        val q= ExUnitErrors()
+//        ExUnitErrors.IncompatibleType.report("asd")
+//        val q = ts.p6Comp.exUnitErrors()
+        var ct = 0
+        for(x in 0 .. 100){
+            try{
+                act.updateCellDM(
+                    request = CellUpdateRequestDM(
+                        cellId = CellIdDM(CellAddress("A1"), wbws),
+                        cellContent = CellContentDM.fromFormula("=A1+1")
+                    ),
+                    publishError = false
+                )
+            }catch(e:Throwable){
+                ct++
+            }
+        }
+        assertEquals(0,ct)
+
     }
 
     @Test
@@ -54,29 +80,28 @@ internal class UpdateCellActionImpTest {
     }
 
     @Test
-    fun `updateCell circular reference`(){
-        val updateCellAct = ts.p6Comp.updateCellAction()
-        val wbws = WbWs(ts.wbKey1,ts.wsn1)
-        updateCellAct.updateCellDM(
-            request= CellUpdateRequestDM(
-                cellId = CellIdDM(CellAddress("A1"),wbws),
+    fun `bug - updateCell circular reference`() {
+        val wbws = WbWs(ts.wbKey1, ts.wsn1)
+        act.updateCellDM(
+            request = CellUpdateRequestDM(
+                cellId = CellIdDM(CellAddress("A1"), wbws),
                 cellContent = CellContentDM.fromFormula("=B1")
             ),
             publishError = false
         )
-        updateCellAct.updateCellDM(
-            request= CellUpdateRequestDM(
-                cellId = CellIdDM(CellAddress("B1"),wbws),
+        act.updateCellDM(
+            request = CellUpdateRequestDM(
+                cellId = CellIdDM(CellAddress("B1"), wbws),
                 cellContent = CellContentDM.fromFormula("=A1")
             ),
             publishError = false
         )
         val b1 = sc.getCellOrDefault(wbws, CellAddress("B1"))!!
         val a1 = sc.getCellOrDefault(wbws, CellAddress("A1"))!!
-        assertEquals(b1,a1.currentCellValue.cell)
-        assertEquals(a1,b1.currentCellValue.cell)
-        assertEquals("#ERR",a1.cachedDisplayText)
-        assertEquals("#ERR",b1.cachedDisplayText)
+        assertEquals(b1, a1.currentCellValue.cell)
+        assertEquals(a1, b1.currentCellValue.cell)
+        assertEquals(ErrorDisplayText.err, a1.cachedDisplayText)
+        assertEquals(ErrorDisplayText.err, b1.cachedDisplayText)
     }
 }
 

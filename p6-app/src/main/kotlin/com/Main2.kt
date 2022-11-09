@@ -24,6 +24,7 @@ import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.app.app_context.P6GlobalAccessPoint
 import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -56,6 +57,7 @@ fun main() {
         val cs = this
         var outKernelContext: KernelContext? = null
         var p6Comp2: P6Component? = null
+//        val coldInit = ColdInit()
         application {
             val appScope = this
             var starting by rms(true)

@@ -99,24 +99,34 @@ data class WorksheetImp(
 
     override fun reRun(): Worksheet {
         val cellMap = table.dataMap
-//        for ((colIndex, col) in cellMap) {
-//            for ((rowIndex, cell) in col) {
-//                val newCell = cell.value.reRun()
-//                if (newCell != null) {
-//                    cell.value = newCell
-//                }
-//            }
-//        }
-        val allCells = cellMsList
-        allCells.forEach { cellMs ->
-            val newCell = cellMs.value.reRun()
-            if (newCell != null) {
-                cellMs.value = newCell
+        for ((colIndex, col) in cellMap) {
+            for ((rowIndex, cell) in col) {
+                val newCell = cell.value.reRun()
+                if (newCell != null) {
+                    cell.value = newCell
+                }
             }
         }
-        allCells.forEach {cellMs->
-            val newCell = cellMs.value.evaluateDisplayText()
-           cellMs.value = newCell
+//        val allCells = cellMsList
+//        allCells.forEach { cellMs ->
+//            val newCell = cellMs.value.reRun()
+//            if (newCell != null) {
+//                cellMs.value = newCell
+//            }
+//        }
+//        allCells.forEach {cellMs->
+//            val newCell = cellMs.value.evaluateDisplayText()
+//           cellMs.value = newCell
+//        }
+        return this
+    }
+
+    override fun refreshDisplayText():Worksheet{
+        for ((colIndex, col) in table.dataMap) {
+            for ((rowIndex, cellMs) in col) {
+                val newCell = cellMs.value.evaluateDisplayText()
+                    cellMs.value = newCell
+            }
         }
         return this
     }

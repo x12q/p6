@@ -48,13 +48,24 @@ class UpdateCellActionImp @Inject constructor(
             val updateWsRs = ws.updateCellContentRs(
                 request.cellId.address, content
             )
+
             updateWsRs.flatMap {
                 wsMs.value = it
                 wsStateMs.value = wsStateMs.value.refreshCellState()
                 if(wbMs!=null){
-                    wbMs.value = wbMs.value.reRun()
+                    /*
+                    the target ws belongs to a valid workbook, therefore, need
+                    to refresh the whole app
+                     */
+                    sc.wbCont.allWbMs.forEach { wbMs->
+                        wbMs.value = wbMs.value.reRun().refreshDisplayText()
+                    }
                 }else{
-                    wsMs.value = ws.reRun()
+                    /*
+                    the target ws does not belong to any valid workbook, just need
+                    to refresh itself.
+                     */
+                    wsMs.value = ws.reRun().refreshDisplayText()
                 }
                 Unit.toOk()
             }

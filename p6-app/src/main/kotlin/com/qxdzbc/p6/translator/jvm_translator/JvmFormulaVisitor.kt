@@ -30,7 +30,8 @@ class JvmFormulaVisitor @AssistedInject constructor(
     @Assisted("1") private val wbKeySt: St<WorkbookKey>,
     @Assisted("2") private val wsNameSt: St<String>,
     private val functionMapMs: Ms<FunctionMap>,
-    private val docContMs: St<@JvmSuppressWildcards DocumentContainer>
+    private val docContMs: St<@JvmSuppressWildcards DocumentContainer>,
+//    private val errX:ExUnitErrors.IncompatibleType = ExUnitErrors.IncompatibleType.instance,
 ) : FormulaBaseVisitor<ExUnit>() {
     private val docCont: DocumentContainer by docContMs
     private val wbKey: WorkbookKey by wbKeySt
@@ -125,7 +126,9 @@ class JvmFormulaVisitor @AssistedInject constructor(
                 val op = ctx.op
                 when (op?.type) {
                     FormulaParser.ADD -> {
-                        AddOperator(expr0, expr1)
+                        AddOperator(expr0, expr1,
+//                            errX
+                        )
                     }
                     FormulaParser.SUB -> {
                         MinusOperator(expr0, expr1)

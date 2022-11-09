@@ -4,15 +4,12 @@ import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.action.ActionErrors
-import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
-import com.qxdzbc.p6.proto.AppProtos
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -32,7 +29,7 @@ class GetWorkbookActionImp @Inject constructor(
             }
             request.wbName != null->{
                 val wbName:String = request.wbName
-                for (wb in sc.wbCont.wbList) {
+                for (wb in sc.wbCont.allWbs) {
                     if (wb.key.name == wbName) {
                         return Ok(wb)
                     }
@@ -41,7 +38,7 @@ class GetWorkbookActionImp @Inject constructor(
             }
             request.wbIndex!=null ->{
                 val index:Int = request.wbIndex
-                val wb = sc.wbCont.wbList.getOrNull(index.toInt())
+                val wb = sc.wbCont.allWbs.getOrNull(index.toInt())
                 if (wb != null) {
                     return Ok(wb)
                 } else {

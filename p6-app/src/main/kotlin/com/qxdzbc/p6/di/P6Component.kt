@@ -25,6 +25,7 @@ import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
@@ -53,6 +54,7 @@ import org.zeromq.ZMQ
     ],
 )
 interface P6Component {
+
     @P6Singleton
     fun moveToWbAction(): MoveToWbAction
 

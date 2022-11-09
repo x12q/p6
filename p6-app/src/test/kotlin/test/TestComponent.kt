@@ -50,6 +50,7 @@ import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.rpc.P6RpcServer
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
@@ -256,6 +257,7 @@ interface TestComponent {
     fun colorFormulaAction(): ColorFormulaInCellEditorAction
     fun rangeFormatter(): RangeAddressFormatter
     fun deleteMultiCellAction(): DeleteMultiCellAction
+//    fun exUnitErrors(): ExUnitErrors
 
     @Component.Builder
     interface Builder {

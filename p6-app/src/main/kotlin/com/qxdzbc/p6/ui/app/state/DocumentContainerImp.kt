@@ -347,6 +347,11 @@ class DocumentContainerImp @Inject constructor(
         return this
     }
 
+    override val allWbs: List<Workbook>
+        get() = wbCont.allWbs
+    override val allWbMs: List<Ms<Workbook>>
+        get() = wbCont.allWbMs
+
     override fun getRangeRs(rangeId: RangeId): Result<Range, ErrorReport> {
         val rt = this.getWbRs(rangeId.wbKey).andThen { wb ->
             wb.getWsRs(rangeId.wsName).andThen { ws ->

@@ -94,4 +94,5 @@ interface Worksheet : WithSize, WbWsSt {
     fun setWsName(newName: String): Worksheet
     fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet
 
+    fun refreshDisplayText():Worksheet
 }

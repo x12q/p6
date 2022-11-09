@@ -20,7 +20,6 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
@@ -39,7 +38,6 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Path
@@ -197,7 +195,7 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<AppProtos.GetAllWorkbookResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wbkList = sc.wbCont.wbList.map { it.key }
+            val wbkList = sc.wbCont.allWbs.map { it.key }
             val r = GetAllWorkbookResponseProto
                 .newBuilder()
                 .addAllWbKeys(wbkList.map { it.toProto() })

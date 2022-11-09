@@ -10,15 +10,15 @@ object ExUnits {
      * extract value from a variable [r1], if it is a cell, return the value inside the cell, otherwise, return null
      */
     fun extractFromCellOrNull(r1: Any): Any? {
-        return extractFromCellOrDefaultOrNull(r1,null)
+        return extractFromCellOrDefault(r1,null)
     }
 
     /**
-     * extract value from a variable [r1], if it is a cell, return the value inside the cell, otherwise, return [r1] itself. If the cell-value is null, return the default value.
+     * extract value from a variable [r1], if it is a cell, return the value inside the cell, otherwise, return [r1] itself. If the value inside the cell is null, return the default value.
      *
      * @param defaultValue: default value for when [r1] is a cell and empty
      */
-    private fun extractFromCellOrDefaultOrNull(r1: Any, defaultValue: Any?): Any? {
+    private fun extractFromCellOrDefault(r1: Any, defaultValue: Any?): Any? {
          when (r1) {
             is Cell -> {
                 val rt= r1.valueAfterRun ?: defaultValue

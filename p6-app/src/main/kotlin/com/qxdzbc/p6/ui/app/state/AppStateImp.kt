@@ -350,6 +350,11 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override val allWbs: List<Workbook>
+        get() = TODO("Not yet implemented")
+    override val allWbMs: List<Ms<Workbook>>
+        get() = TODO("Not yet implemented")
+
     override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {
         TODO("Not yet implemented")
     }

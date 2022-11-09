@@ -502,6 +502,11 @@ class StateContainerImp @Inject constructor(
         return docCont.replaceWb(newWb)
     }
 
+    override val allWbs: List<Workbook>
+        get() = docCont.allWbs
+    override val allWbMs: List<Ms<Workbook>>
+        get() = docCont.allWbMs
+
     override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {
         return docCont.getWb(wbKeySt)
     }

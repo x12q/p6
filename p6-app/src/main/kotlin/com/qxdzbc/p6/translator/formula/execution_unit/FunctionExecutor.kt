@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
+import com.qxdzbc.common.error.CommonErrors
+import java.lang.reflect.InvocationTargetException
 import kotlin.reflect.KFunction
 
 /**
@@ -13,7 +15,15 @@ interface FunctionExecutor {
 
     object Default : FunctionExecutor {
         override fun execute(func: KFunction<Any>, args: Array<Any?>): Any {
-            return func.call(*args)
+//            try{
+                return func.call(*args)
+//            }catch (e:Throwable){
+//                if(e is InvocationTargetException){
+//                    println(e.stackTrace)
+//                }
+//                return CommonErrors.ExceptionError.report(e)
+//            }
+
         }
     }
 }
