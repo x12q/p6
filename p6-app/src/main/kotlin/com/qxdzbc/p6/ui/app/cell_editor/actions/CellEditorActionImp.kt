@@ -32,8 +32,9 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+
 @P6Singleton
-@ContributesBinding(P6AnvilScope::class,boundType=CellEditorAction::class)
+@ContributesBinding(P6AnvilScope::class, boundType = CellEditorAction::class)
 class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
@@ -61,10 +62,24 @@ class CellEditorActionImp @Inject constructor(
         return isFormula
     }
 
-    override fun focus() {
+    override fun focusOnCellEditor() {
         val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
         if (fcsMs != null) {
             fcsMs.value = fcsMs.value.focusOnEditor()
+        }
+    }
+
+    override fun freeFocusOnCellEditor() {
+        val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
+        if (fcsMs != null) {
+            fcsMs.value = fcsMs.value.freeFocusOnEditor()
+        }
+    }
+
+    override fun setCellEditorFocus(i: Boolean) {
+        val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
+        if (fcsMs != null) {
+            fcsMs.value = fcsMs.value.setCellEditorFocus(i)
         }
     }
 
@@ -145,7 +160,7 @@ class CellEditorActionImp @Inject constructor(
     override fun changeText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
         if (editorState.isOpen) {
-            val newTextField = TextFieldValue(text=newText,selection= TextRange(newText.length))
+            val newTextField = TextFieldValue(text = newText, selection = TextRange(newText.length))
             this.changeTextField(newTextField)
         }
     }
@@ -236,7 +251,7 @@ class CellEditorActionImp @Inject constructor(
      * pass keyboard event caught by a cell editor to its range-selector (which is a cell cursor).
      *
      */
-    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId:CursorStateId?): Boolean {
+    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId: CursorStateId?): Boolean {
 //        val rt: Boolean = editorState.rangeSelectorCursorId?.let {
         val rt: Boolean = rangeSelectorId?.let {
             cursorAction.handleKeyboardEvent(keyEvent, it)
@@ -253,23 +268,28 @@ class CellEditorActionImp @Inject constructor(
                         cycleFormulaLockState()
                         return true
                     }
+
                     Key.Enter -> {
                         if (keyEvent.isAltPressedAlone) {
-                            val currentText = editorState.currentTextField
-                            val newText = currentText.copy(
-                                text = currentText.text + "\n",
-                                selection = TextRange(currentText.selection.end + 1)
-                            )
+                            val newText = editorState.currentTextField
+                                .let { ctf ->
+                                    ctf.copy(
+                                        text = ctf.text + "\n",
+                                        selection = TextRange(ctf.selection.end + 1)
+                                )
+                            }
                             changeTextField(newText)
                         } else {
                             runFormulaOrSaveValueToCell()
                         }
                         return true
                     }
+
                     Key.Escape -> {
                         closeEditor()
                         return true
                     }
+
                     else -> {
                         if (editorState.allowRangeSelector) {
                             if (keyEvent.isAcceptedByRangeSelector()) {

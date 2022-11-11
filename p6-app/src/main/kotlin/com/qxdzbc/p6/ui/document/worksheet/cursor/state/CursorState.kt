@@ -12,7 +12,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import org.antlr.v4.runtime.tree.ParseTree
 
 /**
- * State of cell cursor
+ * State of a cell cursor
  */
 interface CursorState : WbWsSt {
     val idMs:Ms<CursorStateId>

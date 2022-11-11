@@ -13,9 +13,15 @@ interface WindowFocusState: CursorFocusState {
      */
     fun restoreDefault():WindowFocusState
 
-    fun focusOnCursor():WindowFocusState
-    fun freeFocusOnCursor():WindowFocusState
+    override fun setCursorFocus(i: Boolean): WindowFocusState
 
-    fun focusOnEditor():WindowFocusState
-    fun freeFocusOnEditor():WindowFocusState
+    override fun focusOnCursor(): WindowFocusState
+
+    override fun freeFocusOnCursor(): WindowFocusState
+
+    override fun setCellEditorFocus(i: Boolean): WindowFocusState
+
+    override fun focusOnEditor(): WindowFocusState
+
+    override fun freeFocusOnEditor(): WindowFocusState
 }

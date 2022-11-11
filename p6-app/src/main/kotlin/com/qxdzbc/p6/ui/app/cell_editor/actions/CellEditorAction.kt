@@ -11,7 +11,9 @@ interface CellEditorAction : MakeCellEditorTextAction, OpenCellEditorAction, Cyc
     /**
      * Focus on the cell editor
      */
-    fun focus()
+    fun focusOnCellEditor()
+    fun freeFocusOnCellEditor()
+    fun setCellEditorFocus(i:Boolean)
 
     /**
      * run the current formula inside the cell editor if there's a formula. Otherwise, parse and save the current value in the editor into the target cell

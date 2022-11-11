@@ -8,8 +8,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.*
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -39,8 +38,6 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
  * Cursor view consist of:
  *  - an invisible view that handle user keyboard input
  *  - views depicting selected, copied, referred cells, ranges
- *
- *  TODO move [cellLayoutCoorsMap] into [state]
  *  cell layout map is originally part of a worksheet. But cursor view and thumb view need that map to position themselves. But the map itself should not be part of the cursor state by nature sense.
  *  Putting the map into the cursor state will simplify the CursorView signature
  */
@@ -55,16 +52,11 @@ fun CursorView(
 ) {
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> = state.cellLayoutCoorsMap
     val mainCell: CellAddress = state.mainCell
-    val fc = remember { FocusRequester() }
-    // x: the whole surface layout coors
     var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
 
-    LaunchedEffect(focusState.isCursorFocused) {
-        if (focusState.isCursorFocused) {
-            fc.requestFocus()
-        }
+    LaunchedEffect(Unit) {
+        cursorAction.focusOnCursor(state.id)
     }
-
     // x: this an invisible box that matches the whole cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, referred cells)
     MBox(modifier = Modifier
         .fillMaxSize()
@@ -98,7 +90,7 @@ fun CursorView(
             CellEditorView(
                 state = state.cellEditorState,
                 action = worksheetActionTable.cellEditorAction,
-                isFocused = focusState.isEditorFocused,
+                focusState = focusState,
                 size = editorSize,
             )
         }
@@ -108,8 +100,11 @@ fun CursorView(
             val mainCellSize = cellLayoutCoorsMap[mainCell]?.sizeOrZero ?: DpSize(0.dp, 0.dp)
             MBox(
                 modifier = modifier
-                    .focusRequester(fc)
+                    .focusRequester(focusState.cursorFocusRequester)
                     .focusable(true)
+                    .onFocusChanged {
+                        cursorAction.updateCursorFocus(state.id,it.isFocused)
+                    }
                     .offset { mainCellOffset }
                     .size(mainCellSize)
                     .then(P6R.border.mod.cursorBorder)

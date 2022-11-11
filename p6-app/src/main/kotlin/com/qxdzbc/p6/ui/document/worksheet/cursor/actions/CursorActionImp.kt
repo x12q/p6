@@ -5,6 +5,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
+import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
@@ -28,6 +29,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
@@ -119,6 +121,24 @@ class CursorActionImp @Inject constructor(
             return colorMap
         }else{
             return emptyMap()
+        }
+    }
+
+    override fun focusOnCursor(cursorId: CursorStateId) {
+        sc.getFocusStateMsByWbKeyRs(cursorId.wbKey).onSuccess {
+            it.value = it.value.focusOnCursor()
+        }
+    }
+
+    override fun freeFocusOnCursor(cursorId: CursorStateId) {
+        sc.getFocusStateMsByWbKeyRs(cursorId.wbKey).onSuccess {
+            it.value = it.value.freeFocusOnCursor()
+        }
+    }
+
+    override fun updateCursorFocus(cursorId: CursorStateId, focused: Boolean) {
+        sc.getFocusStateMsByWbKeyRs(cursorId.wbKey).onSuccess {
+            it.value = it.value.setCursorFocus(focused)
         }
     }
 

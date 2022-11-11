@@ -2,15 +2,13 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.common.compose.key_event.MKeyEvent
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
 
-/**
- * TODO add St alternative to all functions
- */
+
 interface CursorAction : SelectWholeColumnForAllSelectedCellAction, SelectWholeRowForAllSelectedCellAction {
 
     /**
@@ -44,5 +42,10 @@ interface CursorAction : SelectWholeColumnForAllSelectedCellAction, SelectWholeR
     fun rangeToClipboard(wbws: WbWs)
 
     fun getFormulaRangeAndColor(wbws: WbWs):Map<RangeAddress,Color>
+
+    fun focusOnCursor(cursorId: CursorStateId)
+    fun freeFocusOnCursor(cursorId: CursorStateId)
+    fun updateCursorFocus(cursorId: CursorStateId,focused: Boolean)
+//    fun updateCellEditorFocus(cursorId: CursorStateId,focused: Boolean)
 }
 
