@@ -22,8 +22,8 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class DragThumbActionImp @Inject constructor(
     val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
-    private val copyCellAct: CopyCellAction,
-    private val multiCellUpdateAct:MultiCellUpdateAction,
+//    private val copyCellAct: CopyCellAction,
+//    private val multiCellUpdateAct:MultiCellUpdateAction,
     private val endThumbDragAction: EndThumbDragAction,
 ) : DragThumbAction {
 

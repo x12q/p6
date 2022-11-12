@@ -37,7 +37,6 @@ import javax.inject.Inject
 class HandleCursorKeyboardEventActionImp  @Inject constructor(
 
     private val wsAction: WorksheetAction,
-    private val errorRouter: ErrorRouter,
     private val openCellEditor: OpenCellEditorAction,
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
     private val pasteRangeToCursorAction: PasteRangeToCursor,
