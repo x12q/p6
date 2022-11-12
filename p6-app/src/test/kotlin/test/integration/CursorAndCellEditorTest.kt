@@ -527,7 +527,7 @@ class CursorAndCellEditorTest {
         val cellEditorAction: CellEditorAction = CellEditorActionImp(
             cellLiteralParser = p6Comp.cellLiteralParser(),
             updateCellAction = p6Comp.cellViewAction(),
-            cursorAction = spyCursorAction,
+            handleCursorKeyboardEventAct = spyCursorAction,
             makeDisplayText = p6Comp.makeDisplayText(),
             openCellEditor = p6Comp.openCellEditorAction(),
             stateContMs = ts.stateContMs(),

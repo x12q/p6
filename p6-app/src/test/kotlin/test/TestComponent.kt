@@ -50,7 +50,6 @@ import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.rpc.P6RpcServer
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
@@ -68,8 +67,8 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.DragThumbAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.EndThumbDragAction
+import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.DragThumbAction
+import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory

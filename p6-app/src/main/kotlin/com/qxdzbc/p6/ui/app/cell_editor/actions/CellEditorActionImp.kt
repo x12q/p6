@@ -27,7 +27,7 @@ import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
+import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
@@ -38,7 +38,7 @@ import javax.inject.Inject
 class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
-    private val cursorAction: CursorAction,
+    private val handleCursorKeyboardEventAct: HandleCursorKeyboardEventAction,
     private val makeDisplayText: MakeCellEditorTextAction,
     private val openCellEditor: OpenCellEditorAction,
     private val stateContMs: Ms<StateContainer>,
@@ -248,13 +248,11 @@ class CellEditorActionImp @Inject constructor(
     }
 
     /**
-     * pass keyboard event caught by a cell editor to its range-selector (which is a cell cursor).
-     *
+     * pass keyboard event caught by a cell editor to its range selector (which is a cell cursor).
      */
     private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId: CursorStateId?): Boolean {
-//        val rt: Boolean = editorState.rangeSelectorCursorId?.let {
         val rt: Boolean = rangeSelectorId?.let {
-            cursorAction.handleKeyboardEvent(keyEvent, it)
+            handleCursorKeyboardEventAct.handleKeyboardEvent(keyEvent, it)
         } ?: false
         return rt
     }

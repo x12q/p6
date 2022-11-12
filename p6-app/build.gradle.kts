@@ -62,6 +62,7 @@ val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 val apacheCommonTextVersion = "1.10.0"
 dependencies {
+//    implementation("com.google.code.gson:gson:2.10")
 
     testImplementation("org.hamcrest:hamcrest:2.2")
 

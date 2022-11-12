@@ -34,6 +34,13 @@ fun CellEditorView(
     LaunchedEffect(Unit){
         action.focusOnCellEditor()
     }
+    LaunchedEffect(focusState.isEditorFocused) {
+        if(focusState.isEditorFocused){
+            action.focusOnCellEditor()
+        }else{
+            action.freeFocusOnCellEditor()
+        }
+    }
     val fc = focusState.editorFocusRequester
     val sizeMod = if (state.isOpen) {
         Modifier.widthIn(min=size.width).heightIn(min = size.height).width(IntrinsicSize.Min)

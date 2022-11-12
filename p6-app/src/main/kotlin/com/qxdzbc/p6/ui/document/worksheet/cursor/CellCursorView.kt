@@ -28,7 +28,6 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.CellEditorView
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
@@ -45,17 +44,24 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
 fun CursorView(
     state: CursorState,
     currentDisplayedRange: RangeAddress,
-    cursorAction: CursorAction,
+    action: CursorAction,
     focusState: CursorFocusState,
     modifier: Modifier = Modifier,
-    worksheetActionTable: WorksheetActionTable,
 ) {
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> = state.cellLayoutCoorsMap
     val mainCell: CellAddress = state.mainCell
     var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
 
     LaunchedEffect(Unit) {
-        cursorAction.focusOnCursor(state.id)
+        action.focusOnCursor(state.id)
+    }
+
+    LaunchedEffect(focusState.isCursorFocused) {
+        if(focusState.isCursorFocused){
+            action.focusOnCursor(state.id)
+        }else{
+            action.freeFocusOnCursor(state.id)
+        }
     }
     // x: this an invisible box that matches the whole cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, referred cells)
     MBox(modifier = Modifier
@@ -89,7 +95,7 @@ fun CursorView(
             val editorSize = state.cellEditorState.targetCell?.let { cellLayoutCoorsMap[it] }?.sizeOrZero ?: DpSize(0.dp,0.dp)
             CellEditorView(
                 state = state.cellEditorState,
-                action = worksheetActionTable.cellEditorAction,
+                action = action.cellEditorAction,
                 focusState = focusState,
                 size = editorSize,
             )
@@ -103,13 +109,13 @@ fun CursorView(
                     .focusRequester(focusState.cursorFocusRequester)
                     .focusable(true)
                     .onFocusChanged {
-                        cursorAction.updateCursorFocus(state.id,it.isFocused)
+                        action.updateCursorFocus(state.id,it.isFocused)
                     }
                     .offset { mainCellOffset }
                     .size(mainCellSize)
                     .then(P6R.border.mod.cursorBorder)
                     .onPreviewKeyEvent { keyEvent ->
-                        cursorAction.handleKeyboardEvent(keyEvent.toP6KeyEvent(), state)
+                        action.handleKeyboardEvent(keyEvent.toP6KeyEvent(), state)
                     }
             )
             val thumbState = state.thumbState
@@ -123,11 +129,11 @@ fun CursorView(
             ){
                 ThumbView(
                     state = state.thumbState,
-                    action = worksheetActionTable.thumbAction
+                    action = action.thumbAction
                 )
             }
         }
-        val refRangeAndColorMap: Map<RangeAddress, Color> = cursorAction.getFormulaRangeAndColor(state)
+        val refRangeAndColorMap: Map<RangeAddress, Color> = action.getFormulaRangeAndColor(state)
         if (blc != null && blc.isAttached) {
             //x: draw boxes over selected/copied/referred cells
             Canvas(modifier = Modifier.fillMaxSize()) {

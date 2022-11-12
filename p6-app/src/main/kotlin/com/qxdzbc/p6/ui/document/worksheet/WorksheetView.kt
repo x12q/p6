@@ -107,11 +107,10 @@ fun WorksheetView(
                             CursorView(
                                 state = wsState.cursorState,
                                 currentDisplayedRange= wsState.slider.currentDisplayedRange,
-                                cursorAction = cursorAction,
+                                action = cursorAction,
                                 focusState=focusState,
                                 modifier = Modifier
                                     .then(addTestTag(enableTestTag, makeCursorTestTag(wsName))),
-                                worksheetActionTable = worksheetActionTable
                             )
                         }
                     }

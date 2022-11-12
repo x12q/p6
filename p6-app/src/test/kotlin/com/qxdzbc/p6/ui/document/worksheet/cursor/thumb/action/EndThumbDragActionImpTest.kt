@@ -9,6 +9,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
 import test.BaseTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test

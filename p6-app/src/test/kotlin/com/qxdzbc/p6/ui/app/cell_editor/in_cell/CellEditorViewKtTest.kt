@@ -14,14 +14,14 @@ import test.testRunApp
 internal class CellEditorViewKtTest: BaseTest(){
 }
 fun main(){
-    testRunApp {
-        sc.cellEditorState.isOpenMs.value = true
-        MBox(modifier= Modifier.padding(30.dp).border(1.dp,color= Color.Blue).background(Color.Yellow)){
-            CellEditorView(
-                state = sc.cellEditorState,
-                action = p6Comp.cellEditorAction(),
-                isFocused = true,
-            )
-        }
-    }
+//    testRunApp {
+//        sc.cellEditorState.isOpenMs.value = true
+//        MBox(modifier= Modifier.padding(30.dp).border(1.dp,color= Color.Blue).background(Color.Yellow)){
+//            CellEditorView(
+//                state = sc.cellEditorState,
+//                action = p6Comp.cellEditorAction(),
+//
+//            )
+//        }
+//    }
 }

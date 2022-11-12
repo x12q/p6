@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action
+package com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
