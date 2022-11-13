@@ -31,7 +31,7 @@ class CursorAndCellEditorTest {
 
     lateinit var ts: TestSample
     val appState get() = ts.appState
-    val p6Comp get() = ts.p6Comp
+    val p6Comp get() = ts.comp
     val cellEditorAction get() = p6Comp.cellEditorAction()
     val sc get()=ts.stateCont
 
@@ -42,7 +42,7 @@ class CursorAndCellEditorTest {
 
     @Test
     fun `click on ruler item when editing cell, allow range select`(){
-        val rulerAction: RulerAction = ts.p6Comp.rulerAction()
+        val rulerAction: RulerAction = ts.comp.rulerAction()
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1,ts.wsn1))
         assertNotNull(wbwsSt)
         val rulerSig = object: RulerSig{
@@ -76,12 +76,12 @@ class CursorAndCellEditorTest {
         val wsn1 = ts.wsn1
         val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
         var cellEditorState by appState.cellEditorStateMs
-        val mouseOnWsAction: MouseOnWorksheetAction = ts.p6Comp.mouseOnWsAction()
+        val mouseOnWsAction: MouseOnWorksheetAction = ts.comp.mouseOnWsAction()
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
 
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
         cellEditorAction.openCellEditor(cursor1Ms.value)
         cellEditorAction.changeText("=SUM(B2:C4)")
         cellEditorAction.runFormulaOrSaveValueToCell()
@@ -102,11 +102,11 @@ class CursorAndCellEditorTest {
         val wsn1 = ts.wsn1
         val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
         var cellEditorState by appState.cellEditorStateMs
-        val mouseOnWsAction: MouseOnWorksheetAction = ts.p6Comp.mouseOnWsAction()
+        val mouseOnWsAction: MouseOnWorksheetAction = ts.comp.mouseOnWsAction()
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
 
         // x: open cell editor on a worksheet
         val cursorLoc = WbWs(wbk, wsn1)
@@ -137,11 +137,11 @@ class CursorAndCellEditorTest {
         val wsn1 = ts.wsn1
         val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
         var cellEditorState by appState.cellEditorStateMs
-        val mouseOnWsAction: MouseOnWorksheetAction = ts.p6Comp.mouseOnWsAction()
+        val mouseOnWsAction: MouseOnWorksheetAction = ts.comp.mouseOnWsAction()
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
 
         // x: open cell editor on a worksheet
         val cursorLoc = WbWs(wbk, wsn1)
@@ -166,11 +166,11 @@ class CursorAndCellEditorTest {
         val wsn1 = ts.wsn1
         val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
         var cellEditorState by appState.cellEditorStateMs
-        val mouseOnWsAction: MouseOnWorksheetAction = ts.p6Comp.mouseOnWsAction()
+        val mouseOnWsAction: MouseOnWorksheetAction = ts.comp.mouseOnWsAction()
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
 
         // x: open cell editor on a worksheet
         val cursorLoc = WbWs(wbk, wsn1)
@@ -208,11 +208,11 @@ class CursorAndCellEditorTest {
         val wsn1 = ts.wsn1
         val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
         var cellEditorState by appState.cellEditorStateMs
-        val mouseOnWsAction: MouseOnWorksheetAction = ts.p6Comp.mouseOnWsAction()
+        val mouseOnWsAction: MouseOnWorksheetAction = ts.comp.mouseOnWsAction()
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
 
         // x: open cell editor on a wsn1/wbk
         val cursorLoc = WbWs(wbk, wsn1)
@@ -264,11 +264,11 @@ class CursorAndCellEditorTest {
         val wsn1 = ts.wsn1
         val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
         var cellEditorState by appState.cellEditorStateMs
-        val mouseOnWsAction: MouseOnWorksheetAction = ts.p6Comp.mouseOnWsAction()
+        val mouseOnWsAction: MouseOnWorksheetAction = ts.comp.mouseOnWsAction()
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
 
         // x: open cell editor on a worksheet
         val cursorLoc = WbWs(wbk, wsn1)
@@ -322,7 +322,7 @@ class CursorAndCellEditorTest {
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
 
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
@@ -332,7 +332,7 @@ class CursorAndCellEditorTest {
         assertTrue(cellEditorState.allowRangeSelector)
 
         // x: click on a cell in the same sheet
-        val clickOnCellAction: ClickOnCell = ts.p6Comp.clickOnCellAction()
+        val clickOnCellAction: ClickOnCell = ts.comp.clickOnCellAction()
         val c = CellAddress("M5")
         clickOnCellAction.clickOnCell(c, WbWs(wbk, wsn1))
         assertEquals(cellEditorState.targetCursorId, cellEditorState.rangeSelectorCursorId)
@@ -412,7 +412,7 @@ class CursorAndCellEditorTest {
 
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val cellEditorAction: CellEditorAction = ts.p6Comp.cellEditorAction()
+        val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
 
         // x: open cell editor on a cursor
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
@@ -520,10 +520,10 @@ class CursorAndCellEditorTest {
         val wsn1 = ts.wsn1
         val wsn2 = ts.wsn2
         val cursor1Ms = appState.getCursorStateMs(wbk, wsn1)
-        val wbAction = ts.p6Comp.workbookAction()
+        val wbAction = ts.comp.workbookAction()
         assertNotNull(wds)
         assertNotNull(cursor1Ms)
-        val spyCursorAction = spy(ts.p6Comp.cursorAction())
+        val spyCursorAction = spy(ts.comp.cursorAction())
         val cellEditorAction: CellEditorAction = CellEditorActionImp(
             cellLiteralParser = p6Comp.cellLiteralParser(),
             updateCellAction = p6Comp.cellViewAction(),
@@ -580,12 +580,12 @@ class CursorAndCellEditorTest {
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
         cellEditorAction.changeText("=")
-        assertTrue { wds.value.focusState.isEditorFocused }
+//        assertTrue { wds.value.focusState.isEditorFocused }
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.targetCursorIdSt)
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.rangeSelectorCursorIdSt)
 
         // x:switch sheet
-        val wbAction = ts.p6Comp.workbookAction()
+        val wbAction = ts.comp.workbookAction()
         wbAction.setFocusStateConsideringRangeSelector(wbk)
         val request = SetActiveWorksheetRequest(
             wbKey = wbk,
@@ -594,17 +594,15 @@ class CursorAndCellEditorTest {
         wbAction.switchToWorksheet(request)
         val cursor2Ms = appState.getCursorStateMs(wbk, wsn2)
         assertNotNull(cursor2Ms)
-        assertTrue { wds.value.focusState.isEditorFocused }
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.targetCursorIdSt)
         assertEquals(cursor2Ms.value.idMs, cellEditorMs.value.rangeSelectorCursorIdSt)
 
 
         // x: switch workbook
-        val moveWbAction = ts.p6Comp.moveToWbAction()
+        val moveWbAction = ts.comp.moveToWbAction()
         val cursor3Ms = appState.getCursorStateMs(wbk2, wsn1)
         assertNotNull(cursor3Ms)
         moveWbAction.moveToWorkbook(wbk2)
-        assertTrue { wds.value.focusState.isEditorFocused }
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.targetCursorIdSt)
         assertEquals(cursor3Ms.value.idMs, cellEditorMs.value.rangeSelectorCursorIdSt)
     }
@@ -617,7 +615,7 @@ class CursorAndCellEditorTest {
         val cursorMs = appState.getCursorStateMs(wbk1, wsn)
 
         var ces by appState.cellEditorStateMs
-        val wbTabBarAction: WorkbookTabBarAction = ts.p6Comp.wbTabBarAction()
+        val wbTabBarAction: WorkbookTabBarAction = ts.comp.wbTabBarAction()
         assertNotNull(cursorMs)
 
         // x: open cursor editor + set normal text
@@ -636,8 +634,8 @@ class CursorAndCellEditorTest {
         ces = ces.setCurrentText("=")
         wbTabBarAction.moveToWorkbook(wbk1)
         assertTrue(ces.isOpen)
-        assertFalse(appState.getFocusStateMsByWbKey(wbk1)?.value?.isCursorFocused!!)
-        assertTrue(appState.getFocusStateMsByWbKey(wbk1)?.value?.isEditorFocused!!)
+//        assertFalse(appState.getFocusStateMsByWbKey(wbk1)?.value?.isCursorFocused!!)
+//        assertTrue(appState.getFocusStateMsByWbKey(wbk1)?.value?.isEditorFocused!!)
     }
 
     @Test
@@ -646,7 +644,7 @@ class CursorAndCellEditorTest {
         val wsn = "Sheet1"
         val cursorMs = appState.getCursorStateMs(wbk, wsn)
         val cellEditorMs = appState.cellEditorStateMs
-        val wsAction = ts.p6Comp.wsAction()
+        val wsAction = ts.comp.wsAction()
         val wds = appState.getWindowStateMsByWbKey(wbk)
         val wsStateMs = appState.getWsStateMs(wbk, wsn)
 
@@ -713,10 +711,10 @@ class CursorAndCellEditorTest {
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         val wds = appState.getWindowStateMsByWbKey(wbk)
         assertNotNull(wds)
-        assertTrue { wds.value.focusState.isEditorFocused }
+//        assertTrue { wds.value.focusState.isEditorFocused }
 
         // switch sheet
-        val wbAction = ts.p6Comp.workbookAction()
+        val wbAction = ts.comp.workbookAction()
         wbAction.setFocusStateConsideringRangeSelector(wbk)
         val request = SetActiveWorksheetRequest(
             wbKey = wbk,
@@ -748,13 +746,13 @@ class CursorAndCellEditorTest {
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         val wds = appState.getWindowStateMsByWbKey(wbk)
         assertNotNull(wds)
-        assertTrue { wds.value.focusState.isEditorFocused }
+//        assertTrue { wds.value.focusState.isEditorFocused }
         // add content
         cellEditorMs.value = cellEditorMs.value.setCurrentText("=123+") //range-selector-enable content
         assertTrue(cellEditorMs.value.allowRangeSelector)
 
         // switch sheet
-        val wbAction = ts.p6Comp.workbookAction()
+        val wbAction = ts.comp.workbookAction()
         val request = SetActiveWorksheetRequest(
             wbKey = wbk,
             wsName = "Sheet2",
@@ -764,7 +762,5 @@ class CursorAndCellEditorTest {
         // expect:
         assertTrue(cellEditorMs.value.isOpen)
         assertEquals("=123+", cellEditorMs.value.currentText)
-        assertTrue(wds.value.focusState.isEditorFocused)
-        assertFalse(wds.value.focusState.isCursorFocused)
     }
 }

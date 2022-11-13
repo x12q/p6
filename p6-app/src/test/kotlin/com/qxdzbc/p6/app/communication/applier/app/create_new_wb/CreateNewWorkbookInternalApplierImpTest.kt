@@ -6,7 +6,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookResponse
-import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookApplier
 import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookApplierImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -34,9 +33,9 @@ class CreateNewWorkbookInternalApplierImpTest {
         ts = TestSample()
         appStateMs = ts.sampleAppStateMs()
         applier = CreateNewWorkbookApplierImp(
-         baseApplier = ts.p6Comp.baseApplier(),
-         stateContMs = ts.p6Comp.stateContMs(),
-            pickDefaultActiveWb = ts.p6Comp.pickDefaultActiveWbAction()
+         baseApplier = ts.comp.baseApplier(),
+         stateContMs = ts.comp.stateContMs(),
+            pickDefaultActiveWb = ts.comp.pickDefaultActiveWbAction()
         )
         windowStateMs = appStateMs.value.windowStateMsList[0]
         okRes = CreateNewWorkbookResponse(

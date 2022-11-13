@@ -30,6 +30,7 @@ import com.qxdzbc.p6.di.request_maker.RMModule
 import com.qxdzbc.p6.di.rpc.RpcModule
 import com.qxdzbc.p6.di.state.StateModule
 import com.qxdzbc.p6.di.state.app_state.AppStateModule
+import com.qxdzbc.p6.di.state.window.WindowFocusStateModule
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
 import com.qxdzbc.p6.di.status_bar.StatusBarModule
@@ -37,8 +38,6 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
-import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
-import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.color_generator.*
 import com.qxdzbc.p6.ui.kernel.KernelAction
@@ -73,9 +72,6 @@ import com.qxdzbc.p6.app.action.remote_request_maker.QueueRequestMaker as QueueR
 )
 @ContributesTo(P6AnvilScope::class)
 interface P6Module {
-//    @Binds
-//    @P6Singleton
-//    fun TextDiffer(i: TextDifferImp):TextDiffer
 
     @Binds
     @P6Singleton

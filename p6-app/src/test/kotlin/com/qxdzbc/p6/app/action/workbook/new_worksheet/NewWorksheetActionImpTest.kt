@@ -6,9 +6,6 @@ import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.app.state.AppState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import test.TestSample
 import kotlin.test.*
 
@@ -23,7 +20,7 @@ internal class NewWorksheetActionImpTest {
     fun b() {
         ts = TestSample()
         appStateMs = ts.appStateMs
-        act = ts.p6Comp.newWorksheetAction()
+        act = ts.comp.newWorksheetAction()
     }
 
     @Test

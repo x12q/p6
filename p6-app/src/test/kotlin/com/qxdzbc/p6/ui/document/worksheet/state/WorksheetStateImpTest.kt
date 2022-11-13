@@ -92,8 +92,8 @@ class WorksheetStateImpTest {
         )
 
         val testSample = TestSample()
-        val p6Comp = testSample.p6Comp
-        val wsStateFactory = testSample.p6Comp.worksheetStateFactory()
+        val p6Comp = testSample.comp
+        val wsStateFactory = testSample.comp.worksheetStateFactory()
         testSample.wbContMs.value = testSample.wbContMs.value.addOrOverWriteWb(wb0).addOrOverWriteWb(wb1)
         val wssIdMs: Ms<WorksheetId> = ms(
             WorksheetIdImp(

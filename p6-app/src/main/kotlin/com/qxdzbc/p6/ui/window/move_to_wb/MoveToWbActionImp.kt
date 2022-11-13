@@ -35,7 +35,7 @@ class MoveToWbActionImp @Inject constructor(
             }else{
                 // x: this happens when the target workbook is empty
                 cellEditorState = cellEditorState.clearAllText().close()
-                restoreWindowFocusState.restoreAllWsFocusIfAllow()
+                restoreWindowFocusState.restoreAllWsFocusIfRangeSelectorIsNotActive()
             }
         }
 

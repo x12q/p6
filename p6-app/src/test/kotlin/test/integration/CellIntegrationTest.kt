@@ -19,8 +19,8 @@ class CellIntegrationTest {
 
     @Test
     fun `circular reference`() {
-        val stateCont by ts.p6Comp.stateContMs()
-        val cellViewAction = ts.p6Comp.cellViewAction()
+        val stateCont by ts.comp.stateContMs()
+        val cellViewAction = ts.comp.cellViewAction()
         cellViewAction.updateCellDM(
             CellUpdateRequestDM(
                 CellIdDM(CellAddress("A1"), ts.wbKey1, ts.wsn1),

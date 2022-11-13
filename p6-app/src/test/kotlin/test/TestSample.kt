@@ -8,7 +8,6 @@ import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.app.document.script.ScriptEntry
 import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
@@ -40,6 +39,8 @@ import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import test.di.DaggerTestComponent
+import test.di.WindowStateModuleForTest
 import java.nio.file.Paths
 
 
@@ -99,14 +100,14 @@ class TestSample: TestAppScope {
         .msgApiCommonLogger(Loggers.msgApiCommonLogger)
         .build()
 
-    override val p6Comp = DaggerTestComponent.builder()
+    override val comp = DaggerTestComponent.builder()
         .username("user_name")
         .messageApiComponent(msgApiComponent)
         .applicationCoroutineScope(kernelCoroutineScope)
         .applicationScope(null)
         .build()
 
-    val errorRouter = p6Comp.errorRouter()
+    val errorRouter = comp.errorRouter()
 
     val mockTranslator = object : P6Translator<ExUnit> {
         override fun translate(formula: String): Rs<ExUnit, ErrorReport> {
@@ -151,7 +152,7 @@ class TestSample: TestAppScope {
 
     private fun makeSampleWbState1(): Ms<WorkbookState> {
         return ms(
-            p6Comp.workbookStateFactory().createRefresh(
+            comp.workbookStateFactory().createRefresh(
                 wbMs = ms(
                     WorkbookImp(
                         keyMs = wbKey1Ms,
@@ -192,7 +193,7 @@ class TestSample: TestAppScope {
 
     private fun makeSampleWBState(wbKeyMs: Ms<WorkbookKey>): Ms<WorkbookState> {
         return ms(
-            p6Comp.workbookStateFactory().createRefresh(
+            comp.workbookStateFactory().createRefresh(
                 wbMs = ms(
                     WorkbookImp(
                         keyMs = wbKeyMs,
@@ -217,24 +218,24 @@ class TestSample: TestAppScope {
 
     private fun makeSampleWindowStateMs1(): Ms<OuterWindowState> {
         val inner:Ms<WindowState> = ms(
-            p6Comp.windowStateFactory().createDefault(
+            comp.windowStateFactory().createDefault(
                 listOf(wbKey1Ms, wbKey2Ms).toSet()
             ),
         )
-        return ms(p6Comp.outerWindowStateFactory().create(inner))
+        return ms(comp.outerWindowStateFactory().create(inner))
     }
 
     private fun makeSampleWindowStateMs2(): Ms<OuterWindowState> {
 
         val inner :Ms<WindowState> = ms(
-            p6Comp.windowStateFactory().createDefault(
+            comp.windowStateFactory().createDefault(
                 listOf(wbKey3Ms, wbKey4Ms).toSet()
             ),
         )
-        return ms(p6Comp.outerWindowStateFactory().create(inner))
+        return ms(comp.outerWindowStateFactory().create(inner))
     }
 
-    val appStateMs = p6Comp.appStateMs()
+    val appStateMs = comp.appStateMs()
     override val ts: TestSample=this
     override var appState by appStateMs
     override val sc: StateContainer
@@ -274,7 +275,7 @@ class TestSample: TestAppScope {
     }
 
     fun stateContMs(): MutableState<StateContainer> {
-        return p6Comp.stateContMs()
+        return comp.stateContMs()
     }
     val stateContMs get() = stateContMs()
     val stateCont get()=stateContMs().value

@@ -6,6 +6,8 @@ import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.di.TrueMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.app.common.focus_requester.FocusRequesterWrapper
+import com.qxdzbc.p6.app.common.focus_requester.FocusRequesterWrapper.Companion.wrap
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
@@ -19,15 +21,13 @@ import javax.inject.Inject
 data class SingleWindowFocusStateImp  constructor(
     private val isCursorFocusedMs:Ms<Boolean>,
     private val isEditorFocusedMs:Ms<Boolean>,
-    override val cursorFocusRequester: FocusRequester = FocusRequester(),
-    override val editorFocusRequester: FocusRequester = FocusRequester(),
+    override val cursorFocusRequester: FocusRequesterWrapper = FocusRequester().wrap(),
+    override val editorFocusRequester: FocusRequesterWrapper = FocusRequester().wrap(),
 ) : WindowFocusState {
 
     @Inject constructor():this(
         ms(true),
         ms(false),
-        FocusRequester(),
-        FocusRequester(),
     )
 
     override val isCursorFocused: Boolean by isCursorFocusedMs

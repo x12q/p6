@@ -13,8 +13,8 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.colorFormulaActionImp()
-        cellEditorAct = ts.p6Comp.cellEditorAction()
+        act = ts.comp.colorFormulaActionImp()
+        cellEditorAct = ts.comp.cellEditorAction()
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!
     }
     @Test

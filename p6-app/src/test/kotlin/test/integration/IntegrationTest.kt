@@ -8,7 +8,6 @@ import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
-import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
@@ -44,8 +43,8 @@ class IntegrationTest {
      */
     @Test
     fun `bug case- cell error should not change during worksheet operation`(){
-        val updateCellAct = ts.p6Comp.updateCellAction()
-        val deleteMultiCellAction:DeleteMultiCellAction = ts.p6Comp.deleteMultiCellAction()
+        val updateCellAct = ts.comp.updateCellAction()
+        val deleteMultiCellAction:DeleteMultiCellAction = ts.comp.deleteMultiCellAction()
         val wbws = WbWs(ts.wbKey1,ts.wsn1)
         updateCellAct.updateCellDM(
             request= CellUpdateRequestDM(

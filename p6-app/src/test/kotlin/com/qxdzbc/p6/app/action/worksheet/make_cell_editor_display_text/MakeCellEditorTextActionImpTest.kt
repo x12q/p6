@@ -28,7 +28,7 @@ class MakeCellEditorTextActionImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        fm = ts.p6Comp.rangeFormatter()
+        fm = ts.comp.rangeFormatter()
         action = MakeCellEditorTextActionImp(ts.appStateMs,fm)
         rangeSelectorCursorMs = ts.appState.getCursorStateMs(ts.wbKey1, ts.wsn2)!!
         editorState = mock<CellEditorState> {

@@ -106,7 +106,7 @@ fun CursorView(
             val mainCellSize = cellLayoutCoorsMap[mainCell]?.sizeOrZero ?: DpSize(0.dp, 0.dp)
             MBox(
                 modifier = modifier
-                    .focusRequester(focusState.cursorFocusRequester)
+                    .focusRequester(focusState.cursorFocusRequester.focusRequester)
                     .focusable(true)
                     .onFocusChanged {
                         action.updateCursorFocus(state.id,it.isFocused)

@@ -26,8 +26,8 @@ internal class EndThumbDragActionImpTest : BaseTest() {
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.endThumbDragAction()
-        updateCellAct = ts.p6Comp.updateCellAction()
+        act = ts.comp.endThumbDragAction()
+        updateCellAct = ts.comp.updateCellAction()
         startCell = CellAddress("K10")
         startValue = 3.0
         startCellId = CellId(
@@ -41,7 +41,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
                 cellContent = CellContentDM.fromAny(startValue)
             )
         )
-        multiCellUpdateAct=ts.p6Comp.multiCellUpdateAction()
+        multiCellUpdateAct=ts.comp.multiCellUpdateAction()
     }
 
     @Test

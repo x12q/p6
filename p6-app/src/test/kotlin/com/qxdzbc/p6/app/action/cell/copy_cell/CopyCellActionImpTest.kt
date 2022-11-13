@@ -17,8 +17,8 @@ internal class CopyCellActionImpTest: BaseTest(){
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.copyCellAction()
-        updateCellAct = ts.p6Comp.updateCellAction()
+        act = ts.comp.copyCellAction()
+        updateCellAct = ts.comp.updateCellAction()
         fromCell = CellIdDM(
             address = CellAddress("A1"),
             wbKey = ts.wbKey1,

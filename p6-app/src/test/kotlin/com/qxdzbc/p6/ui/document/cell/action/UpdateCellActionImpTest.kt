@@ -10,7 +10,6 @@ import com.qxdzbc.p6.app.document.cell.ErrorDisplayText
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -25,7 +24,7 @@ internal class UpdateCellActionImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        act = ts.p6Comp.updateCellAction()
+        act = ts.comp.updateCellAction()
     }
 
     @Test

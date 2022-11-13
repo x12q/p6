@@ -73,7 +73,7 @@ fun CellEditorView(
                     .onPreviewKeyEvent {
                         action.handleKeyboardEvent(it.toP6KeyEvent())
                     }
-                    .focusRequester(fc)
+                    .focusRequester(fc.focusRequester)
                     .onFocusChanged {
                         action.setCellEditorFocus(it.isFocused)
                     }

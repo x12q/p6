@@ -15,7 +15,7 @@ internal class DragThumbActionImpTest:BaseTest(){
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.dragThumbAction()
+        act = ts.comp.dragThumbAction()
         wbwsSt = ts.sc.getWbWsSt(WbWs(ts.wbKey1,ts.wsn1))!!
         cursorStateMs = ts.sc.getCursorStateMs(wbwsSt)!!
     }

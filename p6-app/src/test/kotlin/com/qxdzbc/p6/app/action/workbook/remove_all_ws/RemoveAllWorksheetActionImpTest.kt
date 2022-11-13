@@ -12,7 +12,7 @@ internal class RemoveAllWorksheetActionImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        act = ts.p6Comp.removeAllWorksheetAction()
+        act = ts.comp.removeAllWorksheetAction()
     }
 
     @Test

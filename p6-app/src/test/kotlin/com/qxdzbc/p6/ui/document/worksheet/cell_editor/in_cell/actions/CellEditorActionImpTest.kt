@@ -17,7 +17,7 @@ internal class CellEditorActionImpTest : BaseTest() {
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.cursorEditorAction()
+        act = ts.comp.cursorEditorAction()
         wbws = ts.wb1.getWs(ts.wsn1)!!
         act.openCellEditor(wbws)
     }

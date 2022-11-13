@@ -1,4 +1,4 @@
-package test
+package test.di
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
@@ -21,6 +21,8 @@ import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEdit
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorActionImp
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.DragThumbAction
+import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
@@ -46,6 +48,7 @@ import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.*
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
+import com.qxdzbc.p6.di.state.window.WindowStateModule
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
@@ -67,8 +70,6 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.DragThumbAction
-import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
@@ -90,112 +91,113 @@ import org.zeromq.ZMQ
     scope = P6AnvilScope::class,
     modules = [
         P6Module::class,
+        WindowStateModuleForTest::class,
     ],
 )
 @P6Singleton
-interface TestComponent {
-    @P6Singleton
-    fun moveToWbAction(): MoveToWbAction
-
-    @P6Singleton
-    fun workbookAction(): WorkbookAction
-
-    @P6Singleton
-    fun cursorAction(): CursorAction
-
-    @P6Singleton
-    fun cursorStateFactory(): CursorStateFactory
-
-    @P6Singleton
-    fun errorRouter(): ErrorRouter
-
-    @P6Singleton
-    fun workbookStateFactory(): WorkbookStateFactory
-
-    @P6Singleton
-    fun worksheetStateFactory(): WorksheetStateFactory
-
-    @P6Singleton
-    fun gridSliderFactory(): LimitedGridSliderFactory
-
-    @P6Singleton
-    @MsRpcServerQualifier
-    fun p6RpcServer(): P6RpcServer
-
-    @P6Singleton
-    fun windowStateFactory(): WindowStateFactory
-
-    @P6Singleton
-    fun outerWindowStateFactory(): OuterWindowStateFactory
-
-    @P6Singleton
-    fun codeEditorActionTable(): CodeEditorActionTable
-
-    fun p6EventTable(): P6EventTable
-
-    fun appAction(): AppAction
-
-    val appActionTable: AppActionTable
-
-    fun applicationScope(): ApplicationScope?
-
-    @P6Singleton
-    fun windowActionTable(): WindowActionTable
-
-    @P6Singleton
-    fun windowAction(): WindowAction
-
-    @P6Singleton
-    fun workbookActionTable(): WorkbookActionTable
-
-    @P6Singleton
-    fun worksheetActionTable(): WorksheetActionTable
-
-    @P6Singleton
-    fun wsAction(): WorksheetAction
-
-    @P6Singleton
-    fun appStateMs(): Ms<AppState>
-
-    @P6Singleton
-    fun wbContainerMs(): Ms<WorkbookContainer>
-
-    @P6Singleton
-    fun appContext(): AppContext
-
-    @P6Singleton
-    fun msgApiComponent(): MessageApiComponent
-
-    @P6Singleton
-    fun zContext(): ZContext
-
-    @P6Singleton
-    fun kernelContext(): KernelContext
-
-    @P6Singleton
-    fun codeRunner(): CodeRunner
-
-    @P6Singleton
-    fun backEndCommander(): PythonCommander
-
-    @P6Singleton
-    fun gson(): Gson
-
-    @P6Singleton
-    fun cellRequestMaker(): CellRM
-
-    @P6Singleton
-    fun appRequestMaker(): AppRM
-
-    @P6Singleton
-    fun kernelServiceManager(): KernelServiceManager
-
-    @P6Singleton
-    @EventServerSocket
-    fun eventServerSocket(): ZMQ.Socket
-
-    @EventServerPort
-    fun eventServerPort(): Int
+interface TestComponent : P6Component {
+//    @P6Singleton
+//    fun moveToWbAction(): MoveToWbAction
+//
+//    @P6Singleton
+//    fun workbookAction(): WorkbookAction
+//
+//    @P6Singleton
+//    fun cursorAction(): CursorAction
+//
+//    @P6Singleton
+//    fun cursorStateFactory(): CursorStateFactory
+//
+//    @P6Singleton
+//    fun errorRouter(): ErrorRouter
+//
+//    @P6Singleton
+//    fun workbookStateFactory(): WorkbookStateFactory
+//
+//    @P6Singleton
+//    fun worksheetStateFactory(): WorksheetStateFactory
+//
+//    @P6Singleton
+//    fun gridSliderFactory(): LimitedGridSliderFactory
+//
+//    @P6Singleton
+//    @MsRpcServerQualifier
+//    fun p6RpcServer(): P6RpcServer
+//
+//    @P6Singleton
+//    fun windowStateFactory(): WindowStateFactory
+//
+//    @P6Singleton
+//    fun outerWindowStateFactory(): OuterWindowStateFactory
+//
+//    @P6Singleton
+//    fun codeEditorActionTable(): CodeEditorActionTable
+//
+//    fun p6EventTable(): P6EventTable
+//
+//    fun appAction(): AppAction
+//
+//    val appActionTable: AppActionTable
+//
+//    fun applicationScope(): ApplicationScope?
+//
+//    @P6Singleton
+//    fun windowActionTable(): WindowActionTable
+//
+//    @P6Singleton
+//    fun windowAction(): WindowAction
+//
+//    @P6Singleton
+//    fun workbookActionTable(): WorkbookActionTable
+//
+//    @P6Singleton
+//    fun worksheetActionTable(): WorksheetActionTable
+//
+//    @P6Singleton
+//    fun wsAction(): WorksheetAction
+//
+//    @P6Singleton
+//    fun appStateMs(): Ms<AppState>
+//
+//    @P6Singleton
+//    fun wbContainerMs(): Ms<WorkbookContainer>
+//
+//    @P6Singleton
+//    fun appContext(): AppContext
+//
+//    @P6Singleton
+//    fun msgApiComponent(): MessageApiComponent
+//
+//    @P6Singleton
+//    fun zContext(): ZContext
+//
+//    @P6Singleton
+//    fun kernelContext(): KernelContext
+//
+//    @P6Singleton
+//    fun codeRunner(): CodeRunner
+//
+//    @P6Singleton
+//    fun backEndCommander(): PythonCommander
+//
+//    @P6Singleton
+//    fun gson(): Gson
+//
+//    @P6Singleton
+//    fun cellRequestMaker(): CellRM
+//
+//    @P6Singleton
+//    fun appRequestMaker(): AppRM
+//
+//    @P6Singleton
+//    fun kernelServiceManager(): KernelServiceManager
+//
+//    @P6Singleton
+//    @EventServerSocket
+//    fun eventServerSocket(): ZMQ.Socket
+//
+//    @EventServerPort
+//    fun eventServerPort(): Int
 
     @AppCoroutineScope
     fun executionScope(): CoroutineScope

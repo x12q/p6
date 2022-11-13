@@ -25,7 +25,7 @@ import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
+import com.qxdzbc.p6.di.state.window.WindowFocusStateModule
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
@@ -51,6 +51,7 @@ import org.zeromq.ZMQ
     scope = P6AnvilScope::class,
     modules = [
         P6Module::class,
+        WindowFocusStateModule::class,
     ],
 )
 interface P6Component {

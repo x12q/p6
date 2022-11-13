@@ -28,7 +28,7 @@ class CentralScriptContainerImpTest {
     @BeforeTest
     fun b() {
         val testSample = TestSample()
-        val wbStateFactory = testSample.p6Comp.workbookStateFactory()
+        val wbStateFactory = testSample.comp.workbookStateFactory()
         wbkey1 = WorkbookKey("b1")
         wbkey2 = WorkbookKey("b2")
         eb11 = ScriptEntry(

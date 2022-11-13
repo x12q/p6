@@ -8,7 +8,7 @@ abstract class BaseTest {
     lateinit var ts: TestSample
     val appState: AppState get() = ts.appState
     val sc: StateContainer get() = ts.stateCont
-    val p6Comp get()=ts.p6Comp
+    val p6Comp get()=ts.comp
 
 
     @BeforeTest

@@ -2,7 +2,6 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.map
-import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.OtherElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TokenPosition
@@ -17,7 +16,7 @@ internal class PartialCellRangeExtractorTest : BaseTest() {
     @BeforeTest
     override fun b() {
         super.b()
-        extractor = ts.p6Comp.partialTextElementExtractor()
+        extractor = ts.comp.partialTextElementExtractor()
     }
     @Test
     fun `extract-check cell range element only`() {

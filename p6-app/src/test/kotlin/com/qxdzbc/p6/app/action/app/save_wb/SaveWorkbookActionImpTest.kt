@@ -4,7 +4,6 @@ import test.TestSample
 import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.io.path.exists
-import kotlin.io.path.toPath
 import kotlin.test.*
 
 class SaveWorkbookActionImpTest {
@@ -13,7 +12,7 @@ class SaveWorkbookActionImpTest {
     @BeforeTest
     fun b(){
         ts = TestSample()
-        act = ts.p6Comp.saveWbAction()
+        act = ts.comp.saveWbAction()
     }
 
     @Test

@@ -11,7 +11,7 @@ internal class CycleFormulaLockStateImpTest : BaseTest() {
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.cycleFormulaLockStateAct() as CycleFormulaLockStateImp
+        act = ts.comp.cycleFormulaLockStateAct() as CycleFormulaLockStateImp
     }
 
     @Test
