@@ -123,7 +123,7 @@ internal class PartialCellRangeExtractorTest : BaseTest() {
                 OtherElement("3", 14),
                 OtherElement(")", 15),
                 OtherElement(",", 16),
-                CellRangeElement(cellRangeLabel="A3",labelLoc = null,startTP = TokenPosition(17),TokenPosition(18)),
+                CellRangeElement(cellRangeLabel="A3",cellRangeSuffix = null,startTP = TokenPosition(17),TokenPosition(18)),
                 OtherElement(")", 19),
             )
         )

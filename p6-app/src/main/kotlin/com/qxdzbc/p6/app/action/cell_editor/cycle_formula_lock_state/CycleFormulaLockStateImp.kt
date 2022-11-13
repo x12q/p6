@@ -70,7 +70,7 @@ class CycleFormulaLockStateImp @Inject constructor(
                     newRangeAddress.topLeft.label
                 } else {
                     newRangeAddress.label
-                } + (cellRangePos.labelLoc ?: "")
+                } + (cellRangePos.cellRangeSuffix ?: "")
                 formula.replaceRange(cellRangePos.iRange(), newLabel)
             }
         }

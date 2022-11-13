@@ -10,7 +10,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class CheckRangeSelectorStateActionImp @Inject constructor() : CheckRangeSelectorStateAction {
     companion object{
-        val activationChars = setOf('(','+','-','*','/',':','=')
+        val rangeSelectorActivationChars = setOf('(','+','-','*','/',':','=','^','%')
         val activationStrs = setOf("()")
     }
 
@@ -41,7 +41,7 @@ class CheckRangeSelectorStateActionImp @Inject constructor() : CheckRangeSelecto
                 return true
             }else{
                 val last:Char? = formula.lastOrNull()
-                return last in activationChars
+                return last in rangeSelectorActivationChars
             }
         }else{
             return false

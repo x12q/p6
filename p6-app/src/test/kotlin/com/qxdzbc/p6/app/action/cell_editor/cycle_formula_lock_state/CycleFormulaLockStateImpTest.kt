@@ -16,13 +16,15 @@ internal class CycleFormulaLockStateImpTest : BaseTest() {
 
     @Test
     fun cycleFormulaLockState() {
-        val m: Map<Pair<String, Int>, String?> = mapOf(
+        val m: Map<Pair<String, Int>, String?> =
+            mapOf(
             ("=F1(A1+A2)" to 0) to null,
             ("=F1(A1+A2)" to 0 + 1) to null,
             ("=F1(A1+A2)" to 1 + 1) to null,
             ("=F1(A1+A2)" to 2 + 1) to null,
             ("=F1(A1+A2)" to 9 + 1) to null,
-        ) + buildMap {
+        )+
+                buildMap {
             for (x in 3..8) {
                 put(("=F1(A1+A2)" to 3 + 1), "=F1(\$A\$1+A2)")
             }

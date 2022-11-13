@@ -177,7 +177,6 @@ class CellEditorActionImp @Inject constructor(
         var ntf = newTextField
         if (editorState.isOpen) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
-            println(ntf)
             ntf = autoCompleteBracesIfPossible(ntf)
 
             val newEditorState = editorState
@@ -215,8 +214,6 @@ class CellEditorActionImp @Inject constructor(
                 }
             stateCont.cellEditorStateMs.value = newEditorState
             colorFormulaAction.formatCurrentFormulaInCellEditor()
-            // color the currently displayed text
-//            colorFormulaAction.colorFormulaInCellEditor()
         }
     }
 
