@@ -26,6 +26,13 @@ class TestBench {
 
     @Test
     fun t() {
+        val x:Any = 123
+        try{
+            val y = x as String
+        }catch(e:Throwable){
+            println(e::class)
+        }
+
 
     }
 

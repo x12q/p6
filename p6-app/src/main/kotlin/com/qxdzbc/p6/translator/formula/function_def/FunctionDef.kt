@@ -9,5 +9,5 @@ import kotlin.reflect.KFunction
 interface FunctionDef {
     val name: String
     val function: KFunction<Any>
-    val functionExecutor:FunctionExecutor?
+    val functionExecutor:FunctionExecutor
 }

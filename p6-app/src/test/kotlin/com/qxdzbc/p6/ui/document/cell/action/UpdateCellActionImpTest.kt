@@ -30,10 +30,6 @@ internal class UpdateCellActionImpTest {
     @Test
     fun `bug - A1+1 in A1`() {
         val wbws = WbWs(ts.wbKey1, ts.wsn1)
-        ColdInit()
-//        val q= ExUnitErrors()
-//        ExUnitErrors.IncompatibleType.report("asd")
-//        val q = ts.p6Comp.exUnitErrors()
         var ct = 0
         for(x in 0 .. 100){
             try{
@@ -88,6 +84,7 @@ internal class UpdateCellActionImpTest {
             ),
             publishError = false
         )
+//        ColdInit()
         act.updateCellDM(
             request = CellUpdateRequestDM(
                 cellId = CellIdDM(CellAddress("B1"), wbws),

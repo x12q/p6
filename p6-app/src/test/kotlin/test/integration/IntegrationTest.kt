@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
@@ -46,6 +47,7 @@ class IntegrationTest {
         val updateCellAct = ts.comp.updateCellAction()
         val deleteMultiCellAction:DeleteMultiCellAction = ts.comp.deleteMultiCellAction()
         val wbws = WbWs(ts.wbKey1,ts.wsn1)
+//        ColdInit()
         updateCellAct.updateCellDM(
             request= CellUpdateRequestDM(
                 cellId = CellIdDM(CellAddress("A1"),wbws),
@@ -89,7 +91,7 @@ class IntegrationTest {
      * Remove A2, rerun the worksheet, expect C1 value is correctly computed (which is 1+3 = 3)
      */
     @Test
-    fun `test cell auto cell computation update after removing cell`() {
+    fun `test cell value update after removing dependent cell`() {
         val appMs = ts.sampleAppStateMs()
         var wbCont by appMs.value.wbContMs
         val wbKeySt = WorkbookKey("Wb1").toMs()
@@ -111,45 +113,41 @@ class IntegrationTest {
         val wb = WorkbookImp(
             keyMs = wbKeySt,
             worksheetMsList = listOf(
-                WorksheetImp(wsNameSt, wbKeySt = wbKeySt).let { ws ->
-                    ws.addOrOverwrite(
-                        IndCellImp(
-                            address = CellAddress("A1"),
-                            content = CellContentImp(
-                                cellValueMs = CellValue.from(1).toMs()
-                            )
-                        )
-                    ).addOrOverwrite(
-                        IndCellImp(
-                            address = CellAddress("A2"),
-                            content = CellContentImp(
-                                cellValueMs = CellValue.from(2).toMs()
-                            )
-                        )
-                    ).addOrOverwrite(
-                        IndCellImp(
-                            address = CellAddress("A3"),
-                            content = CellContentImp(
-                                cellValueMs = CellValue.from(3).toMs()
-                            )
-                        )
-                    ).addOrOverwrite(
-                        IndCellImp(
-                            address = CellAddress("C1"),
-                            content = CellContentImp(
-//                                formula = "=SUM(A1:A3)",
-                                exUnit = translator.translate("=SUM(A1:A3)").component1()!!
-                            )
+                WorksheetImp(wsNameSt, wbKeySt = wbKeySt).addOrOverwrite(
+                    IndCellImp(
+                        address = CellAddress("A1"),
+                        content = CellContentImp(
+                            cellValueMs = CellValue.from(1).toMs()
                         )
                     )
-                }
+                ).addOrOverwrite(
+                    IndCellImp(
+                        address = CellAddress("A2"),
+                        content = CellContentImp(
+                            cellValueMs = CellValue.from(2).toMs()
+                        )
+                    )
+                ).addOrOverwrite(
+                    IndCellImp(
+                        address = CellAddress("A3"),
+                        content = CellContentImp(
+                            cellValueMs = CellValue.from(3).toMs()
+                        )
+                    )
+                ).addOrOverwrite(
+                    IndCellImp(
+                        address = CellAddress("C1"),
+                        content = CellContentImp(
+                            exUnit = translator.translate("=SUM(A1:A3)").component1()!!
+                        )
+                    )
+                )
             ).map { ms(it) }
         )
         wbCont = wbCont.addWb(wb)
 
         val wb2 = wb.reRun()
         assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.value)
-
 
         val newWs = wb2.getWs(wsNameSt)!!.removeCell(CellAddress("A2"))
         val wb3 = wb2.addSheetOrOverwrite(newWs).reRun()

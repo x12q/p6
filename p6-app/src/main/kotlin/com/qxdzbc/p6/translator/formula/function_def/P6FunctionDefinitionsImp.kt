@@ -71,11 +71,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
          * SUM function definition
          */
         object : AbstractFunctionDef() {
-            override val functionExecutor: FunctionExecutor = object : FunctionExecutor {
-                override fun execute(func: KFunction<Any>, args: Array<Any?>): Any {
-                    return func.call(args.toList())
-                }
-            }
+            override val functionExecutor: FunctionExecutor = FunctionExecutor.ArgsAsList
 
             /**
              * SUM accepts a mix list of Cell, Range, and Number, remember to check for type before doing anything

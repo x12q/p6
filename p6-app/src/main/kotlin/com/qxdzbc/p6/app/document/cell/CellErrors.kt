@@ -6,6 +6,13 @@ import com.qxdzbc.common.error.ErrorReport
 
 object CellErrors {
     val CellUIErr = "UI_CellErrors_"
+    val all = listOf(NotEditable,InvalidCellValue,InvalidCellAddress,OverflowError)
+    fun coldInit(){
+        val q = listOf(this)+all
+        for( e in q){
+            println("cold init ${e::class}")
+        }
+    }
     object NotEditable{
         val header = ErrorHeader("${CellUIErr}0","Cell cannot be edited")
         fun report(cellAddress: CellAddress):ErrorReport{

@@ -17,36 +17,45 @@ abstract class BaseFunc : ExUnit {
 
     @Suppress("UNCHECKED_CAST")
     override fun runRs(): Result<Any?, ErrorReport> {
-        try{
-            val argValueRs: Array<Result<Any?, ErrorReport>> = (args.map { it.runRs() }.toTypedArray())
+        try {
+            // x: evaluate the args
+            val argValueRs: Array<Result<Any?, ErrorReport>> = args.map { it.runRs() }.toTypedArray()
             val funcRs: Rs<FunctionDef, ErrorReport> = functionMap.getFuncRs(funcName)
             when (funcRs) {
                 is Ok -> {
                     val funcDef: FunctionDef = funcRs.value
                     val func: KFunction<Any> = funcDef.function
-
-                    val errs: List<ErrorReport> =
-                        argValueRs.filterIsInstance<Err<ErrorReport>>().map { it.component2() }
-                    if (errs.isNotEmpty()) {
-                        return CommonErrors.MultipleErrors.report(errs).toErr()
+                    val argsContainerErrorsReport:Err<ErrorReport>? = run {
+                        val errs: List<ErrorReport> =
+                            argValueRs.filterIsInstance<Err<ErrorReport>>().map { it.component2() }
+                        val argsContainErrors = errs.isNotEmpty()
+                        if (argsContainErrors) {
+                            CommonErrors.MultipleErrors.report(errs).toErr()
+                        } else {
+                            null
+                        }
+                    }
+                    if (argsContainerErrorsReport != null) {
+                        return argsContainerErrorsReport
                     } else {
                         val argValues: Array<Any?> = argValueRs
                             .map { it.component1() }
                             .toTypedArray()
                         try {
-                            val functionExecutor: FunctionExecutor = funcDef.functionExecutor ?: FunctionExecutor.Default
-                            val funcOutput = functionExecutor.execute(func, argValues)
+                            val functionExecutor: FunctionExecutor = funcDef.functionExecutor
+                            val funcOutput:Any = functionExecutor.execute(func, argValues)
                             return funcOutput as Result<Any, ErrorReport>
                         } catch (e: Exception) {
                             return CommonErrors.ExceptionError.report(e).toErr()
                         }
                     }
                 }
+
                 is Err -> {
                     return funcRs
                 }
             }
-        }catch (e:Throwable){
+        } catch (e: Throwable) {
             return CommonErrors.ExceptionError.report(e).toErr()
         }
     }

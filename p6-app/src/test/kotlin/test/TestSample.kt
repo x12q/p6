@@ -34,6 +34,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.github.michaelbull.result.unwrap
+import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.TRUE
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.CoroutineScope
@@ -266,6 +267,7 @@ class TestSample: TestAppScope {
         appState.centralScriptContainer = appState.centralScriptContainer.addMultiScriptsForce(
             listOf(appS1, appS2, eb21, eb22, eb11, eb12)
         )
+        val q = ColdInit()
     }
 
     fun sampleAppStateMs() = appStateMs

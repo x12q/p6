@@ -57,7 +57,7 @@ fun main() {
         val cs = this
         var outKernelContext: KernelContext? = null
         var p6Comp2: P6Component? = null
-//        val coldInit = ColdInit()
+        val coldInit = ColdInit()
         application {
             val appScope = this
             var starting by rms(true)

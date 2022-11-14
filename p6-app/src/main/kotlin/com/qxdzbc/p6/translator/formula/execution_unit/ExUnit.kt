@@ -26,14 +26,14 @@ interface ExUnit : Shiftable, ColorKey {
     }
 
     /**
-     * get a list of range ExUnit (if any) from this unit
+     * get a list of range address (if any) from this unit
      */
     fun getRanges(): List<RangeAddress> {
         return emptyList()
     }
 
     /**
-     * get a list of range id ExUnit (if any) from this unit
+     * get a list of range id (if any) from this unit
      */
     fun getRangeIds(): List<RangeId> {
         return emptyList()
@@ -64,7 +64,7 @@ interface ExUnit : Shiftable, ColorKey {
     }
 
     /**
-     * Perform a shift on all shift-able element (range, cell)
+     * Perform a shift on all shift-able elements (range, cell) in this ExUnit
      */
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,
@@ -74,11 +74,10 @@ interface ExUnit : Shiftable, ColorKey {
     /**
      * convert exUnit to a formula
      */
-    fun toFormula(
-    ): String?
+    fun toFormula(): String?
 
     /**
-     * convert exUnit to a short formula in which workbook key and worksheet name in range and cell address maybe obmitted if they are the same as the input [wbKey] and [wsName]
+     * convert exUnit to a short formula in which workbook key and worksheet name in range and cell address maybe omitted if they are the same as the input [wbKey] and [wsName]
      */
     fun toShortFormula(
         wbKey: WorkbookKey? = null,
