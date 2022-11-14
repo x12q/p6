@@ -13,6 +13,7 @@ import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
@@ -20,14 +21,13 @@ import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
@@ -213,7 +213,7 @@ class CellEditorActionImp @Inject constructor(
                     newCE
                 }
             stateCont.cellEditorStateMs.value = newEditorState
-            colorFormulaAction.formatCurrentFormulaInCellEditor()
+            colorFormulaAction.colorCurrentTextInCellEditor()
         }
     }
 
@@ -245,7 +245,7 @@ class CellEditorActionImp @Inject constructor(
     }
 
     /**
-     * pass keyboard event caught by a cell editor to its range selector (which is a cell cursor).
+     * pass keyboard event caught by a cell editor to its range selector (which is another cell cursor).
      */
     private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId: CursorStateId?): Boolean {
         val rt: Boolean = rangeSelectorId?.let {
@@ -271,8 +271,8 @@ class CellEditorActionImp @Inject constructor(
                                     ctf.copy(
                                         text = ctf.text + "\n",
                                         selection = TextRange(ctf.selection.end + 1)
-                                )
-                            }
+                                    )
+                                }
                             changeTextField(newText)
                         } else {
                             runFormulaOrSaveValueToCell()
@@ -294,7 +294,12 @@ class CellEditorActionImp @Inject constructor(
                                     val rsText = makeDisplayText
                                         .makeRangeSelectorText(stateCont.cellEditorState)
                                     // x: update range selector text
-                                    editorStateMs.value = editorState.setRangeSelectorTextField(rsText)
+                                    editorStateMs.value =
+                                        colorFormulaAction.colorDisplayTextInCellEditor(
+                                            updateCellEditorParseTreeUsingDisplayText(
+                                                editorState.setRangeSelectorTextField(rsText)
+                                            )
+                                        )
                                 }
                                 return rt
                             } else {
@@ -316,4 +321,18 @@ class CellEditorActionImp @Inject constructor(
             return false
         }
     }
+
+    private fun updateCellEditorParseTreeUsingDisplayText(cellEditor: CellEditorState): CellEditorState {
+        val newCE = treeExtractor.extractTree(cellEditor.displayText)
+            .mapBoth(
+                success = {
+                    cellEditor.setParseTree(it)
+                },
+                failure = {
+                    cellEditor
+                }
+            )
+        return newCE
+    }
+
 }

@@ -439,7 +439,9 @@ class CursorAndCellEditorTest {
             assertTrue(cellEditorState.allowRangeSelector)
             assertEquals(CellAddress("A2"), rangeSelector.mainCell)
             assertEquals("=1+A2", cellEditorState.rangeSelectorTextField?.text)
+            assertEquals(TextRange(5), cellEditorState.rangeSelectorTextField?.selection)
             assertEquals("=1+A2", cellEditorState.displayTextField.text)
+            assertEquals(TextRange(5), cellEditorState.displayTextField.selection)
             assertEquals("=1+", cellEditorState.currentText)
 
             // x: handle another down array key event
@@ -447,7 +449,9 @@ class CursorAndCellEditorTest {
             assertTrue(cellEditorState.allowRangeSelector)
             assertEquals(CellAddress("A3"), rangeSelector.mainCell)
             assertEquals("=1+A3", cellEditorState.rangeSelectorTextField?.text)
+            assertEquals(TextRange(5), cellEditorState.rangeSelectorTextField?.selection)
             assertEquals("=1+A3", cellEditorState.displayTextField.text)
+            assertEquals(TextRange(5), cellEditorState.displayTextField.selection)
             assertEquals("=1+", cellEditorState.currentText)
             cellEditorAction.closeEditor()
         }

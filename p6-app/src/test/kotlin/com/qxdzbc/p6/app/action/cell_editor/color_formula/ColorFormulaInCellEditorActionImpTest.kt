@@ -28,7 +28,7 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
         val t3 = "=A1+B2+C2"
         cellEditorAct.changeText(t3)
         val currentText = cellEditorState.currentTextField.text
-        val newState=act.formatFormulaInCellEditor(cellEditorState)
+        val newState=act.colorCurrentTextInCellEditor(cellEditorState)
         assertEquals(currentText,newState.currentText)
         val spanIndices=newState.currentTextField.annotatedString.spanStyles.map{
             it.start .. it.end

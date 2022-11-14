@@ -30,13 +30,14 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
 
     val sc by stateContSt
 
-    override fun formatCurrentFormulaInCellEditor() {
-         sc.cellEditorStateMs.value = formatFormulaInCellEditor(sc.cellEditorStateMs.value)
+    override fun colorCurrentTextInCellEditor() {
+         sc.cellEditorStateMs.value = colorCurrentTextInCellEditor(sc.cellEditorStateMs.value)
     }
 
-    override fun formatFormulaInCellEditor(i: CellEditorState): CellEditorState {
-        if (i.isOpen){
-            val trailingSpace:String = i.currentText.let {
+    override fun colorCurrentTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
+        val ces = cellEditorState
+        if (ces.isOpen){
+            val trailingSpace:String = ces.currentText.let {
                 val trailTrimmed = it.trimEnd()
                 val diff = it.length - trailTrimmed.length
                 if (diff > 0) {
@@ -45,7 +46,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
                     ""
                 }
             }
-            val teRs:TextElementResult? = i.parseTree?.let {
+            val teRs:TextElementResult? = ces.parseTree?.let {
                 visitor.visit(it)
             }
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
@@ -58,15 +59,53 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
                     )
                     append(trailingSpace)
                 }
-                val newTf = i.currentTextField.copy(
+                val newTf = ces.currentTextField.copy(
                     annotatedString = newTextField
                 )
-                return i.setCurrentTextField(newTf)
+                return ces.setCurrentTextField(newTf)
             } else {
-                return i
+                return ces
             }
         } else {
-            return i
+            return ces
         }
     }
+
+    override fun colorDisplayTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
+        val ces = cellEditorState
+        if (ces.isOpen){
+            val trailingSpace:String = ces.displayText.let {
+                val trailTrimmed = it.trimEnd()
+                val diff = it.length - trailTrimmed.length
+                if (diff > 0) {
+                    " ".repeat(diff)
+                } else {
+                    ""
+                }
+            }
+            val teRs:TextElementResult? = ces.parseTree?.let {
+                visitor.visit(it)
+            }
+            val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
+            val allElements = teRs?.all
+            if (allElements?.isNotEmpty() == true && creList?.isNotEmpty() == true) {
+                val colors = formulaColorGenerator.getColors(creList.size)
+                val newTextField: AnnotatedString = buildAnnotatedString {
+                    append(
+                        buildAnnotatedTextAction.buildAnnotatedText(allElements,colors.map { SpanStyle(color = it) })
+                    )
+                    append(trailingSpace)
+                }
+                val newTf = ces.displayTextField.copy(
+                    annotatedString = newTextField
+                )
+                return ces.setDisplayTextField(newTf)
+            } else {
+                return ces
+            }
+        } else {
+            return ces
+        }
+    }
+
 }

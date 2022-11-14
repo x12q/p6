@@ -6,9 +6,10 @@ interface ColorFormulaInCellEditorAction {
     /**
      * format (color, etc) the current formula (not the display one) in a formula
      */
-    fun formatCurrentFormulaInCellEditor()
+    fun colorCurrentTextInCellEditor()
     /**
      * format (color, etc) the current formula (not the display one) in a formula
      */
-    fun formatFormulaInCellEditor(i:CellEditorState):CellEditorState
+    fun colorCurrentTextInCellEditor(cellEditorState:CellEditorState):CellEditorState
+    fun colorDisplayTextInCellEditor(cellEditorState: CellEditorState): CellEditorState
 }
