@@ -49,10 +49,29 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
             if(allElements?.isNotEmpty() == true&& creList?.isNotEmpty()==true){
                 val trailingSpace: String = computeTrailingSpace(ces.currentText)
                 val newTextField=makeAnnotatedString(trailingSpace,allElements, creList)
-                                val newTf = ces.currentTextField.copy(
-                    annotatedString = newTextField
-                )
+                val newTf = ces.currentTextField.copy(annotatedString = newTextField)
                 return ces.setCurrentTextField(newTf)
+            }else{
+                return ces
+            }
+        } else {
+            return ces
+        }
+    }
+
+    override fun colorDisplayTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
+        val ces = cellEditorState
+        if (ces.isOpen) {
+            val teRs: TextElementResult? = ces.parseTree?.let {
+                visitor.visit(it)
+            }
+            val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
+            val allElements = teRs?.all
+            if(allElements?.isNotEmpty()==true && creList?.isNotEmpty()==true){
+                val trailingSpace: String = computeTrailingSpace(ces.displayText)
+                val newText=makeAnnotatedString(trailingSpace,allElements, creList)
+                val newTf = ces.displayTextField.copy(annotatedString = newText)
+                return ces.setDisplayTextField(newTf)
             }else{
                 return ces
             }
@@ -89,27 +108,6 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
             AnnotatedString("")
         }
         return newText
-    }
-
-    override fun colorDisplayTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
-        val ces = cellEditorState
-        if (ces.isOpen) {
-            val teRs: TextElementResult? = ces.parseTree?.let {
-                visitor.visit(it)
-            }
-            val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
-            val allElements = teRs?.all
-            if(allElements?.isNotEmpty()==true && creList?.isNotEmpty()==true){
-                val trailingSpace: String = computeTrailingSpace(ces.displayText)
-                val newText=makeAnnotatedString(trailingSpace,allElements, creList)
-                val newTf = ces.displayTextField.copy(annotatedString = newText)
-                return ces.setDisplayTextField(newTf)
-            }else{
-                return ces
-            }
-        } else {
-            return ces
-        }
     }
 }
 
