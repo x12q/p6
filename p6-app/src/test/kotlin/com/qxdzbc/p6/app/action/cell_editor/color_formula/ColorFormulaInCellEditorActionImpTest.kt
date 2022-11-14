@@ -13,28 +13,34 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.colorFormulaActionImp()
-        cellEditorAct = ts.p6Comp.cellEditorAction()
+        act = ts.comp.colorFormulaActionImp()
+        cellEditorAct = ts.comp.cellEditorAction()
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!
     }
     @Test
-    fun colorFormula(){
+    fun `colorFormula preserve text content`(){
         val wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!
         cellEditorAct.openCellEditor(wbwsSt)
         cellEditorAct.changeText("=F1")
 
-        assertEquals("=F1",ts.sc.cellEditorState.displayText)
         assertEquals("=F1",ts.sc.cellEditorState.currentText)
-//
-//        val t2 = "=F1    "
-//        cellEditorAct.onTextChange(t2)
-//        assertEquals(t2,ts.sc.cellEditorState.displayText)
-//        assertEquals(t2,ts.sc.cellEditorState.currentText)
 
-        val t3 = "=A1+B2  C2"
+        val t3 = "=A1+B2+C2"
         cellEditorAct.changeText(t3)
-        val newState=act.colorFormulaInCellEditor(cellEditorState)
-        assertEquals(t3,newState.displayText)
-        assertEquals(t3,newState.currentText)
+        val currentText = cellEditorState.currentTextField.text
+        val newState=act.formatFormulaInCellEditor(cellEditorState)
+        assertEquals(currentText,newState.currentText)
+        val spanIndices=newState.currentTextField.annotatedString.spanStyles.map{
+            it.start .. it.end
+        }
+        assertEquals(
+            listOf(
+                1 .. 2+1,
+                4 .. 5+1,
+                7 .. 8+1
+            )
+            ,
+        spanIndices
+        )
     }
 }

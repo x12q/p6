@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.action.app.close_wb
 
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import test.TestSample
 import kotlin.test.*
 
@@ -13,7 +11,7 @@ class CloseWorkbookActionImpTest{
     @BeforeTest
     fun b() {
         ts = TestSample()
-        val p6Comp = ts.p6Comp
+        val p6Comp = ts.comp
         closeWbAct = p6Comp.closeWbAct()
     }
 

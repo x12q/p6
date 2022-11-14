@@ -15,10 +15,9 @@ import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.execution_unit.*
-import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.FALSE
-import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.TRUE
 import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
@@ -26,13 +25,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.antlr.v4.runtime.tree.ParseTree
 import java.nio.file.Path
-import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.toExUnit as toExUnit1
 
 class JvmFormulaVisitor @AssistedInject constructor(
     @Assisted("1") private val wbKeySt: St<WorkbookKey>,
     @Assisted("2") private val wsNameSt: St<String>,
     private val functionMapMs: Ms<FunctionMap>,
-    private val docContMs: St<@JvmSuppressWildcards DocumentContainer>
+    private val docContMs: St<@JvmSuppressWildcards DocumentContainer>,
+//    private val errX:ExUnitErrors.IncompatibleType = ExUnitErrors.IncompatibleType.instance,
 ) : FormulaBaseVisitor<ExUnit>() {
     private val docCont: DocumentContainer by docContMs
     private val wbKey: WorkbookKey by wbKeySt
@@ -40,8 +39,9 @@ class JvmFormulaVisitor @AssistedInject constructor(
 
     private val wbKeyStExUnit = wbKeySt.toExUnit()
 
-    private val wsNameExUnit get() = wsName.toExUnit1()
+    private val wsNameExUnit get() = wsName.toExUnit()
     private val wsNameStExUnit = WsNameStUnit(wsNameSt)
+
 
     override fun visit(tree: ParseTree?): ExUnit? {
         return super.visit(tree)
@@ -49,11 +49,17 @@ class JvmFormulaVisitor @AssistedInject constructor(
 
     override fun visitZFormula(ctx: FormulaParser.ZFormulaContext?): ExUnit? {
         val rt = this.visit(ctx?.expr())
+
         return rt
     }
 
-    override fun visitFunCall(ctx: FormulaParser.FunCallContext?): ExUnit? {
-        return this.visit(ctx?.functionCall())
+    override fun visitInvokeExpr(ctx: FormulaParser.InvokeExprContext?): ExUnit? {
+        return this.visitInvokation(ctx?.invokation())
+    }
+
+    override fun visitInvokation(ctx: FormulaParser.InvokationContext?): ExUnit? {
+        val rt = this.visitFullRangeAddress(ctx?.fullRangeAddress())?:this.visitFunctionCall(ctx?.functionCall())
+        return rt
     }
 
     override fun visitLiteral(ctx: FormulaParser.LiteralContext?): ExUnit? {
@@ -120,7 +126,9 @@ class JvmFormulaVisitor @AssistedInject constructor(
                 val op = ctx.op
                 when (op?.type) {
                     FormulaParser.ADD -> {
-                        AddOperator(expr0, expr1)
+                        AddOperator(expr0, expr1,
+//                            errX
+                        )
                     }
                     FormulaParser.SUB -> {
                         MinusOperator(expr0, expr1)
@@ -143,25 +151,19 @@ class JvmFormulaVisitor @AssistedInject constructor(
     }
 
     override fun visitSheetNameWithSpace(ctx: FormulaParser.SheetNameWithSpaceContext?): WsNameStUnit? {
-        val u = this.visitWithSpaceId(ctx?.withSpaceId())
-        val rt = u?.runRs()?.component1()?.toSt()?.let {
-            WsNameStUnit(it)
+        val rt= ctx?.WITH_SPACE_ID()?.text?.let{
+            WsNameStUnit(extractFromSingleQuote(it).toSt())
         }
         return rt
     }
 
     override fun visitSheetName(ctx: FormulaParser.SheetNameContext?): WsNameStUnit? {
-        val exUnit = this.visitNoSpaceId(ctx?.noSpaceId())
-        return exUnit?.runRs()?.component1()?.toSt()?.let { WsNameStUnit(it) }
+        val rt= ctx?.noSpaceId()?.text?.let {
+            WsNameStUnit(it.toSt())
+        }
+        return rt
     }
 
-    override fun visitNoSpaceId(ctx: FormulaParser.NoSpaceIdContext?): StrUnit? {
-        return ctx?.text?.toExUnit1()
-    }
-
-    override fun visitWithSpaceId(ctx: FormulaParser.WithSpaceIdContext?): StrUnit? {
-        return ctx?.text?.let { extractFromSingleQuote(it) }?.toExUnit1()
-    }
 
     override fun visitWbPrefix(ctx: FormulaParser.WbPrefixContext?): WbKeyStUnit? {
         val rt1 = visitWbPrefixNoPath(ctx?.wbPrefixNoPath())
@@ -193,29 +195,17 @@ class JvmFormulaVisitor @AssistedInject constructor(
     }
 
     override fun visitWbPath(ctx: FormulaParser.WbPathContext?): ExUnit? {
-        return ctx?.text?.let { extractFromSingleQuote(it).toExUnit1() }
+        return ctx?.text?.let { extractFromSingleQuote(it).toExUnit() }
     }
 
     override fun visitWbName(ctx: FormulaParser.WbNameContext?): ExUnit? {
-        if (ctx?.wbNameNoSpace() != null) {
-            return this.visitWbNameNoSpace(ctx.wbNameNoSpace())
-        } else if (ctx?.wbNameWithSpace() != null) {
-            return this.visitWbNameWithSpace(ctx.wbNameWithSpace())
-        } else {
-            return null
+        val rt = ctx?.noSpaceId()?.text?.toExUnit() ?: ctx?.WITH_SPACE_ID()?.text?.let {
+            extractFromSingleQuote(it).toExUnit()
         }
+        return rt
     }
 
-    override fun visitWbNameNoSpace(ctx: FormulaParser.WbNameNoSpaceContext?): ExUnit? {
-        return ctx?.text?.toExUnit1()
-    }
-
-    override fun visitWbNameWithSpace(ctx: FormulaParser.WbNameWithSpaceContext?): ExUnit? {
-        val text: String? = ctx?.text
-        return text?.let { extractFromSingleQuote(it) }?.toExUnit1()
-    }
-
-    override fun visitFullRangeAddressExpr(ctx: FormulaParser.FullRangeAddressExprContext?): ExUnit? {
+    override fun visitFullRangeAddress(ctx: FormulaParser.FullRangeAddressContext?): ExUnit? {
         val wbKeyStExUnit: WbKeyStUnit = this.visitWbPrefix(ctx?.wbPrefix())?.let { hypoWbKeyStUnit ->
             val actualWbKeySt: St<WorkbookKey>? = hypoWbKeyStUnit
                 .runRs()
@@ -244,7 +234,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
             val cellAddressRs: Rse<CellAddress> = CellAddresses.fromLabelRs(rangeAddress)
             if (cellAddressRs is Ok) {
                 val raUnit = cellAddressRs.value.toExUnit()
-                return GetCell(
+                return GetCellUnit(
                     funcName = P6FunctionDefinitions.getCellRs,
                     wbKeyUnit = wbKeyStExUnit,
                     wsNameUnit = wsNameStUnit,
@@ -267,6 +257,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         return null
     }
 
+
     override fun visitFunctionCall(ctx: FormulaParser.FunctionCallContext?): ExUnit? {
         val functionName = ctx?.functionName()?.text
         if (functionName != null) {
@@ -287,6 +278,10 @@ class JvmFormulaVisitor @AssistedInject constructor(
         }
     }
 
+//    override fun visitNoSpaceId(ctx: FormulaParser.NoSpaceIdContext?): ExUnit? {
+//        val rt= ctx?.text?.let{it.toExUnit()}
+//        return rt
+//    }
 
     override fun visitFunctionName(ctx: FormulaParser.FunctionNameContext?): ExUnit? {
         return ctx?.text?.let {
@@ -313,7 +308,7 @@ class JvmFormulaVisitor @AssistedInject constructor(
         val cell0 = ctx?.text
         if (cell0 != null) {
             val raUnit = CellAddress(cell0).toExUnit()
-            val rt = GetCell(
+            val rt = GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
                 wbKeyUnit = wbKeyStExUnit,
                 wsNameUnit = wsNameStExUnit,
@@ -366,8 +361,8 @@ class JvmFormulaVisitor @AssistedInject constructor(
 
         if (boolNode != null) {
             when (boolNode.text) {
-                "TRUE" -> return TRUE
-                "FALSE" -> return FALSE
+                "TRUE" -> return BoolUnit.TRUE
+                "FALSE" -> return BoolUnit.FALSE
             }
         }
 

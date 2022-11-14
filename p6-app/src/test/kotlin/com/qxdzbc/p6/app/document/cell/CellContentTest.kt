@@ -15,7 +15,7 @@ class CellContentTest {
             cellValueMs = CellValue.from(123).toMs(),
             exUnit = FALSE
         )
-        val c2 = c.reRun()
-        assertEquals(CellValue.from(false), c2?.reRun()?.cellValueAfterRun)
+        val c2 = c.reRunRs().component1()
+        assertEquals(CellValue.from(false), c2?.reRunRs()?.component1()?.cellValueAfterRun)
     }
 }

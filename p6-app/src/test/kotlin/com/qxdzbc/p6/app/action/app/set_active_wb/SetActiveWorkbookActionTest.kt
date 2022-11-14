@@ -10,7 +10,7 @@ class SetActiveWorkbookActionTest{
     @BeforeTest
     fun b(){
         ts = TestSample()
-        action = ts.p6Comp.setActiveWorkbookAction()
+        action = ts.comp.setActiveWorkbookAction()
     }
 
     @Test

@@ -9,6 +9,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
 import test.BaseTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -25,8 +26,8 @@ internal class EndThumbDragActionImpTest : BaseTest() {
     @BeforeTest
     override fun b() {
         super.b()
-        act = ts.p6Comp.endThumbDragAction()
-        updateCellAct = ts.p6Comp.updateCellAction()
+        act = ts.comp.endThumbDragAction()
+        updateCellAct = ts.comp.updateCellAction()
         startCell = CellAddress("K10")
         startValue = 3.0
         startCellId = CellId(
@@ -40,7 +41,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
                 cellContent = CellContentDM.fromAny(startValue)
             )
         )
-        multiCellUpdateAct=ts.p6Comp.multiCellUpdateAction()
+        multiCellUpdateAct=ts.comp.multiCellUpdateAction()
     }
 
     @Test
@@ -59,7 +60,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
             )
         )
 
-        assertEquals(2.0,ts.sc.getCell(wbkSt, wsnSt, CellAddress("B1"))!!.currentValue)
+        assertEquals(2.0,ts.sc.getCellOrDefault(wbkSt, wsnSt, CellAddress("B1"))!!.currentValue)
 
         // drag from B1->B2
         val endCell = CellAddress("B2")
@@ -69,10 +70,10 @@ internal class EndThumbDragActionImpTest : BaseTest() {
             endCell = endCell,
             isCtrPressed = false
         )
-        assertEquals(2.0,ts.sc.getCell(wbkSt, wsnSt, CellAddress("B1"))!!.currentValue)
-        assertEquals("2",ts.sc.getCell(wbkSt, wsnSt, CellAddress("B1"))!!.displayValue)
-        assertEquals(3.0,ts.sc.getCell(wbkSt, wsnSt, CellAddress("B2"))!!.currentValue)
-        assertEquals("3",ts.sc.getCell(wbkSt, wsnSt, CellAddress("B2"))!!.displayValue)
+        assertEquals(2.0,ts.sc.getCellOrDefault(wbkSt, wsnSt, CellAddress("B1"))!!.currentValue)
+        assertEquals("2",ts.sc.getCellOrDefault(wbkSt, wsnSt, CellAddress("B1"))!!.attemptToAccessDisplayText())
+        assertEquals(3.0,ts.sc.getCellOrDefault(wbkSt, wsnSt, CellAddress("B2"))!!.currentValue)
+        assertEquals("3",ts.sc.getCellOrDefault(wbkSt, wsnSt, CellAddress("B2"))!!.attemptToAccessDisplayText())
     }
 
 
@@ -126,7 +127,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
             col = startCell.colIndex + count*colSide,
             row = startCell.rowIndex + count*rowSide
         )
-        assertEquals(startValue, ts.sc.getCell(startCellId)!!.currentValue)
+        assertEquals(startValue, ts.sc.getCellOrDefault(startCellId)!!.currentValue)
         act.invokeSuitableAction(
             wbws = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!,
             startCell = startCell,
@@ -136,7 +137,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
         for (x in 0..count) {
             val c = CellAddress(startCell.colIndex+x*colSide, startCell.rowIndex +x*rowSide )
             assertEquals(
-                startValue + x*valueSide, ts.sc.getCell(
+                startValue + x*valueSide, ts.sc.getCellOrDefault(
                     CellIdDM(
                         address = c,
                         wbKey = ts.wbKey1,
@@ -156,7 +157,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
             col = startCell.colIndex + count*colSide,
             row = startCell.rowIndex + count*rowSide
         )
-        assertEquals(startValue, ts.sc.getCell(startCellId)!!.currentValue)
+        assertEquals(startValue, ts.sc.getCellOrDefault(startCellId)!!.currentValue)
         act.invokeSuitableAction(
             wbws = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!,
             startCell = startCell,
@@ -166,7 +167,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
         for (x in 0..count) {
             val c = CellAddress(startCell.colIndex+x*colSide, startCell.rowIndex +x*rowSide )
             assertEquals(
-                startValue, ts.sc.getCell(
+                startValue, ts.sc.getCellOrDefault(
                     CellIdDM(
                         address = c,
                         wbKey = ts.wbKey1,

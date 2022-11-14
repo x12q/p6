@@ -15,7 +15,7 @@ internal class RemoveAllCellActionImpTest {
     @BeforeTest
     fun b(){
         ts = TestSample()
-        act=ts.p6Comp.removeAllCellAction()
+        act=ts.comp.removeAllCellAction()
     }
 
     @Test

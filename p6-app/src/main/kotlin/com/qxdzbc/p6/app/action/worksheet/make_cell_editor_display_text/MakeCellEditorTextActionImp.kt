@@ -18,10 +18,10 @@ import javax.inject.Inject
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
-class MakeCellEditorDisplayTextActionImp @Inject constructor(
+class MakeCellEditorTextActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     val formatter: RangeAddressFormatter,
-) : MakeCellEditorDisplayTextAction {
+) : MakeCellEditorTextAction {
 
     private val stateCont by stateContSt
 

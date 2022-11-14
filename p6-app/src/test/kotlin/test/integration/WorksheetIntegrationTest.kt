@@ -20,7 +20,7 @@ class WorksheetIntegrationTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        updateCellAction = ts.p6Comp.updateCellAction()
+        updateCellAction = ts.comp.updateCellAction()
     }
 
 

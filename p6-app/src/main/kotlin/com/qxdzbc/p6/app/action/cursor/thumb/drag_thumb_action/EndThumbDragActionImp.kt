@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action
+package com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
@@ -30,7 +30,7 @@ class EndThumbDragActionImp @Inject constructor(
 
     override fun invokeSuitableAction(wbws: WbWsSt, startCell: CellAddress, endCell: CellAddress, isCtrPressed: Boolean) {
         if(startCell!=endCell){
-            val cell = sc.getCell(wbws,startCell)
+            val cell = sc.getCellOrDefault(wbws,startCell)
             val currentStartCellValue:Any? = cell?.currentValue
             val startCellIsNumeric:Boolean = !(cell?.isFormula ?: false) && (currentStartCellValue is Number)
             if (isCtrPressed && startCellIsNumeric) {

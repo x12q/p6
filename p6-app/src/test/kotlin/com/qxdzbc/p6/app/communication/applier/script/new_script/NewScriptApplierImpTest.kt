@@ -59,7 +59,7 @@ class NewScriptApplierImpTest {
 
     @Test
     fun `applyNewScript ok case, wb script`() {
-        val wbKey = wbContMs.value.wbList[0].key
+        val wbKey = wbContMs.value.allWbs[0].key
         val k = ScriptEntryKey("new wb script", wbKey)
         assertNull(scriptContMs.value.getScript(k))
         applier.applyNewScript(
@@ -74,7 +74,7 @@ class NewScriptApplierImpTest {
 
     @Test
     fun `applyNewScript error case`() {
-        val wbKey = wbContMs.value.wbList[0].key
+        val wbKey = wbContMs.value.allWbs[0].key
         val k = ScriptEntryKey("new wb script", wbKey)
         val errorReport = TestSample.sampleErrorReport
         assertNull(scriptContMs.value.getScript(k))
@@ -91,8 +91,8 @@ class NewScriptApplierImpTest {
 
     @Test
     fun `apply new script notification - ok case`(){
-        val wbKey0 = wbContMs.value.wbList[0].key
-        val wbKey1 = wbContMs.value.wbList[1].key
+        val wbKey0 = wbContMs.value.allWbs[0].key
+        val wbKey1 = wbContMs.value.allWbs[1].key
         val notif = NewScriptNotification(
             scriptEntries = listOf(
                 ScriptEntry(

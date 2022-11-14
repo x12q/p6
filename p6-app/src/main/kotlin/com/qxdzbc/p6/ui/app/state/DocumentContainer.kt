@@ -85,15 +85,30 @@ interface DocumentContainer : WorkbookGetter {
     fun getLazyRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
     fun getLazyRangeRs(wbKeySt:St<WorkbookKey> , wsNameSt:St<String> , rangeAddress: RangeAddress): Rs<Range, ErrorReport>
 
-    fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport>
-    fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Cell, ErrorReport>
-    fun getCellRs(cellId: CellIdDM): Rs<Cell, ErrorReport>
+    fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport>
+    fun getCellRsOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Cell, ErrorReport>
+    fun getCellRsOrDefault(cellId: CellIdDM): Rs<Cell, ErrorReport>
+    fun getCellRsOrDefault(cellId: CellId): Rs<Cell, ErrorReport>
 
-    fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?
-    fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Cell?
-    fun getCell(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell?
-    fun getCell(cellId: CellIdDM): Cell?
-    fun getCell(cellId: CellId): Cell?
+    fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(cellId: CellIdDM): Cell?
+    fun getCellOrDefault(cellId: CellId): Cell?
+
+
+//    fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport>
+//    fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Cell, ErrorReport>
+//    fun getCellRs(cellId: CellIdDM): Rs<Cell, ErrorReport>
+//    fun getCellRs(cellId: CellId): Rs<Cell, ErrorReport>
+//
+//    fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?
+//    fun getCell(wbws: WbWs, cellAddress: CellAddress): Cell?
+//    fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Cell?
+//    fun getCell(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell?
+//    fun getCell(cellId: CellIdDM): Cell?
+//    fun getCell(cellId: CellId): Cell?
 
     fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
     fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>

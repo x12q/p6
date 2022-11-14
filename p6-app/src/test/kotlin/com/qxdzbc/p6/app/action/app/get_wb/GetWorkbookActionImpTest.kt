@@ -10,7 +10,7 @@ class GetWorkbookActionImpTest{
     @BeforeTest
     fun b(){
         ts = TestSample()
-        act = ts.p6Comp.getWorkbookAction()
+        act = ts.comp.getWorkbookAction()
     }
     @Test
     fun `get wb by name`(){

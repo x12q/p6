@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class MouseOnWorksheetActionImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
     private val clickOnCell: ClickOnCell,
-    private val makeDisplayText: MakeCellEditorDisplayTextAction,
+    private val makeDisplayText: MakeCellEditorTextAction,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
 ) : MouseOnWorksheetAction, ClickOnCell by clickOnCell {
 
@@ -139,12 +139,12 @@ class MouseOnWorksheetActionImp @Inject constructor(
         if (ce.isActiveAndAllowRangeSelector) {
             return
         }
-        if (ce.isActive && !ce.allowRangeSelector) {
+        if (ce.isOpen && !ce.allowRangeSelector) {
             appState.cellEditorState = ce.close()
             f(cellAddress, cursorLoc)
             return
         }
-        if (!ce.isActive && !ce.allowRangeSelector) {
+        if (!ce.isOpen && !ce.allowRangeSelector) {
             f(cellAddress, cursorLoc)
         }
     }

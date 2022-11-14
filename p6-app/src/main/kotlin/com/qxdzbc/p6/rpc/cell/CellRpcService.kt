@@ -16,7 +16,6 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
-import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
@@ -64,8 +63,8 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCell(cid)
-            val rt = StrMsg(cell?.displayValue ?: "")
+            val cell: Cell? = sc.getCellOrDefault(cid)
+            val rt = StrMsg(cell?.cachedDisplayText ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
     }
@@ -76,7 +75,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCell(cid)
+            val cell: Cell? = sc.getCellOrDefault(cid)
             val rt = StrMsg(cell?.fullFormula ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -88,7 +87,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCell(cid)
+            val cell: Cell? = sc.getCellOrDefault(cid)
             val rt: CellValue = cell?.currentCellValue ?: CellValue.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -100,7 +99,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCell(cid)
+            val cell: Cell? = sc.getCellOrDefault(cid)
             val rt: CellContent = cell?.content ?: CellContentImp.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }

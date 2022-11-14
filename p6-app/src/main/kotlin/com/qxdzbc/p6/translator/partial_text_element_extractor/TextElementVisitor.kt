@@ -5,6 +5,7 @@ import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.OtherElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TokenPosition
+import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.ErrorNode
 import javax.inject.Inject
 
@@ -12,9 +13,24 @@ import javax.inject.Inject
  * A visitor that extract cell,range into a list
  */
 class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementResult>() {
+
+
+    companion object{
+        fun <T> ParserRuleContext.ifNotErrorNode(f:()->T):T?{
+            if(this !is ErrorNode){
+                return f()
+            }else{
+                return null
+            }
+        }
+    }
+
     override fun visitZFormula(ctx: FormulaParser.ZFormulaContext?): TextElementResult {
         val equalSign = this.visitStartFormulaSymbol(ctx?.startFormulaSymbol())
-        val rt = equalSign+(this.visit(ctx?.expr())?: TextElementResult.empty)
+        val errorResult = ctx?.children?.filter{it is ErrorNode}?.map {
+            visitErrorNode(it as ErrorNode)
+        }?.fold(TextElementResult.empty){acc,e-> acc+e}?: TextElementResult.empty
+        val rt = equalSign+(this.visit(ctx?.expr())?: TextElementResult.empty)+errorResult
         return rt
     }
 
@@ -40,7 +56,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(OtherElement.from(ctx.op))
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0)) ?: TextElementResult.empty
@@ -59,7 +75,9 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(
+                    OtherElement.from(ctx.op)
+                )
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0)) ?: TextElementResult.empty
@@ -78,14 +96,19 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         return rt
     }
 
-    override fun visitFullRangeAddressExpr(ctx: FormulaParser.FullRangeAddressExprContext?): TextElementResult {
-        val l = ctx?.let {
-            val labelLoc = ((it.sheetPrefix()?.text ?: "") + (it.wbPrefix()?.text ?: "")).ifEmpty { null }
+
+
+    override fun visitFullRangeAddress(ctx: FormulaParser.FullRangeAddressContext?): TextElementResult {
+        val l = ctx?.let {fullRangeContext->
+            val rangeAddressContext = fullRangeContext.rangeAddress()
+            val labelLoc = ((fullRangeContext.sheetPrefix()?.text ?: "") + (fullRangeContext.wbPrefix()?.text ?: "")).ifEmpty { null }
+            val tmpCRElement = this.visit(rangeAddressContext)
+            val label = tmpCRElement?.cellRangeElements?.getOrNull(0)?.cellRangeLabel ?: ""
             CellRangeElement(
-                cellRangeLabel = it.rangeAddress()?.text ?: "",
-                labelLoc = labelLoc,
-                startTP = TokenPosition(it.start.startIndex),
-                stopTP = TokenPosition(it.stop.stopIndex)
+                cellRangeLabel = label,
+                cellRangeSuffix = labelLoc,
+                startTP = TokenPosition(ctx.start.startIndex),
+                stopTP = TokenPosition(ctx.stop.stopIndex)
             )
         }?.let {
             TextElementResult.from(it)
@@ -107,7 +130,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(OtherElement.from(ctx.op))
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0)) ?: TextElementResult.empty
@@ -116,12 +139,13 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
     }
 
     override fun visitErrorNode(node: ErrorNode?): TextElementResult {
-        return node?.text?.let {
+        val rt= node?.text?.let {
             OtherElement(
                 text=it,
                 range=node.symbol.startIndex .. node.symbol.stopIndex
             ).toResult()
         }?:TextElementResult.empty
+        return rt
     }
 
     override fun visitLiteral(ctx: FormulaParser.LiteralContext?): TextElementResult {
@@ -147,7 +171,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                     }
                     else -> null
                 }?.let { opText ->
-                    TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                    TextElementResult.from(OtherElement.from(ctx.op))
                 }
             } ?: TextElementResult.empty
 
@@ -214,7 +238,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                 }
                 else -> null
             }?.let { opText ->
-                TextElementResult.from(OtherElement(text = opText, range = ctx.op.startIndex..ctx.op.stopIndex))
+                TextElementResult.from(OtherElement.from(ctx.op))
             }
         } ?: TextElementResult.empty
         val expr0 = this.visit(ctx?.expr(0))  ?: TextElementResult.empty
@@ -246,28 +270,57 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
 
     override fun visitRangeAsPairCellAddress(ctx: FormulaParser.RangeAsPairCellAddressContext?): TextElementResult {
         val rt = ctx?.let {
-            TextElementResult.from(CellRangeElement.from(it))
+            val c1 = ctx.cellAddress(0)?.text ?:""
+            val op = ctx.getChild(1)?.text?:""
+            val c2 = ctx.cellAddress(1)?.text?:""
+            val label ="${c1}${op}${c2}"
+            TextElementResult.from(CellRangeElement(
+                cellRangeLabel = label,
+                startTP = TokenPosition(ctx.start.startIndex),
+                stopTP = TokenPosition(ctx.stop.stopIndex),
+            ))
         } ?: TextElementResult.empty
         return rt
     }
 
     override fun visitRangeAsOneCellAddress(ctx: FormulaParser.RangeAsOneCellAddressContext?): TextElementResult {
         val rt = ctx?.let {
-            TextElementResult.from(CellRangeElement.from(it))
+            val c1 = ctx.cellAddress()?.text ?:""
+            TextElementResult.from(CellRangeElement(
+                cellRangeLabel = c1,
+                startTP = TokenPosition(ctx.start.startIndex),
+                stopTP = TokenPosition(ctx.stop.stopIndex),
+            ))
         } ?: TextElementResult.empty
         return rt
     }
 
     override fun visitRangeAsColAddress(ctx: FormulaParser.RangeAsColAddressContext?): TextElementResult {
         val rt = ctx?.let {
-            TextElementResult.from(CellRangeElement.from(it))
+            val c1 = ctx.ID_LETTERS(0)?.text ?:""
+            val op = ctx.getChild(1)?.text?:""
+            val c2 = ctx.ID_LETTERS(1)?.text?:""
+            val label ="${c1}${op}${c2}"
+            TextElementResult.from(CellRangeElement(
+                cellRangeLabel = label,
+                startTP = TokenPosition(ctx.start.startIndex),
+                stopTP = TokenPosition(ctx.stop.stopIndex),
+            ))
         } ?: TextElementResult.empty
         return rt
     }
 
     override fun visitRangeAsRowAddress(ctx: FormulaParser.RangeAsRowAddressContext?): TextElementResult {
         val rt = ctx?.let {
-            TextElementResult.from(CellRangeElement.from(it))
+            val c1 = ctx.INT(0)?.text ?:""
+            val op = ctx.getChild(1)?.text?:""
+            val c2 = ctx.INT(1)?.text?:""
+            val label ="${c1}${op}${c2}"
+            TextElementResult.from(CellRangeElement(
+                cellRangeLabel = label,
+                startTP = TokenPosition(ctx.start.startIndex),
+                stopTP = TokenPosition(ctx.stop.stopIndex),
+            ))
         } ?: TextElementResult.empty
         return rt
     }

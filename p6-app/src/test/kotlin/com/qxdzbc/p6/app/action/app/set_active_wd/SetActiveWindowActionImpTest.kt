@@ -1,9 +1,6 @@
 package com.qxdzbc.p6.app.action.app.set_active_wd
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import kotlin.test.*
 import test.TestSample
 
@@ -15,7 +12,7 @@ class SetActiveWindowActionImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        val p6Comp = ts.p6Comp
+        val p6Comp = ts.comp
         action = p6Comp.setActiveWindowAction()
     }
 

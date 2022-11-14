@@ -7,7 +7,7 @@ import com.qxdzbc.common.error.ErrorReport
  * This object contains ErrorReport that are only used for reporting errors to the end user encountered when running formulas in cells. This also contains some utility function for formating information in ErrorReports
  */
 object FormulaErrors {
-    val prefix = "ERR"
+    val prefix = "FormulaErrors"
 
     object DivByZeroErr {
         val header = ErrorHeader(errorCode = "${prefix}2", "divide by zero")

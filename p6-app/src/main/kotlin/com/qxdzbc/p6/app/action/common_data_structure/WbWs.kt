@@ -7,7 +7,7 @@ interface WbWs{
     val wbKey: WorkbookKey
     val wsName:String
 
-    fun isSameContent(another: WbWs):Boolean{
+    fun isSameWbWs(another: WbWs):Boolean{
         val c1=this.wbKey == another.wbKey
         val c2 = this.wsName == another.wsName
         return c1 && c2

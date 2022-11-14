@@ -16,7 +16,7 @@ internal class MultiCellUpdateActionImpTest {
     @BeforeTest
     fun b(){
         ts = TestSample()
-        act = ts.p6Comp.multiCellUpdateAction()
+        act = ts.comp.multiCellUpdateAction()
     }
     @Test
     fun updateMultiCell() {

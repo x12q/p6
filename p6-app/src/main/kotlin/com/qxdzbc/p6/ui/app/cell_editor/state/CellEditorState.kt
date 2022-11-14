@@ -5,7 +5,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import org.antlr.v4.runtime.tree.ParseTree
 
@@ -39,7 +38,7 @@ interface CellEditorState {
     val rangeSelectorIsSameAsTargetCursor: Boolean
         get() = rangeSelectorCursorId?.let { rs ->
             targetCursorId?.let {
-                it.isSameContent(rs)
+                it.isSameWbWs(rs)
             }
         } ?: false
 
@@ -94,9 +93,9 @@ interface CellEditorState {
     /**
      * A cell editor is active when it is being opened
      */
-    val isActiveMs: Ms<Boolean>
-    val isActive: Boolean
-    val isNotActive:Boolean
+    val isOpenMs: Ms<Boolean>
+    val isOpen: Boolean
+    val isNotOpen:Boolean
 
 
     val isActiveAndAllowRangeSelector:Boolean

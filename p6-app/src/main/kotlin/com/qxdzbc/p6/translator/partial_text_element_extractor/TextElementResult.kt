@@ -20,28 +20,32 @@ data class TextElementResult(
         val empty = TextElementResult()
     }
 
+    val all: List<TextElement> get() = cellRangeElements + others
+
     fun allSorted(): List<TextElement> {
-        return (cellRangeElements + others).sortedBy { it.range.first }
+        return all.sortedBy { it.start }
     }
 
     /**
-     * scan the sorted list of element, detect elements that are not coninuous (stop index of prev element != start index of the next element + 1)
+     * scan the sorted list of element, detect elements that are not continuous (stop index of prev element != start index of the next element + 1)
      */
-    fun allSortedWithPadding():List<TextElement>{
+    fun allSortedWithPadding(): List<TextElement> {
         val all = allSorted()
         val rt = mutableListOf<TextElement>()
-        for((i,e) in all.withIndex()){
+        for ((i, e) in all.withIndex()) {
             rt.add(e)
-            val nextE = all.getOrNull(i+1)
-            if(nextE!=null){
+            val nextE = all.getOrNull(i + 1)
+            if (nextE != null) {
                 val nextStart = nextE.start
                 val currentStop = e.stop
-                val diff= nextStart - currentStop
-                if(diff>1){
-                    rt.add(OtherElement(
-                        text = " ".repeat(diff-1),
-                        range = (currentStop+1) .. (nextStart -1)
-                    ))
+                val diff = nextStart - currentStop
+                if (diff > 1) {
+                    rt.add(
+                        OtherElement(
+                            text = " ".repeat(diff - 1),
+                            range = (currentStop + 1)..(nextStart - 1)
+                        )
+                    )
                 }
 
             }

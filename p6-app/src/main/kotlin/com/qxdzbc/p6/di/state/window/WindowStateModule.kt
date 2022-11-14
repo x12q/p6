@@ -9,13 +9,5 @@ import dagger.Provides
 
 @dagger.Module
 interface WindowStateModule {
-//    @Binds
-//    fun FocusState(i: SingleWindowFocusStateImp):WindowFocusState
-    companion object{
-        @Provides
-        @DefaultFocusStateMs
-        fun FocusStateMs(i:WindowFocusState):Ms<WindowFocusState>{
-            return ms(i)
-        }
-    }
+
 }

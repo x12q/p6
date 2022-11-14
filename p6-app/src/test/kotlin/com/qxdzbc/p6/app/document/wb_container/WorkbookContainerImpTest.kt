@@ -25,7 +25,7 @@ class WorkbookContainerImpTest{
         val wbsContMs=testSample.appState.wbStateContMs
         wbsContMs.value =wbsContMs.value.removeAll().createNewWbState(wb1).createNewWbState(wb2).createNewWbState(wb3)
 
-        cont = WorkbookContainerImp(testSample.appState.wbStateContMs,testSample.p6Comp.workbookStateFactory())
+        cont = WorkbookContainerImp(testSample.appState.wbStateContMs,testSample.comp.workbookStateFactory())
     }
 
 
@@ -51,6 +51,6 @@ class WorkbookContainerImpTest{
 
     @Test
     fun getWorkbookList() {
-        assertEquals(wbList, cont.wbList)
+        assertEquals(wbList, cont.allWbs)
     }
 }

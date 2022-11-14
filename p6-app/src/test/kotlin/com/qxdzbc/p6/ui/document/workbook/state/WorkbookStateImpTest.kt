@@ -66,10 +66,10 @@ class WorkbookStateImpTest {
 
         wbState = WorkbookStateImp.default(
             wbMs = wbContMs.value.getWbMs(wb0.key)!!,
-            wsStateFactory = ts.p6Comp.worksheetStateFactory(),
-            gridSliderFactory = ts.p6Comp.gridSliderFactory(),
-            cursorStateFactory = ts.p6Comp.cursorStateFactory(),
-            thumbStateFactory = ts.p6Comp.thumbStateFactory()
+            wsStateFactory = ts.comp.worksheetStateFactory(),
+            gridSliderFactory = ts.comp.gridSliderFactory(),
+            cursorStateFactory = ts.comp.cursorStateFactory(),
+            thumbStateFactory = ts.comp.thumbStateFactory()
         )
     }
 

@@ -15,10 +15,10 @@ import org.mockito.kotlin.whenever
 import test.TestSample
 import kotlin.test.*
 
-class MakeCellEditorDisplayTextActionImpTest {
+class MakeCellEditorTextActionImpTest {
 
     lateinit var ts: TestSample
-    lateinit var action: MakeCellEditorDisplayTextActionImp
+    lateinit var action: MakeCellEditorTextActionImp
     val currentText=  "currentText+"
     val currentTextField = TextFieldValue(currentText,TextRange(currentText.length))
     lateinit var rangeSelectorCursorMs:Ms<CursorState>
@@ -28,8 +28,8 @@ class MakeCellEditorDisplayTextActionImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        fm = ts.p6Comp.rangeFormatter()
-        action = MakeCellEditorDisplayTextActionImp(ts.appStateMs,fm)
+        fm = ts.comp.rangeFormatter()
+        action = MakeCellEditorTextActionImp(ts.appStateMs,fm)
         rangeSelectorCursorMs = ts.appState.getCursorStateMs(ts.wbKey1, ts.wsn2)!!
         editorState = mock<CellEditorState> {
             whenever(it.allowRangeSelector) doReturn true

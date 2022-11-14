@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext
 
 data class CellRangeElement(
     val cellRangeLabel:String,
-    val labelLoc:String? = null,
+    val cellRangeSuffix:String? = null,
     val startTP: TokenPosition,
     val stopTP: TokenPosition
 ): TextElement {
@@ -32,7 +32,7 @@ data class CellRangeElement(
     }
 
     override val text: String
-        get() = cellRangeLabel + (this.labelLoc?:"")
+        get() = cellRangeLabel + (this.cellRangeSuffix?:"")
     override val range: IntRange
         get() = this.startTP.charIndex .. this.stopTP.charIndex
 }

@@ -29,8 +29,8 @@ class CursorActionImpTest {
     @BeforeTest
     fun b(){
         ts = TestSample()
-        cursorAction = ts.p6Comp.cursorAction()
-        cellEditorAction = ts.p6Comp.cellEditorAction()
+        cursorAction = ts.comp.cursorAction()
+        cellEditorAction = ts.comp.cellEditorAction()
         val w = ts.stateCont.getWsStateMs(WbWs(ts.wbKey1,ts.wsn1))
         assertNotNull(w)
         wsStateMs = w
@@ -144,7 +144,7 @@ class CursorActionImpTest {
 
     @Test
     fun getFormulaRangeDrawInfo(){
-        ts.p6Comp.cellViewAction().updateCellDM(
+        ts.comp.cellViewAction().updateCellDM(
             CellUpdateRequestDM(
                 cellId= CellIdDM(
                     wbKey = ts.wbKey1, wsName = ts.wsn1, address = CellAddress("B3")

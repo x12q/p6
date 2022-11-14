@@ -4,9 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -49,12 +51,15 @@ class P6FunctionDefinitionsImp @Inject constructor(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
-            ): Rs<Cell, ErrorReport> {
-                return docCont.getCellRs(wbKeySt, wsNameSt, cellAddress)
+            ): Rs<St<Cell>?, ErrorReport> {
+                val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
+                    it.value.getCellMs(cellAddress)
+                }
+                return rt
             }
 
             override val name: String = P6FunctionDefinitions.getCellRs
-            override val function: KFunction<Rs<Cell, ErrorReport>> = ::getCellRs
+            override val function: KFunction<Rs<St<Cell>?, ErrorReport>> = ::getCellRs
         }
     )
 
@@ -62,12 +67,11 @@ class P6FunctionDefinitionsImp @Inject constructor(
      * A list of all available formula function
      */
     internal val all = listOf<FunctionDef>(
+        /**
+         * SUM function definition
+         */
         object : AbstractFunctionDef() {
-            override val functionExecutor: FunctionExecutor = object : FunctionExecutor {
-                override fun execute(func: KFunction<Any>, args: Array<Any?>): Any {
-                    return func.call(args.toList())
-                }
-            }
+            override val functionExecutor: FunctionExecutor = FunctionExecutor.ArgsAsList
 
             /**
              * SUM accepts a mix list of Cell, Range, and Number, remember to check for type before doing anything

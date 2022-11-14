@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action
+package com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress

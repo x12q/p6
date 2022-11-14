@@ -36,7 +36,7 @@ class AutoNameWbFactory @Inject constructor(
         // Eg:{ "Book1", "Book2" }-> {1,2}
 
         val newWbName = wbName?: run{
-            val wbIndices = wbContMs.value.wbList
+            val wbIndices = wbContMs.value.allWbs
                 .map { it.key.name }
                 .filter {
                     namePattern.matcher(it).matches()

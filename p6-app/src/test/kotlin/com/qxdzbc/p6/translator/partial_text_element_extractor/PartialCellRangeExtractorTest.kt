@@ -2,7 +2,6 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.map
-import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.OtherElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TokenPosition
@@ -12,16 +11,15 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class PartialCellRangeExtractorTest : BaseTest() {
-    lateinit var extractor: P6Translator<TextElementResult>
+    lateinit var extractor: PartialTextElementExtractor
 
     @BeforeTest
     override fun b() {
         super.b()
-        extractor = ts.p6Comp.cellRangeExtractorAsTranslator()
+        extractor = ts.comp.partialTextElementExtractor()
     }
-
     @Test
-    fun extract() {
+    fun `extract-check cell range element only`() {
         val m = mapOf(
             "=F1(A1+F2(A2)+\"A3\"+11)" +
                     "\n\n" +
@@ -41,7 +39,7 @@ internal class PartialCellRangeExtractorTest : BaseTest() {
                     startTP = TokenPosition( 33),
                     stopTP = TokenPosition( 37),
                 ),
-            )
+            ),
         )
 
         for ((formula, expectation) in m) {
@@ -51,8 +49,20 @@ internal class PartialCellRangeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun extractTextElement() {
+    fun `extract - check all elements`() {
         val m = mapOf(
+            "=A1 B2" to listOf(
+                OtherElement("=",0 .. 0),
+                CellRangeElement(
+                    cellRangeLabel = "A1",
+                    startTP = TokenPosition( 1),
+                    stopTP = TokenPosition( 2),
+                ),
+                OtherElement(
+                    "B2",
+                    4 .. 5
+                ),
+            ),
             "=F1()" to listOf(
                 OtherElement("=",0 .. 0),
                 OtherElement("F1",1 .. 2),
@@ -113,15 +123,13 @@ internal class PartialCellRangeExtractorTest : BaseTest() {
                 OtherElement("3", 14),
                 OtherElement(")", 15),
                 OtherElement(",", 16),
-                CellRangeElement(cellRangeLabel="A3",labelLoc = null,startTP = TokenPosition(17),TokenPosition(18)),
+                CellRangeElement(cellRangeLabel="A3",cellRangeSuffix = null,startTP = TokenPosition(17),TokenPosition(18)),
                 OtherElement(")", 19),
             )
         )
-
         for ((i, e) in m) {
             val o = extractor.translate(i).component1()?.allSorted()
             assertEquals(e, o)
         }
     }
-
 }

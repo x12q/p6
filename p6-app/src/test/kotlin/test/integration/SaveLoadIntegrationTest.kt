@@ -24,8 +24,8 @@ class SaveLoadIntegrationTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        saveAct = ts.p6Comp.saveWbAction()
-        loadAct = ts.p6Comp.loadWbAction()
+        saveAct = ts.comp.saveWbAction()
+        loadAct = ts.comp.loadWbAction()
     }
 
     @Test

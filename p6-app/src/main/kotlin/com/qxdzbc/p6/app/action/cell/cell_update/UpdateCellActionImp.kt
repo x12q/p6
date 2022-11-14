@@ -7,6 +7,7 @@ import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.CellRM
+import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
@@ -28,7 +29,7 @@ class UpdateCellActionImp @Inject constructor(
     val translatorCont by translatorContainerMs
 
     override fun updateCellDM(request: CellUpdateRequestDM, publishError:Boolean): Rse<Unit> {
-        val cellRs = sc.getCellRs(request.cellId)
+        val cellRs = sc.getCellRsOrDefault(request.cellId)
         return cellRs.flatMap { cell->
             updateCell(CellUpdateRequest(
                 cell.id,request.cellContent
@@ -43,17 +44,28 @@ class UpdateCellActionImp @Inject constructor(
             val ws by wsMs
             val wbMs = sc.getWbMs(ws.wbKeySt)
             val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
-            val content = request.cellContent.toStateObj(translator)
+            val content: CellContent = request.cellContent.toStateObj(translator)
             val updateWsRs = ws.updateCellContentRs(
                 request.cellId.address, content
             )
+
             updateWsRs.flatMap {
                 wsMs.value = it
                 wsStateMs.value = wsStateMs.value.refreshCellState()
                 if(wbMs!=null){
-                    wbMs.value = wbMs.value.reRun()
+                    /*
+                    the target ws belongs to a valid workbook, therefore, need
+                    to refresh the whole app
+                     */
+                    sc.wbCont.allWbMs.forEach { wbMs->
+                        wbMs.value = wbMs.value.reRun().refreshDisplayText()
+                    }
                 }else{
-                    wsMs.value = wsMs.value.reRun()
+                    /*
+                    the target ws does not belong to any valid workbook, just need
+                    to refresh itself.
+                     */
+                    wsMs.value = ws.reRun().refreshDisplayText()
                 }
                 Unit.toOk()
             }

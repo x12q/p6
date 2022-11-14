@@ -19,17 +19,22 @@ import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
-data class GetCell(
+data class GetCellUnit(
     override val funcName: String = P6FunctionDefinitions.getCellRs,
-    val wbKeyUnit: WbKeyStUnit,
-    val wsNameUnit: WsNameStUnit,
     val cellAddressUnit: CellAddressUnit,
+    val wsNameUnit: WsNameStUnit,
+    val wbKeyUnit: WbKeyStUnit,
     val functionMapSt: St<FunctionMap>,
 ) : ExUnit, BaseFunc() {
 
+    override fun toString(): String {
+        return "GetCellUnit(${cellAddressUnit.cellAddress.label}, ${wsNameUnit.nameSt.value}, ${wbKeyUnit.wbKeySt.value.name})"
+    }
+
     @Suppress("UNCHECKED_CAST")
-    override fun runRs(): Result<Cell, ErrorReport> {
-        return super.runRs() as Result<Cell, ErrorReport>
+    override fun runRs(): Result<St<Cell>?, ErrorReport> {
+        val rt= super.runRs() as Result<St<Cell>?, ErrorReport>
+        return rt
     }
 
     override val functionMap by functionMapSt

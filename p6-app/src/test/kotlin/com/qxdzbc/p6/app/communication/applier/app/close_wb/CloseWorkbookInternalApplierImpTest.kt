@@ -29,8 +29,8 @@ class CloseWorkbookInternalApplierImpTest {
         errorRouter = ErrorRouterImp(appStateMs)
         applier = CloseWorkbookInternalApplierImp(
             appStateMs = appStateMs,
-            stateContMs = ts.p6Comp.stateContMs(),
-            pickDefaultActiveWb = ts.p6Comp.pickDefaultActiveWbAction()
+            stateContMs = ts.comp.stateContMs(),
+            pickDefaultActiveWb = ts.comp.pickDefaultActiveWbAction()
         )
         val windowId = appStateMs.value.windowStateMsList[0].value.id
         res = CloseWorkbookResponse(

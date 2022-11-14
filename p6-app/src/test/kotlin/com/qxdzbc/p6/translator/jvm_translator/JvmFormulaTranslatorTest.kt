@@ -73,11 +73,11 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate cell access`() {
         val inputMap = mapOf(
-            "=A1" to GetCell(
+            "=A1" to GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
-
-                    wbKeySt.toExUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").toExUnit(),
-
+                cellAddressUnit= CellAddress("A1").toExUnit(),
+                wsNameUnit=WsNameStUnit(wsNameSt),
+                wbKeyUnit=wbKeySt.toExUnit(),
                 functionMapSt = functionMap
             ),
         )
@@ -100,9 +100,11 @@ class JvmFormulaTranslatorTest {
                     FuncUnit(
                         funcName = "F2",
                         args = listOf(
-                            GetCell(
+                            GetCellUnit(
                                 funcName = P6FunctionDefinitions.getCellRs,
-                                    wbKeySt.toExUnit(), WsNameStUnit(wsNameSt), CellAddress("A1").toExUnit(),
+                                cellAddressUnit= CellAddress("A1").toExUnit(),
+                                wsNameUnit=WsNameStUnit(wsNameSt),
+                                wbKeyUnit=wbKeySt.toExUnit(),
                                 functionMapSt = functionMap
                             )
                         ),
@@ -127,12 +129,11 @@ class JvmFormulaTranslatorTest {
     @Test
     fun `translate get range, get cell`() {
         val validMap = mapOf(
-            "=\$A\$1" to GetCell(
+            "=\$A\$1" to GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
-                    wbKeySt.toExUnit(),
-                    WsNameStUnit(wsNameSt),
-                    CellAddress("\$A\$1").toExUnit()
-                ,
+                cellAddressUnit= CellAddress("\$A\$1").toExUnit(),
+                wsNameUnit=WsNameStUnit(wsNameSt),
+                wbKeyUnit=wbKeySt.toExUnit(),
                 functionMapSt = functionMap
             ),
             "=\$A1:B$3" to GetRange(
@@ -161,7 +162,7 @@ class JvmFormulaTranslatorTest {
         )
         for ((i, expect) in validMap) {
             val o = translator.translate(i)
-            assertTrue { o is Ok }
+            assertTrue(o is Ok,i)
             val e = o.component1()
             assertEquals(expect, e,i+"\n")
         }
@@ -203,14 +204,14 @@ class JvmFormulaTranslatorTest {
 //            assertTrue { o is Ok }
 //            val e = o.component1()
 //            assertNotNull(e)
-//            assertTrue(e is Func)
-////
+//            assertTrue(e is FuncUnit)
+//
 //            assertEquals(expect, InvalidOutput(
 //                e.funcName,e.args.withIndex().map { (i,e)->
 //                    when(i){
 //                        0 -> (e.run()as Rse<St<WorkbookKey>>).component1()!!.value
 //                        1 -> (e.run() as Rse<St<String>>).component1()!!.value
-//                        else-> e.run().component1()!!
+//                        else-> e.run()!!
 //                    }
 //                }
 //            ),i)

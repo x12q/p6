@@ -1,5 +1,8 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
+import com.github.michaelbull.result.Result
+import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 import kotlin.reflect.KFunction
 
 /**
@@ -9,11 +12,40 @@ interface FunctionExecutor {
     /**
      * execute a function, and return what the function returned
      */
-    fun execute(func: KFunction<Any>, args: Array<Any?>): Any
+    fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport>
 
-    object Default : FunctionExecutor {
-        override fun execute(func: KFunction<Any>, args: Array<Any?>): Any {
-            return func.call(*args)
+    object ArgsAsArray : FunctionExecutor {
+        @Suppress("UNCHECKED_CAST")
+        override fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport> {
+            return runFunction {
+                func.call(*args) as Result<Any, ErrorReport>
+            }
+        }
+    }
+    @Suppress("UNCHECKED_CAST")
+    object ArgsAsList : FunctionExecutor {
+        override fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport> {
+            return runFunction{
+                func.call(args.asList()) as Result<Any, ErrorReport>
+            }
+        }
+    }
+
+    companion object{
+        private fun runFunction(f:()->Result<Any, ErrorReport>):Result<Any, ErrorReport>{
+            try {
+                return f()
+            } catch (e: Throwable) {
+                when (e) {
+                    is ClassCastException -> {
+                        return ExUnitErrors.IllegalReturnType.report(null).toErr()
+                    }
+
+                    else -> {
+                        return CommonErrors.ExceptionError.report(e).toErr()
+                    }
+                }
+            }
         }
     }
 }

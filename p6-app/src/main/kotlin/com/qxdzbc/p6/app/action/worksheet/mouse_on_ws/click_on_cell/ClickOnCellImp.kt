@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 
@@ -24,7 +24,7 @@ class ClickOnCellImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
-    private val makeDisplayText: MakeCellEditorDisplayTextAction,
+    private val makeDisplayText: MakeCellEditorTextAction,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
 ) : ClickOnCell {
     private val stateCont by stateContSt
@@ -39,7 +39,7 @@ class ClickOnCellImp @Inject constructor(
             val cursorState by cursorStateMs
             val cellEditorState by cursorState.cellEditorStateMs
             restoreWindowFocusState.setFocusStateConsideringRangeSelector(cursorState.wbKey)
-            val c1 = cellEditorState.isActive && !cellEditorState.allowRangeSelector
+            val c1 = cellEditorState.isOpen && !cellEditorState.allowRangeSelector
             if (c1) {
                 return
             } else {

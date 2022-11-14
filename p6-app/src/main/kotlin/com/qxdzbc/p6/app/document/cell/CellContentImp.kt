@@ -12,11 +12,13 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toCellValue
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellContentProto
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.IntUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
@@ -25,7 +27,7 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
  * This implementation hold a mutable [CellValue] instance([cellValueMs]), whenever [cellValueAfterRun] is access, a new instance of cell value is computed. This is for auto formula computation
  */
 data class CellContentImp(
-    override val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
+    private val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
 ) : CellContent {
     override val fullFormula: String?
@@ -50,22 +52,24 @@ data class CellContentImp(
 
     override fun toProto(): CellContentProto {
         return CellContentProto.newBuilder()
-            .setCellValue(this.currentCellValue.toProto())
+            .setCellValue(this.cellValue.toProto())
             .setFormula(this.fullFormula)
             .build()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other is CellContent) {
-            val c1 = currentCellValue == other.currentCellValue
-            val c2 = fullFormula == other.fullFormula
-            return c1 && c2
-        } else {
-            return false
-        }
-    }
-
     companion object {
+        fun randomNumericContent():CellContentImp{
+            return CellContentImp(
+                cellValueMs = ms((1 .. 1000).random().toCellValue()),
+                exUnit = null
+            )
+        }
+        fun randomExUnitContent():CellContentImp{
+            return CellContentImp(
+                cellValueMs = ms(CellValue.empty),
+                exUnit = IntUnit((1 .. 1000).random())
+            )
+        }
         val empty = CellContentImp()
 
         /**
@@ -94,33 +98,42 @@ data class CellContentImp(
         }
     }
 
+    /**
+     * re-run the ExUnit if possible and refresh the [cellValueMs] obj
+     */
     override val cellValueAfterRun: CellValue
         get() {
             if (exUnit != null) {
                 try {
-                    val cv: CellValue = CellValue.fromRs(exUnit.runRs())
-                    cellValueMs.value = cv
+                    val exUnitRs = exUnit.runRs()
+                    val cv: CellValue = CellValue.fromRs(exUnitRs)
+                    internalSetCellValue(cv)
                 } catch (e: Throwable) {
                     when (e) {
                         is StackOverflowError -> {
-                            cellValueMs.value = CellValue.from(
-                                CellErrors.OverflowError.report()
+                            internalSetCellValue(
+                                CellValue.from(
+                                    CellErrors.OverflowError.report()
+                                )
                             )
                         }
                         else -> {
-                            cellValueMs.value = CellValue.from(
-                                CommonErrors.ExceptionError.report(e)
+                            internalSetCellValue(
+                                CellValue.from(
+                                    CommonErrors.ExceptionError.report(e)
+                                )
                             )
                         }
                     }
                 }
             }
-            return currentCellValue
+            val rt= cellValue
+            return rt
         }
-    override val currentCellValue: CellValue by this.cellValueMs
+    override val cellValue: CellValue by this.cellValueMs
     override fun toDm(): CellContentDM {
         return CellContentDM(
-            cellValue = this.currentCellValue,
+            cellValue = this.cellValue,
             formula = this.fullFormula
         )
     }
@@ -129,8 +142,10 @@ data class CellContentImp(
         if (this.exUnit == null) {
             return Ok(this)
         } else {
-            cellValueMs.value = CellValue.fromRs(exUnit.runRs())
-            return Ok(this)
+            val exUnitRs = exUnit.runRs()
+            val newCellValue = CellValue.fromRs(exUnitRs)
+            val rt = this.setCellValue(newCellValue)
+            return Ok(rt)
         }
     }
 
@@ -151,9 +166,9 @@ data class CellContentImp(
         return fullFormula == null && cellValueAfterRun.isEmpty()
     }
 
-    override val displayStr: String
+    override val displayText: String
         get() {
-            return currentCellValue.displayStr
+            return cellValue.displayText
         }
 
     override val isFormula: Boolean
@@ -162,14 +177,33 @@ data class CellContentImp(
             return f != null && f.isNotEmpty()
         }
 
-    override fun setValue(cv: CellValue): CellContent {
+    private fun internalSetCellValue(cv:CellValue){
         cellValueMs.value = cv
+    }
+
+    override fun setValueAndDeleteExUnit(cv: CellValue): CellContent {
+        internalSetCellValue(cv)
         return this.copy(exUnit = null)
+    }
+
+    override fun setCellValue(cv: CellValue): CellContent {
+        internalSetCellValue(cv)
+        return this
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is CellContent) {
+            val c1 = cellValue == other.cellValue
+            val c2 = exUnit == other.exUnit
+            return c1 && c2
+        } else {
+            return false
+        }
     }
 
     override fun hashCode(): Int {
         var result = fullFormula?.hashCode() ?: 0
-        result = 31 * result + currentCellValue.hashCode()
+        result = 31 * result + cellValue.hashCode()
         return result
     }
 }

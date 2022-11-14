@@ -61,6 +61,10 @@ data class WorkbookImp(
         this.worksheets.forEach { it.reRun() }
         return this
     }
+    override fun refreshDisplayText():Workbook{
+        this.worksheets.forEach { it.refreshDisplayText() }
+        return this
+    }
 
     override fun toProto(): WorkbookProto {
         return WorkbookProto.newBuilder()

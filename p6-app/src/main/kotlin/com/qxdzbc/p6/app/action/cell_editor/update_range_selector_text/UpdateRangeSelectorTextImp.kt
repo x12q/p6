@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.di.P6Singleton
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class UpdateRangeSelectorTextImp @Inject constructor(
     private val cellEditorStateMs:Ms<CellEditorState>,
-    private val makeDisplayText: MakeCellEditorDisplayTextAction,
+    private val makeDisplayText: MakeCellEditorTextAction,
 ) : UpdateRangeSelectorText {
     private var cellEditorState by cellEditorStateMs
     override fun updateRangeSelectorText() {

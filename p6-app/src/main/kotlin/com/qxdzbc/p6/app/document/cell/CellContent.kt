@@ -3,7 +3,6 @@ package com.qxdzbc.p6.app.document.cell
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.CanCheckEmpty
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -12,15 +11,17 @@ import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
+/**
+ * CellContent = formula + cell value
+ */
 interface CellContent:CanCheckEmpty,Shiftable {
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
     ): CellContent
     val exUnit: ExUnit?
-    val cellValueMs:Ms<CellValue>
     val cellValueAfterRun: CellValue
-    val currentCellValue: CellValue
+    val cellValue: CellValue
 
     fun toDm():CellContentDM
 
@@ -43,8 +44,9 @@ interface CellContent:CanCheckEmpty,Shiftable {
     fun reRun(): CellContent?
     fun reRunRs():Rse<CellContent>
     val editableStr: String
-    val displayStr: String
-    fun setValue(cv: CellValue): CellContent
+    val displayText: String
+    fun setValueAndDeleteExUnit(cv: CellValue): CellContent
+    fun setCellValue(cv: CellValue): CellContent
     val isFormula: Boolean
 
     fun toProto(): DocProtos.CellContentProto

@@ -282,11 +282,11 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport> {
-        return docCont.getCellRs(wbKey, wsName, cellAddress)
+    override fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport> {
+        return docCont.getCellRsOrDefault(wbKey, wsName, cellAddress)
     }
 
-    override fun getCellRs(
+    override fun getCellRsOrDefault(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
@@ -294,27 +294,35 @@ data class AppStateImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCellRs(cellId: CellIdDM): Rs<Cell, ErrorReport> {
+    override fun getCellRsOrDefault(cellId: CellIdDM): Rs<Cell, ErrorReport> {
         TODO("Not yet implemented")
     }
 
-    override fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
-        return docCont.getCell(wbKey, wsName, cellAddress)
-    }
-
-    override fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
+    override fun getCellRsOrDefault(cellId: CellId): Rs<Cell, ErrorReport> {
         TODO("Not yet implemented")
     }
 
-    override fun getCell(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
+    override fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
+        return docCont.getCellOrDefault(wbKey, wsName, cellAddress)
+    }
+
+    override fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): Cell? {
         TODO("Not yet implemented")
     }
 
-    override fun getCell(cellId: CellIdDM): Cell? {
+    override fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
         TODO("Not yet implemented")
     }
 
-    override fun getCell(cellId: CellId): Cell? {
+    override fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCellOrDefault(cellId: CellIdDM): Cell? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCellOrDefault(cellId: CellId): Cell? {
         TODO("Not yet implemented")
     }
 
@@ -341,6 +349,11 @@ data class AppStateImp @Inject constructor(
     override fun getCellMs(cellId: CellIdDM): Ms<Cell>? {
         TODO("Not yet implemented")
     }
+
+    override val allWbs: List<Workbook>
+        get() = TODO("Not yet implemented")
+    override val allWbMs: List<Ms<Workbook>>
+        get() = TODO("Not yet implemented")
 
     override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {
         TODO("Not yet implemented")

@@ -343,7 +343,7 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport> {
-        TODO("Not yet implemented")
+        return docCont.getWsRs(wbws)
     }
 
     override fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet? {
@@ -430,40 +430,48 @@ class StateContainerImp @Inject constructor(
         return docCont.getLazyRangeRs(wbKeySt, wsNameSt, rangeAddress)
     }
 
-    override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport> {
-        return docCont.getCellRs(wbKey, wsName, cellAddress)
+    override fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport> {
+        return docCont.getCellRsOrDefault(wbKey, wsName, cellAddress)
     }
 
-    override fun getCellRs(
+    override fun getCellRsOrDefault(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
     ): Rs<Cell, ErrorReport> {
-        return docCont.getCellRs(wbKeySt, wsNameSt, cellAddress)
+        return docCont.getCellRsOrDefault(wbKeySt, wsNameSt, cellAddress)
     }
 
-    override fun getCellRs(cellId: CellIdDM): Rs<Cell, ErrorReport> {
-        return docCont.getCellRs(cellId)
+    override fun getCellRsOrDefault(cellId: CellIdDM): Rs<Cell, ErrorReport> {
+        return docCont.getCellRsOrDefault(cellId)
     }
 
-    override fun getCell(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
-        return docCont.getCell(wbKey, wsName, cellAddress)
+    override fun getCellRsOrDefault(cellId: CellId): Rs<Cell, ErrorReport> {
+        return docCont.getCellRsOrDefault(cellId)
     }
 
-    override fun getCell(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
-        return docCont.getCell(wbKeySt, wsNameSt, cellAddress)
+    override fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
+        return docCont.getCellOrDefault(wbKey, wsName, cellAddress)
     }
 
-    override fun getCell(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
-        return docCont.getCell(wbwsSt, cellAddress)
+    override fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): Cell? {
+        return docCont.getCellOrDefault(wbws, cellAddress)
     }
 
-    override fun getCell(cellId: CellIdDM): Cell? {
-        return docCont.getCell(cellId)
+    override fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
+        return docCont.getCellOrDefault(wbKeySt, wsNameSt, cellAddress)
     }
 
-    override fun getCell(cellId: CellId): Cell? {
-        return docCont.getCell(cellId)
+    override fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
+        return docCont.getCellOrDefault(wbwsSt, cellAddress)
+    }
+
+    override fun getCellOrDefault(cellId: CellIdDM): Cell? {
+        return docCont.getCellOrDefault(cellId)
+    }
+
+    override fun getCellOrDefault(cellId: CellId): Cell? {
+        return docCont.getCellOrDefault(cellId)
     }
 
     override fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport> {
@@ -493,6 +501,11 @@ class StateContainerImp @Inject constructor(
     override fun replaceWb(newWb: Workbook): DocumentContainer {
         return docCont.replaceWb(newWb)
     }
+
+    override val allWbs: List<Workbook>
+        get() = docCont.allWbs
+    override val allWbMs: List<Ms<Workbook>>
+        get() = docCont.allWbMs
 
     override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {
         return docCont.getWb(wbKeySt)

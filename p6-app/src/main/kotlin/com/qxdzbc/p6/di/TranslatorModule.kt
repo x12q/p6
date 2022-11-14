@@ -22,7 +22,7 @@ import dagger.Provides
 interface TranslatorModule {
     @Binds
     @P6Singleton
-    @TextElementVisitor_Qualifier
+    @TextElementVisitorQ
     fun TextElementVisitor(i: TextElementVisitor): FormulaBaseVisitor<TextElementResult>
 
     @Binds

@@ -19,7 +19,8 @@ data class FunctionMapImp(
         if(f!=null){
             return Ok(f)
         }else{
-            return ExUnitErrors.InvalidFunction.report(name).toErr()
+            return ExUnitErrors.
+            InvalidFunction.report(name).toErr()
         }
     }
 

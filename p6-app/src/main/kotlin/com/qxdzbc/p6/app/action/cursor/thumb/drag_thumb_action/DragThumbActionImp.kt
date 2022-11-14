@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action
+package com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
@@ -22,9 +22,9 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class DragThumbActionImp @Inject constructor(
     val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
-    private val copyCellAct: CopyCellAction,
-    private val multiCellUpdateAct:MultiCellUpdateAction,
-    private val endThumbDragAction:EndThumbDragAction,
+//    private val copyCellAct: CopyCellAction,
+//    private val multiCellUpdateAct:MultiCellUpdateAction,
+    private val endThumbDragAction: EndThumbDragAction,
 ) : DragThumbAction {
 
     val sc by stateContainerSt

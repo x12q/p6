@@ -9,7 +9,10 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 
-data class RangeImp(
+/**
+ * A one-off range hold a hard reference to a worksheet obj. Be extra careful using this one. Prefer [LazyRange].
+ */
+data class OneOffRange(
     val worksheet: Worksheet,
     val wbKeySt: St<WorkbookKey>,
     override val address: RangeAddress

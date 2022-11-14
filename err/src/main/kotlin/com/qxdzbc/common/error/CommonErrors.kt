@@ -46,7 +46,7 @@ object CommonErrors {
     }
 
     object MultipleErrors {
-        val header = ErrorHeader("$prefix 3", "Multiple errors")
+        val header = ErrorHeader("$prefix 4", "Multiple errors")
 
         data class Data(val errorList: List<ErrorReport>)
 
@@ -59,7 +59,7 @@ object CommonErrors {
     }
 
     object NullObject{
-        val header = ErrorHeader("${prefix}4", "Null obj error")
+        val header = ErrorHeader("${prefix} 5", "Null obj error")
         fun report(detail: String?=null): ErrorReport {
             if(detail!=null){
                 return header.setDescription(detail).toErrorReport()
@@ -69,7 +69,7 @@ object CommonErrors {
         }
     }
     object UnPlanned {
-        val header = ErrorHeader("${prefix}5", "Un planned error")
+        val header = ErrorHeader("${prefix} 6", "Un planned error")
 
         fun report(detail: String): ErrorReport {
             return header.setDescription(detail).toErrorReport()

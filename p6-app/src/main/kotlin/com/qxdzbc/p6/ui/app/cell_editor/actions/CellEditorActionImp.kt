@@ -8,13 +8,12 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.key_event.MKeyEvent
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.CellValue
@@ -27,20 +26,20 @@ import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
-import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
+import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+
 @P6Singleton
-@ContributesBinding(P6AnvilScope::class,boundType=CellEditorAction::class)
+@ContributesBinding(P6AnvilScope::class, boundType = CellEditorAction::class)
 class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
-    private val cursorAction: CursorAction,
-    private val makeDisplayText: MakeCellEditorDisplayTextAction,
+    private val handleCursorKeyboardEventAct: HandleCursorKeyboardEventAction,
+    private val makeDisplayText: MakeCellEditorTextAction,
     private val openCellEditor: OpenCellEditorAction,
     private val stateContMs: Ms<StateContainer>,
     private val textDiffer: TextDiffer,
@@ -50,7 +49,7 @@ class CellEditorActionImp @Inject constructor(
     val colorFormulaAction: ColorFormulaInCellEditorAction
 ) : CellEditorAction,
     CycleFormulaLockStateAction by cycleLockStateAct,
-    MakeCellEditorDisplayTextAction by makeDisplayText,
+    MakeCellEditorTextAction by makeDisplayText,
     OpenCellEditorAction by openCellEditor {
 
     private val stateCont by stateContMs
@@ -63,10 +62,24 @@ class CellEditorActionImp @Inject constructor(
         return isFormula
     }
 
-    override fun focus() {
+    override fun focusOnCellEditor() {
         val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
         if (fcsMs != null) {
             fcsMs.value = fcsMs.value.focusOnEditor()
+        }
+    }
+
+    override fun freeFocusOnCellEditor() {
+        val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
+        if (fcsMs != null) {
+            fcsMs.value = fcsMs.value.freeFocusOnEditor()
+        }
+    }
+
+    override fun setCellEditorFocus(i: Boolean) {
+        val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
+        if (fcsMs != null) {
+            fcsMs.value = fcsMs.value.setCellEditorFocus(i)
         }
     }
 
@@ -146,8 +159,8 @@ class CellEditorActionImp @Inject constructor(
      */
     override fun changeText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
-        if (editorState.isActive) {
-            val newTextField = TextFieldValue(text=newText,selection= TextRange(newText.length))
+        if (editorState.isOpen) {
+            val newTextField = TextFieldValue(text = newText, selection = TextRange(newText.length))
             this.changeTextField(newTextField)
         }
     }
@@ -162,9 +175,8 @@ class CellEditorActionImp @Inject constructor(
     override fun changeTextField(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
         var ntf = newTextField
-        if (editorState.isActive) {
+        if (editorState.isOpen) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
-            println(ntf)
             ntf = autoCompleteBracesIfPossible(ntf)
 
             val newEditorState = editorState
@@ -201,8 +213,7 @@ class CellEditorActionImp @Inject constructor(
                     newCE
                 }
             stateCont.cellEditorStateMs.value = newEditorState
-            // color the currently displayed text
-//            colorFormulaAction.colorFormulaInCellEditor()
+            colorFormulaAction.formatCurrentFormulaInCellEditor()
         }
     }
 
@@ -234,43 +245,46 @@ class CellEditorActionImp @Inject constructor(
     }
 
     /**
-     * pass keyboard event caught by a cell editor to its range-selector (which is a cell cursor).
-     *
+     * pass keyboard event caught by a cell editor to its range selector (which is a cell cursor).
      */
-    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId:CursorStateId?): Boolean {
-//        val rt: Boolean = editorState.rangeSelectorCursorId?.let {
+    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId: CursorStateId?): Boolean {
         val rt: Boolean = rangeSelectorId?.let {
-            cursorAction.handleKeyboardEvent(keyEvent, it)
+            handleCursorKeyboardEventAct.handleKeyboardEvent(keyEvent, it)
         } ?: false
         return rt
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
     override fun handleKeyboardEvent(keyEvent: P6KeyEvent): Boolean {
-        if (editorState.isActive) {
+        if (editorState.isOpen) {
             if (keyEvent.type == KeyEventType.KeyDown) {
                 when (keyEvent.key) {
                     Key.F4 -> {
                         cycleFormulaLockState()
                         return true
                     }
+
                     Key.Enter -> {
                         if (keyEvent.isAltPressedAlone) {
-                            val currentText = editorState.currentTextField
-                            val newText = currentText.copy(
-                                text = currentText.text + "\n",
-                                selection = TextRange(currentText.selection.end + 1)
-                            )
+                            val newText = editorState.currentTextField
+                                .let { ctf ->
+                                    ctf.copy(
+                                        text = ctf.text + "\n",
+                                        selection = TextRange(ctf.selection.end + 1)
+                                )
+                            }
                             changeTextField(newText)
                         } else {
                             runFormulaOrSaveValueToCell()
                         }
                         return true
                     }
+
                     Key.Escape -> {
                         closeEditor()
                         return true
                     }
+
                     else -> {
                         if (editorState.allowRangeSelector) {
                             if (keyEvent.isAcceptedByRangeSelector()) {

@@ -28,7 +28,7 @@ internal class LoadDataActionImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        act = ts.p6Comp.loadDataAction()
+        act = ts.comp.loadDataAction()
         wbk = ts.wbKey1
         wsn = ts.wsn1
         indWs = IndWorksheet(

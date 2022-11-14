@@ -14,7 +14,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 /**
- * A lazy range is a range that does not hold worksheet reference (hold a St instead), and only fetch the worksheet when it is requested.
+ * A lazy range is a range that does not hold worksheet reference (hold a St instead), and only fetch the worksheet when it is requested. This ensures that the range's content is always update to date, thus safer to use.
  */
 data class LazyRange @AssistedInject constructor(
     @Assisted("1") override val address: RangeAddress,

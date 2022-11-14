@@ -28,14 +28,14 @@ class MoveToWbActionImp @Inject constructor(
     override fun moveToWorkbook(wbKey: WorkbookKey) {
         restoreWindowFocusState.setFocusStateConsideringRangeSelector(wbKey)
         var cellEditorState by appState.cellEditorStateMs
-        if(cellEditorState.isActive && cellEditorState.allowRangeSelector){
+        if(cellEditorState.isOpen && cellEditorState.allowRangeSelector){
             val newRangeCursorMs = appState.getActiveCursorMs(wbKey)
             if(newRangeCursorMs!=null){
                 cellEditorState = cellEditorState.setRangeSelectorCursorId(newRangeCursorMs.value.idMs)
             }else{
                 // x: this happens when the target workbook is empty
                 cellEditorState = cellEditorState.clearAllText().close()
-                restoreWindowFocusState.restoreAllWsFocusIfAllow()
+                restoreWindowFocusState.restoreAllWsFocusIfRangeSelectorIsNotActive()
             }
         }
 

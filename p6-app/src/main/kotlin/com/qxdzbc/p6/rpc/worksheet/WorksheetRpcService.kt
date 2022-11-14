@@ -105,7 +105,7 @@ class WorksheetRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cellId: CellIdDM = request.toModel()
-            val cellRs = sc.getCellRs(cellId.wbKey, cellId.wsName, cellId.address)
+            val cellRs = sc.getCellRsOrDefault(cellId.wbKey, cellId.wsName, cellId.address)
             val rt = SingleSignalResponse.fromRs(cellRs)
             responseObserver.onNextAndComplete(rt.toProto())
         }

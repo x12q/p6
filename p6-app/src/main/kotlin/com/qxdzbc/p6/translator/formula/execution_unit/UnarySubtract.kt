@@ -71,7 +71,7 @@ data class UnarySubtract(val u: ExUnit) : ExUnit {
     override fun runRs(): Result<Double, ErrorReport> {
         val runRs = u.runRs()
         val rt = runRs.andThen { rs ->
-            val trueR = ExUnits.extractFromCellOrNull(rs)?:0
+            val trueR = rs?.let { ExUnits.extractFromCellOrNull(rs) }?:0
             val negated = when (trueR) {
                 is Int -> Ok(-trueR.toDouble())
                 is Double -> Ok(-trueR)

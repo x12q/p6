@@ -17,7 +17,7 @@ class CreateNewWorkbookActionTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        val p6Comp = ts.p6Comp
+        val p6Comp = ts.comp
         action = p6Comp.createNewWbAction()
         closeWbAct = p6Comp.closeWbAct()
     }

@@ -1,53 +1,39 @@
 package test
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import kotlin.properties.Delegates
-import kotlin.reflect.KProperty
+import com.google.gson.Gson
+import com.qxdzbc.common.compose.St
+import java.nio.file.Files
+import java.nio.file.Paths
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 import kotlin.test.Test
+import kotlin.test.assertNotNull
 
 
 class TestBench {
-
-    class NumQ(var i: Int) {
-        operator fun getValue(qq: Any?, property: KProperty<*>): Int {
-            return i
+    @OptIn(ExperimentalContracts::class)
+    fun isSt(a: Any?): Boolean {
+        contract {
+            returns(true) implies (a is St<*>)
         }
-
-        operator fun setValue(qq: Any?, property: KProperty<*>, i: Int) {
-            this.i = i
-        }
+        return a is St<*>
     }
 
-    class QQ {
-        val numQ = NumQ(123)
-        var i2: Int by numQ
+    fun forceOverflow(x: Int) {
+        forceOverflow(x)
     }
 
-    data class A(val i: Int, val s: String)
-
-
-    fun aaaa() = sequence<Int> {
-        var param = Pair(0, 1)
-        while (true) {
-            yield(param.first)
-            param = Pair(param.second, param.first + param.second)
-        }
-    }
 
     @Test
     fun t() {
-        val t = buildAnnotatedString {
-            withStyle(style = SpanStyle(color = Color.Red)){
-                append("qwe")
-            }
-            withStyle(style = SpanStyle(color = Color.Green)){
-                append("123")
-            }
+        val x:Any = 123
+        try{
+            val y = x as String
+        }catch(e:Throwable){
+            println(e::class)
         }
 
-        println(t)
+
     }
+
 }

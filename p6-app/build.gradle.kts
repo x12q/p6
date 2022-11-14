@@ -6,12 +6,16 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     java
-    kotlin("jvm") version "1.6.10"
-    kotlin("kapt") version "1.6.10"
-    id("org.jetbrains.compose") version "1.1.1"
+//    kotlin("jvm") version "1.6.10"
+//    kotlin("kapt") version "1.6.10"
+
+    kotlin("jvm") version "1.7.20"
+    kotlin("kapt") version "1.7.20"
+
+    id("org.jetbrains.compose") version "1.2.1"
     id("maven-publish")
     idea
-    id ("com.squareup.anvil") version "2.4.1-1-6"
+    id ("com.squareup.anvil") version "2.4.2"
 }
 
 idea {
@@ -19,17 +23,16 @@ idea {
         this.isDownloadSources = true
     }
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
-}
+//java {
+//    sourceCompatibility = JavaVersion.VERSION_15
+//    targetCompatibility = JavaVersion.VERSION_15
+//}
 
 
 tasks {
     val jvmVersion = "15"
     compileKotlin {
         kotlinOptions { jvmTarget = jvmVersion }
-        sourceCompatibility = jvmVersion
     }
 }
 
@@ -59,6 +62,9 @@ val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 val apacheCommonTextVersion = "1.10.0"
 dependencies {
+//    implementation("com.google.code.gson:gson:2.10")
+
+    testImplementation("org.hamcrest:hamcrest:2.2")
 
     implementation("org.apache.commons:commons-text:${apacheCommonTextVersion}")
 
@@ -75,13 +81,13 @@ dependencies {
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
 
-    implementation("com.qxdzbc:common:${p6Version}")
-    implementation("com.qxdzbc:err:${p6Version}")
-    implementation("com.qxdzbc:common-compose:${p6Version}")
+//    implementation("com.qxdzbc:common:${p6Version}")
+//    implementation("com.qxdzbc:err:${p6Version}")
+//    implementation("com.qxdzbc:common-compose:${p6Version}")
 
-//    implementation(project(":err"))
-//    implementation(project(":common"))
-//    implementation(project(":common-compose"))
+    implementation(project(":err"))
+    implementation(project(":common"))
+    implementation(project(":common-compose"))
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.17.2")

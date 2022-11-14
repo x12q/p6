@@ -1,18 +1,19 @@
 package com.qxdzbc.p6.ui.app.cell_editor.actions
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.common.compose.key_event.MKeyEvent
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorDisplayTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 
-interface CellEditorAction : MakeCellEditorDisplayTextAction, OpenCellEditorAction, CycleFormulaLockStateAction {
+interface CellEditorAction : MakeCellEditorTextAction, OpenCellEditorAction, CycleFormulaLockStateAction {
 
     /**
      * Focus on the cell editor
      */
-    fun focus()
+    fun focusOnCellEditor()
+    fun freeFocusOnCellEditor()
+    fun setCellEditorFocus(i:Boolean)
 
     /**
      * run the current formula inside the cell editor if there's a formula. Otherwise, parse and save the current value in the editor into the target cell

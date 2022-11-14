@@ -9,8 +9,8 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
  * - cursor is focused
  */
 interface RestoreWindowFocusState {
-    fun restoreCellEditorAndCursorState(): Rse<Unit>
-    fun restoreAllWsFocusIfAllow(): Rse<Unit>
+    fun restoreAllWindowFocusState(): Rse<Unit>
+    fun restoreAllWsFocusIfRangeSelectorIsNotActive(): Rse<Unit>
 
     /**
      * if range selector is allowed, focus on editor, otherwise focus on cursor, free focus on editor

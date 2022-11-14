@@ -12,7 +12,7 @@ annotation class PartialCellRangeExtractorQ
 
 @Qualifier
 @Retention
-annotation class TextElementVisitor_Qualifier
+annotation class TextElementVisitorQ
 
 @Qualifier
 @Retention

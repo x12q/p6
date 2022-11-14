@@ -1,12 +1,14 @@
 package com.qxdzbc.p6.app.document.cell
 
-import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.common.utils.TypeUtils.checkStAndCast
+import com.qxdzbc.p6.app.document.range.Range
+import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 
 /**
  * A class that holds the value (value only, not including the formula) of a cell
@@ -16,10 +18,37 @@ data class CellValue constructor(
     val bool: Boolean? = null,
     val str: String? = null,
     val range: Range? = null,
-    val cell: Cell? = null,
+    val cellSt: St<Cell>? = null,
     val errorReport: ErrorReport? = null,
     val transErrorReport: ErrorReport? = null,
 ) {
+    val cell: Cell? get() = cellSt?.value
+    override fun hashCode(): Int {
+        var result = number?.hashCode() ?: 0
+        result = 31 * result + (bool?.hashCode() ?: 0)
+        result = 31 * result + (str?.hashCode() ?: 0)
+        result = 31 * result + (range?.hashCode() ?: 0)
+        result = 31 * result + (errorReport?.hashCode() ?: 0)
+        result = 31 * result + (transErrorReport?.hashCode() ?: 0)
+        result = 31 * result + (cell?.id?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is CellValue) {
+            val c1 = number == other.number
+            val c2 = bool == other.bool
+            val c3 = str == other.str
+            val c4 = range == other.range
+            val c5 = cell?.id == other.cell?.id
+            val c6 = errorReport == other.errorReport
+            val c7 = transErrorReport == other.transErrorReport
+            return c1 && c2 && c3 && c4 && c5 && c6 && c7
+        } else {
+            return false
+        }
+    }
+
     init {
         val nonNullCount = listOfNotNull(number, bool, str, errorReport, range, cell).size
         if (nonNullCount > 1) {
@@ -27,17 +56,34 @@ data class CellValue constructor(
         }
     }
 
+    override fun toString(): String {
+        /*
+         val number: Double? = null,
+    val bool: Boolean? = null,
+    val str: String? = null,
+    val range: Range? = null,
+    val cell: Cell? = null,
+    val errorReport: ErrorReport? = null,
+    val transErrorReport: ErrorReport? = null,
+         */
+        return this.hashCode().toString()
+    }
+
     companion object {
         val empty = CellValue()
-        fun fromRs(rs: Result<Any, ErrorReport>): CellValue {
+        fun fromRs(rs: Result<Any?, ErrorReport>): CellValue {
             when (rs) {
-                is Err -> return CellValue(errorReport = rs.error)
+                is Err -> {
+                    return CellValue(errorReport = rs.error)
+                }
+
                 is Ok -> {
                     return fromAny(rs.value)
                 }
             }
         }
 
+        @Suppress("UNCHECKED_CAST")
         fun fromAny(any: Any?): CellValue {
             if (any == null) {
                 return empty
@@ -48,10 +94,15 @@ data class CellValue constructor(
                 is Number -> return from(i.toDouble())
                 is Boolean -> return from(i)
                 is Range -> return from(i)
-                is Cell -> return from(i)
                 is ErrorReport -> return from(i)
                 else -> {
-                    return from(CellErrors.InvalidCellValue.report(i))
+                    val casted: St<Cell>? = i.checkStAndCast()
+                    if(casted!=null){
+                        val rt:CellValue= from(casted)
+                        return rt
+                    }else{
+                        return from(CellErrors.InvalidCellValue.report(i))
+                    }
                 }
             }
         }
@@ -60,8 +111,12 @@ data class CellValue constructor(
             return CellValue(transErrorReport = errorReport)
         }
 
-        fun from(i: Cell): CellValue {
-            return CellValue(cell = i)
+        fun from(i: St<Cell>): CellValue {
+            return CellValue(cellSt = i)
+        }
+
+        fun fromCellForTest(i: Cell): CellValue {
+            return CellValue(cellSt = ms(i))
         }
 
         fun from(i: Range): CellValue {
@@ -114,31 +169,9 @@ data class CellValue constructor(
         }
     }
 
-    private val all = listOfNotNull(number, bool, str, errorReport, range, cell, transErrorReport)
+    val all = listOfNotNull(number, bool, str, errorReport, range, cellSt, transErrorReport)
 
-    val currentValue: Any? get() = all.firstOrNull()
-
-    val valueAfterRun: Any?
-        get() {
-            try{
-                val o = all.firstOrNull()
-                when (o) {
-                    is Range -> {
-                        if (o.isCell) {
-                            val rt = o.cells[0].valueAfterRun
-                            return rt
-                        } else {
-                            return o
-                        }
-                    }
-                    is Cell -> return o.valueAfterRun
-                    else -> return o
-                }
-            }catch (e:Throwable){
-                return CommonErrors.ExceptionError.report(e)
-            }
-
-        }
+    val value: Any? get() = all.firstOrNull()
 
     val isBool get() = this.bool != null
     val isNumber get() = this.number != null
@@ -172,14 +205,14 @@ data class CellValue constructor(
             if (this.isRange || this.isCell || this.isErr || this.isTranslatorErr) {
                 return null
             } else {
-                return displayStr
+                return displayText
             }
         }
 
     /**
      * @return a string value for displaying inside a cell. This is what the user see in the cell on a worksheet.
      */
-    val displayStr: String
+    val displayText: String
         get() {
             if (number != null) {
                 // handle int number
@@ -205,12 +238,12 @@ data class CellValue constructor(
                 return transErrorReport.toString()
             }
             if (cell != null) {
-                return cell.displayValue
+                return cell!!.attemptToAccessDisplayText()
             }
             if (range != null) {
                 if (range.isCell) {
                     val cell = range.cells[0]
-                    return cell.valueAfterRun?.toString() ?: ""
+                    return cell.attemptToAccessDisplayText()
                 } else {
                     return "Range[${range.address.label}]"
                 }
