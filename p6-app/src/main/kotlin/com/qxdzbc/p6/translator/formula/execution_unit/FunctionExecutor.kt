@@ -3,7 +3,6 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
-import java.lang.reflect.InvocationTargetException
 import kotlin.reflect.KFunction
 
 /**
@@ -15,7 +14,7 @@ interface FunctionExecutor {
      */
     fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport>
 
-    object Default : FunctionExecutor {
+    object ArgsAsArray : FunctionExecutor {
         @Suppress("UNCHECKED_CAST")
         override fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport> {
             return runFunction {
