@@ -31,7 +31,7 @@ internal class UpdateCellActionImpTest {
     fun `bug - A1+1 in A1`() {
         val wbws = WbWs(ts.wbKey1, ts.wsn1)
         var ct = 0
-        for(x in 0 .. 100){
+        for(x in 0 .. 20){
             try{
                 act.updateCellDM(
                     request = CellUpdateRequestDM(
