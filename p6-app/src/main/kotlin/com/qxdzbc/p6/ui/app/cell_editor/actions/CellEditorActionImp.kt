@@ -175,10 +175,10 @@ class CellEditorActionImp @Inject constructor(
      */
     override fun changeTextField(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
-        val oldTf = editorState.displayTextField
+//        val oldTf = editorState.displayTextField
         val ntf = newTextField
         if (editorState.isOpen) {
-            val oldAllowRangeSelector = editorState.allowRangeSelector
+//            val oldAllowRangeSelector = editorState.allowRangeSelector
             val oldRSAState = editorState.rangeSelectorAllowState
             val autoCompletedTf = autoCompleteBracesIfPossible(editorState.displayTextField,ntf)
 

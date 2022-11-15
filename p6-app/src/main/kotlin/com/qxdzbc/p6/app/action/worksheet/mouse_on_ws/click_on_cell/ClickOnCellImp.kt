@@ -38,7 +38,6 @@ class ClickOnCellImp @Inject constructor(
             val cursorState by cursorStateMs
             val cellEditorState by cursorState.cellEditorStateMs
             restoreWindowFocusState.setFocusStateConsideringRangeSelector(cursorState.wbKey)
-//            val c1 = cellEditorState.isOpen && !cellEditorState.allowRangeSelector
             val c1 = cellEditorState.isOpen && !cellEditorState.rangeSelectorAllowState.isAllow()
             if (c1) {
                 return

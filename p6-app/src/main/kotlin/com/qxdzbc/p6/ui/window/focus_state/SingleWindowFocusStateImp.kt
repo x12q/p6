@@ -32,6 +32,7 @@ data class SingleWindowFocusStateImp  constructor(
 
     override val isCursorFocused: Boolean by isCursorFocusedMs
     override fun setCursorFocus(i: Boolean): SingleWindowFocusStateImp {
+        println("QQQ: cursor is focused")
         isCursorFocusedMs.value = i
         return this
     }
@@ -49,7 +50,8 @@ data class SingleWindowFocusStateImp  constructor(
     }
 
     override fun focusOnCursor(): WindowFocusState {
-        freeAllFocus()
+//        freeAllFocus()
+//        val t=editorFocusRequester.freeFocus()
         cursorFocusRequester.requestFocus()
         return this
     }
@@ -61,6 +63,7 @@ data class SingleWindowFocusStateImp  constructor(
 
     override val isEditorFocused: Boolean by isEditorFocusedMs
     override fun setCellEditorFocus(i: Boolean): SingleWindowFocusStateImp {
+        println("QQQ: editor is focused")
         isEditorFocusedMs.value = i
         return this
     }

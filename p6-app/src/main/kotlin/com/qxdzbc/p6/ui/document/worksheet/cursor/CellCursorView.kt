@@ -52,17 +52,17 @@ fun CursorView(
     val mainCell: CellAddress = state.mainCell
     var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
 
-    LaunchedEffect(Unit) {
-        action.focusOnCursor(state.id)
-    }
+//    LaunchedEffect(Unit) {
+//        action.focusOnCursor(state.id)
+//    }
 
-    LaunchedEffect(focusState.isCursorFocused) {
-        if(focusState.isCursorFocused){
-            action.focusOnCursor(state.id)
-        }else{
-            action.freeFocusOnCursor(state.id)
-        }
-    }
+//    LaunchedEffect(focusState.isCursorFocused) {
+//        if(focusState.isCursorFocused){
+//            action.focusOnCursor(state.id)
+//        }else{
+//            action.freeFocusOnCursor(state.id)
+//        }
+//    }
     // x: this an invisible box that matches the whole cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, referred cells)
     MBox(modifier = Modifier
         .fillMaxSize()
@@ -104,11 +104,14 @@ fun CursorView(
         // x: this is the main cell
         if (state.cellEditorState.isNotOpen || state.cellEditorState.rangeSelectorCursorId == state.id) {
             val mainCellSize = cellLayoutCoorsMap[mainCell]?.sizeOrZero ?: DpSize(0.dp, 0.dp)
+            val cfr = focusState.cursorFocusRequester.focusRequester
             MBox(
                 modifier = modifier
                     .focusRequester(focusState.cursorFocusRequester.focusRequester)
                     .focusable(true)
                     .onFocusChanged {
+                        println("Cursor focus change: ${it.isFocused}")
+                        println("Cursor fr: ${cfr.hashCode()}")
                         action.updateCursorFocus(state.id,it.isFocused)
                     }
                     .offset { mainCellOffset }

@@ -25,7 +25,7 @@ class RestoreWindowFocusStateImp @Inject constructor(
      * clear and close cell editor, then restore window focus state to default
      */
     override fun restoreAllWindowFocusState(): Rse<Unit> {
-        appState.cellEditorState = appState.cellEditorState.clearAllText().close()
+//        appState.cellEditorState = appState.cellEditorState.clearAllText().close()
         appState.windowStateMsList.map {
             it.value.focusStateMs
         }.forEach {
@@ -59,7 +59,7 @@ class RestoreWindowFocusStateImp @Inject constructor(
         val selectingRangeForEditor =cellEditorState.isOpen && cellEditorState.allowRangeSelector
         if (selectingRangeForEditor) {
             appState.getWindowStateMsByWbKey(wbKey)?.also {wds->
-                wds.value.focusState = wds.value.focusState.focusOnEditor().freeFocusOnCursor()
+                wds.value.focusState = wds.value.focusState.freeFocusOnCursor().focusOnEditor()
             }
         }else{
             restoreAllWindowFocusState()
