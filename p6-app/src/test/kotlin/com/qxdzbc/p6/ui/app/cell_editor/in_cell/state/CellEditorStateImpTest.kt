@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.app.cell_editor.in_cell.state
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
@@ -34,13 +35,16 @@ class CellEditorStateImpTest {
     @Test
     fun allowRangeSelector() {
         val state = CellEditorStateImp.defaultForTest()
-        assertTrue(state.setCurrentText("=1+").allowRangeSelector)
-        assertFalse(state.setCurrentText("=1").allowRangeSelector)
+        val mockCursorStatId=mock(CursorStateId::class.java).toMs()
+        val openedState = state.open(mockCursorStatId)
+        assertTrue(openedState.setCurrentText("=1+").allowRangeSelector)
+        assertFalse(openedState.setCurrentText("=1").allowRangeSelector)
     }
 
     @Test
     fun stopGettingRange() {
-        val state = CellEditorStateImp.defaultForTest()
+        val mockCursorStatId=mock(CursorStateId::class.java).toMs()
+        val state = CellEditorStateImp.defaultForTest().open(mockCursorStatId)
         val s2 = state.setCurrentText("=").setRangeSelectorTextField(TextFieldValue("=A1"))
         assertTrue(s2.allowRangeSelector)
         assertEquals("=", s2.currentText)
@@ -50,7 +54,5 @@ class CellEditorStateImpTest {
         assertFalse(s3.allowRangeSelector)
         assertEquals("=A1", s3.currentText)
         assertNull(s3.rangeSelectorTextField)
-
-
     }
 }

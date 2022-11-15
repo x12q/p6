@@ -34,12 +34,12 @@ class ClickOnCellImp @Inject constructor(
      * when click on a cell, remove all previous selection, then assign the clicked cell as the new main cell
      */
     override fun clickOnCell(cellAddress: CellAddress, cursorLocation: WbWs) {
-
         stateCont.getCursorStateMs(cursorLocation)?.also { cursorStateMs ->
             val cursorState by cursorStateMs
             val cellEditorState by cursorState.cellEditorStateMs
             restoreWindowFocusState.setFocusStateConsideringRangeSelector(cursorState.wbKey)
-            val c1 = cellEditorState.isOpen && !cellEditorState.allowRangeSelector
+//            val c1 = cellEditorState.isOpen && !cellEditorState.allowRangeSelector
+            val c1 = cellEditorState.isOpen && !cellEditorState.rangeSelectorAllowState.isAllow()
             if (c1) {
                 return
             } else {

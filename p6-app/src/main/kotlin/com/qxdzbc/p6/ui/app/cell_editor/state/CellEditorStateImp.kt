@@ -25,14 +25,11 @@ data class CellEditorStateImp constructor(
     override val rangeSelectorCursorIdSt: St<CursorStateId>? = null,
     override val rangeSelectorTextField: TextFieldValue? = null,
     override val parseTreeMs: Ms<ParseTree?> = ms(null),
-    private val checkRangeSelector: CheckRangeSelectorStateAction,
     override val rangeSelectorAllowState: RangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
 ) : CellEditorState {
 
     @Inject
-    constructor(
-        checkRangeSelector: CheckRangeSelectorStateAction,
-    ) : this(
+    constructor() : this(
         targetCursorIdSt = null,
         isOpenMs = ms(false),
         currentTextField = TextFieldValue(""),
@@ -40,18 +37,13 @@ data class CellEditorStateImp constructor(
         rangeSelectorCursorIdSt = null,
         rangeSelectorTextField = null,
         parseTreeMs = ms(null),
-        checkRangeSelector = checkRangeSelector,
         rangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE
     )
 
     companion object {
         fun defaultForTest(): CellEditorStateImp {
-            return CellEditorStateImp(checkRangeSelector = CheckRangeSelectorStateActionImp())
+            return CellEditorStateImp()
         }
-    }
-
-    override fun setRangeSelectorAllowState(i: RangeSelectorAllowState): CellEditorStateImp {
-        return this.copy(rangeSelectorAllowState=i)
     }
 
     override val parseTree: ParseTree? get() = parseTreeMs.value
@@ -79,7 +71,7 @@ data class CellEditorStateImp constructor(
 
     override val allowRangeSelector: Boolean
         get() {
-            return checkRangeSelector.check(this.currentText, this.currentTextField.selection.end)
+            return this.rangeSelectorAllowState.isAllow()
         }
 
     override val isOpen: Boolean by isOpenMs
@@ -122,19 +114,39 @@ data class CellEditorStateImp constructor(
     }
 
     override fun setCurrentText(newText: String): CellEditorState {
-        val tf = this.currentTextField
-        return this.copy(
-            currentTextField = tf
-                .copy(text = newText, selection = TextRange(newText.length))
-        )
+//        val tf = this.currentTextField
+        //        return this.copy(
+//            currentTextField = tf
+//                .copy(text = newText, selection = TextRange(newText.length))
+//        )
+        val newTf = this.currentTextField
+            .copy(text = newText, selection = TextRange(newText.length))
+        return this.setCurrentTextField(newTf)
     }
 
     override fun setCurrentTextField(newTextField: TextFieldValue): CellEditorState {
-        return this.copy(currentTextField = newTextField)
+        val oldTf = this.currentTextField
+        val isTextCursorChanged =
+            oldTf.text == newTextField.text && oldTf.selection != newTextField.selection
+        val newRSAState = if (isTextCursorChanged) {
+            this.rangeSelectorAllowState.transitWithMovingCursor(
+                text = newTextField.text,
+                selection = newTextField.selection,
+            )
+        } else {
+            val newText = newTextField.text
+            val textRange = newTextField.selection
+            this.rangeSelectorAllowState.transitWithInput(
+                text = newText,
+                inputChar = newText.getOrNull(textRange.end - 1),
+                inputIndex = textRange.end - 1
+            )
+        }
+        return this.copy(currentTextField = newTextField, rangeSelectorAllowState = newRSAState)
     }
 
     override fun setDisplayTextField(newTextField: TextFieldValue): CellEditorState {
-        if (this.isActiveAndAllowRangeSelector) {
+        if (this.isOpen && rangeSelectorAllowState.isAllow()) {
             return this.setRangeSelectorTextField(newTextField)
         } else {
             return this.setCurrentTextField(newTextField)
@@ -150,15 +162,15 @@ data class CellEditorStateImp constructor(
      */
     override fun open(cursorIdMs: St<CursorStateId>): CellEditorState {
         isOpenMs.value = true
-        val rsaState= if(this.currentText.isNotEmpty()){
+        val rsaState = if (this.currentText.isNotEmpty()) {
             RangeSelectorAllowState.DISALLOW
-        }else{
+        } else {
             RangeSelectorAllowState.START
         }
         return this.copy(
             targetCursorIdSt = cursorIdMs,
             rangeSelectorCursorIdSt = cursorIdMs,
-            rangeSelectorAllowState =rsaState
+            rangeSelectorAllowState = rsaState
         )
     }
 

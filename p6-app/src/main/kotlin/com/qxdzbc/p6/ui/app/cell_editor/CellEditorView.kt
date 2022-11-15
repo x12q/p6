@@ -77,6 +77,7 @@ fun CellEditorView(
                     .onFocusChanged {
                         action.setCellEditorFocus(it.isFocused)
                     }
+
             )
         }
     }

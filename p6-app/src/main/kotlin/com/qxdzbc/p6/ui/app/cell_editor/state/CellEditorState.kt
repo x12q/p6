@@ -10,8 +10,10 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import org.antlr.v4.runtime.tree.ParseTree
 
 interface CellEditorState {
+    /**
+     * this value always depend on [currentTextField], therefore it can't be set directly
+     */
     val rangeSelectorAllowState:RangeSelectorAllowState
-    fun setRangeSelectorAllowState(i:RangeSelectorAllowState):CellEditorState
 
     val parseTreeMs:Ms<ParseTree?>
     val parseTree: ParseTree?
@@ -61,8 +63,17 @@ interface CellEditorState {
     val targetWbKey: WorkbookKey? get() = targetCursorId?.wbKey
     val targetWsName: String? get() = targetCursorId?.wsName
 
+    /**
+     * Display text field is either:
+     *  - the [currentTextField] if cell editor is opened
+     *  - or [rangeSelectorTextField] if cell editor is not opened
+     */
     val displayTextField: TextFieldValue
     val displayText: String
+    /**
+     * if this cell editor is active and allow range selector, update the [rangeSelectorTextField], otherwise update the [currentTextField]
+     */
+    fun setDisplayTextField(newTextField: TextFieldValue):CellEditorState
 
     /**
      * A temporary text field that stores a temporary text when users are using the cursor at [rangeSelectorCursorId] to select a cell/range. During this selection time, [rangeSelectorTextField] is displayed on the view instead of [currentTextField].
@@ -76,17 +87,12 @@ interface CellEditorState {
     fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorState
 
     /**
-     * current text is the one that hold the formula that will be run at the end
+     * current text holds the formula that will be copied to the target cell and run at the end.
      */
     val currentText: String
     val currentTextField: TextFieldValue
     fun setCurrentText(newText: String): CellEditorState
     fun setCurrentTextField(newTextField: TextFieldValue): CellEditorState
-
-    /**
-     * if this cell editor is active and allow range selector, update the [rangeSelectorTextField], otherwise update the [currentTextField]
-     */
-    fun setDisplayTextField(newTextField: TextFieldValue):CellEditorState
 
     /**
      * clear both current text and range selector text

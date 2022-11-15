@@ -5,7 +5,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
-
+@Deprecated("to be deleted, don't use, kept just in case")
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CheckRangeSelectorStateActionImp @Inject constructor() : CheckRangeSelectorStateAction {

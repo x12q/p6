@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.ui.app.cell_editor
 
+import androidx.compose.ui.text.TextRange
+
 enum class RangeSelectorAllowState {
     NOT_AVAILABLE{
         override fun transit(
@@ -118,9 +120,25 @@ enum class RangeSelectorAllowState {
     fun transitWithMovingCursor(
         text:String,
         cursorIndex: Int?,
-        moveCursorWithMouse: Boolean,
-        moveCursorWithKeyboard: Boolean
+        moveCursorWithMouse: Boolean= true,
+        moveCursorWithKeyboard: Boolean=false,
     ):RangeSelectorAllowState{
         return transit(text,null,null,cursorIndex, moveCursorWithMouse, moveCursorWithKeyboard)
+    }
+
+    fun transitWithMovingCursor(
+        text:String,
+        selection: TextRange,
+        moveCursorWithMouse: Boolean = true,
+        moveCursorWithKeyboard: Boolean = false,
+    ):RangeSelectorAllowState{
+        if(selection.end == selection.start){
+            return transitWithMovingCursor(text,selection.end, moveCursorWithMouse, moveCursorWithKeyboard)
+        }else{
+            return DISALLOW
+        }
+    }
+    fun isAllow():Boolean{
+        return this == ALLOW || this == ALLOW_MOUSE
     }
 }

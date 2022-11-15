@@ -25,6 +25,7 @@ import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
+import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -174,18 +175,20 @@ class CellEditorActionImp @Inject constructor(
      */
     override fun changeTextField(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
-        var ntf = newTextField
+        val oldTf = editorState.displayTextField
+        val ntf = newTextField
         if (editorState.isOpen) {
             val oldAllowRangeSelector = editorState.allowRangeSelector
-            ntf = autoCompleteBracesIfPossible(ntf)
+            val oldRSAState = editorState.rangeSelectorAllowState
+            val autoCompletedTf = autoCompleteBracesIfPossible(editorState.displayTextField,ntf)
 
             val newEditorState = editorState
-                .setCurrentTextField(ntf)
+                .setCurrentTextField(autoCompletedTf)
                 .apply {
                     /*
-                    when the cell editor switches off allow-range-selector flag, if the range-selector cursor and target cursor are the same, reset the cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
+                    when the cell editor switches off allow-range-selector flag, if the range-selector cell cursor and target cell cursor are the same, reset the cell cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
                     */
-                    val from_Allow_To_Disallow: Boolean = oldAllowRangeSelector && !this.allowRangeSelector
+                    val from_Allow_To_Disallow: Boolean = oldRSAState.isAllow() && this.rangeSelectorAllowState.isAllow().not()
                     if (from_Allow_To_Disallow) {
                         if (editorState.rangeSelectorIsSameAsTargetCursor) {
                             editorState.targetCursorId?.let { cursorId ->
@@ -217,8 +220,8 @@ class CellEditorActionImp @Inject constructor(
         }
     }
 
-    fun autoCompleteBracesIfPossible(newTextField: TextFieldValue): TextFieldValue {
-        val oldTf = editorState.currentTextField
+    fun autoCompleteBracesIfPossible(oldTf:TextFieldValue,newTextField: TextFieldValue): TextFieldValue {
+//        val oldTf = editorState.currentTextField
         val ntf = newTextField
         if (oldTf == ntf) {
             return ntf
@@ -286,7 +289,8 @@ class CellEditorActionImp @Inject constructor(
                     }
 
                     else -> {
-                        if (editorState.allowRangeSelector) {
+//                        if (editorState.allowRangeSelector) {
+                        if (editorState.rangeSelectorAllowState == RangeSelectorAllowState.ALLOW) {
                             if (keyEvent.isAcceptedByRangeSelector()) {
                                 val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorCursorId)
                                 if (keyEvent.isRangeSelectorNavKey()) {

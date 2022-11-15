@@ -86,7 +86,6 @@ data class CursorStateImp @AssistedInject constructor(
                         targetCell = mainCellMs.value,
                         targetCursorIdSt = cursorIdMs,
                         isOpenMs = false.toMs(),
-                        checkRangeSelector = CheckRangeSelectorStateActionImp()
                     )
                 ),
                 thumbStateMs = thumbStateMs
