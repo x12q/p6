@@ -16,7 +16,7 @@ annotation class AppOddityContMs
 
 @Qualifier
 @Retention
-annotation class CellEditorInitCursorIdSt
+annotation class InitCellEditorInitCursorIdSt
 
 @Qualifier
 @Retention

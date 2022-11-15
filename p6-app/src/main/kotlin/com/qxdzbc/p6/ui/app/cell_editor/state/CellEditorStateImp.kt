@@ -6,46 +6,49 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateAction
 import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateActionImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.DefaultTextFieldValue
-import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.state.app_state.CellEditorInitCursorIdSt
-import com.qxdzbc.p6.di.state.app_state.DefaultNullCellAddress
-import com.qxdzbc.p6.di.state.app_state.NullTextFieldValue
-import com.qxdzbc.p6.di.state.ws.cursor.DefaultCursorParseTree
+import com.qxdzbc.p6.di.state.app_state.InitCellEditorInitCursorIdSt
+import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.squareup.anvil.annotations.ContributesBinding
 import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
 @ContributesBinding(P6AnvilScope::class)
-data class CellEditorStateImp @Inject constructor(
-    @CellEditorInitCursorIdSt
-    override val targetCursorIdSt: St<@JvmSuppressWildcards CursorStateId>?,
-    @FalseMs
-    override val isOpenMs: Ms<Boolean>,
-    @DefaultTextFieldValue
-    override val currentTextField: TextFieldValue = TextFieldValue(
-        text = "",
-        selection = TextRange(0)
-    ),
-    @DefaultNullCellAddress
+data class CellEditorStateImp constructor(
+    override val targetCursorIdSt: St< CursorStateId>? = null,
+    override val isOpenMs: Ms<Boolean> = ms(false),
+    override val currentTextField: TextFieldValue = TextFieldValue(""),
     override val targetCell: CellAddress? = null,
-    @CellEditorInitCursorIdSt
-    override val rangeSelectorCursorIdSt: St<@JvmSuppressWildcards CursorStateId>? = null,
-    @NullTextFieldValue
+    override val rangeSelectorCursorIdSt: St< CursorStateId>? = null,
     override val rangeSelectorTextField: TextFieldValue? = null,
-    @DefaultCursorParseTree
-    override val parseTreeMs: Ms<ParseTree?> = StateUtils.ms(null),
+    override val parseTreeMs: Ms<ParseTree?> = ms(null),
     private val checkRangeSelector:CheckRangeSelectorStateAction,
-) : CellEditorState {
+    override val rangeSelectorAllowState: RangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
+    ) : CellEditorState {
+
+    @Inject constructor(
+         checkRangeSelector:CheckRangeSelectorStateAction,
+    ):this(
+        targetCursorIdSt=null,
+        isOpenMs=ms(false),
+        currentTextField=TextFieldValue(""),
+        targetCell=null,
+        rangeSelectorCursorIdSt=null,
+        rangeSelectorTextField=null,
+        parseTreeMs=ms(null),
+        checkRangeSelector=checkRangeSelector,
+        rangeSelectorAllowState=RangeSelectorAllowState.NOT_AVAILABLE
+    )
+
     companion object {
         fun defaultForTest(): CellEditorStateImp {
-            return CellEditorStateImp(null, false.toMs(), checkRangeSelector = CheckRangeSelectorStateActionImp())
+            return CellEditorStateImp(checkRangeSelector = CheckRangeSelectorStateActionImp())
         }
     }
 
@@ -94,7 +97,7 @@ data class CellEditorStateImp @Inject constructor(
     override val targetCursorId: CursorStateId?
         get() = targetCursorIdSt?.value
 
-    override fun setEditTarget(newCellAddress: CellAddress?): CellEditorState {
+    override fun setTargetCell(newCellAddress: CellAddress?): CellEditorState {
         return this.copy(targetCell = newCellAddress)
     }
 

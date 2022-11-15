@@ -5,11 +5,12 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import org.antlr.v4.runtime.tree.ParseTree
 
 interface CellEditorState {
-
+    val rangeSelectorAllowState:RangeSelectorAllowState
     val parseTreeMs:Ms<ParseTree?>
     val parseTree: ParseTree?
     fun setParseTree(i: ParseTree?): CellEditorState
@@ -53,7 +54,7 @@ interface CellEditorState {
      * This is the address of the cell being edited by this cell editor
      */
     val targetCell: CellAddress?
-    fun setEditTarget(newCellAddress: CellAddress?): CellEditorState
+    fun setTargetCell(newCellAddress: CellAddress?): CellEditorState
 
     val targetWbKey: WorkbookKey? get() = targetCursorId?.wbKey
     val targetWsName: String? get() = targetCursorId?.wsName

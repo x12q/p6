@@ -64,7 +64,7 @@ class OpenCellEditorImp @Inject constructor(
                     val cellText = cell.editableValue(cursorState.wbKey,cursorState.wsName)
                     cellEditorState = cellEditorState
                         .setCurrentText(cellText)
-                        .setEditTarget(cursorState.mainCell)
+                        .setTargetCell(cursorState.mainCell)
                         .open(cursorState.idMs)
                 } else {
                     errorRouter.publishToWindow(CellErrors.NotEditable.report(cell.address), windowId)
