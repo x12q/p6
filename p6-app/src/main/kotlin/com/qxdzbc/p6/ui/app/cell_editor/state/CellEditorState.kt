@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.tree.ParseTree
 
 interface CellEditorState {
     val rangeSelectorAllowState:RangeSelectorAllowState
+    fun setRangeSelectorAllowState(i:RangeSelectorAllowState):CellEditorState
+
     val parseTreeMs:Ms<ParseTree?>
     val parseTree: ParseTree?
     fun setParseTree(i: ParseTree?): CellEditorState
