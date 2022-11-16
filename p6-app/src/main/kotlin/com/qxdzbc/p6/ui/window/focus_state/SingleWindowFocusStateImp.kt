@@ -69,7 +69,7 @@ data class SingleWindowFocusStateImp  constructor(
     }
 
     override fun focusOnEditor(): WindowFocusState {
-        freeAllFocus()
+//        freeAllFocus()
         editorFocusRequester.requestFocus()
         return this
     }

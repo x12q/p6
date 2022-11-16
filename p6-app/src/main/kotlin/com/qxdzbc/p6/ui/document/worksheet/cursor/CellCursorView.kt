@@ -52,17 +52,15 @@ fun CursorView(
     val mainCell: CellAddress = state.mainCell
     var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
 
-//    LaunchedEffect(Unit) {
-//        action.focusOnCursor(state.id)
-//    }
+    LaunchedEffect(Unit) {
+        action.focusOnCursor(state.id)
+    }
 
-//    LaunchedEffect(focusState.isCursorFocused) {
-//        if(focusState.isCursorFocused){
-//            action.focusOnCursor(state.id)
-//        }else{
-//            action.freeFocusOnCursor(state.id)
-//        }
-//    }
+    LaunchedEffect(focusState.isCursorFocused) {
+        if(focusState.isCursorFocused){
+            action.focusOnCursor(state.id)
+        }
+    }
     // x: this an invisible box that matches the whole cell grid in size and contains the anchor cell, cell editor, and all the annotation views (selected, copied, referred cells)
     MBox(modifier = Modifier
         .fillMaxSize()

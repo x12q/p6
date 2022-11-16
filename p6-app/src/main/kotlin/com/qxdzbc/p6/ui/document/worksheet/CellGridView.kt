@@ -1,8 +1,10 @@
 package com.qxdzbc.p6.ui.document.worksheet
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.PointerMatcher
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.mouseClickable
+import androidx.compose.foundation.onClick
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -12,19 +14,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
+import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
+import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
+import com.qxdzbc.p6.app.build.BuildConfig
+import com.qxdzbc.p6.app.build.BuildVariant
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.document.cell.CellView
-import com.qxdzbc.p6.ui.document.cell.state.CellState
-import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
-import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
-import com.qxdzbc.p6.app.build.BuildConfig
-import com.qxdzbc.p6.app.build.BuildVariant
 import com.qxdzbc.p6.ui.document.cell.EmptyCellView
+import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRect
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 
@@ -107,13 +109,20 @@ fun CellGridView(
                             } else {
                                 BorderStyle.BOT_RIGHT
                             }
-                        val mouseMod = Modifier.mouseClickable {
-                            if (keyboardModifiers.isCtrlPressed) {
+                        val mouseMod = Modifier.onClick(
+                            matcher = PointerMatcher.mouse(PointerButton.Primary),
+                            keyboardModifiers = { isCtrlPressed },
+                            onClick = {
                                 wsActions.ctrlClickSelectCell(cellAddress, wsState)
-                            } else if (keyboardModifiers.isShiftPressed) {
+                            }
+                        ).onClick(
+                            matcher = PointerMatcher.mouse(PointerButton.Primary),
+                            keyboardModifiers = { isShiftPressed },
+                            onClick = {
                                 wsActions.shiftClickSelectRange(cellAddress, wsState)
                             }
-                        }.then(addTestTag(enableTestTag, makeCellTestTag2(cellAddress)))
+                        )
+
                         BorderBox(
                             style = borderStyle,
                             borderColor = Color.LightGray,
@@ -147,7 +156,7 @@ fun CellGridView(
             } else {
                 wsState.selectRectState.rect.topLeft
             }
-            if(BuildConfig.buildVariant == BuildVariant.DEBUG){
+            if (BuildConfig.buildVariant == BuildVariant.DEBUG) {
                 SelectRect(
                     wsState.selectRectStateMs.value,
                     position = pos
