@@ -108,8 +108,8 @@ fun CursorView(
                     .focusRequester(focusState.cursorFocusRequester.focusRequester)
                     .focusable(true)
                     .onFocusChanged {
-                        println("Cursor focus change: ${it.isFocused}")
-                        println("Cursor fr: ${cfr.hashCode()}")
+//                        println("Cursor focus change: ${it.isFocused}")
+//                        println("Cursor fr: ${cfr.hashCode()}")
                         action.updateCursorFocus(state.id,it.isFocused)
                     }
                     .offset { mainCellOffset }

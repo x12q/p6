@@ -37,6 +37,8 @@ class MoveToWbActionImp @Inject constructor(
                 cellEditorState = cellEditorState.clearAllText().close()
                 restoreWindowFocusState.restoreAllWsFocusIfRangeSelectorIsNotActive()
             }
+        }else{
+            cellEditorState = cellEditorState.close()
         }
 
         setActiveWb(wbKey)

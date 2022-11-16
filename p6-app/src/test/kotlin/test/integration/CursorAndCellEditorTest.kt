@@ -2,6 +2,7 @@ package test.integration
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -24,7 +25,9 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
-import org.mockito.kotlin.*
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
 import test.TestSample
 import test.test_implementation.MockP6KeyEvent
 import kotlin.test.*
@@ -35,7 +38,7 @@ class CursorAndCellEditorTest {
     val appState get() = ts.appState
     val p6Comp get() = ts.comp
     val cellEditorAction get() = p6Comp.cellEditorAction()
-    val sc get()=ts.stateCont
+    val sc get() = ts.stateCont
 
     @BeforeTest
     fun b() {
@@ -43,11 +46,11 @@ class CursorAndCellEditorTest {
     }
 
     @Test
-    fun `click on ruler item when editing cell, allow range select`(){
+    fun `click on ruler item when editing cell, allow range select`() {
         val rulerAction: RulerAction = ts.comp.rulerAction()
-        val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1,ts.wsn1))
+        val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))
         assertNotNull(wbwsSt)
-        val rulerSig = object: RulerSig{
+        val rulerSig = object : RulerSig {
             override val type: RulerType
                 get() = RulerType.Col
             override val wbKeySt: St<WorkbookKey>
@@ -63,15 +66,15 @@ class CursorAndCellEditorTest {
         val colLabel = CellLabelNumberSystem.numberToLabel(col)
         val colLabel2 = CellLabelNumberSystem.numberToLabel(col2)
 
-        assertEquals("=",sc.cellEditorState.displayText)
+        assertEquals("=", sc.cellEditorState.displayText)
         rulerAction.clickRulerItem(col, rulerSig)
-        assertEquals("=${colLabel}:${colLabel}",sc.cellEditorState.displayText)
+        assertEquals("=${colLabel}:${colLabel}", sc.cellEditorState.displayText)
         rulerAction.clickRulerItem(col2, rulerSig)
-        assertEquals("=${colLabel2}:${colLabel2}",sc.cellEditorState.displayText)
+        assertEquals("=${colLabel2}:${colLabel2}", sc.cellEditorState.displayText)
     }
 
     @Test
-    fun `test short formula conversion function`(){
+    fun `test short formula conversion function`() {
         val wbk = ts.wbKey1Ms.value
         val wds = appState.getWindowStateMsByWbKey(wbk)
         val wsn1 = ts.wsn1
@@ -86,16 +89,17 @@ class CursorAndCellEditorTest {
         cellEditorAction.changeText("=SUM(B2:C4)")
         cellEditorAction.runFormulaOrSaveValueToCell()
         cellEditorAction.openCellEditor(cursor1Ms.value)
-        val formulaBar:FormulaBarState? = ts.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
+        val formulaBar: FormulaBarState? =
+            ts.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
 
 //        assertEquals("=SUM(B2:C4)",formulaBar?.text)
 
-        assertEquals("=SUM(B2:C4)",cellEditorState.currentText)
+        assertEquals("=SUM(B2:C4)", cellEditorState.currentText)
 
     }
 
     @Test
-    fun `Shift click while range selector is activated`(){
+    fun `Shift click while range selector is activated`() {
         val wbk = ts.wbKey1Ms.value
         val wbk2 = ts.wbKey2Ms.value
         val wds = appState.getWindowStateMsByWbKey(wbk)
@@ -118,21 +122,21 @@ class CursorAndCellEditorTest {
 
         // x: click
         val c = CellAddress("B5")
-        mouseOnWsAction.clickOnCell(c,cursorLoc)
+        mouseOnWsAction.clickOnCell(c, cursorLoc)
         val rangeSelector by appState.getCursorStateMs(cellEditorState.rangeSelectorCursorId!!)!!
         val c2 = CellAddress("K9")
-        mouseOnWsAction.shiftClickSelectRange(c2,cursorLoc)
-        val r = RangeAddress(c,c2)
+        mouseOnWsAction.shiftClickSelectRange(c2, cursorLoc)
+        val r = RangeAddress(c, c2)
         assertEquals(r, rangeSelector.mainRange)
         val t = "=1+${r.rawLabel}"
-        assertEquals(t,cellEditorState.rangeSelectorText)
-        assertEquals(t,cellEditorState.displayText)
-        assertEquals("=1+",cellEditorState.currentText)
+        assertEquals(t, cellEditorState.rangeSelectorText)
+        assertEquals(t, cellEditorState.displayText)
+        assertEquals("=1+", cellEditorState.currentText)
     }
 
 
     @Test
-    fun `tes ctrl click while range selector is NOT active but editor is active`(){
+    fun `tes ctrl click while range selector is NOT active but editor is active`() {
         val wbk = ts.wbKey1Ms.value
         val wds = appState.getWindowStateMsByWbKey(wbk)
         val wsn1 = ts.wsn1
@@ -154,13 +158,13 @@ class CursorAndCellEditorTest {
 
         // x: ctrl click
         val c = CellAddress("B5")
-        mouseOnWsAction.ctrlClickSelectCell(c,cursorLoc)
+        mouseOnWsAction.ctrlClickSelectCell(c, cursorLoc)
         assertFalse { cellEditorState.isOpen }
-        assertEquals(listOf(c),appState.getCursorState(rangeSelectorId)?.fragmentedCells?.toList())
+        assertEquals(listOf(c), appState.getCursorState(rangeSelectorId)?.fragmentedCells?.toList())
     }
 
     @Test
-    fun `tes ctrl click while range selector is active`(){
+    fun `tes ctrl click while range selector is active`() {
         val wbk = ts.wbKey1Ms.value
         val wbk2 = ts.wbKey2Ms.value
         val wds = appState.getWindowStateMsByWbKey(wbk)
@@ -182,12 +186,12 @@ class CursorAndCellEditorTest {
 
         // x: click
         val c = CellAddress("B5")
-        mouseOnWsAction.clickOnCell(c,cursorLoc)
+        mouseOnWsAction.clickOnCell(c, cursorLoc)
         val expectedText = "=1+${c.label}"
         val rangeSelector by appState.getCursorStateMs(cellEditorState.rangeSelectorCursorId!!)!!
-        fun test(){
-            assertEquals(expectedText,cellEditorState.displayText)
-            assertEquals(expectedText,cellEditorState.rangeSelectorText)
+        fun test() {
+            assertEquals(expectedText, cellEditorState.displayText)
+            assertEquals(expectedText, cellEditorState.rangeSelectorText)
             assertNull(rangeSelector.mainRange)
             assertEquals(c, rangeSelector.mainCell)
             assertTrue(rangeSelector.fragmentedRanges.isEmpty())
@@ -196,7 +200,7 @@ class CursorAndCellEditorTest {
         test()
 
         // x: ctrl click
-        mouseOnWsAction.ctrlClickSelectCell(CellAddress("K9"),cursorLoc)
+        mouseOnWsAction.ctrlClickSelectCell(CellAddress("K9"), cursorLoc)
         test()
 
     }
@@ -222,7 +226,7 @@ class CursorAndCellEditorTest {
         assertTrue(cellEditorState.allowRangeSelector)
 
         // x: start dragging on I16/wsn1/wbk2
-        val cursorLoc2 = WbWs(wbk2,wsn1)
+        val cursorLoc2 = WbWs(wbk2, wsn1)
         val c = CellAddress("I16")
         mouseOnWsAction.startDragSelection(cursorLoc2, c)
         val rangeSelectorMs = cellEditorState.rangeSelectorCursorId?.let { appState.getCursorStateMs(it) }
@@ -243,7 +247,7 @@ class CursorAndCellEditorTest {
         // x: drag to L20/wsn1/wbk2
         val c3 = CellAddress("L20")
         val range2 = RangeAddress(c, c3)
-        mouseOnWsAction.makeMouseDragSelectionIfPossible(cursorLoc2,c3)
+        mouseOnWsAction.makeMouseDragSelectionIfPossible(cursorLoc2, c3)
         assertEquals(range2, rangeSelectorState.mainRange)
         val expectedText2 = "=1+${range2.rawLabel}@${wsn1}@${wbk2.name}"
         assertEquals(expectedText2, cellEditorState.displayText)
@@ -298,7 +302,7 @@ class CursorAndCellEditorTest {
         // x: drag to L20
         val c3 = CellAddress("L20")
         val range2 = RangeAddress(c, c3)
-        mouseOnWsAction.makeMouseDragSelectionIfPossible(cursorLoc,c3)
+        mouseOnWsAction.makeMouseDragSelectionIfPossible(cursorLoc, c3)
         assertEquals(range2, rangeSelectorState.mainRange)
         val expectedText2 = "=1+${range2.rawLabel}"
         assertEquals(expectedText2, cellEditorState.displayText)
@@ -311,6 +315,7 @@ class CursorAndCellEditorTest {
         assertEquals(expectedText2, cellEditorState.rangeSelectorText)
     }
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Test
     fun `bug - click cell when text cursor in A1+|123`() {
         val wbk = ts.wbKey1Ms.value
@@ -326,7 +331,7 @@ class CursorAndCellEditorTest {
 
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
-        assertEquals(RangeSelectorAllowState.START,cellEditorState.rangeSelectorAllowState)
+        assertEquals(RangeSelectorAllowState.START, cellEditorState.rangeSelectorAllowState)
         val rangeSelectorMs = cellEditorState.rangeSelectorCursorId?.let { appState.getCursorStateMs(it) }
 
         // x: pre-condition
@@ -334,18 +339,20 @@ class CursorAndCellEditorTest {
         val t0 = "=A1+123"
         cellEditorAction.changeTextField(
             TextFieldValue(
-                text=t0,
+                text = t0,
                 selection = TextRange(t0.length)
-            ))
+            )
+        )
         // x: cursor is at '3' => DISALLOW
         assertFalse(cellEditorState.allowRangeSelector)
-        assertEquals(RangeSelectorAllowState.DISALLOW,cellEditorState.rangeSelectorAllowState)
+        assertEquals(RangeSelectorAllowState.DISALLOW, cellEditorState.rangeSelectorAllowState)
         cellEditorAction.changeTextField(
             TextFieldValue(
-                text=t0,
+                text = t0,
                 selection = TextRange(4)
-            ))
-        assertEquals(RangeSelectorAllowState.ALLOW_MOUSE,cellEditorState.rangeSelectorAllowState)
+            )
+        )
+        assertEquals(RangeSelectorAllowState.ALLOW_MOUSE, cellEditorState.rangeSelectorAllowState)
         // x: click on a cell in the same sheet
         val clickOnCellAction: ClickOnCell = ts.comp.clickOnCellAction()
         val c = CellAddress("M5")
@@ -358,27 +365,22 @@ class CursorAndCellEditorTest {
         assertEquals(expectText, cellEditorState.displayTextField.text)
         assertEquals(expectText, cellEditorState.rangeSelectorTextField?.text)
         assertEquals(t0, cellEditorState.currentText)
-        val focusState=sc.getFocusStateMsByWbKey(cellEditorState.targetWbKey!!)!!.value
+        val focusState = sc.getFocusStateMsByWbKey(cellEditorState.targetWbKey!!)!!.value
         assertTrue(focusState.isEditorFocused)
 
-        // x: click on another cell in the same sheet
-//        val c2 = CellAddress("L8")
-//        clickOnCellAction.clickOnCell(c2, WbWs(wbk, wsn1))
-//        // x: post-condition
-//        assertEquals(cellEditorState.targetCursorId, cellEditorState.rangeSelectorCursorId)
-//        val expectText2 = "=1+${c2.label}"
-//        assertEquals(expectText2, cellEditorState.displayTextField.text)
-//        assertEquals(expectText2, cellEditorState.rangeSelectorTextField?.text)
-//        assertEquals("=1+", cellEditorState.currentText)
-
-        // x: click on a cell in a different sheet, in a different workbook
-//        val c3 = CellAddress("Z78")
-//        clickOnCellAction.clickOnCell(c3, WbWs(wbk2, wsn1))
-//        assertEquals(appState.getCursorState(WbWs(wbk2, wsn1))?.id, cellEditorState.rangeSelectorCursorId)
-//        val expectText3 = "=1+${c3.label}@${wsn1}@${wbk2.name}"
-//        assertEquals(expectText3, cellEditorState.displayTextField.text)
-//        assertEquals(expectText3, cellEditorState.rangeSelectorTextField?.text)
-//        assertEquals("=1+", cellEditorState.currentText)
+        listOf(/*'a', '+',*/ '?').forEach { chr ->
+            //"=A1+M5a123"
+            //"=A1+M5+123"
+            //"=A1+M5?123"
+            val expectText2 = "=A1+${c.label}${chr}123"
+            cellEditorAction.changeTextField(
+                TextFieldValue(
+                    text = expectText2,
+                    selection = TextRange(7)
+                )
+            )
+            assertEquals(expectText2, cellEditorState.displayText, "violating char: ${chr}")
+        }
     }
 
 
@@ -397,8 +399,6 @@ class CursorAndCellEditorTest {
 
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
-//        val focusState=sc.getWindowStateByWbKey(cellEditorState.targetCursorId!!.wbKey)!!.focusState
-//        assertTrue(focusState.isEditorFocused)
 
         val rangeSelectorMs = cellEditorState.rangeSelectorCursorId?.let { appState.getCursorStateMs(it) }
 
@@ -501,7 +501,7 @@ class CursorAndCellEditorTest {
         /**
          * input a text that enables the range selector, then move around using keyboard arrows
          */
-        fun stdCase(){
+        fun stdCase() {
             // x: input text
             cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
             cellEditorAction.changeText("=1+")
@@ -535,7 +535,7 @@ class CursorAndCellEditorTest {
             cellEditorAction.closeEditor()
         }
 
-        fun handleKeyEvenThatDisableRangeSelector(){
+        fun handleKeyEvenThatDisableRangeSelector() {
             // x: handle key event that ends range selector state
             // x: temporary text is copied to the current text field.
             val key = MockP6KeyEvent(
@@ -557,7 +557,7 @@ class CursorAndCellEditorTest {
         /**
          *  moving from allow range selector to NOT allow by typing in a not tolerated character
          */
-        fun disableRangeSelectorWithNewText(){
+        fun disableRangeSelectorWithNewText() {
             cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
             cellEditorAction.changeText("=1+A3+")
             assertTrue(cellEditorState.allowRangeSelector)
@@ -574,18 +574,20 @@ class CursorAndCellEditorTest {
             cellEditorAction.closeEditor()
         }
 
-        fun `select range after braces auto completion`(){
+        fun `select range after braces auto completion`() {
             cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
             // x: select range after braces "()" auto completion
-            cellEditorAction.changeTextField(TextFieldValue(
-                "=()",
-                TextRange(2) // cursor right behind the "("
-            ))
+            cellEditorAction.changeTextField(
+                TextFieldValue(
+                    "=()",
+                    TextRange(2) // cursor right behind the "("
+                )
+            )
             assertTrue(cellEditorState.allowRangeSelector)
             cellEditorAction.handleKeyboardEvent(MockP6KeyEvent.arrowDown)
             val displayTextField = cellEditorState.displayTextField
-            assertEquals("=(A2)",displayTextField.text)
-            assertEquals(TextRange(4),displayTextField.selection)
+            assertEquals("=(A2)", displayTextField.text)
+            assertEquals(TextRange(4), displayTextField.selection)
             cellEditorAction.closeEditor()
         }
 
@@ -597,7 +599,7 @@ class CursorAndCellEditorTest {
     }
 
     @Test
-    fun `test formula text generated by range selector after activation char`(){
+    fun `test formula text generated by range selector after activation char`() {
 //        for (ac in rangeSelectorActivationChars){
 //            `test formula text generated by range selector after activation char`(ac)
 //        }
@@ -605,7 +607,7 @@ class CursorAndCellEditorTest {
         `test formula text generated by range selector after activation char`('+')
     }
 
-    fun `test formula text generated by range selector after activation char`(activationChar:Char) {
+    fun `test formula text generated by range selector after activation char`(activationChar: Char) {
         val wbk = ts.wbKey1Ms.value
         val wds = appState.getWindowStateMsByWbKey(wbk)
         val wsn1 = ts.wsn1
@@ -623,10 +625,10 @@ class CursorAndCellEditorTest {
         val rangeSelector by rangeSelectorMs
         // x: input text
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
-        val initText="=A1"+activationChar
+        val initText = "=A1" + activationChar
         cellEditorAction.changeText(initText)
         assertEquals(initText, cellEditorState.currentText)
-        assertEquals(initText, cellEditorState.displayTextField.text,"activation char= ${activationChar}")
+        assertEquals(initText, cellEditorState.displayTextField.text, "activation char= ${activationChar}")
         assertNull(cellEditorState.rangeSelectorTextField)
         assertTrue(cellEditorState.allowRangeSelector)
 
@@ -637,7 +639,7 @@ class CursorAndCellEditorTest {
         // x: check state after handle keyboard event
         assertTrue(cellEditorState.allowRangeSelector)
         assertEquals(CellAddress("A2"), rangeSelector.mainCell)
-        val expectText= initText+"A2"
+        val expectText = initText + "A2"
         assertEquals(expectText, cellEditorState.rangeSelectorTextField?.text)
         assertEquals(expectText, cellEditorState.displayTextField.text)
         assertEquals(initText, cellEditorState.currentText)
@@ -646,7 +648,7 @@ class CursorAndCellEditorTest {
         cellEditorAction.handleKeyboardEvent(arrowDownKey)
         assertTrue(cellEditorState.allowRangeSelector)
         assertEquals(CellAddress("A3"), rangeSelector.mainCell)
-        val expectText2 = initText+"A3"
+        val expectText2 = initText + "A3"
         assertEquals(expectText2, cellEditorState.rangeSelectorTextField?.text)
         assertEquals(expectText2, cellEditorState.displayTextField.text)
         assertEquals(initText, cellEditorState.currentText)
@@ -676,7 +678,7 @@ class CursorAndCellEditorTest {
             colorFormulaAction = p6Comp.colorFormulaAction()
         )
 
-        val keyEvent =MockP6KeyEvent.arrowDown
+        val keyEvent = MockP6KeyEvent.arrowDown
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
         cellEditorAction.changeText("=")
@@ -753,7 +755,7 @@ class CursorAndCellEditorTest {
         val wbk2 = ts.wbKey2Ms.value
         val cursorMs = appState.getCursorStateMs(wbk1, wsn)
 
-        var ces by appState.cellEditorStateMs
+        val ces by appState.cellEditorStateMs
         val wbTabBarAction: WorkbookTabBarAction = ts.comp.wbTabBarAction()
         assertNotNull(cursorMs)
 
@@ -796,6 +798,7 @@ class CursorAndCellEditorTest {
         // open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         // click on another cell
+        assertTrue(cellEditorMs.value.isOpen)
         val clickedCell = CellAddress("D10")
         wsAction.startDragSelection(wsState, clickedCell)
         //
@@ -852,7 +855,6 @@ class CursorAndCellEditorTest {
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         val wds = appState.getWindowStateMsByWbKey(wbk)
         assertNotNull(wds)
-//        assertTrue { wds.value.focusState.isEditorFocused }
 
         // switch sheet
         val wbAction = ts.comp.workbookAction()

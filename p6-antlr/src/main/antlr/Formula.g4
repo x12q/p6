@@ -101,7 +101,8 @@ LARGER:'>';
 LARGER_OR_EQUAL:'>=';
 SMALLER:'<';
 SMALLER_OR_EQUAL:'<=';
-
+OTHER:.+?;
 NEWLINE:'\r'?'\n'->skip;
 // white space
 WS:(' '|'\t')+ -> skip;
+

@@ -42,6 +42,6 @@ class SingleWindowFocusStateImpTest {
     @Test
     fun freeFocusOnEditor() {
         val f2 = f.focusOnEditor()
-        verify(mockEditorFR, times(1)).freeFocus()
+        verify(mockEditorFR, times(1)).requestFocus()
     }
 }

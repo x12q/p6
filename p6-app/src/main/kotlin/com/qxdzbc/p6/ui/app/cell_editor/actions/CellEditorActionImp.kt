@@ -183,18 +183,19 @@ class CellEditorActionImp @Inject constructor(
             val autoCompletedTf = autoCompleteBracesIfPossible(editorState.displayTextField,ntf)
 
             val newEditorState = editorState
+                // x: because the new text is input by user, it is stored directly into current text
                 .setCurrentTextField(autoCompletedTf)
-                .apply {
+                .let {
                     /*
                     when the cell editor switches off allow-range-selector flag, if the range-selector cell cursor and target cell cursor are the same, reset the cell cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
                     */
-                    val from_Allow_To_Disallow: Boolean = oldRSAState.isAllow() && this.rangeSelectorAllowState.isAllow().not()
+                    val from_Allow_To_Disallow: Boolean = oldRSAState.isAllow() && it.rangeSelectorAllowState.isAllow().not()
                     if (from_Allow_To_Disallow) {
-                        if (editorState.rangeSelectorIsSameAsTargetCursor) {
-                            editorState.targetCursorId?.let { cursorId ->
+                        if (it.rangeSelectorIsSameAsTargetCursor) {
+                            it.targetCursorId?.let { cursorId ->
                                 stateCont.getCursorStateMs(cursorId)
                             }?.let { targetCursorMs ->
-                                editorState.targetCell?.let { targetCell ->
+                                it.targetCell?.let { targetCell ->
                                     targetCursorMs.value = targetCursorMs.value
                                         .removeAllExceptMainCell()
                                         .setMainCell(targetCell)
@@ -202,6 +203,7 @@ class CellEditorActionImp @Inject constructor(
                             }
                         }
                     }
+                    it
                 }.let { cellEditor ->
                     // update the parse tree inside the cell editor
                     val newCE = treeExtractor.extractTree(cellEditor.currentText)

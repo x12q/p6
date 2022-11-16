@@ -18,7 +18,7 @@ interface RestoreWindowFocusState {
     fun setFocusConsideringRangeSelectorAllWindow(): Rse<Unit>
 
     /**
-     * if range selector is allowed, focus on editor, otherwise focus on cursor and free focus on editor
+     * if range selector is allowed, focus on editor, otherwise focus on cursor
      */
     fun setFocusStateConsideringRangeSelector(wbKey: WorkbookKey): Rse<Unit>
 }

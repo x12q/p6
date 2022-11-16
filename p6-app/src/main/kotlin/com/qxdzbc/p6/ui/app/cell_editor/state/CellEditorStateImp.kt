@@ -97,7 +97,7 @@ data class CellEditorStateImp constructor(
 
     override val displayTextField: TextFieldValue
         get() {
-            if (this.isOpen) {
+            if (this.isOpen && this.allowRangeSelector) {
                 val rst: TextFieldValue = this.rangeSelectorTextField ?: this.currentTextField
                 return rst
             } else {
@@ -109,7 +109,7 @@ data class CellEditorStateImp constructor(
     override val rangeSelectorText: String?
         get() = rangeSelectorTextField?.text
 
-    override fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorState {
+    override fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorStateImp {
         return this.copy(rangeSelectorTextField = newTextField)
     }
 
@@ -142,7 +142,12 @@ data class CellEditorStateImp constructor(
                 inputIndex = textRange.end - 1
             )
         }
-        return this.copy(currentTextField = newTextField, rangeSelectorAllowState = newRSAState)
+        val rt= if(newRSAState.isAllow()){
+            this.setRangeSelectorTextField(newTextField)
+        }else{
+            this
+        }.copy(currentTextField = newTextField, rangeSelectorAllowState = newRSAState)
+        return rt
     }
 
     override fun setDisplayTextField(newTextField: TextFieldValue): CellEditorState {
@@ -167,6 +172,7 @@ data class CellEditorStateImp constructor(
         } else {
             RangeSelectorAllowState.START
         }
+        //TODO change range selector text base on the new rsa state
         return this.copy(
             targetCursorIdSt = cursorIdMs,
             rangeSelectorCursorIdSt = cursorIdMs,

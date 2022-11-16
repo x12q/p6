@@ -29,6 +29,8 @@ class SwitchWorksheetActionImp @Inject constructor(
             appState.getCursorStateMs(request)?.also {
                 cellEditorState = cellEditorState.setRangeSelectorCursorId(it.value.idMs)
             }
+        }else{
+            cellEditorState = cellEditorState.close()
         }
         val rt = setActiveWorksheetAction.setActiveWs(request)
         return rt

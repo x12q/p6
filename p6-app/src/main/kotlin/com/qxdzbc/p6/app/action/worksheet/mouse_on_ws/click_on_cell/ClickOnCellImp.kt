@@ -35,23 +35,23 @@ class ClickOnCellImp @Inject constructor(
      */
     override fun clickOnCell(cellAddress: CellAddress, cursorLocation: WbWs) {
         stateCont.getCursorStateMs(cursorLocation)?.also { cursorStateMs ->
+            val editorStateMs = appState.cellEditorStateMs
+            val editorState by editorStateMs
             val cursorState by cursorStateMs
             val cellEditorState by cursorState.cellEditorStateMs
             restoreWindowFocusState.setFocusStateConsideringRangeSelector(cursorState.wbKey)
-            val c1 = cellEditorState.isOpen && !cellEditorState.rangeSelectorAllowState.isAllow()
-            if (c1) {
-                return
-            } else {
-                cursorStateMs.value = cursorState
-                    .setMainCell(cellAddress)
-                    .removeMainRange()
-                    .removeAllSelectedFragRange()
-                    .removeAllFragmentedCells()
+            cursorStateMs.value = cursorState
+                .setMainCell(cellAddress)
+                .removeMainRange()
+                .removeAllSelectedFragRange()
+                .removeAllFragmentedCells()
+            val rangeSelectorIsActivated = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllow()
+            if (rangeSelectorIsActivated) {
+                editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
+                updateRangeSelectorText.updateRangeSelectorText()
+            }else{
+                editorStateMs.value=editorState.close()
             }
-            val editorStateMs = appState.cellEditorStateMs
-            val editorState by editorStateMs
-            editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
-            updateRangeSelectorText.updateRangeSelectorText()
         }
     }
 }

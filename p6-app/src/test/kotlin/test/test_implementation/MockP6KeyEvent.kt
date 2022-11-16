@@ -31,6 +31,14 @@ data class MockP6KeyEvent @OptIn(ExperimentalComposeUiApi::class) constructor(
             isAcceptedByRangeSelector = true,
             isRangeSelectorNavKey = true,
         )
+
+        @OptIn(ExperimentalComposeUiApi::class)
+        val plusOperator = MockP6KeyEvent(
+            key=Key.Plus,
+            type = KeyEventType.KeyDown,
+            isAcceptedByRangeSelector = false,
+            isRangeSelectorNavKey = false,
+        )
     }
 
     override val keyEvent: KeyEvent get() = throw UnsupportedOperationException("mock key event does support getting the real key event")
