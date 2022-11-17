@@ -173,11 +173,17 @@ data class CellEditorStateImp constructor(
             RangeSelectorAllowState.START
         }
         //TODO change range selector text base on the new rsa state
-        return this.copy(
+        val rt= if(rsaState.isAllow()){
+//            this.setRangeSelectorTextField(this.currentTextField)
+            this
+        }else{
+            this
+        }.copy(
             targetCursorIdSt = cursorIdMs,
             rangeSelectorCursorIdSt = cursorIdMs,
             rangeSelectorAllowState = rsaState
         )
+        return rt
     }
 
     override fun close(): CellEditorState {

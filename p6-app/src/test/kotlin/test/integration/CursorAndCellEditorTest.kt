@@ -507,7 +507,8 @@ class CursorAndCellEditorTest {
             cellEditorAction.changeText("=1+")
             assertEquals("=1+", cellEditorState.currentText)
             assertEquals("=1+", cellEditorState.displayTextField.text)
-            assertNull(cellEditorState.rangeSelectorTextField)
+            assertEquals("=1+", cellEditorState.rangeSelectorText)
+//            assertNull(cellEditorState.rangeSelectorTextField)
             assertTrue(cellEditorState.allowRangeSelector)
 
             // x: issue arrow down key event
@@ -629,7 +630,8 @@ class CursorAndCellEditorTest {
         cellEditorAction.changeText(initText)
         assertEquals(initText, cellEditorState.currentText)
         assertEquals(initText, cellEditorState.displayTextField.text, "activation char= ${activationChar}")
-        assertNull(cellEditorState.rangeSelectorTextField)
+        assertEquals(initText, cellEditorState.rangeSelectorText, "activation char= ${activationChar}")
+//        assertNull(cellEditorState.rangeSelectorTextField)
         assertTrue(cellEditorState.allowRangeSelector)
 
         // x: issue arrow down key event
