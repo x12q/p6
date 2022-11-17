@@ -25,33 +25,19 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldNotBeNull
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldBeEmpty
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
-import test.TestSample
+import test.BaseTest
 import test.test_implementation.MockP6KeyEvent
 import kotlin.test.*
 
-class CursorAndCellEditorTest {
-
-    lateinit var ts: TestSample
-    val appState get() = ts.appState
-    val p6Comp get() = ts.comp
-    val cellEditorAction get() = p6Comp.cellEditorAction()
-    val sc get() = ts.stateCont
-
-    @BeforeTest
-    fun b() {
-        ts = TestSample()
-    }
+class CursorAndCellEditorTest: BaseTest() {
+    val cellEditorAction get() = comp.cellEditorAction()
 
     @Test
     fun `click on ruler item when editing cell, allow range select`() {
@@ -676,16 +662,16 @@ class CursorAndCellEditorTest {
         assertNotNull(cursor1Ms)
         val spyCursorAction = spy(ts.comp.cursorAction())
         val cellEditorAction: CellEditorAction = CellEditorActionImp(
-            cellLiteralParser = p6Comp.cellLiteralParser(),
-            updateCellAction = p6Comp.cellViewAction(),
+            cellLiteralParser = comp.cellLiteralParser(),
+            updateCellAction = comp.cellViewAction(),
             handleCursorKeyboardEventAct = spyCursorAction,
-            makeDisplayText = p6Comp.makeDisplayText(),
-            openCellEditor = p6Comp.openCellEditorAction(),
+            makeDisplayText = comp.makeDisplayText(),
+            openCellEditor = comp.openCellEditorAction(),
             stateContMs = ts.stateContMs(),
-            textDiffer = p6Comp.textDiffer(),
-            cycleLockStateAct = p6Comp.cycleFormulaLockStateAct(),
-            treeExtractor = p6Comp.partialFormulaTreeExtractor(),
-            colorFormulaAction = p6Comp.colorFormulaAction()
+            textDiffer = comp.textDiffer(),
+            cycleLockStateAct = comp.cycleFormulaLockStateAct(),
+            treeExtractor = comp.partialFormulaTreeExtractor(),
+            colorFormulaAction = comp.colorFormulaAction()
         )
 
         val keyEvent = MockP6KeyEvent.arrowDown
