@@ -1,13 +1,12 @@
 package test
 
-import com.google.gson.Gson
 import com.qxdzbc.common.compose.St
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.testng.annotations.BeforeTest
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 import kotlin.test.Test
-import kotlin.test.assertNotNull
 
 
 class TestBench {
@@ -23,17 +22,17 @@ class TestBench {
         forceOverflow(x)
     }
 
-
+    lateinit var x: String
+    @BeforeTest
+    fun b(){
+        x="q"
+    }
     @Test
     fun t() {
-        val x:Any = 123
-        try{
-            val y = x as String
-        }catch(e:Throwable){
-            println(e::class)
-        }
 
-
+        x= "a"
+        x="b"
+        println(x)
     }
-
 }
+

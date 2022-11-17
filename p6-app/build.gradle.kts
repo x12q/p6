@@ -61,6 +61,7 @@ val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 val apacheCommonTextVersion = "1.10.0"
+val kotestVersion="5.5.4"
 dependencies {
 //    implementation("com.google.code.gson:gson:2.10")
 
@@ -124,6 +125,8 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
+
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 
 }
 

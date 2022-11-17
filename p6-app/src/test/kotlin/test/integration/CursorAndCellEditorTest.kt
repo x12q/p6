@@ -25,6 +25,14 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNot
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldBeEmpty
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
@@ -723,7 +731,6 @@ class CursorAndCellEditorTest {
         // x: open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
         cellEditorAction.changeText("=")
-//        assertTrue { wds.value.focusState.isEditorFocused }
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.targetCursorIdSt)
         assertEquals(cursor1Ms.value.idMs, cellEditorMs.value.rangeSelectorCursorIdSt)
 
@@ -764,7 +771,6 @@ class CursorAndCellEditorTest {
         // x: open cursor editor + set normal text
         cellEditorAction.openCellEditor(WbWsImp(wbk1, wsn))
         cellEditorAction.changeText("abc")
-//        ces = ces.setCurrentText("abc")
 
         // x: move to another workbook
         wbTabBarAction.moveToWorkbook(wbk2)
@@ -776,11 +782,8 @@ class CursorAndCellEditorTest {
         // x: open cursor editor + set range-selector-enable text
         cellEditorAction.openCellEditor(WbWsImp(wbk2, wsn))
         cellEditorAction.changeText("=")
-//        ces = ces.setCurrentText("=")
         wbTabBarAction.moveToWorkbook(wbk1)
         assertTrue(ces.isOpen)
-//        assertFalse(appState.getFocusStateMsByWbKey(wbk1)?.value?.isCursorFocused!!)
-//        assertTrue(appState.getFocusStateMsByWbKey(wbk1)?.value?.isEditorFocused!!)
     }
 
     @Test
@@ -793,9 +796,10 @@ class CursorAndCellEditorTest {
         val wds = appState.getWindowStateMsByWbKey(wbk)
         val wsStateMs = appState.getWsStateMs(wbk, wsn)
 
-        assertNotNull(cursorMs)
-        assertNotNull(wds)
-        assertNotNull(wsStateMs)
+        cursorMs.shouldNotBeNull()
+        wds.shouldNotBeNull()
+        wsStateMs.shouldNotBeNull()
+
         val wsState by wsStateMs
         // open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
@@ -804,13 +808,13 @@ class CursorAndCellEditorTest {
         val clickedCell = CellAddress("D10")
         wsAction.startDragSelection(wsState, clickedCell)
         //
-        assertFalse(cellEditorMs.value.isOpen)
-        assertEquals("", cellEditorMs.value.currentText)
-        assertEquals(clickedCell, cursorMs.value.mainCell)
-        assertTrue(cursorMs.value.fragmentedCells.isEmpty())
-        assertTrue(cursorMs.value.fragmentedRanges.isEmpty())
-        assertTrue(cursorMs.value.mainRange == null)
-        assertEquals(listOf(clickedCell), cursorMs.value.allFragCells)
+        cellEditorMs.value.isOpen shouldBe false
+        cellEditorMs.value.currentText shouldBe ""
+        cursorMs.value.mainCell shouldBe clickedCell
+        cursorMs.value.fragmentedCells.isEmpty() shouldBe true
+        cursorMs.value.fragmentedRanges.isEmpty() shouldBe true
+        cursorMs.value.mainRange shouldBe null
+        cursorMs.value.allFragCells shouldBe listOf(clickedCell)
 
         // open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
@@ -820,23 +824,24 @@ class CursorAndCellEditorTest {
         val clickedCell2 = CellAddress("K8")
         wsAction.startDragSelection(wsState, clickedCell2)
 
-        assertTrue(cellEditorMs.value.isOpen)
-        assertEquals(text2, cellEditorMs.value.currentText)
-        assertEquals(clickedCell2, cursorMs.value.mainCell)
+        cellEditorMs.value.isOpen shouldBe true
+        cellEditorMs.value.currentText shouldBe text2
+        cursorMs.value.mainCell shouldBe clickedCell2
         // drag the mouse
         val dragCell = CellAddress("Q30")
         wsAction.makeMouseDragSelectionIfPossible(wsState, dragCell)
-        assertTrue(cellEditorMs.value.isOpen)
-        assertEquals(text2, cellEditorMs.value.currentText)
-        assertEquals(clickedCell2, cursorMs.value.mainCell)
-        assertEquals(RangeAddress(clickedCell2, dragCell), cursorMs.value.mainRange)
+        cellEditorMs.value.isOpen shouldBe true
+        cellEditorMs.value.currentText shouldBe text2
+        cursorMs.value.mainCell shouldBe clickedCell2
+
+        cursorMs.value.mainRange shouldBe RangeAddress(clickedCell2, dragCell)
 
         // stop dragging
         wsAction.stopDragSelection(wsState)
-        assertTrue(cellEditorMs.value.isOpen)
-        assertEquals(text2, cellEditorMs.value.currentText)
-        assertEquals(clickedCell2, cursorMs.value.mainCell)
-        assertEquals(RangeAddress(clickedCell2, dragCell), cursorMs.value.mainRange)
+        cellEditorMs.value.isOpen shouldBe true
+        cellEditorMs.value.currentText shouldBe text2
+        cursorMs.value.mainCell shouldBe clickedCell2
+        cursorMs.value.mainRange shouldBe RangeAddress(clickedCell2, dragCell)
     }
 
 
@@ -851,12 +856,13 @@ class CursorAndCellEditorTest {
         val wsn = "Sheet1"
         val cursorMs = appState.getCursorStateMs(wbk, wsn)
         val cellEditorMs = appState.cellEditorStateMs
-        assertNotNull(cursorMs)
+        cursorMs shouldNotBe null
 
         // open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         val wds = appState.getWindowStateMsByWbKey(wbk)
-        assertNotNull(wds)
+        wds.shouldNotBeNull()
+
 
         // switch sheet
         val wbAction = ts.comp.workbookAction()
@@ -866,12 +872,12 @@ class CursorAndCellEditorTest {
             wsName = "Sheet2",
         )
         wbAction.switchToWorksheet(request)
-        //
-        assertFalse { cellEditorMs.value.isOpen }
-        assertEquals("", cellEditorMs.value.currentText)
 
-        assertFalse(wds.value.focusState.isEditorFocused)
-        assertTrue(wds.value.focusState.isCursorFocused)
+        cellEditorMs.value.isOpen shouldBe false
+        cellEditorMs.value.currentText.shouldBeEmpty()
+
+        wds.value.focusState.isEditorFocused shouldBe false
+        wds.value.focusState.isCursorFocused shouldBe true
     }
 
     /**
@@ -879,22 +885,23 @@ class CursorAndCellEditorTest {
      * Switch sheet
      * expect: cursor is not focused, editor is kept open, opened and editor's content is preserved
      */
+
     @Test
     fun `test preserving cell editor focus after switching ws`() {
+
         val wbk = ts.wbKey1Ms.value
         val wsn = "Sheet1"
         val cursorMs = appState.getCursorStateMs(wbk, wsn)
         val cellEditorMs = appState.cellEditorStateMs
-        assertNotNull(cursorMs)
+        cursorMs shouldNotBe  null
 
         // open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         val wds = appState.getWindowStateMsByWbKey(wbk)
-        assertNotNull(wds)
-//        assertTrue { wds.value.focusState.isEditorFocused }
+        wds shouldNotBe null
+
         // add content
         cellEditorAction.changeText("=123+")
-//        cellEditorMs.value = cellEditorMs.value.setCurrentText("=123+") //range-selector-enable content
         assertTrue(cellEditorMs.value.allowRangeSelector)
 
         // switch sheet
@@ -906,7 +913,8 @@ class CursorAndCellEditorTest {
         wbAction.switchToWorksheet(request)
 
         // expect:
-        assertTrue(cellEditorMs.value.isOpen)
-        assertEquals("=123+", cellEditorMs.value.currentText)
+        cellEditorMs.value.isOpen shouldBe true
+        cellEditorMs.value.currentText shouldBe "=123+"
     }
 }
+
