@@ -11,6 +11,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressProto
 import com.qxdzbc.p6.ui.common.P6R
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 
 
@@ -27,58 +28,67 @@ object RangeAddresses {
     val singleWholeRowAddressPattern = Regex("[$]?[1-9][0-9]*")
 
     fun fromLabelRs(label:String): Rs<RangeAddress, ErrorReport> {
-        val isNormalRange = rangeAddressPattern.matchEntire(label) != null
-        if(isNormalRange){
-            val splits = label.split(":")
-            val cell1 = CellAddress(splits[0])
-            val cell2 = CellAddress(splits[1])
-            return RangeAddress(cell1,cell2).toOk()
-        }
-        val isWholeRange = wholeRangeAddressPattern.matchEntire(label)!=null
-        if(isWholeRange){
-            val splits = label.split(":")
-            val firstPart:String = splits[0]
-            val lastPart:String = splits[1]
-
-            val firstPartIsCol = singleWholeColAddressPattern.matchEntire(firstPart)!=null
-            val firstPartIsRow = singleWholeRowAddressPattern.matchEntire(firstPart)!=null
-
-            val lastPartIsCol = singleWholeColAddressPattern.matchEntire(lastPart)!=null
-            val lastPartIsRow = singleWholeRowAddressPattern.matchEntire(lastPart)!=null
-
-            if(firstPartIsCol && lastPartIsCol){
-                val firstColCR = CR.fromLabel(firstPart)
-                val lastColCR = CR.fromLabel(lastPart)
-                if(firstColCR==null || lastColCR==null){
-                    return RangeErrors.InvalidRangeAddress.report(label).toErr()
-                }else{
-                    val firstCR= CellAddresses.minOf(firstColCR,lastColCR)
-                    val lastCR = CellAddresses.maxOf(firstColCR,lastColCR)
-                    val rt= RangeAddress(
-                        CellAddress(firstCR,CR(1,firstCR.isLocked)),
-                        CellAddress(lastCR,CR(P6R.worksheetValue.rowLimit,lastCR.isLocked))
-                    ).toOk()
-                    return rt
+        val rt=CellAddresses.fromLabelRs(label).mapBoth(
+            success = {
+                Ok(RangeAddress(it))
+            },
+            failure = {
+                val isNormalRange = rangeAddressPattern.matchEntire(label) != null
+                if(isNormalRange){
+                    val splits = label.split(":")
+                    val cell1 = CellAddress(splits[0])
+                    val cell2 = CellAddress(splits[1])
+                    return RangeAddress(cell1,cell2).toOk()
                 }
-            }else if(firstPartIsRow && lastPartIsRow){
-                val fp = CR.fromLabel(firstPart)
-                val lp = CR.fromLabel(lastPart)
-                if(fp==null || lp == null){
-                    return RangeErrors.InvalidRangeAddress.report(label).toErr()
-                }else{
-                    val first = CellAddresses.minOf(fp,lp)
-                    val last = CellAddresses.maxOf(fp,lp)
+                // x: whole range = whole col or whole row
+                val isWholeRange = wholeRangeAddressPattern.matchEntire(label)!=null
+                if(isWholeRange){
+                    val splits = label.split(":")
+                    val firstPart:String = splits[0]
+                    val lastPart:String = splits[1]
 
-                    return RangeAddress(
-                        CellAddress(CR(1,first.isLocked), first),
-                        CellAddress(CR(P6R.worksheetValue.colLimit,last.isLocked), last)
-                    ).toOk()
+                    val firstPartIsCol = singleWholeColAddressPattern.matchEntire(firstPart)!=null
+                    val firstPartIsRow = singleWholeRowAddressPattern.matchEntire(firstPart)!=null
+
+                    val lastPartIsCol = singleWholeColAddressPattern.matchEntire(lastPart)!=null
+                    val lastPartIsRow = singleWholeRowAddressPattern.matchEntire(lastPart)!=null
+
+                    if(firstPartIsCol && lastPartIsCol){
+                        val firstColCR = CR.fromLabel(firstPart)
+                        val lastColCR = CR.fromLabel(lastPart)
+                        if(firstColCR==null || lastColCR==null){
+                            return RangeErrors.InvalidRangeAddress.report(label).toErr()
+                        }else{
+                            val firstCR= CellAddresses.minOf(firstColCR,lastColCR)
+                            val lastCR = CellAddresses.maxOf(firstColCR,lastColCR)
+                            val rt= RangeAddress(
+                                CellAddress(firstCR,CR(1,firstCR.isLocked)),
+                                CellAddress(lastCR,CR(P6R.worksheetValue.rowLimit,lastCR.isLocked))
+                            ).toOk()
+                            return rt
+                        }
+                    }else if(firstPartIsRow && lastPartIsRow){
+                        val fp = CR.fromLabel(firstPart)
+                        val lp = CR.fromLabel(lastPart)
+                        if(fp==null || lp == null){
+                            return RangeErrors.InvalidRangeAddress.report(label).toErr()
+                        }else{
+                            val first = CellAddresses.minOf(fp,lp)
+                            val last = CellAddresses.maxOf(fp,lp)
+
+                            return RangeAddress(
+                                CellAddress(CR(1,first.isLocked), first),
+                                CellAddress(CR(P6R.worksheetValue.colLimit,last.isLocked), last)
+                            ).toOk()
+                        }
+                    }else{
+                        RangeErrors.InvalidRangeAddress.report(label).toErr()
+                    }
                 }
-            }else{
-                return RangeErrors.InvalidRangeAddress.report(label).toErr()
+                RangeErrors.InvalidRangeAddress.report(label).toErr()
             }
-        }
-        return RangeErrors.InvalidRangeAddress.report(label).toErr()
+        )
+        return rt
     }
 
     /**

@@ -12,6 +12,7 @@ import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import io.kotest.matchers.collections.shouldContainAll
 import test.TestSample
 import kotlin.test.*
 
@@ -161,13 +162,10 @@ class CursorActionImpTest {
         val r2 = cursorAction.getFormulaRangeAndColor(wbws)
         assertTrue(r2.isNotEmpty())
 
-        assertEquals(
-            listOf(
-                RangeAddress(CellAddress("A1")),
-                RangeAddress("A3:A5"),
-                RangeAddress("A20:A23"),
-            ),
-            r2.keys.toList()
+        r2.keys.shouldContainAll(
+            RangeAddress("A1"),
+            RangeAddress("A3:A5"),
+            RangeAddress("A20:A23"),
         )
     }
 

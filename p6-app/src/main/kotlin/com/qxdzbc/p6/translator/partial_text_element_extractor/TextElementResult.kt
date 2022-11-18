@@ -1,19 +1,19 @@
 package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
-import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.OtherElement
+import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.BasicTextElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TextElement
 
 data class TextElementResult(
     val cellRangeElements: List<CellRangeElement> = emptyList(),
-    val others: List<OtherElement> = emptyList(),
+    val others: List<BasicTextElement> = emptyList(),
 ) {
     companion object {
         fun from(i: CellRangeElement): TextElementResult {
             return TextElementResult(cellRangeElements = listOf(i))
         }
 
-        fun from(i: OtherElement): TextElementResult {
+        fun from(i: BasicTextElement): TextElementResult {
             return TextElementResult(others = listOf(i))
         }
 
@@ -41,7 +41,7 @@ data class TextElementResult(
                 val diff = nextStart - currentStop
                 if (diff > 1) {
                     rt.add(
-                        OtherElement(
+                        BasicTextElement(
                             text = " ".repeat(diff - 1),
                             range = (currentStop + 1)..(nextStart - 1)
                         )
@@ -71,7 +71,7 @@ data class TextElementResult(
         )
     }
 
-    operator fun plus(i: OtherElement): TextElementResult {
+    operator fun plus(i: BasicTextElement): TextElementResult {
         return this.copy(
             others = others + i
         )
