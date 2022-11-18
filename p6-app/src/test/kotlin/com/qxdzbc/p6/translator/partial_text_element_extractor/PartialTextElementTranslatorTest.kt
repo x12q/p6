@@ -138,8 +138,8 @@ internal class PartialTextElementTranslatorTest : BaseTest() {
                 BasicTextElement(")", 19),
             )
         )
-//        for ((i, e) in m.entries.toList().subList(0,1)) {
-        for ((i, e) in m) {
+        for ((i, e) in m.entries.toList().subList(0,1)) {
+//        for ((i, e) in m) {
             val o = extractor.translate(i).component1()?.allSorted()
             i.asClue {
                 o.shouldContainOnly(e)

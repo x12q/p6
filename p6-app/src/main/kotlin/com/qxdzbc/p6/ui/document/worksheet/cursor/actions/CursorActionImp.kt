@@ -10,6 +10,7 @@ import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursor
 import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
 import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoOnCursorAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
+import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
@@ -70,17 +71,47 @@ class CursorActionImp @Inject constructor(
 //                    }
 //                }
 //            }
-//
-            val ranges = ces.displayTextElementResult?.cellRangeElements?.mapNotNull {
-                RangeAddresses.fromLabelRs(it.cellRangeLabel).component1()
-            } ?: emptyList()
-            val colors = formulaColorGenerator.getColors(ranges.size)
-            val colorMap: Map<RangeAddress, Color> = buildMap {
-                for ((i, rid) in ranges.withIndex()) {
-                    put(rid, colors[i])
+//            return colorMap
+
+            //highlight those that have identity == identity of the rangeselector | target cursor
+            // wbws == current wbws showing on the screen
+            val colors = formulaColorGenerator.getColors(ces.displayTextElementResult?.cellRangeElements?.size?:0)
+
+            if (ces.targetCursorId != null) {
+                var ranges = mapOf<Int,RangeAddress>()
+                ranges = if (ces.targetCursorId?.wbKey == wbws.wbKey) {
+                    if(ces.targetCursorId?.wsName == wbws.wsName){
+                        ces.displayTextElementResult?.cellRangeElements?.withIndex()
+                            ?.filter {(i,item)->
+                                item.wbSuffix == null && item.wsSuffix == null
+                            } ?: emptyList()
+                    }else{
+                        ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter {(i,item)->
+                            val c2 = item.wsSuffix?.wsName == wbws.wsName
+                            c2
+                        } ?: emptyList()
+                    }
+                } else {
+                    ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter {(i,item)->
+                        val c2 = item.wsSuffix?.wsName == wbws.wsName
+                        val c1 = item.wbSuffix?.toWbKey() == wbws.wbKey
+                        c2 && c1
+                    } ?: emptyList()
+                }.mapNotNull {(i,item)->
+                    RangeAddresses.fromLabelRs(item.cellRangeLabel).component1()?.let{
+                        i to it
+                    }
+                }.toMap()
+
+                val colorMap: Map<RangeAddress, Color> = buildMap {
+                    for ((i, rangeAddress) in ranges) {
+                        put(rangeAddress, colors[i])
+                    }
                 }
+                return colorMap
+            } else {
+                return emptyMap()
             }
-            return colorMap
         } else {
             return emptyMap()
         }

@@ -1,12 +1,13 @@
 package com.qxdzbc.p6.translator.partial_text_element_extractor
 
-import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
-import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.BasicTextElement
-import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TextElement
+import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
 
 data class TextElementResult(
     val cellRangeElements: List<CellRangeElement> = emptyList(),
     val others: List<BasicTextElement> = emptyList(),
+    val ferryBasicTextElement: BasicTextElement?=null,
+    val ferryWsNameElement: WsNameElement?=null,
+    val ferryWbElement: WbElement?=null,
 ) {
     companion object {
         fun from(i: CellRangeElement): TextElementResult {
@@ -16,7 +17,15 @@ data class TextElementResult(
         fun from(i: BasicTextElement): TextElementResult {
             return TextElementResult(others = listOf(i))
         }
-
+        fun ferry(i:BasicTextElement):TextElementResult{
+            return TextElementResult(ferryBasicTextElement = i)
+        }
+        fun ferry(i:WsNameElement):TextElementResult{
+            return TextElementResult(ferryWsNameElement = i)
+        }
+        fun ferry(i:WbElement):TextElementResult{
+            return TextElementResult(ferryWbElement = i)
+        }
         val empty = TextElementResult()
     }
 
@@ -57,7 +66,7 @@ data class TextElementResult(
     fun mergeWith(other: TextElementResult): TextElementResult {
         return this.copy(
             cellRangeElements = cellRangeElements + other.cellRangeElements,
-            others = others + other.others
+            others = others + other.others,
         )
     }
 
