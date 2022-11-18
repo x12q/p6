@@ -15,6 +15,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
+import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementVisitor
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.common.P6R
@@ -86,7 +87,8 @@ data class CursorStateImp @AssistedInject constructor(
                         targetCell = mainCellMs.value,
                         targetCursorIdSt = cursorIdMs,
                         isOpenMs = false.toMs(),
-                        treeExtractor = PartialFormulaTreeExtractor()
+                        treeExtractor = PartialFormulaTreeExtractor(),
+                        visitor = TextElementVisitor()
                     )
                 ),
                 thumbStateMs = thumbStateMs

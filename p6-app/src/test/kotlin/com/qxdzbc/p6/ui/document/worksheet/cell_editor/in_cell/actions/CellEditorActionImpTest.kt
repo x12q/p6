@@ -4,7 +4,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
-import org.mockito.kotlin.mock
 import test.BaseTest
 import kotlin.test.*
 
@@ -63,14 +62,14 @@ internal class CellEditorActionImpTest : BaseTest() {
 
     @Test
     fun updateTextField(){
-        assertNull(sc.cellEditorState.parseTree)
+        assertNull(sc.cellEditorState.currentParseTree)
         act.changeText("")
-        assertNull(sc.cellEditorState.parseTree)
+        assertNull(sc.cellEditorState.currentParseTree)
         act.changeText("=")
-        val pt1 = sc.cellEditorState.parseTree
+        val pt1 = sc.cellEditorState.currentParseTree
         assertNotNull(pt1)
         act.changeText("=F1(A1)")
-        val pt2 = sc.cellEditorState.parseTree
+        val pt2 = sc.cellEditorState.currentParseTree
         assertNotNull(pt2)
         assertNotEquals(pt1,pt2)
     }
@@ -79,14 +78,14 @@ internal class CellEditorActionImpTest : BaseTest() {
     fun closeEditor(){
         // x: pre conditions
         act.changeText("=F1(A1)")
-        assertNotNull(sc.cellEditorState.parseTree)
+        assertNotNull(sc.cellEditorState.currentParseTree)
         assertTrue(sc.cellEditorState.currentText.isNotEmpty())
         assertTrue(sc.cellEditorState.displayText.isNotEmpty())
         assertTrue(sc.cellEditorState.currentTextField.text.isNotEmpty())
         // x: act
         act.closeEditor()
         // x: post conditions
-        assertNull(sc.cellEditorState.parseTree)
+        assertNull(sc.cellEditorState.currentParseTree)
         assertTrue(sc.cellEditorState.currentText.isEmpty())
         assertTrue(sc.cellEditorState.displayText.isEmpty())
         assertTrue(sc.cellEditorState.currentTextField.text.isEmpty())
@@ -96,7 +95,7 @@ internal class CellEditorActionImpTest : BaseTest() {
     fun openEditor(){
         // x: pre conditions
         act.closeEditor()
-        assertNull(sc.cellEditorState.parseTree)
+        assertNull(sc.cellEditorState.currentParseTree)
         assertTrue(sc.cellEditorState.currentText.isEmpty())
         assertTrue(sc.cellEditorState.displayText.isEmpty())
         assertTrue(sc.cellEditorState.currentTextField.text.isEmpty())

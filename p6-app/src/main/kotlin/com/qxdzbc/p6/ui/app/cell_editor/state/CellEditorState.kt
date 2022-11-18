@@ -5,6 +5,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import org.antlr.v4.runtime.tree.ParseTree
@@ -15,14 +16,14 @@ interface CellEditorState {
      */
     val rangeSelectorAllowState:RangeSelectorAllowState
 
-    val parseTreeMs:Ms<ParseTree?>
-    val parseTree: ParseTree?
-
-    val rangeSelectorParseTreeMs:Ms<ParseTree?>
+    val currentParseTree: ParseTree?
     val rangeSelectorParseTree: ParseTree?
-
-    val displayParseTreeMs:Ms<ParseTree?>
     val displayParseTree: ParseTree?
+
+    val currentTextElementResult:TextElementResult?
+    val rangeSelectorTextElementResult: TextElementResult?
+    val displayTextElementResult:TextElementResult?
+
     /**
      * return this cell ceditor to empty state, in which:
      *  - empty text

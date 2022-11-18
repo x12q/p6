@@ -9,7 +9,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common.BuildAnnotatedTextAction
 import com.qxdzbc.p6.di.P6Singleton
-import com.qxdzbc.p6.di.TextElementVisitorQ
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
@@ -27,8 +26,6 @@ import javax.inject.Inject
 class ColorFormulaInCellEditorActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val formulaColorGenerator: FormulaColorGenerator,
-    @TextElementVisitorQ
-    val visitor: FormulaBaseVisitor<TextElementResult>,
     private val buildAnnotatedTextAction: BuildAnnotatedTextAction,
 ) : ColorFormulaInCellEditorAction {
 
@@ -41,9 +38,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
     override fun colorCurrentTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
         val ces = cellEditorState
         if (ces.isOpen) {
-            val teRs: TextElementResult? = ces.displayParseTree?.let {
-                visitor.visit(it)
-            }
+            val teRs: TextElementResult? = ces.displayTextElementResult
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
             val allElements = teRs?.all
             if(allElements?.isNotEmpty() == true&& creList?.isNotEmpty()==true){
@@ -62,9 +57,10 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
     override fun colorDisplayTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
         val ces = cellEditorState
         if (ces.isOpen) {
-            val teRs: TextElementResult? = ces.displayParseTree?.let {
-                visitor.visit(it)
-            }
+//            val teRs: TextElementResult? = ces.displayParseTree?.let {
+//                visitor.visit(it)
+//            }
+            val teRs: TextElementResult? = ces.displayTextElementResult
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
             val allElements = teRs?.all
             if(allElements?.isNotEmpty()==true && creList?.isNotEmpty()==true){
