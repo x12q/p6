@@ -50,8 +50,7 @@ class ClickOnCellImp @Inject constructor(
             val rangeSelectorIsActivated:Boolean = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllow()
             if (rangeSelectorIsActivated) {
                 editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
-                updateRangeSelectorText.updateRangeSelectorText()
-                colorFormulaAction.colorCurrentTextInCellEditor()
+                updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
             }else{
                 editorStateMs.value=editorState.close()
             }

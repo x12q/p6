@@ -26,10 +26,10 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class ColorFormulaInCellEditorActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    val formulaColorGenerator: FormulaColorGenerator,
+    private val formulaColorGenerator: FormulaColorGenerator,
     @TextElementVisitorQ
     val visitor: FormulaBaseVisitor<TextElementResult>,
-    val buildAnnotatedTextAction: BuildAnnotatedTextAction,
+    private val buildAnnotatedTextAction: BuildAnnotatedTextAction,
 ) : ColorFormulaInCellEditorAction {
 
     val sc by stateContSt
@@ -49,7 +49,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
             if(allElements?.isNotEmpty() == true&& creList?.isNotEmpty()==true){
                 val trailingSpace: String = computeTrailingSpace(ces.currentText)
                 val newTextField=makeAnnotatedString(trailingSpace,allElements, creList)
-                val newTf = ces.currentTextField.copy(annotatedString = newTextField)
+                val newTf = ces.displayTextField.copy(annotatedString = newTextField)
                 return ces.setDisplayTextField(newTf)
             }else{
                 return ces

@@ -52,7 +52,7 @@ class RulerActionImp @Inject constructor(
      * Update cell editor text if range selector is allowed. Otherwise, close cell editor
      */
     private fun updateCellEditorTextIfNeed(){
-        updateCellEditorText.updateRangeSelectorText()
+        updateCellEditorText.updateRangeSelectorTextInCurrentCellEditor()
         if (sc.cellEditorState.isOpen) {
             if (!sc.cellEditorState.allowRangeSelector) {
                 sc.cellEditorState = sc.cellEditorState.close()

@@ -34,7 +34,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
             if (cellAddress != cursorState.mainCell) {
                 cursorState = cursorState.setMainRange(RangeAddresses.from2Cells(cellAddress, cursorState.mainCell))
             }
-            updateRangeSelectorText.updateRangeSelectorText()
+            updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
         }
     }
 
@@ -84,7 +84,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
             val newRange = RangeAddresses.fromManyCells(listOf(currentCellMouseOn, cursorState.mainCell))
             val newCursorState = cursorState.setMainRange(newRange)
             it.value = newCursorState
-            updateRangeSelectorText.updateRangeSelectorText()
+            updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
         }
     }
 

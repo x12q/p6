@@ -431,20 +431,20 @@ class CursorAndCellEditorTest : BaseTest() {
         val clickOnCellAction: ClickOnCell = ts.comp.clickOnCellAction()
         test(" click on a cell in the same sheet") {
             preCondition {
-                assertNotNull(rangeSelectorMs)
+                rangeSelectorMs shouldNotBe null
                 cellEditorAction.changeText("=1+")
-                assertTrue(cellEditorState.allowRangeSelector)
+                cellEditorState.allowRangeSelector shouldBe true
             }
             val c = CellAddress("M5")
             clickOnCellAction.clickOnCell(c, WbWs(wbk, wsn1))
             postCondition {
-                assertEquals(cellEditorState.targetCursorId, cellEditorState.rangeSelectorCursorId)
+                cellEditorState.rangeSelectorCursorId shouldBe cellEditorState.targetCursorId
                 val rangeSelectorState = appState.getCursorState(cellEditorState.rangeSelectorCursorId!!)
-                assertEquals(c, rangeSelectorState?.mainCell)
+                rangeSelectorState?.mainCell shouldBe c
                 val expectText = "=1+${c.label}"
-                assertEquals(expectText, cellEditorState.displayTextField.text)
-                assertEquals(expectText, cellEditorState.rangeSelectorTextField?.text)
-                assertEquals("=1+", cellEditorState.currentText)
+                cellEditorState.displayTextField.text shouldBe expectText
+                cellEditorState.rangeSelectorTextField?.text shouldBe expectText
+                cellEditorState.currentText shouldBe "=1+"
                 cellEditorState.displayTextField.annotatedString.spanStyles.shouldNotBeEmpty()
             }
         }

@@ -173,10 +173,8 @@ class CellEditorActionImp @Inject constructor(
      */
     override fun changeTextField(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
-//        val oldTf = editorState.displayTextField
         val ntf = newTextField
         if (editorState.isOpen) {
-//            val oldAllowRangeSelector = editorState.allowRangeSelector
             val oldRSAState = editorState.rangeSelectorAllowState
             val autoCompletedTf = autoCompleteBracesIfPossible(editorState.displayTextField, ntf)
 
@@ -203,19 +201,6 @@ class CellEditorActionImp @Inject constructor(
                         }
                     }
                     it
-                }.let { cellEditor ->
-                    // update the parse tree inside the cell editor
-//                    val newCE = treeExtractor.extractTree(cellEditor.currentText)
-//                        .mapBoth(
-//                            success = {
-//                                cellEditor.setParseTree(it)
-//                            },
-//                            failure = {
-//                                cellEditor
-//                            }
-//                        )
-//                    newCE
-                    cellEditor
                 }
             stateCont.cellEditorStateMs.value = newEditorState
             colorFormulaAction.colorCurrentTextInCellEditor()
@@ -223,7 +208,6 @@ class CellEditorActionImp @Inject constructor(
     }
 
     fun autoCompleteBracesIfPossible(oldTf: TextFieldValue, newTextField: TextFieldValue): TextFieldValue {
-//        val oldTf = editorState.currentTextField
         val ntf = newTextField
         if (oldTf == ntf) {
             return ntf
