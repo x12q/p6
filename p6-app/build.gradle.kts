@@ -126,6 +126,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
 
+//    testImplementation ("io.kotest:kotest-runner-junit4:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 
 }

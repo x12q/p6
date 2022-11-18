@@ -41,7 +41,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
     override fun colorCurrentTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
         val ces = cellEditorState
         if (ces.isOpen) {
-            val teRs: TextElementResult? = ces.parseTree?.let {
+            val teRs: TextElementResult? = ces.displayParseTree?.let {
                 visitor.visit(it)
             }
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
@@ -50,7 +50,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
                 val trailingSpace: String = computeTrailingSpace(ces.currentText)
                 val newTextField=makeAnnotatedString(trailingSpace,allElements, creList)
                 val newTf = ces.currentTextField.copy(annotatedString = newTextField)
-                return ces.setCurrentTextField(newTf)
+                return ces.setDisplayTextField(newTf)
             }else{
                 return ces
             }
@@ -62,7 +62,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
     override fun colorDisplayTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
         val ces = cellEditorState
         if (ces.isOpen) {
-            val teRs: TextElementResult? = ces.parseTree?.let {
+            val teRs: TextElementResult? = ces.displayParseTree?.let {
                 visitor.visit(it)
             }
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()

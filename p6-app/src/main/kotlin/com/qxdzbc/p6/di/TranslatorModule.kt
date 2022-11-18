@@ -5,7 +5,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.translator.P6Translator
-import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementExtractor
+import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementTranslator
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
@@ -28,7 +28,7 @@ interface TranslatorModule {
     @Binds
     @P6Singleton
     @PartialCellRangeExtractorQ
-    fun PartialCellRangeExtractor(i: PartialTextElementExtractor): P6Translator<TextElementResult>
+    fun PartialCellRangeExtractor(i: PartialTextElementTranslator): P6Translator<TextElementResult>
 
     @Binds
     @P6Singleton

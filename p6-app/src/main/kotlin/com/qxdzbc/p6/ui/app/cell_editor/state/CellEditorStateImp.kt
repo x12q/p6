@@ -3,13 +3,15 @@ package com.qxdzbc.p6.ui.app.cell_editor.state
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.github.michaelbull.result.map
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateAction
-import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateActionImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.di.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
+import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.squareup.anvil.annotations.ContributesBinding
@@ -26,10 +28,15 @@ data class CellEditorStateImp constructor(
     override val rangeSelectorTextField: TextFieldValue? = null,
     override val parseTreeMs: Ms<ParseTree?> = ms(null),
     override val rangeSelectorAllowState: RangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
+    override val rangeSelectorParseTreeMs: Ms<ParseTree?> = ms(null),
+    val treeExtractor: TreeExtractor,
 ) : CellEditorState {
 
     @Inject
-    constructor() : this(
+    constructor(
+        @PartialTreeExtractor
+        treeExtractor: TreeExtractor,
+    ) : this(
         targetCursorIdSt = null,
         isOpenMs = ms(false),
         currentTextField = TextFieldValue(""),
@@ -37,23 +44,57 @@ data class CellEditorStateImp constructor(
         rangeSelectorCursorIdSt = null,
         rangeSelectorTextField = null,
         parseTreeMs = ms(null),
-        rangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE
+        rangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
+        treeExtractor = treeExtractor,
     )
 
     companion object {
         fun defaultForTest(): CellEditorStateImp {
-            return CellEditorStateImp()
+            return CellEditorStateImp(PartialFormulaTreeExtractor())
         }
     }
 
     override val parseTree: ParseTree? get() = parseTreeMs.value
-    override fun setParseTree(i: ParseTree?): CellEditorState {
+    private fun setParseTree(i: ParseTree?): CellEditorStateImp {
         this.parseTreeMs.value = i
         return this
     }
 
+    override val rangeSelectorParseTree: ParseTree?
+        get() = rangeSelectorParseTreeMs.value
+
+    private fun setRangeSelectorParseTree(i: ParseTree?): CellEditorStateImp {
+        this.rangeSelectorParseTreeMs.value = i
+        return this
+    }
+
+    override val displayParseTreeMs: Ms<ParseTree?>
+        get(){
+            if(this.isOpen && this.allowRangeSelector){
+                return this.rangeSelectorParseTreeMs
+            }else{
+                return this.parseTreeMs
+            }
+        }
+    override val displayParseTree: ParseTree?
+        get() {
+            if(this.isOpen && this.allowRangeSelector){
+                return this.rangeSelectorParseTree
+            }else{
+                return this.parseTree
+            }
+        }
+
+    private fun setDisplayParseTree(i: ParseTree?): CellEditorStateImp {
+        if(this.isOpen && this.allowRangeSelector){
+            return this.setRangeSelectorParseTree(i)
+        }else{
+            return this.setParseTree(i)
+        }
+    }
+
     override fun clearAll(): CellEditorState {
-        return this.clearAllText().setParseTree(null)
+        return this.clearAllText().setParseTree(null).setRangeSelectorParseTree(null)
     }
 
     override fun stopGettingRangeAddress(): CellEditorState {
@@ -110,21 +151,22 @@ data class CellEditorStateImp constructor(
         get() = rangeSelectorTextField?.text
 
     override fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorStateImp {
-        return this.copy(rangeSelectorTextField = newTextField)
+        val rt1=this.copy(rangeSelectorTextField = newTextField)
+        val rt2 = newTextField?.text?.let{
+            treeExtractor.extractTree(it)
+        }?.map {
+            rt1.setRangeSelectorParseTree(it)
+        }?.component1() ?:rt1
+        return rt2
     }
 
-    override fun setCurrentText(newText: String): CellEditorState {
-//        val tf = this.currentTextField
-        //        return this.copy(
-//            currentTextField = tf
-//                .copy(text = newText, selection = TextRange(newText.length))
-//        )
+    override fun setCurrentText(newText: String): CellEditorStateImp {
         val newTf = this.currentTextField
             .copy(text = newText, selection = TextRange(newText.length))
         return this.setCurrentTextField(newTf)
     }
 
-    override fun setCurrentTextField(newTextField: TextFieldValue): CellEditorState {
+    override fun setCurrentTextField(newTextField: TextFieldValue): CellEditorStateImp {
         val oldTf = this.currentTextField
         val isTextCursorChanged =
             oldTf.text == newTextField.text && oldTf.selection != newTextField.selection
@@ -142,23 +184,27 @@ data class CellEditorStateImp constructor(
                 inputIndex = textRange.end - 1
             )
         }
+
         val rt= if(newRSAState.isAllow()){
             this.setRangeSelectorTextField(newTextField)
         }else{
             this
         }.copy(currentTextField = newTextField, rangeSelectorAllowState = newRSAState)
-        return rt
+        val rt2 = treeExtractor.extractTree(newTextField.text).map {
+            rt.setParseTree(it)
+        }.component1() ?: rt
+        return rt2
     }
 
     override fun setDisplayTextField(newTextField: TextFieldValue): CellEditorState {
-        if (this.isOpen && rangeSelectorAllowState.isAllow()) {
+        if (this.isOpen && allowRangeSelector) {
             return this.setRangeSelectorTextField(newTextField)
         } else {
             return this.setCurrentTextField(newTextField)
         }
     }
 
-    override fun clearAllText(): CellEditorState {
+    override fun clearAllText(): CellEditorStateImp {
         return this.setCurrentText("").setRangeSelectorTextField(null)
     }
 

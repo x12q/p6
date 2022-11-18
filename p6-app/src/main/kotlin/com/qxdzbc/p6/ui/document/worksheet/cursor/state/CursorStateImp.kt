@@ -8,13 +8,13 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateActionImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.ws.*
+import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.common.P6R
@@ -67,7 +67,7 @@ data class CursorStateImp @AssistedInject constructor(
 
 
     companion object {
-        fun default(
+        fun forTest(
             cursorIdMs: Ms<CursorStateId>,
             cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
             thumbStateMs: Ms<ThumbState>,
@@ -86,6 +86,7 @@ data class CursorStateImp @AssistedInject constructor(
                         targetCell = mainCellMs.value,
                         targetCursorIdSt = cursorIdMs,
                         isOpenMs = false.toMs(),
+                        treeExtractor = PartialFormulaTreeExtractor()
                     )
                 ),
                 thumbStateMs = thumbStateMs
@@ -97,7 +98,7 @@ data class CursorStateImp @AssistedInject constructor(
             cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
             thumbStateMs: Ms<ThumbState>,
         ): CursorStateImp {
-            return default(
+            return forTest(
                 cursorIdMs = ms(CursorIdImp(wsStateIDMs = worksheetIDMs)),
                 cellLayoutCoorsMapSt = cellLayoutCoorsMapSt,
                 thumbStateMs = thumbStateMs

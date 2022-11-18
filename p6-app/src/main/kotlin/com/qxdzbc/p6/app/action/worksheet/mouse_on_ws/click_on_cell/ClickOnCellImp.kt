@@ -13,6 +13,7 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
@@ -26,6 +27,7 @@ class ClickOnCellImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val makeDisplayText: MakeCellEditorTextAction,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
+    val colorFormulaAction:ColorFormulaInCellEditorAction,
 ) : ClickOnCell {
     private val stateCont by stateContSt
     private var appState by appStateMs
@@ -45,10 +47,11 @@ class ClickOnCellImp @Inject constructor(
                 .removeMainRange()
                 .removeAllSelectedFragRange()
                 .removeAllFragmentedCells()
-            val rangeSelectorIsActivated = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllow()
+            val rangeSelectorIsActivated:Boolean = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllow()
             if (rangeSelectorIsActivated) {
                 editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
                 updateRangeSelectorText.updateRangeSelectorText()
+                colorFormulaAction.colorCurrentTextInCellEditor()
             }else{
                 editorStateMs.value=editorState.close()
             }

@@ -6,7 +6,6 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
@@ -27,7 +26,6 @@ import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
-import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
@@ -180,7 +178,7 @@ class CellEditorActionImp @Inject constructor(
         if (editorState.isOpen) {
 //            val oldAllowRangeSelector = editorState.allowRangeSelector
             val oldRSAState = editorState.rangeSelectorAllowState
-            val autoCompletedTf = autoCompleteBracesIfPossible(editorState.displayTextField,ntf)
+            val autoCompletedTf = autoCompleteBracesIfPossible(editorState.displayTextField, ntf)
 
             val newEditorState = editorState
                 // x: because the new text is input by user, it is stored directly into current text
@@ -189,7 +187,8 @@ class CellEditorActionImp @Inject constructor(
                     /*
                     when the cell editor switches off allow-range-selector flag, if the range-selector cell cursor and target cell cursor are the same, reset the cell cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
                     */
-                    val from_Allow_To_Disallow: Boolean = oldRSAState.isAllow() && it.rangeSelectorAllowState.isAllow().not()
+                    val from_Allow_To_Disallow: Boolean =
+                        oldRSAState.isAllow() && it.rangeSelectorAllowState.isAllow().not()
                     if (from_Allow_To_Disallow) {
                         if (it.rangeSelectorIsSameAsTargetCursor) {
                             it.targetCursorId?.let { cursorId ->
@@ -206,23 +205,24 @@ class CellEditorActionImp @Inject constructor(
                     it
                 }.let { cellEditor ->
                     // update the parse tree inside the cell editor
-                    val newCE = treeExtractor.extractTree(cellEditor.currentText)
-                        .mapBoth(
-                            success = {
-                                cellEditor.setParseTree(it)
-                            },
-                            failure = {
-                                cellEditor
-                            }
-                        )
-                    newCE
+//                    val newCE = treeExtractor.extractTree(cellEditor.currentText)
+//                        .mapBoth(
+//                            success = {
+//                                cellEditor.setParseTree(it)
+//                            },
+//                            failure = {
+//                                cellEditor
+//                            }
+//                        )
+//                    newCE
+                    cellEditor
                 }
             stateCont.cellEditorStateMs.value = newEditorState
             colorFormulaAction.colorCurrentTextInCellEditor()
         }
     }
 
-    fun autoCompleteBracesIfPossible(oldTf:TextFieldValue,newTextField: TextFieldValue): TextFieldValue {
+    fun autoCompleteBracesIfPossible(oldTf: TextFieldValue, newTextField: TextFieldValue): TextFieldValue {
 //        val oldTf = editorState.currentTextField
         val ntf = newTextField
         if (oldTf == ntf) {
@@ -302,9 +302,7 @@ class CellEditorActionImp @Inject constructor(
                                     // x: update range selector text
                                     editorStateMs.value =
                                         colorFormulaAction.colorDisplayTextInCellEditor(
-                                            updateCellEditorParseTreeUsingDisplayText(
-                                                editorState.setRangeSelectorTextField(rsText)
-                                            )
+                                            editorState.setRangeSelectorTextField(rsText)
                                         )
                                 }
                                 return rt
@@ -327,18 +325,4 @@ class CellEditorActionImp @Inject constructor(
             return false
         }
     }
-
-    private fun updateCellEditorParseTreeUsingDisplayText(cellEditor: CellEditorState): CellEditorState {
-        val newCE = treeExtractor.extractTree(cellEditor.displayText)
-            .mapBoth(
-                success = {
-                    cellEditor.setParseTree(it)
-                },
-                failure = {
-                    cellEditor
-                }
-            )
-        return newCE
-    }
-
 }

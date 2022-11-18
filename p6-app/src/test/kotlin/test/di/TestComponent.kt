@@ -2,9 +2,6 @@ package test.di
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
-import com.google.gson.Gson
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.app.AppRM
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
@@ -13,7 +10,6 @@ import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.applier.BaseApplier
-import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
@@ -23,12 +19,9 @@ import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormul
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.DragThumbAction
 import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
-import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
-import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
@@ -37,55 +30,27 @@ import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCell
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
-import com.qxdzbc.p6.app.app_context.AppContext
-import com.qxdzbc.p6.app.code.PythonCommander
-import com.qxdzbc.p6.app.coderunner.CodeRunner
 import com.qxdzbc.p6.app.common.formatter.RangeAddressFormatter
-import com.qxdzbc.p6.app.communication.event.P6EventTable
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.*
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
-import com.qxdzbc.p6.di.state.window.WindowStateModule
-import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
-import com.qxdzbc.p6.message.api.connection.kernel_services.KernelServiceManager
 import com.qxdzbc.p6.message.di.MessageApiComponent
-import com.qxdzbc.p6.rpc.P6RpcServer
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
-import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementExtractor
-import com.qxdzbc.p6.ui.app.action.AppAction
-import com.qxdzbc.p6.ui.app.action.AppActionTable
+import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementTranslator
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
-import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
-import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
-import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
-import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTable
-import com.qxdzbc.p6.ui.window.action.WindowActionTable
-import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction
-import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
-import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
-import org.zeromq.ZContext
-import org.zeromq.ZMQ
 
 @MergeComponent(
     scope = P6AnvilScope::class,
@@ -251,7 +216,7 @@ interface TestComponent : P6Component {
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
     fun copyCellAction(): CopyCellAction
-    fun partialTextElementExtractor(): PartialTextElementExtractor
+    fun partialTextElementExtractor(): PartialTextElementTranslator
     fun cycleFormulaLockStateAct(): CycleFormulaLockStateAction
     fun partialFormulaTreeExtractor(): PartialFormulaTreeExtractor
     fun colorFormulaActionImp(): ColorFormulaInCellEditorActionImp

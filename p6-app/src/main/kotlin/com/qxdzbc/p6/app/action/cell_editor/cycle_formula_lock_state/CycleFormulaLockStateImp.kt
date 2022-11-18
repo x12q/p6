@@ -33,7 +33,7 @@ class CycleFormulaLockStateImp @Inject constructor(
         val currentTextField = editorState.currentTextField
         val currentCursorPosition = currentTextField.selection.end
 
-        val parseTree = editorState.parseTree
+        val parseTree = editorState.displayParseTree
         if (parseTree != null) {
             val cellRangeLocList = visitor.visit(parseTree)?.cellRangeElements
             if (cellRangeLocList?.isNotEmpty() == true) {

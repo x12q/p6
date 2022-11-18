@@ -109,7 +109,7 @@ class WorksheetStateImpTest {
             sliderMs = p6Comp.gridSliderFactory().create().toMs(),
 
             cursorStateMs = ms(
-                CursorStateImp.default(
+                CursorStateImp.forTest(
                     cursorIdMs = cursorIdMs,
                     cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
                     mainCellMs = mainCellMs,

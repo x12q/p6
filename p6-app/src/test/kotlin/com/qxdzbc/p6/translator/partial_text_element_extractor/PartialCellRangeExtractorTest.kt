@@ -11,7 +11,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class PartialCellRangeExtractorTest : BaseTest() {
-    lateinit var extractor: PartialTextElementExtractor
+    lateinit var extractor: PartialTextElementTranslator
 
     @BeforeTest
     override fun b() {

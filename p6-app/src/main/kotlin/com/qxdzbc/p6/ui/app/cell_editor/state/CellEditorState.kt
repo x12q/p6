@@ -17,8 +17,12 @@ interface CellEditorState {
 
     val parseTreeMs:Ms<ParseTree?>
     val parseTree: ParseTree?
-    fun setParseTree(i: ParseTree?): CellEditorState
 
+    val rangeSelectorParseTreeMs:Ms<ParseTree?>
+    val rangeSelectorParseTree: ParseTree?
+
+    val displayParseTreeMs:Ms<ParseTree?>
+    val displayParseTree: ParseTree?
     /**
      * return this cell ceditor to empty state, in which:
      *  - empty text
