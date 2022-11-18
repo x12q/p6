@@ -368,6 +368,7 @@ class CursorAndCellEditorTest : BaseTest() {
             //"=A1+M5a123"
             //"=A1+M5+123"
             //"=A1+M5?123"
+            // ...
             val expectText2 = "=A1+${c.label}${chr}123"
             cellEditorAction.changeTextField(
                 TextFieldValue(
