@@ -61,7 +61,7 @@ class LoadDataActionImp @Inject constructor(
         val cells: List<IndCellDM> = request.ws.cells
         var rt: Worksheet = ws
         val lt = request.loadType
-        for (indCellDM in cells) {
+        for (indCellDM:IndCellDM in cells) {
             if (lt == LoadType.KEEP_OLD_DATA_IF_COLLIDE) {
                 // x: don't overwrite existing old cell
                 val oldCell = rt.getCell(indCellDM.address)
@@ -72,7 +72,7 @@ class LoadDataActionImp @Inject constructor(
             val newCell = IndCellImp(
                 address = indCellDM.address,
                 content = indCellDM.formula?.let {
-                    CellContentImp.fromTransRs(translator.translate(it))
+                    CellContentImp.fromTransRs(translator.translate(it),originalText=it)
                 } ?: CellContentImp(cellValueMs = indCellDM.value.toMs())
             )
             rt = rt.addOrOverwrite(newCell)

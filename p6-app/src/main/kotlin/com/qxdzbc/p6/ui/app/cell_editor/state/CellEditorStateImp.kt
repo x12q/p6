@@ -244,10 +244,11 @@ data class CellEditorStateImp constructor(
         } else {
             RangeSelectorAllowState.START
         }
-        //TODO change range selector text base on the new rsa state
+
         val rt = if (rsaState.isAllow()) {
-//            this.setRangeSelectorTextField(this.currentTextField)
-            this
+            //x: set range selector text base on the new rsa state
+            //x: this happens when the formula is errors and has a trailing activation char
+            this.setRangeSelectorTextField(this.currentTextField)
         } else {
             this
         }.copy(

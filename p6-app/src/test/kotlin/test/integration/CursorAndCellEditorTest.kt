@@ -41,6 +41,21 @@ class CursorAndCellEditorTest : BaseTest() {
     val cellEditorAction get() = comp.cellEditorAction()
 
     @Test
+    fun `bug-test open cell editor on cel with error formula`(){
+        val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
+        val cellEditorState by appState.cellEditorStateMs
+        cellEditorAction.openCellEditor(wbwsSt)
+        cellEditorAction.changeText("=B2+ww")
+        cellEditorAction.runFormulaOrSaveValueToCell()
+        val cellMs = sc.getCellMs(ts.wbKey1,ts.wsn1,CellAddress("A1"))!!
+
+        cellEditorAction.openCellEditor(wbwsSt)
+        cellEditorState.displayText shouldBe "=B2+ww"
+
+
+    }
+
+    @Test
     fun `click on ruler item when editing cell, allow range select`() {
         val rulerAction: RulerAction = ts.comp.rulerAction()
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))

@@ -17,7 +17,7 @@ data class IndCellDM(
         fun DocProtos.IndCellProto.toModel(): IndCellDM {
             return IndCellDM(
                 address = address.toModel(),
-                content = content.toModel()
+                content = content.toModel(),
             )
         }
     }

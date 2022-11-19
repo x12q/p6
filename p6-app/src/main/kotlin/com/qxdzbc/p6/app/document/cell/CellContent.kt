@@ -15,10 +15,13 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
  * CellContent = formula + cell value
  */
 interface CellContent:CanCheckEmpty,Shiftable {
+    val originalText:String?
+
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
     ): CellContent
+
     val exUnit: ExUnit?
     val cellValueAfterRun: CellValue
     val cellValue: CellValue

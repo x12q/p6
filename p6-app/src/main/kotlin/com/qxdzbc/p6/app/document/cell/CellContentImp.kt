@@ -29,6 +29,8 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 data class CellContentImp(
     private val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
+    // TODO set to default null temporarily, until all the related code is updated
+    override val originalText: String? = null,
 ) : CellContent {
     override val fullFormula: String?
         get() = exUnit?.toFormula()?.let {
@@ -59,29 +61,35 @@ data class CellContentImp(
 
     companion object {
         fun randomNumericContent():CellContentImp{
+            val num = (1 .. 1000).random()
             return CellContentImp(
-                cellValueMs = ms((1 .. 1000).random().toCellValue()),
-                exUnit = null
+                cellValueMs = ms(num.toCellValue()),
+                exUnit = null,
+                originalText = num.toString()
             )
         }
         fun randomExUnitContent():CellContentImp{
+            val num=(1 .. 1000).random()
             return CellContentImp(
                 cellValueMs = ms(CellValue.empty),
-                exUnit = IntUnit((1 .. 1000).random())
+                exUnit = IntUnit(num),
+                originalText = "=${num}"
             )
         }
-        val empty = CellContentImp()
+        val empty = CellContentImp(originalText=null)
 
         /**
          * create a CellContent from a translation Rs
          */
-        fun fromTransRs(rs: Rs<ExUnit, ErrorReport>): CellContentImp {
+        fun fromTransRs(rs: Rs<ExUnit, ErrorReport>,originalText:String?=null): CellContentImp {
             when (rs) {
                 is Ok -> return CellContentImp(
-                    exUnit = rs.value
+                    exUnit = rs.value,
+                    originalText=originalText
                 )
                 is Err -> return CellContentImp(
                     cellValueMs = CellValue.fromTransError(rs.error).toMs(),
+                    originalText=originalText
                 )
             }
         }
