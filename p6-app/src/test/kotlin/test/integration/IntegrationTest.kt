@@ -138,7 +138,8 @@ class IntegrationTest {
                     IndCellImp(
                         address = CellAddress("C1"),
                         content = CellContentImp(
-                            exUnit = translator.translate("=SUM(A1:A3)").component1()!!
+                            exUnit = translator.translate("=SUM(A1:A3)").component1()!!,
+                            originalText = "=SUM(A1:A3)"
                         )
                     )
                 )

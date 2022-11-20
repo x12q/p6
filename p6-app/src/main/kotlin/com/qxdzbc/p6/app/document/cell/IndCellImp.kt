@@ -15,7 +15,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
  */
 data class IndCellImp(
     override val address: CellAddress,
-    override val content: CellContent = CellContentImp(),
+    override val content: CellContent = CellContentImp.empty,
     override val error0: ErrorReport? = null,
     override val cachedDisplayText: String = "",
 ) : BaseCell() {
@@ -77,9 +77,9 @@ data class IndCellImp(
     }
 
     override fun setCellValue(i: CellValue): Cell {
-        val rs = this.content
+        val newContent = this.content
             .setValueAndDeleteExUnit(i)
-        return this.setContent(rs)
+        return this.setContent(newContent)
     }
 
     override fun toProto(): CellProto {

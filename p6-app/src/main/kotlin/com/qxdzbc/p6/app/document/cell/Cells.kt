@@ -18,7 +18,8 @@ object Cells {
     }
 
     fun number(label: String, number: Number): Cell {
-        return emptyIndCell(label).setCellValue(number.toCellValue())
+        val rt=emptyIndCell(label).setCellValue(number.toCellValue())
+        return rt
     }
 
     fun str(label: String, str: String): Cell {
@@ -28,7 +29,7 @@ object Cells {
     fun emptyIndCell(cellAddress: CellAddress): Cell {
         return IndCellImp(
             cellAddress,
-            CellContentImp()
+            CellContentImp.empty
         )
     }
     /**

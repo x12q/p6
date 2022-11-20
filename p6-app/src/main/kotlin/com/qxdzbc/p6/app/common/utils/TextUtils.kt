@@ -1,7 +1,11 @@
 package com.qxdzbc.p6.app.common.utils
 
 object TextUtils {
-
+    fun isFormula(formula: String): Boolean {
+        val script: String = formula.trim()
+        val isFormula: Boolean = script.startsWith("=")
+        return isFormula
+    }
     fun cleanExecutionResultText(text:String):String{
         if(text.isEmpty()){
             return text

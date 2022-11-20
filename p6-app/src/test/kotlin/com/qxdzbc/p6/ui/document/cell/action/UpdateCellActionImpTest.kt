@@ -65,7 +65,8 @@ internal class UpdateCellActionImpTest {
                     wbKey = wbk, wsName = wsn, address = ca
                 ),
                 cellContent = CellContentDM(
-                    cellValue = CellValue.Companion.from(123)
+                    cellValue = CellValue.Companion.from(123),
+                    originalText="123"
                 )
             )
         )

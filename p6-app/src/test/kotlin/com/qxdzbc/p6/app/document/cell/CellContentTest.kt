@@ -13,7 +13,8 @@ class CellContentTest {
     fun run() {
         val c = CellContentImp(
             cellValueMs = CellValue.from(123).toMs(),
-            exUnit = FALSE
+            exUnit = FALSE,
+            originalText ="=FALSE"
         )
         val c2 = c.reRunRs().component1()
         assertEquals(CellValue.from(false), c2?.reRunRs()?.component1()?.cellValueAfterRun)

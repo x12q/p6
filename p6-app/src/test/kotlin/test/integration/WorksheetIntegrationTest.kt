@@ -64,8 +64,8 @@ class WorksheetIntegrationTest {
 
         val c = ws2.getCell("A1")
         assertEquals(124.0, c?.currentValue)
-        println(c?.fullFormula)
-        assertEquals("=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1", c?.fullFormula)
+        println(c?.fullFormulaFromExUnit)
+        assertEquals("=B23@'${ws1.name}'@'${ws1.wbKey.name}' + 1", c?.fullFormulaFromExUnit)
 
 
     }

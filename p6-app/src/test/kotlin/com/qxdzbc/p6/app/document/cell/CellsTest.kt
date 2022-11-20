@@ -3,10 +3,19 @@ package com.qxdzbc.p6.app.document.cell
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import io.kotest.matchers.shouldBe
 import kotlin.test.*
 import test.TestSample
 
 class CellsTest {
+
+    @Test
+    fun number(){
+        val cell = Cells.number("A2",1)
+        cell.address shouldBe CellAddress("A2")
+        cell.currentValue shouldBe 1.0
+    }
+
     @Test
     fun isLegalReturnType() {
         assertTrue { Cells.isLegalCellType(Ok(1)) }

@@ -4,7 +4,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.proto.CellProtos.CellUpdateRequestProto
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
-import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModelDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 
@@ -20,7 +20,7 @@ data class CellUpdateRequestDM(
         fun CellUpdateRequestProto.toModel():CellUpdateRequestDM{
             return CellUpdateRequestDM(
                 cellId = cellId.toModel(),
-                cellContent = this.cellContent.toModel()
+                cellContent = this.cellContent.toModelDM()
             )
         }
     }

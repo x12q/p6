@@ -31,13 +31,13 @@ interface CellContent:CanCheckEmpty,Shiftable {
     /**
      * formula in its full form
      */
-    val fullFormula: String?
+    val fullFormulaFromExUnit: String?
 
     /**
      * formula in its short form. A formula in short form omits workbook identity(name & path) and worksheet name if the storing workbook & worksheet are identical to the one being referred inside the formula.
      * Eg: A1@'Sheet1'@'Wb1' become A1 if this formula is stored in Wb1, Sheet1
      */
-    fun shortFormula(wbKey:WorkbookKey?=null, wsName:String?=null): String?
+    fun shortFormulaFromExUnit(wbKey:WorkbookKey?=null, wsName:String?=null): String?
 
     /**
      * formula in colored short form

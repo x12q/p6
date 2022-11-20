@@ -42,7 +42,7 @@ class EndThumbDragActionImp @Inject constructor(
         }
     }
 
-    fun generateNumberSequenceAndPutInCells(
+    private fun generateNumberSequenceAndPutInCells(
         wbws: WbWsSt,
         startNum:Double,
         startCell: CellAddress,
@@ -57,11 +57,10 @@ class EndThumbDragActionImp @Inject constructor(
         }
 
         val updateEntries = targetCells.map{
+            val num:Double = startNum + if (onRow) it.rowIndex - startCell.rowIndex else it.colIndex - startCell.colIndex
             IndCellDM(
                 address = it,
-                content = CellContentDM(
-                    cellValue = CellValue.from(startNum + if (onRow) it.rowIndex - startCell.rowIndex else it.colIndex - startCell.colIndex)
-                )
+                content = CellContentDM.fromAny(num)
             )
         }
 

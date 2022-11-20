@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
-import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
@@ -16,8 +15,8 @@ abstract class BaseCell : Cell {
         return sameAddress && similarContent
     }
 
-    override fun formula(wbKey: WorkbookKey?, wsName: String?): String? {
-        return content.shortFormula(wbKey, wsName)
+    override fun shortFormulaFromExUnit(wbKey: WorkbookKey?, wsName: String?): String? {
+        return content.shortFormulaFromExUnit(wbKey, wsName)
     }
 
     override fun colorEditableValue(
@@ -32,32 +31,16 @@ abstract class BaseCell : Cell {
         }
     }
 
-    override fun editableValue(wbKey: WorkbookKey?, wsName: String): String {
-        if (this.isFormula) {
-            return this.formula(wbKey, wsName) ?: ""
-        } else {
-            return this.cellValueAfterRun.editableValue ?: ""
-        }
+    override fun editableText(wbKey: WorkbookKey?, wsName: String): String {
+        return this.content.originalText?:""
     }
 
-    override val editableValue: String
+    override val editableText: String
         get() {
-            if (this.isFormula) {
-                return this.fullFormula ?: ""
-            } else {
-                return this.cellValueAfterRun.editableValue ?: ""
-            }
+            return this.content.originalText?:""
         }
-    override val fullFormula: String? get() = content.fullFormula
-    override val shortFormula: String? get() = content.shortFormula(this.wbKey, this.wsName)
-//    override val displayText: String
-//        get() {
-//            try {
-//                return content.displayStr
-//            } catch (e: Throwable) {
-//                return "#ERR"
-//            }
-//        }
+    override val fullFormulaFromExUnit: String? get() = content.fullFormulaFromExUnit
+    override val shortFormulaFromExUnit: String? get() = content.shortFormulaFromExUnit(this.wbKey, this.wsName)
     override val isEditable: Boolean get() = true
     override fun hasContent(): Boolean {
         return content.isNotEmpty()

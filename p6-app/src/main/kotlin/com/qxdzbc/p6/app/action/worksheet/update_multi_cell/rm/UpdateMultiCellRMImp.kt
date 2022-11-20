@@ -73,14 +73,15 @@ class UpdateMultiCellRMImp @Inject constructor(
         return rt
     }
 
-    fun makeContent(entry: IndCellDM, translator:P6Translator<ExUnit>): CellContent {
-        val formula=entry.content.formula
-        if(formula!=null && formula.isNotEmpty()) {
+    private fun makeContent(indCellDM: IndCellDM, translator:P6Translator<ExUnit>): CellContent {
+        val formula=indCellDM.content.formula
+        if(!formula.isNullOrEmpty()) {
             val transRs = translator.translate(formula)
-            return CellContentImp.fromTransRs(transRs)
+            return CellContentImp.fromTransRs(transRs,formula)
         }else{
             return CellContentImp(
-                cellValueMs = CellValue.fromAny(entry.content.cellValue).toMs(),
+                cellValueMs = CellValue.fromAny(indCellDM.content.cellValue).toMs(),
+                originalText= indCellDM.content.originalText
             )
         }
     }

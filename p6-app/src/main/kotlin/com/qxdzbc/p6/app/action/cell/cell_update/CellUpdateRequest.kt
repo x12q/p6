@@ -6,6 +6,6 @@ import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 
 data class CellUpdateRequest(
     val cellId:CellId,
-    val cellContent: CellContentDM
+    val cellContentDM: CellContentDM
 ) :WbWsSt by cellId{
 }

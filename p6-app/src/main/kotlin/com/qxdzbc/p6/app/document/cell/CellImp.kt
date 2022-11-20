@@ -16,14 +16,16 @@ import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.CellProto
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModelDM
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
 data class CellImp(
     override val id: CellId,
-    override val content: CellContent = CellContentImp(),
+    override val content: CellContent = CellContentImp.empty,
     override val error0: ErrorReport? = null,
-    override val cachedDisplayText:String="",
+    // TODO cached display text is not used anywhere, remove it.
+    override val cachedDisplayText: String = "",
 ) : BaseCell(), WbWsSt by id {
 
     companion object {
@@ -31,18 +33,23 @@ data class CellImp(
             translator: P6Translator<ExUnit>
         ): CellImp {
             val sId = this.id.toShallowModel()
-            if (this.hasFormula() && this.formula.isNotEmpty()) {
-                val transRs = translator.translate(formula)
-                val content = CellContentImp.fromTransRs(transRs)
+
+            val content = this.content
+
+            if (content.hasFormula() && content.formula.isNotEmpty()) {
+                val transRs = translator.translate(content.formula)
+                val content = CellContentImp.fromTransRs(transRs, content.formula)
                 return CellImp(
                     id = sId,
                     content = content
                 )
             } else {
+                val cv: CellValue = content.cellValue.toModel()
                 return CellImp(
                     id = sId,
                     content = CellContentImp(
-                        cellValueMs = this.value.toModel().toMs(),
+                        cellValueMs = cv.toMs(),
+                        originalText = cv.editableValue
                     )
                 )
             }
@@ -53,9 +60,10 @@ data class CellImp(
             wsNameSt: St<String>,
             translator: P6Translator<ExUnit>,
         ): CellImp {
-            if (this.hasFormula() && this.formula.isNotEmpty()) {
-                val transRs = translator.translate(formula)
-                val content = CellContentImp.fromTransRs(transRs)
+            val content= this.content
+            if (content.hasFormula() && content.formula.isNotEmpty()) {
+                val transRs = translator.translate(content.formula)
+                val content = CellContentImp.fromTransRs(transRs,content.formula)
                 return CellImp(
                     id = CellId(
                         address = this.id.cellAddress.toModel(),
@@ -64,13 +72,15 @@ data class CellImp(
                     content = content
                 )
             } else {
+                val cv = this.content.cellValue.toModel()
                 return CellImp(
                     id = CellId(
                         address = this.id.cellAddress.toModel(),
                         wbKeySt = wbKeySt, wsNameSt = wsNameSt
                     ),
                     content = CellContentImp(
-                        cellValueMs = this.value.toModel().toMs(),
+                        cellValueMs = cv.toMs(),
+                        originalText = cv.editableValue
                     )
                 )
             }
@@ -98,7 +108,7 @@ data class CellImp(
     override val address: CellAddress
         get() = id.address
 
-    override fun attemptToAccessDisplayText(): String{
+    override fun attemptToAccessDisplayText(): String {
         return this.content.displayText
     }
 
@@ -112,6 +122,7 @@ data class CellImp(
                 is StackOverflowError -> {
                     CellErrors.OverflowError.report("overflow when trying to evaluate display text of cell at ${this.id.repStr()}")
                 }
+
                 else -> {
                     CommonErrors.ExceptionError.report(e)
                 }
@@ -127,9 +138,9 @@ data class CellImp(
     override fun setContent(content: CellContent): Cell {
         val newContent = CellContentImp(
             cellValueMs = ms(content.cellValue),
-            exUnit = content.exUnit
+            exUnit = content.exUnit,
+            originalText =content.originalText,
         )
-//        return this.copy(content = content)
         return this.copy(content = newContent)
     }
 
@@ -140,21 +151,12 @@ data class CellImp(
     }
 
     override fun toProto(): DocProtos.CellProto {
+
         val rt = CellProto.newBuilder()
             .setId(this.id.toProto())
-            .apply {
-                if (this@CellImp.isFormula) {
-                    this.setFormula(this@CellImp.fullFormula)
-                }
-            }
-            .setValue(this@CellImp.cellValueAfterRun.toProto())
+            .setContent(this.content.toProto())
             .build()
         return rt
     }
-
-//    override fun toString(): String {
-//        return "CellImp[address=${address},content=${content}]"
-//        return "CellImp"
-//    }
 }
 

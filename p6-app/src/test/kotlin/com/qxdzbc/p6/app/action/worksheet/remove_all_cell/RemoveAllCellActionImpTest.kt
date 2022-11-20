@@ -31,7 +31,7 @@ internal class RemoveAllCellActionImpTest {
             IndCellImp(
             address = CellAddress("A1"),
             content = CellContentImp(
-                cellValueMs = ms(CellValue.from(123))
+                cellValueMs = ms(CellValue.from(123)),
             )
         )
         )

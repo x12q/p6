@@ -27,15 +27,15 @@ internal class MultiCellUpdateActionImpTest {
             cellUpdateList = listOf(
                 IndCellDM(
                     address = CellAddress("Q6"),
-                    content = CellContentDM(formula="=1+2+3")
+                    content = CellContentDM(formula="=1+2+3",originalText="=1+2+3")
                 ),
                 IndCellDM(
                     address = CellAddress("Q9"),
-                    content = CellContentDM(formula="=Q6+1")
+                    content = CellContentDM(formula="=Q6+1",originalText ="=Q6+1")
                 ),
                 IndCellDM(
                     address = CellAddress("X4"),
-                    content = CellContentDM(CellValue.fromAny(123))
+                    content = CellContentDM(CellValue.fromAny(123),originalText="123")
                 )
             )
         )
@@ -58,12 +58,12 @@ internal class MultiCellUpdateActionImpTest {
         assertEquals(request.cellUpdateList.size,wsState.cellStateCont.allElements.size)
         // Q6
         val q6=wsState.getCellState("Q6")
-        assertEquals("=1 + 2 + 3",q6?.cell?.fullFormula)
+        assertEquals("=1 + 2 + 3",q6?.cell?.fullFormulaFromExUnit)
         assertEquals(6.0,q6?.cell?.currentValue)
 
         // Q9
         val q9 = wsState.getCellState("Q9")
-        assertEquals("=Q6 + 1",q9?.cell?.shortFormula)
+        assertEquals("=Q6 + 1",q9?.cell?.shortFormulaFromExUnit)
         assertEquals(7.0,(q9?.cell?.currentValue))
 
         // X4

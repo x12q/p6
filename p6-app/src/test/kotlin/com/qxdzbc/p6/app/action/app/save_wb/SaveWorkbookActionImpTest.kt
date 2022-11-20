@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.app.action.app.save_wb
 
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import test.TestSample
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -18,11 +20,14 @@ class SaveWorkbookActionImpTest {
     @Test
     fun saveWorkbook() {
         val path = Paths.get("twb.txt")
+
         act.saveWorkbook(ts.wbKey1,path)
-        assertEquals(path.fileName.toString(),ts.wbKey1.name)
-        assertEquals(path.toAbsolutePath(),ts.wbKey1.path?.toAbsolutePath())
+
+        ts.wbKey1.name shouldBe path.fileName.toString()
+        ts.wbKey1.path?.toAbsolutePath() shouldBe path.toAbsolutePath()
+
         val wb = ts.stateContMs().value.getWb(ts.wbKey1)
-        assertNotNull(wb)
+        wb shouldNotBe null
         if(path.exists()){
             Files.delete(path)
         }

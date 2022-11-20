@@ -70,7 +70,7 @@ class CellImpTest {
             )
         )
         val proto = cell.toProto()
-        assertEquals(123.toCellValue().toProto(), proto.value)
+        assertEquals(123.toCellValue().toProto(), proto.content.cellValue)
         assertEquals(cell.address.toProto(), proto.id.cellAddress)
 
         val cell2 = CellImp(
@@ -91,6 +91,6 @@ class CellImpTest {
             )
         )
         val proto = cell.toProto()
-        assertFalse { proto.hasFormula() }
+        assertFalse { proto.content.hasFormula() }
     }
 }

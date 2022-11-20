@@ -16,6 +16,7 @@ import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursor
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
+import com.qxdzbc.p6.app.common.utils.TextUtils
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
@@ -55,11 +56,11 @@ class CellEditorActionImp @Inject constructor(
     private val editorStateMs = stateCont.cellEditorStateMs
     private val editorState by editorStateMs
 
-    private fun isFormula(formula: String): Boolean {
-        val script: String = formula.trim()
-        val isFormula: Boolean = script.startsWith("=")
-        return isFormula
-    }
+//    private fun isFormula(formula: String): Boolean {
+//        val script: String = formula.trim()
+//        val isFormula: Boolean = script.startsWith("=")
+//        return isFormula
+//    }
 
     override fun focusOnCellEditor() {
         val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
@@ -91,16 +92,17 @@ class CellEditorActionImp @Inject constructor(
         if (ws != null && wbKey != null && wsName != null && editTarget != null) {
             // x: execute the formula in the editor
             val cell = ws.getCell(editTarget)
-            val codeText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
+            // TODO re-check this
+            val editorText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
 
-            val reverseRequest = if (cell?.fullFormula != null) {
+            val reverseRequest = if (cell?.fullFormulaFromExUnit != null) {
                 CellUpdateRequestDM(
                     cellId = CellIdDM(
                         wbKey = wbKey,
                         wsName = wsName,
                         address = editTarget,
                     ),
-                    cellContent = CellContentDM.fromFormula(cell.fullFormula)
+                    cellContent = CellContentDM.fromFormula(cell.fullFormulaFromExUnit)
                 )
             } else {
                 CellUpdateRequestDM(
@@ -114,10 +116,10 @@ class CellEditorActionImp @Inject constructor(
             }
             var value: String? = null
             var formula: String? = null
-            if (isFormula(codeText)) {
-                formula = codeText
+            if (TextUtils.isFormula(editorText)) {
+                formula = editorText
             } else {
-                value = codeText
+                value = editorText
             }
             val request = CellUpdateRequestDM(
                 cellId = CellIdDM(
@@ -127,7 +129,8 @@ class CellEditorActionImp @Inject constructor(
                 ),
                 cellContent = CellContentDM(
                     cellValue = CellValue.fromAny(cellLiteralParser.parse(value)),
-                    formula = formula
+                    formula = formula,
+                    originalText= formula?:value,
                 )
             )
 

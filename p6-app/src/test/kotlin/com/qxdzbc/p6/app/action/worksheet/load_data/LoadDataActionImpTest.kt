@@ -34,9 +34,9 @@ internal class LoadDataActionImpTest {
         indWs = IndWorksheet(
             id = WorksheetIdDM(wbk, wsn),
             cells = listOf(
-                IndCellDM(CellAddress("A1"), CellContentDM(CellValue.from(11))),
-                IndCellDM(CellAddress("A2"), CellContentDM(CellValue.from(12))),
-                IndCellDM(CellAddress("B3"), CellContentDM(CellValue.from(23))),
+                IndCellDM(CellAddress("A1"), CellContentDM(CellValue.from(11),originalText="11")),
+                IndCellDM(CellAddress("A2"), CellContentDM(CellValue.from(12),originalText="12")),
+                IndCellDM(CellAddress("B3"), CellContentDM(CellValue.from(23),originalText="23")),
             )
         )
     }
@@ -55,7 +55,8 @@ internal class LoadDataActionImpTest {
             IndCellImp(
                 address = CellAddress("A2"),
                 content = CellContentImp(
-                    cellValueMs = ms(CellValue.from("overwrite me"))
+                    cellValueMs = ms(CellValue.from("overwrite me")),
+                    originalText ="overwrite me"
                 )
             )
         )
@@ -85,7 +86,8 @@ internal class LoadDataActionImpTest {
             IndCellImp(
                 address = CellAddress("A2"),
                 content = CellContentImp(
-                    cellValueMs = ms(CellValue.from(a2Value))
+                    cellValueMs = ms(CellValue.from(a2Value)),
+                    originalText =a2Value
                 )
             )
         )

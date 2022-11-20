@@ -72,7 +72,7 @@ internal class CopyCellActionImpTest: BaseTest(){
             )
         )
         assertTrue(ts.sc.getCellOrDefault(toCell)?.isFormula?:false)
-        assertEquals("=C2 + 1", ts.sc.getCellOrDefault(toCell)?.shortFormula)
+        assertEquals("=C2 + 1", ts.sc.getCellOrDefault(toCell)?.shortFormulaFromExUnit)
         assertEquals(3.0,ts.sc.getCellOrDefault(toCell)?.currentValue)
         assertEquals("3",ts.sc.getCellOrDefault(toCell)?.attemptToAccessDisplayText())
         assertEquals(3.0,ts.sc.getCellOrDefault(toCell)?.valueAfterRun)

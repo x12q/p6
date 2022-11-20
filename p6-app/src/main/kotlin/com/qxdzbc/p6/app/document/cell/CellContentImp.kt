@@ -27,17 +27,25 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
  * This implementation hold a mutable [CellValue] instance([cellValueMs]), whenever [cellValueAfterRun] is access, a new instance of cell value is computed. This is for auto formula computation
  */
 data class CellContentImp(
+    // this is stored as a Ms so that when ExUnit rerun, it can update the cellValue without creating new CellContentValue.
+    // I am not sure this is a good idea.
     private val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
     // TODO set to default null temporarily, until all the related code is updated
-    override val originalText: String? = null,
+//    override val originalText: String? = null,
+    override val originalText: String?,
 ) : CellContent {
-    override val fullFormula: String?
+
+    constructor(
+         cellValueMs: Ms<CellValue> = ms(CellValue.empty),
+    ):this(cellValueMs,null,cellValueMs.value.editableValue)
+
+    override val fullFormulaFromExUnit: String?
         get() = exUnit?.toFormula()?.let {
             "=" + it
         }
 
-    override fun shortFormula(wbKey: WorkbookKey?, wsName: String?): String? {
+    override fun shortFormulaFromExUnit(wbKey: WorkbookKey?, wsName: String?): String? {
         return exUnit?.toShortFormula(wbKey, wsName)?.let {
             "=" + it
         }
@@ -54,8 +62,12 @@ data class CellContentImp(
 
     override fun toProto(): CellContentProto {
         return CellContentProto.newBuilder()
+            .apply{
+                if(exUnit!=null){
+                    setFormula(this@CellContentImp.originalText)
+                }
+            }
             .setCellValue(this.cellValue.toProto())
-            .setFormula(this.fullFormula)
             .build()
     }
 
@@ -76,20 +88,20 @@ data class CellContentImp(
                 originalText = "=${num}"
             )
         }
-        val empty = CellContentImp(originalText=null)
+        val empty get() = CellContentImp(originalText=null)
 
         /**
          * create a CellContent from a translation Rs
          */
-        fun fromTransRs(rs: Rs<ExUnit, ErrorReport>,originalText:String?=null): CellContentImp {
+        fun fromTransRs(rs: Rs<ExUnit, ErrorReport>, originalFormula:String?): CellContentImp {
             when (rs) {
                 is Ok -> return CellContentImp(
                     exUnit = rs.value,
-                    originalText=originalText
+                    originalText=originalFormula
                 )
                 is Err -> return CellContentImp(
                     cellValueMs = CellValue.fromTransError(rs.error).toMs(),
-                    originalText=originalText
+                    originalText=originalFormula
                 )
             }
         }
@@ -142,7 +154,8 @@ data class CellContentImp(
     override fun toDm(): CellContentDM {
         return CellContentDM(
             cellValue = this.cellValue,
-            formula = this.fullFormula
+            formula = this.originalText,
+            originalText = this.originalText
         )
     }
 
@@ -164,14 +177,14 @@ data class CellContentImp(
     override val editableStr: String
         get() {
             if (this.isFormula) {
-                return this.fullFormula ?: ""
+                return this.fullFormulaFromExUnit ?: ""
             } else {
                 return this.cellValueAfterRun.editableValue ?: ""
             }
         }
 
     override fun isEmpty(): Boolean {
-        return fullFormula == null && cellValueAfterRun.isEmpty()
+        return fullFormulaFromExUnit == null && cellValueAfterRun.isEmpty()
     }
 
     override val displayText: String
@@ -181,7 +194,7 @@ data class CellContentImp(
 
     override val isFormula: Boolean
         get() {
-            val f = fullFormula
+            val f = fullFormulaFromExUnit
             return f != null && f.isNotEmpty()
         }
 
@@ -210,7 +223,7 @@ data class CellContentImp(
     }
 
     override fun hashCode(): Int {
-        var result = fullFormula?.hashCode() ?: 0
+        var result = fullFormulaFromExUnit?.hashCode() ?: 0
         result = 31 * result + cellValue.hashCode()
         return result
     }

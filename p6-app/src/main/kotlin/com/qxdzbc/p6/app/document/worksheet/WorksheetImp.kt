@@ -44,13 +44,18 @@ data class WorksheetImp(
             rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
             wbKeyMs: Ms<WorkbookKey>,
         ): WorksheetImp {
-            return WorksheetImp(
+
+            val cellMap =  cellList
+                .groupBy { it.value.address.colIndex }
+                .map { (colIndex, cl) -> colIndex to cl.associateBy { it.value.address.rowIndex } }
+                .toMap()
+            val rt=WorksheetImp(
                 nameMs = ms(name),
-                table = ImmutableTableCR(cellList.groupBy { it.value.address.colIndex }
-                    .map { (colIndex, cl) -> colIndex to cl.associateBy { it.value.address.rowIndex } }.toMap()),
+                table = ImmutableTableCR(cellMap),
                 rangeConstraint = rangeConstraint,
                 wbKeySt = wbKeyMs
             )
+            return rt
         }
 
         /**

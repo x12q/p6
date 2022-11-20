@@ -76,7 +76,7 @@ class CellRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
             val cell: Cell? = sc.getCellOrDefault(cid)
-            val rt = StrMsg(cell?.fullFormula ?: "")
+            val rt = StrMsg(cell?.fullFormulaFromExUnit ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
     }

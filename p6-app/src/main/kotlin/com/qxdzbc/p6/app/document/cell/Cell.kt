@@ -37,9 +37,9 @@ interface Cell :Shiftable,WbWsSt{
     val address: CellAddress
 
     val content: CellContent
-    val fullFormula: String?
-    val shortFormula: String?
-    fun formula(wbKey: WorkbookKey? = null, wsName: String? = null): String?
+    val fullFormulaFromExUnit: String?
+    val shortFormulaFromExUnit: String?
+    fun shortFormulaFromExUnit(wbKey: WorkbookKey? = null, wsName: String? = null): String?
 
     /**
      * value to be displayed on the cell UI
@@ -57,8 +57,8 @@ interface Cell :Shiftable,WbWsSt{
      */
     val cellValueAfterRun: CellValue
     val currentCellValue: CellValue
-    val editableValue: String
-    fun editableValue(wbKey: WorkbookKey?, wsName: String): String
+    val editableText: String
+    fun editableText(wbKey: WorkbookKey?, wsName: String): String
     fun colorEditableValue(colorMap: ColorMap, wbKey: WorkbookKey?, wsName: String): AnnotatedString
 
     /**

@@ -22,7 +22,7 @@ import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 import com.qxdzbc.p6.proto.WorksheetProtos
 import com.qxdzbc.p6.proto.rpc.WorksheetServiceGrpc
 import com.qxdzbc.p6.rpc.cell.msg.CellDM
-import com.qxdzbc.p6.rpc.cell.msg.CellDM.CO.toModel
+import com.qxdzbc.p6.rpc.cell.msg.CellDM.Companion.toModel
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM.Companion.toModel
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto

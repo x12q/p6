@@ -38,7 +38,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
         updateCellAct.updateCell(
             request = CellUpdateRequest(
                 cellId = startCellId,
-                cellContent = CellContentDM.fromAny(startValue)
+                cellContentDM = CellContentDM.fromAny(startValue)
             )
         )
         multiCellUpdateAct=ts.comp.multiCellUpdateAction()

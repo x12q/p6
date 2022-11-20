@@ -60,7 +60,7 @@ fun main() = P6TestApp {
             CellView(
                 CellStateImp(
                     address = address,
-                    cellMs = IndCellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs())).toMs(),
+                    cellMs = IndCellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs(), originalText = "text abc")).toMs(),
                     textFormatMs = ms(
                         TextFormat(
                             color = Color.Red,
@@ -83,7 +83,7 @@ fun main() = P6TestApp {
             CellView(
                 CellStateImp(
                     address = address,
-                    cellMs = IndCellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs())).toMs()
+                    cellMs = IndCellImp(address, CellContentImp(cellValueMs = CellValue.from("text abc").toMs(),originalText = "text abc")).toMs()
                 )
             )
         }
