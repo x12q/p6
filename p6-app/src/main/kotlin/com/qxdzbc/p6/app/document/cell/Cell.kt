@@ -10,6 +10,7 @@ import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellProto
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
+import kotlin.jvm.Throws
 
 
 interface Cell :Shiftable,WbWsSt{
@@ -42,13 +43,19 @@ interface Cell :Shiftable,WbWsSt{
     fun shortFormulaFromExUnit(wbKey: WorkbookKey? = null, wsName: String? = null): String?
 
     /**
-     * value to be displayed on the cell UI
+     * try to access and return display text, may throw exception.
+     * This should not be used to get the display text.
      */
+    @Throws(Throwable::class)
     fun attemptToAccessDisplayText(): String
+
+    /**
+     * cached display text is what shown on the cell view.
+     */
     val cachedDisplayText:String
 
     /**
-     * Evaluate display text
+     * Evaluate display text, stored the result in [cachedDisplayText]
      */
     fun evaluateDisplayText():Cell
 

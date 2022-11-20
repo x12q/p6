@@ -24,7 +24,6 @@ data class CellImp(
     override val id: CellId,
     override val content: CellContent = CellContentImp.empty,
     override val error0: ErrorReport? = null,
-    // TODO cached display text is not used anywhere, remove it.
     override val cachedDisplayText: String = "",
 ) : BaseCell(), WbWsSt by id {
 
@@ -114,7 +113,6 @@ data class CellImp(
 
     override fun evaluateDisplayText(): Cell {
         try {
-//            val dt = content.displayText
             val dt = attemptToAccessDisplayText()
             return this.copy(cachedDisplayText = dt)
         } catch (e: Throwable) {

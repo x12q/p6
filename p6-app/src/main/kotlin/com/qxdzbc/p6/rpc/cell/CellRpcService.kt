@@ -57,7 +57,7 @@ class CellRpcService @Inject constructor(
         }
     }
 
-    override fun getDisplayValue(
+    override fun getDisplayText(
         request: DocProtos.CellIdProto?,
         responseObserver: StreamObserver<CommonProtos.StrMsgProto>?
     ) {
