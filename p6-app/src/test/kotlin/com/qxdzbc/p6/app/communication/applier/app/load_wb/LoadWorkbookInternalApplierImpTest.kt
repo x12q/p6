@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
-import com.qxdzbc.p6.ui.app.state.AppState
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -15,8 +15,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class LoadWorkbookInternalApplierImpTest {
-    lateinit var appStateMs: Ms<AppState>
-    val appState get() = appStateMs.value
+    lateinit var scMs: Ms<StateContainer>
+    val appState get() = scMs.value
     lateinit var loadWbInternalApplier: LoadWorkbookInternalApplierImp
     lateinit var errorRouter: ErrorRouter
     lateinit var ts: TestSample
@@ -24,14 +24,14 @@ class LoadWorkbookInternalApplierImpTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        appStateMs = ts.sampleAppStateMs()
-        errorRouter = ErrorRouterImp(appStateMs)
+        scMs = ts.scMs
+        errorRouter = ErrorRouterImp(scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs)
         loadWbInternalApplier = LoadWorkbookInternalApplierImp(ts.stateContMs())
     }
 
     @Test
     fun `applyLoadWorkbook std case`() {
-        val windowId = appStateMs.value.windowStateMsList[0].value.id
+        val windowId = scMs.value.windowStateMsList[0].value.id
         val wb = WorkbookImp(WorkbookKey("Book33").toMs())
         ts.stateContMs().value.wbCont = ts.stateContMs().value.wbCont.addWb(wb)
         loadWbInternalApplier.apply(windowId, wb)

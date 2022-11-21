@@ -29,7 +29,7 @@ class TreeNodeStateContainerImpTest {
     @BeforeTest
     fun b() {
        testSample = TestSample()
-        wbContainerMs = testSample.appState.wbContMs
+        wbContainerMs = testSample.sc.wbContMs
         var centralScriptCont by testSample.appState.centralScriptContainerMs
 
         centralScriptCont = centralScriptCont.addMultiScriptsForce(
@@ -102,7 +102,7 @@ class TreeNodeStateContainerImpTest {
         val oldz=cont.scriptNodeStateMsMap.values.toList()
 
         wbContainerMs.value=wbContainerMs.value.replaceKey(oldWbk,newWbk)
-        testSample.appState.wbStateCont = testSample.appState.wbStateCont.replaceKey(oldWbk,newWbk)
+        testSample.sc.wbStateCont = testSample.sc.wbStateCont.replaceKey(oldWbk,newWbk)
         val c2 = cont.replaceWorkbookKey(oldWbk, newWbk)
 
 

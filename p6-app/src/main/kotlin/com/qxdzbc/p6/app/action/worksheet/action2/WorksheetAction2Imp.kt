@@ -9,7 +9,6 @@ import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 
 
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
@@ -18,21 +17,18 @@ import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFoll
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=WorksheetAction2::class)
 class WorksheetAction2Imp @Inject constructor(
-    private val appStateMs: Ms<AppState>,
     private val mouseOnWsAction: MouseOnWorksheetAction,
     val stateContMs: Ms<StateContainer>,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
     private val makeSliderFollowCellAct: MakeSliderFollowCellAction,
 ) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction, ComputeSliderSizeAction by computeSliderSizeAction {
 
-    private var stateCont by stateContMs
-    private var appState by appStateMs
+    private var sc by stateContMs
 
     override fun makeSliderFollowCursorMainCell(
         newCursor: CursorState,
@@ -42,7 +38,7 @@ class WorksheetAction2Imp @Inject constructor(
     }
 
     override fun scroll(x: Int, y: Int, wsLoc: WbWsSt) {
-        stateCont.getWsStateMs(wsLoc)?.also { wsStateMs ->
+        sc.getWsStateMs(wsLoc)?.also { wsStateMs ->
             val wsState by wsStateMs
             val sliderState = wsState.slider
             var newSlider = sliderState
@@ -66,7 +62,7 @@ class WorksheetAction2Imp @Inject constructor(
         layoutCoordinates: LayoutCoordinates,
         wsLoc: WbWsSt
     ) {
-        val wsStateMs = appState.getWsStateMs(wsLoc)
+        val wsStateMs = sc.getWsStateMs(wsLoc)
         if (wsStateMs != null) {
             wsStateMs.value = wsStateMs.value
                 .addCellLayoutCoor(cellAddress, layoutCoordinates.wrap())
@@ -74,7 +70,7 @@ class WorksheetAction2Imp @Inject constructor(
     }
 
     override fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt) {
-        appState.getWsStateMs(wsLoc)?.also {
+        sc.getWsStateMs(wsLoc)?.also {
             val wsState by it
             it.value = wsState
                 .removeCellLayoutCoor(cellAddress)
@@ -82,7 +78,7 @@ class WorksheetAction2Imp @Inject constructor(
     }
 
     override fun removeAllCellLayoutCoor(wsLoc: WbWsSt) {
-        appState.getWsStateMs(wsLoc)?.also {
+        sc.getWsStateMs(wsLoc)?.also {
             val wsState by it
             it.value = wsState
                 .removeAllCellLayoutCoor()
@@ -91,7 +87,7 @@ class WorksheetAction2Imp @Inject constructor(
 
 
     override fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
-        val wsStateMs = appState.getWsStateMs(wsLoc)
+        val wsStateMs = sc.getWsStateMs(wsLoc)
         wsStateMs?.also {
             val wsState by it
             val newState =wsState
@@ -101,7 +97,7 @@ class WorksheetAction2Imp @Inject constructor(
     }
 
     override fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
-        val wsStateMs = appState.getWsStateMs(
+        val wsStateMs = sc.getWsStateMs(
             wsLoc
         )
         wsStateMs?.also {

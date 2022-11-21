@@ -89,8 +89,8 @@ class TestSample: TestAppScope {
         }
     }
 
-    val window1Id:String get() = appState.windowStateMsList[0].value.id
-    val window2Id:String get() = appState.windowStateMsList[1].value.id
+    val window1Id:String get() = sc.windowStateMsList[0].value.id
+    val window2Id:String get() = sc.windowStateMsList[1].value.id
 
     val kernelCoroutineScope: CoroutineScope = GlobalScope
     val msgApiComponent: MessageApiComponent = DaggerMessageApiComponent.builder()
@@ -210,7 +210,7 @@ class TestSample: TestAppScope {
     }
 
     private fun makeSampleWbStateContMs(): WorkbookStateContainer {
-        return appState.wbStateCont.removeAll()
+        return sc.wbStateCont.removeAll()
             .addOrOverwriteWbState(makeSampleWbState1())
             .addOrOverwriteWbState(makeSampleWBState(wbKey2Ms))
             .addOrOverwriteWbState(makeSampleWBState(wbKey3Ms))
@@ -241,12 +241,15 @@ class TestSample: TestAppScope {
     override var appState by appStateMs
     override val sc: StateContainer
         get() = this.stateCont
+    override val scMs: Ms<StateContainer>
+        get() = this.stateContMs
+
 
     val sampleCodeContainer by appState.centralScriptContainerMs
     val sampleCodeContainerMs get() = appState.centralScriptContainerMs
-    val sampleWindowStateMs get() = appState.windowStateMsList.get(0)
+    val sampleWindowStateMs get() = sc.windowStateMsList.get(0)
 
-    val wbContMs = appState.wbContMs
+    val wbContMs = sc.wbContMs
 
     val wb1Ms get()= this.wbContMs.value.getWbMs(wbKey1Ms)!!
     val wb1 get() =wb1Ms.value
@@ -254,7 +257,7 @@ class TestSample: TestAppScope {
     val wb2 get()= wb2Ms.value
 
     init {
-        appState.wbStateContMs.value = makeSampleWbStateContMs()
+        sc.wbStateContMs.value = makeSampleWbStateContMs()
         val windowState1 = makeSampleWindowStateMs1()
         val windowState2= makeSampleWindowStateMs2()
         appState.subAppStateContMs.value = appState.subAppStateContMs.value
@@ -272,7 +275,7 @@ class TestSample: TestAppScope {
 
     fun sampleAppStateMs() = appStateMs
     fun sampleAppStateMs(wbCont: WorkbookContainer): Ms<AppState> {
-        appState.wbCont = wbCont
+        sc.wbCont = wbCont
         return appStateMs
     }
 

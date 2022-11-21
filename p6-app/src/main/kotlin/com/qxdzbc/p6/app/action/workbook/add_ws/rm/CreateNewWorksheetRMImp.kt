@@ -12,17 +12,18 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CreateNewWorksheetRMImp @Inject constructor(
-    private val appStateMs: Ms<AppState>
+    val docContMs:Ms<DocumentContainer>,
 ) : CreateNewWorksheetRM {
-    private var appState by appStateMs
+    private var dc by docContMs
     override fun makeRequest(req: AddWorksheetRequest): RseNav<AddWorksheetResponse> {
         val wbk = req.wbKey
-        val rs = appState.getWbRs(wbk).flatMap { wb ->
+        val rs = dc.getWbRs(wbk).flatMap { wb ->
             wb.addWsRs(req.worksheet).flatMap {
                 Ok(AddWorksheetResponse(it.reRun()))
             }

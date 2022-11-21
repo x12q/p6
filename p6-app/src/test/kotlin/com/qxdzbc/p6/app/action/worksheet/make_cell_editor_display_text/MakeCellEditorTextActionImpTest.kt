@@ -29,8 +29,8 @@ class MakeCellEditorTextActionImpTest {
     fun b() {
         ts = TestSample()
         fm = ts.comp.rangeFormatter()
-        action = MakeCellEditorTextActionImp(ts.appStateMs,fm)
-        rangeSelectorCursorMs = ts.appState.getCursorStateMs(ts.wbKey1, ts.wsn2)!!
+        action = MakeCellEditorTextActionImp(ts.scMs,fm)
+        rangeSelectorCursorMs = ts.sc.getCursorStateMs(ts.wbKey1, ts.wsn2)!!
         editorState = mock<CellEditorState> {
             whenever(it.allowRangeSelector) doReturn true
             whenever(it.currentText) doReturn currentTextField.text
@@ -70,7 +70,7 @@ class MakeCellEditorTextActionImpTest {
     @Test
     fun `makeDisplayText when range selector is activating on a single cell, different cursor in different sheet`() {
         val rs by rangeSelectorCursorMs
-        whenever(editorState.targetCursorId) doReturn ts.appState.getCursorStateMs(ts.wbKey1, ts.wsn1)!!.value.id
+        whenever(editorState.targetCursorId) doReturn ts.sc.getCursorStateMs(ts.wbKey1, ts.wsn1)!!.value.id
         val outTextField=action.makeRangeSelectorText(editorState)
         val expectText = currentText+fm.format(rs.mainCell,rs.wsName)
         assertEquals(expectText,outTextField.text)
@@ -80,7 +80,7 @@ class MakeCellEditorTextActionImpTest {
     @Test
     fun `makeDisplayText when range selector is activating on a range, diff wb, diff ws`() {
         var rs by rangeSelectorCursorMs
-        whenever(editorState.targetCursorId) doReturn ts.appState.getCursorStateMs(ts.wbKey3, ts.wsn1)!!.value.id
+        whenever(editorState.targetCursorId) doReturn ts.sc.getCursorStateMs(ts.wbKey3, ts.wsn1)!!.value.id
         val range = RangeAddress("C8:E32")
         rs = rs.setMainRange(range)
         val outTextField=action.makeRangeSelectorText(editorState)

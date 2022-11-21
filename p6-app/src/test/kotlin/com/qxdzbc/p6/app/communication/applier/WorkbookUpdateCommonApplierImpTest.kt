@@ -24,20 +24,20 @@ import kotlin.test.*
 
 
 internal class WorkbookUpdateCommonApplierImpTest {
-
+    lateinit var ts:TestSample
     lateinit var appStateMs: Ms<AppState>
     val appState get() = appStateMs.value
-    val workbook: Workbook get() = appState.wbCont.getWb(TestSample.wbk1)!!
+    val workbook: Workbook get() = ts.sc.wbCont.getWb(TestSample.wbk1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
     lateinit var windowStateMs: Ms<WindowState>
     lateinit var s1: Worksheet
     lateinit var s2: Worksheet
     lateinit var applier: WorkbookUpdateCommonApplierImp
-    lateinit var testSample:TestSample
+
     @BeforeTest
     fun beforeTest() {
-        testSample = TestSample()
-        appStateMs = testSample.sampleAppStateMs()
+        ts = TestSample()
+        appStateMs = ts.sampleAppStateMs()
         s2 = workbook.getWs(1)!!
         s1 = workbook.getWs(0)!!
 
@@ -46,8 +46,8 @@ internal class WorkbookUpdateCommonApplierImpTest {
             windowStateMs = it.windowStateMs
         }
         applier = WorkbookUpdateCommonApplierImp(
-            stateContMs = testSample.stateContMs(),
-            baseApplier = BaseApplierImp(ErrorApplierImp(ErrorRouterImp(appStateMs)), mock<ErrorRouter>())
+            stateContMs = ts.stateContMs(),
+            baseApplier = BaseApplierImp(ErrorApplierImp(ErrorRouterImp(ts.scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs)), mock<ErrorRouter>())
         )
     }
 
@@ -79,11 +79,11 @@ internal class WorkbookUpdateCommonApplierImpTest {
                 wbKey = TestSample.wbk1
             )
         )
-        assertTrue { appState.value.windowStateMsList.first().value.errorContainer.isEmpty() }
+        assertTrue { ts.sc.windowStateMsList.first().value.errorContainer.isEmpty() }
         applier.apply(response)
         assertTrue {
             // oddity container of the window is not empty
-            appState.value.windowStateMsList.first().value.errorContainer.isNotEmpty()
+            ts.sc.windowStateMsList.first().value.errorContainer.isNotEmpty()
         }
     }
 
@@ -95,7 +95,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
         assertNotNull(workbook.getWs(s1.name))
         assertNotNull(workbook.getWs(s2.name))
         assertTrue { appState.errorContainer.isEmpty() }
-        assertTrue { appState.windowStateMsList.first().value.errorContainer.isEmpty() }
+        assertTrue { ts.sc.windowStateMsList.first().value.errorContainer.isEmpty() }
     }
 
 }

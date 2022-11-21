@@ -10,26 +10,28 @@ import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=MouseOnWorksheetAction::class)
 class MouseOnWorksheetActionImp @Inject constructor(
-    private val appStateMs: Ms<AppState>,
+    private val scMs: Ms<SubAppStateContainer>,
     private val clickOnCell: ClickOnCell,
     private val makeDisplayText: MakeCellEditorTextAction,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
+    private val cellEditorStateMs:Ms<CellEditorState>,
 ) : MouseOnWorksheetAction, ClickOnCell by clickOnCell {
 
-    private val appState by appStateMs
+    private val sc by scMs
 
     override fun shiftClickSelectRange(cellAddress: CellAddress, cursorLoc: WbWs) {
-        appState.getWsState(cursorLoc)?.also { wsState->
+        sc.getWsState(cursorLoc)?.also { wsState->
             var cursorState by wsState.cursorStateMs
             if (cellAddress != cursorState.mainCell) {
                 cursorState = cursorState.setMainRange(RangeAddresses.from2Cells(cellAddress, cursorState.mainCell))
@@ -53,7 +55,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
         mousePosition: Offset,
         offset: Offset,
     ) {
-        this.appState.getWsState(wbws)?.also { wsState ->
+        this.sc.getWsState(wbws)?.also { wsState ->
             var selectRect by wsState.selectRectStateMs
             selectRect = selectRect
                 .setAnchorPoint(mousePosition)
@@ -69,7 +71,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
     }
 
     override fun stopDragSelection(cursorLocation: WbWs) {
-        appState.getWsState(cursorLocation)?.also { wsState ->
+        sc.getWsState(cursorLocation)?.also { wsState ->
             var selectRect by wsState.selectRectStateMs
             selectRect = selectRect.hide().deactivate()
         }
@@ -79,7 +81,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
         cursorLocation: WbWs,
         currentCellMouseOn: CellAddress,
     ) {
-        appState.getCursorStateMs(cursorLocation)?.also {
+        sc.getCursorStateMs(cursorLocation)?.also {
             val cursorState by it
             val newRange = RangeAddresses.fromManyCells(listOf(currentCellMouseOn, cursorState.mainCell))
             val newCursorState = cursorState.setMainRange(newRange)
@@ -89,7 +91,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
     }
 
     override fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, mousePosition: Offset, offset: Offset) {
-        appState.getWsState(cursorLocation)?.also { wsState ->
+        sc.getWsState(cursorLocation)?.also { wsState ->
             val selectRect by wsState.selectRectStateMs
             if (selectRect.isActive) {
                 wsState.selectRectStateMs.value = selectRect.setMovingPoint(mousePosition).show()
@@ -105,7 +107,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
     }
 
     private fun f(cellAddress: CellAddress, cursorLoc: WbWs) {
-        appState.getWsState(cursorLoc)?.also { wsState ->
+        sc.getWsState(cursorLoc)?.also { wsState ->
             var cursorState by wsState.cursorStateMs
             if (cellAddress != cursorState.mainCell) {
                 if (cursorState.isPointingTo(cellAddress)) {
@@ -135,12 +137,12 @@ class MouseOnWorksheetActionImp @Inject constructor(
 
 
     override fun ctrlClickSelectCell(cellAddress: CellAddress, cursorLoc: WbWs) {
-        val ce by appState.cellEditorStateMs
+        val ce by cellEditorStateMs
         if (ce.isActiveAndAllowRangeSelector) {
             return
         }
         if (ce.isOpen && !ce.allowRangeSelector) {
-            appState.cellEditorState = ce.close()
+            cellEditorStateMs.value = ce.close()
             f(cellAddress, cursorLoc)
             return
         }

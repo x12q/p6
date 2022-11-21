@@ -10,11 +10,11 @@ import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
 
 
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
@@ -22,14 +22,14 @@ import javax.inject.Inject
 class RenameWorksheetActionImp @Inject constructor(
     val rm:RenameWorksheetRM,
     val applier:RenameWorksheetApplier,
-    private val appStateMs:Ms<AppState>
+    private val stateContMs:Ms<SubAppStateContainer>
 ) : RenameWorksheetAction {
 
-    private var appState by appStateMs
+    private var sc by stateContMs
 
     override fun renameWorksheetRs(request: RenameWorksheetRequest): Result<Unit, ErrorReport> {
 
-        val wbStateMs = appState.getWbStateMs(request.wbKey)
+        val wbStateMs = sc.getWbStateMs(request.wbKey)
         if(wbStateMs!=null){
             val command = object : BaseCommand() {
                 val req = request

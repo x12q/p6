@@ -12,6 +12,8 @@ import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.ActiveWindowPointer
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -19,16 +21,18 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWorksheetApplierImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    private val appStateMs: Ms<AppState>,
+    private val appStateMs: Ms<SubAppStateContainer>,
+    private val activeWindowPointerMs:Ms<ActiveWindowPointer>,
 ) : SetActiveWorksheetApplier {
 
     private var appState by appStateMs
+    private var activeWindowPointer by activeWindowPointerMs
 
     override fun apply(res: RseNav<SetActiveWorksheetResponse2>): RseNav<SetActiveWorksheetResponse2> {
         res.onSuccess {rs:SetActiveWorksheetResponse2->
             val k = rs.request.wbKey
             rs.newActiveWindowPointer?.also {
-                appState.activeWindowPointer = it
+                activeWindowPointer = it
             }
 
             rs.newActiveWbPointer?.also {

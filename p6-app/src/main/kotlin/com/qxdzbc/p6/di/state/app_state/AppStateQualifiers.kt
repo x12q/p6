@@ -12,7 +12,7 @@ annotation class InitSingleTranslatorMap
 
 @Qualifier
 @Retention
-annotation class AppOddityContMs
+annotation class AppErrorContMs
 
 @Qualifier
 @Retention

@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.applier.CreateNewWorkbookAppli
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.state.AppState
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import org.mockito.kotlin.mock
 import test.TestSample
@@ -19,7 +19,7 @@ import kotlin.test.*
 class CreateNewWorkbookInternalApplierImpTest {
 
     lateinit var applier: CreateNewWorkbookApplierImp
-    lateinit var appStateMs: Ms<AppState>
+    lateinit var scMs: Ms<StateContainer>
     lateinit var errRouter: ErrorRouter
     lateinit var windowStateMs: Ms<WindowState>
     val newWB = WorkbookImp(WorkbookKey("newWb").toMs())
@@ -31,13 +31,13 @@ class CreateNewWorkbookInternalApplierImpTest {
     fun b() {
         errRouter = mock()
         ts = TestSample()
-        appStateMs = ts.sampleAppStateMs()
+        scMs = ts.scMs
         applier = CreateNewWorkbookApplierImp(
          baseApplier = ts.comp.baseApplier(),
          stateContMs = ts.comp.stateContMs(),
             pickDefaultActiveWb = ts.comp.pickDefaultActiveWbAction()
         )
-        windowStateMs = appStateMs.value.windowStateMsList[0]
+        windowStateMs = scMs.value.windowStateMsList[0]
         okRes = CreateNewWorkbookResponse(
             errorReport = null,
             wb = newWB,
@@ -53,45 +53,45 @@ class CreateNewWorkbookInternalApplierImpTest {
     @Test
     fun `apply ok on window`() {
         val wds by windowStateMs
-        assertNull(appStateMs.value.wbCont.getWb(newWB.key))
-        assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
+        assertNull(scMs.value.wbCont.getWb(newWB.key))
+        assertNull(scMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
         applier.iapply(okRes.wb, okRes.windowId)
-        assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
-        assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
+        assertNotNull(scMs.value.wbCont.getWb(newWB.key))
+        assertNotNull(scMs.value.getWindowStateMsByWbKey(newWB.key))
     }
 
     @Test
     fun `apply ok with null window id`() {
         val res = okRes.copy(windowId = null)
-        val wdsCount = appStateMs.value.windowStateMsList.size
+        val wdsCount = scMs.value.windowStateMsList.size
         testApplyOnApp(res)
-        assertEquals(wdsCount, appStateMs.value.windowStateMsList.size)
+        assertEquals(wdsCount, scMs.value.windowStateMsList.size)
     }
 
     @Test
     fun `apply ok with invalid qqq window id`() {
         val res = okRes.copy(windowId = "new windowId")
-        val wdsCount = appStateMs.value.windowStateMsList.size
+        val wdsCount = scMs.value.windowStateMsList.size
         testApplyOnApp(res)
-        assertEquals(wdsCount+1, appStateMs.value.windowStateMsList.size)
+        assertEquals(wdsCount+1, scMs.value.windowStateMsList.size)
     }
 
     fun testApplyOnApp(res: CreateNewWorkbookResponse) {
-        assertNull(appStateMs.value.wbCont.getWb(newWB.key))
-        assertNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
+        assertNull(scMs.value.wbCont.getWb(newWB.key))
+        assertNull(scMs.value.getWindowStateMsByWbKey(newWB.key))
         /**/
         applier.iapply(res.wb, res.windowId)
-        assertNotNull(appStateMs.value.wbCont.getWb(newWB.key))
-        assertNotNull(appStateMs.value.getWindowStateMsByWbKey(newWB.key))
+        assertNotNull(scMs.value.wbCont.getWb(newWB.key))
+        assertNotNull(scMs.value.getWindowStateMsByWbKey(newWB.key))
     }
 
     @Test
     fun `apply ok with invalid window id`() {
         val res = okRes.copy(windowId = "invalid window id")
-        val wdsCount = appStateMs.value.windowStateMsList.size
+        val wdsCount = scMs.value.windowStateMsList.size
         testApplyOnApp(res)
-        assertEquals(wdsCount + 1, appStateMs.value.windowStateMsList.size)
+        assertEquals(wdsCount + 1, scMs.value.windowStateMsList.size)
     }
 
 //    @Test

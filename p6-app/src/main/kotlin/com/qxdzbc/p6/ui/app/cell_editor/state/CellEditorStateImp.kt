@@ -112,9 +112,10 @@ data class CellEditorStateImp constructor(
     }
 
     override fun clearAll(): CellEditorState {
-        return this.clearAllText().setCurrentParseTree(null).setRangeSelectorParseTree(null)
+        return this.clearAllText()
+            .setCurrentParseTree(null)
+            .setRangeSelectorParseTree(null)
     }
-
     override fun stopGettingRangeAddress(): CellEditorState {
         val rt = this.moveTextFromRangeSelectorTextToCurrentText()
         return rt
@@ -170,15 +171,20 @@ data class CellEditorStateImp constructor(
 
     override fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorStateImp {
         val ces1 = this.copy(rangeSelectorTextField = newTextField)
-        val rt = newTextField?.text?.let {
-            treeExtractor.extractTree(it)
-        }?.map {
-            val ces2=ces1.setRangeSelectorParseTree(it)
-            val ces3=visitor.visit(it)?.let {
-                ces2.setRangeSelectorTextElementResult(it)
-            }?:ces2
-            ces3
-        }?.component1() ?: ces1
+        val rt = if(newTextField?.text.isNullOrEmpty()){
+            ces1.setRangeSelectorParseTree(null).setRangeSelectorTextElementResult(null)
+        }else{
+            newTextField?.text?.let {
+                treeExtractor.extractTree(it)
+            }?.map {
+                val ces2=ces1.setRangeSelectorParseTree(it)
+                val ces3=visitor.visit(it)?.let {
+                    ces2.setRangeSelectorTextElementResult(it)
+                }?:ces2
+                ces3
+            }?.component1() ?: ces1
+        }
+
         return rt
     }
 
@@ -212,13 +218,18 @@ data class CellEditorStateImp constructor(
         } else {
             this
         }.copy(currentTextField = newTextField, rangeSelectorAllowState = newRSAState)
-        val rt = treeExtractor.extractTree(newTextField.text).map {
-            val ces2=ces1.setCurrentParseTree(it)
-            val ces3 = visitor.visit(it)?.let{
-                ces2.setCurrentTextElementResult(it)
-            }?:ces2
-            ces3
-        }.component1() ?: ces1
+        val rt = if(newTextField.text.isEmpty()){
+            ces1.setCurrentParseTree(null).setCurrentTextElementResult(null)
+        }else{
+            treeExtractor.extractTree(newTextField.text).map {
+                val ces2=ces1.setCurrentParseTree(it)
+                val ces3 = visitor.visit(it)?.let{
+                    ces2.setCurrentTextElementResult(it)
+                }?:ces2
+                ces3
+            }.component1() ?: ces1
+        }
+
         return rt
     }
 

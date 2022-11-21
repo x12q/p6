@@ -17,6 +17,8 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.ui.app.state.AppState
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -26,10 +28,14 @@ class DeleteMultiCellActionImp @Inject constructor(
     val rm: DeleteMultiRM,
     val applier: DeleteMultiApplier,
     private val appStateMs: Ms<AppState>,
+    private val docContMs: Ms<DocumentContainer>,
     private val multiCellUpdateAct:MultiCellUpdateAction,
+    val stateContMs: Ms<SubAppStateContainer>,
 ) : DeleteMultiCellAction {
 
+    private var sc by stateContMs
     private var appState by appStateMs
+    private var dc by docContMs
 
     override fun deleteMultiCellAtCursor(request: DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         createCommandAtCursor(request)
@@ -56,9 +62,9 @@ class DeleteMultiCellActionImp @Inject constructor(
     private fun createCommandAtCursor(request: DeleteMultiAtCursorRequest) {
         val k = request.wbKey
         val n = request.wsName
-        val ws = appState.getWs(k, n)
+        val ws = dc.getWs(k, n)
         if (ws != null) {
-            val cursorState: CursorState? = appState.getCursorState(k, n)
+            val cursorState: CursorState? = sc.getCursorState(k, n)
             if (cursorState != null) {
                 createCommand(
                     RemoveMultiCellRequest(
@@ -78,7 +84,7 @@ class DeleteMultiCellActionImp @Inject constructor(
     private fun createCommand(request: RemoveMultiCellRequest) {
         val k = request.wbKey
         val n = request.wsName
-        val ws = appState.getWs(k, n)
+        val ws = dc.getWs(k, n)
         if (ws != null) {
             val command = object : BaseCommand() {
                 val allCell: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->

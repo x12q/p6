@@ -27,8 +27,8 @@ class CentralScriptContainerImpTest {
 
     @BeforeTest
     fun b() {
-        val testSample = TestSample()
-        val wbStateFactory = testSample.comp.workbookStateFactory()
+        val ts = TestSample()
+        val wbStateFactory = ts.comp.workbookStateFactory()
         wbkey1 = WorkbookKey("b1")
         wbkey2 = WorkbookKey("b2")
         eb11 = ScriptEntry(
@@ -82,7 +82,7 @@ class CentralScriptContainerImpTest {
             return wss
         }
 
-        val wbsCont: Ms<WorkbookStateContainer> = testSample.appState.wbStateContMs.also {
+        val wbsCont: Ms<WorkbookStateContainer> = ts.sc.wbStateContMs.also {
             val wss1 = makeWbState(
                 wbkey1, ScriptContainerImp(
                     mapOf(

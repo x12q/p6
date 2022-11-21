@@ -17,22 +17,22 @@ internal class FileMenuActionImpTest {
     lateinit var action: FileMenuActionImp
     lateinit var windowStateMs: Ms<WindowState>
     lateinit var windowAction: WindowAction
-    lateinit var testSample:TestSample
+    lateinit var ts:TestSample
     lateinit var wbContMs:Ms<WorkbookContainer>
     lateinit var wbStateContMs:Ms<WorkbookStateContainer>
     @BeforeTest
     fun b() {
-        testSample = TestSample()
-        wbContMs = testSample.wbContMs
-        wbStateContMs = testSample.appState.wbStateContMs
-        windowStateMs = testSample.sampleWindowStateMs
+        ts = TestSample()
+        wbContMs = ts.wbContMs
+        wbStateContMs = ts.sc.wbStateContMs
+        windowStateMs = ts.sampleWindowStateMs
         windowAction = mock<WindowAction>() {
             doNothing().whenever(it).saveActiveWorkbook(any(), any())
             doNothing().whenever(it).openSaveFileDialog(any())
         }
         action = FileMenuActionImp(
             windowAction = windowAction,
-            appStateMs = testSample.appStateMs
+            stateContMs = ts.scMs
         )
     }
 

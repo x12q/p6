@@ -154,7 +154,7 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        @AppOddityContMs
+        @AppErrorContMs
         fun AppOddityContainerMs(): Ms<ErrorContainer> {
             return ms(ErrorContainerImp())
         }

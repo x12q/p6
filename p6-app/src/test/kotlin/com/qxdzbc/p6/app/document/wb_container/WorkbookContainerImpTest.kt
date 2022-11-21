@@ -22,10 +22,10 @@ class WorkbookContainerImpTest{
         wb3 = WorkbookImp(keyMs = WorkbookKey("wb3", null).toMs(), emptyList())
         val workbookList = listOf(wb1, wb2, wb3)
         wbList=workbookList
-        val wbsContMs=testSample.appState.wbStateContMs
+        val wbsContMs=testSample.sc.wbStateContMs
         wbsContMs.value =wbsContMs.value.removeAll().createNewWbState(wb1).createNewWbState(wb2).createNewWbState(wb3)
 
-        cont = WorkbookContainerImp(testSample.appState.wbStateContMs,testSample.comp.workbookStateFactory())
+        cont = WorkbookContainerImp(testSample.sc.wbStateContMs,testSample.comp.workbookStateFactory())
     }
 
 

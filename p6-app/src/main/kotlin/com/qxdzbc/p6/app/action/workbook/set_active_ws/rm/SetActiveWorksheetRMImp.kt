@@ -15,14 +15,20 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.mapError
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.ActiveWindowPointer
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWorksheetRMImp @Inject constructor(
-    private val appStateMs: Ms<AppState>
+    private val appStateMs: Ms<SubAppStateContainer>,
+    private val activeWindowPointerMs:Ms<ActiveWindowPointer>,
+    private val docContMs:Ms<DocumentContainer>,
 ) : SetActiveWorksheetRM {
-
+    
+    private var dc by docContMs
     private var appState by appStateMs
 
     override fun setActiveWs(request: SetActiveWorksheetRequest): RseNav<SetActiveWorksheetResponse2> {
@@ -31,8 +37,7 @@ class SetActiveWorksheetRMImp @Inject constructor(
             .getWbStateMs(wbk)?.value
             ?.setActiveSheet(request.wsName)
         val wdState = appState.getWindowStateMsByWbKey(wbk)
-        val newWindowPointer = appState
-            .activeWindowPointer
+        val newWindowPointer = activeWindowPointerMs.value
             .pointTo(wdState?.value?.id)
         val newActiveWbPointer = wdState?.value
             ?.activeWbPointer
@@ -50,7 +55,7 @@ class SetActiveWorksheetRMImp @Inject constructor(
 
     override fun setActiveWsWithIndex(request: SetActiveWorksheetWithIndexRequest): RseNav<SetActiveWorksheetResponse2> {
         val wbk = request.wbKey
-        val wbNameRs = appState.getWbRs(wbk).flatMap { it.getWsRs(request.wsIndex) }.mapError { it.withNav(wbKey =wbk) }
+        val wbNameRs = dc.getWbRs(wbk).flatMap { it.getWsRs(request.wsIndex) }.mapError { it.withNav(wbKey =wbk) }
         val z = wbNameRs.flatMap {
             val req = SetActiveWorksheetRequest(wbk,it.name)
             setActiveWs(req)

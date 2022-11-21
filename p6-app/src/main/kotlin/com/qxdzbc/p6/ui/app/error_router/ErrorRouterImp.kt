@@ -7,21 +7,30 @@ import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo
 
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.oddity.ErrorContainerImp
+import com.qxdzbc.p6.di.state.app_state.AppErrorContMs
+import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import javax.inject.Inject
 
 class ErrorRouterImp @Inject constructor(
-    private val appStateMs: Ms<AppState>
+    private val scMs: Ms<StateContainer>,
+    private val codeEditorStateMs:Ms<CodeEditorState>,
+    @AppErrorContMs
+    val errorContainerMs: Ms<ErrorContainer>,
 ) : ErrorRouter {
-    private var appState by appStateMs
-    private var codeEditorState by appState.codeEditorStateMs
+    private var sc by scMs
+    private var codeEditorState by codeEditorStateMs
     private var oddityContInCodeEditor by codeEditorState.errorContainerMs
 
     override fun publishToApp(errorReport: ErrorReport?) {
-        appState.errorContainer = appState.errorContainer.addErrorReport(errorReport)
+        errorContainerMs.value = errorContainerMs.value.addErrorReport(errorReport)
     }
 
     override fun publishToScriptWindow(errorReport: ErrorReport?) {
@@ -30,7 +39,7 @@ class ErrorRouterImp @Inject constructor(
 
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?) {
         if (windowId != null) {
-            val windowStateMs = appState.getWindowStateMsById(windowId)
+            val windowStateMs = sc.getWindowStateMsById(windowId)
             if (windowStateMs != null) {
 //            val stackTrace = errorReport?.toException()?.stackTraceToString()?:""
                 val er2 = errorReport
@@ -48,7 +57,7 @@ class ErrorRouterImp @Inject constructor(
 
     override fun publishToWindow(errorReport: ErrorReport?, workbookKey: WorkbookKey?) {
         if (workbookKey != null) {
-            val windowStateMs = appState.getWindowStateMsByWbKey(workbookKey)
+            val windowStateMs = sc.getWindowStateMsByWbKey(workbookKey)
             if (windowStateMs != null) {
                 val ne = errorReport?.toException()?.stackTrace.toString()
 
@@ -64,8 +73,8 @@ class ErrorRouterImp @Inject constructor(
     }
 
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?) {
-        val windowStateMs = windowId?.let { appState.getWindowStateMsById(it) }
-            ?: workbookKey?.let { appState.getWindowStateMsByWbKey(it) }
+        val windowStateMs = windowId?.let { sc.getWindowStateMsById(it) }
+            ?: workbookKey?.let { sc.getWindowStateMsByWbKey(it) }
         if (windowStateMs != null) {
             windowStateMs.value.errorContainer =
                 windowStateMs.value.errorContainer.addErrorReport(errorReport)

@@ -111,7 +111,8 @@ fun main() {
                             wbMs = ms(wb2)
                         )
                     )
-                    appState.wbStateContMs.apply {
+
+                    appState.subAppStateCont.wbStateContMs.apply {
                         this.value = this.value.addOrOverwriteWbState(wbStateMs1).addOrOverwriteWbState(wbStateMs2)
                     }
                     val zz = listOf(
@@ -189,7 +190,7 @@ fun main() {
                         P6GlobalAccessPoint.setAppStateMs(appStateMs2)
                         val appState = appStateMs2.value
 
-                        for (windowStateMs in appState.outerWindowStateMsList) {
+                        for (windowStateMs in appState.subAppStateCont.outerWindowStateMsList) {
                             val windowState = windowStateMs.value
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()

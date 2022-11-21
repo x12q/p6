@@ -6,9 +6,10 @@ import kotlin.test.*
 
 class RestoreWindowFocusStateImpTest {
 
-    lateinit var testSample: TestSample
+    lateinit var ts: TestSample
     lateinit var action: RestoreWindowFocusStateImp
-    val appState get()= testSample.appStateMs.value
+    val appState get()= ts.appStateMs.value
+    val sc get()=ts.sc
 
     /**
      * Starting condition:
@@ -17,9 +18,9 @@ class RestoreWindowFocusStateImpTest {
      */
     @BeforeTest
     fun b(){
-        testSample = TestSample()
-        action = RestoreWindowFocusStateImp(testSample.appStateMs)
-        appState.windowStateMsList.withIndex().forEach { (i,wds)->
+        ts = TestSample()
+        action = RestoreWindowFocusStateImp(ts.scMs,ts.sc.cellEditorStateMs)
+        sc.windowStateMsList.withIndex().forEach { (i,wds)->
             wds.value.focusState = wds.value.focusState.focusOnEditor()
             if(i==0){
                 wds.value.focusState = wds.value.focusState.focusOnEditor()
@@ -30,7 +31,7 @@ class RestoreWindowFocusStateImpTest {
     @Test
     fun restoreAllWsFocus() {
         action.restoreAllWindowFocusState()
-        appState.windowStateMsList.forEach { wds->
+        sc.windowStateMsList.forEach { wds->
             val f = wds.value.focusState
             assertTrue { f.isCursorFocused }
             assertFalse { f.isEditorFocused }
@@ -39,13 +40,13 @@ class RestoreWindowFocusStateImpTest {
 
     @Test
     fun setFocusConsideringRangeSelector() {
-        val wbk = testSample.wbKey2Ms.value
+        val wbk = ts.wbKey2Ms.value
         appState.cellEditorState = appState.cellEditorState.open(mock())
         appState.cellEditorState = appState.cellEditorState.setCurrentText("=")
 
         action.setFocusStateConsideringRangeSelector(wbk)
 
-        appState.windowStateMsList.withIndex().forEach {(i,wds) ->
+        sc.windowStateMsList.withIndex().forEach {(i,wds) ->
             if(wds.value.wbKeySet.contains(wbk)){
                 val f = wds.value.focusState
 //                assertTrue { f.isEditorFocused }

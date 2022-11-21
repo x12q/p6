@@ -20,12 +20,14 @@ class P6ResponseLegalityCheckerImpTest {
     lateinit var handler: P6ResponseLegalityCheckerImp
     lateinit var appStateMs: Ms<AppState>
     val appState get() = appStateMs.value
-    lateinit var testSample: TestSample
+    lateinit var ts: TestSample
     @BeforeTest
     fun b() {
-        testSample = TestSample()
-        appStateMs = testSample.sampleAppStateMs()
-        handler = P6ResponseLegalityCheckerImp(ErrorRouterImp(appStateMs))
+        ts = TestSample()
+        appStateMs = ts.sampleAppStateMs()
+        handler = P6ResponseLegalityCheckerImp(ErrorRouterImp(
+            ts.scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs
+        ))
     }
 
     @Test

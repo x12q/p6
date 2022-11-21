@@ -7,8 +7,8 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import test.TestSample
@@ -17,9 +17,9 @@ import kotlin.test.*
 
 class RenameWorksheetInternalApplierImpTest {
 
-    lateinit var appStateMs: Ms<AppState>
-    val appState get() = appStateMs.value
-    val workbook: Workbook get() = appState.wbCont.getWb(TestSample.wbk1)!!
+    lateinit var scMs: Ms<StateContainer>
+    val sc get() = scMs.value
+    val workbook: Workbook get() = sc.wbCont.getWb(TestSample.wbk1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
     lateinit var windowStateMs: Ms<WindowState>
     lateinit var s1: Worksheet
@@ -27,20 +27,20 @@ class RenameWorksheetInternalApplierImpTest {
 
     lateinit var applier: RenameWorksheetInternalApplierImp
     lateinit var errorRouter: ErrorRouter
-    lateinit var testSample:TestSample
+    lateinit var ts:TestSample
     @BeforeTest
     fun beforeTest() {
-        testSample = TestSample()
-        appStateMs = testSample.sampleAppStateMs()
+        ts = TestSample()
+        scMs = ts.scMs
         s2 = workbook.getWs(1)!!
         s1 = workbook.getWs(0)!!
-        appState.queryStateByWorkbookKey(TestSample.wbk1).ifOk {
+        ts.appState.queryStateByWorkbookKey(TestSample.wbk1).ifOk {
             workbookStateMs = it.workbookStateMs
             windowStateMs = it.windowStateMs
         }
-        errorRouter = ErrorRouterImp(appStateMs)
+        errorRouter = ErrorRouterImp(scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs)
         applier = RenameWorksheetInternalApplierImp(
-            appStateMs, errorRouter
+            ts.appStateMs,ts.appState.docContMs,errorRouter
         )
     }
 
@@ -63,7 +63,7 @@ class RenameWorksheetInternalApplierImpTest {
     @Test
     fun `renameLogic on activate sheet`() {
         val newSheetName = "newName"
-        val workbook = appState.wbCont.getWb(TestSample.wbk1)!!
+        val workbook = sc.wbCont.getWb(TestSample.wbk1)!!
         val oldSheetName = workbook.getWs(0)!!.name
         val res = RenameWorksheetResponse(
             wbKey = workbook.key,
@@ -73,9 +73,9 @@ class RenameWorksheetInternalApplierImpTest {
         )
 
         applier.apply(res.wbKey, res.oldName, res.newName)
-        assertTrue(appState.errorContainer.isEmpty())
+        assertTrue(ts.appState.errorContainer.isEmpty())
 
-        val q = appState.queryStateByWorkbookKey(TestSample.wbk1)
+        val q = ts.appState.queryStateByWorkbookKey(TestSample.wbk1)
         assertTrue { q.isOk }
         q.ifOk {
             val newWb = it.workbookStateMs.value.wb
@@ -90,7 +90,7 @@ class RenameWorksheetInternalApplierImpTest {
     @Test
     fun `renameLogic on inactive sheet`() {
         val newName = "newName"
-        val workbook = appState.wbCont.getWb(TestSample.wbk1)!!
+        val workbook = sc.wbCont.getWb(TestSample.wbk1)!!
         val oldSheetName = workbook.getWs(1)!!.name
         val res = RenameWorksheetResponse(
             wbKey = workbook.key,
@@ -98,20 +98,20 @@ class RenameWorksheetInternalApplierImpTest {
             newName = newName,
         )
         applier.apply(res.wbKey, res.oldName, res.newName)
-        val q = appState.queryStateByWorkbookKey(TestSample.wbk1)
+        val q = ts.appState.queryStateByWorkbookKey(TestSample.wbk1)
         assertTrue { q.isOk }
         q.ifOk {
             assertEquals(newName, it.workbookStateMs.value.wb?.getWs(1)?.name)
             assertNull(it.workbookStateMs.value.wb?.getWs(oldSheetName))
             assertTrue(it.windowStateMs.value.errorContainer.isEmpty())
-            assertTrue(appState.errorContainer.isEmpty())
+            assertTrue(ts.appState.errorContainer.isEmpty())
         }
     }
 
     @Test
     fun `renameLogic with incorrect WorkbookKey`() {
         val newName = "newName"
-        val workbook = appState.wbCont.getWb(TestSample.wbk1)!!
+        val workbook = sc.wbCont.getWb(TestSample.wbk1)!!
         val s2 = workbook.getWs(1)!!
         val s1 = workbook.getWs(0)!!
         val oldSheetName = s2.name
@@ -123,13 +123,13 @@ class RenameWorksheetInternalApplierImpTest {
         )
         applier.apply(res.wbKey, res.oldName, res.newName)
 
-        val q = appState.queryStateByWorkbookKey(TestSample.wbk1)
+        val q = ts.appState.queryStateByWorkbookKey(TestSample.wbk1)
         assertTrue { q.isOk }
         q.ifOk {
             assertEquals(s2.name, workbook.getWs(1)?.name)
             assertEquals(s1.name, it.workbookStateMs.value.activeSheetPointer.wsName)
             assertNotNull(it.workbookStateMs.value.wb?.getWs(s2.name))
-            assertTrue(appState.errorContainer.isNotEmpty())
+            assertTrue(ts.appState.errorContainer.isNotEmpty())
         }
     }
 }

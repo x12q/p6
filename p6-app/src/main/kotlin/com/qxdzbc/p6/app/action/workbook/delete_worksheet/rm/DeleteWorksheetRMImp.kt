@@ -7,21 +7,21 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.rpc.workbook.WorkbookRpcMsgErrors
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetRMImp @Inject constructor(
-    val appStateMs: Ms<AppState>
+    val docContMs: Ms<DocumentContainer>
 ) : DeleteWorksheetRM {
-    var appState by appStateMs
+    var dc by docContMs
 
     override fun makeRequest(request: WorksheetIdWithIndexPrt): Rse<Workbook> {
         val wbKey = request.wbKey
@@ -39,7 +39,7 @@ class DeleteWorksheetRMImp @Inject constructor(
     }
 
      private fun deleteWorksheetRs(wbKey: WorkbookKey, wsName: String): Rse<Workbook> {
-        val wbRs = appState.getWbRs(wbKey)
+        val wbRs = dc.getWbRs(wbKey)
         val rt = wbRs.flatMap { wb ->
             wb.removeSheetRs(wsName).map { it.reRun() }
         }
@@ -47,7 +47,7 @@ class DeleteWorksheetRMImp @Inject constructor(
     }
 
     private fun deleteWorksheetRs(wbKey: WorkbookKey, wsIndex: Int): Rse<Workbook> {
-        val wbRs = appState.getWbRs(wbKey)
+        val wbRs = dc.getWbRs(wbKey)
         val rt = wbRs.flatMap { wb ->
             wb.removeSheetRs(wsIndex).map { it.reRun() }
         }

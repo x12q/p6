@@ -16,6 +16,7 @@ import com.github.michaelbull.result.onSuccess
 import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
@@ -23,8 +24,11 @@ import javax.inject.Inject
 class RenameWorksheetInternalApplierImp
 @Inject constructor(
     private val appStateMs: Ms<AppState>,
+    val docContMs:Ms<DocumentContainer>,
     private val errorRouter: ErrorRouter,
 ) : RenameWorksheetInternalApplier {
+
+    private var dc by docContMs
     var appState by appStateMs
     val translatorContainerMs: Ms<TranslatorContainer> = appState.translatorContMs
     var translatorCont by translatorContainerMs
@@ -48,7 +52,7 @@ class RenameWorksheetInternalApplierImp
                     }
                     var newWbState: WorkbookState = wbState
                     // x: preserve active sheet pointer if it was pointing to the old name
-                    appStateMs.value = appState.replaceWb(newWb)
+                    dc = dc.replaceWb(newWb)
                     if (newWbState.activeSheetPointer.isPointingTo(oldName)) {
                         newWbState = newWbState.setActiveSheet(newName).setNeedSave(true)
                     }

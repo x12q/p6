@@ -11,16 +11,22 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
-import com.qxdzbc.p6.ui.app.state.AppState
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetApplierImp @Inject constructor(
-    private val appStateMs: Ms<AppState>,
+    private val docContMs: Ms<DocumentContainer>,
+    val stateContMs: Ms<SubAppStateContainer>,
+    val transContMs:Ms<TranslatorContainer>,
 ) : DeleteWorksheetApplier {
 
-    var appState by appStateMs
+    private var appState by docContMs
+    private var sc by stateContMs
+    private var tc by transContMs
 
     override fun applyResRs(deletedWsName:String,rs: Rse<Workbook>): Rse<Unit> {
         return rs.flatMap { newWB->
@@ -28,13 +34,13 @@ class DeleteWorksheetApplierImp @Inject constructor(
             appState = appState.replaceWb(newWB)
             // x: update wb state
             val wbKey = newWB.key
-            val wbStateMs = appState.getWbStateMs(wbKey)
+            val wbStateMs = sc.getWbStateMs(wbKey)
             if(wbStateMs!=null){
                 val newWbState=wbStateMs.value.refresh().setNeedSave(true)
                 wbStateMs.value = newWbState
             }
             //update translator map
-            appState.translatorContainer = appState.translatorContainer.removeTranslator(wbKey,deletedWsName)
+            tc = tc.removeTranslator(wbKey,deletedWsName)
             Unit.toOk()
         }
     }

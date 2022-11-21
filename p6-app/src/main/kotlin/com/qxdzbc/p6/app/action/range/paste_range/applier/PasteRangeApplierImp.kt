@@ -9,24 +9,31 @@ import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeResponse
 
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
+import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class PasteRangeApplierImp @Inject constructor(
     private val wbUpdateApplier: WorkbookUpdateCommonApplier,
-    private val appStateMs:Ms<AppState>,
+    val stateContMs: Ms<SubAppStateContainer>,
+    val docContMs:Ms<DocumentContainer>,
 ) : PasteRangeApplier {
-    private var appState by appStateMs
+
+    private var sc by stateContMs
+    private var dc by docContMs
+
     override fun applyPasteRange(res: PasteRangeResponse?) {
         if(res!=null){
             val wbKey = res.wbKey
             val reverseRes = WorkbookUpdateCommonResponse(
                 errorReport = null,
                 wbKey = wbKey,
-                newWorkbook = wbKey?.let{appState.getWb(it)},
+                newWorkbook = wbKey?.let{dc.getWb(it)},
                 windowId = res.windowId
             )
 
@@ -35,7 +42,7 @@ class PasteRangeApplierImp @Inject constructor(
                 undo = {wbUpdateApplier.apply(reverseRes)}
             )
             if(wbKey!=null){
-                val commandStackMs=appState.getWbState(wbKey)?.commandStackMs
+                val commandStackMs=sc.getWbState(wbKey)?.commandStackMs
                 if(commandStackMs!=null){
                     commandStackMs.value = commandStackMs.value.add(command)
                 }

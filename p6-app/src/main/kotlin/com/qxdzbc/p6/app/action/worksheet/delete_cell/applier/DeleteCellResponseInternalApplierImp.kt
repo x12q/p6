@@ -11,6 +11,7 @@ import com.qxdzbc.p6.ui.app.state.QueryByWorkbookKeyResult
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
@@ -18,8 +19,11 @@ import javax.inject.Inject
 class DeleteCellResponseInternalApplierImp
 @Inject constructor(
     private val appStateMs: Ms<AppState>,
+    val docContMs:Ms<DocumentContainer>,
 ) : DeleteCellResponseInternalApplier {
     var appState by appStateMs
+    private var dc by docContMs
+
     override fun apply(
         workbookKey: WorkbookKey,
         worksheetName: String,
@@ -32,7 +36,7 @@ class DeleteCellResponseInternalApplierImp
             if (newWb != null) {
                 it.workbookStateMs.value =
                     it.workbookStateMs.value.setWorkbookKeyAndRefreshState(newWb.key).setNeedSave(true)
-                appState = appState.replaceWb(newWb)
+                dc = dc.replaceWb(newWb)
             }
         }
     }

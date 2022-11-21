@@ -9,7 +9,6 @@ import com.qxdzbc.common.error.ErrorReport
 
 
 import com.qxdzbc.p6.rpc.workbook.WorkbookRpcMsgErrors
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -17,6 +16,7 @@ import com.github.michaelbull.result.andThen
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
@@ -24,10 +24,10 @@ import javax.inject.Inject
 class DeleteWorksheetActionImp @Inject constructor(
     val rm:DeleteWorksheetRM,
     val applier:DeleteWorksheetApplier,
-    private val appStateMs:Ms<AppState>
+    private val docContMs:Ms<DocumentContainer>
 ) : DeleteWorksheetAction {
 
-    private var appState by appStateMs
+    private var dc by docContMs
 
     override fun deleteWorksheetRs(request: WorksheetIdWithIndexPrt): Rs<Unit, ErrorReport> {
         if (request.wsName != null || request.wsIndex != null) {
@@ -37,7 +37,7 @@ class DeleteWorksheetActionImp @Inject constructor(
                     if (request.wsName != null) {
                         return applier.applyResRs(request.wsName, res)
                     } else {
-                        return appState.getWbRs(request.wbKey)
+                        return dc.getWbRs(request.wbKey)
                             .andThen { wb ->
                                 wb.getWsRs(request.wsIndex!!)
                             }.andThen {ws->
