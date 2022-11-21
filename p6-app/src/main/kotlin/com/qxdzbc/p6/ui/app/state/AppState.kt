@@ -15,9 +15,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 /**
  * A fixed point in the app, holding all the state
  */
-interface AppState
-//    : DocumentContainer, SubAppStateContainer
-{
+interface AppState {
     val cellEditorStateMs:Ms<CellEditorState>
     var cellEditorState: CellEditorState
 
@@ -46,15 +44,6 @@ interface AppState
      * Extract information related to a workbook key. Such as the workbook the key is pointing to, the window in which the workbook locates.
      */
     fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult
-
-//    override fun replaceWb(newWb: Workbook): AppState
-//    override fun addWbStateFor(wb: Workbook): AppState
-//    override fun removeWindowState(windowState: Ms<WindowState>): AppState
-//    override fun removeWindowState(windowId: String): AppState
-//    override fun createNewWindowStateMs(): Pair<AppState, Ms<OuterWindowState>>
-//    override fun createNewWindowStateMs(windowId: String): Pair<AppState, Ms<OuterWindowState>>
-//    override fun addWindowState(windowState: Ms<WindowState>): AppState
-
     val docContMs: Ms<DocumentContainer>
     var docCont: DocumentContainer
     var translatorContainer: TranslatorContainer
