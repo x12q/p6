@@ -12,9 +12,15 @@ interface CommandStack : HaveSize {
     fun add(command: Command): CommandStack
 
     /**
-     * pop the top command
+     * peek the top command
      */
-    fun pop():Command?
+    fun peek():Command?
+
+    fun removeTop():CommandStack
+
+    operator fun contains(command:Command):Boolean
+
+    val allCommands:List<Command>
 }
 
 
