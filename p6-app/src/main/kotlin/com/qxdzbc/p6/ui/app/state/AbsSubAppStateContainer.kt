@@ -163,6 +163,10 @@ abstract class AbsSubAppStateContainer : SubAppStateContainer {
         return this.getCursorStateMs(wbws.wbKey, wbws.wsName)?.value
     }
 
+    override fun getCursorState(wbws: WbWsSt): CursorState?{
+        return this.getCursorStateMs(wbws)?.value
+    }
+
     override fun getActiveCursorMs(wbKey: WorkbookKey): Ms<CursorState>? {
         val rt = this.getWbState(wbKey)?.let { wbState ->
             wbState.activeSheetState?.let { activeWsState ->

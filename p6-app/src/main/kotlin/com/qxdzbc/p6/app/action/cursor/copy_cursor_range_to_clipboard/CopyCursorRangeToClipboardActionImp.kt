@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.action.cursor.copy_cursor_range_to_clipboard
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardRequest
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
@@ -23,9 +24,19 @@ class CopyCursorRangeToClipboardActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
 ) : CopyCursorRangeToClipboardAction {
+
     private val sc by stateContSt
+
     override fun copyCursorRangeToClipboard(wbws: WbWs) {
         val cursorState: CursorState? = sc.getCursorState(wbws)
+        this.copyCursorRangeToClipboard(cursorState)
+    }
+
+    override fun copyCursorRangeToClipboard(wbwsSt: WbWsSt) {
+        val cursorState: CursorState? = sc.getCursorState(wbwsSt)
+        this.copyCursorRangeToClipboard(cursorState)
+    }
+    fun copyCursorRangeToClipboard(cursorState: CursorState?){
         if(cursorState!=null){
             val mergeAllCursorState = cursorState.attemptToMergeAllIntoOne()
             if (mergeAllCursorState.fragmentedCells.isNotEmpty() || mergeAllCursorState.fragmentedRanges.isNotEmpty()) {
@@ -60,5 +71,4 @@ class CopyCursorRangeToClipboardActionImp @Inject constructor(
             }
         }
     }
-
 }

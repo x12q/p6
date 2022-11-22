@@ -98,6 +98,7 @@ interface SubAppStateContainer {
     fun getCursorStateMs(wbws: WbWs): Ms<CursorState>?
     fun getCursorStateMs(wbwsSt: WbWsSt): Ms<CursorState>?
     fun getCursorState(wbws: WbWs): CursorState?
+    fun getCursorState(wbws: WbWsSt): CursorState?
 
     /**
      * get cursor state ms of the active worksheet inside the workbook whose key is [wbKey]
