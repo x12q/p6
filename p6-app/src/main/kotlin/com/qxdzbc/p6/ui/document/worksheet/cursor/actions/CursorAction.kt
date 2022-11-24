@@ -31,6 +31,5 @@ interface CursorAction :
     fun focusOnCursor(cursorId: CursorStateId)
     fun freeFocusOnCursor(cursorId: CursorStateId)
     fun updateCursorFocus(cursorId: CursorStateId, focused: Boolean)
-//    fun updateCellEditorFocus(cursorId: CursorStateId,focused: Boolean)
 }
 

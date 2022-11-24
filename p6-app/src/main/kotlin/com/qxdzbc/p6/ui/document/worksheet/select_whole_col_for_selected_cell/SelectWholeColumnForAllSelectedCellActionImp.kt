@@ -1,8 +1,10 @@
 package com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell
 
 import androidx.compose.runtime.getValue
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
@@ -11,6 +13,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
@@ -21,9 +24,8 @@ class SelectWholeColumnForAllSelectedCellActionImp @Inject constructor(
 
     private val sc by stateContSt
 
-    override fun selectWholeColForAllSelectedCells(wbws: WbWs) {
-        val wsStateMs = sc.getWsStateMs(wbws)
-        if (wsStateMs != null) {
+    fun selectWholeColForAllSelectedCells(wsStateMs:Ms<WorksheetState>?) {
+        wsStateMs?.also {
             val wsState by wsStateMs
             val cursorStateMs = wsStateMs.value.cursorStateMs
             val cursorState by cursorStateMs
@@ -45,5 +47,11 @@ class SelectWholeColumnForAllSelectedCellActionImp @Inject constructor(
             cursorStateMs.value = newCursorState
         }
     }
+    override fun selectWholeColForAllSelectedCells(wbws: WbWsSt) {
+        selectWholeColForAllSelectedCells(sc.getWsStateMs(wbws))
+    }
 
+    override fun selectWholeColForAllSelectedCells(wbws: WbWs) {
+        selectWholeColForAllSelectedCells(sc.getWsStateMs(wbws))
+    }
 }

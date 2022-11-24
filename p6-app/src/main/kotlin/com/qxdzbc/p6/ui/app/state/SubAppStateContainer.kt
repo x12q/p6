@@ -24,7 +24,7 @@ import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 /**
- * An abstraction layer providing functions for looking up view states that is under app
+ * An abstraction layer providing functions for looking up view states that is enclosed inside [AppState]
  */
 interface SubAppStateContainer {
     val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>

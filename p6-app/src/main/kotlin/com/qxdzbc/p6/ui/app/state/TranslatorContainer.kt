@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMap
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 
 
@@ -28,11 +27,11 @@ interface TranslatorContainer : TranslatorMap {
     /**
      * Create a one-off translator that is not attached to the app state. For testing only
      */
-    fun createOneOffTranslator(wbKey: WorkbookKey,wsName: String):P6Translator<ExUnit>
+    fun createOneOffTranslatorForTesting(wbKey: WorkbookKey, wsName: String):P6Translator<ExUnit>
     /**
      * Create a one-off translator that is not attached to the app state. For testing only
      */
-    fun createOneOffTranslator(wbWs: WbWs):P6Translator<ExUnit>
+    fun createOneOffTranslatorForTesting(wbWs: WbWs):P6Translator<ExUnit>
     /**
      * Create a one-off translator that is attached to the app state.
      */
