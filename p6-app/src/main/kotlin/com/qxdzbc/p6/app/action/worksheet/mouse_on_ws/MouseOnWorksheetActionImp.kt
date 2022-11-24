@@ -66,7 +66,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
         clickOnCell(anchorCell, wbwsSt)
     }
 
-    fun startDragSelection(wsState:WorksheetState?, mousePosition: Offset, offset: Offset) {
+    fun startDragSelection(wsState:WorksheetState?, mousePosition: Offset) {
         wsState?.also {
             var selectRect by wsState.selectRectStateMs
             selectRect = selectRect
@@ -81,16 +81,15 @@ class MouseOnWorksheetActionImp @Inject constructor(
             }
         }
     }
-    override fun startDragSelection(wbws: WbWsSt, mousePosition: Offset, offset: Offset) {
-        startDragSelection(this.sc.getWsState(wbws),mousePosition, offset)
+    override fun startDragSelection(wbws: WbWsSt, mousePosition: Offset) {
+        startDragSelection(this.sc.getWsState(wbws),mousePosition)
     }
 
     override fun startDragSelection(
         wbws: WbWs,
         mousePosition: Offset,
-        offset: Offset,
     ) {
-        startDragSelection(this.sc.getWsState(wbws),mousePosition, offset)
+        startDragSelection(this.sc.getWsState(wbws),mousePosition)
     }
 
     fun stopDragSelection(wsState: WorksheetState?){
@@ -132,7 +131,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
         makeMouseDragSelectionIfPossible(sc.getCursorStateMs(cursorLocation),currentCellMouseOn)
     }
 
-    fun makeMouseDragSelectionIfPossible(wsState: WorksheetState?, mousePosition: Offset, offset: Offset) {
+    fun makeMouseDragSelectionIfPossible(wsState: WorksheetState?, mousePosition: Offset) {
         wsState?.also {
             val selectRect by wsState.selectRectStateMs
             if (selectRect.isActive) {
@@ -147,12 +146,12 @@ class MouseOnWorksheetActionImp @Inject constructor(
             }
         }
     }
-    override fun makeMouseDragSelectionIfPossible(cursorLocation: WbWsSt, mousePosition: Offset, offset: Offset) {
-        makeMouseDragSelectionIfPossible(sc.getWsState(cursorLocation),mousePosition, offset)
+    override fun makeMouseDragSelectionIfPossible(cursorLocation: WbWsSt, mousePosition: Offset) {
+        makeMouseDragSelectionIfPossible(sc.getWsState(cursorLocation),mousePosition)
     }
 
-    override fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, mousePosition: Offset, offset: Offset) {
-        makeMouseDragSelectionIfPossible(sc.getWsState(cursorLocation),mousePosition, offset)
+    override fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, mousePosition: Offset) {
+        makeMouseDragSelectionIfPossible(sc.getWsState(cursorLocation),mousePosition)
     }
 
     private fun f(cellAddress: CellAddress, cursorLoc: WbWsSt) {

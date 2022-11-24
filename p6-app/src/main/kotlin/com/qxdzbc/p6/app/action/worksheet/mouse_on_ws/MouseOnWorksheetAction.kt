@@ -11,9 +11,8 @@ interface MouseOnWorksheetAction: ClickOnCell {
     fun ctrlClickSelectCell(cellAddress: CellAddress, cursorLoc: WbWs)
     fun ctrlClickSelectCell(cellAddress: CellAddress, cursorLoc: WbWsSt)
 
-    // TODO remove offset
-    fun startDragSelection(wbws: WbWs, mousePosition: Offset, offset: Offset = Offset(0F, 0F))
-    fun startDragSelection(wbws: WbWsSt, mousePosition: Offset, offset: Offset = Offset(0F, 0F))
+    fun startDragSelection(wbws: WbWs, mousePosition: Offset)
+    fun startDragSelection(wbws: WbWsSt, mousePosition: Offset)
 
     fun startDragSelection(wbws: WbWs, anchorCell: CellAddress)
     fun startDragSelection(wbwsSt: WbWsSt, anchorCell: CellAddress)
@@ -21,8 +20,8 @@ interface MouseOnWorksheetAction: ClickOnCell {
     fun makeMouseDragSelectionIfPossible(cursorLocation: WbWsSt, currentCellMouseOn: CellAddress)
     fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, currentCellMouseOn: CellAddress)
 
-    fun makeMouseDragSelectionIfPossible(cursorLocation: WbWsSt, mousePosition: Offset, offset: Offset = Offset(0F, 0F))
-    fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, mousePosition: Offset, offset: Offset = Offset(0F, 0F))
+    fun makeMouseDragSelectionIfPossible(cursorLocation: WbWsSt, mousePosition: Offset)
+    fun makeMouseDragSelectionIfPossible(cursorLocation: WbWs, mousePosition: Offset)
 
     fun stopDragSelection(cursorLocation: WbWsSt)
     fun stopDragSelection(cursorLocation: WbWs)
