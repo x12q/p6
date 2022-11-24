@@ -30,6 +30,10 @@ class WorksheetAction2Imp @Inject constructor(
 
     private var sc by stateContMs
 
+    override fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWsSt) {
+        makeSliderFollowCellAct.makeSliderFollowCell(wsLoc,newCursor.mainCell)
+    }
+
     override fun makeSliderFollowCursorMainCell(
         newCursor: CursorState,
         wsLoc: WbWs,

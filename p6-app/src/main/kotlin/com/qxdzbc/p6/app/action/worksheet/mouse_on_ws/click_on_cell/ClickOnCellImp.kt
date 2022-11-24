@@ -14,8 +14,10 @@ import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -25,18 +27,13 @@ class ClickOnCellImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
-    private val makeDisplayText: MakeCellEditorTextAction,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
-    val colorFormulaAction:ColorFormulaInCellEditorAction,
 ) : ClickOnCell {
     private val stateCont by stateContSt
     private var appState by appStateMs
 
-    /**
-     * when click on a cell, remove all previous selection, then assign the clicked cell as the new main cell
-     */
-    override fun clickOnCell(cellAddress: CellAddress, cursorLocation: WbWs) {
-        stateCont.getCursorStateMs(cursorLocation)?.also { cursorStateMs ->
+    fun clickOnCell(cellAddress: CellAddress, cursorStateMs:Ms<CursorState>?) {
+        cursorStateMs?.also {
             val editorStateMs = appState.cellEditorStateMs
             val editorState by editorStateMs
             val cursorState by cursorStateMs
@@ -55,5 +52,16 @@ class ClickOnCellImp @Inject constructor(
                 editorStateMs.value=editorState.close()
             }
         }
+    }
+
+    /**
+     * when click on a cell, remove all previous selection, then assign the clicked cell as the new main cell
+     */
+    override fun clickOnCell(cellAddress: CellAddress, cursorLocation: WbWs) {
+        clickOnCell(cellAddress,stateCont.getCursorStateMs(cursorLocation))
+    }
+
+    override fun clickOnCell(cellAddress: CellAddress, cursorLocation: WbWsSt) {
+        clickOnCell(cellAddress,stateCont.getCursorStateMs(cursorLocation))
     }
 }
