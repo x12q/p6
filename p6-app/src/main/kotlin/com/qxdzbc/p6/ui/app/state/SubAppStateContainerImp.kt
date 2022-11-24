@@ -111,8 +111,8 @@ data class SubAppStateContainerImp @Inject constructor(
         return this
     }
 
-    private fun getRulerStateZZ(wsState: WorksheetState, type: RulerType): Ms<RulerState> {
-        return when (type) {
+    private fun getRulerStateZZ(wsState: WorksheetState, rulerType: RulerType): Ms<RulerState> {
+        return when (rulerType) {
             RulerType.Row -> wsState.rowRulerStateMs
             RulerType.Col -> wsState.colRulerStateMs
         }

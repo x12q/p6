@@ -17,7 +17,7 @@ interface TranslatorMap {
 
     fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorMap
     fun removeTranslator(wbKey: WorkbookKey): TranslatorMap
-    fun removeTranslator(key: WbWsSt): TranslatorMap
+    fun removeTranslator(wbwsSt: WbWsSt): TranslatorMap
     fun removeTranslator(wbWs: WbWs): TranslatorMap
-    fun removeTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, ): TranslatorMap
+    fun removeTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): TranslatorMap
 }

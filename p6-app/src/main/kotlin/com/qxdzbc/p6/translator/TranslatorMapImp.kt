@@ -56,8 +56,8 @@ data class TranslatorMapImp(
         return this.copy(m = newM)
     }
 
-    override fun removeTranslator(key: WbWsSt): TranslatorMap {
-        return this.copy(m = m - key)
+    override fun removeTranslator(wbwsSt: WbWsSt): TranslatorMap {
+        return this.copy(m = m - wbwsSt)
     }
 
     override fun removeTranslator(wbWs: WbWs): TranslatorMap {

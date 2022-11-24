@@ -6,6 +6,7 @@ import com.github.michaelbull.result.flatMap
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.range.paste_range.PasteRangeRequest2
 import com.qxdzbc.p6.app.action.range.paste_range.applier.PasteRangeApplier
@@ -25,11 +26,13 @@ class PasteRangeActionImp @Inject constructor(
     private val rangeRM: PasteRangeRM,
     private val rangeApplier: PasteRangeApplier,
 ) : PasteRangeAction {
-    private val sc by stateContSt
-    override fun pasteRange(wbws: WbWs, ra: RangeAddress) :Rse<Unit>{
 
-        val rt = sc.getWbKeyStRs(wbws.wbKey).flatMap {wbkSt->
-            sc.getWsNameStRs(wbws).flatMap { wsNameSt->
+    private val sc by stateContSt
+
+    override fun pasteRange(wbws: WbWs, ra: RangeAddress) :Rse<Unit>{
+        val rt = sc.getWbWsStRs(wbws).flatMap {
+            val wbkSt = it.wbKeySt
+            val wsNameSt = it.wsNameSt
                 val req = PasteRangeRequest2(
                     rangeId = RangeIdImp(
                         rangeAddress = ra,
@@ -40,10 +43,9 @@ class PasteRangeActionImp @Inject constructor(
                 )
                 val out = rangeRM.pasteRange(req)
                 out?.let {
-                    rangeApplier.applyPasteRange(it)
+                    rangeApplier.applyPasteRange(out)
                 }
                 Ok(Unit)
-            }
         }
         return rt
     }

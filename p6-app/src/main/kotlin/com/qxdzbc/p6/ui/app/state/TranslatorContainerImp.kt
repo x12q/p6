@@ -14,9 +14,7 @@ import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toSt
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.squareup.anvil.annotations.ContributesBinding
 
 import javax.inject.Inject
@@ -144,8 +142,8 @@ class TranslatorContainerImp @Inject constructor(
         return this.getTranslator(wbWs.wbKey,wbWs.wsName)
     }
 
-    override fun removeTranslator(key: WbWsSt): TranslatorContainer {
-        tm = tm.removeTranslator(key)
+    override fun removeTranslator(wbwsSt: WbWsSt): TranslatorContainer {
+        tm = tm.removeTranslator(wbwsSt)
         return this
     }
 

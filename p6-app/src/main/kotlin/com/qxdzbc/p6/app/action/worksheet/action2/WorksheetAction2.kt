@@ -18,15 +18,8 @@ interface WorksheetAction2 : MouseOnWorksheetAction, ComputeSliderSizeAction {
      */
     fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt)
 
-    fun makeSliderFollowCursorMainCell(
-        newCursor: CursorState,
-        wsLoc: WbWs,
-    )
-
-    fun makeSliderFollowCursorMainCell(
-        newCursor: CursorState,
-        wsLoc: WbWsSt,
-    )
+    fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWs)
+    fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWsSt)
 
     fun scroll(x:Int, y:Int, wsLoc: WbWsSt)
     fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt)

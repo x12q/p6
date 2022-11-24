@@ -51,7 +51,7 @@ interface TranslatorContainer : TranslatorMap {
     ): TranslatorContainer
 
 
-    override fun removeTranslator(key: WbWsSt): TranslatorContainer
+    override fun removeTranslator(wbwsSt: WbWsSt): TranslatorContainer
     override fun removeTranslator(wbWs: WbWs): TranslatorContainer
     override fun removeTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): TranslatorContainer
 }

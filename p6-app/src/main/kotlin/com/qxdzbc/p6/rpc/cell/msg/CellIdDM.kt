@@ -15,7 +15,9 @@ data class CellIdDM(
     override val wbKey:WorkbookKey,
     override val wsName:String,
 ) :WbWs{
+
     constructor(address: CellAddress,wbws:WbWs):this(address,wbws.wbKey,wbws.wsName)
+
     companion object{
         fun CellIdProto.toModel():CellIdDM{
             return CellIdDM(
