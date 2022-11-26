@@ -3,7 +3,6 @@ package com.qxdzbc.p6.ui.document.worksheet
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.PointerMatcher
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.mouseClickable
 import androidx.compose.foundation.onClick
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
@@ -109,7 +107,7 @@ fun CellGridView(
                             } else {
                                 BorderStyle.BOT_RIGHT
                             }
-                        val mouseMod = Modifier.onClick(
+                        val cellBoxMod = Modifier.onClick(
                             matcher = PointerMatcher.mouse(PointerButton.Primary),
                             keyboardModifiers = { isCtrlPressed },
                             onClick = {
@@ -121,12 +119,12 @@ fun CellGridView(
                             onClick = {
                                 wsActions.shiftClickSelectRange(cellAddress, wsState)
                             }
-                        )
+                        ).padding(start=1.dp, end = 1.dp, top=1.dp,bottom=1.dp)
 
                         BorderBox(
                             style = borderStyle,
                             borderColor = Color.LightGray,
-                            padContent = true,
+                            padContent = false,
                             modifier = Modifier
                                 .size(colWidth.dp, rowHeight.dp)
                                 .onGloballyPositioned {
@@ -136,11 +134,11 @@ fun CellGridView(
                             if (cellState != null) {
                                 CellView(
                                     state = cellState,
-                                    boxModifier = mouseMod
+                                    boxModifier = cellBoxMod
                                 )
                             } else {
                                 EmptyCellView(
-                                    boxModifier = mouseMod
+                                    boxModifier = cellBoxMod
                                 )
                             }
                         }

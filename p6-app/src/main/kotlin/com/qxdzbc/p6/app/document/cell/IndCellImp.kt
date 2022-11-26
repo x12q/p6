@@ -22,9 +22,14 @@ data class IndCellImp(
 
     companion object {
         fun random():IndCellImp{
+            return IndCellImp.random(CellAddress.random())
+        }
+        fun random(address: CellAddress):IndCellImp{
+            val ct = CellContentImp.randomNumericContent()
             return IndCellImp(
-                address = CellAddress.random(),
-                content = CellContentImp.randomNumericContent()
+                address = address,
+                content = ct,
+                cachedDisplayText = ct.displayText
             )
         }
     }

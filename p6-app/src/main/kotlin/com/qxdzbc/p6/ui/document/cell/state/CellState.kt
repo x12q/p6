@@ -8,8 +8,10 @@ import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.ui.document.cell.state.format.*
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
 /**
  * It does not hold data object (DCell), but only appearance format data
@@ -22,7 +24,7 @@ interface CellState {
     fun removeDataCell():CellState
 
     val textFormatMs:Ms<TextFormat>
-    var textFormat:TextFormat
+    var textFormat: TextFormat
 
     val fontStyle:FontStyle
     fun setFontStyle(style:FontStyle):CellState
@@ -32,8 +34,8 @@ interface CellState {
     fun setTextColor(color:Color):CellState
 
     val alignment:Alignment
-    fun setVerticalAlignment(alignment:TextVerticalAlignment):CellState
-    fun setHorizontalAlignment(alignment:TextHorizontalAlignment):CellState
+    fun setVerticalAlignment(alignment: TextVerticalAlignment):CellState
+    fun setHorizontalAlignment(alignment: TextHorizontalAlignment):CellState
 
     val isTextCrossed:Boolean
     fun setTextCrossed(i:Boolean):CellState

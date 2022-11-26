@@ -22,7 +22,7 @@ import java.util.*
 fun BorderBox(
     style: EnumSet<BorderStyle> = BorderStyle.ALL,
     borderColor: Color = Color.Black,
-    thickness: Int = 1,
+    borderThickness: Int = 1,
     modifier: Modifier = Modifier,
     padContent:Boolean = false,
     content: @Composable BoxScope.() -> Unit = {},
@@ -33,7 +33,7 @@ fun BorderBox(
             drawContent()
             val xWidth = size.width
             val yHeight = size.height
-            val t = thickness.toFloat()
+            val t = borderThickness.toFloat()
             if(t >= size.width && t >= size.height){
                 drawRect(
                     color = borderColor,
@@ -79,10 +79,10 @@ fun BorderBox(
     ) {
         if(padContent){
             MBox(modifier=Modifier.padding(
-                top = (if(BorderStyle.__TOP in style) thickness else 0).dp,
-                bottom = (if(BorderStyle.__BOT in style) thickness else 0).dp,
-                start = (if(BorderStyle.__LEFT in style) thickness else 0).dp,
-                end = (if(BorderStyle.__RIGHT in style) thickness else 0).dp,
+                top = (if(BorderStyle.__TOP in style) borderThickness else 0).dp,
+                bottom = (if(BorderStyle.__BOT in style) borderThickness else 0).dp,
+                start = (if(BorderStyle.__LEFT in style) borderThickness else 0).dp,
+                end = (if(BorderStyle.__RIGHT in style) borderThickness else 0).dp,
             )){
                 content()
             }
@@ -103,7 +103,7 @@ fun main() = P6TestApp {
                 modifier = Modifier.padding(end=10.dp).size(size).background(Color.Cyan),
                 borderColor = Color.Black.copy(alpha =0.7f),
                 padContent = true,
-                thickness = 80) {
+                borderThickness = 80) {
                 Text("ABC")
             }
             MBox(modifier = Modifier.size(size).border(10.dp, Color.Black)){
@@ -111,7 +111,7 @@ fun main() = P6TestApp {
             }
         }
 
-        BorderBox(style = BorderStyle.BOT_RIGHT, modifier = Modifier.size(size).background(Color.Cyan), thickness = 10,padContent = false,) {
+        BorderBox(style = BorderStyle.BOT_RIGHT, modifier = Modifier.size(size).background(Color.Cyan), borderThickness = 10,padContent = false,) {
             Text("ABC")
         }
     }
