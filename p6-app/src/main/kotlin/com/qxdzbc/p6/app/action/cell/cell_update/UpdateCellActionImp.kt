@@ -65,7 +65,7 @@ class UpdateCellActionImp @Inject constructor(
                     the target ws does not belong to any valid workbook, just need
                     to refresh itself.
                      */
-                    wsMs.value = ws.reRun().refreshDisplayText()
+                    wsMs.value = ws.reRunAndRefreshDisplayText()
                 }
                 Unit.toOk()
             }
