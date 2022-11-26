@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.document.cell
 
+import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
@@ -16,7 +17,6 @@ import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.CellProto
-import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModelDM
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
@@ -59,29 +59,35 @@ data class CellImp(
             wsNameSt: St<String>,
             translator: P6Translator<ExUnit>,
         ): CellImp {
-            val content= this.content
+            val content = this.content
             if (content.hasFormula() && content.formula.isNotEmpty()) {
-                val transRs = translator.translate(content.formula)
-                val content = CellContentImp.fromTransRs(transRs,content.formula)
-                return CellImp(
+                val rt = CellImp(
                     id = CellId(
                         address = this.id.cellAddress.toModel(),
                         wbKeySt = wbKeySt, wsNameSt = wsNameSt
                     ),
-                    content = content
+                    content = run {
+                        val transRs = translator.translate(content.formula)
+                        val ct = CellContentImp.fromTransRs(transRs, content.formula)
+                        ct
+                    }
                 )
+                return rt
             } else {
-                val cv = this.content.cellValue.toModel()
-                return CellImp(
+                val rt = CellImp(
                     id = CellId(
                         address = this.id.cellAddress.toModel(),
                         wbKeySt = wbKeySt, wsNameSt = wsNameSt
                     ),
-                    content = CellContentImp(
-                        cellValueMs = cv.toMs(),
-                        originalText = cv.editableValue
-                    )
+                    content = run {
+                        val cv = this.content.cellValue.toModel()
+                        CellContentImp(
+                            cellValueMs = cv.toMs(),
+                            originalText = cv.editableValue
+                        )
+                    }
                 )
+                return rt
             }
         }
     }
@@ -100,7 +106,6 @@ data class CellImp(
         val c = content.reRunRs()
         val rt = c
             .map { this.copy(content = it) }
-//            .map { it.evaluateDisplayText() }
         return rt
     }
 
@@ -137,7 +142,7 @@ data class CellImp(
         val newContent = CellContentImp(
             cellValueMs = ms(content.cellValue),
             exUnit = content.exUnit,
-            originalText =content.originalText,
+            originalText = content.originalText,
         )
         return this.copy(content = newContent)
     }

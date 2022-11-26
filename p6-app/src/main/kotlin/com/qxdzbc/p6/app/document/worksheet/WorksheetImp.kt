@@ -95,43 +95,39 @@ data class WorksheetImp(
     override val wsNameSt: St<String>
         get() = id.wsNameMs
 
-//    override fun isSimilar(ws: Worksheet): Boolean {
-//        val similarId = this.id.isSimilar(ws.id)
-//        val similarTable = table == ws.table
-//        val sameRangeConstraint = rangeConstraint == ws.rangeConstraint
-//        return similarId && similarTable && sameRangeConstraint
-//    }
-
     override fun reRun(): Worksheet {
+        forEachCell{cellMs, colIndex, rowIndex ->
+                val newCell = cellMs.value.reRun()
+                if (newCell != null) {
+                    cellMs.value = newCell
+                }
+        }
+        return this
+    }
+
+    private fun forEachCell(f:(cellMs:Ms<Cell>,colIndex:Int,rowIndex:Int)->Unit){
         val cellMap = table.dataMap
         for ((colIndex, col) in cellMap) {
-            for ((rowIndex, cell) in col) {
-                val newCell = cell.value.reRun()
-                if (newCell != null) {
-                    cell.value = newCell
-                }
+            for ((rowIndex, cellMs) in col) {
+                f(cellMs,colIndex, rowIndex)
             }
         }
-//        val allCells = cellMsList
-//        allCells.forEach { cellMs ->
-//            val newCell = cellMs.value.reRun()
-//            if (newCell != null) {
-//                cellMs.value = newCell
-//            }
-//        }
-//        allCells.forEach {cellMs->
-//            val newCell = cellMs.value.evaluateDisplayText()
-//           cellMs.value = newCell
-//        }
+    }
+
+    override fun reRunAndRefreshDisplayText(): Worksheet {
+        forEachCell{cellMs, colIndex, rowIndex ->
+                val newCell = cellMs.value.reRun()?.evaluateDisplayText()
+                if (newCell != null) {
+                    cellMs.value = newCell
+                }
+        }
         return this
     }
 
     override fun refreshDisplayText():Worksheet{
-        for ((colIndex, col) in table.dataMap) {
-            for ((rowIndex, cellMs) in col) {
-                val newCell = cellMs.value.evaluateDisplayText()
-                    cellMs.value = newCell
-            }
+        forEachCell{cellMs, colIndex, rowIndex ->
+            val newCell = cellMs.value.evaluateDisplayText()
+            cellMs.value = newCell
         }
         return this
     }

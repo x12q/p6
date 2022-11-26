@@ -21,10 +21,12 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
 interface Worksheet : WithSize, WbWsSt {
-
-//    fun isSimilar(ws:Worksheet):Boolean
-
+    /**
+     * re-run all the cells but does not update the display text
+     */
     fun reRun(): Worksheet
+
+    fun reRunAndRefreshDisplayText():Worksheet
 
     val idMs: Ms<WorksheetId>
     var id: WorksheetId
