@@ -16,6 +16,5 @@ fun EmptyCellView(
         modifier = boxModifier
             .fillMaxSize()
             .background(color)
-    ) {
-    }
+    )
 }
