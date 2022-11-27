@@ -1,8 +1,12 @@
 package com.qxdzbc.p6.ui.app.cell_editor
 
 import androidx.compose.ui.text.TextRange
+import com.qxdzbc.p6.app.common.utils.TextUtils
 
 enum class RangeSelectorAllowState {
+    /**
+     * NOT_AVAILABLE is for when the cell editor is closed
+     */
     NOT_AVAILABLE{
         override fun transit(
             text: String,
@@ -14,8 +18,11 @@ enum class RangeSelectorAllowState {
         ): RangeSelectorAllowState {
             return this
         }
-
     },
+
+    /**
+     * START is for when the cell editor just open
+     */
     START{
         override fun transit(
             text: String,
@@ -28,6 +35,10 @@ enum class RangeSelectorAllowState {
             return ALLOW.transit(text, inputChar, inputIndex, cursorIndex, moveCursorWithMouse, moveCursorWithKeyboard)
         }
     },
+
+    /**
+     * Allow range selector but only with mouse action (click on cell, shift+click, etc)
+     */
     ALLOW_MOUSE {
         override fun transit(
             text: String,
@@ -37,30 +48,39 @@ enum class RangeSelectorAllowState {
             moveCursorWithMouse: Boolean,
             moveCursorWithKeyboard: Boolean
         ): RangeSelectorAllowState {
-            if(!moveCursorWithKeyboard && !moveCursorWithMouse){
-                if(inputChar in rangeSelectorActivationChars){
-                    val inputCharAtTheEnd = inputIndex == text.length-1
-                    if(inputCharAtTheEnd){
-                        return ALLOW
+            if(TextUtils.isFormula(text)){
+                if(!moveCursorWithKeyboard && !moveCursorWithMouse){
+                    if(inputChar in rangeSelectorActivationChars){
+                        val inputCharAtTheEnd = inputIndex == text.length-1
+                        if(inputCharAtTheEnd){
+                            return ALLOW
+                        }else{
+                            return ALLOW_MOUSE
+                        }
                     }else{
-                        return ALLOW_MOUSE
+                        return DISALLOW
                     }
                 }else{
-                    return DISALLOW
+                    val charIndex:Int? = cursorIndex?.minus(1)
+                    val charAtCursor:Char? = charIndex?.let{
+                        text.getOrNull(it)
+                    }
+                    if(charAtCursor in rangeSelectorActivationChars){
+                        return ALLOW_MOUSE
+                    }else{
+                        return DISALLOW
+                    }
                 }
+
             }else{
-                val charIndex:Int? = cursorIndex?.minus(1)
-                val charAtCursor:Char? = charIndex?.let{
-                    text.getOrNull(it)
-                }
-                if(charAtCursor in rangeSelectorActivationChars){
-                    return ALLOW_MOUSE
-                }else{
-                    return DISALLOW
-                }
+                return DISALLOW
             }
         }
     },
+
+    /**
+     * Allow range selector with both mouse and keyboard navigation
+     */
     ALLOW{
         override fun transit(
             text: String,
@@ -70,25 +90,34 @@ enum class RangeSelectorAllowState {
             moveCursorWithMouse:Boolean,
             moveCursorWithKeyboard:Boolean,
         ): RangeSelectorAllowState {
-            if(!moveCursorWithKeyboard && !moveCursorWithMouse){
-                if(inputChar in rangeSelectorActivationChars){
-                    return ALLOW
+            if(TextUtils.isFormula(text)){
+                if(!moveCursorWithKeyboard && !moveCursorWithMouse){
+                    if(inputChar in rangeSelectorActivationChars){
+                        return ALLOW
+                    }else{
+                        return DISALLOW
+                    }
                 }else{
-                    return DISALLOW
+                    val charIndex:Int? = cursorIndex?.minus(1)
+                    val charAtCursor:Char? = charIndex?.let{
+                        text.getOrNull(it)
+                    }
+                    if(charAtCursor in rangeSelectorActivationChars){
+                        return ALLOW_MOUSE
+                    }else{
+                        return DISALLOW
+                    }
                 }
+
             }else{
-                val charIndex:Int? = cursorIndex?.minus(1)
-                val charAtCursor:Char? = charIndex?.let{
-                    text.getOrNull(it)
-                }
-                if(charAtCursor in rangeSelectorActivationChars){
-                    return ALLOW_MOUSE
-                }else{
-                    return DISALLOW
-                }
+                return DISALLOW
             }
         }
     },
+
+    /**
+     * Disallow range selector
+     */
     DISALLOW{
         override fun transit(
             text: String,

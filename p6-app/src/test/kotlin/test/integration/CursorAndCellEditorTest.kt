@@ -43,9 +43,17 @@ class CursorAndCellEditorTest : BaseTest() {
     val cursorAction get()=comp.cursorAction()
 
     @Test
-    fun `bug-input and run formula in a cell, then open editor in another cell, cell highlight information should be empty`(){
+    fun `bug-range selector is wrongfully turned on by non-formula text`(){
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
         val cellEditorState by appState.cellEditorStateMs
+        cellEditorAction.openCellEditor(wbwsSt)
+        cellEditorAction.changeText("/")
+        cellEditorState.rangeSelectorAllowState shouldBe RangeSelectorAllowState.DISALLOW
+    }
+
+    @Test
+    fun `bug-input and run formula in a cell, then open editor in another cell, cell highlight information should be empty`(){
+        val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
         val cursorState by sc.getCursorStateMs(wbwsSt)!!
 
         cellEditorAction.openCellEditor(wbwsSt)
