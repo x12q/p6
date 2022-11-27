@@ -54,6 +54,11 @@ data class WorkbookImp(
 
     override val worksheets: List<Worksheet> get() = worksheetMsList.map { it.value }
 
+    override fun reRunAndRefreshDisplayText():Workbook{
+        this.worksheets.forEach { it.reRunAndRefreshDisplayText() }
+        return this
+    }
+
     /**
      * justification for not returning a copy: the computed cell values are not part of the workbook state, they are derived value.
      */

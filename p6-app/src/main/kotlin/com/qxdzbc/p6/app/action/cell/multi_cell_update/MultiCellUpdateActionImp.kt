@@ -80,10 +80,14 @@ class MultiCellUpdateActionImp @Inject constructor(
                     wsStateMs.value.wsMs.value = ws
                     wsStateMs.value = wsStateMs.value.refresh()
                 }
-                sc.getWbStateMs(ws.wbKey)?.also {
-                    it.value.wbMs.value = it.value.wb.reRun()
+                sc.wbStateCont.allStatesMs.forEach {
+                    it.value.wbMs.value = it.value.wb.reRunAndRefreshDisplayText()
                     it.value = it.value.refresh()
                 }
+//                sc.getWbStateMs(ws.wbKey)?.also {
+//                    it.value.wbMs.value = it.value.wb.reRun()
+//                    it.value = it.value.refresh()
+//                }
             }
             err ?: Ok(Unit)
         }

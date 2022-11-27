@@ -86,4 +86,5 @@ interface Workbook : WithSize {
     }
 
     fun removeAllWs(): Workbook
+    fun reRunAndRefreshDisplayText(): Workbook
 }
