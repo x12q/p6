@@ -278,7 +278,6 @@ class CellEditorActionImp @Inject constructor(
                     }
 
                     else -> {
-//                        if (editorState.allowRangeSelector) {
                         if (editorState.rangeSelectorAllowState == RangeSelectorAllowState.ALLOW) {
                             if (keyEvent.isAcceptedByRangeSelector()) {
                                 val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorCursorId)

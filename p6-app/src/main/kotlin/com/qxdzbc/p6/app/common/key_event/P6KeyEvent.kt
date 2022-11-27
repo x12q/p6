@@ -32,4 +32,12 @@ interface P6KeyEvent : MKeyEvent {
      *  - alt
      */
     fun isRangeSelectorNonNavKey():Boolean
+
+    /**
+     * is this key event a textual key event. A textual key event denotes:
+     *  - a lower/upper case alphabet character
+     *  - number
+     *  - special character
+     */
+    fun isTextual():Boolean
 }

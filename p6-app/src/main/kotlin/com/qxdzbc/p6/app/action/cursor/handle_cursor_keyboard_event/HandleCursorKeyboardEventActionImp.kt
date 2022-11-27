@@ -5,6 +5,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.type
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
@@ -22,6 +23,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
@@ -44,6 +46,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     private val makeSliderFollowCellAct: MakeSliderFollowCellAction,
     private val copyCursorRangeToClipboardAction: CopyCursorRangeToClipboardAction,
     private val undoOnCursorAct: UndoOnCursorAction,
+
+    private val cellEditorActionLz: dagger.Lazy<CellEditorAction>,
 
     ) : HandleCursorKeyboardEventAction {
 
@@ -127,7 +131,18 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     }
 
     fun handleOtherKey(keyEvent: P6KeyEvent, wbwsSt: WbWsSt): Boolean {
-        return false
+        if(keyEvent.isTextual()){
+            if(sc.cellEditorState.isNotOpen){
+                openCellEditor.openCellEditor(wbwsSt)
+            }
+            return passKeyEventToCellEditor(keyEvent)
+        }else{
+            return false
+        }
+    }
+
+    private fun passKeyEventToCellEditor(keyEvent: P6KeyEvent):Boolean{
+        return cellEditorActionLz.get().handleKeyboardEvent(keyEvent)
     }
 
     private fun handleKeyboardEventWithShiftDown(
@@ -160,8 +175,9 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                     selectWholeRow.selectWholeRowForAllSelectedCells(wbwsSt)
                     true
                 }
-
-                else -> false
+                else -> {
+                    handleOtherKey(keyEvent, wbwsSt)
+                }
             }
         } else {
             return false

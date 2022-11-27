@@ -13,12 +13,29 @@ interface MKeyEvent {
 
     val keyEvent:KeyEvent
     val key:Key
+
+    /**
+     * if Ctrl + Shift are pressed in this event
+     */
     val isCtrlShiftPressed:Boolean
+
+    /**
+     * if Ctrl is the only modification key in this event
+     */
     val isCtrlPressedAlone:Boolean
+    /**
+     * if Alt is the only modification key in this event
+     */
     val isAltPressedAlone:Boolean
     val type:KeyEventType
 
+    /**
+     * if Shift is the only modification key in this event
+     */
     val isShiftPressedAlone:Boolean
+    /**
+     * if Shift is one of the modification keys pressed in this event
+     */
     val isShiftPressedInCombination:Boolean
 
     val isFreeOfModificationKey:Boolean

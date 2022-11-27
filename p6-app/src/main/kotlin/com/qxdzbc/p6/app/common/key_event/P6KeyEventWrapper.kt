@@ -7,9 +7,7 @@ import com.qxdzbc.common.compose.KeyEventUtils.isCtrlShiftPressed
 import com.qxdzbc.common.compose.KeyEventUtils.isFreeOfModificationKey
 import com.qxdzbc.common.compose.KeyEventUtils.isShiftPressedAlone
 
-data class P6KeyEventWrapper(
-    override val keyEvent: KeyEvent
-): AbsP6KeyEvent(){
+data class P6KeyEventWrapper(override val keyEvent: KeyEvent): AbsP6KeyEvent(){
     override val key: Key
         get() = keyEvent.key
     override val isCtrlShiftPressed: Boolean
