@@ -24,7 +24,6 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
@@ -33,12 +32,12 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalComposeUiApi::class)
 @P6Singleton
-@ContributesBinding(scope= P6AnvilScope::class)
-class HandleCursorKeyboardEventActionImp  @Inject constructor(
+@ContributesBinding(scope = P6AnvilScope::class)
+class HandleCursorKeyboardEventActionImp @Inject constructor(
 
     private val wsAction: WorksheetAction,
     private val openCellEditor: OpenCellEditorAction,
-    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val pasteRangeToCursorAction: PasteRangeToCursor,
     private val selectWholeCol: SelectWholeColumnForAllSelectedCellAction,
     private val selectWholeRow: SelectWholeRowForAllSelectedCellAction,
@@ -55,67 +54,67 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         keyEvent: P6KeyEvent,
         wbws: WbWs,
     ): Boolean {
-        val wsState = sc.getWsState(wbws)
-        if (wsState != null) {
+        val wsStateMs = sc.getWsStateMs(wbws)
+        if (wsStateMs != null) {
+            val wsState = wsStateMs.value
             val cursorState by wsState.cursorStateMs
             return if (keyEvent.type == KeyEventType.KeyDown) {
                 if (keyEvent.isCtrlPressedAlone) {
-                    handleKeyWithCtrlDown(keyEvent, cursorState)
+                    handleKeyWithCtrlDown(keyEvent, wsStateMs)
                 } else if (keyEvent.isShiftPressedAlone) {
-                    handleKeyboardEventWhenShiftDown(keyEvent, cursorState)
+                    handleKeyboardEventWithShiftDown(keyEvent, cursorState)
                 } else if (keyEvent.isCtrlShiftPressed) {
-                    handleKeyWithCtrlShift(keyEvent, wbws)
+                    handleKeyWithCtrlShift(keyEvent, wsState)
                 } else {
-
-                    val wsStateMs =
-                        sc.getWsStateMs(cursorState.id.wbKey, cursorState.id.wsName)
-                    val cursorStateMs =
-                        sc.getCursorStateMs(cursorState.id.wbKey, cursorState.id.wsName)
-                    val colRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.colRulerStateMs
-                    val rowRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.rowRulerStateMs
-
-                    if (wsStateMs != null && cursorStateMs != null && colRulerStateMs != null && rowRulerStateMs != null) {
-                        when (keyEvent.key) {
-                            Key.Escape -> {
-                                wsStateMs.value.cursorStateMs.value = cursorState.removeClipboardRange()
-                                true
-                            }
-                            Key.Delete -> {
-                                _onDeleteKey(cursorState)
-                                true
-                            }
-                            Key.F2 -> {
-                                f2(wsStateMs.value.id)
-                                true
-                            }
-                            Key.DirectionUp -> {
-                                up(wbws)
-                                true
-                            }
-                            Key.DirectionDown -> {
-                                down(wbws)
-                                true
-                            }
-                            Key.DirectionLeft -> {
-                                left(wbws)
-                                true
-                            }
-                            Key.DirectionRight -> {
-                                right(wbws)
-                                true
-                            }
-                            Key.Home -> {
-                                this.home(wbws)
-                                true
-                            }
-                            Key.MoveEnd -> {
-                                this.end(wbws)
-                                true
-                            }
-                            else -> false
+                    when (keyEvent.key) {
+                        Key.Escape -> {
+                            wsStateMs.value.cursorStateMs.value = cursorState.removeClipboardRange()
+                            true
                         }
-                    } else {
-                        false
+
+                        Key.Delete -> {
+                            _onDeleteKey(cursorState)
+                            true
+                        }
+
+                        Key.F2 -> {
+                            f2(wsState)
+                            true
+                        }
+
+                        Key.DirectionUp -> {
+                            up(wsState)
+                            true
+                        }
+
+                        Key.DirectionDown -> {
+                            down(wsState)
+                            true
+                        }
+
+                        Key.DirectionLeft -> {
+                            left(wsState)
+                            true
+                        }
+
+                        Key.DirectionRight -> {
+                            right(wsState)
+                            true
+                        }
+
+                        Key.Home -> {
+                            this.home(wsState)
+                            true
+                        }
+
+                        Key.MoveEnd -> {
+                            this.end(wsState)
+                            true
+                        }
+
+                        else -> {
+                            handleOtherKey(keyEvent, wsState)
+                        }
                     }
                 }
             } else {
@@ -127,50 +126,50 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         }
     }
 
-    private fun handleKeyboardEventWhenShiftDown(
+    fun handleOtherKey(keyEvent: P6KeyEvent, wbwsSt: WbWsSt): Boolean {
+        return false
+    }
+
+    private fun handleKeyboardEventWithShiftDown(
         keyEvent: P6KeyEvent,
-        wbws: WbWs
+        wbwsSt: WbWsSt,
     ): Boolean {
         if (keyEvent.isShiftPressedAlone) {
-
-            val wsStateMs = sc.getWsStateMs(wbws)
-            val cursorStateMs = sc.getCursorStateMs(wbws)
-            val colRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.colRulerStateMs
-            val rowRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.rowRulerStateMs
-            if (wsStateMs != null && cursorStateMs != null && colRulerStateMs != null && rowRulerStateMs != null) {
-                return when (keyEvent.key) {
-                    Key.DirectionUp -> {
-                        shiftUp(wbws)
-                        true
-                    }
-                    Key.DirectionDown -> {
-                        shiftDown(wbws)
-                        true
-                    }
-                    Key.DirectionLeft -> {
-                        shiftLeft(wbws)
-                        true
-                    }
-                    Key.DirectionRight -> {
-                        shiftRight(wbws)
-                        true
-                    }
-                    Key.Spacebar -> {
-                        selectWholeRow.selectWholeRowForAllSelectedCells(wbws)
-                        true
-                    }
-                    else -> false
+            return when (keyEvent.key) {
+                Key.DirectionUp -> {
+                    shiftUp(wbwsSt)
+                    true
                 }
 
-            } else {
-                return false
+                Key.DirectionDown -> {
+                    shiftDown(wbwsSt)
+                    true
+                }
+
+                Key.DirectionLeft -> {
+                    shiftLeft(wbwsSt)
+                    true
+                }
+
+                Key.DirectionRight -> {
+                    shiftRight(wbwsSt)
+                    true
+                }
+
+                Key.Spacebar -> {
+                    selectWholeRow.selectWholeRowForAllSelectedCells(wbwsSt)
+                    true
+                }
+
+                else -> false
             }
         } else {
             return false
         }
     }
 
-    private fun handleKeyWithCtrlShift(keyEvent: P6KeyEvent, wbws: WbWs): Boolean {
+
+    private fun handleKeyWithCtrlShift(keyEvent: P6KeyEvent, wbws: WbWsSt): Boolean {
         if (keyEvent.isCtrlShiftPressed) {
             return when (keyEvent.key) {
                 Key.DirectionUp -> {
@@ -196,63 +195,52 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         }
     }
 
-    private fun handleKeyWithCtrlDown(keyEvent: P6KeyEvent, wbws: WbWs): Boolean {
-        val cursorState = sc.getCursorState(wbws)
-        if (cursorState != null) {
-            if (keyEvent.isCtrlPressedAlone) {
-                val wsStateMs = sc.getWsStateMs(cursorState.id.wbKey, cursorState.id.wsName)
-                val cursorStateMs = sc.getCursorStateMs(cursorState.id.wbKey, cursorState.id.wsName)
-                val colRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.colRulerStateMs
-                val rowRulerStateMs: Ms<RulerState>? = wsStateMs?.value?.rowRulerStateMs
-                if (wsStateMs != null && cursorStateMs != null && colRulerStateMs != null && rowRulerStateMs != null) {
-                    return when (keyEvent.key) {
-                        Key.V -> {
-                            pasteRangeToCursorAction.pasteRange(wsStateMs.value.cursorState)
-                            true
-                        }
-                        Key.C -> {
-                            copyCursorRangeToClipboardAction.copyCursorRangeToClipboard(cursorState)
-                            true
-                        }
-                        Key.Z -> {
-                            undoOnCursorAct.undoOnCursor(cursorState)
-                            true
-                        }
-                        Key.DirectionUp -> {
-                            ctrlUp(wbws)
-                            true
-                        }
-                        Key.DirectionDown -> {
-                            ctrlDown(wbws)
-                            true
-                        }
-                        Key.DirectionRight -> {
-                            ctrlRight(wbws)
-                            true
-                        }
-                        Key.DirectionLeft -> {
-                            ctrlLeft(wbws)
-                            true
-                        }
-                        Key.Spacebar -> {
-                            selectWholeCol.selectWholeColForAllSelectedCells(wbws)
-                            true
-                        }
-                        else -> false
-                    }
-
-                } else {
-                    return false
+    private fun handleKeyWithCtrlDown(keyEvent: P6KeyEvent, wsStateMs: Ms<WorksheetState>): Boolean {
+        val cursorState by wsStateMs.value.cursorStateMs
+        val wsState by wsStateMs
+        if (keyEvent.isCtrlPressedAlone) {
+            return when (keyEvent.key) {
+                Key.V -> {
+                    pasteRangeToCursorAction.pasteRange(wsStateMs.value.cursorState)
+                    true
                 }
-            } else {
-                return false
+                Key.C -> {
+                    copyCursorRangeToClipboardAction.copyCursorRangeToClipboard(cursorState)
+                    true
+                }
+                Key.Z -> {
+                    undoOnCursorAct.undoOnCursor(cursorState)
+                    true
+                }
+                Key.DirectionUp -> {
+                    ctrlUp(wsStateMs)
+                    true
+                }
+                Key.DirectionDown -> {
+                    ctrlDown(wsStateMs)
+                    true
+                }
+                Key.DirectionRight -> {
+                    ctrlRight(wsStateMs)
+                    true
+                }
+                Key.DirectionLeft -> {
+                    ctrlLeft(wsState.cursorStateMs)
+                    true
+                }
+                Key.Spacebar -> {
+                    selectWholeCol.selectWholeColForAllSelectedCells(wsState)
+                    true
+                }
+                else -> false
             }
         } else {
             return false
         }
+
     }
 
-    fun home(wsStateMs:Ms<WorksheetState>?){
+    fun home(wsStateMs: Ms<WorksheetState>?) {
         wsStateMs?.also {
             val wsState by it
             val cursorState by wsState.cursorStateMs
@@ -270,7 +258,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         home(sc.getWsStateMs(wbws))
     }
 
-    fun end(wsStateMs: Ms<WorksheetState>?){
+    fun end(wsStateMs: Ms<WorksheetState>?) {
         wsStateMs?.also {
             val wsState by wsStateMs
             val cursorState by wsState.cursorStateMs
@@ -309,7 +297,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
     }
 
     fun ctrlUp(wsStateMs: Ms<WorksheetState>?) {
-        wsStateMs?.also{
+        wsStateMs?.also {
             val wsState by it
             val cursorStateMs = wsState.cursorStateMs
             // go to the nearest non-empty cell on the same col of anchor cell
@@ -321,6 +309,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             }
         }
     }
+
     override fun ctrlUp(wbwsSt: WbWsSt) {
         ctrlUp(sc.getWsStateMs(wbwsSt))
     }
@@ -359,6 +348,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             }
         }
     }
+
     override fun ctrlDown(wbwsSt: WbWsSt) {
         ctrlDown(sc.getWsStateMs(wbwsSt))
     }
@@ -379,6 +369,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             }
         }
     }
+
     override fun ctrlRight(wbwsSt: WbWsSt) {
         ctrlRight(sc.getWsStateMs(wbwsSt))
     }
@@ -434,6 +425,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             }
         }
     }
+
     override fun ctrlShiftLeft(wbwsSt: WbWsSt) {
         val wsState: WorksheetState? = sc.getWsState(wbwsSt)
         ctrlShiftLeft(wsState)
@@ -444,7 +436,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         ctrlShiftLeft(wsState)
     }
 
-    fun ctrlShiftRight(wsState: WorksheetState?){
+    fun ctrlShiftRight(wsState: WorksheetState?) {
         wsState?.also {
             val cursorState by wsState.cursorStateMs
             val cell1 = cursorState.mainCell
@@ -499,6 +491,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         }
 
     }
+
     override fun ctrlShiftUp(wbwsSt: WbWsSt) {
         ctrlShiftUp(sc.getWsState(wbwsSt))
     }
@@ -532,6 +525,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         }
 
     }
+
     override fun ctrlShiftDown(wbwsSt: WbWsSt) {
         ctrlShiftDown(sc.getWsState(wbwsSt))
     }
@@ -540,7 +534,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         ctrlShiftDown(sc.getWsState(wbws))
     }
 
-    fun ctrlLeft(cursorStateMs:Ms<CursorState>?) {
+    fun ctrlLeft(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             val cs by cursorStateMs
             this.ctrlLeftNoUpdate(cs)?.also { newCursor ->
@@ -549,6 +543,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             }
         }
     }
+
     override fun ctrlLeft(wbwsSt: WbWsSt) {
         ctrlLeft(sc.getCursorStateMs(wbwsSt))
     }
@@ -580,13 +575,13 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
     }
 
 
-
-    fun up(cursorStateMs:Ms<CursorState>?) {
+    fun up(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             cursorStateMs.value = cursorStateMs.value.up()
             wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, cursorStateMs.value)
         }
     }
+
     override fun up(wbwsSt: WbWsSt) {
         up(sc.getCursorStateMs(wbwsSt))
     }
@@ -596,13 +591,13 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
     }
 
 
-
-    fun down(cursorStateMs:Ms<CursorState>?) {
+    fun down(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             cursorStateMs.value = cursorStateMs.value.down()
             wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, cursorStateMs.value)
         }
     }
+
     override fun down(wbwsSt: WbWsSt) {
         down(sc.getCursorStateMs(wbwsSt))
     }
@@ -611,12 +606,13 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         down(sc.getCursorStateMs(wbws))
     }
 
-    fun left(cursorStateMs:Ms<CursorState>?) {
+    fun left(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             cursorStateMs.value = cursorStateMs.value.left()
             wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, cursorStateMs.value)
         }
     }
+
     override fun left(wbwsSt: WbWsSt) {
         left(sc.getCursorStateMs(wbwsSt))
     }
@@ -625,7 +621,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         left(sc.getCursorStateMs(wbws))
     }
 
-    fun right(cursorStateMs:Ms<CursorState>?) {
+    fun right(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             val cursorState by cursorStateMs
             cursorStateMs.value = cursorStateMs.value.right()
@@ -641,7 +637,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         right(sc.getCursorStateMs(wbws))
     }
 
-    fun shiftUp(cursorStateMs:Ms<CursorState>?) {
+    fun shiftUp(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             var cursorState by cursorStateMs
             val mainCell = cursorState.mainCell
@@ -650,9 +646,10 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.upOneRow()))
             wsAction.makeSliderFollowCursorMainCell(cursorState, cursorState)
             val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
         }
     }
+
     override fun shiftUp(wbwsSt: WbWsSt) {
         shiftUp(sc.getCursorStateMs(wbwsSt))
     }
@@ -662,7 +659,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
     }
 
 
-    fun shiftDown(cursorStateMs:Ms<CursorState>?) {
+    fun shiftDown(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             var cursorState by cursorStateMs
             val mainCell = cursorState.mainCell
@@ -670,9 +667,10 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.downOneRow()))
             val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
         }
     }
+
     override fun shiftDown(wbwsSt: WbWsSt) {
         shiftDown(sc.getCursorStateMs(wbwsSt))
     }
@@ -681,7 +679,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         shiftDown(sc.getCursorStateMs(wbws))
     }
 
-    fun shiftLeft(cursorStateMs:Ms<CursorState>?) {
+    fun shiftLeft(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also { cursorStateMs ->
             var cursorState by cursorStateMs
             val mainCell = cursorState.mainCell
@@ -689,10 +687,11 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.leftOneCol()))
             val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
         }
 
     }
+
     override fun shiftLeft(wbwsSt: WbWsSt) {
         shiftLeft(sc.getCursorStateMs(wbwsSt))
     }
@@ -701,7 +700,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
         shiftLeft(sc.getCursorStateMs(wbws))
     }
 
-    fun shiftRight(cursorStateMs:Ms<CursorState>?) {
+    fun shiftRight(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             var cursorState by cursorStateMs
             val mainCell = cursorState.mainCell
@@ -709,9 +708,10 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.rightOneCol()))
             val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState,followTarget)
+            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
         }
     }
+
     override fun shiftRight(wbwsSt: WbWsSt) {
         shiftRight(sc.getCursorStateMs(wbwsSt))
     }
@@ -723,11 +723,12 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
     override fun f2(wbws: WbWs) {
         openCellEditor.openCellEditor(wbws)
     }
+
     override fun f2(wbwsSt: WbWsSt) {
         openCellEditor.openCellEditor(wbwsSt)
     }
 
-    fun _onDeleteKey(cursorState:CursorState?) {
+    fun _onDeleteKey(cursorState: CursorState?) {
         cursorState?.also {
             val req = DeleteMultiAtCursorRequest(
                 wbKey = cursorState.id.wbKey,
@@ -737,6 +738,7 @@ class HandleCursorKeyboardEventActionImp  @Inject constructor(
             wsAction.deleteMultiCellAtCursor(req)
         }
     }
+
     override fun onDeleteKey(wbwsSt: WbWsSt) {
         _onDeleteKey(sc.getCursorState(wbwsSt))
     }
