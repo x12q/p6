@@ -59,7 +59,7 @@ class TreeNodeStateContainerImpTest {
         cont = TreeNodeStateContainerImp(
             centralScriptContainerMs = testSample.appState.centralScriptContainerMs,
             checkWbExist = {
-                wbContainerMs.value.hasWb(it)
+                wbContainerMs.value.containWb(it)
             },
             appNodeStateMs = ms(TreeNodeStateImp(isExpandable = true)),
             wbNodeStateMsMap = listOf(wbk1, wbk2, wbk3)

@@ -34,7 +34,7 @@ class CloseWorkbookInternalApplierImp @Inject constructor(
 
         if (wbKey != null) {
             stateCont.wbCont = stateCont.wbCont.removeWb(wbKey)
-            appState.codeEditorState = appState.codeEditorState.removeWorkbook(workbookKey)
+            appState.codeEditorState = appState.codeEditorState.removeScriptOfWb(workbookKey)
             appState.translatorContainer = appState.translatorContainer.removeTranslator(workbookKey)
             scriptCont=scriptCont.removeScriptContFor(wbKey)
             val windowStateMs: Ms<WindowState>? =

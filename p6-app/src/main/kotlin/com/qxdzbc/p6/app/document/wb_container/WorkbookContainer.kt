@@ -25,7 +25,7 @@ interface WorkbookContainer : WorkbookGetter,WithSize{
     fun removeWbRs(wbKey: WorkbookKey): Rse<WorkbookContainer>
     @Deprecated("don't use. It is dangerous to use this function because it create in consistency in the app state.")
     fun removeAll():WorkbookContainer
-    fun hasWb(wbKey: WorkbookKey):Boolean
+    fun containWb(wbKey: WorkbookKey):Boolean
 
     fun replaceKey(oldKey:WorkbookKey, newKey: WorkbookKey):WorkbookContainer
     fun replaceKeyRs(oldKey:WorkbookKey, newKey: WorkbookKey): Rse<WorkbookContainer>

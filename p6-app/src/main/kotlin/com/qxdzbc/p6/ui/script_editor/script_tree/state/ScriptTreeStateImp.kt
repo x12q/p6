@@ -49,10 +49,10 @@ data class ScriptTreeStateImp constructor(
         }
     override val currentNodeState: TreeNodeState? get() = currentNodeStateMs?.value
 
-    override fun removeWbNode(workbookKey: WorkbookKey): ScriptTreeState {
+    override fun removeWbNode(wbKey: WorkbookKey): ScriptTreeState {
         this.treeNodeStateCont = this.treeNodeStateCont
-            .removeWbNodeState(workbookKey)
-            .removeScriptState(workbookKey)
+            .removeWbNodeState(wbKey)
+            .removeScriptState(wbKey)
         return this
     }
 

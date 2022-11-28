@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.window.state
 
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 data class ActiveWorkbookPointerImp(override val wbKeyMs: Ms<WorkbookKey>?) : ActiveWorkbookPointer {
@@ -11,7 +12,7 @@ data class ActiveWorkbookPointerImp(override val wbKeyMs: Ms<WorkbookKey>?) : Ac
         return this.wbKey == workbookKey
     }
 
-    override fun isPointingTo(wbKeyMs: Ms<WorkbookKey>): Boolean {
+    override fun isPointingTo(wbKeyMs: St<WorkbookKey>): Boolean {
         return this.wbKeyMs == wbKeyMs
     }
 

@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -14,14 +15,14 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class FileMenuActionImp @Inject constructor(
     private val windowAction: WindowAction,
-    private val stateContMs:Ms<StateContainer>
+    private val stateContMs:Ms<StateContainer>,
+    private val closeWbAct:CloseWorkbookAction,
 ) : FileMenuAction {
 
-    private var appState by stateContMs
-
+    private var sc by stateContMs
 
     override fun save(windowId:String) {
-        appState.getWindowStateMsById(windowId)?.value?.also {windowState->
+        sc.getWindowStateMsById(windowId)?.value?.also { windowState->
             val activeWBState = windowState.activeWbState
             if(activeWBState!=null){
                 // if path is already present, sve it
@@ -37,7 +38,7 @@ class FileMenuActionImp @Inject constructor(
     }
 
     override fun saveAs(windowId:String) {
-        appState.getWindowStateMsById(windowId)?.value?.also {windowState->
+        sc.getWindowStateMsById(windowId)?.value?.also { windowState->
             val activeWBState = windowState.activeWbState
             if(activeWBState!=null){
                 windowAction.openSaveFileDialog(windowState.id)
@@ -47,6 +48,12 @@ class FileMenuActionImp @Inject constructor(
 
     override fun open(windowId:String) {
         windowAction.openLoadFileDialog(windowId)
+    }
+
+    override fun closeActiveWorkbook(windowId: String) {
+        sc.getActiveWorkbook()?.also {
+            closeWbAct.closeWb(it.keyMs)
+        }
     }
 
     override fun newWorkbook(windowId:String) {

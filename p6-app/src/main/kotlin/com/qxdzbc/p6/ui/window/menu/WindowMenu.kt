@@ -28,6 +28,9 @@ fun FrameWindowScope.WindowMenu(
             Item("Save as...", enabled = windowState.activeWbState != null) {
                 fileMenuAction?.saveAs(windowState.id)
             }
+            Item("Close workbook", enabled = windowState.activeWbState != null) {
+                fileMenuAction?.closeActiveWorkbook(windowState.id)
+            }
 
         }
         Menu("Code", mnemonic = 'c') {

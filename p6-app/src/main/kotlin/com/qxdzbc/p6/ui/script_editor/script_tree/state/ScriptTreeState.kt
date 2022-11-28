@@ -15,5 +15,5 @@ interface ScriptTreeState {
     var currentNodePointer:CurrentNodePointer
     val currentNodeStateMs:Ms<TreeNodeState>?
     val currentNodeState:TreeNodeState?
-    fun removeWbNode(workbookKey:WorkbookKey):ScriptTreeState
+    fun removeWbNode(wbKey:WorkbookKey):ScriptTreeState
 }

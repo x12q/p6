@@ -28,7 +28,7 @@ data class SwingCodeEditorStateImp(
     private val outputListMs: Ms<List<String>> = ms(emptyList()),
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     override val openedScriptsMs: Ms<Set<ScriptEntryKey>> = ms(emptySet()),
-    override val scriptTreeStateMs: Ms<ScriptTreeState> = ms(ScriptTreeStateImp.fromCodeContainer(centralScriptContainerMs,{wbContMs.value.hasWb(it)})),
+    override val scriptTreeStateMs: Ms<ScriptTreeState> = ms(ScriptTreeStateImp.fromCodeContainer(centralScriptContainerMs,{wbContMs.value.containWb(it)})),
     override val currentCodeKey: ScriptEntryKey? = null,
     override val renameScriptDialogIsOpen: Boolean = false,
     override val renameTarget: ScriptEntryKey? = null,
@@ -70,13 +70,13 @@ data class SwingCodeEditorStateImp(
         return this
     }
 
-    override fun removeWorkbook(workbookKey: WorkbookKey): CodeEditorState {
+    override fun removeScriptOfWb(workbookKey: WorkbookKey): CodeEditorState {
         this.scriptTreeState = this.scriptTreeState.removeWbNode(workbookKey)
         this.centralScriptContainer = this.centralScriptContainer.removeScriptOfWb(workbookKey)
         return this
     }
 
-    override fun replaceWorkbookKey(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): CodeEditorState {
+    override fun replaceWbKey(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): CodeEditorState {
         this.scriptTreeState.treeNodeStateCont =
             this.scriptTreeState.treeNodeStateCont.replaceWorkbookKey(oldWbKey, newWbKey)
         val currentScriptKey = this.currentCodeKey

@@ -29,6 +29,7 @@ import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import dagger.assisted.Assisted
@@ -127,7 +128,7 @@ data class WindowStateImp @AssistedInject constructor(
 
     override var showConnectToKernelDialogState: ShowDialogState by showConnectToKernelDialogStateMs
 
-    override fun removeWbState(wbKeyMs: Ms<WorkbookKey>): WindowState {
+    override fun removeWbState(wbKeyMs: St<WorkbookKey>): WindowState {
         if (wbKeyMs in this.wbKeyMsSet) {
             if (this.activeWbPointer.isPointingTo(wbKeyMs)) {
                 this.activeWbPointer = this.activeWbPointer.nullify()

@@ -13,9 +13,10 @@ import com.qxdzbc.p6.ui.script_editor.script_tree.state.TreeNodeStateContainer
 import com.github.michaelbull.result.Result
 
 interface CodeEditorState {
-    fun removeWorkbook(workbookKey:WorkbookKey):CodeEditorState
 
-    fun replaceWorkbookKey(oldWbKey:WorkbookKey, newWbKey:WorkbookKey):CodeEditorState
+    fun removeScriptOfWb(workbookKey:WorkbookKey):CodeEditorState
+
+    fun replaceWbKey(oldWbKey:WorkbookKey, newWbKey:WorkbookKey):CodeEditorState
 
     fun replaceScriptKey(oldKey:ScriptEntryKey, newKey: ScriptEntryKey): Result<CodeEditorState, ErrorReport>
 

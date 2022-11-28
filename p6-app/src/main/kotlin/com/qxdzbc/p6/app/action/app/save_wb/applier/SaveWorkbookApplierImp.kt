@@ -77,7 +77,7 @@ class SaveWorkbookApplierImp @Inject constructor(
                                 windowState.wbKeySet
                             }
                     }
-                    appState.codeEditorState = appState.codeEditorState.replaceWorkbookKey(oldWb.key, newWbKey)
+                    appState.codeEditorState = appState.codeEditorState.replaceWbKey(oldWb.key, newWbKey)
                 }
         } else {
             stateCont.getWbStateMs(wbKey)?.also {

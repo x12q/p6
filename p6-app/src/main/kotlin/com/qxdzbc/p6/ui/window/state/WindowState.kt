@@ -9,6 +9,7 @@ import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
@@ -60,7 +61,7 @@ interface WindowState : WithSize {
     val wbStateList: List<WorkbookState>
     val wbList: List<Workbook>
 
-    fun removeWbState(wbKeyMs: Ms<WorkbookKey>):WindowState
+    fun removeWbState(wbKeyMs: St<WorkbookKey>):WindowState
 
     fun addWbKey(wbKey: Ms<WorkbookKey>):WindowState
     fun addWbKeyRs(wbKey: Ms<WorkbookKey>): Rse<WindowState>

@@ -47,7 +47,7 @@ class AutoNameWbFactory @Inject constructor(
             "Book${nextWbIndex}"
         }
         val newWbKey = WorkbookKey(newWbName)
-        if(wbCont.hasWb(newWbKey)){
+        if(wbCont.containWb(newWbKey)){
             return WorkbookContainerErrors.WorkbookAlreadyExist.report(newWbKey).toErr()
         }else{
             val sheetNameRs = wsNameGenerator.nextName()

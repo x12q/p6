@@ -3,6 +3,7 @@ package test.di
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
+import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
@@ -46,6 +47,7 @@ import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
+import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
@@ -199,7 +201,7 @@ interface TestComponent : P6Component {
     fun saveWbAction(): SaveWorkbookAction
     fun getWorkbookAction(): GetWorkbookAction
     fun baseApplier(): BaseApplier
-    fun closeWbAct(): CloseWorkbookAction
+    fun closeWbAct(): CloseWorkbookActionImp
     fun setActiveWindowAction(): SetActiveWindowAction
     fun updateCellAction(): UpdateCellAction
     fun loadDataAction(): LoadDataAction
@@ -223,6 +225,7 @@ interface TestComponent : P6Component {
     fun colorFormulaAction(): ColorFormulaInCellEditorAction
     fun rangeFormatter(): RangeAddressFormatter
     fun deleteMultiCellAction(): DeleteMultiCellAction
+    fun fileMenuActionImp(): FileMenuActionImp
 //    fun exUnitErrors(): ExUnitErrors
 
     @Component.Builder

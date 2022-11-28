@@ -112,7 +112,7 @@ data class WorkbookContainerImp @Inject constructor(
         return this
     }
 
-    override fun hasWb(wbKey: WorkbookKey): Boolean {
+    override fun containWb(wbKey: WorkbookKey): Boolean {
         return this.wbStateCont.containWbKey(wbKey)
     }
     @kotlin.jvm.Throws(Exception::class)
