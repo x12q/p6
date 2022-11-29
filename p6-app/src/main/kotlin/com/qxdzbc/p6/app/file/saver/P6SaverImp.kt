@@ -100,10 +100,4 @@ class P6SaverImp @Inject constructor() : P6Saver {
             return Err(CommonErrors.ExceptionError.report(e))
         }
     }
-
-    private data class CsvInstruction(
-        val rowRange:IntRange,
-        val colRange:IntRange,
-        val linesMap:Map<Int,List<String?>>
-    )
 }
