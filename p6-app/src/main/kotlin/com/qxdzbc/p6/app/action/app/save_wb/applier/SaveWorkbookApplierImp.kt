@@ -46,8 +46,6 @@ class SaveWorkbookApplierImp @Inject constructor(
     fun apply(wbKey: WorkbookKey, path: String) {
         val savedPath = Path.of(path)
         if (wbKey.path != savedPath) {
-//            val getWbRs = wbCont.getWbRs(wbKey)
-//            getWbRs.publishErrToWindowIfNeed(errorRouter, wbKey)
             wbCont.getWbRs(wbKey)
                 .publishErrToWindowIfNeed(errorRouter, wbKey)
                 .onSuccess { oldWb ->
@@ -72,7 +70,7 @@ class SaveWorkbookApplierImp @Inject constructor(
                                         // x: update wb key in the old WorkbookState
                                         qrRs.workbookStateMs.value = wbState
                                             .setWorkbookKeyAndRefreshState(newWbKey)
-                                            .setNeedSave(false) // x: mark wb as not need save because it was already saved
+                                            .setNeedSave(false) // x: mark wb as "not need save" because it was already saved
                                     }
                                 windowState.wbKeySet
                             }

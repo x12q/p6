@@ -26,7 +26,7 @@ class SaveWorkbookRMImp @Inject constructor(
         val wbRs = stateCont.getWbRs(request.wbKey)
         when (wbRs) {
             is Ok ->{
-                val saveRs=saver.save(wbRs.value, Path(request.path))
+                val saveRs=saver.saveAsProtoBuf(wbRs.value, Path(request.path))
                 when(saveRs){
                     is Ok->{
                         return SaveWorkbookResponse(

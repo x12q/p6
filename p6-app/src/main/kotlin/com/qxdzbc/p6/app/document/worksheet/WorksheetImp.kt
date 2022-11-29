@@ -159,6 +159,10 @@ data class WorksheetImp(
 
     override val name: String get() = nameMs.value
     override val cellMsList: List<Ms<Cell>> get() = this.table.allElements
+    override val rowRange: IntRange
+        get() = usedRange.rowRange
+    override val colRange: IntRange
+        get() = usedRange.colRange
 
     override fun toProto(): WorksheetProto {
         return WorksheetProto.newBuilder()

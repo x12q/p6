@@ -6,13 +6,17 @@ import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.document.cell.CellId
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.common.table.TableCRColumn
+import com.qxdzbc.p6.app.common.table.TableCRColumnImp
+import com.qxdzbc.p6.app.common.table.TableCRRow
+import com.qxdzbc.p6.app.common.table.TableCRRowImp
 import com.qxdzbc.p6.app.document.cell.Cell
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 
-abstract class BaseWorksheet() : Worksheet {
+abstract class BaseWorksheet : Worksheet {
 
     override fun getCellsInRange(rangeAddress: RangeAddress): List<Cell> {
         return this.getCellMsInRange(rangeAddress).map { it.value }
@@ -57,12 +61,24 @@ abstract class BaseWorksheet() : Worksheet {
 
     override fun getCellOrDefaultRs(cellAddress: CellAddress): Result<Cell, ErrorReport> {
         if (rangeConstraint.contains(cellAddress)) {
-            return Ok(getCell(cellAddress) ?: CellImp(CellId(cellAddress,wbKeySt, wsNameSt)))
+            return Ok(getCell(cellAddress) ?: CellImp(CellId(cellAddress, wbKeySt, wsNameSt)))
         } else {
             return Err(WorksheetErrors.InvalidCell(cellAddress))
         }
     }
 
+    override val allRows: List<TableCRRow<Int, Cell>>
+        get() {
+            return table.allRows.map { row->
+                TableCRRowImp(row.rowIndex,row.elements.map{it.value})
+            }
+        }
+    override val allColumns: List<TableCRColumn<Int, Cell>>
+        get() {
+            return table.allColumns.map { col->
+                TableCRColumnImp(col.colIndex,col.elements.map{it.value})
+            }
+        }
 
     override fun getColMs(colIndex: Int): List<Ms<Cell>> {
         return table.getCol(colIndex)
@@ -83,7 +99,8 @@ abstract class BaseWorksheet() : Worksheet {
     override fun removeCell(cellAddress: CellAddress): Worksheet {
         return this.removeCell(cellAddress.colIndex, cellAddress.rowIndex)
     }
-    override fun removeCell(label:String): Worksheet{
+
+    override fun removeCell(label: String): Worksheet {
         return this.removeCell(CellAddress(label))
     }
 }

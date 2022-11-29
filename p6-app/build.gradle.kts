@@ -1,4 +1,3 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.gradle.internal.os.OperatingSystem
 
@@ -61,6 +60,7 @@ val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 val apacheCommonTextVersion = "1.10.0"
+val apacheCommonCsvVersion = "1.9.0"
 val kotestVersion="5.5.4"
 dependencies {
 //    implementation("com.google.code.gson:gson:2.10")
@@ -68,6 +68,7 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest:2.2")
 
     implementation("org.apache.commons:commons-text:${apacheCommonTextVersion}")
+    implementation("org.apache.commons:commons-csv:${apacheCommonCsvVersion}")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 
@@ -126,7 +127,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
 
-//    testImplementation ("io.kotest:kotest-runner-junit4:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 
 }

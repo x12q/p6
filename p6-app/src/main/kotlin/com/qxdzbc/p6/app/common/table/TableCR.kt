@@ -13,6 +13,9 @@ interface TableCR<C, R, E> :Map<C, Map<R, E>> {
     val dataMap: Map<C, Map<R, E>>
     val itemCount: Int get() = allElements.size
 
+    val allColumns:List<TableCRColumn<C,E>>
+    val allRows:List<TableCRRow<R,E>>
+
     fun getElement(colKey: C, rowKey: R): E?
     fun getElement(address: GenericCellAddress<C, R>): E? {
         return this.getElement(address.colIndex, address.rowIndex)

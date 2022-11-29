@@ -58,5 +58,14 @@ abstract class BaseCell : Cell {
         get() = content.cellValue
     override val currentValue: Any?
         get() = content.cellValue.value
+    override val currentValueAsCsvStr: String
+        get(){
+            val cr = currentValue
+            return when(cr){
+                null -> ""
+                Double,Int,Float,Short,Byte -> cr.toString()
+                else ->"${cr}"
+            }
+        }
     override val isFormula: Boolean get() = content.isFormula
 }

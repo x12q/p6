@@ -6,11 +6,11 @@ package com.qxdzbc.p6.app.common.table
  */
 class MutableTableCR<C, R, E>(
     override val dataMap: MutableMap<C, MutableMap<R, E>> = mutableMapOf(),
-) : TableCR<C, R, E>, Map<C, Map<R, E>> by dataMap{
+) : AbstractTableCR<C, R, E>(), Map<C, Map<R, E>> by dataMap{
 
-    override fun getElement(colKey: C, rowKey: R): E? {
-        return dataMap[colKey]?.get(rowKey)
-    }
+//    override fun getElement(colKey: C, rowKey: R): E? {
+//        return dataMap[colKey]?.get(rowKey)
+//    }
 
     override fun remove(colKey: C, rowKey: R): MutableTableCR<C, R, E> {
         dataMap[colKey]?.remove(rowKey)

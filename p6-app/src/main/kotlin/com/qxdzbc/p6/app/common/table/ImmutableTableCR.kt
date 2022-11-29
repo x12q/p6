@@ -6,11 +6,7 @@ import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
  */
 data class ImmutableTableCR<C, R, E>(
     override val dataMap: Map<C, Map<R, E>> = mapOf(),
-) : TableCR<C, R, E>, Map<C, Map<R, E>> by dataMap {
-
-    override fun getElement(colKey: C, rowKey: R): E? {
-        return dataMap[colKey]?.get(rowKey)
-    }
+) : AbstractTableCR<C, R, E>(), Map<C, Map<R, E>> by dataMap {
 
     override fun remove(colKey: C, rowKey: R): ImmutableTableCR<C, R, E> {
         val newRowMap: Map<R, E>? = dataMap[colKey]?.minus(rowKey)

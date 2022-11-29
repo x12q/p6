@@ -8,6 +8,8 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.common.table.TableCR
+import com.qxdzbc.p6.app.common.table.TableCRColumn
+import com.qxdzbc.p6.app.common.table.TableCRRow
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellContent
@@ -42,6 +44,8 @@ interface Worksheet : WithSize, WbWsSt {
     val cells: List<Cell> get() = cellMsList.map { it.value }
     val cellMsList: List<Ms<Cell>>
     val rangeConstraint: RangeConstraint
+    val rowRange:IntRange
+    val colRange:IntRange
     override val size: Int get() = table.itemCount
 
     fun toProto(): WorksheetProto
@@ -78,6 +82,9 @@ interface Worksheet : WithSize, WbWsSt {
 
     fun getColMs(colIndex: Int): List<Ms<Cell>>
     fun getRowMs(rowIndex: Int): List<Ms<Cell>>
+
+    val allColumns:List<TableCRColumn<Int,Cell>>
+    val allRows:List<TableCRRow<Int,Cell>>
 
     fun getCol(colIndex: Int): List<Cell>
 

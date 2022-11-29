@@ -64,6 +64,7 @@ interface Cell :Shiftable,WbWsSt{
      */
     val cellValueAfterRun: CellValue
     val currentCellValue: CellValue
+
     val editableText: String
     fun editableText(wbKey: WorkbookKey?, wsName: String): String
     fun colorEditableValue(colorMap: ColorMap, wbKey: WorkbookKey?, wsName: String): AnnotatedString
@@ -73,6 +74,7 @@ interface Cell :Shiftable,WbWsSt{
      */
     val valueAfterRun: Any?
     val currentValue: Any?
+    val currentValueAsCsvStr:String
     val isFormula: Boolean
     val isEditable: Boolean
     fun setAddress(newAddress: CellAddress): Cell

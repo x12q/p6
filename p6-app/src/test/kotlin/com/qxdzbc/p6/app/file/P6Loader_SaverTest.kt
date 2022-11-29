@@ -12,6 +12,7 @@ import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
 import com.qxdzbc.p6.app.file.saver.P6SaverImp
+import io.kotest.matchers.shouldBe
 import test.TestSample
 import java.nio.file.Files
 
@@ -32,9 +33,15 @@ class P6Loader_SaverTest {
         val wbkSt =  WorkbookKey("wb1").toMs()
         val wsnSt = "S1".toMs()
         val cell = CellImp(
-            CellId(address = CellAddress("A1"),wbkSt,wsnSt),
+            CellId(address = CellAddress("C5"),wbkSt,wsnSt),
             content = CellContentImp(
                 cellValueMs = 123.toCellValue().toMs()
+            )
+        )
+        val cell2 =CellImp(
+            CellId(address = CellAddress("F10"),wbkSt,wsnSt),
+            content = CellContentImp(
+                cellValueMs = 456.toCellValue().toMs()
             )
         )
         val wb = WorkbookImp(
@@ -43,13 +50,16 @@ class P6Loader_SaverTest {
             WorksheetImp(
                 nameMs = wsnSt,
                 wbKeySt = wbkSt
-            ).addOrOverwrite(cell)
+            ).addOrOverwrite(cell).addOrOverwrite(cell2)
         ))
 
         val path = Paths.get("w1.txt").toAbsolutePath()
+        val csvPath = Paths.get("w1.csv").toAbsolutePath()
 
-        val srs = saver.save(wb, path)
+        val srs = saver.saveAsProtoBuf(wb, path)
+        val srs2 = saver.saveFirstWsAsCsv(wb,csvPath)
         assertTrue { srs is Ok }
+        assertTrue { srs2 is Ok }
 
         val lRs = loader.load(path)
         assertTrue { lRs is Ok }
