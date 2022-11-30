@@ -15,6 +15,8 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import kotlin.io.path.Path
+import kotlin.io.path.isRegularFile
+
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class SaveWorkbookRMImp @Inject constructor(
@@ -26,7 +28,12 @@ class SaveWorkbookRMImp @Inject constructor(
         val wbRs = stateCont.getWbRs(request.wbKey)
         when (wbRs) {
             is Ok ->{
-                val saveRs=saver.saveAsProtoBuf(wbRs.value, Path(request.path))
+                val path = Path(request.path)
+                val saveRs= if(path.isRegularFile() && path.toString().endsWith(".csv")){
+                    saver.saveFirstWsAsCsv(wbRs.value, path)
+                }else{
+                    saver.saveAsProtoBuf(wbRs.value, path)
+                }
                 when(saveRs){
                     is Ok->{
                         return SaveWorkbookResponse(

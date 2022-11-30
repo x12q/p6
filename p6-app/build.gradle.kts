@@ -61,6 +61,7 @@ val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
 val apacheCommonTextVersion = "1.10.0"
 val apacheCommonCsvVersion = "1.9.0"
+val apacheCommonIOVersion = "2.11.0"
 val kotestVersion="5.5.4"
 dependencies {
 //    implementation("com.google.code.gson:gson:2.10")
@@ -69,6 +70,7 @@ dependencies {
 
     implementation("org.apache.commons:commons-text:${apacheCommonTextVersion}")
     implementation("org.apache.commons:commons-csv:${apacheCommonCsvVersion}")
+    implementation("commons-io:commons-io:${apacheCommonIOVersion}")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 

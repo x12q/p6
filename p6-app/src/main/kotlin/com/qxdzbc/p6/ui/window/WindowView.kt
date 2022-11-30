@@ -12,6 +12,8 @@ import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.file_dialog.FileDialog
+import com.qxdzbc.p6.ui.window.file_dialog.FileDialog2
+import com.qxdzbc.p6.ui.window.file_dialog.P6JFileFilters
 import com.qxdzbc.p6.ui.window.menu.WindowMenu
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.awt.event.WindowEvent
@@ -24,7 +26,6 @@ fun WindowView(
     windowActionTable: WindowActionTable,
     windowAction: WindowAction,
 ) {
-//    Loggers.renderLogger.debug("render window view")
     val executionScope = rememberCoroutineScope()
     val launchOnMain = remember { CoroutineUtils.makeLaunchOnMain(executionScope) }
     val iState = rememberWindowState(
@@ -60,17 +61,20 @@ fun WindowView(
             }
         }
         if (state.saveDialogState.isOpen) {
-            FileDialog("Save workbook", false,
+            FileDialog2("Save workbook", false,
+                launchScope =executionScope,
                 onResult = { path ->
                     launchOnMain {
                         windowAction.saveActiveWorkbook(path, state.windowId)
                         windowAction.closeSaveFileDialog(state.windowId)
                     }
-                })
+                },
+            )
         }
 
         if (state.loadDialogState.isOpen) {
-            FileDialog("Open workbook", true,
+            FileDialog2("Open workbook", true,
+                launchScope =executionScope,
                 onResult = { path ->
                     launchOnMain {
                         windowAction.loadWorkbook(path, state.windowId)
@@ -80,7 +84,11 @@ fun WindowView(
         }
 
         if (state.openCommonFileDialog) {
-            FileDialog("Select file", isLoad = true, onResult = { path ->
+            FileDialog2("Select file",
+                isLoad = true,
+                launchScope =executionScope ,
+                defaultFileFilter = null,
+                onResult = { path ->
                 windowAction.setCommonFileDialogResult(path, state.windowId)
                 windowAction.closeCommonFileDialog(state.windowId)
             })

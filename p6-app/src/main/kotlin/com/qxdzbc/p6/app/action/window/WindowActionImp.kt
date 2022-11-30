@@ -107,11 +107,10 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun saveActiveWorkbook(path: Path?, windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        sc.getWindowStateById(windowId)?.also {wbState->
             if (path != null) {
-                val wbKey = it.value.activeWbKey
-                if (wbKey != null) {
-                    saveWorkbook(wbKey, path, windowId)
+                wbState.activeWbKey?.also{wbKey->
+                    this.saveWorkbook(wbKey, path, windowId)
                 }
             }
         }
