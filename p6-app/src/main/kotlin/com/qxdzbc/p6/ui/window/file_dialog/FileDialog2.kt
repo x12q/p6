@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.window.file_dialog
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.singleWindowApplication
 import kotlinx.coroutines.CoroutineScope
@@ -14,73 +12,61 @@ import java.nio.file.Path
 import javax.swing.JFileChooser
 import javax.swing.filechooser.FileFilter
 
-@Composable
-fun FrameWindowScope.FileDialog2(
+fun FrameWindowScope.OpenFileDialog(
     title: String? = null,
     isLoad: Boolean = true,
     defaultFileFilter: FileFilter? = P6JFileFilters.p6,
     launchScope: CoroutineScope = GlobalScope,
-    onResult: (result: Path?) -> Unit
+    onResult: (result: Path?) -> Unit,
+    onCancel: () -> Unit,
 ) {
-    DisposableEffect(Unit) {
-        val job = launchScope.launch(Dispatchers.Swing) {
-            val fileChooser = run {
-                JFileChooser().apply {
-                    for (filter in P6JFileFilters.all) {
-                        addChoosableFileFilter(filter)
-                    }
-                    defaultFileFilter?.also {
-                        fileFilter = defaultFileFilter
-                    }
-                    title?.also {
-                        dialogTitle = title
-                    }
-                }
+    launchScope.launch(Dispatchers.Swing) {
+        val fileChooser = JFileChooser().apply {
+            for (filter in P6JFileFilters.all) {
+                addChoosableFileFilter(filter)
             }
-            val resultCode = if (isLoad) {
-                fileChooser.showOpenDialog(null)
-            } else {
-                fileChooser.showSaveDialog(null)
+            defaultFileFilter?.also {
+                fileFilter = defaultFileFilter
             }
-            if (resultCode == JFileChooser.APPROVE_OPTION) {
-                val path = fileChooser.selectedFile?.toPath()
-                if(path!=null){
-                    when (val filter = fileChooser.fileFilter) {
-                        is P6JFileFilters -> {
-                            val extensionRs = kotlin.runCatching {
-                                val extension = path?.let { FilenameUtils.getExtension(it.toString()) }
-                                extension
-                            }
-                            if(extensionRs.isSuccess){
-                                if(extensionRs.getOrNull() == filter.extension){
-                                    onResult(path)
-                                }else{
-                                    val newPath = Path.of(path.toString()+".${filter.extension}")
-                                    onResult(newPath)
-                                }
-                            }
-                            else{
-                                // do nothing
-                            }
-                        }
-                        else -> {
-                            // do nothing
-                        }
-                    }
-                }
+            title?.also {
+                dialogTitle = title
             }
         }
-        onDispose {
-            job.cancel()
+
+        val resultCode = if (isLoad) {
+            fileChooser.showOpenDialog(window)
+        } else {
+            fileChooser.showSaveDialog(window)
+        }
+
+        if (resultCode == JFileChooser.APPROVE_OPTION) {
+            val path = fileChooser.selectedFile?.toPath()
+            if (path != null) {
+                val filter = fileChooser.fileFilter
+                if (filter is P6JFileFilters) {
+                    val extensionRs = kotlin.runCatching {
+                        FilenameUtils.getExtension(path.toString())
+                    }
+                    if (extensionRs.isSuccess) {
+                        if (extensionRs.getOrNull() == filter.extension) {
+                            onResult(path)
+                        } else {
+                            val newPath = Path.of(path.toString() + ".${filter.extension}")
+                            onResult(newPath)
+                        }
+                    }
+                }
+            } else {
+                onCancel()
+            }
         }
     }
 }
 
-
 fun main() {
     singleWindowApplication {
-        FileDialog2(title = " custom title", isLoad = true, defaultFileFilter = null) {
+        OpenFileDialog(title = " custom title", isLoad = true, defaultFileFilter = null, onResult = {
             println(it)
-        }
+        }, onCancel = {})
     }
 }
