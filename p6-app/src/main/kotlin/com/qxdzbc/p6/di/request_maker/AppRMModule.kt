@@ -1,22 +1,5 @@
 package com.qxdzbc.p6.di.request_maker
 
-import com.qxdzbc.p6.app.action.app.AppRM
-import com.qxdzbc.p6.app.action.app.AppRMImp
-import com.qxdzbc.p6.app.action.app.close_wb.rm.CloseWorkbookRM
-import com.qxdzbc.p6.app.action.app.close_wb.rm.CloseWorkbookRMImp
-import com.qxdzbc.p6.app.action.app.create_new_wb.rm.CreateNewWbRM
-import com.qxdzbc.p6.app.action.app.create_new_wb.rm.CreateNewWbRMImp
-import com.qxdzbc.p6.app.action.app.create_new_wb.rm.FakeNewWbRM
-import com.qxdzbc.p6.app.action.app.load_wb.rm.LoadWorkbookRM
-import com.qxdzbc.p6.app.action.app.load_wb.rm.LoadWorkbookRMImp
-import com.qxdzbc.p6.app.action.app.restart_kernel.rm.RestartKernelRM
-import com.qxdzbc.p6.app.action.app.restart_kernel.rm.RestartKernelRMImp
-import com.qxdzbc.p6.app.action.app.save_wb.rm.SaveWorkbookRM
-import com.qxdzbc.p6.app.action.app.save_wb.rm.SaveWorkbookRMImp
-import com.qxdzbc.p6.app.action.workbook.set_active_ws.rm.SetActiveWorksheetRM
-import com.qxdzbc.p6.app.action.workbook.set_active_ws.rm.SetActiveWorksheetRMImp
-import com.qxdzbc.p6.di.P6Singleton
-import dagger.Binds
 
 
 @dagger.Module

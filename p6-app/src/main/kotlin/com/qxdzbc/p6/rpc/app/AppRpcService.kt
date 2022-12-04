@@ -40,6 +40,7 @@ import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.nio.file.Path
 import javax.inject.Inject
 @P6Singleton
@@ -136,10 +137,10 @@ class AppRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
-                async(actionDispatcherDefault) {
-                    val r = rpcActions.saveWorkbook(request.wbKey.toModel(), Path.of(request.path))
+                withContext(actionDispatcherDefault) {
+                    val r = rpcActions.saveWorkbookForRpc(request.wbKey.toModel(), Path.of(request.path))
                     r
-                }.await()
+                }
             }
             responseObserver.onNextAndComplete(rt.toProto())
         }

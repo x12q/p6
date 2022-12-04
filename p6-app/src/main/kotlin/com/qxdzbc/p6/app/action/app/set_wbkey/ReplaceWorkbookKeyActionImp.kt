@@ -25,15 +25,15 @@ class ReplaceWorkbookKeyActionImp @Inject constructor(
     override fun replaceWbKey(req: SetWbKeyRequest) : Rse<Unit> {
         val oldKey = req.wbKey
         val newKey = req.newWbKey
-        val z = stateCont.getWbRs(oldKey).flatMap { oldWb->
-            val q = stateCont.wbStateCont.replaceKeyRs(oldKey,newKey)
-            q.onSuccess {
+        val rs = stateCont.getWbRs(oldKey).flatMap { oldWb->
+            val qRs = stateCont.wbStateCont.replaceKeyRs(oldKey,newKey)
+            qRs.onSuccess {
                 stateCont.wbStateCont = it
             }
-            q
+            qRs
         }
-        z.publishErrIfNeedSt(errorRouter,)
-        return z.map { Unit }
+        rs.publishErrIfNeedSt(errorRouter,)
+        return rs.map { Unit }
 
     }
 }

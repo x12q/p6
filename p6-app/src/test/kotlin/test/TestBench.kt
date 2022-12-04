@@ -17,7 +17,6 @@ class TestBench {
 
     @Test
     fun t() {
-        println(FilenameUtils.getExtension("abc.csv"))
     }
 }
 
