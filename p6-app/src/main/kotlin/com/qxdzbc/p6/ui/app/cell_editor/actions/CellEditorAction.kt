@@ -1,13 +1,15 @@
 package com.qxdzbc.p6.ui.app.cell_editor.actions
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.handle_keyboard_event.HandleKeyboardEventOnCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 
 interface CellEditorAction : MakeCellEditorTextAction, OpenCellEditorAction, CycleFormulaLockStateAction,
-    HandleKeyboardEventOnCellEditorAction {
+    HandleKeyboardEventOnCellEditorAction, CloseCellEditorAction, RunFormulaOrSaveValueToCellAction {
 
     /**
      * Focus on the cell editor
@@ -15,16 +17,6 @@ interface CellEditorAction : MakeCellEditorTextAction, OpenCellEditorAction, Cyc
     fun focusOnCellEditor()
     fun freeFocusOnCellEditor()
     fun setCellEditorFocus(i:Boolean)
-
-    /**
-     * run the current formula inside the cell editor if there's a formula. Otherwise, parse and save the current value in the editor into the target cell
-     */
-    fun runFormulaOrSaveValueToCell()
-
-    /**
-     * close the cell editor
-     */
-    fun closeEditor()
 
     /**
      * **For testing only.**

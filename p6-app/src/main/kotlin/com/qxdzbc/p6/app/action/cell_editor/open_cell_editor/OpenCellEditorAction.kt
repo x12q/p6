@@ -12,4 +12,9 @@ interface OpenCellEditorAction {
      */
     fun openCellEditor(wbws: WbWs)
     fun openCellEditor(wbwsSt:WbWsSt)
+
+    /**
+     * Open cell editor at the current cursor of the current worksheet
+     */
+    fun openCellEditorOnActiveWs()
 }

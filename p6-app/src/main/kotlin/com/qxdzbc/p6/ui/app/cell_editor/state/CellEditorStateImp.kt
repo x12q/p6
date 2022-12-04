@@ -111,17 +111,17 @@ data class CellEditorStateImp constructor(
         return this.copy(rangeSelectorTextElementResult = i)
     }
 
-    override fun clearAll(): CellEditorState {
+    override fun clearAll(): CellEditorStateImp {
         return this.clearAllText()
             .setCurrentParseTree(null)
             .setRangeSelectorParseTree(null)
     }
-    override fun stopGettingRangeAddress(): CellEditorState {
+    override fun stopGettingRangeAddress(): CellEditorStateImp {
         val rt = this.moveTextFromRangeSelectorTextToCurrentText()
         return rt
     }
 
-    private fun moveTextFromRangeSelectorTextToCurrentText(): CellEditorState {
+    private fun moveTextFromRangeSelectorTextToCurrentText(): CellEditorStateImp {
         if (rangeSelectorTextField != null) {
             return this.setCurrentText(rangeSelectorTextField.text).setRangeSelectorTextField(null)
         } else {
@@ -144,14 +144,14 @@ data class CellEditorStateImp constructor(
     override val rangeSelectorCursorId: CursorStateId?
         get() = rangeSelectorCursorIdSt?.value
 
-    override fun setRangeSelectorCursorId(i: St<CursorStateId>?): CellEditorState {
+    override fun setRangeSelectorCursorId(i: St<CursorStateId>?): CellEditorStateImp {
         return this.copy(rangeSelectorCursorIdSt = i)
     }
 
     override val targetCursorId: CursorStateId?
         get() = targetCursorIdSt?.value
 
-    override fun setTargetCell(newCellAddress: CellAddress?): CellEditorState {
+    override fun setTargetCell(newCellAddress: CellAddress?): CellEditorStateImp {
         return this.copy(targetCell = newCellAddress)
     }
 
@@ -233,7 +233,7 @@ data class CellEditorStateImp constructor(
         return rt
     }
 
-    override fun setDisplayTextField(newTextField: TextFieldValue): CellEditorState {
+    override fun setDisplayTextField(newTextField: TextFieldValue): CellEditorStateImp {
         if (this.isOpen && allowRangeSelector) {
             return this.setRangeSelectorTextField(newTextField)
         } else {
@@ -248,7 +248,7 @@ data class CellEditorStateImp constructor(
     /**
      * Open this cell editor at the cursor whose id is [cursorIdMs]
      */
-    override fun open(cursorIdMs: St<CursorStateId>): CellEditorState {
+    override fun open(cursorIdMs: St<CursorStateId>): CellEditorStateImp {
         isOpenMs.value = true
         val rsaState = if (this.currentText.isNotEmpty()) {
             RangeSelectorAllowState.DISALLOW
@@ -270,7 +270,7 @@ data class CellEditorStateImp constructor(
         return rt
     }
 
-    override fun close(): CellEditorState {
+    override fun close(): CellEditorStateImp {
         isOpenMs.value = false
         return this.copy(
             targetCursorIdSt = null,
@@ -278,6 +278,6 @@ data class CellEditorStateImp constructor(
             rangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
         )
             .stopGettingRangeAddress()
-            .setRangeSelectorTextField(null)
+            .clearAll()
     }
 }

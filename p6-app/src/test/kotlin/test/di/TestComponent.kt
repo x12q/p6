@@ -2,7 +2,6 @@ package test.di
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
@@ -14,10 +13,12 @@ import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
+import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorActionImp
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorActionImp
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellActionImp
 import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.DragThumbAction
 import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
@@ -29,7 +30,7 @@ import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
 import com.qxdzbc.p6.app.common.formatter.RangeAddressFormatter
 import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
@@ -42,7 +43,7 @@ import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementTranslator
-import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
+import com.qxdzbc.p6.ui.app.cell_editor.actions.*
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
@@ -189,7 +190,7 @@ interface TestComponent : P6Component {
     fun translatorFactory(): JvmFormulaTranslatorFactory
     fun visitorFactory2(): JvmFormulaVisitorFactory
 
-    fun clickOnCellAction(): ClickOnCell
+    fun clickOnCellAction(): ClickOnCellAction
     fun mouseOnWsAction(): MouseOnWorksheetAction
     fun stateContMs(): MutableState<StateContainer>
     fun workbookFactory(): WorkbookFactory
@@ -226,6 +227,8 @@ interface TestComponent : P6Component {
     fun rangeFormatter(): RangeAddressFormatter
     fun deleteMultiCellAction(): DeleteMultiCellAction
     fun fileMenuActionImp(): FileMenuActionImp
+    fun closeCellEditorAction(): CloseCellEditorActionImp
+    fun runFormulaOrSaveValueToCellAction(): RunFormulaOrSaveValueToCellActionImp
 //    fun exUnitErrors(): ExUnitErrors
 
     @Component.Builder

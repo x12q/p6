@@ -7,29 +7,24 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
 import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
-import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
-import com.qxdzbc.p6.app.common.utils.TextUtils
-import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
-import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -46,8 +41,12 @@ class CellEditorActionImp @Inject constructor(
     val cycleLockStateAct: CycleFormulaLockStateAction,
     @PartialTreeExtractor
     val treeExtractor: TreeExtractor,
-    val colorFormulaAction: ColorFormulaInCellEditorAction
+    val colorFormulaAction: ColorFormulaInCellEditorAction,
+    val closeCellEditorAction: CloseCellEditorAction,
+    val runFormulaOrSaveValueToCellAction: RunFormulaOrSaveValueToCellAction,
 ) : CellEditorAction,
+    RunFormulaOrSaveValueToCellAction by runFormulaOrSaveValueToCellAction,
+    CloseCellEditorAction by closeCellEditorAction,
     CycleFormulaLockStateAction by cycleLockStateAct,
     MakeCellEditorTextAction by makeDisplayText,
     OpenCellEditorAction by openCellEditor {
@@ -81,78 +80,6 @@ class CellEditorActionImp @Inject constructor(
         if (fcsMs != null) {
             fcsMs.value = fcsMs.value.setCellEditorFocus(i)
         }
-    }
-
-    override fun runFormulaOrSaveValueToCell() {
-        val wsStateMs: Ms<WorksheetState>? = editorState.targetCursorId?.let { stateCont.getWsStateMs(it) }
-        val ws = wsStateMs?.value?.worksheet
-        val wbKey = editorState.targetWbKey
-        val wsName = editorState.targetWsName
-        val editTarget = editorState.targetCell
-        if (ws != null && wbKey != null && wsName != null && editTarget != null) {
-            // x: execute the formula in the editor
-            val cell = ws.getCell(editTarget)
-            // TODO re-check this
-            val editorText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
-
-            val reverseRequest = if (cell?.fullFormulaFromExUnit != null) {
-                CellUpdateRequestDM(
-                    cellId = CellIdDM(
-                        wbKey = wbKey,
-                        wsName = wsName,
-                        address = editTarget,
-                    ),
-                    cellContent = CellContentDM.fromFormula(cell.fullFormulaFromExUnit)
-                )
-            } else {
-                CellUpdateRequestDM(
-                    cellId = CellIdDM(
-                        wbKey = wbKey,
-                        wsName = wsName,
-                        address = editTarget,
-                    ),
-                    cellContent = CellContentDM.fromAny(cell?.currentValue)
-                )
-            }
-            var value: String? = null
-            var formula: String? = null
-            if (TextUtils.isFormula(editorText)) {
-                formula = editorText
-            } else {
-                value = editorText
-            }
-            val request = CellUpdateRequestDM(
-                cellId = CellIdDM(
-                    wbKey = wbKey,
-                    wsName = wsName,
-                    address = editTarget,
-                ),
-                cellContent = CellContentDM(
-                    cellValue = CellValue.fromAny(cellLiteralParser.parse(value)),
-                    formula = formula,
-                    originalText= formula?:value,
-                )
-            )
-
-            val command = Commands.makeCommand(
-                run = { updateCellAction.updateCellDM(request) },
-                undo = { updateCellAction.updateCellDM(reverseRequest) }
-            )
-            stateCont.getWbState(wbKey)?.also {
-                val cMs = it.commandStackMs
-                cMs.value = cMs.value.add(command)
-            }
-            command.run()
-            closeEditor()
-        }
-    }
-
-    override fun closeEditor() {
-        val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
-        if (fcsMs != null) {
-            fcsMs.value = fcsMs.value.focusOnCursor()
-        }
-        editorStateMs.value = editorState.clearAll().close()
     }
 
     /**

@@ -17,7 +17,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -25,17 +25,19 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class OpenCellEditorImp @Inject constructor(
-    val stateContMs: St<@JvmSuppressWildcards SubAppStateContainer>,
+    val stateContMs: St<@JvmSuppressWildcards StateContainer>,
     val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
     private val appStateMs: Ms<AppState>,
     val errorRouter: ErrorRouter,
 ) : OpenCellEditorAction {
+
     val appState by appStateMs
     val docCont by docContSt
-    val stateCont by stateContMs
+    val sc by stateContMs
+
     override fun openCellEditor(wbws: WbWs) {
         val ws = docCont.getWs(wbws)
-        val cursorStateMs = stateCont.getCursorStateMs(wbws)
+        val cursorStateMs = sc.getCursorStateMs(wbws)
         if (ws != null && cursorStateMs != null) {
             openCellEditor(ws, cursorStateMs)
         }
@@ -43,9 +45,16 @@ class OpenCellEditorImp @Inject constructor(
 
     override fun openCellEditor(wbwsSt: WbWsSt) {
         val ws = docCont.getWs(wbwsSt)
-        val cursorStateMs = stateCont.getCursorStateMs(wbwsSt)
+        val cursorStateMs = sc.getCursorStateMs(wbwsSt)
         if (ws != null && cursorStateMs != null) {
             openCellEditor(ws, cursorStateMs)
+        }
+    }
+
+    override fun openCellEditorOnActiveWs() {
+        val activeSheetState = sc.appState.activeWindowState?.activeWbState?.activeSheetState
+        activeSheetState?.also {
+            openCellEditor(it)
         }
     }
 
@@ -54,7 +63,7 @@ class OpenCellEditorImp @Inject constructor(
         var cellEditorState by appState.cellEditorStateMs
         if (!cellEditorState.isOpen) {
             val cursorMainCell: Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
-            val windowStateMs = stateCont.getWindowStateMsByWbKey(ws.wbKey)
+            val windowStateMs = sc.getWindowStateMsByWbKey(ws.wbKey)
             val windowId = windowStateMs?.value?.id
             val fcsMs = windowStateMs?.value?.focusStateMs
             cursorMainCell

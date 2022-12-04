@@ -10,9 +10,8 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
-import com.qxdzbc.p6.app.action.worksheet.check_range_selector_state.CheckRangeSelectorStateActionImp.Companion.rangeSelectorActivationChars
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -41,6 +40,45 @@ import kotlin.test.*
 class CursorAndCellEditorTest : BaseTest() {
     val cellEditorAction get() = comp.cellEditorAction()
     val cursorAction get()=comp.cursorAction()
+
+    @Test
+    fun `bug-click on another cell while editing cell editor without range selector enabled`(){
+        val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
+        val clickOnCell = comp.clickOnCellAction()
+        val ws by sc.getWsMs(wbwsSt)!!
+
+        test("open editor on A1, input 123abc, then click on B3"){
+            preCondition {
+                cursorAction.moveCursorTo(ws,"A1")
+                ws.getCell("A1")?.currentValue shouldBe null
+            }
+
+            cellEditorAction.openCellEditor(wbwsSt)
+            cellEditorAction.changeText("123abc")
+            clickOnCell.clickOnCell(CellAddress("B3"),wbwsSt)
+
+            postCondition {
+                sc.cellEditorState.isOpen shouldBe false
+                ws.getCell("A1")?.currentValue shouldBe "123abc"
+            }
+        }
+
+        test("open editor on D2, input =1+2, then click on B3"){
+            preCondition {
+                ws.getCell("D2")?.currentValue shouldBe null
+                cursorAction.moveCursorTo(ws,"D2")
+            }
+            action{
+                cellEditorAction.openCellEditor(wbwsSt)
+                cellEditorAction.changeText("=1+2")
+                clickOnCell.clickOnCell(CellAddress("B3"),wbwsSt)
+            }
+            postCondition {
+                sc.cellEditorState.isOpen shouldBe false
+                ws.getCell("D2")?.currentValue shouldBe 3.0
+            }
+        }
+    }
 
     @Test
     fun `bug-range selector is wrongfully turned on by non-formula text`(){
@@ -388,7 +426,7 @@ class CursorAndCellEditorTest : BaseTest() {
         )
         assertEquals(RangeSelectorAllowState.ALLOW_MOUSE, cellEditorState.rangeSelectorAllowState)
         // x: click on a cell in the same sheet
-        val clickOnCellAction: ClickOnCell = ts.comp.clickOnCellAction()
+        val clickOnCellAction: ClickOnCellAction = ts.comp.clickOnCellAction()
         val c = CellAddress("M5")
         clickOnCellAction.clickOnCell(c, WbWs(wbk, wsn1))
         // x: post-condition
@@ -437,7 +475,7 @@ class CursorAndCellEditorTest : BaseTest() {
         test("input '+' into a cell editor after clicking on a cell"){
             cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
             val text="=D3+"
-            val clickOnCellAction: ClickOnCell = ts.comp.clickOnCellAction()
+            val clickOnCellAction: ClickOnCellAction = ts.comp.clickOnCellAction()
             cellEditorAction.changeText("=")
             clickOnCellAction.clickOnCell(CellAddress("D3"),wbws)
             cellEditorAction.changeText(text)
@@ -450,7 +488,7 @@ class CursorAndCellEditorTest : BaseTest() {
         test("input 'a' into a cell editor after clicking on a cell"){
             cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
             val text="=D3a"
-            val clickOnCellAction: ClickOnCell = ts.comp.clickOnCellAction()
+            val clickOnCellAction: ClickOnCellAction = ts.comp.clickOnCellAction()
             cellEditorAction.changeText("=")
             clickOnCellAction.clickOnCell(CellAddress("D3"),wbws)
             cellEditorAction.changeText(text)
@@ -477,7 +515,7 @@ class CursorAndCellEditorTest : BaseTest() {
 
         val rangeSelectorMs = cellEditorState.rangeSelectorCursorId?.let { sc.getCursorStateMs(it) }
 
-        val clickOnCellAction: ClickOnCell = ts.comp.clickOnCellAction()
+        val clickOnCellAction: ClickOnCellAction = ts.comp.clickOnCellAction()
         test(" click on a cell in the same sheet") {
             preCondition {
                 rangeSelectorMs shouldNotBe null
@@ -756,7 +794,9 @@ class CursorAndCellEditorTest : BaseTest() {
             textDiffer = comp.textDiffer(),
             cycleLockStateAct = comp.cycleFormulaLockStateAct(),
             treeExtractor = comp.partialFormulaTreeExtractor(),
-            colorFormulaAction = comp.colorFormulaAction()
+            colorFormulaAction = comp.colorFormulaAction(),
+            closeCellEditorAction = comp.closeCellEditorAction(),
+            runFormulaOrSaveValueToCellAction = comp.runFormulaOrSaveValueToCellAction()
         )
 
         val keyEvent = MockP6KeyEvent.arrowDown

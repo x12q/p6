@@ -2,6 +2,7 @@ package test
 
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import test.splitter.TestSplitter
 import kotlin.test.BeforeTest
 
 abstract class BaseTest : TestSplitter() {
@@ -25,28 +26,3 @@ abstract class BaseTest : TestSplitter() {
     }
 }
 
-abstract class TestSplitter {
-    /**
-     * just to make long tests easier to read
-     */
-    fun test(description: String = "", f: () -> Unit) {
-        f()
-    }
-    fun action(description: String = "", f: () -> Unit) {
-        f()
-    }
-
-    /**
-     * just to make long tests easier to read
-     */
-    fun preCondition(description: String = "", f: () -> Unit) {
-        f()
-    }
-
-    /**
-     * just to make long tests easier to read
-     */
-    fun postCondition(description: String = "", f: () -> Unit) {
-        f()
-    }
-}

@@ -3,10 +3,10 @@ package com.qxdzbc.p6.app.action.worksheet.mouse_on_ws
 import androidx.compose.ui.geometry.Offset
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCell
+import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 
-interface MouseOnWorksheetAction: ClickOnCell {
+interface MouseOnWorksheetAction: ClickOnCellAction {
 
     fun ctrlClickSelectCell(cellAddress: CellAddress, cursorLoc: WbWs)
     fun ctrlClickSelectCell(cellAddress: CellAddress, cursorLoc: WbWsSt)

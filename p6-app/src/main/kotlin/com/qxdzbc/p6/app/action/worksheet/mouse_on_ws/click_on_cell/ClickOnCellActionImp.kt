@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 
@@ -13,22 +12,24 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
-class ClickOnCellImp @Inject constructor(
+class ClickOnCellActionImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
-) : ClickOnCell {
+    private val runFormulaAction: RunFormulaOrSaveValueToCellAction,
+) : ClickOnCellAction {
+
     private val stateCont by stateContSt
     private var appState by appStateMs
 
@@ -49,6 +50,7 @@ class ClickOnCellImp @Inject constructor(
                 editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
                 updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
             }else{
+                runFormulaAction.runFormulaOrSaveValueToCell()
                 editorStateMs.value=editorState.close()
             }
         }
