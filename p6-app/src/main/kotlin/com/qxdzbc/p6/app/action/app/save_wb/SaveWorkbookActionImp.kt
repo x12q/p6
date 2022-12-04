@@ -28,9 +28,7 @@ import kotlin.io.path.isRegularFile
 class SaveWorkbookActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val errorRouter: ErrorRouter,
-//    val rm: SaveWorkbookRM,
     val saver: P6Saver,
-//    val applier: SaveWorkbookApplier,
     private val replaceWbKeyAct: ReplaceWorkbookKeyAction,
 ) : SaveWorkbookAction {
 
@@ -90,13 +88,14 @@ class SaveWorkbookActionImp @Inject constructor(
             is Ok -> {
                 if (wbKey.path != savedPath) {
                     // x: wb was saved to a new path, need to update its path
-                    wbCont.getWbRs(wbKey)
+                    sc.getWbStateMsRs(wbKey)
                         .onFailure {
                             if (publishError) {
                                 errorRouter.publishToWindow(it, wbKey)
                             }
                         }
-                        .onSuccess { oldWb ->
+                        .onSuccess { wbStateMs ->
+                            val oldWb = wbStateMs.value.wb
                             val newWbKey: WorkbookKey = wbKey.setPath(savedPath).setName(savedPath.fileName.toString())
 
                             sc.getWindowStateByWbKey(wbKey)?.also { windowState ->
@@ -106,6 +105,7 @@ class SaveWorkbookActionImp @Inject constructor(
                             }
 
                             appState.codeEditorState = appState.codeEditorState.replaceWbKey(oldWb.key, newWbKey)
+                            wbStateMs.value = wbStateMs.value.setNeedSave(false)
                         }
                 } else {
                     // x: same path, no need to update wb path

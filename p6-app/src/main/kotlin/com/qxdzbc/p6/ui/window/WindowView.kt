@@ -74,7 +74,8 @@ fun WindowView(
                 },
                 onCancel = {
                     windowAction.closeSaveFileDialog(state.windowId)
-                }
+                },
+                makeSavePath = windowAction
             )
         }
 
@@ -89,7 +90,8 @@ fun WindowView(
                 },
                 onCancel = {
                     windowAction.closeLoadFileDialog(state.windowId)
-                }
+                },
+                makeSavePath = windowAction
             )
         }
 
@@ -104,7 +106,9 @@ fun WindowView(
                 },
                 onCancel = {
                     windowAction.closeCommonFileDialog(state.windowId)
-                })
+                },
+                makeSavePath = windowAction
+            )
         }
     }
 }

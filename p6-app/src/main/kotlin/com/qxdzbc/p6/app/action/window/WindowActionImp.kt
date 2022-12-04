@@ -11,6 +11,7 @@ import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest
+import com.qxdzbc.p6.app.action.app.process_save_path.MakeSavePath
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
@@ -39,7 +40,9 @@ class WindowActionImp @Inject constructor(
     private val loadWbAction: LoadWorkbookAction,
     private val setActiveWdAct: SetActiveWindowAction,
     private val closeWindowAct: CloseWindowAction,
+    private val makeSavePath: MakeSavePath,
 ) : WindowAction,
+    MakeSavePath by makeSavePath,
     CloseWindowAction by closeWindowAct,
     SetActiveWindowAction by setActiveWdAct,
     KernelAction by kernelAction,

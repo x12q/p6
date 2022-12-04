@@ -79,7 +79,7 @@ data class WorkbookStateContainerImp constructor(
 
     override fun replaceKeyRs(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): Rse<WorkbookStateContainer> {
         val rt = this.getWbStateMsRs(oldWbKey).map { wbStateMs ->
-            wbStateMs.value = wbStateMs.value.setWbKey(newWbKey).setNeedSave(true)
+            wbStateMs.value = wbStateMs.value.setWbKey(newWbKey)
             this.removeWbState(oldWbKey).addOrOverwriteWbState(wbStateMs)
         }
         return rt

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.window.file_dialog
 import java.io.File
 import javax.swing.filechooser.FileFilter
 
-class P6JFileFilters (val extension: String, private val desc:String) : FileFilter() {
+class P6JFileFilters (override val extension: String, private val desc:String) : FileFilter(),WithFileExtension {
     companion object {
         val csv = P6JFileFilters("csv","*.csv")
         val p6 = P6JFileFilters("p6","*.p6")
