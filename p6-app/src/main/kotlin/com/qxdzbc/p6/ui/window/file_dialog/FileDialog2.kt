@@ -8,8 +8,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.swing.Swing
 import org.apache.commons.io.FilenameUtils
+import java.nio.file.Files
 import java.nio.file.Path
 import javax.swing.JFileChooser
+import javax.swing.JOptionPane
 import javax.swing.filechooser.FileFilter
 
 fun FrameWindowScope.OpenFileDialog(
@@ -48,11 +50,20 @@ fun FrameWindowScope.OpenFileDialog(
                         FilenameUtils.getExtension(path.toString())
                     }
                     if (extensionRs.isSuccess) {
-                        if (extensionRs.getOrNull() == filter.extension) {
-                            onResult(path)
+                        val truePath = if (extensionRs.getOrNull() == filter.extension) {
+                            path
                         } else {
                             val newPath = Path.of(path.toString() + ".${filter.extension}")
-                            onResult(newPath)
+                            newPath
+                        }
+                        if(Files.exists(truePath)){
+                            val fileName=FilenameUtils.getName(truePath.toString())
+                            val i = JOptionPane.showConfirmDialog(null, "File ${fileName} already exists. Do you want to overwrite it?", "Overwrite file?", JOptionPane.YES_NO_OPTION)
+                            if (i == JOptionPane.YES_OPTION) {
+                                onResult(truePath)
+                            }
+                        }else{
+                            onResult(truePath)
                         }
                     }
                 }
