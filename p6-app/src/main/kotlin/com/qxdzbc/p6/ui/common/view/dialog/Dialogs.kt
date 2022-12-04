@@ -130,6 +130,13 @@ object Dialogs {
         }
     }
 
+    /**
+     * A dialog containing:
+     * - a text field showing a directory
+     * - a button to open a file chooser to update the directory text
+     * - an Ok button
+     * - a Cancel button
+     */
     @Composable
     fun DirectoryDialog(
         title: String = "",

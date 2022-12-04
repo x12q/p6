@@ -14,7 +14,7 @@ import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
-import com.qxdzbc.p6.ui.window.file_dialog.OpenFileDialog
+import com.qxdzbc.p6.ui.window.file_dialog.FileDialog2
 import com.qxdzbc.p6.ui.window.menu.WindowMenu
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.awt.event.WindowEvent
@@ -63,7 +63,7 @@ fun WindowView(
             }
         }
         if (state.saveDialogState.isOpen) {
-            OpenFileDialog(
+            FileDialog2(
                 "Save workbook", false,
                 launchScope = executionScope,
                 onResult = { path ->
@@ -80,7 +80,7 @@ fun WindowView(
         }
 
         if (state.loadDialogState.isOpen) {
-            OpenFileDialog("Open workbook", true,
+            FileDialog2("Open workbook", true,
                 launchScope = executionScope,
                 onResult = { path ->
                     launchOnMain {
@@ -96,7 +96,7 @@ fun WindowView(
         }
 
         if (state.openCommonFileDialog) {
-            OpenFileDialog("Select file",
+            FileDialog2("Select file",
                 isLoad = true,
                 launchScope = executionScope,
                 defaultFileFilter = null,
