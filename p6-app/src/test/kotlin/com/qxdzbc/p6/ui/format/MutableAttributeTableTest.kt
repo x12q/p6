@@ -43,7 +43,7 @@ class MutableAttributeTableTest {
         assertNull(table.getAttrPack(1, 1))
         table.add(1, 1, attr1)
         table.add(1, 2, attr1)
-        table.removeAttrFromOneCell(1, 1, attr1)
+        table.removeOneAttrFromOneCell(1, 1, attr1)
         // x: attr2 is in arg, but it does not get added because attr1 is there, and still valid
         table.add(1, 1, attr2)
 
@@ -94,8 +94,8 @@ class MutableAttributeTableTest {
                 .add(1, 3, attr3)
                 .add(1, 4, attr1)
                 .add(1, 5, attr2)
-                .removeAttrFromOneCell(1, 3, MockedAttr(123))
-                .removeAttrFromOneCell(1, 4, MockedAttr(123))
+                .removeOneAttrFromOneCell(1, 3, MockedAttr(123))
+                .removeOneAttrFromOneCell(1, 4, MockedAttr(123))
 
         assertNull(t1.getAttrPack(1, 4))
         assertSame(attr3, t1.getAttrPack(1, 3)?.allAttrs?.toList()?.get(0))
@@ -116,7 +116,7 @@ class MutableAttributeTableTest {
                 .add(1, 3, attr3)
                 .add(1, 4, attr1)
                 .add(1, 5, attr2)
-                .removeAllAttrAt(1, 3)
+                .removeAllAttrFromOneCell(1, 3)
         assertNull(t1.getAttrPack(1, 3))
         assertNotNull(t1.getAttrPack(1, 4))
         assertNotNull(t1.getAttrPack(1, 5))

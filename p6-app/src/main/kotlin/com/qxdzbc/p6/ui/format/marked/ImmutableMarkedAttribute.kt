@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.format.marked
 import com.qxdzbc.p6.ui.format.FormatAttribute
 
 /**
- * TODO not use for now
+ * TODO not use for now, can this even be used? Don't think so
  */
 data class ImmutableMarkedAttribute internal constructor(
     override val attr: FormatAttribute,
@@ -20,6 +20,10 @@ data class ImmutableMarkedAttribute internal constructor(
 
     override fun invalidate(): MarkedAttribute {
         return this.copy(isValid = false)
+    }
+
+    override fun validate(): MarkedAttribute {
+        return this.copy(isValid=true)
     }
 
     override fun changeCounterBy(v: Int): MarkedAttribute {

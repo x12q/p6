@@ -38,6 +38,7 @@ import test.test_implementation.MockP6KeyEvent
 import kotlin.test.*
 
 class CursorAndCellEditorTest : BaseTest() {
+
     val cellEditorAction get() = comp.cellEditorAction()
     val cursorAction get()=comp.cursorAction()
 

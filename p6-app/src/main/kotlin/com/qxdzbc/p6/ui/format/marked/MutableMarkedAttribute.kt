@@ -21,6 +21,11 @@ data class MutableMarkedAttribute internal constructor(
         return this
     }
 
+    override fun validate(): MarkedAttribute {
+        v = true
+        return this
+    }
+
     override fun changeCounterBy(v: Int): MarkedAttribute {
         counter = maxOf(0, refCounter + v)
         return this

@@ -1,13 +1,14 @@
 package com.qxdzbc.p6.ui.format
 
-import com.qxdzbc.p6.app.common.table.MutableTableCR
+import com.qxdzbc.p6.app.common.table.ImmutableTableCR
+import com.qxdzbc.p6.app.common.table.TableCR
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
 import com.qxdzbc.p6.ui.format.pack.AttributePack
 import com.qxdzbc.p6.ui.format.pack.ImmutableAttributePack
 
 /**
- * Why mutable table instead of immutable table?
  * AttributeTable is a 2d table of [AttributePack].
  * Each [AttributePack] is a list of [FormatAttribute].
  * To avoid duplicate [FormatAttribute], this table hold a set of [FormatAttribute],
@@ -15,38 +16,41 @@ import com.qxdzbc.p6.ui.format.pack.ImmutableAttributePack
  */
 class MutableAttributeTable(
     private val markedAttributeMap: MutableMap<FormatAttribute, MarkedAttribute> = mutableMapOf(),
-    override val table: MutableTableCR<Int, Int, AttributePack> = MutableTableCR(),
+    private var itable: TableCR<Int, Int, AttributePack> = ImmutableTableCR(),
 ) : AttributeTable {
-
+    override val table: TableCR<Int, Int, AttributePack> get() = itable
     override val markedAttributes: Set<MarkedAttribute> get() = markedAttributeMap.values.toSet()
 
+    /**
+     * This function works like this:
+     * -
+     */
     override fun add(col: Int, row: Int, attr: FormatAttribute): AttributeTable {
-
-        val markedAttr = MarkedAttributes.valid(attr)
-
         val inplaceAttr: MarkedAttribute? = markedAttributeMap[attr]
-        val ma2: MarkedAttribute =
-            if (inplaceAttr != null && inplaceAttr.isValid) {
-                // x: use the in-place attr instead of the new one if in-place attr exists.
+        val markedAttribute = if(inplaceAttr!=null){
+            if(inplaceAttr.isValid){
                 inplaceAttr
-            } else {
-                // x: remove invalid attributes that are identical the new attr.
-                // x: If I don't do it, the invalid will persist
-                // x: inconsistency between the attribute sets, and the attribute in the table
-                markedAttributeMap.remove(attr)
-                markedAttr
+            }else{
+                MarkedAttributes.valid(attr)
             }
+        }else{
+            MarkedAttributes.valid(attr)
+        }
 
-        // x: add the new marked attr to the internal map
-        markedAttributeMap[attr] = ma2.upCounter()
+        // x: add the new marked attr to the internal map + up its counter by 1
+        markedAttributeMap[attr] = markedAttribute.upCounter()
 
         //x: add the marked attr to the table
         val targetPack: AttributePack = table.getElement(col, row) ?: ImmutableAttributePack()
         val newPack: AttributePack = targetPack
             .removeInvalidAttribute()
-            .add(ma2)
-        table.set(col, row, newPack)
+            .add(markedAttribute)
+        itable = table.set(col, row, newPack)
         return this
+    }
+
+    override fun add(cellAddress: CellAddress, attr: FormatAttribute): AttributeTable {
+        return this.add(cellAddress.colIndex, cellAddress.rowIndex, attr)
     }
 
     /**
@@ -60,22 +64,22 @@ class MutableAttributeTable(
         return this
     }
 
-    override fun removeAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): AttributeTable {
+    override fun removeOneAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): AttributeTable {
         val targetPack: AttributePack? = table.getElement(col, row)
         if (targetPack != null) {
             val newPack: AttributePack = targetPack.remove(MarkedAttributes.wrap(attr))
-            table.set(col, row, newPack)
+            itable = table.set(col, row, newPack)
         }
         markedAttributeMap[attr]?.downCounter()
         return this
     }
 
-    override fun removeAllAttrAt(col: Int, row: Int): AttributeTable {
+    override fun removeAllAttrFromOneCell(col: Int, row: Int): AttributeTable {
         val targetPack: AttributePack? = table.getElement(col, row)
         targetPack?.allAttrs?.forEach {
             markedAttributeMap[it]?.downCounter()
         }
-        table.remove(col, row)
+        itable = table.remove(col, row)
         return this
     }
 
@@ -91,10 +95,10 @@ class MutableAttributeTable(
         if (targetPack != null) {
             val cleanedPack = targetPack.removeInvalidAttribute()
             if (cleanedPack.isEmpty()) {
-                table.remove(col, row)
+                itable = table.remove(col, row)
                 return null
             } else {
-                table.set(col, row, cleanedPack)
+                itable = table.set(col, row, cleanedPack)
                 return cleanedPack
             }
         } else {
