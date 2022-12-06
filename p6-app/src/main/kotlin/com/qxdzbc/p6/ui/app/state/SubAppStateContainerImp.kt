@@ -25,6 +25,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -40,6 +41,7 @@ data class SubAppStateContainerImp @Inject constructor(
     private val windowStateFactory: WindowStateFactory,
     private val oWindowStateFactory: OuterWindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
+    override val cellFormatTableMs: Ms<CellFormatTable>,
 ) : AbsSubAppStateContainer() {
 
     override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs

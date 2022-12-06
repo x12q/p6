@@ -19,6 +19,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -27,6 +28,8 @@ import com.qxdzbc.p6.ui.window.state.WindowState
  * An abstraction layer providing functions for looking up view states that is enclosed inside [AppState]
  */
 interface SubAppStateContainer {
+    val cellFormatTableMs: Ms<CellFormatTable>
+
     val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
     var windowStateMap: Map<String, Ms<OuterWindowState>>
 

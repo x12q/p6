@@ -41,6 +41,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
@@ -48,7 +49,7 @@ import javax.inject.Inject
 class StateContainerImp @Inject constructor(
     override val appStateMs: Ms<AppState>,
     val docContMs:Ms<DocumentContainer>,
-    val subAppStateContMs: Ms<SubAppStateContainer>
+    val subAppStateContMs: Ms<SubAppStateContainer>,
 ) : StateContainer, AbsSubAppStateContainer() {
 
     private var subAppStateCont by subAppStateContMs
@@ -136,6 +137,9 @@ class StateContainerImp @Inject constructor(
     override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, ErrorReport> {
         return subAppStateCont.getFocusStateMsByWbKeyRs(wbKey)
     }
+
+    override val cellFormatTableMs: Ms<CellFormatTable>
+        get() = subAppStateCont.cellFormatTableMs
 
     override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
 

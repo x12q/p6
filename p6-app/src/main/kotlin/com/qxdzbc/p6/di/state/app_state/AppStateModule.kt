@@ -29,6 +29,8 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainerImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
+import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.ImmutableCellFormatTable
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainerImp3
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
@@ -60,29 +62,18 @@ interface AppStateModule {
     @P6Singleton
     fun StateContainerSt(i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
 
-//    @Binds
-//    fun TranslatorContainer(i:TranslatorContainerImp):TranslatorContainer
-//
-//    @Binds
-//    fun DocumentContainer(i:DocumentContainerImp):DocumentContainer
-//
-//    @Binds
-//    fun StateContainer(i: SubAppStateContainerImp):SubAppStateContainer
-//
-//    @Binds
-//    @P6Singleton
-//    @MsKernelContextQualifier
-//    fun ReactiveKernel(i:MsKernelContext):KernelContext
-//
-//    @Binds
-//    @P6Singleton
-//    fun CodeEditorAction(i: CodeEditorActionImp): CodeEditorAction
-
-//    @Binds
-//    @P6Singleton
-//    fun ScriptTreeAction(i: ScriptTreeActionImp): ScriptTreeAction
+    @Binds
+    @P6Singleton
+    fun CellFormatTableSt(i:Ms<CellFormatTable>):St<CellFormatTable>
 
     companion object {
+
+        @Provides
+        @P6Singleton
+        fun CellFormatTableMs(i:ImmutableCellFormatTable):Ms<CellFormatTable>{
+            return ms(i)
+        }
+
         @Provides
         @P6Singleton
         fun StateContainerMs(i:StateContainerImp):Ms<StateContainer>{

@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.format.pack
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.format.MockedAttr
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
+import io.kotest.matchers.shouldBe
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -14,21 +15,21 @@ class MutableAttributePackTest {
         val count = 10
 
         val mset = (0 until count).map { MockedAttr(it) }.map {
-            ms(MarkedAttributes.valid(it))
+            ms(MarkedAttributes.valid(it).upCounter())
         }.toMutableSet()
 
         val pack = MutableAttributePack(mset)
 
-        assertEquals(mset.size, pack.allAttrs.size)
-        assertEquals(mset.size, pack.allMarkedAttrs.size)
-        assertEquals(mset.size, pack.size)
+        pack.allAttrs.size shouldBe mset.size
+        pack.allMarkedAttrs.size shouldBe mset.size
+        pack.size shouldBe mset.size
     }
 
     @Test
     fun remove() {
         val count = 10
         val mset = (0 until count).map { MockedAttr(it) }.map {
-            ms(MarkedAttributes.valid(it))
+            ms(MarkedAttributes.valid(it).upCounter())
         }.toMutableSet()
         val pack = MutableAttributePack(mset)
         pack.remove(MarkedAttributes.valid(MockedAttr(3)))
@@ -58,15 +59,15 @@ class MutableAttributePackTest {
     @Test
     fun cleanInvalidAttribute() {
         val count = 10
-        val mset = (0 until count).map { MockedAttr(it) }.map {
-            ms(MarkedAttributes.valid(it))
+        val mset = List(count) { MockedAttr(it) }.map {
+            ms(MarkedAttributes.valid(it).upCounter())
         }.toMutableSet()
         val invalidSet = (30 until 35).map { MockedAttr(it)}.map {
             ms(MarkedAttributes.invalid(it))
         }.toMutableSet()
         val pack = MutableAttributePack((mset+invalidSet).toMutableSet())
         pack.removeInvalidAttribute()
-        assertEquals(mset.size,pack.size)
-        assertEquals(mset,pack.allMarkedAttrs)
+        pack.size shouldBe mset.size
+        pack.allMarkedAttrs shouldBe mset.map{it.value}
     }
 }

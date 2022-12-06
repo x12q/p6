@@ -14,10 +14,11 @@ import com.qxdzbc.p6.ui.format.pack.ImmutableAttributePack
  * To avoid duplicate [FormatAttribute], this table hold a set of [FormatAttribute],
  * then reference of these are distributed to each [AttributePack]
  */
-class MutableAttributeTable(
+@Deprecated("dont use, kept just in case")
+class MutableCellFormatTable(
     private val markedAttributeMap: MutableMap<FormatAttribute, MarkedAttribute> = mutableMapOf(),
     private var itable: TableCR<Int, Int, AttributePack> = ImmutableTableCR(),
-) : AttributeTable {
+) : CellFormatTable {
     override val table: TableCR<Int, Int, AttributePack> get() = itable
     override val markedAttributes: Set<MarkedAttribute> get() = markedAttributeMap.values.toSet()
 
@@ -25,7 +26,7 @@ class MutableAttributeTable(
      * This function works like this:
      * -
      */
-    override fun add(col: Int, row: Int, attr: FormatAttribute): AttributeTable {
+    override fun add(col: Int, row: Int, attr: FormatAttribute): CellFormatTable {
         val inplaceAttr: MarkedAttribute? = markedAttributeMap[attr]
         val markedAttribute = if(inplaceAttr!=null){
             if(inplaceAttr.isValid){
@@ -49,37 +50,43 @@ class MutableAttributeTable(
         return this
     }
 
-    override fun add(cellAddress: CellAddress, attr: FormatAttribute): AttributeTable {
+    override fun add(cellAddress: CellAddress, attr: FormatAttribute): CellFormatTable {
         return this.add(cellAddress.colIndex, cellAddress.rowIndex, attr)
     }
 
-    /**
-     * This function only marks the target attributes as invalid,
-     * they will be deleted later by the getAttr method.
-     * Immediate mass deletion will be very costly.
-     */
-    override fun removeAttrFromAllCell(attr: FormatAttribute): AttributeTable {
-        markedAttributeMap[attr]?.invalidate()
-        markedAttributeMap.remove(attr)
-        return this
-    }
-
-    override fun removeOneAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): AttributeTable {
+    override fun removeOneAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): CellFormatTable {
         val targetPack: AttributePack? = table.getElement(col, row)
         if (targetPack != null) {
             val newPack: AttributePack = targetPack.remove(MarkedAttributes.wrap(attr))
             itable = table.set(col, row, newPack)
         }
-        markedAttributeMap[attr]?.downCounter()
+        markedAttributeMap[attr]?.downCounter()?.also {
+            markedAttributeMap[attr] = it
+        }
+        cleanUpMarkedAttrMap()
         return this
     }
 
-    override fun removeAllAttrFromOneCell(col: Int, row: Int): AttributeTable {
+    private fun cleanUpMarkedAttrMap(){
+        val newMap = markedAttributeMap.filter {
+           with(it.value){
+                isCounterNotZero || isNotValid
+            }
+        }
+        newMap.keys.forEach{
+            markedAttributeMap.remove(it)
+        }
+    }
+
+    override fun removeAllAttrFromOneCell(col: Int, row: Int): CellFormatTable {
         val targetPack: AttributePack? = table.getElement(col, row)
-        targetPack?.allAttrs?.forEach {
-            markedAttributeMap[it]?.downCounter()
+        targetPack?.allAttrs?.forEach {attr->
+            markedAttributeMap[attr]?.downCounter()?.also {
+                markedAttributeMap[attr] = it
+            }
         }
         itable = table.remove(col, row)
+        cleanUpMarkedAttrMap()
         return this
     }
 

@@ -11,7 +11,7 @@ import com.qxdzbc.p6.ui.format.pack.AttributePack
  * Actually, this attribute table is terrible.
  * Eg: changing font from 10 to 12. This involves removing font 10 attribute, then add attribute 12.
  */
-interface AttributeTable {
+interface CellFormatTable {
 
     /**
      * A table that map col-row coor to attribute packs
@@ -26,27 +26,23 @@ interface AttributeTable {
     /**
      * Add an attribute to a cell at [col]:[row] address
      */
-    fun add(col: Int, row: Int, attr: FormatAttribute): AttributeTable
+    fun add(col: Int, row: Int, attr: FormatAttribute): CellFormatTable
 
     /**
      * Add an attribute to a cell at a cell address
      */
-    fun add(cellAddress: CellAddress, attr: FormatAttribute): AttributeTable
+    fun add(cellAddress: CellAddress, attr: FormatAttribute): CellFormatTable
 
-    /**
-     * remove an attribute from ALL cells
-     */
-    fun removeAttrFromAllCell(attr: FormatAttribute): AttributeTable
 
     /**
      * remove a particular attribute from a cell at [col]:[row] address
      */
-    fun removeOneAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): AttributeTable
+    fun removeOneAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): CellFormatTable
 
     /**
      * Remove all attributes at [col]:[row] address
      */
-    fun removeAllAttrFromOneCell(col: Int, row: Int): AttributeTable
+    fun removeAllAttrFromOneCell(col: Int, row: Int): CellFormatTable
 
     /**
      * get the composite attribute at [col]:[row] address

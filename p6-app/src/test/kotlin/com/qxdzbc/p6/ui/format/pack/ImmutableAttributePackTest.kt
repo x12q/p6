@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.format.pack
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.format.MockedAttr
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
+import io.kotest.matchers.shouldBe
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -13,15 +14,15 @@ class ImmutableAttributePackTest {
     fun constructor() {
         val count = 10
 
-        val mset = (0 until count).map { MockedAttr(it) }.map {
-            ms(MarkedAttributes.valid(it))
+        val mset = List(count) { MockedAttr(it) }.map {
+            ms(MarkedAttributes.valid(it).upCounter())
         }.toMutableSet()
 
         val pack = ImmutableAttributePack(mset)
 
-        assertEquals(mset.size, pack.allAttrs.size)
-        assertEquals(mset.size, pack.allMarkedAttrs.size)
-        assertEquals(mset.size, pack.size)
+        pack.allAttrs.size shouldBe mset.size
+        pack.allMarkedAttrs.size shouldBe mset.size
+        pack.size shouldBe mset.size
     }
 
     @Test
@@ -59,14 +60,14 @@ class ImmutableAttributePackTest {
     fun cleanInvalidAttribute() {
         val count = 10
         val mset = (0 until count).map { MockedAttr(it) }.map {
-            ms(MarkedAttributes.valid(it))
+            ms(MarkedAttributes.valid(it).upCounter())
         }.toMutableSet()
         val invalidSet = (30 until 35).map { MockedAttr(it)}.map {
             ms(MarkedAttributes.invalid(it))
         }.toMutableSet()
         val pack = ImmutableAttributePack((mset+invalidSet).toMutableSet())
         val p2 = pack.removeInvalidAttribute()
-        assertEquals(mset.size,p2.size)
-        assertEquals(mset,p2.allMarkedAttrs)
+        p2.size shouldBe mset.size
+        p2.allMarkedAttrs shouldBe mset.map{it.value}
     }
 }

@@ -5,10 +5,14 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
 import com.qxdzbc.p6.ui.format.pack.AttributePack
 import com.qxdzbc.p6.ui.format.pack.ImmutableAttributePack
+import com.squareup.anvil.annotations.ContributesBinding
+import javax.inject.Inject
 
 /**
  * AttributeTable is a 2d table of [AttributePack].
@@ -16,10 +20,14 @@ import com.qxdzbc.p6.ui.format.pack.ImmutableAttributePack
  * To avoid duplicate [FormatAttribute], this table hold a set of [FormatAttribute],
  * then reference of these are distributed to each [AttributePack]
  */
-data class ImmutableAttributeTable(
-    private val markedAttributeMsMap: Map<FormatAttribute, Ms<MarkedAttribute>> = mapOf(),
-    override val table: TableCR<Int, Int, AttributePack> = ImmutableTableCR(),
-) : AttributeTable {
+@ContributesBinding(scope=P6AnvilScope::class)
+data class ImmutableCellFormatTable (
+    private val markedAttributeMsMap: Map<FormatAttribute, Ms<MarkedAttribute>>,
+    override val table: TableCR<Int, Int, AttributePack>,
+) : CellFormatTable {
+
+    @Inject
+    constructor():this(mapOf(), ImmutableTableCR())
 
     override val markedAttributes: Set<MarkedAttribute> get() = markedAttributeMsMap.values.map { it.value }.toSet()
 
@@ -27,7 +35,7 @@ data class ImmutableAttributeTable(
      * This function works like this:
      * -
      */
-    override fun add(col: Int, row: Int, attr: FormatAttribute): AttributeTable {
+    override fun add(col: Int, row: Int, attr: FormatAttribute): ImmutableCellFormatTable {
         val inplaceAttrMs: Ms<MarkedAttribute>? = markedAttributeMsMap[attr]
         val markedAttributeMs = if (inplaceAttrMs != null) {
             inplaceAttrMs.value = inplaceAttrMs.value.validate()
@@ -56,26 +64,11 @@ data class ImmutableAttributeTable(
         )
     }
 
-    override fun add(cellAddress: CellAddress, attr: FormatAttribute): AttributeTable {
+    override fun add(cellAddress: CellAddress, attr: FormatAttribute): ImmutableCellFormatTable {
         return this.add(cellAddress.colIndex, cellAddress.rowIndex, attr)
     }
 
-    /**
-     * TODO this does not clean up the table.
-     * If I loop over the table to clean up all the attr pack, then what is the point of marked attr?
-     * I need reactive programming here.
-     */
-    override fun removeAttrFromAllCell(attr: FormatAttribute): AttributeTable {
-        markedAttributeMsMap[attr]?.also {
-            it.value = it.value.invalidate()
-        }
-        val newMap = markedAttributeMsMap - attr
-        return this.copy(
-            markedAttributeMsMap = newMap
-        ).cleanUpMarkedAttrMap()
-    }
-
-    private fun cleanUpMarkedAttrMap():ImmutableAttributeTable{
+    private fun cleanUpMarkedAttrMap():ImmutableCellFormatTable{
         val newMap = markedAttributeMsMap.filter {
             val q = with(it.value.value){
                 isCounterNotZero || isNotValid
@@ -85,7 +78,7 @@ data class ImmutableAttributeTable(
         return this.copy(markedAttributeMsMap = newMap)
     }
 
-    override fun removeOneAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): ImmutableAttributeTable {
+    override fun removeOneAttrFromOneCell(col: Int, row: Int, attr: FormatAttribute): ImmutableCellFormatTable {
         val targetPack: AttributePack? = table.getElement(col, row)
         val rt =
             if (targetPack != null) {
@@ -105,7 +98,7 @@ data class ImmutableAttributeTable(
         return rt.cleanUpMarkedAttrMap()
     }
 
-    override fun removeAllAttrFromOneCell(col: Int, row: Int): AttributeTable {
+    override fun removeAllAttrFromOneCell(col: Int, row: Int): CellFormatTable {
         val targetPack: AttributePack? = table.getElement(col, row)
         targetPack?.allAttrs?.forEach {
             this.markedAttributeMsMap[it]?.also { mAttrMs->
