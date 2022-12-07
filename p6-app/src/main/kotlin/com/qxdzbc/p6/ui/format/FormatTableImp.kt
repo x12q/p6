@@ -39,11 +39,11 @@ data class FormatTableImp<T>(
     }
 
     override fun reduceCountIfPossible(v: T): FormatTable<T> {
-        return this.changeCountIfPossible(v,1)
+        return this.changeCountIfPossible(v,-1)
     }
 
     override fun increaseCountIfPossible(v: T): FormatTable<T> {
-        return this.changeCountIfPossible(v,-1)
+        return this.changeCountIfPossible(v,1)
     }
 
     override fun changeCountIfPossible(v: T, count: Int): FormatTable<T> {

@@ -3,14 +3,11 @@ package com.qxdzbc.p6.ui.format.action
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
-import com.qxdzbc.p6.ui.format.text_attr.FormatAttributeImp
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -23,10 +20,12 @@ class UpdateCellFormatActionImp @Inject constructor(
 
     private val sc by stateContainerSt
     private val cTable by cellFormatTableMs
-    private val fTable get()=cTable.floatValueFormatTable
+    private val fTable get() = cTable.floatValueFormatTable
 
 
     override fun setTextSize(cellId: CellId, textSize: Float) {
+        // x: check if the respective cell state object exists,
+        // x: if not, create a new one
         val cellStateMs = sc.getCellStateMs(cellId)
             ?: run {
                 sc.getWsStateMs(cellId)?.let { wsStateMs ->
@@ -36,32 +35,17 @@ class UpdateCellFormatActionImp @Inject constructor(
             }
         cellStateMs?.also {
             val cellState by it
-            // x: decrease old attr
             val oldTextSize = cellState.textFormat3.textSizeMs.value.attr.attrValue
-
-            // x: increase current or new attr
-            val newOrCurrentAttr = fTable.getMarkedAttr(textSize)?.apply {
-                this.value = this.value.upCounter()
-            } ?: run {
-                val newAttr = MarkedAttributes.wrap(FormatAttributeImp(textSize)).upCounter().toMs()
-
+            if (oldTextSize != textSize) {
+                val (t2, newAttrMs) = fTable.add(textSize)
+                cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(t2)
+                val cellFormatMs = cellState.textFormat3Ms
+                val newFormat = cellFormatMs.value.setTextSizeAttr(newAttrMs)
+                cellFormatMs.value = newFormat
+                // x: clean up old format attr
                 cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(
-                    fTable.addMarkedAttr(textSize, newAttr)
+                    fTable.reduceCountIfPossible(oldTextSize)
                 )
-                newAttr
-            }
-            val cellFormatMs = cellStateMs.value.textFormat3Ms
-            val newFormat = cellFormatMs.value.setTextSizeAttr(newOrCurrentAttr)
-            cellFormatMs.value = newFormat
-
-            // x: clean up old format attr
-            fTable.getMarkedAttr(oldTextSize)?.also { attrMs->
-                attrMs.value = attrMs.value.downCounter()
-                if(attrMs.value.isCounterZero){
-                    cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(
-                        fTable.removeMarkedAttr(oldTextSize)
-                    )
-                }
             }
         }
     }
