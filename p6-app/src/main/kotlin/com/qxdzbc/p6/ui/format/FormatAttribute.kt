@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 
 /**
  */
-interface FormatAttribute {
-    val modifier: Modifier
+interface FormatAttribute<T> {
+    val attrValue:T
 }
 

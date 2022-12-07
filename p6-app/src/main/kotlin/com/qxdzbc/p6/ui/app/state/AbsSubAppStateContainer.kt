@@ -18,11 +18,22 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
+import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.Workbook
+import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
+
+    override fun getCellStateMs(cellId: CellId): Ms<CellState>? {
+        return getCellStateMsRs(cellId).component1()
+    }
+
+    override fun getCellStateMs(wbwsSt: WbWsSt, cellAddress: CellAddress): Ms<CellState>? {
+        return getCellStateMsRs(wbwsSt,cellAddress).component1()
+    }
 
     override fun getCursorStateMs(wbwsSt: WbWsSt): Ms<CursorState>? {
         return this.getWsState(wbwsSt)?.cursorStateMs

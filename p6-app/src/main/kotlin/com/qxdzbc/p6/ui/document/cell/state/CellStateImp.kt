@@ -15,12 +15,14 @@ import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.format.cell_format.TextFormat3
 
 data class CellStateImp(
     override val address: CellAddress,
     override val cellMs: Ms<Cell>?,
     override val textFormatMs: Ms<TextFormat> = ms(TextFormat.default),
     override val cellFormatMs: Ms<CellFormat> = ms(CellFormat.default),
+    override val textFormat3Ms: Ms<TextFormat3> = ms(TextFormat3.defaultCellFormat),
 ) : CellState {
     init {
         if (cellMs != null) {
@@ -40,19 +42,9 @@ data class CellStateImp(
     }
 
     override var textFormat: TextFormat by textFormatMs
-    override fun setFontStyle(style: FontStyle): CellState {
-        textFormat = textFormat.copy(fontStyle = style)
-        return this
-    }
 
-    override fun setTextColor(hexColor: ULong): CellState {
-        return this.setTextColor(Color(hexColor))
-    }
-
-    override fun setTextColor(color: Color): CellState {
-        textFormat = textFormat.copy(color = color)
-        return this
-    }
+    override val textFormat3: TextFormat3
+        get() = textFormat3Ms.value
 
     override fun setVerticalAlignment(alignment: TextVerticalAlignment): CellState {
         textFormat = textFormat.copy(verticalAlignment = alignment)
@@ -66,8 +58,6 @@ data class CellStateImp(
 
     override val alignment: Alignment
         get() = textFormat.alignment
-    override val textColor: Color
-        get() = textFormat.color
     override val isTextCrossed: Boolean
         get() = textFormat.isCrossed
 
@@ -92,10 +82,8 @@ data class CellStateImp(
         return this
     }
 
-    override val fontStyle: FontStyle
-        get() = textFormat.fontStyle
     override val textStyle: TextStyle
-        get() = textFormat.toTextStyle()
+        get() = textFormat3Ms.value.toTextStyle()
 
     override var cellFormat: CellFormat by cellFormatMs
     override val backgroundColor: Color

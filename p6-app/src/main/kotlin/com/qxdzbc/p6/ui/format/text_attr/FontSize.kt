@@ -6,7 +6,8 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.format.FormatAttribute
 
 class FontSize(
-    private val fontSize: Int,
-) : FormatAttribute {
-    override val modifier: Modifier = Modifier.size(fontSize.dp)
+    val fontSize: Float,
+) : FormatAttribute<Float> {
+    override val attrValue: Float = fontSize
+
 }

@@ -3,15 +3,15 @@ package com.qxdzbc.p6.ui.format.marked
 import com.qxdzbc.p6.ui.format.FormatAttribute
 
 object MarkedAttributes {
-    fun valid(attr: FormatAttribute): MarkedAttribute {
-        return MutableMarkedAttribute(attr, true,0)
+    fun<T> valid(attr: FormatAttribute<T>): MarkedAttribute<T> {
+        return MutableMarkedAttribute(attr, 0)
     }
 
-    fun invalid(attr: FormatAttribute): MarkedAttribute {
-        return MutableMarkedAttribute(attr, false,0)
+    fun<T> invalid(attr: FormatAttribute<T>): MarkedAttribute<T> {
+        return MutableMarkedAttribute(attr, 0)
     }
 
-    fun wrap(attr: FormatAttribute): MarkedAttribute {
-        return MutableMarkedAttribute(attr, false,0)
+    fun<T> wrap(attr: FormatAttribute<T>): MarkedAttribute<T> {
+        return MutableMarkedAttribute(attr, 0)
     }
 }

@@ -21,7 +21,6 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrapError
-import com.qxdzbc.p6.ui.format.CellFormatTable
 import javax.inject.Inject
 
 data class AppStateImp @Inject constructor(

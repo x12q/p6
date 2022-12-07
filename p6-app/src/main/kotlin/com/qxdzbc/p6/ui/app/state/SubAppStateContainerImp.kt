@@ -13,9 +13,13 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
@@ -26,6 +30,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.FormatTable
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -34,14 +39,14 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
-@ContributesBinding(P6AnvilScope::class,boundType=SubAppStateContainer::class)
+@ContributesBinding(P6AnvilScope::class, boundType = SubAppStateContainer::class)
 data class SubAppStateContainerImp @Inject constructor(
     override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>,
     override val wbStateContMs: Ms<WorkbookStateContainer>,
     private val windowStateFactory: WindowStateFactory,
     private val oWindowStateFactory: OuterWindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
-    override val cellFormatTableMs: Ms<CellFormatTable>,
+    override val formatTableMs: Ms<CellFormatTable>,
 ) : AbsSubAppStateContainer() {
 
     override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
@@ -133,7 +138,7 @@ data class SubAppStateContainerImp @Inject constructor(
     }
 
     override fun getRulerStateMsRs(rulerSig: RulerSig): Rse<Ms<RulerState>> {
-        return this.getRulerStateMsRs(rulerSig,rulerSig.type)
+        return this.getRulerStateMsRs(rulerSig, rulerSig.type)
     }
 
     override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
@@ -145,7 +150,7 @@ data class SubAppStateContainerImp @Inject constructor(
     }
 
     override fun getRulerStateMs(rulerSig: RulerSig): Ms<RulerState>? {
-        return this.getRulerStateMs(rulerSig,rulerSig.type)
+        return this.getRulerStateMs(rulerSig, rulerSig.type)
     }
 
     override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
@@ -157,7 +162,7 @@ data class SubAppStateContainerImp @Inject constructor(
     }
 
     override fun getRulerState(rulerSig: RulerSig): RulerState? {
-        return this.getRulerState(rulerSig,rulerSig.type)
+        return this.getRulerState(rulerSig, rulerSig.type)
     }
 
     override fun getSliderMsRs(wbwsSt: WbWsSt): Rse<Ms<GridSlider>> {
@@ -197,6 +202,19 @@ data class SubAppStateContainerImp @Inject constructor(
 
     override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
         return windowStateMap[windowId]?.value?.innerWindowStateMs
+    }
+
+    override fun getCellStateMsRs(wbwsSt: WbWsSt, cellAddress: CellAddress): Rse<Ms<CellState>> {
+        val rt = getWsStateRs(wbwsSt).flatMap {
+            it.getCellStateMs(cellAddress)?.let { csMs ->
+                Ok(csMs)
+            } ?: WorksheetErrors.InvalidCell.report("can't get state for cell ${cellAddress} in ${wbwsSt}").toErr()
+        }
+        return rt
+    }
+
+    override fun getCellStateMsRs(cellId: CellId): Rse<Ms<CellState>> {
+        return getCellStateMsRs(cellId,cellId.address)
     }
 
     override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {

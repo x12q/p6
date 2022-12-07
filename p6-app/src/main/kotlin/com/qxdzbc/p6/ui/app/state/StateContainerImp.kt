@@ -36,12 +36,14 @@ import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.FormatTable
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject
@@ -138,8 +140,16 @@ class StateContainerImp @Inject constructor(
         return subAppStateCont.getFocusStateMsByWbKeyRs(wbKey)
     }
 
-    override val cellFormatTableMs: Ms<CellFormatTable>
-        get() = subAppStateCont.cellFormatTableMs
+    override fun getCellStateMsRs(wbwsSt: WbWsSt, cellAddress: CellAddress): Rse<Ms<CellState>> {
+        return subAppStateCont.getCellStateMsRs(wbwsSt, cellAddress)
+    }
+
+    override fun getCellStateMsRs(cellId: CellId): Rse<Ms<CellState>> {
+        return subAppStateCont.getCellStateMsRs(cellId)
+    }
+
+    override val formatTableMs: Ms<CellFormatTable>
+        get() = subAppStateCont.formatTableMs
 
     override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
 

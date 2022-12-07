@@ -8,8 +8,11 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
@@ -20,6 +23,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.FormatTable
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -28,7 +32,14 @@ import com.qxdzbc.p6.ui.window.state.WindowState
  * An abstraction layer providing functions for looking up view states that is enclosed inside [AppState]
  */
 interface SubAppStateContainer {
-    val cellFormatTableMs: Ms<CellFormatTable>
+
+    fun getCellStateMsRs(wbwsSt:WbWsSt,cellAddress: CellAddress):Rse<Ms<CellState>>
+    fun getCellStateMsRs(cellId:CellId):Rse<Ms<CellState>>
+
+    fun getCellStateMs(wbwsSt:WbWsSt,cellAddress: CellAddress):Ms<CellState>?
+    fun getCellStateMs(cellId:CellId):Ms<CellState>?
+
+    val formatTableMs: Ms<CellFormatTable>
 
     val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
     var windowStateMap: Map<String, Ms<OuterWindowState>>

@@ -81,6 +81,7 @@ interface WorksheetState :WbWsSt {
     fun removeCellState(vararg addresses: CellAddress): WorksheetState
     fun removeCellState(addresses: Collection<CellAddress>): WorksheetState
     fun addCellState(address: CellAddress, cellState: CellState): WorksheetState
+    fun addBlankCellState(address: CellAddress): WorksheetState
     fun removeAllCellState(): WorksheetState
 
     fun getCellStateMs(colIndex: Int, rowIndex: Int): Ms<CellState>?

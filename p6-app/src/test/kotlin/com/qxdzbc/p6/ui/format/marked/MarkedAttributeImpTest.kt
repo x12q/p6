@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.format.marked
 
-import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.ui.format.FormatAttribute
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -9,39 +8,35 @@ import kotlin.test.assertTrue
 
 
 class MarkedAttributeImpTest {
-    object MockAttr : FormatAttribute{
-        override val modifier: Modifier = Modifier
+    object MockAttr : FormatAttribute<Float>{
+        override val attrValue: Float
+            get() = 12f
     }
     @Test
     fun all() {
-        var marked:MarkedAttribute = MutableMarkedAttribute(MockAttr,true,1)
-        assertTrue(marked.isValid)
-        assertFalse(marked.isNotValid)
-        marked = marked.switch()
-        assertTrue(marked.isNotValid)
-        assertFalse(marked.isValid)
+        var marked:MarkedAttribute<Float> = MutableMarkedAttribute(MockAttr,1)
 
-        assertEquals(1,marked.refCounter)
+        assertEquals(1,marked.refCount)
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
         marked = marked.upCounter()
-        assertEquals(2,marked.refCounter)
+        assertEquals(2,marked.refCount)
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
         marked = marked.downCounter()
-        assertEquals(1,marked.refCounter)
+        assertEquals(1,marked.refCount)
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
         marked = marked.changeCounterBy(100)
-        assertEquals(101,marked.refCounter)
+        assertEquals(101,marked.refCount)
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
         marked = marked.changeCounterBy(-1000)
-        assertEquals(0,marked.refCounter)
+        assertEquals(0,marked.refCount)
         assertFalse(marked.isCounterNotZero)
         assertTrue(marked.isCounterZero)
     }

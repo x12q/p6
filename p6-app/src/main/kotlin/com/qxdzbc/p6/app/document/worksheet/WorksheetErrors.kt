@@ -19,6 +19,16 @@ object WorksheetErrors {
                 .setDescription("Cell address ${cellAddress.label} is invalid")
                 .toErrorReport()
         }
+
+        fun report(detail:String?): ErrorReport {
+            return header
+                .let {
+                    detail?.let {
+                        header.setDescription(it)
+                    }?: header
+                }
+                .toErrorReport()
+        }
     }
     fun InvalidCell(cellAddress: CellAddress): ErrorReport {
         return ErrorReport(

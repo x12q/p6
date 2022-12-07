@@ -12,6 +12,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.format.cell_format.TextFormat3
 
 /**
  * It does not hold data object (DCell), but only appearance format data
@@ -26,12 +27,8 @@ interface CellState {
     val textFormatMs:Ms<TextFormat>
     var textFormat: TextFormat
 
-    val fontStyle:FontStyle
-    fun setFontStyle(style:FontStyle):CellState
-
-    val textColor:Color
-    fun setTextColor(hexColor:ULong):CellState
-    fun setTextColor(color:Color):CellState
+    val textFormat3Ms:Ms<TextFormat3>
+    val textFormat3:TextFormat3
 
     val alignment:Alignment
     fun setVerticalAlignment(alignment: TextVerticalAlignment):CellState

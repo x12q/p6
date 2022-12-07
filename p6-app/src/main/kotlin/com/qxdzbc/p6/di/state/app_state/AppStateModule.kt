@@ -29,8 +29,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainerImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.format.ImmutableCellFormatTable
+import com.qxdzbc.p6.ui.format.*
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainerImp3
 import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
@@ -45,8 +44,6 @@ import dagger.Provides
 @dagger.Module
 interface AppStateModule {
 
-//    @Binds
-//    fun CellEditorState(i: CellEditorStateImp): CellEditorState
 
     @Binds
     @P6Singleton
@@ -66,11 +63,16 @@ interface AppStateModule {
     @P6Singleton
     fun CellFormatTableSt(i:Ms<CellFormatTable>):St<CellFormatTable>
 
+
     companion object {
+        @Provides
+        fun FloatFormatTable():FormatTable<Float>{
+            return FormatTableImp<Float>(emptyMap())
+        }
 
         @Provides
         @P6Singleton
-        fun CellFormatTableMs(i:ImmutableCellFormatTable):Ms<CellFormatTable>{
+        fun CellFormatTableMs(i:CellFormatTableImp):Ms<CellFormatTable>{
             return ms(i)
         }
 

@@ -12,6 +12,7 @@ import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
+import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
@@ -165,6 +166,11 @@ data class WorksheetStateImp @AssistedInject constructor(
     override fun addCellState(address: CellAddress, cellState: CellState): WorksheetState {
         cellStateContMs.value = cellStateCont.set(address, ms(cellState))
         return this
+    }
+
+    override fun addBlankCellState(address: CellAddress): WorksheetState {
+        val blankState = CellStates.blank(address)
+        return addCellState(address,blankState)
     }
 
     override fun removeAllCellState(): WorksheetState {
