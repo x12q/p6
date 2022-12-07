@@ -35,14 +35,14 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
         val v1 = 123f
         test("Set cell A1 text size to 123"){
             preCondition {
-                ffTable.getFloatMarkedAttr(v1).shouldBeNull()
+                ffTable.getMarkedAttr(v1).shouldBeNull()
             }
             action.setTextSize(
                 cellId = CellId(CellAddress("A1"),wbwsSt),
                 textSize=v1,
             )
             postCondition {
-                val attrMs=ffTable.getFloatMarkedAttr(v1)
+                val attrMs=ffTable.getMarkedAttr(v1)
                 attrMs.shouldNotBeNull()
                 attrMs.value.refCount shouldBe 1
             }
@@ -54,7 +54,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 textSize=v1
             )
             postCondition {
-                val attrMs=ffTable.getFloatMarkedAttr(v1)
+                val attrMs=ffTable.getMarkedAttr(v1)
                 attrMs.shouldNotBeNull()
                 attrMs.value.refCount shouldBe 2
             }
@@ -63,30 +63,30 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
         val v2 = 456f
         test("Set cell A1 text size to 456"){
             preCondition {
-                ffTable.getFloatMarkedAttr(v2).shouldBeNull()
+                ffTable.getMarkedAttr(v2).shouldBeNull()
             }
             action.setTextSize(
                 cellId = CellId(CellAddress("A1"),wbwsSt),
                 textSize=v2,
             )
             postCondition {
-                ffTable.getFloatMarkedAttr(v2)?.value?.refCount shouldBe 1
-                ffTable.getFloatMarkedAttr(v1)?.value?.refCount shouldBe 1
+                ffTable.getMarkedAttr(v2)?.value?.refCount shouldBe 1
+                ffTable.getMarkedAttr(v1)?.value?.refCount shouldBe 1
             }
         }
 
         val v3 = 333f
         test("set B1 text size to 333"){
             preCondition {
-                ffTable.getFloatMarkedAttr(v3).shouldBeNull()
+                ffTable.getMarkedAttr(v3).shouldBeNull()
             }
             action.setTextSize(
                 cellId = CellId(CellAddress("B1"),wbwsSt),
                 textSize=v3,
             )
             postCondition {
-                ffTable.getFloatMarkedAttr(v3)?.value?.refCount shouldBe 1
-                ffTable.getFloatMarkedAttr(v1).shouldBeNull()
+                ffTable.getMarkedAttr(v3)?.value?.refCount shouldBe 1
+                ffTable.getMarkedAttr(v1).shouldBeNull()
             }
         }
     }

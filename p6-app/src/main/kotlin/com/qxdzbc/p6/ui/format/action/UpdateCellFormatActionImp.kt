@@ -10,7 +10,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
-import com.qxdzbc.p6.ui.format.text_attr.FontSize
+import com.qxdzbc.p6.ui.format.text_attr.FormatAttributeImp
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -40,13 +40,13 @@ class UpdateCellFormatActionImp @Inject constructor(
             val oldTextSize = cellState.textFormat3.textSizeMs.value.attr.attrValue
 
             // x: increase current or new attr
-            val newOrCurrentAttr = fTable.getFloatMarkedAttr(textSize)?.apply {
+            val newOrCurrentAttr = fTable.getMarkedAttr(textSize)?.apply {
                 this.value = this.value.upCounter()
             } ?: run {
-                val newAttr = MarkedAttributes.wrap(FontSize(textSize)).upCounter().toMs()
+                val newAttr = MarkedAttributes.wrap(FormatAttributeImp(textSize)).upCounter().toMs()
 
                 cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(
-                    fTable.addFloatMarkedAttr(textSize, newAttr)
+                    fTable.addMarkedAttr(textSize, newAttr)
                 )
                 newAttr
             }
@@ -55,11 +55,11 @@ class UpdateCellFormatActionImp @Inject constructor(
             cellFormatMs.value = newFormat
 
             // x: clean up old format attr
-            fTable.getFloatMarkedAttr(oldTextSize)?.also { attrMs->
+            fTable.getMarkedAttr(oldTextSize)?.also { attrMs->
                 attrMs.value = attrMs.value.downCounter()
                 if(attrMs.value.isCounterZero){
                     cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(
-                        fTable.removeFloatMarkedAttr(oldTextSize)
+                        fTable.removeMarkedAttr(oldTextSize)
                     )
                 }
             }

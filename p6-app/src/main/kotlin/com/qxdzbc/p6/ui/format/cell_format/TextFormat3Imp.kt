@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
-import com.qxdzbc.p6.ui.format.text_attr.FontSize
 
 data class TextFormat3Imp(
     override val textSizeMs: Ms<MarkedAttribute<Float>>

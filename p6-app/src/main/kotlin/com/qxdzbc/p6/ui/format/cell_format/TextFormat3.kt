@@ -5,7 +5,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
-import com.qxdzbc.p6.ui.format.text_attr.FontSize
+import com.qxdzbc.p6.ui.format.text_attr.FormatAttributeImp
 
 interface TextFormat3 {
     val textSizeMs: Ms<MarkedAttribute<Float>>
@@ -14,7 +14,7 @@ interface TextFormat3 {
     companion object{
         val defaultCellFormat: TextFormat3 = TextFormat3Imp(
             textSizeMs = ms(
-                MarkedAttributes.wrap(FontSize(13f)).upCounter()
+                MarkedAttributes.wrap(FormatAttributeImp(13f)).upCounter()
             )
         )
     }
