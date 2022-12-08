@@ -17,10 +17,14 @@ interface TextFormat {
     fun setTextColor(i:Color): TextFormat
 
     fun toTextStyle():TextStyle
+
+    val verticalAlignment:TextVerticalAlignment
+    val horizontalAlignment:TextHorizontalAlignment
     fun setVerticalAlignment(i: TextVerticalAlignment): TextFormat
     fun setHorizontalAlignment(i: TextHorizontalAlignment): TextFormat
-    fun setTextCrossed(i: Boolean): TextFormat
-    fun setTextUnderlined(i: Boolean): TextFormat
+
+    fun setCrossed(i: Boolean): TextFormat
+    fun setUnderlined(i: Boolean): TextFormat
     fun setFontWeight(i: FontWeight): TextFormat
 
     companion object{

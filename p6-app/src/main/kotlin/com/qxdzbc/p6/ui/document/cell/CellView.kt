@@ -81,7 +81,7 @@ fun main() = P6TestApp {
                 CellStateImp(
                     address = address,
                     cellMs = IndCellImp.random(address).toMs(),
-                    textFormatMs = ms(
+                    textFormat =
                         TextFormatImp(
                             textColor = Color.Red,
                             verticalAlignment = TextVerticalAlignment.Center,
@@ -89,7 +89,7 @@ fun main() = P6TestApp {
                             isCrossed = true,
                             isUnderlined = true,
                             fontWeight = FontWeight.Bold
-                        )
+
                     ),
                     cellFormatMs = ms(
                         CellFormat(

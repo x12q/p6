@@ -11,8 +11,8 @@ import androidx.compose.ui.text.style.TextDecoration
 data class TextFormatImp(
     override val textSize: Float = 13f,
     val fontStyle: FontStyle = FontStyle.Normal,
-    val verticalAlignment: TextVerticalAlignment = TextVerticalAlignment.Center,
-    val horizontalAlignment: TextHorizontalAlignment = TextHorizontalAlignment.Start,
+    override val verticalAlignment: TextVerticalAlignment = TextVerticalAlignment.Center,
+    override val horizontalAlignment: TextHorizontalAlignment = TextHorizontalAlignment.Start,
     override val textColor: Color = Color.Black,
     override val isUnderlined:Boolean = false,
     override val isCrossed:Boolean = false,
@@ -59,11 +59,11 @@ data class TextFormatImp(
         return this.copy(horizontalAlignment=i)
     }
 
-    override fun setTextCrossed(i: Boolean): TextFormatImp {
+    override fun setCrossed(i: Boolean): TextFormatImp {
         return this.copy(isCrossed=i)
     }
 
-    override fun setTextUnderlined(i: Boolean): TextFormatImp {
+    override fun setUnderlined(i: Boolean): TextFormatImp {
         return this.copy(isUnderlined=i)
     }
 

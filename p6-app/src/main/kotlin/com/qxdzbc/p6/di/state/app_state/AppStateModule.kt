@@ -30,6 +30,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainerImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.*
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainerImp3
@@ -67,12 +68,22 @@ interface AppStateModule {
 
     companion object {
         @Provides
+        fun AlignmentFormatTable():FormatTable<TextHorizontalAlignment>{
+            return FormatTableImp()
+        }
+
+        @Provides
+        fun BoolFormatTable():FormatTable<Boolean>{
+            return FormatTableImp()
+        }
+
+        @Provides
         fun FloatFormatTable():FormatTable<Float>{
-            return FormatTableImp(emptyMap())
+            return FormatTableImp()
         }
         @Provides
         fun colorTable():FormatTable<Color>{
-            return FormatTableImp(emptyMap())
+            return FormatTableImp()
         }
 
         @Provides

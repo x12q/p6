@@ -19,7 +19,8 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 data class CellStateImp(
     override val address: CellAddress,
     override val cellMs: Ms<Cell>?,
-    override val textFormatMs: Ms<TextFormat?> = ms(null),
+    override var textFormat: TextFormat? = null,
+//    override val textFormatMs: Ms<TextFormat?> = ms(null),
     override val cellFormatMs: Ms<CellFormat?> = ms(null),
 ) : CellState {
     init {
@@ -39,11 +40,8 @@ data class CellStateImp(
         return this.copy(cellMs = null)
     }
 
-    override var textFormat: TextFormat? by textFormatMs
-
-    override fun setTextFormat(i: TextFormat?): CellState {
-        textFormatMs.value = i
-        return this
+    override fun setTextFormat(i: TextFormat?): CellStateImp {
+        return this.copy(textFormat=i)
     }
 
     override fun setVerticalAlignment(alignment: TextVerticalAlignment): CellState {
@@ -62,7 +60,7 @@ data class CellStateImp(
         get() = textFormat?.isCrossed
 
     override fun setTextCrossed(i: Boolean): CellState {
-        textFormat = textFormat?.setTextCrossed(i = i)
+        textFormat = textFormat?.setCrossed(i = i)
         return this
     }
 
@@ -70,7 +68,7 @@ data class CellStateImp(
         get() = textFormat?.isUnderlined
 
     override fun setTextUnderlined(i: Boolean): CellState {
-        textFormat = textFormat?.setTextUnderlined(i = i)
+        textFormat = textFormat?.setUnderlined(i = i)
         return this
     }
 

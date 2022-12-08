@@ -22,7 +22,6 @@ interface CellState {
     fun setCellMs(cellMs:Ms<Cell>):CellState
     fun removeDataCell():CellState
 
-    val textFormatMs:Ms<TextFormat?>
     var textFormat: TextFormat?
     fun setTextFormat(i: TextFormat?):CellState
 
