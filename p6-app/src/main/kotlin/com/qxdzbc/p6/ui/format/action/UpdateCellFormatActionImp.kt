@@ -8,6 +8,7 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.cell_format.TextFormat3
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -35,17 +36,19 @@ class UpdateCellFormatActionImp @Inject constructor(
             }
         cellStateMs?.also {
             val cellState by it
-            val oldTextSize = cellState.textFormat3.textSizeMs.value.attr.attrValue
+            val oldTextSize = cellState.textFormat3?.textSizeMs?.value?.attr?.attrValue
             if (oldTextSize != textSize) {
                 val (t2, newAttrMs) = fTable.add(textSize)
                 cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(t2)
                 val cellFormatMs = cellState.textFormat3Ms
-                val newFormat = cellFormatMs.value.setTextSizeAttr(newAttrMs)
+                val newFormat = (cellFormatMs.value ?: TextFormat3.defaultCellFormat).setTextSizeAttr(newAttrMs)
                 cellFormatMs.value = newFormat
                 // x: clean up old format attr
-                cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(
-                    fTable.reduceCountIfPossible(oldTextSize)
-                )
+                if(oldTextSize!=null){
+                    cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(
+                        fTable.reduceCountIfPossible(oldTextSize)
+                    )
+                }
             }
         }
     }

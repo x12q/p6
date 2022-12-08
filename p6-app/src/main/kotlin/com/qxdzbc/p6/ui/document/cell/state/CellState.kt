@@ -27,8 +27,9 @@ interface CellState {
     val textFormatMs:Ms<TextFormat>
     var textFormat: TextFormat
 
-    val textFormat3Ms:Ms<TextFormat3>
-    val textFormat3:TextFormat3
+    val textFormat3Ms:Ms<TextFormat3?>
+    val textFormat3:TextFormat3?
+    fun setTextFormat3(i:TextFormat3?):CellState
 
     val alignment:Alignment
     fun setVerticalAlignment(alignment: TextVerticalAlignment):CellState

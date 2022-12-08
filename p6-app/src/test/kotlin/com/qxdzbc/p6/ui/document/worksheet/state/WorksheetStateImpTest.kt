@@ -20,35 +20,39 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateImp
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
+import com.qxdzbc.p6.ui.format.cell_format.TextFormat3
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.mock
-import test.TestSample
+import test.BaseTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WorksheetStateImpTest {
-    lateinit var wsState: WorksheetStateImp
+class WorksheetStateImpTest :BaseTest(){
+    lateinit var wsStateForWb0Sheet1: WorksheetStateImp
     lateinit var wb0: Workbook
     lateinit var wb1: Workbook
     lateinit var worksheetIDMs: St<WorksheetId>
 
     @BeforeTest
-    fun b() {
-
+    override fun b() {
+        super.b()
         wb0 = WorkbookImp(
             WorkbookKey("Book0").toMs(),
         ).addMultiSheetOrOverwrite(
             listOf(
                 WorksheetImp("Sheet1".toMs(), mock()).let {
-                    val z = it
+                    val ws = it
                         .addOrOverwrite(
                             IndCellImp(
                                 CellAddress("A1"),
                                 CellContentImp(cellValueMs = "a1".toCellValue().toMs())
                             )
                         )
-                    z
+                    ws
                 },
             )
         )
@@ -91,10 +95,9 @@ class WorksheetStateImpTest {
 
         )
 
-        val testSample = TestSample()
-        val p6Comp = testSample.comp
-        val wsStateFactory = testSample.comp.worksheetStateFactory()
-        testSample.wbContMs.value = testSample.wbContMs.value.addOrOverWriteWb(wb0).addOrOverWriteWb(wb1)
+        val p6Comp = ts.comp
+        val wsStateFactory = ts.comp.worksheetStateFactory()
+        ts.wbContMs.value = ts.wbContMs.value.addOrOverWriteWb(wb0).addOrOverWriteWb(wb1)
         val wssIdMs: Ms<WorksheetId> = ms(
             WorksheetIdImp(
                 wsNameMs = "Sheet1".toMs(),
@@ -104,7 +107,7 @@ class WorksheetStateImpTest {
         val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
         val cursorIdMs:Ms<CursorStateId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
         val mainCellMs = ms(CellAddresses.A1)
-        wsState = wsStateFactory.createRefresh(
+        wsStateForWb0Sheet1 = wsStateFactory.createThenRefresh(
             wsMs = wb0.getWsMs(0)!!,
             sliderMs = p6Comp.gridSliderFactory().create().toMs(),
 
@@ -125,7 +128,53 @@ class WorksheetStateImpTest {
             cellLayoutCoorMapMs = cellLayoutCoorMapMs
 
         ) as WorksheetStateImp
-        worksheetIDMs = wsState.idMs
+        worksheetIDMs = wsStateForWb0Sheet1.idMs
+    }
+
+    @Test
+    fun refreshCellState(){
+        test("""
+            cell A1 point to valid cell, does not have format data
+            cell M10 points to no where, does not have format data
+            cell K12 points to no where but contains format data
+        """.trimIndent()){
+            val labelK12="K12"
+            val labelM10="M10"
+            val wsState2 = wsStateForWb0Sheet1
+                .addBlankCellState(CellAddress(labelM10))
+                .addBlankCellState(CellAddress(labelK12))
+
+            val cellStateMsK12=wsState2.getCellStateMs(labelK12)!!
+            cellStateMsK12.value = cellStateMsK12.value.setTextFormat3(
+                TextFormat3.defaultCellFormat
+            )
+
+            preCondition {
+                val cellState = wsState2.getCellState(labelM10)
+                cellState.shouldNotBeNull()
+                cellState.cell.shouldBeNull()
+                /*
+                what should I do when I refresh state, and there exist cell states
+                that do not point to any particular cell, delete them? If they contains format info, keep them, otherwise delete them
+                 */
+            }
+
+            val wsState3=wsState2.refreshCellState()
+
+            postCondition {
+                wsState3.cellStateCont.allElements.size shouldBe 2
+
+                wsState3.getCellState(labelM10).shouldBeNull()
+
+                val cellStateK12 = wsState3.getCellState(labelK12)
+                cellStateK12.shouldNotBeNull()
+                cellStateK12.cell.shouldBeNull()
+
+                val cellStateA1 = wsState3.getCellState("A1")
+                cellStateA1.shouldNotBeNull()
+                cellStateA1.cell.shouldNotBeNull()
+            }
+        }
     }
 
     @Test
@@ -138,9 +187,9 @@ class WorksheetStateImpTest {
 
     @Test
     fun `effect of chaning ws`() {
-        val newWsMs: Ms<Worksheet> = WorksheetImp(nameMs = ms("NewWorksheet"), wbKeySt = ms(TestSample.wbk1)).toMs()
+        val newWsMs: Ms<Worksheet> = WorksheetImp(nameMs = ms("NewWorksheet"), wbKeySt = ms(ts.wbKey1)).toMs()
 
-        val wsState2 = wsState.setWsMs(newWsMs)
+        val wsState2 = wsStateForWb0Sheet1.setWsMs(newWsMs)
 
         assertEquals(newWsMs, wsState2.wsMs)
         assertEquals(newWsMs.value.nameMs, wsState2.id.wsNameMs)
@@ -154,5 +203,4 @@ class WorksheetStateImpTest {
         assertEquals(newWsMs.value.wbKeySt.value, wsState2.colRulerState.wbKey)
 
     }
-
 }

@@ -69,11 +69,10 @@ class CursorAndCellEditorTest : BaseTest() {
                 ws.getCell("D2")?.currentValue shouldBe null
                 cursorAction.moveCursorTo(ws,"D2")
             }
-            action{
-                cellEditorAction.openCellEditor(wbwsSt)
-                cellEditorAction.changeText("=1+2")
-                clickOnCell.clickOnCell(CellAddress("B3"),wbwsSt)
-            }
+            cellEditorAction.openCellEditor(wbwsSt)
+            cellEditorAction.changeText("=1+2")
+            clickOnCell.clickOnCell(CellAddress("B3"),wbwsSt)
+
             postCondition {
                 sc.cellEditorState.isOpen shouldBe false
                 ws.getCell("D2")?.currentValue shouldBe 3.0

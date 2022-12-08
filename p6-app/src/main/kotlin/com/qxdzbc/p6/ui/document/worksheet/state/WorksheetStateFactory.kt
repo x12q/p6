@@ -52,7 +52,7 @@ interface WorksheetStateFactory {
         /**
          * Create a worksheet state and refresh it immediately
          */
-        fun WorksheetStateFactory.createRefresh(
+        fun WorksheetStateFactory.createThenRefresh(
             wsMs: Ms<Worksheet>,
             sliderMs: Ms<GridSlider>,
             cursorStateMs: Ms<CursorState>,
@@ -69,7 +69,7 @@ interface WorksheetStateFactory {
         /**
          * Create a worksheet state and refresh it immediately
          */
-        fun WorksheetStateFactory.createRefresh(
+        fun WorksheetStateFactory.createThenRefresh(
             wsMs: Ms<Worksheet>,
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
@@ -82,7 +82,7 @@ interface WorksheetStateFactory {
             )
             val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
             val mainCellMs:Ms<CellAddress> = ms(CellAddresses.A1)
-            val wsState:WorksheetState = createRefresh(
+            val wsState:WorksheetState = createThenRefresh(
                 wsMs = wsMs,
                 sliderMs = ms(gridSliderFactory.create()),
                 cursorStateMs = ms(

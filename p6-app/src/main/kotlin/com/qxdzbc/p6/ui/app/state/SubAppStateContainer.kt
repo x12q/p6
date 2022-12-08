@@ -37,7 +37,10 @@ interface SubAppStateContainer {
     fun getCellStateMsRs(cellId:CellId):Rse<Ms<CellState>>
 
     fun getCellStateMs(wbwsSt:WbWsSt,cellAddress: CellAddress):Ms<CellState>?
+    fun getCellState(wbwsSt:WbWsSt,cellAddress: CellAddress):CellState?
+
     fun getCellStateMs(cellId:CellId):Ms<CellState>?
+    fun getCellState(cellId:CellId):CellState?
 
     val formatTableMs: Ms<CellFormatTable>
 

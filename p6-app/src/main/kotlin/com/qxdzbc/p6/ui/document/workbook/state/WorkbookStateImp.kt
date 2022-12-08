@@ -41,7 +41,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createRefresh
+import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -297,7 +297,7 @@ data class WorkbookStateImp @AssistedInject constructor(
 
     private fun createDefaultWsState(worksheet: Ms<Worksheet>): Ms<WorksheetState> {
         val wsMs = worksheet
-        val wsState = wsStateFactory.createRefresh(
+        val wsState = wsStateFactory.createThenRefresh(
             wsMs = wsMs,
             gridSliderFactory = this.gridSliderFactory,
             cursorStateFactory = this.cursorStateFactory,

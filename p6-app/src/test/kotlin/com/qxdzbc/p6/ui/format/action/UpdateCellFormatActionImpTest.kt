@@ -45,6 +45,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 val attrMs=ffTable.getMarkedAttr(v1)
                 attrMs.shouldNotBeNull()
                 attrMs.value.refCount shouldBe 1
+                sc.getCellStateMs(wbwsSt, CellAddress("A1"))?.value?.textFormat3.shouldNotBeNull()
             }
         }
 
@@ -75,19 +76,19 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
             }
         }
 
-        val v3 = 333f
-        test("set B1 text size to 333"){
-            preCondition {
-                ffTable.getMarkedAttr(v3).shouldBeNull()
-            }
-            action.setTextSize(
-                cellId = CellId(CellAddress("B1"),wbwsSt),
-                textSize=v3,
-            )
-            postCondition {
-                ffTable.getMarkedAttr(v3)?.value?.refCount shouldBe 1
-                ffTable.getMarkedAttr(v1).shouldBeNull()
-            }
-        }
+//        val v3 = 333f
+//        test("set B1 text size to 333"){
+//            preCondition {
+//                ffTable.getMarkedAttr(v3).shouldBeNull()
+//            }
+//            action.setTextSize(
+//                cellId = CellId(CellAddress("B1"),wbwsSt),
+//                textSize=v3,
+//            )
+//            postCondition {
+//                ffTable.getMarkedAttr(v3)?.value?.refCount shouldBe 1
+//                ffTable.getMarkedAttr(v1).shouldBeNull()
+//            }
+//        }
     }
 }

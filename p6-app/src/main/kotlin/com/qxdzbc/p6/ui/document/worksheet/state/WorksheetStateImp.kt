@@ -92,29 +92,43 @@ data class WorksheetStateImp @AssistedInject constructor(
         return this
     }
 
+    /**
+     * Refresh all cell states so that the resulting cell states in this worksheet state are either:
+     *  - point to a valid cell
+     *  - contain format data
+     *  Cell states that don't point to a valid cell and containt no format data are removed.
+     */
     override fun refreshCellState(): WorksheetState {
         var newCellMsCont = CellStateContainers.immutable()
         val availableCells = this.worksheet.cellMsList
-        val checkedCells = availableCells.map { it.value.address }.toSet()
+        val availableCellAddresses = availableCells.map { it.value.address }.toSet()
+        /*
+        Update all cell state ms with the latest cell.
+        Update cell state container too.
+        Create missing cell state for new data cell.
+         */
         for (cellMs in availableCells) {
             val cellAddress = cellMs.value.address
-            val currentCellStateMs = this.getCellStateMs(cellAddress)
-            if (currentCellStateMs != null) {
-                currentCellStateMs.value = currentCellStateMs.value.setCellMs(cellMs)
-                newCellMsCont = newCellMsCont.set(cellAddress, currentCellStateMs)
+            val cellStateMs = this.getCellStateMs(cellAddress)
+            if (cellStateMs != null) {
+                cellStateMs.value = cellStateMs.value.setCellMs(cellMs)
+                newCellMsCont = newCellMsCont.set(cellAddress, cellStateMs)
             } else {
                 val newCellState: Ms<CellState> = ms(CellStateImp(cellAddress, cellMs))
                 newCellMsCont = newCellMsCont.set(cellAddress, newCellState)
             }
         }
 
-        val oldContainer = this.cellStateCont
-        // x: remove cellMs from cell state for empty cells
-        for (cellStateMs in oldContainer.allElements) {
-            val addr = cellStateMs.value.address
-            if (addr !in checkedCells) {
-                cellStateMs.value = cellStateMs.value.removeDataCell()
-                newCellMsCont = newCellMsCont.set(addr, cellStateMs)
+        val currentCellStateContainer = this.cellStateCont
+        // x: remove cell ms from cell state if the cell is not in the current cell list
+        for (cellStateMs in currentCellStateContainer.allElements) {
+            val cellState = cellStateMs.value
+            val addr = cellState.address
+            if (addr !in availableCellAddresses) {
+                if(cellState.textFormat3!=null){
+                    cellStateMs.value = cellState.removeDataCell()
+                    newCellMsCont = newCellMsCont.set(addr, cellStateMs)
+                }
             }
         }
 
@@ -173,6 +187,10 @@ data class WorksheetStateImp @AssistedInject constructor(
         return addCellState(address,blankState)
     }
 
+    override fun addBlankCellState(label: String): WorksheetState {
+        return addBlankCellState(CellAddress(label))
+    }
+
     override fun removeAllCellState(): WorksheetState {
         cellStateContMs.value = cellStateCont.removeAll()
         return this
@@ -181,6 +199,10 @@ data class WorksheetStateImp @AssistedInject constructor(
     override fun getCellStateMs(cellAddress: CellAddress): Ms<CellState>? {
         val cellMs = cellStateCont.getElement(cellAddress)
         return cellMs
+    }
+
+    override fun getCellStateMs(label: String): Ms<CellState>? {
+        return getCellStateMs(CellAddress(label))
     }
 
     override val wbKey: WorkbookKey

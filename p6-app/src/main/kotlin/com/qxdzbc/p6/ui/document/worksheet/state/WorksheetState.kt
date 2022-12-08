@@ -82,10 +82,12 @@ interface WorksheetState :WbWsSt {
     fun removeCellState(addresses: Collection<CellAddress>): WorksheetState
     fun addCellState(address: CellAddress, cellState: CellState): WorksheetState
     fun addBlankCellState(address: CellAddress): WorksheetState
+    fun addBlankCellState(label:String): WorksheetState
     fun removeAllCellState(): WorksheetState
 
     fun getCellStateMs(colIndex: Int, rowIndex: Int): Ms<CellState>?
     fun getCellStateMs(cellAddress: CellAddress): Ms<CellState>?
+    fun getCellStateMs(label:String): Ms<CellState>?
     fun getCellState(cellAddress: CellAddress): CellState?
     fun getCellState(label:String): CellState?
     fun getCellState(colIndex: Int, rowIndex: Int): CellState?

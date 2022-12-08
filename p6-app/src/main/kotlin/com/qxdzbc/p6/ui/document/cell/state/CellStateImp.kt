@@ -11,6 +11,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.ui.document.cell.state.CellStates.defaultTextStyle
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
@@ -22,7 +23,7 @@ data class CellStateImp(
     override val cellMs: Ms<Cell>?,
     override val textFormatMs: Ms<TextFormat> = ms(TextFormat.default),
     override val cellFormatMs: Ms<CellFormat> = ms(CellFormat.default),
-    override val textFormat3Ms: Ms<TextFormat3> = ms(TextFormat3.defaultCellFormat),
+    override val textFormat3Ms: Ms<TextFormat3?> = ms(null),
 ) : CellState {
     init {
         if (cellMs != null) {
@@ -43,8 +44,13 @@ data class CellStateImp(
 
     override var textFormat: TextFormat by textFormatMs
 
-    override val textFormat3: TextFormat3
+    override val textFormat3: TextFormat3?
         get() = textFormat3Ms.value
+
+    override fun setTextFormat3(i: TextFormat3?): CellState {
+        textFormat3Ms.value = i
+        return this
+    }
 
     override fun setVerticalAlignment(alignment: TextVerticalAlignment): CellState {
         textFormat = textFormat.copy(verticalAlignment = alignment)
@@ -83,7 +89,7 @@ data class CellStateImp(
     }
 
     override val textStyle: TextStyle
-        get() = textFormat3Ms.value.toTextStyle()
+        get() = textFormat3Ms.value?.toTextStyle() ?: defaultTextStyle
 
     override var cellFormat: CellFormat by cellFormatMs
     override val backgroundColor: Color

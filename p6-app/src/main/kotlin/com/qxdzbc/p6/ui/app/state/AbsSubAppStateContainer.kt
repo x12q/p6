@@ -31,6 +31,14 @@ abstract class AbsSubAppStateContainer : SubAppStateContainer {
         return getCellStateMsRs(cellId).component1()
     }
 
+    override fun getCellState(cellId: CellId): CellState? {
+        return getCellStateMs(cellId)?.value
+    }
+
+    override fun getCellState(wbwsSt: WbWsSt, cellAddress: CellAddress): CellState? {
+        return getCellStateMs(wbwsSt, cellAddress)?.value
+    }
+
     override fun getCellStateMs(wbwsSt: WbWsSt, cellAddress: CellAddress): Ms<CellState>? {
         return getCellStateMsRs(wbwsSt,cellAddress).component1()
     }

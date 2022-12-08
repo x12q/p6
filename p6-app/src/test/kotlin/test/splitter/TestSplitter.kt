@@ -37,9 +37,6 @@ abstract class TestSplitter {
     fun test(description: String = "", f: () -> Unit) {
         f()
     }
-    fun action(description: String = "", f: () -> Unit) {
-        f()
-    }
 
     /**
      * just to make long tests easier to read
@@ -52,6 +49,13 @@ abstract class TestSplitter {
      * just to make long tests easier to read
      */
     fun postCondition(description: String = "", f: () -> Unit) {
+        f()
+    }
+
+    /**
+     * just to make long tests easier to read
+     */
+    fun setup(description: String = "", f: () -> Unit) {
         f()
     }
 }
