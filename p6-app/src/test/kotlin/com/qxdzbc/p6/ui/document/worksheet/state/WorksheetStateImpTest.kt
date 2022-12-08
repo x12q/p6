@@ -146,7 +146,7 @@ class WorksheetStateImpTest :BaseTest(){
 
             val cellStateMsK12=wsState2.getCellStateMs(labelK12)!!
             cellStateMsK12.value = cellStateMsK12.value.setTextFormat3(
-                TextFormat3.defaultCellFormat
+                TextFormat3.createDefaultCellFormat()
             )
 
             preCondition {

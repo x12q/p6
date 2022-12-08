@@ -41,7 +41,7 @@ class UpdateCellFormatActionImp @Inject constructor(
                 val (t2, newAttrMs) = fTable.add(textSize)
                 cellFormatTableMs.value = cellFormatTableMs.value.updateFloatFormatTable(t2)
                 val cellFormatMs = cellState.textFormat3Ms
-                val newFormat = (cellFormatMs.value ?: TextFormat3.defaultCellFormat).setTextSizeAttr(newAttrMs)
+                val newFormat = (cellFormatMs.value ?: TextFormat3.createDefaultCellFormat()).setTextSizeAttr(newAttrMs)
                 cellFormatMs.value = newFormat
                 // x: clean up old format attr
                 if(oldTextSize!=null){
