@@ -12,7 +12,7 @@ interface TextFormat3 {
     fun setTextSizeAttr(i:Ms<MarkedAttribute<Float>>):TextFormat3
     fun toTextStyle():TextStyle
     companion object{
-        fun createDefaultCellFormat(): TextFormat3 = TextFormat3Imp(
+        fun createDefaultTextFormat(): TextFormat3 = TextFormat3Imp(
             textSizeMs = ms(
                 MarkedAttributes.wrap(FormatAttributeImp(13f)).upCounter()
             )

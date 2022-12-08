@@ -134,9 +134,10 @@ class WorksheetStateImpTest :BaseTest(){
     @Test
     fun refreshCellState(){
         test("""
-            cell A1 point to valid cell, does not have format data
-            cell M10 points to no where, does not have format data
-            cell K12 points to no where but contains format data
+            refresh a worksheet state in which:
+            - cell A1 point to valid cell, does not have format data => should be kept
+            - cell M10 points to no where, does not have format data => should be removed
+            - cell K12 points to no where but contains format data => should be kept
         """.trimIndent()){
             val labelK12="K12"
             val labelM10="M10"
@@ -146,17 +147,13 @@ class WorksheetStateImpTest :BaseTest(){
 
             val cellStateMsK12=wsState2.getCellStateMs(labelK12)!!
             cellStateMsK12.value = cellStateMsK12.value.setTextFormat3(
-                TextFormat3.createDefaultCellFormat()
+                TextFormat3.createDefaultTextFormat()
             )
 
             preCondition {
                 val cellState = wsState2.getCellState(labelM10)
                 cellState.shouldNotBeNull()
                 cellState.cell.shouldBeNull()
-                /*
-                what should I do when I refresh state, and there exist cell states
-                that do not point to any particular cell, delete them? If they contains format info, keep them, otherwise delete them
-                 */
             }
 
             val wsState3=wsState2.refreshCellState()
@@ -164,15 +161,15 @@ class WorksheetStateImpTest :BaseTest(){
             postCondition {
                 wsState3.cellStateCont.allElements.size shouldBe 2
 
-                wsState3.getCellState(labelM10).shouldBeNull()
+                val cellStateA1 = wsState3.getCellState("A1")
+                cellStateA1.shouldNotBeNull()
+                cellStateA1.cell.shouldNotBeNull()
 
                 val cellStateK12 = wsState3.getCellState(labelK12)
                 cellStateK12.shouldNotBeNull()
                 cellStateK12.cell.shouldBeNull()
 
-                val cellStateA1 = wsState3.getCellState("A1")
-                cellStateA1.shouldNotBeNull()
-                cellStateA1.cell.shouldNotBeNull()
+                wsState3.getCellState(labelM10).shouldBeNull()
             }
         }
     }
