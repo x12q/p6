@@ -8,29 +8,6 @@ sealed interface TestContext{
 
 abstract class TestSplitter {
 
-//    private fun runOnTestContext(description: String = "", f: TestContext.() -> Unit) {
-//        val context=TestContext.Str(description)
-//        try{
-//            context.f()
-//        }catch (e:Throwable){
-//            when(e){
-//                is AssertionError->
-//                    throw AssertionError("fail :${description}",e)
-//                else -> throw Exception("exception in test:${description}",e)
-//            }
-//        }
-//    }
-//    private fun TestContext.runFromTestContext(description: String = "", f: () -> Unit) {
-//        try{
-//            f()
-//        }catch (e:Throwable){
-//            when(e){
-//                is AssertionError->
-//                    throw AssertionError("fail :${description}",e)
-//                else -> throw Exception("exception in test:${description}",e)
-//            }
-//        }
-//    }
     /**
      * just to make long tests easier to read
      */
