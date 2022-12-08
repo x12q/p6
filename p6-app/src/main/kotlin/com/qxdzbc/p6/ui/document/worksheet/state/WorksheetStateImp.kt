@@ -125,7 +125,7 @@ data class WorksheetStateImp @AssistedInject constructor(
             val cellState = cellStateMs.value
             val addr = cellState.address
             if (addr !in availableCellAddresses) {
-                if(cellState.textFormat3!=null){
+                if(cellState.textFormat!=null || cellState.cellFormat!=null){
                     cellStateMs.value = cellState.removeDataCell()
                     newCellMsCont = newCellMsCont.set(addr, cellStateMs)
                 }

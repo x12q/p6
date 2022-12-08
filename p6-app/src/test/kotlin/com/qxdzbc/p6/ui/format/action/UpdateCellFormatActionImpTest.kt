@@ -16,7 +16,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
 
     lateinit var action:UpdateCellFormatActionImp
     lateinit var cellFormatTableMs:Ms<CellFormatTable>
-    val ffTable get()=cellFormatTableMs.value.floatValueFormatTable
+    val ffTable get()=cellFormatTableMs.value.floatTable
 
     @BeforeTest
     override fun b(){
@@ -45,7 +45,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 val attrMs=ffTable.getMarkedAttr(v1)
                 attrMs.shouldNotBeNull()
                 attrMs.value.refCount shouldBe 1
-                sc.getCellStateMs(wbwsSt, CellAddress("A1"))?.value?.textFormat3.shouldNotBeNull()
+                sc.getCellStateMs(wbwsSt, CellAddress("A1"))?.value?.textFormat.shouldNotBeNull()
             }
         }
 

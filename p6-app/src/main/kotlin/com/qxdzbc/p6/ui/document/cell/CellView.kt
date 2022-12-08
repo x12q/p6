@@ -22,7 +22,7 @@ import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
@@ -38,13 +38,24 @@ fun CellView(
     MBox(
         modifier = boxModifier
             .fillMaxSize()
-            .background(color)
+            .apply {
+                color?.also {
+                    background(color)
+                }
+            }
+
     ) {
         if (cell != null) {
             Text(
                 cell.cachedDisplayText,
-                modifier = textModifier
-                    .align(state.alignment),
+                modifier =
+                textModifier
+                    .apply {
+                        state.alignment?.also {
+                            align(it)
+                        }
+                    }
+                   ,
                 style = state.textStyle,
             )
         }
@@ -71,8 +82,8 @@ fun main() = P6TestApp {
                     address = address,
                     cellMs = IndCellImp.random(address).toMs(),
                     textFormatMs = ms(
-                        TextFormat(
-                            color = Color.Red,
+                        TextFormatImp(
+                            textColor = Color.Red,
                             verticalAlignment = TextVerticalAlignment.Center,
                             horizontalAlignment = TextHorizontalAlignment.End,
                             isCrossed = true,

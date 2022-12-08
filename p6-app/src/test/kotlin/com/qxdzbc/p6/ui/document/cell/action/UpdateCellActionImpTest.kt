@@ -85,7 +85,6 @@ internal class UpdateCellActionImpTest {
             ),
             publishError = false
         )
-//        ColdInit()
         act.updateCellDM(
             request = CellUpdateRequestDM(
                 cellId = CellIdDM(CellAddress("B1"), wbws),

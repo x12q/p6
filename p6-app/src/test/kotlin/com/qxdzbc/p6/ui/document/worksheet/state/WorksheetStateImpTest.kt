@@ -21,7 +21,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
-import com.qxdzbc.p6.ui.format.cell_format.TextFormat3
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -146,8 +146,8 @@ class WorksheetStateImpTest :BaseTest(){
                 .addBlankCellState(CellAddress(labelK12))
 
             val cellStateMsK12=wsState2.getCellStateMs(labelK12)!!
-            cellStateMsK12.value = cellStateMsK12.value.setTextFormat3(
-                TextFormat3.createDefaultTextFormat()
+            cellStateMsK12.value = cellStateMsK12.value.setTextFormat(
+                TextFormat.createDefaultTextFormat()
             )
 
             preCondition {

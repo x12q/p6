@@ -13,18 +13,20 @@ import kotlin.contracts.contract
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 
 class TestBench {
-    fun html(init: TestContext.() -> Unit) {
-
-    }
+    data class Q(val b:Boolean)
     @Test
     fun t() {
-        html {
+        val b:Boolean = true
+        val b2 = b
+        val q = Q(b)
+        println(b.hashCode())
+        println(q.b.hashCode())
+        assertTrue(b === q.b)
 
-
-        }
     }
 }
 

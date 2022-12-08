@@ -5,7 +5,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -13,17 +12,15 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.cell.state.CellStates.defaultTextStyle
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format.cell_format.TextFormat3
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 
 data class CellStateImp(
     override val address: CellAddress,
     override val cellMs: Ms<Cell>?,
-    override val textFormatMs: Ms<TextFormat> = ms(TextFormat.default),
-    override val cellFormatMs: Ms<CellFormat> = ms(CellFormat.default),
-    override val textFormat3Ms: Ms<TextFormat3?> = ms(null),
+    override val textFormatMs: Ms<TextFormat?> = ms(null),
+    override val cellFormatMs: Ms<CellFormat?> = ms(null),
 ) : CellState {
     init {
         if (cellMs != null) {
@@ -42,65 +39,62 @@ data class CellStateImp(
         return this.copy(cellMs = null)
     }
 
-    override var textFormat: TextFormat by textFormatMs
+    override var textFormat: TextFormat? by textFormatMs
 
-    override val textFormat3: TextFormat3?
-        get() = textFormat3Ms.value
-
-    override fun setTextFormat3(i: TextFormat3?): CellState {
-        textFormat3Ms.value = i
+    override fun setTextFormat(i: TextFormat?): CellState {
+        textFormatMs.value = i
         return this
     }
 
     override fun setVerticalAlignment(alignment: TextVerticalAlignment): CellState {
-        textFormat = textFormat.copy(verticalAlignment = alignment)
+        textFormat = textFormat?.setVerticalAlignment(i = alignment)
         return this
     }
 
     override fun setHorizontalAlignment(alignment: TextHorizontalAlignment): CellState {
-        textFormat = textFormat.copy(horizontalAlignment = alignment)
+        textFormat = textFormat?.setHorizontalAlignment(i = alignment)
         return this
     }
 
-    override val alignment: Alignment
-        get() = textFormat.alignment
-    override val isTextCrossed: Boolean
-        get() = textFormat.isCrossed
+    override val alignment: Alignment?
+        get() = textFormat?.alignment
+    override val isTextCrossed: Boolean?
+        get() = textFormat?.isCrossed
 
     override fun setTextCrossed(i: Boolean): CellState {
-        textFormat = textFormat.copy(isCrossed = i)
+        textFormat = textFormat?.setTextCrossed(i = i)
         return this
     }
 
-    override val isTextUnderlined: Boolean
-        get() = textFormat.isUnderlined
+    override val isTextUnderlined: Boolean?
+        get() = textFormat?.isUnderlined
 
     override fun setTextUnderlined(i: Boolean): CellState {
-        textFormat = textFormat.copy(isUnderlined = i)
+        textFormat = textFormat?.setTextUnderlined(i = i)
         return this
     }
 
-    override val fontWeight: FontWeight
-        get() = textFormat.fontWeight
+    override val fontWeight: FontWeight?
+        get() = textFormat?.fontWeight
 
     override fun setFontWeight(i: FontWeight): CellState {
-        textFormat = textFormat.copy(fontWeight = i)
+        textFormat = textFormat?.setFontWeight(i = i)
         return this
     }
 
     override val textStyle: TextStyle
-        get() = textFormat3Ms.value?.toTextStyle() ?: defaultTextStyle
+        get() = textFormat?.toTextStyle() ?: defaultTextStyle
 
-    override var cellFormat: CellFormat by cellFormatMs
-    override val backgroundColor: Color
-        get() = cellFormat.backgroundColor
+    override var cellFormat: CellFormat? by cellFormatMs
+    override val backgroundColor: Color?
+        get() = cellFormat?.backgroundColor
 
     override fun setBackgroundColor(hexColor: ULong): CellState {
         return this.setBackgroundColor(Color(hexColor))
     }
 
     override fun setBackgroundColor(color: Color): CellState {
-        cellFormat = cellFormat.copy(backgroundColor = color)
+        cellFormat = cellFormat?.copy(backgroundColor = color)
         return this
     }
 }
