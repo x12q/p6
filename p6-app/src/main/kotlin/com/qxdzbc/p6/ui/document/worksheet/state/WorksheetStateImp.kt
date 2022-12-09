@@ -177,14 +177,24 @@ data class WorksheetStateImp @AssistedInject constructor(
         return this
     }
 
-    override fun addCellState(address: CellAddress, cellState: CellState): WorksheetState {
-        cellStateContMs.value = cellStateCont.set(address, ms(cellState))
+    override fun createAndAddNewCellStateMs(cellState: CellState): WorksheetState {
+        cellStateContMs.value = cellStateCont.set(cellState.address, ms(cellState))
         return this
+    }
+
+    override fun addOrOverwriteCellState(cellState: CellState): WorksheetState {
+        val cellStateMs = this.getCellStateMs(cellState.address)
+        if(cellStateMs!=null){
+            cellStateMs.value = cellState
+            return this
+        }else{
+            return this.createAndAddNewCellStateMs(cellState)
+        }
     }
 
     override fun addBlankCellState(address: CellAddress): WorksheetState {
         val blankState = CellStates.blank(address)
-        return addCellState(address,blankState)
+        return createAndAddNewCellStateMs(blankState)
     }
 
     override fun addBlankCellState(label: String): WorksheetState {

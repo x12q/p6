@@ -80,7 +80,18 @@ interface WorksheetState :WbWsSt {
     val cellStateCont: CellStateContainer
     fun removeCellState(vararg addresses: CellAddress): WorksheetState
     fun removeCellState(addresses: Collection<CellAddress>): WorksheetState
-    fun addCellState(address: CellAddress, cellState: CellState): WorksheetState
+
+    /**
+     * create a new Ms<CellState> from the input cellState, and add it.
+     * Beward, this will overwrite old ms obj if it exists
+     */
+    fun createAndAddNewCellStateMs(cellState: CellState): WorksheetState
+
+    /**
+     * Add or overwrite a cell state if one already exist
+     */
+    fun addOrOverwriteCellState(cellState: CellState):WorksheetState
+
     fun addBlankCellState(address: CellAddress): WorksheetState
     fun addBlankCellState(label:String): WorksheetState
     fun removeAllCellState(): WorksheetState

@@ -6,6 +6,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
 import io.kotest.matchers.nulls.shouldBeNull
@@ -23,6 +24,10 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
     lateinit var wbwsSt: WbWsSt
     val cellA1 get()=CellId(CellAddress("A1"),wbwsSt)
     val cellB1 get()=CellId(CellAddress("B1"),wbwsSt)
+    val cellStateA1 = CellStates.blank(CellAddress("A1"))
+    val cellStateB1 = CellStates.blank(CellAddress("B1"))
+
+    val cellFormatTable2 = CellFormatTableImp()
 
     @BeforeTest
     override fun b(){
@@ -34,6 +39,102 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
         )
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!
     }
+
+    @Test
+    fun produceNewStateForNewTextColor(){
+        val c1 = Color(123)
+        val c2 = Color(456)
+        var a1 = cellStateA1
+        var b1 = cellStateB1
+        var cft:CellFormatTable = CellFormatTableImp()
+        val colorTable by ReadOnlyProperty{ _, _->
+            cft.colorTable
+        }
+
+        test("set cell A1 text color to $c1"){
+            val outputState = action.produceNewStateForNewTextColor(
+                inputState = UpdateCellFormatActionImp.TargetState(a1,cft),
+                color=c1
+            )
+            postCondition {
+                outputState.shouldNotBeNull()
+                val newA1 = outputState.cellState
+                a1 = newA1
+                cft = outputState.cellFormatTable
+                newA1.textFormat?.textColor shouldBe c1
+                val mc=colorTable.getMarkedAttr(c1)
+                mc.shouldNotBeNull()
+                mc.value.attr.attrValue shouldBe c1
+                mc.value.refCount shouldBe 1
+            }
+        }
+
+        test("set cell B1 text colo to $c1"){
+            preCondition {
+                cellStateB1.textFormat?.textColor.shouldBeNull()
+            }
+
+            val outState = action.produceNewStateForNewTextColor(
+                UpdateCellFormatActionImp.TargetState(b1,cft),
+                c1
+            )
+
+            postCondition {
+                outState.shouldNotBeNull()
+                b1 = outState.cellState
+                outState.cellState.textFormat?.textColor shouldBe c1
+                cft = outState.cellFormatTable
+                val mc=colorTable.getMarkedAttr(c1)
+                mc.shouldNotBeNull()
+                mc.value.attr.attrValue shouldBe c1
+                mc.value.refCount shouldBe 2
+            }
+        }
+
+        test("set cell A1 text colo to $c2"){
+            val outState=action.produceNewStateForNewTextColor(
+                UpdateCellFormatActionImp.TargetState(a1,cft),
+                c2
+            )
+            postCondition {
+                outState.shouldNotBeNull()
+                outState.cellState.textFormat?.textColor shouldBe c2
+                cft = outState.cellFormatTable
+                a1 = outState.cellState
+                val mc2=outState.cellFormatTable.colorTable.getMarkedAttr(c2)
+                mc2.shouldNotBeNull()
+                mc2.value.attr.attrValue shouldBe c2
+                mc2.value.refCount shouldBe 1
+
+                val mc1=outState.cellFormatTable.colorTable.getMarkedAttr(c1)
+                mc1.shouldNotBeNull()
+                mc1.value.attr.attrValue shouldBe c1
+                mc1.value.refCount shouldBe 1
+            }
+        }
+
+        test("set cell B1 text colo to $c2"){
+
+            val outState=action.produceNewStateForNewTextColor(
+                UpdateCellFormatActionImp.TargetState(b1,cft),
+                c2
+            )
+
+            postCondition {
+                outState.shouldNotBeNull()
+                cft = outState.cellFormatTable
+                outState.cellState.textFormat?.textColor shouldBe c2
+                val mc2=colorTable.getMarkedAttr(c2)
+                mc2.shouldNotBeNull()
+                mc2.value.attr.attrValue shouldBe c2
+                mc2.value.refCount shouldBe 2
+
+                val mc1=colorTable.getMarkedAttr(c1)
+                mc1.shouldBeNull()
+            }
+        }
+    }
+
 
     @Test
     fun testSetTextColor(){
