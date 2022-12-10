@@ -189,7 +189,8 @@ class UpdateCellFormatActionImp @Inject constructor(
         if (oldFormat != newFormat) {
             val formatTable = getFormatTable()
             var newCellTable: CellFormatTable
-            val (ft2, _) = formatTable.addAndGetMarkedAttrMs(newFormat)
+//            val (ft2, _) = formatTable.addAndGetMarkedAttrMs(newFormat)
+            val ft2 = formatTable.addOrUpdate(newFormat)
             newCellTable = produceNewCellFormatTable(ft2)
             val cellFormat = cellState.textFormat
             val newTextFormat: TextFormat =

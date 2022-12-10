@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.format
 
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
 import io.kotest.matchers.nulls.shouldBeNull
@@ -22,7 +20,7 @@ class FormatTableImpTest :BaseTest(){
     @Test
     fun addMarkedAttr() {
         val attr = MarkedAttributes.valid(MockedAttr(123)).upCounter()
-        val msAttr=ms(attr)
+        val msAttr=attr
         table.getMarkedAttr(10f).shouldBeNull()
         val t2 = table.addMarkedAttr(10f,msAttr)
         t2.getMarkedAttr(10f) shouldBe msAttr
@@ -35,18 +33,18 @@ class FormatTableImpTest :BaseTest(){
     fun add() {
         val v = 123f
         var t = table
-        var attrMs:Ms<MarkedAttribute<Float>>? = null
+        var attrMs:MarkedAttribute<Float>? = null
 
         test("add 123 to table"){
             preCondition {
                 t.getMarkedAttr(v).shouldBeNull()
             }
-            val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
+            val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
             t = t2
             attrMs = newAttrMs
             postCondition {
-                newAttrMs.value.attr.attrValue shouldBe v
-                newAttrMs.value.refCount shouldBe 1
+                newAttrMs.attr.attrValue shouldBe v
+                newAttrMs.refCount shouldBe 1
                 t2.getMarkedAttr(v) shouldBe newAttrMs
             }
         }
@@ -55,11 +53,11 @@ class FormatTableImpTest :BaseTest(){
             preCondition {
                 t.getMarkedAttr(v).shouldNotBeNull()
             }
-            val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
+            val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
             postCondition {
                 newAttrMs shouldBe attrMs
-                newAttrMs.value.attr.attrValue shouldBe v
-                newAttrMs.value.refCount shouldBe 2
+                newAttrMs.attr.attrValue shouldBe v
+                newAttrMs.refCount shouldBe 2
                 t2.getMarkedAttr(v) shouldBe newAttrMs
             }
         }
@@ -81,24 +79,24 @@ class FormatTableImpTest :BaseTest(){
         test("increase count on existing attr"){
             var t = table
             preCondition {
-                val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
+                val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
                 t = t2
-                t.getMarkedAttr(v)?.value?.refCount shouldBe 1
+                t.getMarkedAttr(v)?.refCount shouldBe 1
             }
             val t3 = t.changeCountIfPossible(v,1)
             postCondition {
                 t3.getMarkedAttr(v).shouldNotBeNull()
-                t3.getMarkedAttr(v)?.value?.attr?.attrValue shouldBe v
-                t3.getMarkedAttr(v)?.value?.refCount shouldBe 2
+                t3.getMarkedAttr(v)?.attr?.attrValue shouldBe v
+                t3.getMarkedAttr(v)?.refCount shouldBe 2
             }
         }
 
         test("decrease count to zero"){
             var t = table
             preCondition {
-                val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
+                val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
                 t = t2
-                t.getMarkedAttr(v)?.value?.refCount shouldBe 1
+                t.getMarkedAttr(v)?.refCount shouldBe 1
             }
             val t3 = t.changeCountIfPossible(v,-100)
             postCondition {

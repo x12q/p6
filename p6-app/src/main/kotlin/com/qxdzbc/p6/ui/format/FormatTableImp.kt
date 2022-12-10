@@ -1,32 +1,30 @@
 package com.qxdzbc.p6.ui.format
 
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
 import com.qxdzbc.p6.ui.format.text_attr.FormatAttributeImp
 
 data class FormatTableImp<T>(
-    override val floatAttrMap: Map<T, Ms<MarkedAttribute<T>>> = emptyMap()
+    override val attrMap: Map<T, MarkedAttribute<T>> = emptyMap()
 ) : FormatTable<T> {
 
-    override fun getMarkedAttr(v: T): Ms<MarkedAttribute<T>>? {
-        return floatAttrMap[v]
+    override fun getMarkedAttr(v: T): MarkedAttribute<T>? {
+        return attrMap[v]
     }
 
-    override fun addMarkedAttr(v: T, attr: Ms<MarkedAttribute<T>>): FormatTableImp<T> {
+    override fun addMarkedAttr(v: T, attr: MarkedAttribute<T>): FormatTableImp<T> {
         return this.copy(
-            floatAttrMap = floatAttrMap + (v to attr)
+            attrMap = attrMap + (v to attr)
         )
     }
 
     override fun removeMarkedAttr(v: T): FormatTableImp<T> {
         return this.copy(
-            floatAttrMap = floatAttrMap - v
+            attrMap = attrMap - v
         )
     }
 
-    override fun addAndGetMarkedAttrMs(v: T): Pair<FormatTableImp<T>, Ms<MarkedAttribute<T>>> {
+    override fun addAndGetMarkedAttr(v: T): Pair<FormatTableImp<T>, MarkedAttribute<T>> {
         val rt = internalAddOrUpdate(v){newAttrMs,newTable->
             Pair(newTable,newAttrMs)
         }
@@ -42,13 +40,13 @@ data class FormatTableImp<T>(
 
     private fun <R> internalAddOrUpdate(
         v: T,
-        returnFunction: (ms: Ms<MarkedAttribute<T>>, newTable: FormatTableImp<T>) -> R
+        returnFunction: (ms: MarkedAttribute<T>, newTable: FormatTableImp<T>) -> R
     ): R {
         val rt = this.getMarkedAttr(v)?.let {
-            it.value = it.value.upCounter()
-            returnFunction(it, this)
+            val newAttr = it.upCounter()
+            returnFunction(newAttr, this)
         } ?: run {
-            val newAttrMs = MarkedAttributes.wrap(FormatAttributeImp(v)).upCounter().toMs()
+            val newAttrMs = MarkedAttributes.wrap(FormatAttributeImp(v)).upCounter()
             val newTable = this.addMarkedAttr(v, newAttrMs)
             returnFunction(newAttrMs,newTable)
         }
@@ -65,20 +63,19 @@ data class FormatTableImp<T>(
 
     override fun changeCountIfPossible(v: T, count: Int): FormatTable<T> {
         val rt = getMarkedAttr(v)?.let {
-            val newAttr = it.value.changeCounterBy(count)
+            val newAttr = it.changeCounterBy(count)
             if (newAttr.isCounterZero) {
                 this.removeMarkedAttr(v)
             } else {
-                it.value = newAttr
-                this
+                this.addMarkedAttr(v,newAttr)
             }
         } ?: this
         return rt
     }
 
-    override fun cleanUp(): FormatTableImp<T> {
+    override fun removeAll(): FormatTableImp<T> {
         return this.copy(
-            floatAttrMap = floatAttrMap.filter { it.value.value.isCounterNotZero }
+            attrMap = attrMap.filter { it.value.isCounterNotZero }
         )
     }
 }

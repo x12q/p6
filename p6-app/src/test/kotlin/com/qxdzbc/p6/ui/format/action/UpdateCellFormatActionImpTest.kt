@@ -45,16 +45,15 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
     @Test
     fun produceNewState(){
         val cs = cellStateA1
-
-        val cellFormatTable = CellFormatTableImp().updateFloatTable(
-            FormatTableImp<Float>()
-                .addOrUpdate(1f)
-                .addOrUpdate(1f)
-                .addOrUpdate(2f)
-                .addOrUpdate(2f)
-        )
-        val newTextFormat = TextFormatImp().copy(textSize =3f)
-        test("produce new state"){
+        test("old format ref count is reduced, and new format attr is recorded"){
+            val cellFormatTable = CellFormatTableImp().updateFloatTable(
+                FormatTableImp<Float>()
+                    .addOrUpdate(1f)
+                    .addOrUpdate(1f)
+                    .addOrUpdate(2f)
+                    .addOrUpdate(2f)
+            )
+            val newTextFormat = TextFormatImp().copy(textSize =3f)
             val newState = action.produceNewState(
                 cs,
                 newFormat =3f,
@@ -72,11 +71,56 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 }
             )
             postCondition {
+                val expectedCellFormatTable=CellFormatTableImp().updateFloatTable(
+                    FormatTableImp<Float>()
+                        .addOrUpdate(1f)
+                        .addOrUpdate(2f)
+                        .addOrUpdate(2f)
+                        .addOrUpdate(3f)
+                )
                 newState.shouldNotBeNull()
                 newState.cellState.textFormat shouldBe newTextFormat
-
+                newState.cellFormatTable shouldBe expectedCellFormatTable
             }
         }
+
+        test("old format ref count is reduced to 0 and removed, and new format attr is recorded"){
+            val cellFormatTable = CellFormatTableImp().updateFloatTable(
+                FormatTableImp<Float>()
+                    .addOrUpdate(1f)
+                    .addOrUpdate(2f)
+                    .addOrUpdate(2f)
+            )
+            val newTextFormat = TextFormatImp().copy(textSize =3f)
+            val newState = action.produceNewState(
+                cs,
+                newFormat =3f,
+                getCurrentFormat = {
+                    1f
+                },
+                getFormatTable ={
+                    cellFormatTable.floatTable
+                },
+                produceNewTextFormat = {t,tf->
+                    newTextFormat
+                },
+                produceNewCellFormatTable = {
+                    cellFormatTable.updateFloatTable(it)
+                }
+            )
+            postCondition {
+                val expectedCellFormatTable=CellFormatTableImp().updateFloatTable(
+                    FormatTableImp<Float>()
+                        .addOrUpdate(2f)
+                        .addOrUpdate(2f)
+                        .addOrUpdate(3f)
+                )
+                newState.shouldNotBeNull()
+                newState.cellState.textFormat shouldBe newTextFormat
+                newState.cellFormatTable shouldBe expectedCellFormatTable
+            }
+        }
+
     }
 
 
@@ -104,8 +148,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 newA1.textFormat?.textColor shouldBe c1
                 val mc=colorTable.getMarkedAttr(c1)
                 mc.shouldNotBeNull()
-                mc.value.attr.attrValue shouldBe c1
-                mc.value.refCount shouldBe 1
+                mc.attr.attrValue shouldBe c1
+                mc.refCount shouldBe 1
             }
         }
 
@@ -126,8 +170,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 cft = outState.cellFormatTable
                 val mc=colorTable.getMarkedAttr(c1)
                 mc.shouldNotBeNull()
-                mc.value.attr.attrValue shouldBe c1
-                mc.value.refCount shouldBe 2
+                mc.attr.attrValue shouldBe c1
+                mc.refCount shouldBe 2
             }
         }
 
@@ -143,13 +187,13 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 a1 = outState.cellState
                 val mc2=outState.cellFormatTable.colorTable.getMarkedAttr(c2)
                 mc2.shouldNotBeNull()
-                mc2.value.attr.attrValue shouldBe c2
-                mc2.value.refCount shouldBe 1
+                mc2.attr.attrValue shouldBe c2
+                mc2.refCount shouldBe 1
 
                 val mc1=outState.cellFormatTable.colorTable.getMarkedAttr(c1)
                 mc1.shouldNotBeNull()
-                mc1.value.attr.attrValue shouldBe c1
-                mc1.value.refCount shouldBe 1
+                mc1.attr.attrValue shouldBe c1
+                mc1.refCount shouldBe 1
             }
         }
 
@@ -166,8 +210,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 outState.cellState.textFormat?.textColor shouldBe c2
                 val mc2=colorTable.getMarkedAttr(c2)
                 mc2.shouldNotBeNull()
-                mc2.value.attr.attrValue shouldBe c2
-                mc2.value.refCount shouldBe 2
+                mc2.attr.attrValue shouldBe c2
+                mc2.refCount shouldBe 2
 
                 val mc1=colorTable.getMarkedAttr(c1)
                 mc1.shouldBeNull()
@@ -195,8 +239,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 sc.getCellState(cellA1)?.textFormat?.textColor shouldBe c1
                 val mc=cTable.getMarkedAttr(c1)
                 mc.shouldNotBeNull()
-                mc.value.attr.attrValue shouldBe c1
-                mc.value.refCount shouldBe 1
+                mc.attr.attrValue shouldBe c1
+                mc.refCount shouldBe 1
             }
         }
 
@@ -211,8 +255,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 sc.getCellState(cellB1)?.textFormat?.textColor shouldBe c1
                 val mc=cTable.getMarkedAttr(c1)
                 mc.shouldNotBeNull()
-                mc.value.attr.attrValue shouldBe c1
-                mc.value.refCount shouldBe 2
+                mc.attr.attrValue shouldBe c1
+                mc.refCount shouldBe 2
             }
         }
 
@@ -224,13 +268,13 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 sc.getCellState(cellA1)?.textFormat?.textColor shouldBe c2
                 val mc2=cTable.getMarkedAttr(c2)
                 mc2.shouldNotBeNull()
-                mc2.value.attr.attrValue shouldBe c2
-                mc2.value.refCount shouldBe 1
+                mc2.attr.attrValue shouldBe c2
+                mc2.refCount shouldBe 1
 
                 val mc1=cTable.getMarkedAttr(c1)
                 mc1.shouldNotBeNull()
-                mc1.value.attr.attrValue shouldBe c1
-                mc1.value.refCount shouldBe 1
+                mc1.attr.attrValue shouldBe c1
+                mc1.refCount shouldBe 1
             }
         }
 
@@ -242,8 +286,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 sc.getCellState(cellB1)?.textFormat?.textColor shouldBe c2
                 val mc2=cTable.getMarkedAttr(c2)
                 mc2.shouldNotBeNull()
-                mc2.value.attr.attrValue shouldBe c2
-                mc2.value.refCount shouldBe 2
+                mc2.attr.attrValue shouldBe c2
+                mc2.refCount shouldBe 2
 
                 val mc1=cTable.getMarkedAttr(c1)
                 mc1.shouldBeNull()
@@ -265,7 +309,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
             postCondition {
                 val attrMs=ffTable.getMarkedAttr(v1)
                 attrMs.shouldNotBeNull()
-                attrMs.value.refCount shouldBe 1
+                attrMs.refCount shouldBe 1
                 sc.getCellStateMs(wbwsSt, cellA1.address)?.value?.textFormat.shouldNotBeNull()
             }
         }
@@ -278,7 +322,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
             postCondition {
                 val attrMs=ffTable.getMarkedAttr(v1)
                 attrMs.shouldNotBeNull()
-                attrMs.value.refCount shouldBe 2
+                attrMs.refCount shouldBe 2
             }
         }
 
@@ -292,8 +336,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 textSize=v2,
             )
             postCondition {
-                ffTable.getMarkedAttr(v2)?.value?.refCount shouldBe 1
-                ffTable.getMarkedAttr(v1)?.value?.refCount shouldBe 1
+                ffTable.getMarkedAttr(v2)?.refCount shouldBe 1
+                ffTable.getMarkedAttr(v1)?.refCount shouldBe 1
             }
         }
 
@@ -307,7 +351,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
                 textSize=v3,
             )
             postCondition {
-                ffTable.getMarkedAttr(v3)?.value?.refCount shouldBe 1
+                ffTable.getMarkedAttr(v3)?.refCount shouldBe 1
                 ffTable.getMarkedAttr(v1).shouldBeNull()
             }
         }
