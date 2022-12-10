@@ -22,7 +22,7 @@ data class TextFormatImp(
         val default = TextFormatImp()
     }
 
-    override fun setTextSizeAttr(i: Float): TextFormatImp {
+    override fun setTextSize(i: Float): TextFormatImp {
         return this.copy(textSize=i)
     }
 

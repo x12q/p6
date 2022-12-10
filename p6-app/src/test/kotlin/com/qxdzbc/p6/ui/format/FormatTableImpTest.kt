@@ -41,7 +41,7 @@ class FormatTableImpTest :BaseTest(){
             preCondition {
                 t.getMarkedAttr(v).shouldBeNull()
             }
-            val (t2,newAttrMs) = t.add(v)
+            val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
             t = t2
             attrMs = newAttrMs
             postCondition {
@@ -55,7 +55,7 @@ class FormatTableImpTest :BaseTest(){
             preCondition {
                 t.getMarkedAttr(v).shouldNotBeNull()
             }
-            val (t2,newAttrMs) = t.add(v)
+            val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
             postCondition {
                 newAttrMs shouldBe attrMs
                 newAttrMs.value.attr.attrValue shouldBe v
@@ -81,7 +81,7 @@ class FormatTableImpTest :BaseTest(){
         test("increase count on existing attr"){
             var t = table
             preCondition {
-                val (t2,newAttrMs) = t.add(v)
+                val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
                 t = t2
                 t.getMarkedAttr(v)?.value?.refCount shouldBe 1
             }
@@ -96,7 +96,7 @@ class FormatTableImpTest :BaseTest(){
         test("decrease count to zero"){
             var t = table
             preCondition {
-                val (t2,newAttrMs) = t.add(v)
+                val (t2,newAttrMs) = t.addAndGetMarkedAttrMs(v)
                 t = t2
                 t.getMarkedAttr(v)?.value?.refCount shouldBe 1
             }

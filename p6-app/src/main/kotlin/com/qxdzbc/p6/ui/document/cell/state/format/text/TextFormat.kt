@@ -11,7 +11,7 @@ interface TextFormat {
     val isCrossed: Boolean
     val alignment: Alignment
     val textSize: Float
-    fun setTextSizeAttr(i:Float): TextFormat
+    fun setTextSize(i:Float): TextFormat
 
     val textColor:Color
     fun setTextColor(i:Color): TextFormat

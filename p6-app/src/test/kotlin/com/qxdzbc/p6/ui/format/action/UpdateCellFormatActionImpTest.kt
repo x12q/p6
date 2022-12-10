@@ -7,8 +7,10 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
+import com.qxdzbc.p6.ui.format.FormatTableImp
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -39,6 +41,44 @@ internal class UpdateCellFormatActionImpTest : BaseTest(){
         )
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!
     }
+
+    @Test
+    fun produceNewState(){
+        val cs = cellStateA1
+
+        val cellFormatTable = CellFormatTableImp().updateFloatTable(
+            FormatTableImp<Float>()
+                .addOrUpdate(1f)
+                .addOrUpdate(1f)
+                .addOrUpdate(2f)
+                .addOrUpdate(2f)
+        )
+        val newTextFormat = TextFormatImp().copy(textSize =3f)
+        test("produce new state"){
+            val newState = action.produceNewState(
+                cs,
+                newFormat =3f,
+                getCurrentFormat = {
+                    1f
+                },
+                getFormatTable ={
+                    cellFormatTable.floatTable
+                },
+                produceNewTextFormat = {t,tf->
+                    newTextFormat
+                },
+                produceNewCellFormatTable = {
+                    cellFormatTable.updateFloatTable(it)
+                }
+            )
+            postCondition {
+                newState.shouldNotBeNull()
+                newState.cellState.textFormat shouldBe newTextFormat
+
+            }
+        }
+    }
+
 
     @Test
     fun produceNewStateForNewTextColor(){

@@ -41,7 +41,7 @@ class UpdateCellFormatActionImp @Inject constructor(
                 it?.textSize
             },
             produceNewTextFormat = { newTextSize, oldFormat ->
-                oldFormat.setTextSizeAttr(newTextSize)
+                oldFormat.setTextSize(newTextSize)
             },
             getFormatTable = {
                 cTable.floatTable
@@ -189,7 +189,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         if (oldFormat != newFormat) {
             val formatTable = getFormatTable()
             var newCellTable: CellFormatTable
-            val (ft2, _) = formatTable.add(newFormat)
+            val (ft2, _) = formatTable.addAndGetMarkedAttrMs(newFormat)
             newCellTable = produceNewCellFormatTable(ft2)
             val cellFormat = cellState.textFormat
             val newTextFormat: TextFormat =
