@@ -29,14 +29,14 @@ class UpdateCellFormatActionImp @Inject constructor(
     private val cTable by cellFormatTableMs
 
     override fun setTextSize(cellId: CellId, textSize: Float) {
-        val newState = produceNewStateForNewTextSize(cellId, textSize)
+        val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
+        val newState = produceNewStateForNewTextSize(TargetState(oldCellState,cTable),textSize)
         applyNewState(cellId, newState)
     }
 
-    fun produceNewStateForNewTextSize(cellId: CellId, textSize: Float): TargetState? {
-        val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
+    fun produceNewStateForNewTextSize(inputState:TargetState, textSize: Float): TargetState? {
         val newState = produceNewState(
-            cellState = oldCellState,
+            cellState = inputState.cellState,
             newFormat = textSize,
             getCurrentFormat = {
                 it?.textSize
@@ -45,24 +45,19 @@ class UpdateCellFormatActionImp @Inject constructor(
                 oldFormat.setTextSize(newTextSize)
             },
             getFormatTable = {
-                cTable.floatTable
+                inputState.cellFormatTable.floatTable
             },
             produceNewCellFormatTable = {
-                cellFormatTableMs.value.updateFloatTable(it)
+                inputState.cellFormatTable.updateFloatTable(it)
             }
         )
         return newState
     }
 
     override fun setTextColor(cellId: CellId, color: Color) {
-        val newState = produceNewStateForNewTextColor(cellId, color)
-        applyNewState(cellId, newState)
-    }
-
-    fun produceNewStateForNewTextColor(cellId: CellId, color: Color): TargetState? {
         val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
         val newState = produceNewStateForNewTextColor(TargetState(oldCellState, cTable), color)
-        return newState
+        applyNewState(cellId, newState)
     }
 
     fun produceNewStateForNewTextColor(inputState: TargetState, color: Color): TargetState? {
@@ -88,14 +83,14 @@ class UpdateCellFormatActionImp @Inject constructor(
 
 
     override fun setUnderlined(cellId: CellId, underlined: Boolean) {
-        val newState = produceNewStateForNewUnderlined(cellId, underlined)
+        val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
+        val newState = produceNewStateForNewUnderlined(TargetState(oldCellState, cTable), underlined)
         applyNewState(cellId, newState)
     }
 
-    fun produceNewStateForNewUnderlined(cellId: CellId, underlined: Boolean): TargetState? {
-        val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
+    fun produceNewStateForNewUnderlined(inputState:TargetState, underlined: Boolean): TargetState? {
         val newState = produceNewState(
-            cellState = oldCellState,
+            cellState = inputState.cellState,
             newFormat = underlined.toBoolAttr(),
             getCurrentFormat = {
                 it?.isUnderlinedAttr
@@ -104,10 +99,10 @@ class UpdateCellFormatActionImp @Inject constructor(
                 oldFormat.setUnderlinedAttr(newUnderlined)
             },
             getFormatTable = {
-                cTable.boolTable
+                inputState.cellFormatTable.boolTable
             },
             produceNewCellFormatTable = {
-                cellFormatTableMs.value.updateBoolTable(it)
+                inputState.cellFormatTable.updateBoolTable(it)
             }
         )
         return newState
