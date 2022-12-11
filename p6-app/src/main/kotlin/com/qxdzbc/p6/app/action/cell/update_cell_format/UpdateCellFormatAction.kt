@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format.action
+package com.qxdzbc.p6.app.action.cell.update_cell_format
 
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.app.document.cell.CellId

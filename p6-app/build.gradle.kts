@@ -5,8 +5,6 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     java
-//    kotlin("jvm") version "1.6.10"
-//    kotlin("kapt") version "1.6.10"
 
     kotlin("jvm") version "1.7.20"
     kotlin("kapt") version "1.7.20"
@@ -22,10 +20,10 @@ idea {
         this.isDownloadSources = true
     }
 }
-//java {
-//    sourceCompatibility = JavaVersion.VERSION_15
-//    targetCompatibility = JavaVersion.VERSION_15
-//}
+java {
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
+}
 
 
 tasks {

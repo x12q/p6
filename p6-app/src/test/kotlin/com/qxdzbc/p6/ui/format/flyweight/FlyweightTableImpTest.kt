@@ -1,25 +1,25 @@
-package com.qxdzbc.p6.ui.format
+package com.qxdzbc.p6.ui.format.flyweight
 
-import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
-import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
+import com.qxdzbc.p6.ui.format.flyweight.FlyweightTableImp
+import com.qxdzbc.p6.ui.format.flyweight.Flyweights
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import test.BaseTest
 import kotlin.test.*
 
-class FormatTableImpTest :BaseTest(){
+class FlyweightTableImpTest :BaseTest(){
 
-    lateinit var table: FormatTableImp<Float>
+    lateinit var table: FlyweightTableImp<Float>
 
     @BeforeTest
     fun beforeTest() {
-        table = FormatTableImp()
+        table = FlyweightTableImp()
     }
 
     @Test
     fun addMarkedAttr() {
-        val attr = MarkedAttributes.valid(MockedAttr(123)).upCounter()
+        val attr = Flyweights.wrap(123f).upCounter()
         val msAttr=attr
         table.getMarkedAttr(10f).shouldBeNull()
         val t2 = table.addMarkedAttr(10f,msAttr)
@@ -41,7 +41,7 @@ class FormatTableImpTest :BaseTest(){
             val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
             t = t2
             postCondition {
-                newAttrMs.attr.attrValue shouldBe v
+                newAttrMs.attr shouldBe v
                 newAttrMs.refCount shouldBe 1
                 t2.getMarkedAttr(v) shouldBe newAttrMs
             }
@@ -53,7 +53,7 @@ class FormatTableImpTest :BaseTest(){
             }
             val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
             postCondition {
-                newAttrMs.attr.attrValue shouldBe v
+                newAttrMs.attr shouldBe v
                 newAttrMs.refCount shouldBe 2
                 t2.getMarkedAttr(v) shouldBe newAttrMs
             }
@@ -83,7 +83,7 @@ class FormatTableImpTest :BaseTest(){
             val t3 = t.changeCountIfPossible(v,1)
             postCondition {
                 t3.getMarkedAttr(v).shouldNotBeNull()
-                t3.getMarkedAttr(v)?.attr?.attrValue shouldBe v
+                t3.getMarkedAttr(v)?.attr shouldBe v
                 t3.getMarkedAttr(v)?.refCount shouldBe 2
             }
         }

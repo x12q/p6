@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format.action
+package com.qxdzbc.p6.app.action.cell.update_cell_format
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -13,7 +13,7 @@ import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.format.FormatTable
+import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable
 import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         applyNewState(cellId, newState)
     }
 
-    fun produceNewStateForNewTextSize(inputState:TargetState, textSize: Float): TargetState? {
+    fun produceNewStateForNewTextSize(inputState: TargetState, textSize: Float): TargetState? {
         val newState = produceNewState(
             cellState = inputState.cellState,
             newFormat = textSize,
@@ -44,7 +44,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             produceNewTextFormat = { newTextSize, oldFormat ->
                 oldFormat.setTextSize(newTextSize)
             },
-            getFormatTable = {
+            getFlyweightTable = {
                 inputState.cellFormatTable.floatTable
             },
             produceNewCellFormatTable = {
@@ -71,7 +71,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             produceNewTextFormat = { newColor, oldFormat ->
                 oldFormat.setTextColor(newColor)
             },
-            getFormatTable = {
+            getFlyweightTable = {
                 inputState.cellFormatTable.colorTable
             },
             produceNewCellFormatTable = {
@@ -88,7 +88,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         applyNewState(cellId, newState)
     }
 
-    fun produceNewStateForNewUnderlined(inputState:TargetState, underlined: Boolean): TargetState? {
+    fun produceNewStateForNewUnderlined(inputState: TargetState, underlined: Boolean): TargetState? {
         val newState = produceNewState(
             cellState = inputState.cellState,
             newFormat = underlined.toBoolAttr(),
@@ -98,7 +98,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             produceNewTextFormat = { newUnderlined, oldFormat ->
                 oldFormat.setUnderlinedAttr(newUnderlined)
             },
-            getFormatTable = {
+            getFlyweightTable = {
                 inputState.cellFormatTable.boolTable
             },
             produceNewCellFormatTable = {
@@ -125,7 +125,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             produceNewTextFormat = { newCrossed, oldFormat ->
                 oldFormat.setCrossedAttr(newCrossed)
             },
-            getFormatTable = {
+            getFlyweightTable = {
                 inputState.cellFormatTable.boolTable
             },
             produceNewCellFormatTable = {
@@ -155,7 +155,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             produceNewTextFormat = { newColor, oldFormat ->
                 oldFormat.setHorizontalAlignment(newColor)
             },
-            getFormatTable = {
+            getFlyweightTable = {
                 inputState.cellFormatTable.horizontalAlignmentTable
             },
             produceNewCellFormatTable = {
@@ -169,13 +169,13 @@ class UpdateCellFormatActionImp @Inject constructor(
         cellState: CellState,
         newFormat: T,
         getCurrentFormat: (TextFormat?) -> T?,
-        getFormatTable: () -> FormatTable<T>,
+        getFlyweightTable: () -> FlyweightTable<T>,
         produceNewTextFormat: (T, TextFormat) -> TextFormat,
-        produceNewCellFormatTable: (FormatTable<T>) -> CellFormatTable,
+        produceNewCellFormatTable: (FlyweightTable<T>) -> CellFormatTable,
     ): TargetState? {
         val oldFormat = getCurrentFormat(cellState.textFormat)
         if (oldFormat != newFormat) {
-            val formatTable = getFormatTable()
+            val formatTable = getFlyweightTable()
             var newCellTable: CellFormatTable
             val ft2 = formatTable.addOrUpdate(newFormat)
             newCellTable = produceNewCellFormatTable(ft2)

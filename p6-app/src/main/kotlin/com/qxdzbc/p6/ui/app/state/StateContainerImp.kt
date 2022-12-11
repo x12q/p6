@@ -43,7 +43,6 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.format.FormatTable
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import java.nio.file.Path
 import javax.inject.Inject

@@ -48,8 +48,7 @@ import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
-import com.qxdzbc.p6.ui.format.action.UpdateCellFormatAction
-import com.qxdzbc.p6.ui.format.action.UpdateCellFormatActionImp
+import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.squareup.anvil.annotations.MergeComponent

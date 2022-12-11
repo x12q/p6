@@ -7,8 +7,8 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
-import com.qxdzbc.p6.ui.format.FormatTable
-import com.qxdzbc.p6.ui.format.FormatTableImp
+import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable
+import com.qxdzbc.p6.ui.format.flyweight.FlyweightTableImp
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import dagger.Provides
 
@@ -16,8 +16,8 @@ import dagger.Provides
 interface CellFormatTableModule {
     companion object {
         @Provides
-        fun colorTable():FormatTable<Color>{
-            return FormatTableImp()
+        fun colorTable(): FlyweightTable<Color> {
+            return FlyweightTableImp()
         }
 
         @Provides
@@ -27,18 +27,18 @@ interface CellFormatTableModule {
         }
 
         @Provides
-        fun AlignmentFormatTable(): FormatTable<TextHorizontalAlignment> {
-            return FormatTableImp()
+        fun AlignmentFormatTable(): FlyweightTable<TextHorizontalAlignment> {
+            return FlyweightTableImp()
         }
 
         @Provides
-        fun BoolFormatTable(): FormatTable<BoolAttr> {
-            return FormatTableImp()
+        fun BoolFormatTable(): FlyweightTable<BoolAttr> {
+            return FlyweightTableImp()
         }
 
         @Provides
-        fun FloatFormatTable(): FormatTable<Float> {
-            return FormatTableImp()
+        fun FloatFormatTable(): FlyweightTable<Float> {
+            return FlyweightTableImp()
         }
     }
 }

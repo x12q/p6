@@ -1,37 +1,33 @@
-package com.qxdzbc.p6.ui.format
+package com.qxdzbc.p6.ui.format.flyweight
 
-import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
-import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
-import com.qxdzbc.p6.ui.format.attr.FormatAttributeImp
+data class FlyweightTableImp<T>(
+    override val attrMap: Map<T, Flyweight<T>> = emptyMap()
+) : FlyweightTable<T> {
 
-data class FormatTableImp<T>(
-    override val attrMap: Map<T, MarkedAttribute<T>> = emptyMap()
-) : FormatTable<T> {
-
-    override fun getMarkedAttr(v: T): MarkedAttribute<T>? {
+    override fun getMarkedAttr(v: T): Flyweight<T>? {
         return attrMap[v]
     }
 
-    override fun addMarkedAttr(v: T, attr: MarkedAttribute<T>): FormatTableImp<T> {
+    override fun addMarkedAttr(v: T, attr: Flyweight<T>): FlyweightTableImp<T> {
         return this.copy(
             attrMap = attrMap + (v to attr)
         )
     }
 
-    override fun removeMarkedAttr(v: T): FormatTableImp<T> {
+    override fun removeMarkedAttr(v: T): FlyweightTableImp<T> {
         return this.copy(
             attrMap = attrMap - v
         )
     }
 
-    override fun addAndGetMarkedAttr(v: T): Pair<FormatTableImp<T>, MarkedAttribute<T>> {
+    override fun addAndGetMarkedAttr(v: T): Pair<FlyweightTableImp<T>, Flyweight<T>> {
         val rt = internalAddOrUpdate(v){newAttrMs,newTable->
             Pair(newTable,newAttrMs)
         }
         return rt
     }
 
-    override fun addOrUpdate(v: T): FormatTableImp<T> {
+    override fun addOrUpdate(v: T): FlyweightTableImp<T> {
         val rt = internalAddOrUpdate(v){_,newTable->
             newTable
         }
@@ -40,28 +36,28 @@ data class FormatTableImp<T>(
 
     private fun <R> internalAddOrUpdate(
         v: T,
-        returnFunction: (ms: MarkedAttribute<T>, newTable: FormatTableImp<T>) -> R
+        returnFunction: (ms: Flyweight<T>, newTable: FlyweightTableImp<T>) -> R
     ): R {
         val rt = this.getMarkedAttr(v)?.let {
             val newAttr = it.upCounter()
             returnFunction(newAttr, this.copy(attrMap = attrMap + (v to newAttr)))
         } ?: run {
-            val newAttrMs = MarkedAttributes.wrap(FormatAttributeImp(v)).upCounter()
+            val newAttrMs = Flyweights.wrap(v).upCounter()
             val newTable = this.addMarkedAttr(v, newAttrMs)
             returnFunction(newAttrMs,newTable)
         }
         return rt
     }
 
-    override fun reduceCountIfPossible(v: T): FormatTable<T> {
+    override fun reduceCountIfPossible(v: T): FlyweightTable<T> {
         return this.changeCountIfPossible(v, -1)
     }
 
-    override fun increaseCountIfPossible(v: T): FormatTable<T> {
+    override fun increaseCountIfPossible(v: T): FlyweightTable<T> {
         return this.changeCountIfPossible(v, 1)
     }
 
-    override fun changeCountIfPossible(v: T, count: Int): FormatTable<T> {
+    override fun changeCountIfPossible(v: T, count: Int): FlyweightTable<T> {
         val rt = getMarkedAttr(v)?.let {
             val newAttr = it.changeCounterBy(count)
             if (newAttr.isCounterZero) {
@@ -73,7 +69,7 @@ data class FormatTableImp<T>(
         return rt
     }
 
-    override fun removeAll(): FormatTableImp<T> {
+    override fun removeAll(): FlyweightTableImp<T> {
         return this.copy(
             attrMap = attrMap.filter { it.value.isCounterNotZero }
         )

@@ -1,36 +1,37 @@
 package com.qxdzbc.p6.ui.format
 
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
+import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable
+import com.qxdzbc.p6.ui.format.flyweight.FlyweightTableImp
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 @ContributesBinding(scope = P6AnvilScope::class)
 data class CellFormatTableImp @Inject constructor(
-    override val floatTable: FormatTable<Float>,
-    override val colorTable: FormatTable<Color>,
-    override val boolTable: FormatTable<BoolAttr>,
-    override val horizontalAlignmentTable: FormatTable<TextHorizontalAlignment>
+    override val floatTable: FlyweightTable<Float>,
+    override val colorTable: FlyweightTable<Color>,
+    override val boolTable: FlyweightTable<BoolAttr>,
+    override val horizontalAlignmentTable: FlyweightTable<TextHorizontalAlignment>
 ) : CellFormatTable {
 
-    constructor() : this(FormatTableImp(), FormatTableImp(),FormatTableImp(),FormatTableImp())
+    constructor() : this(FlyweightTableImp(), FlyweightTableImp(), FlyweightTableImp(), FlyweightTableImp())
 
-    override fun updateFloatTable(i: FormatTable<Float>): CellFormatTableImp {
+    override fun updateFloatTable(i: FlyweightTable<Float>): CellFormatTableImp {
         return this.copy(floatTable = i)
     }
 
-    override fun updateColorTable(i: FormatTable<Color>): CellFormatTableImp {
+    override fun updateColorTable(i: FlyweightTable<Color>): CellFormatTableImp {
         return this.copy(colorTable = i)
     }
 
-    override fun updateBoolTable(i: FormatTable<BoolAttr>): CellFormatTableImp {
+    override fun updateBoolTable(i: FlyweightTable<BoolAttr>): CellFormatTableImp {
         return this.copy(boolTable = i)
     }
 
-    override fun updateHorizontalAlignmentTable(i: FormatTable<TextHorizontalAlignment>): CellFormatTable {
+    override fun updateHorizontalAlignmentTable(i: FlyweightTable<TextHorizontalAlignment>): CellFormatTable {
         return this.copy(horizontalAlignmentTable = i)
     }
 }
