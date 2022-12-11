@@ -14,6 +14,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.FormatTable
+import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -95,12 +96,12 @@ class UpdateCellFormatActionImp @Inject constructor(
         val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
         val newState = produceNewState(
             cellState = oldCellState,
-            newFormat = underlined,
+            newFormat = underlined.toBoolAttr(),
             getCurrentFormat = {
-                it?.isUnderlined
+                it?.isUnderlinedAttr
             },
             produceNewTextFormat = { newUnderlined, oldFormat ->
-                oldFormat.setUnderlined(newUnderlined)
+                oldFormat.setUnderlinedAttr(newUnderlined)
             },
             getFormatTable = {
                 cTable.boolTable
@@ -114,25 +115,20 @@ class UpdateCellFormatActionImp @Inject constructor(
 
 
     override fun setCrossed(cellId: CellId, crossed: Boolean) {
-        val newState = produceNewStateForNewCrossed(cellId, crossed)
-        applyNewState(cellId, newState)
-    }
-
-    fun produceNewStateForNewCrossed(cellId: CellId, crossed: Boolean): TargetState? {
         val cellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
         val newState = produceNewStateForNewCrossed(TargetState(cellState, cTable), crossed)
-        return newState
+        applyNewState(cellId, newState)
     }
 
     fun produceNewStateForNewCrossed(inputState: TargetState, crossed: Boolean): TargetState? {
         val newState = produceNewState(
             cellState = inputState.cellState,
-            newFormat = crossed,
+            newFormat = crossed.toBoolAttr(),
             getCurrentFormat = {
-                it?.isCrossed
+                it?.isCrossedAttr
             },
             produceNewTextFormat = { newCrossed, oldFormat ->
-                oldFormat.setCrossed(newCrossed)
+                oldFormat.setCrossedAttr(newCrossed)
             },
             getFormatTable = {
                 inputState.cellFormatTable.boolTable
@@ -145,17 +141,9 @@ class UpdateCellFormatActionImp @Inject constructor(
     }
 
     override fun setHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment) {
-        val newState = produceNewStateForNewHorizontalAlignment(cellId, alignment)
-        applyNewState(cellId, newState)
-    }
-
-    fun produceNewStateForNewHorizontalAlignment(
-        cellId: CellId,
-        alignment: TextHorizontalAlignment
-    ): TargetState? {
         val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
         val newState = produceNewStateForNewHorizontalAlignment(TargetState(oldCellState, cTable), alignment)
-        return newState
+        applyNewState(cellId, newState)
     }
 
     fun produceNewStateForNewHorizontalAlignment(

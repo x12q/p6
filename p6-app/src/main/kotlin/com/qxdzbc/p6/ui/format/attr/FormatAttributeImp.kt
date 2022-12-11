@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format.text_attr
+package com.qxdzbc.p6.ui.format.attr
 
 import com.qxdzbc.p6.ui.format.FormatAttribute
 

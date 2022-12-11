@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.format
 
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.format.attr.BoolAttr
 
 interface CellFormatTable {
     val floatTable:FormatTable<Float>
@@ -10,8 +11,8 @@ interface CellFormatTable {
     val colorTable:FormatTable<Color>
     fun updateColorTable(i:FormatTable<Color>):CellFormatTable
 
-    val boolTable:FormatTable<Boolean>
-    fun updateBoolTable(i:FormatTable<Boolean>):CellFormatTable
+    val boolTable:FormatTable<BoolAttr>
+    fun updateBoolTable(i:FormatTable<BoolAttr>):CellFormatTable
 
     val horizontalAlignmentTable:FormatTable<TextHorizontalAlignment>
     fun updateHorizontalAlignmentTable(i:FormatTable<TextHorizontalAlignment>):CellFormatTable

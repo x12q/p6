@@ -26,6 +26,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
+import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 
 @Composable
 fun CellView(
@@ -86,8 +87,8 @@ fun main() = P6TestApp {
                             textColor = Color.Red,
                             verticalAlignment = TextVerticalAlignment.Center,
                             horizontalAlignment = TextHorizontalAlignment.End,
-                            isCrossed = true,
-                            isUnderlined = true,
+                            isCrossedAttr = true.toBoolAttr(),
+                            isUnderlinedAttr = true.toBoolAttr(),
                             fontWeight = FontWeight.Bold
 
                     ),

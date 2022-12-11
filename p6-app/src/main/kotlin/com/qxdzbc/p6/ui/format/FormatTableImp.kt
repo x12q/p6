@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.p6.ui.format.marked.MarkedAttribute
 import com.qxdzbc.p6.ui.format.marked.MarkedAttributes
-import com.qxdzbc.p6.ui.format.text_attr.FormatAttributeImp
+import com.qxdzbc.p6.ui.format.attr.FormatAttributeImp
 
 data class FormatTableImp<T>(
     override val attrMap: Map<T, MarkedAttribute<T>> = emptyMap()

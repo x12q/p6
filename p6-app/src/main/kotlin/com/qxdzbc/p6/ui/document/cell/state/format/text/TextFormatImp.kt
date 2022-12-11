@@ -7,6 +7,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import com.qxdzbc.p6.ui.format.attr.BoolAttr
+import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 
 data class TextFormatImp(
     override val textSize: Float = 13f,
@@ -14,10 +16,13 @@ data class TextFormatImp(
     override val verticalAlignment: TextVerticalAlignment = TextVerticalAlignment.Center,
     override val horizontalAlignment: TextHorizontalAlignment = TextHorizontalAlignment.Start,
     override val textColor: Color = Color.Black,
-    override val isUnderlined:Boolean = false,
-    override val isCrossed:Boolean = false,
+    override val isUnderlinedAttr: BoolAttr = BoolAttr.FALSE,
+    override val isCrossedAttr:BoolAttr = BoolAttr.FALSE,
     override val fontWeight: FontWeight = FontWeight.Normal,
 ) : TextFormat {
+
+    override val isCrossed:Boolean get()= isCrossedAttr.boolean
+    override val isUnderlined:Boolean get()=isUnderlinedAttr.boolean
     companion object {
         val default = TextFormatImp()
     }
@@ -60,11 +65,19 @@ data class TextFormatImp(
     }
 
     override fun setCrossed(i: Boolean): TextFormatImp {
-        return this.copy(isCrossed=i)
+        return this.copy(isCrossedAttr = i.toBoolAttr())
+    }
+
+    override fun setCrossedAttr(i: BoolAttr): TextFormatImp {
+        return this.copy(isCrossedAttr=i)
     }
 
     override fun setUnderlined(i: Boolean): TextFormatImp {
-        return this.copy(isUnderlined=i)
+        return this.copy(isUnderlinedAttr=i.toBoolAttr())
+    }
+
+    override fun setUnderlinedAttr(i: BoolAttr): TextFormatImp {
+        return this.copy(isUnderlinedAttr=i)
     }
 
     override fun setFontWeight(i: FontWeight): TextFormatImp {

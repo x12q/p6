@@ -12,6 +12,8 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
 import com.qxdzbc.p6.ui.format.FormatTableImp
+import com.qxdzbc.p6.ui.format.attr.BoolAttr
+import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -45,8 +47,41 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     }
 
     @Test
+    fun produceNewStateForNewCrossed(){
+        test("set cell A1 crossed: true -> false"){
+            val cellFormatTable = CellFormatTableImp().updateBoolTable(
+                FormatTableImp<BoolAttr>()
+                    .addOrUpdate(BoolAttr.TRUE)
+                    .addOrUpdate(BoolAttr.TRUE)
+                    .addOrUpdate(BoolAttr.FALSE)
+                    .addOrUpdate(BoolAttr.FALSE)
+            )
+            val inputState = UpdateCellFormatActionImp.TargetState(
+                cellState = cellStateA1.setTextCrossed(true),
+                cellFormatTable = cellFormatTable
+            )
+            val newState = action.produceNewStateForNewCrossed(
+                inputState = inputState,
+                crossed = false
+            )
+            postCondition {
+                val expectedState = UpdateCellFormatActionImp.TargetState(
+                    inputState.cellState.setTextCrossed(false),
+                    inputState.cellFormatTable.updateBoolTable(
+                        inputState.cellFormatTable.boolTable
+                            .reduceCountIfPossible(BoolAttr.TRUE)
+                            .increaseCountIfPossible(BoolAttr.FALSE)
+                    )
+                )
+                newState shouldBe expectedState
+            }
+
+        }
+    }
+
+    @Test
     fun produceNewStateForNewHorizontalAlignment() {
-        test("set cell A1 text horizontal alignment from Center to End") {
+        test("set cell A1 text horizontal alignment: Center -> End") {
             val cellFormatTable = CellFormatTableImp().updateHorizontalAlignmentTable(
                 FormatTableImp<TextHorizontalAlignment>()
                     .addOrUpdate(TextHorizontalAlignment.Center)
@@ -75,7 +110,6 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                 newState shouldBe expectedState
             }
         }
-
     }
 
     @Test

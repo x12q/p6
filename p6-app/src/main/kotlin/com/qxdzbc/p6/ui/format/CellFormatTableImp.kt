@@ -4,6 +4,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ import javax.inject.Inject
 data class CellFormatTableImp @Inject constructor(
     override val floatTable: FormatTable<Float>,
     override val colorTable: FormatTable<Color>,
-    override val boolTable: FormatTable<Boolean>,
+    override val boolTable: FormatTable<BoolAttr>,
     override val horizontalAlignmentTable: FormatTable<TextHorizontalAlignment>
 ) : CellFormatTable {
 
@@ -25,7 +26,7 @@ data class CellFormatTableImp @Inject constructor(
         return this.copy(colorTable = i)
     }
 
-    override fun updateBoolTable(i: FormatTable<Boolean>): CellFormatTableImp {
+    override fun updateBoolTable(i: FormatTable<BoolAttr>): CellFormatTableImp {
         return this.copy(boolTable = i)
     }
 
