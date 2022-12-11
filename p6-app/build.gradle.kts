@@ -1,14 +1,10 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.gradle.internal.os.OperatingSystem
 
-
-
 plugins {
     java
-
     kotlin("jvm") version "1.7.20"
     kotlin("kapt") version "1.7.20"
-
     id("org.jetbrains.compose") version "1.2.1"
     id("maven-publish")
     idea
@@ -20,16 +16,15 @@ idea {
         this.isDownloadSources = true
     }
 }
+
 java {
     sourceCompatibility = JavaVersion.VERSION_15
     targetCompatibility = JavaVersion.VERSION_15
 }
 
-
 tasks {
-    val jvmVersion = "15"
     compileKotlin {
-        kotlinOptions { jvmTarget = jvmVersion }
+        kotlinOptions { jvmTarget = "15" }
     }
 }
 
@@ -57,6 +52,7 @@ val composeTestVersion = "1.1.1"
 val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
+//extra["p6Version"]
 val apacheCommonTextVersion = "1.10.0"
 val apacheCommonCsvVersion = "1.9.0"
 val apacheCommonIOVersion = "2.11.0"
@@ -64,7 +60,7 @@ val kotestVersion="5.5.4"
 dependencies {
 //    implementation("com.google.code.gson:gson:2.10")
 
-    testImplementation("org.hamcrest:hamcrest:2.2")
+//    testImplementation("org.hamcrest:hamcrest:2.2")
 
     implementation("org.apache.commons:commons-text:${apacheCommonTextVersion}")
     implementation("org.apache.commons:commons-csv:${apacheCommonCsvVersion}")
@@ -90,6 +86,7 @@ dependencies {
     implementation(project(":err"))
     implementation(project(":common"))
     implementation(project(":common-compose"))
+    implementation(project(":common-test"))
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.17.2")

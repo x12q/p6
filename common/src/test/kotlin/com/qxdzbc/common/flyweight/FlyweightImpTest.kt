@@ -1,7 +1,7 @@
-package com.qxdzbc.p6.ui.format.flyweight
+package com.qxdzbc.common.flyweight
 
-import com.qxdzbc.p6.ui.format.flyweight.Flyweight
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightImp
+import com.qxdzbc.common.flyweight.Flyweight
+import com.qxdzbc.common.flyweight.FlyweightImp
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

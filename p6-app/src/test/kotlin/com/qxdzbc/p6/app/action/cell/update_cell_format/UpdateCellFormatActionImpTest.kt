@@ -3,7 +3,6 @@ package com.qxdzbc.p6.app.action.cell.update_cell_format
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -13,7 +12,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTableImp
+import com.qxdzbc.common.flyweight.FlyweightTableImp
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe

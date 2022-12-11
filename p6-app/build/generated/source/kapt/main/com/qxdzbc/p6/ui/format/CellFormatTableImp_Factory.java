@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.ui.format;
 
 import androidx.compose.ui.graphics.Color;
+import com.qxdzbc.common.flyweight.FlyweightTable;
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment;
 import com.qxdzbc.p6.ui.format.attr.BoolAttr;
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
@@ -46,7 +46,8 @@ public final class CellFormatTableImp_Factory implements Factory<CellFormatTable
     return newInstance(floatTableProvider.get(), colorTableProvider.get(), boolTableProvider.get(), horizontalAlignmentTableProvider.get());
   }
 
-  public static CellFormatTableImp_Factory create(Provider<FlyweightTable<Float>> floatTableProvider,
+  public static CellFormatTableImp_Factory create(
+      Provider<FlyweightTable<Float>> floatTableProvider,
       Provider<FlyweightTable<Color>> colorTableProvider,
       Provider<FlyweightTable<BoolAttr>> boolTableProvider,
       Provider<FlyweightTable<TextHorizontalAlignment>> horizontalAlignmentTableProvider) {
@@ -54,8 +55,8 @@ public final class CellFormatTableImp_Factory implements Factory<CellFormatTable
   }
 
   public static CellFormatTableImp newInstance(FlyweightTable<Float> floatTable,
-                                               FlyweightTable<Color> colorTable, FlyweightTable<BoolAttr> boolTable,
-                                               FlyweightTable<TextHorizontalAlignment> horizontalAlignmentTable) {
+      FlyweightTable<Color> colorTable, FlyweightTable<BoolAttr> boolTable,
+      FlyweightTable<TextHorizontalAlignment> horizontalAlignmentTable) {
     return new CellFormatTableImp(floatTable, colorTable, boolTable, horizontalAlignmentTable);
   }
 }

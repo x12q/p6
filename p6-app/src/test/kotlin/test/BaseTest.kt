@@ -2,9 +2,8 @@ package test
 
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import test.splitter.TestSplitter
 import kotlin.test.BeforeTest
-
+import com.qxdzbc.common.test_util.TestSplitter
 abstract class BaseTest : TestSplitter() {
     private var _ts: TestSample? = null
     val ts: TestSample

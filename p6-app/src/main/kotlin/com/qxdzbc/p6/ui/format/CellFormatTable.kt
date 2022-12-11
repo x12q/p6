@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.format
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable
+import com.qxdzbc.common.flyweight.FlyweightTable
 
 interface CellFormatTable {
     val floatTable: FlyweightTable<Float>

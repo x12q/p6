@@ -7,8 +7,8 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTableImp
+import com.qxdzbc.common.flyweight.FlyweightTable
+import com.qxdzbc.common.flyweight.FlyweightTableImp
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import dagger.Provides
 

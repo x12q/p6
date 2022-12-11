@@ -1,9 +1,4 @@
-package test.splitter
-
-sealed interface TestContext{
-    val testDescription:String
-    data class Str(override val testDescription: String) :TestContext
-}
+package com.qxdzbc.common.test_util
 
 
 abstract class TestSplitter {

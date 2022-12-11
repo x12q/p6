@@ -13,7 +13,7 @@ import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable
+import com.qxdzbc.common.flyweight.FlyweightTable
 import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject

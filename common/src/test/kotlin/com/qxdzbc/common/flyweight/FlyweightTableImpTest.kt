@@ -1,14 +1,12 @@
-package com.qxdzbc.p6.ui.format.flyweight
+package com.qxdzbc.common.flyweight
 
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTableImp
-import com.qxdzbc.p6.ui.format.flyweight.Flyweights
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import test.BaseTest
 import kotlin.test.*
+import com.qxdzbc.common.test_util.TestSplitter
 
-class FlyweightTableImpTest :BaseTest(){
+class FlyweightTableImpTest :TestSplitter(){
 
     lateinit var table: FlyweightTableImp<Float>
 

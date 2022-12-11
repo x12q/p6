@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format.flyweight
+package com.qxdzbc.common.flyweight
 
 data class FlyweightTableImp<T>(
     override val attrMap: Map<T, Flyweight<T>> = emptyMap()

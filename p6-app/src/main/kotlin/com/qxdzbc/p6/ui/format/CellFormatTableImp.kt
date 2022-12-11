@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTableImp
+import com.qxdzbc.common.flyweight.FlyweightTable
+import com.qxdzbc.common.flyweight.FlyweightTableImp
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 

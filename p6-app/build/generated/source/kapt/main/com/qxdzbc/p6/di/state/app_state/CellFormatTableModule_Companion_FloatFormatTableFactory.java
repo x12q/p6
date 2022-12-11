@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.di.state.app_state;
 
-import com.qxdzbc.p6.ui.format.flyweight.FlyweightTable;
+import com.qxdzbc.common.flyweight.FlyweightTable;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
