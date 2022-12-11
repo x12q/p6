@@ -14,7 +14,7 @@ class MarkedAttributeImpTest {
     }
     @Test
     fun all() {
-        var marked:MarkedAttribute<Float> = MutableMarkedAttribute(MockAttr,1)
+        var marked:MarkedAttribute<Float> = ImmutableMarkedAttribute(MockAttr,1)
 
         assertEquals(1,marked.refCount)
         assertTrue(marked.isCounterNotZero)

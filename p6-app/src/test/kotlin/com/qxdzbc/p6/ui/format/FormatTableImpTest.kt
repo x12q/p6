@@ -33,7 +33,6 @@ class FormatTableImpTest :BaseTest(){
     fun add() {
         val v = 123f
         var t = table
-        var attrMs:MarkedAttribute<Float>? = null
 
         test("add 123 to table"){
             preCondition {
@@ -41,7 +40,6 @@ class FormatTableImpTest :BaseTest(){
             }
             val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
             t = t2
-            attrMs = newAttrMs
             postCondition {
                 newAttrMs.attr.attrValue shouldBe v
                 newAttrMs.refCount shouldBe 1
@@ -55,7 +53,6 @@ class FormatTableImpTest :BaseTest(){
             }
             val (t2,newAttrMs) = t.addAndGetMarkedAttr(v)
             postCondition {
-                newAttrMs shouldBe attrMs
                 newAttrMs.attr.attrValue shouldBe v
                 newAttrMs.refCount shouldBe 2
                 t2.getMarkedAttr(v) shouldBe newAttrMs

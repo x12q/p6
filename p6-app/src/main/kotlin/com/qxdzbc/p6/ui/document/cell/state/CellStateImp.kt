@@ -19,8 +19,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 data class CellStateImp(
     override val address: CellAddress,
     override val cellMs: Ms<Cell>?,
-    override var textFormat: TextFormat? = null,
-//    override val textFormatMs: Ms<TextFormat?> = ms(null),
+    override var textFormat: TextFormat?=null,
     override val cellFormatMs: Ms<CellFormat?> = ms(null),
 ) : CellState {
     init {
@@ -45,12 +44,12 @@ data class CellStateImp(
     }
 
     override fun setVerticalAlignment(alignment: TextVerticalAlignment): CellState {
-        textFormat = textFormat?.setVerticalAlignment(i = alignment)
+        textFormat = textFormatOrCreateNew.setVerticalAlignment(i = alignment)
         return this
     }
 
     override fun setHorizontalAlignment(alignment: TextHorizontalAlignment): CellState {
-        textFormat = textFormat?.setHorizontalAlignment(i = alignment)
+        textFormat = textFormatOrCreateNew.setHorizontalAlignment(i = alignment)
         return this
     }
 
@@ -60,7 +59,7 @@ data class CellStateImp(
         get() = textFormat?.isCrossed
 
     override fun setTextCrossed(i: Boolean): CellState {
-        textFormat = textFormat?.setCrossed(i = i)
+        textFormat = textFormatOrCreateNew.setCrossed(i = i)
         return this
     }
 
@@ -68,15 +67,19 @@ data class CellStateImp(
         get() = textFormat?.isUnderlined
 
     override fun setTextUnderlined(i: Boolean): CellState {
-        textFormat = textFormat?.setUnderlined(i = i)
+        textFormat = textFormatOrCreateNew.setUnderlined(i = i)
         return this
     }
 
     override val fontWeight: FontWeight?
         get() = textFormat?.fontWeight
 
+    private inline val textFormatOrCreateNew:TextFormat get(){
+        return textFormat?: TextFormat.createDefaultTextFormat()
+    }
+
     override fun setFontWeight(i: FontWeight): CellState {
-        textFormat = textFormat?.setFontWeight(i = i)
+        textFormat = textFormatOrCreateNew.setFontWeight(i = i)
         return this
     }
 

@@ -44,7 +44,7 @@ data class FormatTableImp<T>(
     ): R {
         val rt = this.getMarkedAttr(v)?.let {
             val newAttr = it.upCounter()
-            returnFunction(newAttr, this)
+            returnFunction(newAttr, this.copy(attrMap = attrMap + (v to newAttr)))
         } ?: run {
             val newAttrMs = MarkedAttributes.wrap(FormatAttributeImp(v)).upCounter()
             val newTable = this.addMarkedAttr(v, newAttrMs)

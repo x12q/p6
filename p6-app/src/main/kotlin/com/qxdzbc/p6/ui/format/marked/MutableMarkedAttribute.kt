@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.format.marked
 
 import com.qxdzbc.p6.ui.format.FormatAttribute
 
+@Deprecated("don't use, kept just in case")
 data class MutableMarkedAttribute<T> internal constructor(
     override val attr: FormatAttribute<T>,
     private var counter: Int,

@@ -28,9 +28,6 @@ interface TextFormat {
     fun setFontWeight(i: FontWeight): TextFormat
 
     companion object{
-        fun createDefaultTextFormat(): TextFormat = TextFormatImp(
-            textSize = 13f,
-            textColor=Color.Black
-        )
+        fun createDefaultTextFormat(): TextFormat = TextFormatImp()
     }
 }
