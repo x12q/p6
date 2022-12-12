@@ -3,6 +3,9 @@ package com.qxdzbc.p6.app.common.key_event
 import androidx.compose.ui.input.key.KeyEvent
 import com.qxdzbc.common.compose.key_event.MKeyEvent
 
+/**
+ * A wrapper for keyboard event
+ */
 interface P6KeyEvent : MKeyEvent {
     companion object{
         fun KeyEvent.toP6KeyEvent():P6KeyEvent{
