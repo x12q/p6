@@ -43,9 +43,6 @@ fun FrameWindowScope.WindowMenu(
             Item("Connect to existing kernel", enabled =true){
                 codeMenuAction?.openDialogToConnectToKernel(windowState.id)
             }
-            Item("Stop kernel", enabled =  windowState.kernel.kernelStatus.isProcessUnderManagement){
-                codeMenuAction?.stopKernel()
-            }
         }
     }
 }

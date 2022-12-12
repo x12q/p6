@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 /**
- * A simplify interface that accepts a piece of Python code, execute it, then return a representative String.
+ * A simplified interface that accepts a piece of Python code, execute it, then return a representative String.
  * Depend on implementation, the representative String may carry different meaning.
  * Code text provided to [CodeRunner] is assumed to be in correct form, so implementations of this interface do not need to worry about that.
  */

@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
 @P6Singleton
-@ContributesBinding(P6AnvilScope::class)
 class CodeEditorActionImp @Inject constructor(
     private val codeEditorStateMs: Ms<CodeEditorState>,
     private val codeRunner: CodeRunner,

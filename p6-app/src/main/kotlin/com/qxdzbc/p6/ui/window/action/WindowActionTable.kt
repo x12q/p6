@@ -19,6 +19,6 @@ interface WindowActionTable{
     val saveFileDialogAction: FileDialogAction
     val workbookActionTable: WorkbookActionTable
 
-    val codeEditorAction: CodeEditorAction
+//    val codeEditorAction: CodeEditorAction
     val codeMenuAction: CodeMenuAction
 }

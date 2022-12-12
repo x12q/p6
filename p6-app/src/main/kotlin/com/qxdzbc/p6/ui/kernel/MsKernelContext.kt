@@ -20,7 +20,7 @@ import javax.inject.Inject
  * The purpose of this kernel context is that it can influence a Ms of [KernelStatus] on its event
  */
 @P6Singleton
-@ContributesBinding(P6AnvilScope::class)
+//@ContributesBinding(P6AnvilScope::class)
 @MsKernelContextQualifier
 class MsKernelContext @Inject constructor(
     private val kernelContext: KernelContext,

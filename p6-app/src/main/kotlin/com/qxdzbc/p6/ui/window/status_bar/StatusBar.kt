@@ -14,14 +14,6 @@ fun StatusBar(
     state:StatusBarState
 ){
     Row{
-        val enableKernelControl = remember{false}
-        if(enableKernelControl){
-            KernelStatusItem(state.kernelStatusItemState, onClick={
-                state.kernelStatusItemState = state.kernelStatusItemState.showDetail()
-            })
-            Spacer(modifier = Modifier.width(10.dp))
-        }
-        
         RPCStatusView(
             state = state.rpcServerStatusState,
             onClick = {

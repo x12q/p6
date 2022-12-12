@@ -55,7 +55,6 @@ import java.nio.file.Paths
 fun main() {
     runBlocking {
         val cs = this
-        var outKernelContext: KernelContext? = null
         var p6Comp2: P6Component? = null
         val coldInit = ColdInit()
         application {
@@ -64,22 +63,9 @@ fun main() {
             // x: initialize the app
             LaunchedEffect(Unit) {
                 val kernelCoroutineScope: CoroutineScope = cs
-                val msgApiComponent: MessageApiComponent = DaggerMessageApiComponent.builder()
-                    .kernelCoroutineScope(kernelCoroutineScope)
-                    .networkServiceCoroutineDispatcher(Dispatchers.Default)
-                    .serviceLogger(Loggers.serviceLogger)
-                    .msgApiCommonLogger(Loggers.msgApiCommonLogger)
-                    .apply {
-                        val defaultKernelConfigRs = KernelConfigImp.fromFile(Paths.get(P6R.defaultPythonConfigFile))
-                        if (defaultKernelConfigRs is Ok) {
-                            this.kernelConfig(defaultKernelConfigRs.value)
-                        }
-                    }
-                    .build()
 
                 val p6Comp: P6Component = DaggerP6Component.builder()
                     .username("user_name")
-                    .messageApiComponent(msgApiComponent)
                     .applicationCoroutineScope(kernelCoroutineScope)
                     .applicationScope(appScope)
                     .build()
@@ -146,9 +132,6 @@ fun main() {
                 P6GlobalAccessPoint.setP6Component(p6Comp)
 
                 val p6RpcServer = p6Comp.p6RpcServer()
-                val kernelContext: KernelContext = p6Comp.kernelContext()
-                val kernelSM = p6Comp.kernelServiceManager()
-                outKernelContext = p6Comp.kernelContext()
                 cs.launch(Dispatchers.Default) {
                     p6RpcServer.start()
                 }
@@ -163,23 +146,9 @@ fun main() {
                     // x: kill kernel context when jvm stops
                     runBlocking {
                         p6RpcServer.stop()
-                        kernelContext.stopAll()
                     }
                 })
 
-                val kernelStartRs: Result<Unit, ErrorReport> = kernelContext.startAll().andThen {
-                    kernelSM.startAll()
-                }
-                if (kernelStartRs is Err) {
-                    println("Cant start kernel")
-                    println(kernelStartRs)
-                } else {
-                    val serviceStartRS = kernelSM.startAll()
-                    if (serviceStartRS is Err) {
-                        println("Cant start kernel service")
-                        println(serviceStartRS)
-                    }
-                }
                 starting = false
             }
             MaterialTheme(colors = P6LightColors2, typography = P6DefaultTypoGraphy) {
@@ -199,18 +168,6 @@ fun main() {
                                 windowActionTable = windowActionTable,
                                 windowAction = windowAction,
                             )
-                        }
-
-                        if (appState.codeEditorIsOpen) {
-                            val appAction = p6Comp3.appAction()
-                            Window(onCloseRequest = {
-                                appAction.closeCodeEditor()
-                            }, title = "Code Editor") {
-                                ScriptEditor(
-                                    state = appState.codeEditorState,
-                                    actionTable = p6Comp3.codeEditorActionTable()
-                                )
-                            }
                         }
 
                         var appErrorContainer: ErrorContainer by appState.errorContainerMs
@@ -252,6 +209,5 @@ fun main() {
 
             }
         }
-        outKernelContext?.stopAll()
     }
 }

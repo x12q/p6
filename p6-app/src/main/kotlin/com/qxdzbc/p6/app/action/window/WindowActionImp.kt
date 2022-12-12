@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.action.window
 
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ApplicationScope
@@ -18,21 +19,18 @@ import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-
-
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
-import com.qxdzbc.p6.ui.kernel.KernelAction
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.nio.file.Path
 import javax.inject.Inject
+
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=WindowAction::class)
 class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
-    private val kernelAction: KernelAction,
     private val closeWbAction: CloseWorkbookAction,
     private val stateContMs: Ms<SubAppStateContainer>,
     private val newWbAct: CreateNewWorkbookAction,
@@ -45,7 +43,6 @@ class WindowActionImp @Inject constructor(
     MakeSavePath by makeSavePath,
     CloseWindowAction by closeWindowAct,
     SetActiveWindowAction by setActiveWdAct,
-    KernelAction by kernelAction,
     SaveWorkbookAction by saveWbAction {
 
     private var sc by stateContMs

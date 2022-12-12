@@ -32,7 +32,6 @@ interface WindowState : WithSize {
     val focusStateMs:Ms<WindowFocusState>
     var focusState:WindowFocusState
 
-    val kernel:KernelContext
     val statusBarStateMs:Ms<StatusBarState>
     var statusBarState:StatusBarState
 

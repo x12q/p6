@@ -18,7 +18,7 @@ class WindowActionTableImp @Inject constructor(
     override val workbookActionTable: WorkbookActionTable,
     override  val wbTabBarAction:WorkbookTabBarAction,
     override  val codeMenuAction: CodeMenuAction,
-    override val codeEditorAction:CodeEditorAction,
+//    override val codeEditorAction:CodeEditorAction,
     override val windowAction: WindowAction,
 ) : WindowActionTable {
     override val saveFileDialogAction: FileDialogAction

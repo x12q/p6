@@ -14,8 +14,6 @@ import javax.inject.Inject
 class CodeMenuActionImp @Inject constructor(
     private val windowAction: WindowAction,
     private val appAction: AppAction,
-    @MsKernelContextQualifier
-    private val kernelContext: KernelContext,
 ) : CodeMenuAction {
     override fun openCodeEditor() {
         appAction.openCodeEditor()
@@ -30,6 +28,6 @@ class CodeMenuActionImp @Inject constructor(
     }
 
     override fun stopKernel() {
-        kernelContext.stopKernel()
+        throw UnsupportedOperationException()
     }
 }

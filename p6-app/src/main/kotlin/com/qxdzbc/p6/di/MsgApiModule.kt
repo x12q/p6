@@ -10,28 +10,28 @@ import org.zeromq.ZContext
 @dagger.Module
 interface MsgApiModule {
     companion object {
-        @Provides
-        @P6Singleton
-        fun KernelServiceManager(msgApiComponent: MessageApiComponent): KernelServiceManager {
-            return msgApiComponent.kernelServiceManager()
-        }
-
-        @Provides
-        @P6Singleton
-        fun ZContext(msgApiComponent: MessageApiComponent):ZContext{
-            return msgApiComponent.zContext()
-        }
-
-        @Provides
-        @P6Singleton
-        fun KernelContext(msgApiComponent: MessageApiComponent):KernelContext{
-            return msgApiComponent.kernelContext()
-        }
-
-        @Provides
-        @P6Singleton
-        fun KernelContextReadOnly(kernelContext:KernelContext): KernelContextReadOnly {
-            return kernelContext
-        }
+//        @Provides
+//        @P6Singleton
+//        fun KernelServiceManager(msgApiComponent: MessageApiComponent): KernelServiceManager {
+//            return msgApiComponent.kernelServiceManager()
+//        }
+//
+//        @Provides
+//        @P6Singleton
+//        fun ZContext(msgApiComponent: MessageApiComponent):ZContext{
+//            return msgApiComponent.zContext()
+//        }
+//
+//        @Provides
+//        @P6Singleton
+//        fun KernelContext(msgApiComponent: MessageApiComponent):KernelContext{
+//            return msgApiComponent.kernelContext()
+//        }
+//
+//        @Provides
+//        @P6Singleton
+//        fun KernelContextReadOnly(kernelContext:KernelContext): KernelContextReadOnly {
+//            return kernelContext
+//        }
     }
 }

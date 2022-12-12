@@ -81,9 +81,9 @@ interface P6Module {
     @P6Singleton
     fun ColorGenerator(i: RandomColorGenerator): ColorGenerator
 
-    @Binds
-    @P6Singleton
-    fun KernelAction(i: KernelActionImp): KernelAction
+//    @Binds
+//    @P6Singleton
+//    fun KernelAction(i: KernelActionImp): KernelAction
 
     @Binds
     @P6Singleton
@@ -109,10 +109,6 @@ interface P6Module {
     @Binds
     @P6Singleton
     fun AppContext(i: AppContextImp): AppContext
-
-    @Binds
-    @P6Singleton
-    fun CodeRunner(i: PythonCodeRunner): CodeRunner
 
     @Binds
     @P6Singleton
@@ -199,17 +195,17 @@ interface P6Module {
             return P6R.worksheetValue.defaultRowRange
         }
 
-        @Provides
-        @P6Singleton
-        @EventServerSocket
-        fun eventServerSocket(
-            zContext: ZContext,
-            @EventServerPort eventServerPort: Int
-        ): ZMQ.Socket {
-            val eventServerSocket = zContext.createSocket(SocketType.REQ)
-            eventServerSocket.connect("tcp://localhost:${eventServerPort}")
-            return eventServerSocket
-        }
+//        @Provides
+//        @P6Singleton
+//        @EventServerSocket
+//        fun eventServerSocket(
+//            zContext: ZContext,
+//            @EventServerPort eventServerPort: Int
+//        ): ZMQ.Socket {
+//            val eventServerSocket = zContext.createSocket(SocketType.REQ)
+//            eventServerSocket.connect("tcp://localhost:${eventServerPort}")
+//            return eventServerSocket
+//        }
 
         @Provides
         @P6Singleton

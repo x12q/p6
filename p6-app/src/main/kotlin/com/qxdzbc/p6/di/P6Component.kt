@@ -90,9 +90,6 @@ interface P6Component {
     @P6Singleton
     fun outerWindowStateFactory(): OuterWindowStateFactory
 
-    @P6Singleton
-    fun codeEditorActionTable(): CodeEditorActionTable
-
     fun p6EventTable(): P6EventTable
 
     fun appAction(): AppAction
@@ -125,20 +122,20 @@ interface P6Component {
     @P6Singleton
     fun appContext(): AppContext
 
-    @P6Singleton
-    fun msgApiComponent(): MessageApiComponent
+//    @P6Singleton
+//    fun msgApiComponent(): MessageApiComponent
 
-    @P6Singleton
-    fun zContext(): ZContext
+//    @P6Singleton
+//    fun zContext(): ZContext
 
-    @P6Singleton
-    fun kernelContext(): KernelContext
+//    @P6Singleton
+//    fun kernelContext(): KernelContext
 
-    @P6Singleton
-    fun codeRunner(): CodeRunner
+//    @P6Singleton
+//    fun codeRunner(): CodeRunner
 
-    @P6Singleton
-    fun backEndCommander(): PythonCommander
+//    @P6Singleton
+//    fun backEndCommander(): PythonCommander
 
     @P6Singleton
     fun gson(): Gson
@@ -149,12 +146,12 @@ interface P6Component {
     @P6Singleton
     fun appRequestMaker(): AppRM
 
-    @P6Singleton
-    fun kernelServiceManager(): KernelServiceManager
+//    @P6Singleton
+//    fun kernelServiceManager(): KernelServiceManager
 
-    @P6Singleton
-    @EventServerSocket
-    fun eventServerSocket(): ZMQ.Socket
+//    @P6Singleton
+//    @EventServerSocket
+//    fun eventServerSocket(): ZMQ.Socket
 
     @EventServerPort
     fun eventServerPort(): Int
@@ -163,8 +160,8 @@ interface P6Component {
     interface Builder {
         fun build(): P6Component
 
-        @BindsInstance
-        fun messageApiComponent(@P6Singleton component: MessageApiComponent): Builder
+//        @BindsInstance
+//        fun messageApiComponent(@P6Singleton component: MessageApiComponent): Builder
 
         @BindsInstance
         fun username(@Username u: String): Builder

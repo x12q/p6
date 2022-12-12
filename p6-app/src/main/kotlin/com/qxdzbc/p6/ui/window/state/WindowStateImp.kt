@@ -61,8 +61,6 @@ data class WindowStateImp @AssistedInject constructor(
     override val wbStateContMs: Ms<WorkbookStateContainer>,
     @StatusBarStateQualifier
     override val statusBarStateMs: Ms<StatusBarState>,
-    @MsKernelContextQualifier
-    override val kernel: KernelContext,
     private val wbStateFactory: WorkbookStateFactory,
     @DefaultFocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,

@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.app.app_context
 
+import com.github.michaelbull.result.Err
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
-import com.github.michaelbull.result.Err
 
 /**
  * Errors when starting the app

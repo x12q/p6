@@ -19,9 +19,6 @@ interface StatusBarModule {
     @Binds
     fun StatusBarState(i:StatusBarStateImp): StatusBarState
 
-    @Binds
-    fun KernelStatusItemState(i: KernelStatusItemStateImp):KernelStatusItemState
-
     companion object{
         @Provides
         @P6Singleton

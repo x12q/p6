@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.app.create_new_wb
 
 import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWindowId
-import com.google.protobuf.ByteString
 import com.qxdzbc.p6.proto.AppProtos.CreateNewWorkbookRequestProto
 
 data class CreateNewWorkbookRequest(

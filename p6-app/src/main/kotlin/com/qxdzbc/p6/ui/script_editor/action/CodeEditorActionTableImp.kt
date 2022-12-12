@@ -6,7 +6,6 @@ import com.qxdzbc.p6.ui.script_editor.script_tree.action.ScriptTreeAction
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
-@ContributesBinding(P6AnvilScope::class)
 class CodeEditorActionTableImp  @Inject constructor(
     override val codeEditorAction: CodeEditorAction,
     override val scriptTreeAction: ScriptTreeAction
