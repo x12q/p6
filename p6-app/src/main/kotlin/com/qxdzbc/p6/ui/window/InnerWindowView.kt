@@ -19,11 +19,8 @@ import com.qxdzbc.p6.ui.window.kernel_dialog.start_kernel_dialog.StartKernelDial
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBar
-import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusDetailDialog
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RpcStatusDetailDialog
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 @Composable

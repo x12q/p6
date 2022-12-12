@@ -2,8 +2,6 @@ package com.qxdzbc.p6.ui.app.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.document.script.ScriptContainer
-import com.qxdzbc.p6.app.document.script.ScriptContainerImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorContainerImp
@@ -15,8 +13,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
-import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
@@ -24,14 +20,9 @@ import com.github.michaelbull.result.unwrapError
 import javax.inject.Inject
 
 data class AppStateImp @Inject constructor(
-    @False
-    override val codeEditorIsOpen: Boolean,
     @AppErrorContMs
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     override val activeWindowPointerMs: Ms<ActiveWindowPointer> = ms(ActiveWindowPointerImp(null)),
-    val appScriptContainerMs: Ms<ScriptContainer> = ms(ScriptContainerImp()),
-    override val centralScriptContainerMs: Ms<CentralScriptContainer>,
-    override val codeEditorStateMs: Ms<CodeEditorState>,
     val windowStateFactory: WindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
     override val subAppStateContMs: Ms<SubAppStateContainer>,
@@ -52,16 +43,6 @@ data class AppStateImp @Inject constructor(
         }
     override val activeWindowState: WindowState?
         get() = activeWindowStateMs?.value
-    override var centralScriptContainer: CentralScriptContainer by centralScriptContainerMs
-    override var codeEditorState: CodeEditorState by codeEditorStateMs
-
-    override fun openCodeEditor(): AppState {
-        return this.copy(codeEditorIsOpen = true)
-    }
-
-    override fun closeCodeEditor(): AppState {
-        return this.copy(codeEditorIsOpen = false)
-    }
 
     override fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult {
         val windowStateMsRs = this.subAppStateCont.getWindowStateMsByWbKeyRs(workbookKey)
@@ -70,7 +51,6 @@ data class AppStateImp @Inject constructor(
             val workbookStateMsRs = subAppStateCont.getWbStateMsRs(workbookKey)
             val windowstateMs = oWindowstateMs
             if (workbookStateMsRs is Ok) {
-
                 return QueryByWorkbookKeyResult(
                     windowStateOrNull = windowstateMs,
                     workbookStateMsOrNull = workbookStateMsRs.value,

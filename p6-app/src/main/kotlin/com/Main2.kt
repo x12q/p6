@@ -34,15 +34,10 @@ import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorType
 import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.di.P6Component
-import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfigImp
-import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
-import com.qxdzbc.p6.message.di.DaggerMessageApiComponent
-import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
-import com.qxdzbc.p6.ui.script_editor.ScriptEditor
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 import com.qxdzbc.p6.ui.theme.P6LightColors2
 import com.qxdzbc.p6.ui.window.WindowView

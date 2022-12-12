@@ -6,8 +6,6 @@ import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTableImp
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTableImp
-import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTable
-import com.qxdzbc.p6.ui.script_editor.action.CodeEditorActionTableImp
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.action.WindowActionTableImp
 import dagger.Binds

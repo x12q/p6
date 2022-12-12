@@ -1,12 +1,12 @@
 package com.qxdzbc.p6.app.action.app.create_new_wb
 
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWindowId
+import com.qxdzbc.p6.app.communication.res_req_template.request.RequestWithWindowId
 import com.qxdzbc.p6.proto.AppProtos.CreateNewWorkbookRequestProto
 
 data class CreateNewWorkbookRequest(
     override val windowId:String?,
     val wbName:String? = null,
-): RequestToP6WithWindowId {
+): RequestWithWindowId {
     companion object{
         fun CreateNewWorkbookRequestProto.toModel():CreateNewWorkbookRequest{
             return CreateNewWorkbookRequest(

@@ -1,9 +1,5 @@
 package com.qxdzbc.p6.di.request_maker
 
-import com.qxdzbc.p6.app.action.remote_request_maker.BaseRemoteRM
-import com.qxdzbc.p6.app.action.remote_request_maker.BaseRemoteRMImp
-import com.qxdzbc.p6.app.action.remote_request_maker.TemplateRM
-import com.qxdzbc.p6.app.action.remote_request_maker.TemplateRMImp
 import com.qxdzbc.p6.di.P6Singleton
 import dagger.Binds
 

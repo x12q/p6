@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.communication.event.data_structure.app_event
 
-import com.qxdzbc.p6.app.communication.event.P6Events
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import kotlin.test.Test
 import kotlin.test.assertEquals

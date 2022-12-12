@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.document.script.ScriptContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
@@ -26,9 +25,6 @@ interface WorkbookState {
 
     fun overWriteWb(newWb:Workbook):WorkbookState
     fun overWriteWbRs(newWb:Workbook): Rse<WorkbookState>
-
-    val scriptContMs:Ms<ScriptContainer>
-    var scriptCont:ScriptContainer
 
     fun refresh():WorkbookState
 
@@ -78,7 +74,6 @@ interface WorkbookState {
      */
     val activeSheetPointerMs: Ms<ActiveWorksheetPointer>
     var activeSheetPointer: ActiveWorksheetPointer
-
 
     /**
      * state of the current active worksheet

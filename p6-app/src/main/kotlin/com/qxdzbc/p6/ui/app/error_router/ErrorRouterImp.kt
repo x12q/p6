@@ -16,25 +16,20 @@ import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.p6.di.state.app_state.AppErrorContMs
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
-import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import javax.inject.Inject
 
 class ErrorRouterImp @Inject constructor(
     private val scMs: Ms<StateContainer>,
-    private val codeEditorStateMs:Ms<CodeEditorState>,
     @AppErrorContMs
     val errorContainerMs: Ms<ErrorContainer>,
 ) : ErrorRouter {
     private var sc by scMs
-    private var codeEditorState by codeEditorStateMs
-    private var oddityContInCodeEditor by codeEditorState.errorContainerMs
 
     override fun publishToApp(errorReport: ErrorReport?) {
         errorContainerMs.value = errorContainerMs.value.addErrorReport(errorReport)
     }
 
     override fun publishToScriptWindow(errorReport: ErrorReport?) {
-        oddityContInCodeEditor = oddityContInCodeEditor.addErrorReport(errorReport)
     }
 
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?) {

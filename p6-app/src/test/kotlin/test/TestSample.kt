@@ -8,8 +8,6 @@ import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.document.script.ScriptEntry
-import com.qxdzbc.p6.app.document.script.ScriptEntryKey
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -17,9 +15,6 @@ import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.message.api.connection.kernel_context.KernelConfigImp
-import com.qxdzbc.p6.message.di.DaggerMessageApiComponent
-import com.qxdzbc.p6.message.di.MessageApiComponent
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -93,17 +88,9 @@ class TestSample: TestAppScope {
     val window2Id:String get() = sc.windowStateMsList[1].value.id
 
     val kernelCoroutineScope: CoroutineScope = GlobalScope
-    val msgApiComponent: MessageApiComponent = DaggerMessageApiComponent.builder()
-        .kernelConfig(KernelConfigImp.fromFile(Paths.get("jupyterConfig.json")).unwrap())
-        .kernelCoroutineScope(kernelCoroutineScope)
-        .networkServiceCoroutineDispatcher(Dispatchers.Default)
-        .serviceLogger(Loggers.serviceLogger)
-        .msgApiCommonLogger(Loggers.msgApiCommonLogger)
-        .build()
 
     override val comp = DaggerTestComponent.builder()
         .username("user_name")
-        .messageApiComponent(msgApiComponent)
         .applicationCoroutineScope(kernelCoroutineScope)
         .applicationScope(null)
         .build()
@@ -116,40 +103,6 @@ class TestSample: TestAppScope {
         }
     }
 
-    val eb11 = ScriptEntry(
-        key = ScriptEntryKey(
-            wbKey = wbk1,
-            name = "1",
-        ), script = "script_b11"
-    )
-    val eb12 = ScriptEntry(
-        key = ScriptEntryKey(
-            wbKey = wbk1,
-            name = "2",
-        ), script = "script_b12"
-    )
-    val eb21 = ScriptEntry(
-        key = ScriptEntryKey(
-            wbKey = wbk2,
-            name = "1",
-        ), script = "script_b21"
-    )
-    val eb22 = ScriptEntry(
-        key = ScriptEntryKey(
-            wbKey = wbk2,
-            name = "2",
-        ), script = "script_b22"
-    )
-    val appS1 = ScriptEntry(
-        key = ScriptEntryKey(
-            wbKey = null, name = "1"
-        ), script = "appS1"
-    )
-    val appS2 = ScriptEntry(
-        key = ScriptEntryKey(
-            wbKey = null, name = "2"
-        ), script = "appS2"
-    )
 
     private fun makeSampleWbState1(): Ms<WorkbookState> {
         return ms(
@@ -159,31 +112,7 @@ class TestSample: TestAppScope {
                         keyMs = wbKey1Ms,
                     ).addMultiSheetOrOverwrite(
                         listOf(
-                            WorksheetImp(wsn1.toMs(), wbKeySt = wbKey1Ms)
-//                                .addOrOverwrite(
-//                                    IndCellImp(
-//                                        address = CellAddress("A1"),
-//                                        content = CellContentImp(cellValueMs = 1.0.toCellValue().toMs())
-//                                    )
-//                                )
-//                                .addOrOverwrite(
-//                                    IndCellImp(
-//                                        address = CellAddress("B2"),
-//                                        content = CellContentImp(cellValueMs = 2.0.toCellValue().toMs())
-//                                    )
-//                                )
-//                                .addOrOverwrite(
-//                                    IndCellImp(
-//                                        address = CellAddress("C3"),
-//                                        content = CellContentImp(cellValueMs = 3.0.toCellValue().toMs())
-//                                    )
-//                                ).addOrOverwrite(
-//                                    IndCellImp(
-//                                        address = CellAddress("D4"),
-//                                        content = CellContentImp(cellValueMs = "abc".toCellValue().toMs())
-//                                    )
-//                                ),
-                            ,
+                            WorksheetImp(wsn1.toMs(), wbKeySt = wbKey1Ms),
                             WorksheetImp(wsn2.toMs(), wbKey1Ms)
                         )
                     )
@@ -245,8 +174,6 @@ class TestSample: TestAppScope {
         get() = this.stateContMs
 
 
-    val sampleCodeContainer by appState.centralScriptContainerMs
-    val sampleCodeContainerMs get() = appState.centralScriptContainerMs
     val sampleWindowStateMs get() = sc.windowStateMsList.get(0)
 
     val wbContMs = sc.wbContMs
@@ -267,10 +194,7 @@ class TestSample: TestAppScope {
             windowState1.value.windowId
         )
 
-        appState.centralScriptContainer = appState.centralScriptContainer.addMultiScriptsForce(
-            listOf(appS1, appS2, eb21, eb22, eb11, eb12)
-        )
-        val q = ColdInit()
+        val ci = ColdInit()
     }
 
     fun sampleAppStateMs() = appStateMs

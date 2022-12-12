@@ -6,8 +6,6 @@ import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
-import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 /**
@@ -19,15 +17,6 @@ interface AppState {
 
     val subAppStateContMs: Ms<SubAppStateContainer>
     var subAppStateCont: SubAppStateContainer
-
-    val centralScriptContainerMs: Ms<CentralScriptContainer>
-    var centralScriptContainer: CentralScriptContainer
-
-    val codeEditorStateMs: Ms<CodeEditorState>
-    var codeEditorState: CodeEditorState
-    val codeEditorIsOpen: Boolean
-    fun openCodeEditor(): AppState
-    fun closeCodeEditor(): AppState
 
     val activeWindowPointerMs: Ms<ActiveWindowPointer>
     var activeWindowPointer: ActiveWindowPointer

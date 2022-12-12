@@ -22,14 +22,14 @@ class LoadWorkbookRMImp @Inject constructor(
                 return LoadWorkbookResponse(
                     windowId = request.windowId,
                     errorReport = null,
-                    workbook = loadRs.value
+                    wb = loadRs.value
                 )
             }
             is Err -> {
                 return LoadWorkbookResponse(
                     windowId = request.windowId,
                     errorReport = loadRs.error,
-                    workbook = null
+                    wb = null
                 )
             }
         }

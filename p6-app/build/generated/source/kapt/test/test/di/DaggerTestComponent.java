@@ -3,7 +3,6 @@ package test.di;
 import androidx.compose.runtime.MutableState;
 import androidx.compose.runtime.State;
 import androidx.compose.ui.window.ApplicationScope;
-import com.google.gson.Gson;
 import com.qxdzbc.common.copiers.binary_copier.BinaryCopier;
 import com.qxdzbc.p6.app.action.app.AppRM;
 import com.qxdzbc.p6.app.action.app.AppRMImp;
@@ -48,11 +47,6 @@ import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowActionImp;
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowActionImp_Factory;
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyActionImp;
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyActionImp_Factory;
-import com.qxdzbc.p6.app.action.applier.BaseApplier;
-import com.qxdzbc.p6.app.action.applier.BaseApplierImp;
-import com.qxdzbc.p6.app.action.applier.BaseApplierImp_Factory;
-import com.qxdzbc.p6.app.action.applier.ErrorApplierImp;
-import com.qxdzbc.p6.app.action.applier.ErrorApplierImp_Factory;
 import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplierImp;
 import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplierImp_Factory;
 import com.qxdzbc.p6.app.action.cell.CellRM;
@@ -202,7 +196,6 @@ import com.qxdzbc.p6.app.app_context.AppContextImp_Factory;
 import com.qxdzbc.p6.app.common.formatter.RangeAddressFormatter;
 import com.qxdzbc.p6.app.common.formatter.RangeAddressFormatterImp;
 import com.qxdzbc.p6.app.common.formatter.RangeAddressFormatterImp_Factory;
-import com.qxdzbc.p6.app.communication.event.P6EventTable;
 import com.qxdzbc.p6.app.document.range.LazyRangeFactory;
 import com.qxdzbc.p6.app.document.range.LazyRangeFactory_Impl;
 import com.qxdzbc.p6.app.document.range.LazyRange_Factory;
@@ -214,7 +207,6 @@ import com.qxdzbc.p6.app.document.range.copy_paste.RangeRangePasterImp;
 import com.qxdzbc.p6.app.document.range.copy_paste.RangeRangePasterImp_Factory;
 import com.qxdzbc.p6.app.document.range.copy_paste.SingleCellPaster;
 import com.qxdzbc.p6.app.document.range.copy_paste.SingleCellPaster_Factory;
-import com.qxdzbc.p6.app.document.script.ScriptContainer;
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer;
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerImp;
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerImp_Factory;
@@ -230,24 +222,18 @@ import com.qxdzbc.p6.app.file.saver.P6SaverImp;
 import com.qxdzbc.p6.app.file.saver.P6SaverImp_Factory;
 import com.qxdzbc.p6.app.oddity.ErrorContainer;
 import com.qxdzbc.p6.di.CoroutineModule_Companion_ActionDispatcherDefaultFactory;
-import com.qxdzbc.p6.di.P6Module_Companion_BFalseFactory;
 import com.qxdzbc.p6.di.P6Module_Companion_BTrueFactory;
 import com.qxdzbc.p6.di.P6Module_Companion_DefaultColRangeFactory;
 import com.qxdzbc.p6.di.P6Module_Companion_DefaultRowRangeFactory;
 import com.qxdzbc.p6.di.P6Module_Companion_EventServerPortFactory;
 import com.qxdzbc.p6.di.P6Module_Companion_NullIntFactory;
-import com.qxdzbc.p6.di.P6Module_Companion_P6EventTableFactory;
 import com.qxdzbc.p6.di.TranslatorModule_Companion_FunctionMapFactory;
 import com.qxdzbc.p6.di.TranslatorModule_Companion_FunctionMapMsFactory;
 import com.qxdzbc.p6.di.UtilModule_Companion_BinaryCopierFactory;
-import com.qxdzbc.p6.di.UtilModule_Companion_GsonFactory;
 import com.qxdzbc.p6.di.UtilModule_Companion_ReadFileFunctionFactory;
 import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_AppOddityContainerMsFactory;
-import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_AppScriptContFactory;
 import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_AppStateMsFactory;
 import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_CellEditorStateMsFactory;
-import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_CentralScriptContainerFactory;
-import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_CodeEditorStateFactory;
 import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_DocumentContainerMsFactory;
 import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_InitActiveWindowPointerFactory;
 import com.qxdzbc.p6.di.state.app_state.AppStateModule_Companion_InitSingleTranslatorMapFactory;
@@ -266,7 +252,6 @@ import com.qxdzbc.p6.di.state.app_state.CellFormatTableModule_Companion_CellForm
 import com.qxdzbc.p6.di.state.app_state.CellFormatTableModule_Companion_ColorTableFactory;
 import com.qxdzbc.p6.di.state.app_state.CellFormatTableModule_Companion_FloatFormatTableFactory;
 import com.qxdzbc.p6.di.state.wb.WorkbookStateModule_Companion_DFactory;
-import com.qxdzbc.p6.di.state.wb.WorkbookStateModule_Companion_DefaultScriptContMsFactory;
 import com.qxdzbc.p6.di.state.wb.WorkbookStateModule_Companion_ZFactory;
 import com.qxdzbc.p6.di.state.ws.WorksheetStateModule_Companion_ClipboardRangeFactory;
 import com.qxdzbc.p6.di.state.ws.WorksheetStateModule_Companion_DefaultActiveWorksheetPointerFactory;
@@ -285,7 +270,6 @@ import com.qxdzbc.p6.di.state.ws.WorksheetStateModule_Companion_SelectRectStateM
 import com.qxdzbc.p6.di.status_bar.StatusBarModule_Companion_RPCStatusItemStateMsFactory;
 import com.qxdzbc.p6.di.status_bar.StatusBarModule_Companion_StatusBarStateMsFactory;
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor;
-import com.qxdzbc.p6.message.di.MessageApiComponent;
 import com.qxdzbc.p6.rpc.MsP6RpcServer;
 import com.qxdzbc.p6.rpc.MsP6RpcServer_Factory;
 import com.qxdzbc.p6.rpc.P6RpcServer;
@@ -408,13 +392,9 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateImp_Factory;
 import com.qxdzbc.p6.ui.format.CellFormatTable;
 import com.qxdzbc.p6.ui.format.CellFormatTableImp;
 import com.qxdzbc.p6.ui.format.CellFormatTableImp_Factory;
-import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer;
-import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState;
 import com.qxdzbc.p6.ui.window.action.WindowActionTable;
 import com.qxdzbc.p6.ui.window.action.WindowActionTableImp;
 import com.qxdzbc.p6.ui.window.action.WindowActionTableImp_Factory;
-import com.qxdzbc.p6.ui.window.menu.action.CodeMenuActionImp;
-import com.qxdzbc.p6.ui.window.menu.action.CodeMenuActionImp_Factory;
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp;
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp_Factory;
 import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction;
@@ -464,19 +444,11 @@ public final class DaggerTestComponent {
   }
 
   private static final class Builder implements TestComponent.Builder {
-    private MessageApiComponent messageApiComponent;
-
     private String username;
 
     private CoroutineScope applicationCoroutineScope;
 
     private ApplicationScope applicationScope;
-
-    @Override
-    public Builder messageApiComponent(MessageApiComponent component) {
-      this.messageApiComponent = Preconditions.checkNotNull(component);
-      return this;
-    }
 
     @Override
     public Builder username(String u) {
@@ -498,10 +470,9 @@ public final class DaggerTestComponent {
 
     @Override
     public TestComponent build() {
-      Preconditions.checkBuilderRequirement(messageApiComponent, MessageApiComponent.class);
       Preconditions.checkBuilderRequirement(username, String.class);
       Preconditions.checkBuilderRequirement(applicationCoroutineScope, CoroutineScope.class);
-      return new TestComponentImpl(messageApiComponent, username, applicationCoroutineScope, applicationScope);
+      return new TestComponentImpl(username, applicationCoroutineScope, applicationScope);
     }
   }
 
@@ -515,8 +486,6 @@ public final class DaggerTestComponent {
     private Provider<MutableState<ErrorContainer>> AppOddityContainerMsProvider;
 
     private Provider<MutableState<ActiveWindowPointer>> InitActiveWindowPointerProvider;
-
-    private Provider<MutableState<ScriptContainer>> AppScriptContProvider;
 
     private Provider<MutableState<SelectRectState>> SelectRectStateMsProvider;
 
@@ -552,13 +521,9 @@ public final class DaggerTestComponent {
 
     private Provider<MutableState<WorkbookStateContainer>> WorkbookStateContMsProvider;
 
-    private Provider<MutableState<CentralScriptContainer>> CentralScriptContainerProvider;
-
     private Provider<WorkbookContainerImp> workbookContainerImpProvider;
 
     private Provider<MutableState<WorkbookContainer>> WbContainerProvider;
-
-    private Provider<MutableState<CodeEditorState>> CodeEditorStateProvider;
 
     private Provider<MutableState<RPCStatusViewState>> RPCStatusItemStateMsProvider;
 
@@ -651,12 +616,6 @@ public final class DaggerTestComponent {
     private Provider<RenameWorksheetRMImp> renameWorksheetRMImpProvider;
 
     private Provider<RenameWorksheetInternalApplierImp> renameWorksheetInternalApplierImpProvider;
-
-    private Provider<P6EventTable> P6EventTableProvider;
-
-    private Provider<ErrorApplierImp> errorApplierImpProvider;
-
-    private Provider<BaseApplierImp> baseApplierImpProvider;
 
     private Provider<RenameWorksheetApplierImp> renameWorksheetApplierImpProvider;
 
@@ -876,8 +835,6 @@ public final class DaggerTestComponent {
 
     private Provider<WorkbookTabBarActionImp> workbookTabBarActionImpProvider;
 
-    private Provider<CodeMenuActionImp> codeMenuActionImpProvider;
-
     private Provider<WindowActionTableImp> windowActionTableImpProvider;
 
     private Provider<String> usernameProvider;
@@ -886,20 +843,18 @@ public final class DaggerTestComponent {
 
     private Provider<AppContext> AppContextProvider;
 
-    private Provider<Gson> gsonProvider;
-
     private Provider<AppRMImp> appRMImpProvider;
 
     private Provider<Integer> eventServerPortProvider;
 
     private Provider<UpdateCellFormatActionImp> updateCellFormatActionImpProvider;
 
-    private TestComponentImpl(MessageApiComponent messageApiComponentParam, String usernameParam,
-        CoroutineScope applicationCoroutineScopeParam, ApplicationScope applicationScopeParam) {
+    private TestComponentImpl(String usernameParam, CoroutineScope applicationCoroutineScopeParam,
+        ApplicationScope applicationScopeParam) {
       this.applicationScope = applicationScopeParam;
       this.applicationCoroutineScope = applicationCoroutineScopeParam;
-      initialize(messageApiComponentParam, usernameParam, applicationCoroutineScopeParam, applicationScopeParam);
-      initialize2(messageApiComponentParam, usernameParam, applicationCoroutineScopeParam, applicationScopeParam);
+      initialize(usernameParam, applicationCoroutineScopeParam, applicationScopeParam);
+      initialize2(usernameParam, applicationCoroutineScopeParam, applicationScopeParam);
 
     }
 
@@ -908,12 +863,11 @@ public final class DaggerTestComponent {
     }
 
     @SuppressWarnings("unchecked")
-    private void initialize(final MessageApiComponent messageApiComponentParam,
-        final String usernameParam, final CoroutineScope applicationCoroutineScopeParam,
+    private void initialize(final String usernameParam,
+        final CoroutineScope applicationCoroutineScopeParam,
         final ApplicationScope applicationScopeParam) {
       this.AppOddityContainerMsProvider = DoubleCheck.provider(AppStateModule_Companion_AppOddityContainerMsFactory.create());
       this.InitActiveWindowPointerProvider = DoubleCheck.provider(AppStateModule_Companion_InitActiveWindowPointerFactory.create());
-      this.AppScriptContProvider = DoubleCheck.provider(AppStateModule_Companion_AppScriptContFactory.create());
       this.SelectRectStateMsProvider = WorksheetStateModule_Companion_SelectRectStateMsFactory.create(WorksheetStateModule_Companion_SelectRectStateFactory.create());
       this.worksheetStateImpProvider = WorksheetStateImp_Factory.create(WorksheetStateModule_Companion_DefaultLayoutCoorMsFactory.create(), WorksheetStateModule_Companion_DefaultLayoutCoorMsFactory.create(), WorksheetStateModule_Companion_DefaultCellStateContainerFactory.create(), SelectRectStateMsProvider, WorksheetStateModule_Companion_ResizeColBarStateMsFactory.create(), WorksheetStateModule_Companion_ResizeRowBarStateMsFactory.create(), P6Module_Companion_DefaultColRangeFactory.create(), P6Module_Companion_DefaultRowRangeFactory.create());
       this.worksheetStateFactoryProvider = WorksheetStateFactory_Impl.create(worksheetStateImpProvider);
@@ -928,13 +882,11 @@ public final class DaggerTestComponent {
       this.cursorStateFactoryProvider = CursorStateFactory_Impl.create(cursorStateImpProvider);
       this.thumbStateImpProvider = ThumbStateImp_Factory.create(WorksheetStateModule_Companion_SelectRectStateFactory.create());
       this.thumbStateFactoryProvider = ThumbStateFactory_Impl.create(thumbStateImpProvider);
-      this.workbookStateImpProvider = WorkbookStateImp_Factory.create(WorkbookStateModule_Companion_ZFactory.create(), WorksheetStateModule_Companion_DefaultActiveWorksheetPointerFactory.create(), P6Module_Companion_BTrueFactory.create(), P6Module_Companion_BTrueFactory.create(), WorkbookStateModule_Companion_DFactory.create(), worksheetStateFactoryProvider, limitedGridSliderFactoryProvider, cursorStateFactoryProvider, thumbStateFactoryProvider, WorkbookStateModule_Companion_DefaultScriptContMsFactory.create());
+      this.workbookStateImpProvider = WorkbookStateImp_Factory.create(WorkbookStateModule_Companion_ZFactory.create(), WorksheetStateModule_Companion_DefaultActiveWorksheetPointerFactory.create(), P6Module_Companion_BTrueFactory.create(), P6Module_Companion_BTrueFactory.create(), WorkbookStateModule_Companion_DFactory.create(), worksheetStateFactoryProvider, limitedGridSliderFactoryProvider, cursorStateFactoryProvider, thumbStateFactoryProvider);
       this.workbookStateFactoryProvider = WorkbookStateFactory_Impl.create(workbookStateImpProvider);
       this.WorkbookStateContMsProvider = DoubleCheck.provider(AppStateModule_Companion_WorkbookStateContMsFactory.create(workbookStateFactoryProvider));
-      this.CentralScriptContainerProvider = DoubleCheck.provider(AppStateModule_Companion_CentralScriptContainerFactory.create(AppScriptContProvider, WorkbookStateContMsProvider));
       this.workbookContainerImpProvider = WorkbookContainerImp_Factory.create(WorkbookStateContMsProvider, workbookStateFactoryProvider);
       this.WbContainerProvider = DoubleCheck.provider(AppStateModule_Companion_WbContainerFactory.create(workbookContainerImpProvider));
-      this.CodeEditorStateProvider = DoubleCheck.provider(AppStateModule_Companion_CodeEditorStateFactory.create(WbContainerProvider, CentralScriptContainerProvider));
       this.RPCStatusItemStateMsProvider = DoubleCheck.provider(StatusBarModule_Companion_RPCStatusItemStateMsFactory.create());
       this.statusBarStateImpProvider = StatusBarStateImp_Factory.create(RPCStatusItemStateMsProvider);
       this.StatusBarStateMsProvider = DoubleCheck.provider(StatusBarModule_Companion_StatusBarStateMsFactory.create(((Provider) statusBarStateImpProvider)));
@@ -968,14 +920,14 @@ public final class DaggerTestComponent {
       this.jvmFormulaVisitorFactoryProvider = JvmFormulaVisitorFactory_Impl.create(jvmFormulaVisitorProvider);
       this.translatorContainerImpProvider = TranslatorContainerImp_Factory.create(TranslatorMapMsProvider, AppStateModule_Companion_InitSingleTranslatorMapFactory.create(), jvmFormulaTranslatorFactoryProvider, jvmFormulaVisitorFactoryProvider);
       this.TranslatorContainerMsProvider = DoubleCheck.provider(AppStateModule_Companion_TranslatorContainerMsFactory.create(((Provider) translatorContainerImpProvider)));
-      this.appStateImpProvider = AppStateImp_Factory.create(P6Module_Companion_BFalseFactory.create(), AppOddityContainerMsProvider, InitActiveWindowPointerProvider, AppScriptContProvider, CentralScriptContainerProvider, CodeEditorStateProvider, windowStateFactoryProvider, workbookStateFactoryProvider, SubAppStateContainerMsProvider, DocumentContainerMsProvider, TranslatorContainerMsProvider, CellEditorStateMsProvider);
+      this.appStateImpProvider = AppStateImp_Factory.create(AppOddityContainerMsProvider, InitActiveWindowPointerProvider, windowStateFactoryProvider, workbookStateFactoryProvider, SubAppStateContainerMsProvider, DocumentContainerMsProvider, TranslatorContainerMsProvider, CellEditorStateMsProvider);
       DelegateFactory.setDelegate(appStateMsProvider, DoubleCheck.provider(AppStateModule_Companion_AppStateMsFactory.create(appStateImpProvider)));
       this.stateContainerImpProvider = StateContainerImp_Factory.create(appStateMsProvider, DocumentContainerMsProvider, SubAppStateContainerMsProvider);
       this.StateContainerMsProvider = DoubleCheck.provider(AppStateModule_Companion_StateContainerMsFactory.create(stateContainerImpProvider));
       this.restoreWindowFocusStateImpProvider = DoubleCheck.provider(RestoreWindowFocusStateImp_Factory.create(StateContainerMsProvider, CellEditorStateMsProvider));
       this.StateContainerStProvider = DoubleCheck.provider(AppStateModule_Companion_StateContainerStFactory.create(StateContainerMsProvider));
       this.moveToWbActionImpProvider = DoubleCheck.provider(MoveToWbActionImp_Factory.create(((Provider) restoreWindowFocusStateImpProvider), StateContainerStProvider, InitActiveWindowPointerProvider));
-      this.errorRouterImpProvider = ErrorRouterImp_Factory.create(StateContainerMsProvider, CodeEditorStateProvider, AppOddityContainerMsProvider);
+      this.errorRouterImpProvider = ErrorRouterImp_Factory.create(StateContainerMsProvider, AppOddityContainerMsProvider);
       this.ErrorRouterProvider = DoubleCheck.provider((Provider) errorRouterImpProvider);
       this.newWorksheetActionImpProvider = DoubleCheck.provider(NewWorksheetActionImp_Factory.create(ErrorRouterProvider, appStateMsProvider, StateContainerMsProvider, DocumentContainerMsProvider));
       this.deleteWorksheetRMImpProvider = DoubleCheck.provider(DeleteWorksheetRMImp_Factory.create(DocumentContainerMsProvider));
@@ -983,10 +935,7 @@ public final class DaggerTestComponent {
       this.deleteWorksheetActionImpProvider = DoubleCheck.provider(DeleteWorksheetActionImp_Factory.create(((Provider) deleteWorksheetRMImpProvider), ((Provider) deleteWorksheetApplierImpProvider), DocumentContainerMsProvider));
       this.renameWorksheetRMImpProvider = DoubleCheck.provider(RenameWorksheetRMImp_Factory.create());
       this.renameWorksheetInternalApplierImpProvider = DoubleCheck.provider(RenameWorksheetInternalApplierImp_Factory.create(appStateMsProvider, DocumentContainerMsProvider, ErrorRouterProvider));
-      this.P6EventTableProvider = DoubleCheck.provider(P6Module_Companion_P6EventTableFactory.create());
-      this.errorApplierImpProvider = DoubleCheck.provider(ErrorApplierImp_Factory.create(ErrorRouterProvider, P6EventTableProvider));
-      this.baseApplierImpProvider = DoubleCheck.provider(BaseApplierImp_Factory.create(((Provider) errorApplierImpProvider), ErrorRouterProvider));
-      this.renameWorksheetApplierImpProvider = DoubleCheck.provider(RenameWorksheetApplierImp_Factory.create(((Provider) renameWorksheetInternalApplierImpProvider), ((Provider) baseApplierImpProvider)));
+      this.renameWorksheetApplierImpProvider = DoubleCheck.provider(RenameWorksheetApplierImp_Factory.create(((Provider) renameWorksheetInternalApplierImpProvider), ErrorRouterProvider));
       this.renameWorksheetActionImpProvider = DoubleCheck.provider(RenameWorksheetActionImp_Factory.create(((Provider) renameWorksheetRMImpProvider), ((Provider) renameWorksheetApplierImpProvider), SubAppStateContainerMsProvider));
       this.setActiveWorksheetRMImpProvider = DoubleCheck.provider(SetActiveWorksheetRMImp_Factory.create(SubAppStateContainerMsProvider, InitActiveWindowPointerProvider, DocumentContainerMsProvider));
       this.setActiveWorksheetApplierImpProvider = DoubleCheck.provider(SetActiveWorksheetApplierImp_Factory.create(ErrorRouterProvider, SubAppStateContainerMsProvider, InitActiveWindowPointerProvider));
@@ -1011,18 +960,18 @@ public final class DaggerTestComponent {
       this.worksheetAction2ImpProvider = DoubleCheck.provider(WorksheetAction2Imp_Factory.create(((Provider) mouseOnWorksheetActionImpProvider), StateContainerMsProvider, ((Provider) computeSliderSizeActionImpProvider), ((Provider) makeSliderFollowCellActionImpProvider)));
       this.BinaryCopierProvider = DoubleCheck.provider(UtilModule_Companion_BinaryCopierFactory.create());
       this.rangeCopierImpProvider = DoubleCheck.provider(RangeCopierImp_Factory.create(BinaryCopierProvider));
-    }
-
-    @SuppressWarnings("unchecked")
-    private void initialize2(final MessageApiComponent messageApiComponentParam,
-        final String usernameParam, final CoroutineScope applicationCoroutineScopeParam,
-        final ApplicationScope applicationScopeParam) {
       this.copyRangeToClipboardRMImpProvider = DoubleCheck.provider(CopyRangeToClipboardRMImp_Factory.create(((Provider) rangeCopierImpProvider), SubAppStateContainerMsProvider, DocumentContainerMsProvider));
       this.rangeToClipboardInternalApplierImpProvider = DoubleCheck.provider(RangeToClipboardInternalApplierImp_Factory.create(StateContainerMsProvider));
-      this.rangeToClipboardApplierImpProvider = DoubleCheck.provider(RangeToClipboardApplierImp_Factory.create(((Provider) rangeToClipboardInternalApplierImpProvider), ((Provider) baseApplierImpProvider), ErrorRouterProvider));
+      this.rangeToClipboardApplierImpProvider = DoubleCheck.provider(RangeToClipboardApplierImp_Factory.create(((Provider) rangeToClipboardInternalApplierImpProvider), ErrorRouterProvider));
       this.rangeToClipboardActionImpProvider = DoubleCheck.provider(RangeToClipboardActionImp_Factory.create(((Provider) copyRangeToClipboardRMImpProvider), ((Provider) rangeToClipboardApplierImpProvider)));
       this.deleteMultiRMImpProvider = DoubleCheck.provider(DeleteMultiRMImp_Factory.create(appStateMsProvider, StateContainerStProvider));
       this.deleteMultiApplierImpProvider = DoubleCheck.provider(DeleteMultiApplierImp_Factory.create(SubAppStateContainerMsProvider, ErrorRouterProvider, WbContainerProvider));
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initialize2(final String usernameParam,
+        final CoroutineScope applicationCoroutineScopeParam,
+        final ApplicationScope applicationScopeParam) {
       this.applicationCoroutineScopeProvider = InstanceFactory.create(applicationCoroutineScopeParam);
       this.multiCellUpdateActionImpProvider = DoubleCheck.provider(MultiCellUpdateActionImp_Factory.create(StateContainerStProvider, TranslatorContainerStProvider, ErrorRouterProvider, applicationCoroutineScopeProvider));
       this.deleteMultiCellActionImpProvider = DoubleCheck.provider(DeleteMultiCellActionImp_Factory.create(((Provider) deleteMultiRMImpProvider), ((Provider) deleteMultiApplierImpProvider), appStateMsProvider, DocumentContainerMsProvider, ((Provider) multiCellUpdateActionImpProvider), SubAppStateContainerMsProvider));
@@ -1031,7 +980,7 @@ public final class DaggerTestComponent {
       this.rangeRangePasterImpProvider = RangeRangePasterImp_Factory.create(StateContainerStProvider, TranslatorContainerMsProvider);
       this.rangePasterImpProvider = DoubleCheck.provider(RangePasterImp_Factory.create(singleCellPasterProvider, rangeRangePasterImpProvider));
       this.pasteRangeRMImpProvider = DoubleCheck.provider(PasteRangeRMImp_Factory.create(StateContainerStProvider, ((Provider) rangePasterImpProvider)));
-      this.workbookUpdateCommonApplierImpProvider = DoubleCheck.provider(WorkbookUpdateCommonApplierImp_Factory.create(StateContainerMsProvider, ((Provider) baseApplierImpProvider)));
+      this.workbookUpdateCommonApplierImpProvider = DoubleCheck.provider(WorkbookUpdateCommonApplierImp_Factory.create(StateContainerMsProvider, ErrorRouterProvider));
       this.pasteRangeApplierImpProvider = DoubleCheck.provider(PasteRangeApplierImp_Factory.create(((Provider) workbookUpdateCommonApplierImpProvider), SubAppStateContainerMsProvider, DocumentContainerMsProvider));
       this.pasteRangeActionImpProvider = DoubleCheck.provider(PasteRangeActionImp_Factory.create(StateContainerStProvider, ((Provider) pasteRangeRMImpProvider), ((Provider) pasteRangeApplierImpProvider)));
       this.pasteRangeToCursorImpProvider = DoubleCheck.provider(PasteRangeToCursorImp_Factory.create(StateContainerStProvider, ((Provider) pasteRangeActionImpProvider)));
@@ -1062,7 +1011,7 @@ public final class DaggerTestComponent {
       this.autoNameWbFactoryProvider = DoubleCheck.provider(AutoNameWbFactory_Factory.create(WbContainerProvider, ((Provider) wsNameGeneratorImpProvider)));
       this.createNewWbRMImpProvider = DoubleCheck.provider(CreateNewWbRMImp_Factory.create(((Provider) autoNameWbFactoryProvider)));
       this.pickDefaultActiveWbActionImpProvider = DoubleCheck.provider(PickDefaultActiveWbActionImp_Factory.create(StateContainerStProvider));
-      this.createNewWorkbookApplierImpProvider = DoubleCheck.provider(CreateNewWorkbookApplierImp_Factory.create(((Provider) baseApplierImpProvider), StateContainerMsProvider, ((Provider) pickDefaultActiveWbActionImpProvider)));
+      this.createNewWorkbookApplierImpProvider = DoubleCheck.provider(CreateNewWorkbookApplierImp_Factory.create(StateContainerMsProvider, ((Provider) pickDefaultActiveWbActionImpProvider), ErrorRouterProvider));
       this.createNewWorkbookActionImpProvider = DoubleCheck.provider(CreateNewWorkbookActionImp_Factory.create(((Provider) createNewWbRMImpProvider), ((Provider) createNewWorkbookApplierImpProvider)));
       this.setActiveWorkbookActionImpProvider = DoubleCheck.provider(SetActiveWorkbookActionImp_Factory.create(StateContainerStProvider, appStateMsProvider));
       this.p6SaverImpProvider = DoubleCheck.provider(P6SaverImp_Factory.create());
@@ -1071,11 +1020,11 @@ public final class DaggerTestComponent {
       this.p6FileLoaderImpProvider = DoubleCheck.provider(P6FileLoaderImp_Factory.create(TranslatorContainerStProvider, readFileFunctionProvider));
       this.loadWorkbookRMImpProvider = DoubleCheck.provider(LoadWorkbookRMImp_Factory.create(((Provider) p6FileLoaderImpProvider)));
       this.loadWorkbookInternalApplierImpProvider = DoubleCheck.provider(LoadWorkbookInternalApplierImp_Factory.create(StateContainerMsProvider));
-      this.loadWorkbookApplierImpProvider = DoubleCheck.provider(LoadWorkbookApplierImp_Factory.create(((Provider) loadWorkbookInternalApplierImpProvider), ((Provider) baseApplierImpProvider)));
+      this.loadWorkbookApplierImpProvider = DoubleCheck.provider(LoadWorkbookApplierImp_Factory.create(((Provider) loadWorkbookInternalApplierImpProvider), ErrorRouterProvider));
       this.loadWorkbookActionImpProvider = DoubleCheck.provider(LoadWorkbookActionImp_Factory.create(StateContainerMsProvider, ErrorRouterProvider, ((Provider) loadWorkbookRMImpProvider), ((Provider) loadWorkbookApplierImpProvider)));
       this.closeWorkbookRMImpProvider = DoubleCheck.provider(CloseWorkbookRMImp_Factory.create(StateContainerMsProvider));
       this.closeWorkbookInternalApplierImpProvider = DoubleCheck.provider(CloseWorkbookInternalApplierImp_Factory.create(appStateMsProvider, StateContainerMsProvider, ((Provider) pickDefaultActiveWbActionImpProvider)));
-      this.closeWorkbookApplierImpProvider = DoubleCheck.provider(CloseWorkbookApplierImp_Factory.create(((Provider) closeWorkbookInternalApplierImpProvider), ((Provider) baseApplierImpProvider)));
+      this.closeWorkbookApplierImpProvider = DoubleCheck.provider(CloseWorkbookApplierImp_Factory.create(((Provider) closeWorkbookInternalApplierImpProvider), ErrorRouterProvider));
       this.closeWorkbookActionImpProvider = DoubleCheck.provider(CloseWorkbookActionImp_Factory.create(((Provider) closeWorkbookRMImpProvider), ((Provider) closeWorkbookApplierImpProvider), StateContainerMsProvider, ((Provider) pickDefaultActiveWbActionImpProvider)));
       this.getWorkbookActionImpProvider = DoubleCheck.provider(GetWorkbookActionImp_Factory.create(StateContainerStProvider));
       this.removeAllWorksheetActionImpProvider = DoubleCheck.provider(RemoveAllWorksheetActionImp_Factory.create(StateContainerStProvider));
@@ -1102,12 +1051,10 @@ public final class DaggerTestComponent {
       this.worksheetActionTableImpProvider = DoubleCheck.provider(WorksheetActionTableImp_Factory.create(((Provider) cursorActionImpProvider), ((Provider) cellEditorActionImpProvider), ((Provider) rulerActionImpProvider), ((Provider) worksheetActionImpProvider), ((Provider) thumbActionImpProvider)));
       this.workbookActionTableImpProvider = DoubleCheck.provider(WorkbookActionTableImp_Factory.create(((Provider) workbookActionImpProvider), ((Provider) worksheetActionTableImpProvider)));
       this.workbookTabBarActionImpProvider = DoubleCheck.provider(WorkbookTabBarActionImp_Factory.create(((Provider) windowActionImpProvider), ((Provider) moveToWbActionImpProvider)));
-      this.codeMenuActionImpProvider = DoubleCheck.provider(CodeMenuActionImp_Factory.create(((Provider) windowActionImpProvider), AppActionProvider));
-      this.windowActionTableImpProvider = DoubleCheck.provider(WindowActionTableImp_Factory.create(((Provider) fileMenuActionImpProvider), ((Provider) workbookActionTableImpProvider), ((Provider) workbookTabBarActionImpProvider), ((Provider) codeMenuActionImpProvider), ((Provider) windowActionImpProvider)));
+      this.windowActionTableImpProvider = DoubleCheck.provider(WindowActionTableImp_Factory.create(((Provider) fileMenuActionImpProvider), ((Provider) workbookActionTableImpProvider), ((Provider) workbookTabBarActionImpProvider), ((Provider) windowActionImpProvider)));
       this.usernameProvider = InstanceFactory.create(usernameParam);
       this.appContextImpProvider = AppContextImp_Factory.create(usernameProvider);
       this.AppContextProvider = DoubleCheck.provider((Provider) appContextImpProvider);
-      this.gsonProvider = DoubleCheck.provider(UtilModule_Companion_GsonFactory.create());
       this.appRMImpProvider = DoubleCheck.provider(AppRMImp_Factory.create(((Provider) createNewWbRMImpProvider), ((Provider) loadWorkbookRMImpProvider), ((Provider) setActiveWorksheetRMImpProvider)));
       this.eventServerPortProvider = DoubleCheck.provider(P6Module_Companion_EventServerPortFactory.create());
       this.updateCellFormatActionImpProvider = DoubleCheck.provider(UpdateCellFormatActionImp_Factory.create(CellFormatTableMsProvider, StateContainerStProvider));
@@ -1169,11 +1116,6 @@ public final class DaggerTestComponent {
     }
 
     @Override
-    public P6EventTable p6EventTable() {
-      return P6EventTableProvider.get();
-    }
-
-    @Override
     public AppAction appAction() {
       return AppActionProvider.get();
     }
@@ -1226,11 +1168,6 @@ public final class DaggerTestComponent {
     @Override
     public AppContext appContext() {
       return AppContextProvider.get();
-    }
-
-    @Override
-    public Gson gson() {
-      return gsonProvider.get();
     }
 
     @Override
@@ -1346,11 +1283,6 @@ public final class DaggerTestComponent {
     @Override
     public GetWorkbookAction getWorkbookAction() {
       return getWorkbookActionImpProvider.get();
-    }
-
-    @Override
-    public BaseApplier baseApplier() {
-      return baseApplierImpProvider.get();
     }
 
     @Override

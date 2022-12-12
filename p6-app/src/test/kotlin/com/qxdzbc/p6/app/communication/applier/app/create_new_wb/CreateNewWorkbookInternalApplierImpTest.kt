@@ -33,7 +33,7 @@ class CreateNewWorkbookInternalApplierImpTest {
         ts = TestSample()
         scMs = ts.scMs
         applier = CreateNewWorkbookApplierImp(
-         baseApplier = ts.comp.baseApplier(),
+            errorRouter = ts.errorRouter,
          stateContMs = ts.comp.stateContMs(),
             pickDefaultActiveWb = ts.comp.pickDefaultActiveWbAction()
         )

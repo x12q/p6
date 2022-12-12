@@ -103,7 +103,6 @@ class SaveWorkbookActionImp @Inject constructor(
                                     .publishErrToWindowIfNeed(errorRouter, windowId)
                             }
 
-                            appState.codeEditorState = appState.codeEditorState.replaceWbKey(oldWb.key, newWbKey)
                             wbStateMs.value = wbStateMs.value.setNeedSave(false)
                         }
                 } else {

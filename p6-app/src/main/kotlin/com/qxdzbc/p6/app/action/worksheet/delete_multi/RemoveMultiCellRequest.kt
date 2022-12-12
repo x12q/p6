@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.action.worksheet.delete_multi
 
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
+import com.qxdzbc.p6.app.communication.res_req_template.request.RequestWithWorkbookKey
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -17,7 +17,7 @@ class RemoveMultiCellRequest(
     val wsName: String,
     val clearFormat:Boolean = false,
     override val windowId:String? = null,
-) : RequestToP6WithWorkbookKey, WithReportNavInfo {
+) : RequestWithWorkbookKey, WithReportNavInfo {
 //    override fun toProtoBytes(): ByteString {
 //        return this.toProto().toByteString()
 //    }

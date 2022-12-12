@@ -23,7 +23,7 @@ class CloseWorkbookInternalApplierImpTest {
     fun b(){
         ts = TestSample()
         errorRouter = ErrorRouterImp(
-            ts.scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs
+            ts.scMs,ts.appState.errorContainerMs
         )
         applier = CloseWorkbookInternalApplierImp(
             appStateMs = ts.appStateMs,

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.workbook.delete_worksheet
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
+import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWith_WbKey
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
@@ -20,7 +20,7 @@ data class DeleteWorksheetResponse(
     override val wbKey: WorkbookKey,
     val targetWorksheetName: String,
     override val errorReport: ErrorReport?,
-): ResponseWithWorkbookKeyTemplate {
+): ResponseWith_WbKey {
     override val isError: Boolean get()=errorReport!=null
     companion object {
         fun fromProtoBytes(protoBytes:ByteString): DeleteWorksheetResponse {
@@ -38,11 +38,6 @@ data class DeleteWorksheetResponse(
         }
         return builder.build()
     }
-
-    override fun isLegal(): Boolean {
-        return true
-    }
-
 }
 
 

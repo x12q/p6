@@ -51,8 +51,4 @@ open class SingleSignalResponse(
             }
             .build()
     }
-
-    override fun isLegal(): Boolean {
-        return true
-    }
 }

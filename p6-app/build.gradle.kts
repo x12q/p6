@@ -73,8 +73,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutineVersion")
     implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.1.1")
-
-    implementation("com.qxdzbc.p6:p6-python-message-api:${p6Version}")
+    implementation("com.michael-bull.kotlin-result:kotlin-result-jvm:1.1.12")
 
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")
