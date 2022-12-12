@@ -4,16 +4,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.CapHashMap
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.script.ScriptContainer
-import com.qxdzbc.p6.app.document.script.ScriptContainerImp
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.p6.di.P6Singleton
-import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
-import com.qxdzbc.p6.message.api.connection.kernel_context.KernelStatus
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMap
 import com.qxdzbc.p6.translator.TranslatorMapImp
@@ -33,10 +29,6 @@ import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.*
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
-import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
-import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainerImp3
-import com.qxdzbc.p6.ui.script_editor.state.CodeEditorState
-import com.qxdzbc.p6.ui.script_editor.state.SwingCodeEditorStateImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import dagger.Binds
 import dagger.Provides
@@ -111,31 +103,10 @@ interface AppStateModule {
             return ms(WorkbookStateContainerImp(wbStateFactory=wbStateFactory))
         }
 
-
-        @Provides
-        @P6Singleton
-        fun KernelStatusMs(kernel: KernelContext): Ms<KernelStatus> {
-            return ms(kernel.kernelStatus)
-        }
-
         @Provides
         @P6Singleton
         fun WindowStateMap(): Ms<Map<String, Ms<OuterWindowState>>> {
             return ms(emptyMap())
-        }
-
-        @Provides
-        @P6Singleton
-        fun CodeEditorState(
-            wbContMs: Ms<WorkbookContainer>,
-            centralScriptContainerMs: Ms<CentralScriptContainer>
-        ): Ms<CodeEditorState> {
-            return ms(
-                SwingCodeEditorStateImp(
-                    wbContMs = wbContMs,
-                    centralScriptContainerMs = centralScriptContainerMs
-                )
-            )
         }
 
         @Provides
@@ -155,26 +126,6 @@ interface AppStateModule {
         @P6Singleton
         fun InitActiveWindowPointer(): Ms<ActiveWindowPointer> {
             return ms(ActiveWindowPointerImp(null))
-        }
-
-        @Provides
-        @P6Singleton
-        fun AppScriptCont(): Ms<ScriptContainer> {
-            return ms(ScriptContainerImp())
-        }
-
-        @Provides
-        @P6Singleton
-        fun CentralScriptContainer(
-            s: Ms<ScriptContainer>,
-            wc:Ms<WorkbookStateContainer>
-        ): Ms<CentralScriptContainer> {
-            return ms(
-                CentralScriptContainerImp3(
-                    appScriptContainerMs = s,
-                    wbStateContMs = wc
-                )
-            )
         }
 
         @Provides

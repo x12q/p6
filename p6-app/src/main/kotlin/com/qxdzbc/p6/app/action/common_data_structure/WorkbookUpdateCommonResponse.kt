@@ -1,8 +1,7 @@
 package com.qxdzbc.p6.app.action.common_data_structure
 
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
-import com.qxdzbc.p6.app.communication.event.WithP6EventLookupClazz
-import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
+import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWith_WbKey
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toShallowModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -11,15 +10,13 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.WorkbookProtos.*
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.google.protobuf.ByteString
-import kotlin.reflect.KClass
 
 open class WorkbookUpdateCommonResponse(
     override val errorReport: ErrorReport? = null,
     override val wbKey: WorkbookKey? = null,
     override val newWorkbook: Workbook? = null,
     override val windowId: String? = null,
-) : ResponseWithWorkbookKeyTemplate, WorkbookUpdateCommonResponseInterface, WithP6EventLookupClazz {
+) : ResponseWith_WbKey, WorkbookUpdateCommonResponseInterface {
     override val isError: Boolean get()=errorReport!=null
     companion object {
         fun WorkbookUpdateCommonResponseProto.toModel(
@@ -33,11 +30,4 @@ open class WorkbookUpdateCommonResponse(
             )
         }
     }
-
-    override fun isLegal(): Boolean {
-        return true
-    }
-
-    override val p6EventLookupClazz: KClass<out Any>
-        get() = WorkbookUpdateCommonResponse::class
 }

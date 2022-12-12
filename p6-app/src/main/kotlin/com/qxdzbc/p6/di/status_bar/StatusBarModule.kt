@@ -5,8 +5,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarStateImp
-import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusItemState
-import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusItemStateImp
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewState
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewStateImp
 import dagger.Binds
@@ -19,9 +17,6 @@ interface StatusBarModule {
     @Binds
     fun StatusBarState(i:StatusBarStateImp): StatusBarState
 
-    @Binds
-    fun KernelStatusItemState(i: KernelStatusItemStateImp):KernelStatusItemState
-
     companion object{
         @Provides
         @P6Singleton
@@ -30,12 +25,6 @@ interface StatusBarModule {
             return ms(i)
         }
 
-        @Provides
-        @P6Singleton
-        @KernelStatusItemStateQualifier
-        fun KernelStatusItemStateMs(i: KernelStatusItemState):Ms<KernelStatusItemState>{
-            return ms(i)
-        }
         @Provides
         @P6Singleton
         @RPCStatusItemStateQualifier

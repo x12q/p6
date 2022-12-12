@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.communication.applier
 
-import com.qxdzbc.p6.app.action.applier.BaseApplierImp
-import com.qxdzbc.p6.app.action.applier.ErrorApplierImp
 import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplierImp
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.DeleteMultiResponse
@@ -47,7 +45,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
         }
         applier = WorkbookUpdateCommonApplierImp(
             stateContMs = ts.stateContMs(),
-            baseApplier = BaseApplierImp(ErrorApplierImp(ErrorRouterImp(ts.scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs)), mock<ErrorRouter>())
+            errorRouter = ts.errorRouter
         )
     }
 

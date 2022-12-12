@@ -7,8 +7,6 @@ import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
 import com.qxdzbc.p6.app.action.window.close_window.CloseWindowActionImp
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbActionImp
-import com.qxdzbc.p6.ui.window.menu.action.CodeMenuAction
-import com.qxdzbc.p6.ui.window.menu.action.CodeMenuActionImp
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuAction
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction

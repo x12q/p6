@@ -27,7 +27,6 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import com.qxdzbc.p6.ui.script_editor.code_container.CentralScriptContainer
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.github.michaelbull.result.Result
@@ -55,9 +54,6 @@ class StateContainerImp @Inject constructor(
 
     private var subAppStateCont by subAppStateContMs
     override var appState by appStateMs
-    override val centralScriptContainerMs: Ms<CentralScriptContainer>
-        get() = appState.centralScriptContainerMs
-    override var centralScriptContainer: CentralScriptContainer by centralScriptContainerMs
 
     override fun getActiveWorkbook(): Workbook? {
         return appState.activeWindowState?.activeWbState?.wb

@@ -1,0 +1,3 @@
+package com.qxdzbc.p6.app.communication.res_req_template.response
+
+interface ResponseWith_WindowId_WbKey_ErrorReport : ResponseWith_WindowId_WbKey, WithErrorReport

@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.action.worksheet.rename_ws
 
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
+import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWith_WbKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.common.error.ErrorReport
@@ -15,7 +15,7 @@ data class RenameWorksheetResponse(
     val newName:String,
     override val isError:Boolean = false,
     override val errorReport:ErrorReport? = null
-) :ResponseWithWorkbookKeyTemplate{
+) :ResponseWith_WbKey{
 
     companion object {
         fun fromProtoBytes(protoBytes:ByteString): RenameWorksheetResponse {
@@ -36,10 +36,6 @@ data class RenameWorksheetResponse(
         }
         val rt= builder.build()
         return rt
-    }
-
-    override fun isLegal(): Boolean {
-        return true
     }
 }
 

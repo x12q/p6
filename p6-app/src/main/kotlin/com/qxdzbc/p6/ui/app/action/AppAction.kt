@@ -5,6 +5,4 @@ package com.qxdzbc.p6.ui.app.action
  */
 interface AppAction {
     fun exitApp()
-    fun closeCodeEditor()
-    fun openCodeEditor()
 }

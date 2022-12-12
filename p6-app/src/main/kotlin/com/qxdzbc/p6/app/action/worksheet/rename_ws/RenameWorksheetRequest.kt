@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.worksheet.rename_ws
 
-import com.google.protobuf.ByteString
-import com.qxdzbc.p6.app.communication.res_req_template.request.remote.RequestToP6WithWorkbookKey
+import com.qxdzbc.p6.app.communication.res_req_template.request.RequestWithWorkbookKey
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.WorkbookProtos
@@ -14,7 +13,7 @@ data class RenameWorksheetRequest(
     override val wbKey: WorkbookKey,
     val oldName: String,
     val newName: String
-) : RequestToP6WithWorkbookKey {
+) : RequestWithWorkbookKey {
 
     companion object {
         fun WorkbookProtos.RenameWorksheetRequestProto.toModel(): RenameWorksheetRequest {

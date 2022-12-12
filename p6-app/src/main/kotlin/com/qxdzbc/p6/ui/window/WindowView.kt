@@ -55,7 +55,6 @@ fun WindowView(
         Column(modifier = Modifier.fillMaxSize()) {
             WindowMenu(
                 fileMenuAction = windowActionTable.fileMenuAction,
-                codeMenuAction = windowActionTable.codeMenuAction,
                 windowState = state.innerWindowState
             )
             MBox {

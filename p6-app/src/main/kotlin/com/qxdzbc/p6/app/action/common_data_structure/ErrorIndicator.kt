@@ -3,7 +3,6 @@ package com.qxdzbc.p6.app.action.common_data_structure
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.communication.res_req_template.IsError
-import com.qxdzbc.p6.app.communication.res_req_template.IsLegal
 import com.qxdzbc.p6.app.communication.res_req_template.WithErrorReport
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.CommonProtos
@@ -14,7 +13,7 @@ import com.qxdzbc.common.Rs
 
 data class ErrorIndicator(
     override val errorReport: ErrorReport?
-) : WithErrorReport, IsError, IsLegal {
+) : WithErrorReport, IsError {
     override val isError: Boolean get()=errorReport!=null
     companion object {
         fun fromProto(proto: CommonProtos.ErrorIndicatorProto): ErrorIndicator {
@@ -59,16 +58,6 @@ data class ErrorIndicator(
                 }
             }
             .build()
-    }
-
-    override fun isLegal(): Boolean {
-        if(this.isError && this.errorReport!=null){
-            return true
-        }
-        if(this.isOk && this.errorReport==null){
-            return true
-        }
-        return false
     }
 }
 

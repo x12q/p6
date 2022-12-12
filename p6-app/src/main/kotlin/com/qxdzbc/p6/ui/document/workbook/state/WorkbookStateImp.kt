@@ -18,8 +18,6 @@ import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
-import com.qxdzbc.p6.app.document.script.ScriptContainer
-import com.qxdzbc.p6.app.document.script.ScriptContainerImp
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
@@ -62,8 +60,6 @@ data class WorkbookStateImp @AssistedInject constructor(
     private val gridSliderFactory: LimitedGridSliderFactory,
     private val cursorStateFactory: CursorStateFactory,
     private val thumbStateFactory: ThumbStateFactory,
-    @DefaultScriptContMs
-    override val scriptContMs: Ms<ScriptContainer>,
 ) : WorkbookState {
     companion object {
         fun default(
@@ -91,7 +87,6 @@ data class WorkbookStateImp @AssistedInject constructor(
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
             thumbStateFactory: ThumbStateFactory,
-            scriptContMs: Ms<ScriptContainer> = ms(ScriptContainerImp())
         ): WorkbookStateImp {
             val wsStateMap: Map<St<String>, Ms<WorksheetState>> = wbMs.value.worksheetMsList
                 .map { wsMs ->
@@ -130,7 +125,6 @@ data class WorkbookStateImp @AssistedInject constructor(
                 wsStateFactory = wsStateFactory,
                 gridSliderFactory = gridSliderFactory,
                 cursorStateFactory = cursorStateFactory,
-                scriptContMs = scriptContMs,
                 thumbStateFactory = thumbStateFactory,
                 windowId = null
             )
@@ -189,9 +183,6 @@ data class WorkbookStateImp @AssistedInject constructor(
         }
         return this
     }
-
-    override var scriptCont: ScriptContainer by scriptContMs
-
 
     override fun refresh(): WorkbookState {
         return this.refreshWsPointer().refreshWsState()

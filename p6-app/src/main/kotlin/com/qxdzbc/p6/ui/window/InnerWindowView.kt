@@ -19,11 +19,8 @@ import com.qxdzbc.p6.ui.window.kernel_dialog.start_kernel_dialog.StartKernelDial
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBar
-import com.qxdzbc.p6.ui.window.status_bar.kernel_status.KernelStatusDetailDialog
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RpcStatusDetailDialog
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -86,51 +83,6 @@ fun InnerWindowView(
         }
     }
 
-    if (state.showStartKernelDialogState.isShowing) {
-        StartKernelDialog(
-            onOk = {
-                executionScope.launch(Dispatchers.IO) {
-                    windowAction.startKernelAndServices(it)
-                    windowAction.closeDialogToStartKernel(state.id)
-                }
-            },
-            onCancel = {
-                windowAction.closeDialogToStartKernel(state.id)
-            },
-            openBrowserToUpdatePath = { updateTarget ->
-                windowAction.openCommonFileBrowserAndUpdatePath(updateTarget, executionScope, state.id)
-            }
-        )
-    }
-    if (state.showConnectToKernelDialogState.isShowing) {
-        ConnectToKernelDialog(
-            onOk = { path, content ->
-                executionScope.launch {
-                    if (path != null) {
-                        windowAction.connectToKernelUsingConnectionFilePath(path)
-                    } else if (content != null) {
-                        windowAction.connectToKernelUsingConnectionFileContent(content)
-                    }
-                }
-                windowAction.closeDialogToConnectToKernel(state.id)
-            },
-            openFileBrowserAndUpdatePath = {
-                windowAction.openCommonFileBrowserAndUpdatePath(it, executionScope, state.id)
-            },
-            onCancel = {
-                windowAction.closeDialogToConnectToKernel(state.id)
-            }
-        )
-    }
-
-    if (state.statusBarState.kernelStatusItemState.detailIsShown) {
-        KernelStatusDetailDialog(state = state.statusBarState.kernelStatusItemState,
-            onClickClose = {
-                state.statusBarState.kernelStatusItemState =
-                    state.statusBarState.kernelStatusItemState.hideDetail()
-            }
-        )
-    }
     if (state.statusBarState.rpcServerStatusState.isShowingDetail) {
         RpcStatusDetailDialog(
             state = state.statusBarState.rpcServerStatusState,

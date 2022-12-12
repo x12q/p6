@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.range.range_to_clipboard.applier
 
-import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardResponse2
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
@@ -14,7 +13,6 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class RangeToClipboardApplierImp @Inject constructor(
     val internalApplier: RangeToClipboardInternalApplier,
-    private val baseApplier: BaseApplier,
     private val errorRouter: ErrorRouter,
 ) : RangeToClipboardApplier {
 

@@ -43,7 +43,7 @@ class LoadWorkbookActionImp @Inject constructor(
                 return LoadWorkbookResponse(
                     errorReport = e,
                     windowId = request.windowId,
-                    workbook = null
+                    wb = null
                 )
             }
         } else {
@@ -56,7 +56,7 @@ class LoadWorkbookActionImp @Inject constructor(
             return LoadWorkbookResponse(
                 errorReport = e,
                 windowId = request.windowId,
-                workbook = null
+                wb = null
             )
         }
     }

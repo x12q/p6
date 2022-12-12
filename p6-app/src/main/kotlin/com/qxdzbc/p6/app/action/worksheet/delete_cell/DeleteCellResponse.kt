@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.action.worksheet.delete_cell
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
-import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWithWorkbookKeyTemplate
+import com.qxdzbc.p6.app.communication.res_req_template.response.ResponseWith_WbKey
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -13,7 +13,6 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.WorksheetProtos.*
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.google.protobuf.ByteString
 
 class DeleteCellResponse(
     override val wbKey: WorkbookKey,
@@ -22,7 +21,7 @@ class DeleteCellResponse(
     val newWorkbook: Workbook?,
     override val isError: Boolean,
     override val errorReport: ErrorReport?
-):ResponseWithWorkbookKeyTemplate{
+):ResponseWith_WbKey{
     companion object{
         fun DeleteCellResponseProto.toModel(translatorGetter: (wbWsSt: WbWsSt) -> P6Translator<ExUnit>): DeleteCellResponse {
             return DeleteCellResponse(
@@ -34,9 +33,6 @@ class DeleteCellResponse(
                 errorReport = if(this.hasErrorReport()) errorReport.toModel() else null
             )
         }
-    }
-    override fun isLegal(): Boolean {
-        return true
     }
 }
 

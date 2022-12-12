@@ -3,7 +3,6 @@ package com.qxdzbc.p6.ui.window.menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
-import com.qxdzbc.p6.ui.window.menu.action.CodeMenuAction
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuAction
 import com.qxdzbc.p6.ui.window.state.WindowState
 
@@ -11,7 +10,6 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 @Composable
 fun FrameWindowScope.WindowMenu(
     fileMenuAction: FileMenuAction?,
-    codeMenuAction: CodeMenuAction?,
     windowState: WindowState
 ) {
     MenuBar {
@@ -32,20 +30,6 @@ fun FrameWindowScope.WindowMenu(
                 fileMenuAction?.closeActiveWorkbook(windowState.id)
             }
 
-        }
-        Menu("Code", mnemonic = 'c') {
-            Item("Open code editor", enabled = true) {
-                codeMenuAction?.openCodeEditor()
-            }
-            Item("Start kernel with Python", enabled =true){
-                codeMenuAction?.openDialogToStartKernel(windowState.id)
-            }
-            Item("Connect to existing kernel", enabled =true){
-                codeMenuAction?.openDialogToConnectToKernel(windowState.id)
-            }
-            Item("Stop kernel", enabled =  windowState.kernel.kernelStatus.isProcessUnderManagement){
-                codeMenuAction?.stopKernel()
-            }
         }
     }
 }

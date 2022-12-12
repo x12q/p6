@@ -18,12 +18,4 @@ class AppActionImp @Inject constructor(
     override fun exitApp() {
         appScope?.exitApplication()
     }
-
-    override fun closeCodeEditor() {
-        appState = appState.closeCodeEditor()
-    }
-
-    override fun openCodeEditor() {
-        appState = appState.openCodeEditor()
-    }
 }

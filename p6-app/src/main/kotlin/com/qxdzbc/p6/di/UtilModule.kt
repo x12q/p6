@@ -12,7 +12,6 @@ import com.qxdzbc.p6.app.file.saver.P6Saver
 import com.qxdzbc.p6.app.file.saver.P6SaverImp
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParserImp
-import com.google.gson.Gson
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -43,11 +42,6 @@ interface UtilModule {
 
 
     companion object{
-        @Provides
-        @P6Singleton
-        fun gson(): Gson {
-            return Gson()
-        }
 
         @Provides
         @P6Singleton

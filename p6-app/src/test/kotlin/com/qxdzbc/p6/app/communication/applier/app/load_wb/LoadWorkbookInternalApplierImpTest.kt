@@ -25,7 +25,7 @@ class LoadWorkbookInternalApplierImpTest {
     fun b() {
         ts = TestSample()
         scMs = ts.scMs
-        errorRouter = ErrorRouterImp(scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs)
+        errorRouter = ErrorRouterImp(scMs,ts.appState.errorContainerMs)
         loadWbInternalApplier = LoadWorkbookInternalApplierImp(ts.stateContMs())
     }
 

@@ -38,7 +38,7 @@ class RenameWorksheetInternalApplierImpTest {
             workbookStateMs = it.workbookStateMs
             windowStateMs = it.windowStateMs
         }
-        errorRouter = ErrorRouterImp(scMs,ts.appState.codeEditorStateMs,ts.appState.errorContainerMs)
+        errorRouter = ErrorRouterImp(scMs,ts.appState.errorContainerMs)
         applier = RenameWorksheetInternalApplierImp(
             ts.appStateMs,ts.appState.docContMs,errorRouter
         )

@@ -7,7 +7,6 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.message.api.connection.kernel_context.KernelContext
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
@@ -32,7 +31,6 @@ interface WindowState : WithSize {
     val focusStateMs:Ms<WindowFocusState>
     var focusState:WindowFocusState
 
-    val kernel:KernelContext
     val statusBarStateMs:Ms<StatusBarState>
     var statusBarState:StatusBarState
 

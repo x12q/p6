@@ -7,7 +7,6 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
-import com.qxdzbc.p6.app.action.applier.BaseApplier
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.file.saver.P6Saver
@@ -104,7 +103,6 @@ class SaveWorkbookActionImp @Inject constructor(
                                     .publishErrToWindowIfNeed(errorRouter, windowId)
                             }
 
-                            appState.codeEditorState = appState.codeEditorState.replaceWbKey(oldWb.key, newWbKey)
                             wbStateMs.value = wbStateMs.value.setNeedSave(false)
                         }
                 } else {
