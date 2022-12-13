@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.document.cell.state
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -9,9 +7,9 @@ import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.cell.state.CellStates.defaultTextStyle
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
@@ -20,7 +18,7 @@ data class CellStateImp(
     override val address: CellAddress,
     override val cellMs: Ms<Cell>?,
     override var textFormat: TextFormat?=null,
-    override val cellFormatMs: Ms<CellFormat?> = ms(null),
+    override var cellFormat: CellFormat? =null,
 ) : CellState {
     init {
         if (cellMs != null) {
@@ -86,7 +84,10 @@ data class CellStateImp(
     override val textStyle: TextStyle
         get() = textFormat?.toTextStyle() ?: defaultTextStyle
 
-    override var cellFormat: CellFormat? by cellFormatMs
+    override fun setCellFormat(i: CellFormat): CellStateImp {
+        return this.copy(cellFormat = i)
+    }
+
     override val backgroundColor: Color?
         get() = cellFormat?.backgroundColor
 
@@ -95,7 +96,7 @@ data class CellStateImp(
     }
 
     override fun setBackgroundColor(color: Color): CellState {
-        cellFormat = cellFormat?.copy(backgroundColor = color)
+        cellFormat = cellFormat?.setBackgroundColor(color)
         return this
     }
 }

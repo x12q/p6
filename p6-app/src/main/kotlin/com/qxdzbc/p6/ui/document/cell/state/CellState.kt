@@ -8,6 +8,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
@@ -40,8 +41,8 @@ interface CellState {
 
     val textStyle:TextStyle
 
-    val cellFormatMs:Ms<CellFormat?>
-    var cellFormat:CellFormat?
+    val cellFormat: CellFormat?
+    fun setCellFormat(i:CellFormat): CellState
 
     val backgroundColor:Color?
     fun setBackgroundColor(hexColor:ULong):CellState

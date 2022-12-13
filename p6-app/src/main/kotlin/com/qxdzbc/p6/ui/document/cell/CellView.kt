@@ -12,20 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.IndCellImp
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
+import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
 import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 
 @Composable
@@ -55,8 +54,7 @@ fun CellView(
                         state.alignment?.also {
                             align(it)
                         }
-                    }
-                   ,
+                    },
                 style = state.textStyle,
             )
         }
@@ -83,19 +81,17 @@ fun main() = P6TestApp {
                     address = address,
                     cellMs = IndCellImp.random(address).toMs(),
                     textFormat =
-                        TextFormatImp(
-                            textColor = Color.Red,
-                            verticalAlignment = TextVerticalAlignment.Center,
-                            horizontalAlignment = TextHorizontalAlignment.End,
-                            isCrossedAttr = true.toBoolAttr(),
-                            isUnderlinedAttr = true.toBoolAttr(),
-                            fontWeight = FontWeight.Bold
+                    TextFormatImp(
+                        textColor = Color.Red,
+                        verticalAlignment = TextVerticalAlignment.Center,
+                        horizontalAlignment = TextHorizontalAlignment.End,
+                        isCrossedAttr = true.toBoolAttr(),
+                        isUnderlinedAttr = true.toBoolAttr(),
+                        fontWeight = FontWeight.Bold
 
                     ),
-                    cellFormatMs = ms(
-                        CellFormat(
-                            backgroundColor = Color.Blue
-                        )
+                    cellFormat = CellFormatImp(
+                        backgroundColor = Color.Blue
                     )
                 )
             )

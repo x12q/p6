@@ -8,6 +8,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
+import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
@@ -43,6 +44,42 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
             stateContainerSt = comp.stateContMs()
         )
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!
+    }
+
+    @Test
+    fun produceNewStateForNewBackgroundColor(){
+        val c1 = Color(123)
+        val c2 = Color(456)
+        test("set cell A1 background color: $c1 -> $c2") {
+            val cellFormatTable = CellFormatTableImp().updateColorTable(
+                FlyweightTableImp<Color>()
+                    .addOrUpdate(c1)
+                    .addOrUpdate(c1)
+            )
+            val inputState = UpdateCellFormatActionImp.TargetState(
+                cellState = cellStateA1.setCellFormat(
+                    CellFormatImp(backgroundColor = c1)
+                ),
+                cellFormatTable = cellFormatTable
+            )
+            val newState = action.produceNewStateForNewBackgroundColor(
+                inputState = inputState,
+                color = c2
+            )
+            postCondition {
+                val expectedState = UpdateCellFormatActionImp.TargetState(
+                    inputState.cellState.setCellFormat(
+                        CellFormatImp(backgroundColor = c2)
+                    ),
+                    inputState.cellFormatTable.updateColorTable(
+                        inputState.cellFormatTable.colorTable
+                            .reduceCount(c1)
+                            .increaseCount(c2)
+                    )
+                )
+                newState shouldBe expectedState
+            }
+        }
     }
 
     @Test
@@ -208,7 +245,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                     .addOrUpdate(2f)
             )
             val newTextFormat = TextFormatImp().copy(textSize = 3f)
-            val newState = action.produceNewState(
+            val newState = action.produceNewStateWithNewTextFormat(
                 cs,
                 newFormat = 3f,
                 getCurrentFormat = {
@@ -246,7 +283,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                     .addOrUpdate(2f)
             )
             val newTextFormat = TextFormatImp().copy(textSize = 3f)
-            val newState = action.produceNewState(
+            val newState = action.produceNewStateWithNewTextFormat(
                 cs,
                 newFormat = 3f,
                 getCurrentFormat = {
