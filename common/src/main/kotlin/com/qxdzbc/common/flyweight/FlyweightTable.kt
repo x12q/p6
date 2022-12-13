@@ -1,21 +1,25 @@
 package com.qxdzbc.common.flyweight
 
 
-interface FlyweightTable<T> {
+interface FlyweightTable<T> : Map<T, Flyweight<T>>{
 
-    val attrMap:Map<T, Flyweight<T>>
+    val flyweightMap:Map<T, Flyweight<T>>
 
-    fun getMarkedAttr(v:T): Flyweight<T>?
+    fun getFlyweight(v:T): Flyweight<T>?
 
-    fun addMarkedAttr(v:T, attr: Flyweight<T>): FlyweightTable<T>
+    fun addFlyweight(i: Flyweight<T>): FlyweightTable<T>
 
-    fun addAndGetMarkedAttr(v:T):Pair<FlyweightTable<T>, Flyweight<T>>
+    fun addAndGetFlyweight(v:T):Pair<FlyweightTable<T>, Flyweight<T>>
 
-    fun reduceCountIfPossible(v:T): FlyweightTable<T>
-    fun increaseCountIfPossible(v:T): FlyweightTable<T>
+    fun reduceCount(v:T): FlyweightTable<T>
+    fun increaseCount(v:T): FlyweightTable<T>
+
+    /**
+     * Change ref count of a flyweight of a [v] value
+     */
     fun changeCountIfPossible(v:T, count:Int): FlyweightTable<T>
 
-    fun removeMarkedAttr(v:T): FlyweightTable<T>
+    fun removeFlyweight(v:T): FlyweightTable<T>
 
     fun removeAll(): FlyweightTable<T>
 

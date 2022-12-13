@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.ui.window.state
 
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.build.BuildConfig
-import com.qxdzbc.p6.app.build.BuildVariant
+import com.qxdzbc.p6.build.BuildConfig
+import com.qxdzbc.p6.build.BuildVariant
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 

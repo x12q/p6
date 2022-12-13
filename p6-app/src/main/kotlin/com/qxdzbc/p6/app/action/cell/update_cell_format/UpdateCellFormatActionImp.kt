@@ -14,6 +14,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.common.flyweight.FlyweightTable
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -141,13 +142,41 @@ class UpdateCellFormatActionImp @Inject constructor(
         applyNewState(cellId, newState)
     }
 
+    override fun setVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment) {
+        val oldCellState = sc.getCellState(cellId) ?: CellStates.blank(cellId.address)
+        val newState = produceNewStateForNewVerticalAlignment(TargetState(oldCellState, cTable), alignment)
+        applyNewState(cellId, newState)
+    }
+
+    fun produceNewStateForNewVerticalAlignment(
+        inputState: TargetState,
+        alignment: TextVerticalAlignment
+    ):TargetState?{
+        val newState = produceNewState(
+            cellState = inputState.cellState,
+            newFormat = alignment,
+            getCurrentFormat = {
+                it?.verticalAlignment
+            },
+            produceNewTextFormat = { newAlignment, oldFormat ->
+                oldFormat.setVerticalAlignment(newAlignment)
+            },
+            getFlyweightTable = {
+                inputState.cellFormatTable.verticalAlignmentTable
+            },
+            produceNewCellFormatTable = {
+                inputState.cellFormatTable.updateVerticalAlignmentTable(it)
+            }
+        )
+        return newState
+    }
+
     fun produceNewStateForNewHorizontalAlignment(
         inputState: TargetState,
         alignment: TextHorizontalAlignment
     ): TargetState? {
-        val oldCellState = inputState.cellState
         val newState = produceNewState(
-            cellState = oldCellState,
+            cellState = inputState.cellState,
             newFormat = alignment,
             getCurrentFormat = {
                 it?.horizontalAlignment
@@ -185,7 +214,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             val newCellState = cellState.setTextFormat(newTextFormat)
             // x: clean up old format attr
             if (oldFormat != null) {
-                newCellTable = produceNewCellFormatTable(ft2.reduceCountIfPossible(oldFormat))
+                newCellTable = produceNewCellFormatTable(ft2.reduceCount(oldFormat))
             }
             return TargetState(
                 newCellState,

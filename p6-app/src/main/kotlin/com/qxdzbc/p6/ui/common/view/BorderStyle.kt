@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.common.view
 
-import com.qxdzbc.p6.app.build.BuildConfig
-import com.qxdzbc.p6.app.build.BuildVariant
+import com.qxdzbc.p6.build.BuildConfig
+import com.qxdzbc.p6.build.BuildVariant
 import java.util.*
 
 enum class BorderStyle {

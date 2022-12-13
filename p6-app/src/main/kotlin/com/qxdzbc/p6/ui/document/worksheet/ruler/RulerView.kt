@@ -13,7 +13,7 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.app.build.DebugFunctions.debug
+import com.qxdzbc.p6.build.DebugFunctions.debug
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap

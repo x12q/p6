@@ -7,12 +7,12 @@ import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.mock
 import kotlin.test.*
 
-internal class ImmutableCommandStackTest {
-    var _stack:ImmutableCommandStack?=null
+internal class CommandStackImpTest {
+    var _stack:CommandStackImp?=null
     val stack get()=_stack!!
     @BeforeTest
     fun b(){
-        _stack = ImmutableCommandStack(3)
+        _stack = CommandStackImp(3)
     }
     fun newCommand():Command{
         return mock<Command>()

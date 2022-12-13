@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.build
+package com.qxdzbc.p6.build
 
 import androidx.compose.ui.graphics.Color
 

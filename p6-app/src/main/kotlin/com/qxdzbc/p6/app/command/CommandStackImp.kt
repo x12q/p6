@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.command
 /**
  * An immutable implementation of [CommandStack]
  */
-data class ImmutableCommandStack(
+data class CommandStackImp(
     private val capacity:Int = 100,
     override val allCommands : List<Command> = emptyList(),
 ) : CommandStack {

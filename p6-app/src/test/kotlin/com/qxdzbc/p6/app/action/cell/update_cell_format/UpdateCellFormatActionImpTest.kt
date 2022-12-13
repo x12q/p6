@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.action.cell.update_cell_format
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.flyweight.FlyweightTableImp
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -10,9 +11,9 @@ import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
-import com.qxdzbc.common.flyweight.FlyweightTableImp
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -45,9 +46,40 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     }
 
     @Test
+    fun produceNewStateForNewVerticalAlignment() {
+        test("set cell A1 vertical alignment: Top -> Bot") {
+            val cellFormatTable = CellFormatTableImp().updateVerticalAlignmentTable(
+                FlyweightTableImp<TextVerticalAlignment>()
+                    .addOrUpdate(TextVerticalAlignment.Center)
+                    .addOrUpdate(TextVerticalAlignment.Center)
+                    .addOrUpdate(TextVerticalAlignment.Top)
+                    .addOrUpdate(TextVerticalAlignment.Top)
+            )
+            val inputState = UpdateCellFormatActionImp.TargetState(
+                cellState = cellStateA1.setVerticalAlignment(TextVerticalAlignment.Top),
+                cellFormatTable = cellFormatTable
+            )
+            val newState = action.produceNewStateForNewVerticalAlignment(
+                inputState = inputState,
+                alignment = TextVerticalAlignment.Bot
+            )
+            postCondition {
+                val expectedState = UpdateCellFormatActionImp.TargetState(
+                    inputState.cellState.setVerticalAlignment(TextVerticalAlignment.Bot),
+                    inputState.cellFormatTable.updateVerticalAlignmentTable(
+                        inputState.cellFormatTable.verticalAlignmentTable
+                            .reduceCount(TextVerticalAlignment.Top)
+                            .increaseCount(TextVerticalAlignment.Bot)
+                    )
+                )
+                newState shouldBe expectedState
+            }
+        }
+    }
 
-    fun produceNewStateForNewUnderlined(){
-        test("set cell A1 underlined: true -> false"){
+    @Test
+    fun produceNewStateForNewUnderlined() {
+        test("set cell A1 underlined: true -> false") {
             val cellFormatTable = CellFormatTableImp().updateBoolTable(
                 FlyweightTableImp<BoolAttr>()
                     .addOrUpdate(BoolAttr.TRUE)
@@ -68,8 +100,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                     inputState.cellState.setTextUnderlined(false),
                     inputState.cellFormatTable.updateBoolTable(
                         inputState.cellFormatTable.boolTable
-                            .reduceCountIfPossible(BoolAttr.TRUE)
-                            .increaseCountIfPossible(BoolAttr.FALSE)
+                            .reduceCount(BoolAttr.TRUE)
+                            .increaseCount(BoolAttr.FALSE)
                     )
                 )
                 newState shouldBe expectedState
@@ -78,8 +110,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     }
 
     @Test
-    fun produceNewStateForNewCrossed(){
-        test("set cell A1 crossed: true -> false"){
+    fun produceNewStateForNewCrossed() {
+        test("set cell A1 crossed: true -> false") {
             val cellFormatTable = CellFormatTableImp().updateBoolTable(
                 FlyweightTableImp<BoolAttr>()
                     .addOrUpdate(BoolAttr.TRUE)
@@ -100,8 +132,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                     inputState.cellState.setTextCrossed(false),
                     inputState.cellFormatTable.updateBoolTable(
                         inputState.cellFormatTable.boolTable
-                            .reduceCountIfPossible(BoolAttr.TRUE)
-                            .increaseCountIfPossible(BoolAttr.FALSE)
+                            .reduceCount(BoolAttr.TRUE)
+                            .increaseCount(BoolAttr.FALSE)
                     )
                 )
                 newState shouldBe expectedState
@@ -133,7 +165,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                     inputState.cellState.setHorizontalAlignment(TextHorizontalAlignment.End),
                     inputState.cellFormatTable.updateHorizontalAlignmentTable(
                         inputState.cellFormatTable.horizontalAlignmentTable
-                            .reduceCountIfPossible(TextHorizontalAlignment.Center)
+                            .reduceCount(TextHorizontalAlignment.Center)
                             .addOrUpdate(TextHorizontalAlignment.End)
 
                     )
@@ -261,14 +293,14 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
             )
             val newState = action.produceNewStateForNewTextColor(
                 inputState = inputState,
-                color=c2
+                color = c2
             )
             postCondition {
                 val expectedState = UpdateCellFormatActionImp.TargetState(
                     inputState.cellState.setTextFormat(TextFormat.createDefaultTextFormat().setTextColor(c2)),
                     inputState.cellFormatTable.updateColorTable(
                         inputState.cellFormatTable.colorTable
-                            .reduceCountIfPossible(c1).addOrUpdate(c2)
+                            .reduceCount(c1).addOrUpdate(c2)
                     )
                 )
                 newState shouldBe expectedState
@@ -302,13 +334,12 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                     inputState.cellState.setTextFormat(TextFormat.createDefaultTextFormat().setTextSize(v2)),
                     inputState.cellFormatTable.updateFloatTable(
                         inputState.cellFormatTable.floatTable
-                            .reduceCountIfPossible(v1).addOrUpdate(v2)
+                            .reduceCount(v1).addOrUpdate(v2)
                     )
                 )
                 newState shouldBe expectedState
             }
         }
-
 
 
     }

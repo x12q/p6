@@ -8,11 +8,11 @@ package com.qxdzbc.common.flyweight
  *  this data is for managing attributes inside attribute table
  */
 interface Flyweight<T> {
-    val attr: T
+    val value: T
     val refCount: Int
-    fun upCounter(): Flyweight<T> = changeCounterBy(1)
-    fun downCounter(): Flyweight<T> = changeCounterBy(-1)
-    fun changeCounterBy(v:Int): Flyweight<T>
+    fun increaseRefCount(): Flyweight<T> = changeRefCountBy(1)
+    fun reduceRefCount(): Flyweight<T> = changeRefCountBy(-1)
+    fun changeRefCountBy(v:Int): Flyweight<T>
     val isCounterZero: Boolean get() = refCount == 0
     val isCounterNotZero: Boolean get() = refCount != 0
 }

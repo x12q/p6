@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.app.build.DebugFunctions.debug
+import com.qxdzbc.p6.build.DebugFunctions.debug
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraintImp
 import java.awt.Cursor
 object P6R {

@@ -7,5 +7,4 @@ import javax.inject.Inject
 class AppContextImp @Inject constructor(
     @Username
     override val username: String,
-) : AppContext {
-}
+) : AppContext

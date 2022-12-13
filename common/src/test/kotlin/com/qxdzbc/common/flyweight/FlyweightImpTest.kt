@@ -1,7 +1,5 @@
 package com.qxdzbc.common.flyweight
 
-import com.qxdzbc.common.flyweight.Flyweight
-import com.qxdzbc.common.flyweight.FlyweightImp
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,22 +16,22 @@ class FlyweightImpTest {
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
-        marked = marked.upCounter()
+        marked = marked.increaseRefCount()
         assertEquals(2,marked.refCount)
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
-        marked = marked.downCounter()
+        marked = marked.reduceRefCount()
         assertEquals(1,marked.refCount)
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
-        marked = marked.changeCounterBy(100)
+        marked = marked.changeRefCountBy(100)
         assertEquals(101,marked.refCount)
         assertTrue(marked.isCounterNotZero)
         assertFalse(marked.isCounterZero)
 
-        marked = marked.changeCounterBy(-1000)
+        marked = marked.changeRefCountBy(-1000)
         assertEquals(0,marked.refCount)
         assertFalse(marked.isCounterNotZero)
         assertTrue(marked.isCounterZero)
