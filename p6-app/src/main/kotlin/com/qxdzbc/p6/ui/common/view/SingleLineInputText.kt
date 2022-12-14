@@ -30,8 +30,7 @@ fun SingleLineInputText(
 ) {
     val borderColor = MaterialTheme.colors.onPrimary
     MBox(
-        modifier = Modifier
-            .then(modifier)
+        modifier = modifier
             .clip(P6R.shape.textFieldShape)
             .border(1.dp, borderColor, P6R.shape.textFieldShape)
             .padding(5.dp)
@@ -40,6 +39,7 @@ fun SingleLineInputText(
             BasicTextField(
                 value = text,
                 onValueChange = onValueChange,
+                singleLine = true,
                 maxLines = 1,
                 modifier = Modifier.align(Alignment.CenterStart)
                     .fillMaxSize()
