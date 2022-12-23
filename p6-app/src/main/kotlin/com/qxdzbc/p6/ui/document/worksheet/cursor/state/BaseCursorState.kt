@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.state
 
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
@@ -11,6 +12,9 @@ import org.antlr.v4.runtime.tree.ParseTree
  * All implementation of CursorState must extend this.
  */
 abstract class BaseCursorState : CursorState {
+
+    override val mainCellId: CellId
+        get() = CellId(mainCell,id)
 
     override fun attemptToMergeAllIntoOne(): CursorState {
         val newMain = this.mergeAllIntoOne()

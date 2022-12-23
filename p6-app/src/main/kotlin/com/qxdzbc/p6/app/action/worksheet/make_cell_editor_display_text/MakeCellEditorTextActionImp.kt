@@ -11,9 +11,8 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -40,8 +39,8 @@ class MakeCellEditorTextActionImp @Inject constructor(
 
     override fun makeRangeSelectorText(
         currentTextField: TextFieldValue,
-        selectorId: CursorStateId?,
-        cursorId: CursorStateId?
+        selectorId: CursorId?,
+        cursorId: CursorId?
     ): TextFieldValue {
         val rangeSelector: CursorState? = selectorId?.let { stateCont.getCursorState(it) }
         val rsWsName: String? = selectorId?.wsName

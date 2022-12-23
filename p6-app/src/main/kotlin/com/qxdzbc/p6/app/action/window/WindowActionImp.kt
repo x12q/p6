@@ -20,6 +20,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +40,7 @@ class WindowActionImp @Inject constructor(
     private val setActiveWdAct: SetActiveWindowAction,
     private val closeWindowAct: CloseWindowAction,
     private val makeSavePath: MakeSavePath,
+    override val toolBarAction: ToolBarAction,
 ) : WindowAction,
     MakeSavePath by makeSavePath,
     CloseWindowAction by closeWindowAct,

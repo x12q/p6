@@ -17,18 +17,18 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTre
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementVisitor
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.squareup.anvil.annotations.ContributesBinding
 import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
 @ContributesBinding(P6AnvilScope::class)
 data class CellEditorStateImp constructor(
-    override val targetCursorIdSt: St<CursorStateId>? = null,
+    override val targetCursorIdSt: St<CursorId>? = null,
     override val isOpenMs: Ms<Boolean> = ms(false),
     override val currentTextField: TextFieldValue = TextFieldValue(""),
     override val targetCell: CellAddress? = null,
-    override val rangeSelectorCursorIdSt: St<CursorStateId>? = null,
+    override val rangeSelectorCursorIdSt: St<CursorId>? = null,
     override val rangeSelectorTextField: TextFieldValue? = null,
     val currentParseTreeMs: Ms<ParseTree?> = ms(null),
     override val rangeSelectorAllowState: RangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
@@ -141,14 +141,14 @@ data class CellEditorStateImp constructor(
         get() = isOpen && allowRangeSelector
     override val currentText: String get() = currentTextField.text
 
-    override val rangeSelectorCursorId: CursorStateId?
+    override val rangeSelectorCursorId: CursorId?
         get() = rangeSelectorCursorIdSt?.value
 
-    override fun setRangeSelectorCursorId(i: St<CursorStateId>?): CellEditorStateImp {
+    override fun setRangeSelectorCursorId(i: St<CursorId>?): CellEditorStateImp {
         return this.copy(rangeSelectorCursorIdSt = i)
     }
 
-    override val targetCursorId: CursorStateId?
+    override val targetCursorId: CursorId?
         get() = targetCursorIdSt?.value
 
     override fun setTargetCell(newCellAddress: CellAddress?): CellEditorStateImp {
@@ -248,7 +248,7 @@ data class CellEditorStateImp constructor(
     /**
      * Open this cell editor at the cursor whose id is [cursorIdMs]
      */
-    override fun open(cursorIdMs: St<CursorStateId>): CellEditorStateImp {
+    override fun open(cursorIdMs: St<CursorId>): CellEditorStateImp {
         isOpenMs.value = true
         val rsaState = if (this.currentText.isNotEmpty()) {
             RangeSelectorAllowState.DISALLOW

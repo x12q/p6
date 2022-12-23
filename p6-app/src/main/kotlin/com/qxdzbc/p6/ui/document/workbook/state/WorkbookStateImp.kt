@@ -23,7 +23,6 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.True
 import com.qxdzbc.p6.di.state.wb.DefaultCommandStack
-import com.qxdzbc.p6.di.state.wb.DefaultScriptContMs
 import com.qxdzbc.p6.di.state.wb.DefaultWsStateMap
 import com.qxdzbc.p6.di.state.ws.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
@@ -32,7 +31,7 @@ import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
@@ -96,7 +95,7 @@ data class WorkbookStateImp @AssistedInject constructor(
                             wbKeySt = wbMs.value.keyMs,
                         )
                     )
-                    val cursorIdMs: Ms<CursorStateId> = ms(CursorIdImp(wsIdMs))
+                    val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsIdMs))
                     val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
                     val mainCellMs = ms(CellAddresses.A1)
                     ms(
@@ -107,7 +106,7 @@ data class WorkbookStateImp @AssistedInject constructor(
                                 idMs = cursorIdMs,
                                 cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
                                 thumbStateMs = ms(thumbStateFactory.create(
-                                    cursorStateIdSt =cursorIdMs,
+                                    cursorIdSt =cursorIdMs,
                                     mainCellSt = mainCellMs,
                                     cellLayoutCoorMapSt = cellLayoutCoorMapMs
                                 )),

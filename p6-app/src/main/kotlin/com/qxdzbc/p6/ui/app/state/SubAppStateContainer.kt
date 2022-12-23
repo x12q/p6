@@ -22,15 +22,23 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
+import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelectorState
+import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 /**
  * An abstraction layer providing functions for looking up view states that is enclosed inside [AppState]
  */
 interface SubAppStateContainer {
+
+    fun getToolbarStateMs(windowId: String):Ms<ToolBarState>?
+    fun getToolbarState(windowId: String):ToolBarState?
+
+    fun getTextSizeSelectorStateMs(windowId:String):Ms<TextSizeSelectorState>?
+    fun getTextSizeSelectorState(windowId:String):TextSizeSelectorState?
 
     fun getCellStateMsRs(wbwsSt:WbWsSt,cellAddress: CellAddress):Rse<Ms<CellState>>
     fun getCellStateMsRs(cellId:CellId):Rse<Ms<CellState>>
@@ -41,7 +49,7 @@ interface SubAppStateContainer {
     fun getCellStateMs(cellId:CellId):Ms<CellState>?
     fun getCellState(cellId:CellId):CellState?
 
-    val formatTableMs: Ms<CellFormatTable>
+    val formatTableMs: Ms<CellFormatFlyweightTable>
 
     val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
     var windowStateMap: Map<String, Ms<OuterWindowState>>
@@ -120,6 +128,10 @@ interface SubAppStateContainer {
      * get cursor state ms of the active worksheet inside the workbook whose key is [wbKey]
      */
     fun getActiveCursorMs(wbKey: WorkbookKey): Ms<CursorState>?
+    /**
+     * get cursor state ms of the active worksheet inside the workbook whose key is [wbKey]
+     */
+    fun getActiveCursorMs(wbKeyMs: Ms<WorkbookKey>): Ms<CursorState>?
 
     fun addOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer
     fun removeOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer

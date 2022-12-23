@@ -17,7 +17,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
@@ -105,7 +105,7 @@ class WorksheetStateImpTest :BaseTest(){
             )
         )
         val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
-        val cursorIdMs:Ms<CursorStateId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
+        val cursorIdMs:Ms<CursorId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
         val mainCellMs = ms(CellAddresses.A1)
         wsStateForWb0Sheet1 = wsStateFactory.createThenRefresh(
             wsMs = wb0.getWsMs(0)!!,
@@ -118,7 +118,7 @@ class WorksheetStateImpTest :BaseTest(){
                     mainCellMs = mainCellMs,
                     thumbStateMs = ms(
                         ThumbStateImp(
-                            cursorStateIdSt =  cursorIdMs,
+                            cursorIdSt =  cursorIdMs,
                             mainCellSt = mainCellMs,
                             cellLayoutCoorMapSt = cellLayoutCoorMapMs
                         )

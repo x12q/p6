@@ -10,7 +10,6 @@ import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursor
 import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
 import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoOnCursorAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
@@ -19,7 +18,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.ThumbAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
@@ -117,19 +116,19 @@ class CursorActionImp @Inject constructor(
         }
     }
 
-    override fun focusOnCursor(cursorId: CursorStateId) {
+    override fun focusOnCursor(cursorId: CursorId) {
         sc.getFocusStateMsByWbKeyRs(cursorId.wbKey).onSuccess {
             it.value = it.value.focusOnCursor()
         }
     }
 
-    override fun freeFocusOnCursor(cursorId: CursorStateId) {
+    override fun freeFocusOnCursor(cursorId: CursorId) {
         sc.getFocusStateMsByWbKeyRs(cursorId.wbKey).onSuccess {
             it.value = it.value.freeFocusOnCursor()
         }
     }
 
-    override fun updateCursorFocus(cursorId: CursorStateId, focused: Boolean) {
+    override fun updateCursorFocus(cursorId: CursorId, focused: Boolean) {
         sc.getFocusStateMsByWbKeyRs(cursorId.wbKey).onSuccess {
             it.value = it.value.setCursorFocus(focused)
         }

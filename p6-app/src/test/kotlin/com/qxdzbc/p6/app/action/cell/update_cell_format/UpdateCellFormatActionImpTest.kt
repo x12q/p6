@@ -13,8 +13,8 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.format.CellFormatTableImp
+import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
+import com.qxdzbc.p6.ui.format.CellFormatFlyweightTableImp
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -26,7 +26,7 @@ import kotlin.test.Test
 internal class UpdateCellFormatActionImpTest : BaseTest() {
 
     lateinit var action: UpdateCellFormatActionImp
-    lateinit var cellFormatTableMs: Ms<CellFormatTable>
+    lateinit var cellFormatTableMs: Ms<CellFormatFlyweightTable>
     val ffTable get() = cellFormatTableMs.value.floatTable
     lateinit var wbwsSt: WbWsSt
     val cellA1Id get() = CellId(CellAddress("A1"), wbwsSt)
@@ -38,7 +38,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     @BeforeTest
     override fun b() {
         super.b()
-        cellFormatTableMs = ms(CellFormatTableImp())
+        cellFormatTableMs = ms(CellFormatFlyweightTableImp())
         action = UpdateCellFormatActionImp(
             cellFormatTableMs = cellFormatTableMs,
             stateContainerSt = comp.stateContMs()
@@ -51,7 +51,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
         val c1 = Color(123)
         val c2 = Color(456)
         test("set cell A1 background color: $c1 -> $c2") {
-            val cellFormatTable = CellFormatTableImp().updateColorTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateColorTable(
                 FlyweightTableImp<Color>()
                     .addOrUpdate(c1)
                     .addOrUpdate(c1)
@@ -85,7 +85,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     @Test
     fun produceNewStateForNewVerticalAlignment() {
         test("set cell A1 vertical alignment: Top -> Bot") {
-            val cellFormatTable = CellFormatTableImp().updateVerticalAlignmentTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateVerticalAlignmentTable(
                 FlyweightTableImp<TextVerticalAlignment>()
                     .addOrUpdate(TextVerticalAlignment.Center)
                     .addOrUpdate(TextVerticalAlignment.Center)
@@ -117,7 +117,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     @Test
     fun produceNewStateForNewUnderlined() {
         test("set cell A1 underlined: true -> false") {
-            val cellFormatTable = CellFormatTableImp().updateBoolTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateBoolTable(
                 FlyweightTableImp<BoolAttr>()
                     .addOrUpdate(BoolAttr.TRUE)
                     .addOrUpdate(BoolAttr.TRUE)
@@ -149,7 +149,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     @Test
     fun produceNewStateForNewCrossed() {
         test("set cell A1 crossed: true -> false") {
-            val cellFormatTable = CellFormatTableImp().updateBoolTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateBoolTable(
                 FlyweightTableImp<BoolAttr>()
                     .addOrUpdate(BoolAttr.TRUE)
                     .addOrUpdate(BoolAttr.TRUE)
@@ -182,7 +182,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     @Test
     fun produceNewStateForNewHorizontalAlignment() {
         test("set cell A1 text horizontal alignment: Center -> End") {
-            val cellFormatTable = CellFormatTableImp().updateHorizontalAlignmentTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateHorizontalAlignmentTable(
                 FlyweightTableImp<TextHorizontalAlignment>()
                     .addOrUpdate(TextHorizontalAlignment.Center)
                     .addOrUpdate(TextHorizontalAlignment.Center)
@@ -216,7 +216,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     fun applyNewState() {
         val newState = UpdateCellFormatActionImp.TargetState(
             cellState = CellStates.blank(cellA1Id.address),
-            cellFormatTable = CellFormatTableImp().updateFloatTable(
+            cellFormatTable = CellFormatFlyweightTableImp().updateFloatTable(
                 FlyweightTableImp<Float>().addOrUpdate(123f)
             )
         )
@@ -237,7 +237,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     fun produceNewState() {
         val cs = cellStateA1
         test("old format ref count is reduced, and new format attr is recorded") {
-            val cellFormatTable = CellFormatTableImp().updateFloatTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateFloatTable(
                 FlyweightTableImp<Float>()
                     .addOrUpdate(1f)
                     .addOrUpdate(1f)
@@ -262,7 +262,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                 }
             )
             postCondition {
-                val expectedCellFormatTable = CellFormatTableImp().updateFloatTable(
+                val expectedCellFormatTable = CellFormatFlyweightTableImp().updateFloatTable(
                     FlyweightTableImp<Float>()
                         .addOrUpdate(1f)
                         .addOrUpdate(2f)
@@ -276,7 +276,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
         }
 
         test("old format ref count is reduced to 0 and removed, and new format attr is recorded") {
-            val cellFormatTable = CellFormatTableImp().updateFloatTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateFloatTable(
                 FlyweightTableImp<Float>()
                     .addOrUpdate(1f)
                     .addOrUpdate(2f)
@@ -300,7 +300,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                 }
             )
             postCondition {
-                val expectedCellFormatTable = CellFormatTableImp().updateFloatTable(
+                val expectedCellFormatTable = CellFormatFlyweightTableImp().updateFloatTable(
                     FlyweightTableImp<Float>()
                         .addOrUpdate(2f)
                         .addOrUpdate(2f)
@@ -319,7 +319,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
         val c1 = Color(123)
         val c2 = Color(456)
         test("set cell A1 text color: $c1 -> $c2") {
-            val cellFormatTable = CellFormatTableImp().updateColorTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateColorTable(
                 FlyweightTableImp<Color>()
                     .addOrUpdate(c1)
                     .addOrUpdate(c2)
@@ -353,7 +353,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
         val v3 = 333f
 
         test("set cell A1 text size: 123 -> 456") {
-            val cellFormatTable = CellFormatTableImp().updateFloatTable(
+            val cellFormatTable = CellFormatFlyweightTableImp().updateFloatTable(
                 FlyweightTableImp<Float>()
                     .addOrUpdate(v1)
                     .addOrUpdate(v1)

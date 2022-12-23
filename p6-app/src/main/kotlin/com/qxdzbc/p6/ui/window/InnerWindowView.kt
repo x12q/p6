@@ -1,11 +1,8 @@
 package com.qxdzbc.p6.ui.window
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -17,12 +14,11 @@ import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.WorkbookView
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBar
-import com.qxdzbc.p6.ui.window.kernel_dialog.ConnectToKernelDialog
-import com.qxdzbc.p6.ui.window.kernel_dialog.start_kernel_dialog.StartKernelDialog
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBar
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RpcStatusDetailDialog
+import com.qxdzbc.p6.ui.window.tool_bar.ToolBar
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarView
 
 
@@ -41,8 +37,11 @@ fun InnerWindowView(
         Surface {
             WindowFrame(
                 menu = {
-
-
+                    ToolBar(
+                        windowId = state.id,
+                        state = state.toolBarState,
+                        action = windowAction.toolBarAction
+                    )
                 },
                 formulaBar = {
                     FormulaBar(state = state.formulaBarState)
@@ -82,6 +81,7 @@ fun InnerWindowView(
                             println("Kill app when encounter fatal error")
                             windowAction.onFatalError()
                         }
+
                         else -> oddityContainerMs.value = oddityContainerMs.value.remove(bugMsg)
                     }
                 },

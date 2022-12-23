@@ -24,8 +24,26 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
+import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelectorState
+import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
+
+    override fun getToolbarStateMs(windowId: String): Ms<ToolBarState>? {
+        return getWindowStateById(windowId)?.toolBarStateMs
+    }
+
+    override fun getToolbarState(windowId: String): ToolBarState? {
+        return getWindowStateById(windowId)?.toolBarStateMs?.value
+    }
+
+    override fun getTextSizeSelectorStateMs(windowId: String): Ms<TextSizeSelectorState>? {
+            return getWindowStateById(windowId)?.toolBarState?.textSizeSelectorStateMs
+    }
+
+    override fun getTextSizeSelectorState(windowId: String): TextSizeSelectorState? {
+        return getWindowStateById(windowId)?.toolBarState?.textSizeSelectorStateMs?.value
+    }
 
     override fun getCellStateMs(cellId: CellId): Ms<CellState>? {
         return getCellStateMsRs(cellId).component1()
@@ -188,9 +206,14 @@ abstract class AbsSubAppStateContainer : SubAppStateContainer {
 
     override fun getActiveCursorMs(wbKey: WorkbookKey): Ms<CursorState>? {
         val rt = this.getWbState(wbKey)?.let { wbState ->
-            wbState.activeSheetState?.let { activeWsState ->
-                activeWsState.cursorStateMs
-            }
+            wbState.activeSheetState?.cursorStateMs
+        }
+        return rt
+    }
+
+    override fun getActiveCursorMs(wbKeyMs: Ms<WorkbookKey>): Ms<CursorState>? {
+        val rt = this.getWbState(wbKeyMs)?.let { wbState ->
+            wbState.activeSheetState?.cursorStateMs
         }
         return rt
     }

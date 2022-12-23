@@ -11,7 +11,7 @@ import dagger.assisted.AssistedFactory
 @AssistedFactory
 interface CursorStateFactory {
     fun create(
-        @Assisted("1") idMs: Ms<CursorStateId>,
+        @Assisted("1") idMs: Ms<CursorId>,
         @Assisted("2") cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>,
         @Assisted("3") thumbStateMs: Ms<ThumbState>,
         @Assisted("4") mainCellMs: Ms<CellAddress>

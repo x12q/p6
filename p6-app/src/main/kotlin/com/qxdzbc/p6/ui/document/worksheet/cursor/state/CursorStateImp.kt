@@ -28,7 +28,7 @@ import dagger.assisted.AssistedInject
 
 data class CursorStateImp @AssistedInject constructor(
     @Assisted("1")
-    override val idMs: Ms<CursorStateId>,
+    override val idMs: Ms<CursorId>,
     @Assisted("2")
     override val cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
     @Assisted("3")
@@ -48,7 +48,7 @@ data class CursorStateImp @AssistedInject constructor(
     @DefaultClipBoardRange
     override val clipboardRange: RangeAddress = RangeAddresses.InvalidRange,
 
-) : BaseCursorState() {
+    ) : BaseCursorState() {
 
     override val isEditing: Boolean by isEditingMs
 
@@ -56,7 +56,7 @@ data class CursorStateImp @AssistedInject constructor(
 
     override val mainCell: CellAddress by mainCellMs
 
-    override fun mainSelectionStr(against: CursorStateId): String {
+    override fun mainSelectionStr(against: CursorId): String {
         val c1 = mainRange?.rawLabel ?: mainCell.label
         val c2 = if(this.id == against){
             ""
@@ -69,7 +69,7 @@ data class CursorStateImp @AssistedInject constructor(
 
     companion object {
         fun forTest(
-            cursorIdMs: Ms<CursorStateId>,
+            cursorIdMs: Ms<CursorId>,
             cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
             thumbStateMs: Ms<ThumbState>,
             mainCellMs:Ms<CellAddress> = ms(CellAddresses.A1)
@@ -122,7 +122,7 @@ data class CursorStateImp @AssistedInject constructor(
         return this.clipboardRange.contains(cellAddress)
     }
 
-    override var id: CursorStateId by idMs
+    override var id: CursorId by idMs
 
     override val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorsMapSt
     override var thumbState: ThumbState by thumbStateMs

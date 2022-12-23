@@ -18,6 +18,7 @@ import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
+import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import kotlinx.coroutines.CompletableDeferred
 import java.nio.file.Path
@@ -25,6 +26,9 @@ import java.nio.file.Path
 interface WindowState : WithSize {
 
     val id:String
+
+    val toolBarStateMs:Ms<ToolBarState>
+    val toolBarState:ToolBarState
 
     val formulaColorGenerator: FormulaColorGenerator
 

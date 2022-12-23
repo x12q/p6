@@ -7,6 +7,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 
@@ -35,8 +38,10 @@ data class TextFormatImp(
         return this.copy(textColor=i)
     }
 
+    @OptIn(ExperimentalUnitApi::class)
     override fun toTextStyle(): TextStyle {
         return TextStyle(
+            fontSize = TextUnit(textSize, TextUnitType.Sp),
             color = textColor,
             fontWeight = fontWeight,
             fontStyle = fontStyle,

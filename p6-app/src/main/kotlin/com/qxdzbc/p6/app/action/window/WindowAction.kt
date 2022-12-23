@@ -6,11 +6,13 @@ import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import java.nio.file.Path
 
 interface WindowAction : SaveWorkbookAction, SetActiveWindowAction,CloseWindowAction, MakeSavePath {
+    val toolBarAction: ToolBarAction
     fun showCommonFileDialog(job: CompletableDeferred<Path?>, windowId: String)
     fun openCommonFileBrowserAndUpdatePath(tMs: Ms<String>, executionScope: CoroutineScope, windowId: String)
     fun closeCommonFileDialog(windowId: String)

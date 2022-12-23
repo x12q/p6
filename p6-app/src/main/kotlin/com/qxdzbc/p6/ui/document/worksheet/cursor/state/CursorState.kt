@@ -6,17 +6,17 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
-import org.antlr.v4.runtime.tree.ParseTree
 
 /**
  * State of a cell cursor
  */
 interface CursorState : WbWsSt {
-    val idMs:Ms<CursorStateId>
-    var id:CursorStateId
+    val idMs:Ms<CursorId>
+    var id:CursorId
 
     val cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper>
@@ -61,12 +61,14 @@ interface CursorState : WbWsSt {
     val mainCellSt:St<CellAddress>
     val mainCell: CellAddress
 
+    val mainCellId:CellId
+
     /**
      * Construct a string representing this cursor main selection address. Prioritize main range over main cell.
      *
      * Eg: "A1:B3@Sheet1@Wbkey2"
      */
-    fun mainSelectionStr(against:CursorStateId):String
+    fun mainSelectionStr(against:CursorId):String
     /**
      * point the cursor to a new cell
      */

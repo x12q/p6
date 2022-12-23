@@ -11,13 +11,13 @@ import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 @ContributesBinding(scope = P6AnvilScope::class)
-data class CellFormatTableImp @Inject constructor(
+data class CellFormatFlyweightTableImp @Inject constructor(
     override val floatTable: FlyweightTable<Float>,
     override val colorTable: FlyweightTable<Color>,
     override val boolTable: FlyweightTable<BoolAttr>,
     override val horizontalAlignmentTable: FlyweightTable<TextHorizontalAlignment>,
     override val verticalAlignmentTable: FlyweightTable<TextVerticalAlignment>,
-) : CellFormatTable {
+) : CellFormatFlyweightTable {
 
     constructor() : this(
         FlyweightTableImp(),
@@ -27,23 +27,23 @@ data class CellFormatTableImp @Inject constructor(
         FlyweightTableImp()
     )
 
-    override fun updateFloatTable(i: FlyweightTable<Float>): CellFormatTableImp {
+    override fun updateFloatTable(i: FlyweightTable<Float>): CellFormatFlyweightTableImp {
         return this.copy(floatTable = i)
     }
 
-    override fun updateColorTable(i: FlyweightTable<Color>): CellFormatTableImp {
+    override fun updateColorTable(i: FlyweightTable<Color>): CellFormatFlyweightTableImp {
         return this.copy(colorTable = i)
     }
 
-    override fun updateBoolTable(i: FlyweightTable<BoolAttr>): CellFormatTableImp {
+    override fun updateBoolTable(i: FlyweightTable<BoolAttr>): CellFormatFlyweightTableImp {
         return this.copy(boolTable = i)
     }
 
-    override fun updateVerticalAlignmentTable(i: FlyweightTable<TextVerticalAlignment>): CellFormatTableImp {
+    override fun updateVerticalAlignmentTable(i: FlyweightTable<TextVerticalAlignment>): CellFormatFlyweightTableImp {
         return this.copy(verticalAlignmentTable = i)
     }
 
-    override fun updateHorizontalAlignmentTable(i: FlyweightTable<TextHorizontalAlignment>): CellFormatTable {
+    override fun updateHorizontalAlignmentTable(i: FlyweightTable<TextHorizontalAlignment>): CellFormatFlyweightTable {
         return this.copy(horizontalAlignmentTable = i)
     }
 }

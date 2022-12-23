@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerStateImp
@@ -77,7 +77,7 @@ interface WorksheetStateFactory {
         ): WorksheetState {
             val worksheet = wsMs.value
             val wsIdMs: St<WorksheetId> = worksheet.idMs
-            val cursorIdMs: Ms<CursorStateId> = ms(
+            val cursorIdMs: Ms<CursorId> = ms(
                 CursorIdImp(wsIdMs)
             )
             val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
@@ -90,7 +90,7 @@ interface WorksheetStateFactory {
                         idMs = cursorIdMs,
                         cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
                         thumbStateMs = ms(thumbStateFactory.create(
-                            cursorStateIdSt = cursorIdMs,
+                            cursorIdSt = cursorIdMs,
                             mainCellSt = mainCellMs,
                             cellLayoutCoorMapSt = cellLayoutCoorMapMs,
                         )),

@@ -7,8 +7,8 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 
 data class CursorIdImp(
     override val wsStateIDMs: State<WorksheetId>,
-) : CursorStateId {
-    override fun setWsStateIdSt(wsStateIDSt: State<WorksheetId>): CursorStateId {
+) : CursorId {
+    override fun setWsStateIdSt(wsStateIDSt: State<WorksheetId>): CursorId {
         return this.copy(wsStateIDMs = wsStateIDSt)
     }
 

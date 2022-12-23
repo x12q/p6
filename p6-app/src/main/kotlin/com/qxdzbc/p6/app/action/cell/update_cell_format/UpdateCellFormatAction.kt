@@ -6,11 +6,14 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
 interface UpdateCellFormatAction {
-    fun setBackgroundColor(cellId: CellId,color: Color)
-    fun setTextSize(cellId: CellId, textSize:Float)
-    fun setTextColor(cellId: CellId,color:Color)
-    fun setUnderlined(cellId: CellId,underlined:Boolean)
-    fun setCrossed(cellId: CellId, crossed:Boolean)
-    fun setHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment)
-    fun setVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment)
+    fun setCellBackgroundColor(cellId: CellId, color: Color)
+
+    fun setCellTextSize(cellId: CellId, textSize:Float)
+    fun setCurrentCellTextSize(i:Float)
+
+    fun setCellTextColor(cellId: CellId, color:Color)
+    fun setCellTextUnderlined(cellId: CellId, underlined:Boolean)
+    fun setCellTextCrossed(cellId: CellId, crossed:Boolean)
+    fun setCellHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment)
+    fun setCellVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment)
 }

@@ -8,7 +8,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 /**
  * For identifying a cursor
  */
-interface CursorStateId : WbWsSt{
+interface CursorId : WbWsSt{
     val wsStateIDMs: St<WorksheetId>
-    fun setWsStateIdSt(wsStateIDSt: State<WorksheetId>):CursorStateId
+    fun setWsStateIdSt(wsStateIDSt: State<WorksheetId>):CursorId
 }

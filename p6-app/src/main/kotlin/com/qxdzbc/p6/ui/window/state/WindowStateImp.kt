@@ -31,6 +31,7 @@ import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
+import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CompletableDeferred
@@ -38,6 +39,7 @@ import java.nio.file.Path
 import java.util.*
 
 data class WindowStateImp @AssistedInject constructor(
+    @Assisted override val toolBarStateMs: Ms<ToolBarState>,
     @Assisted override val activeWbPointerMs: Ms<ActiveWorkbookPointer>,
     @Assisted override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     @Assisted("saveDialogStateMs")

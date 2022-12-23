@@ -6,6 +6,8 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
@@ -13,6 +15,9 @@ import com.qxdzbc.p6.ui.window.state.WindowState
  * top-level state container, can access all state + document in the app
  */
 interface StateContainer : SubAppStateContainer, DocumentContainer {
+    fun getActiveWindowStateMs():Ms<WindowState>?
+    fun getActiveWindowState():WindowState?
+
     val cellEditorStateMs:Ms<CellEditorState>
     var cellEditorState: CellEditorState
     val appStateMs:Ms<AppState>
@@ -32,4 +37,12 @@ interface StateContainer : SubAppStateContainer, DocumentContainer {
      * if [windowId] is null, get the active window, or the first, or create a new window
      */
     fun getWindowStateMsDefaultRs(windowId: String?):Rs<Ms<WindowState>, ErrorReport>
+
+    /**
+     * get cursor state ms of the active worksheet inside the active workbook
+     */
+    fun getActiveCursorMs(): Ms<CursorState>?
+
+    fun getActiveWbStateMs(): Ms<WorkbookState>?
+    fun getActiveWbState(): WorkbookState?
 }

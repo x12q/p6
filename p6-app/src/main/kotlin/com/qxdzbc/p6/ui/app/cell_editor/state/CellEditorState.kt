@@ -7,7 +7,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import org.antlr.v4.runtime.tree.ParseTree
 
 interface CellEditorState {
@@ -41,9 +41,9 @@ interface CellEditorState {
      */
     val allowRangeSelector: Boolean
 
-    val rangeSelectorCursorIdSt: St<CursorStateId>?
-    val rangeSelectorCursorId: CursorStateId?
-    fun setRangeSelectorCursorId(i: St<CursorStateId>?): CellEditorState
+    val rangeSelectorCursorIdSt: St<CursorId>?
+    val rangeSelectorCursorId: CursorId?
+    fun setRangeSelectorCursorId(i: St<CursorId>?): CellEditorState
 
     val rangeSelectorIsSameAsTargetCursor: Boolean
         get() = rangeSelectorCursorId?.let { rs ->
@@ -56,8 +56,8 @@ interface CellEditorState {
      * This is for locating the edit target.
      * Which workbook, worksheet does the target cursor belong to?
      */
-    val targetCursorIdSt: St<CursorStateId>?
-    val targetCursorId: CursorStateId?
+    val targetCursorIdSt: St<CursorId>?
+    val targetCursorId: CursorId?
 
     /**
      * This is the address of the cell being edited by this cell editor
@@ -117,7 +117,7 @@ interface CellEditorState {
     /**
      * open cell editor at cursor denoted by [cursorIdMs]
      */
-    fun open(cursorIdMs: St<CursorStateId>): CellEditorState
+    fun open(cursorIdMs: St<CursorId>): CellEditorState
 
     /**
      * switch this state to close state

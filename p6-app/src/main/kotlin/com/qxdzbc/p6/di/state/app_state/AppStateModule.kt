@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.di.state.app_state
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.CapHashMap
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -24,11 +23,9 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainerImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.format.*
-import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import dagger.Binds
 import dagger.Provides
@@ -56,7 +53,7 @@ interface AppStateModule {
 
     @Binds
     @P6Singleton
-    fun CellFormatTableSt(i:Ms<CellFormatTable>):St<CellFormatTable>
+    fun CellFormatTableSt(i:Ms<CellFormatFlyweightTable>):St<CellFormatFlyweightTable>
 
 
     companion object {
@@ -153,7 +150,7 @@ interface AppStateModule {
         }
         @Provides
         @InitCellEditorInitCursorIdSt
-        fun CellEditorInitCursorIdSt():St<CursorStateId>?{
+        fun CellEditorInitCursorIdSt():St<CursorId>?{
             return null
         }
 

@@ -24,7 +24,7 @@ import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -166,7 +166,7 @@ class CellEditorActionImp @Inject constructor(
     /**
      * pass keyboard event caught by a cell editor to its range selector (which is another cell cursor).
      */
-    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId: CursorStateId?): Boolean {
+    private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId: CursorId?): Boolean {
         val rt: Boolean = rangeSelectorId?.let {
             handleCursorKeyboardEventAct.handleKeyboardEvent(keyEvent, it)
         } ?: false

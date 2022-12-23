@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 
 interface ThumbState {
@@ -17,7 +17,7 @@ interface ThumbState {
      */
     val offsetNegate:DpSize
 
-    val cursorId: CursorStateId
+    val cursorId: CursorId
     val mainCell:CellAddress
 
     val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper>

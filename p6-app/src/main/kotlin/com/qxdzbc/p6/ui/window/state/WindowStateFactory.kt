@@ -9,6 +9,8 @@ import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
 import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState
 import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogStateImp
+import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
+import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarStateImp
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import kotlinx.coroutines.CompletableDeferred
@@ -20,6 +22,7 @@ interface WindowStateFactory {
     fun create(
         activeWorkbookPointerMs: Ms<ActiveWorkbookPointer>,
         // ==================================================== //
+        toolBarStateMs: Ms<ToolBarState> = ms(ToolBarStateImp()),
         errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
         @Assisted("saveDialogStateMs")
         saveDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
@@ -43,7 +46,7 @@ interface WindowStateFactory {
             id: String = UUID.randomUUID().toString()
         ):WindowStateImp{
             val activeWbPointerMs: Ms<ActiveWorkbookPointer> = ms(ActiveWorkbookPointerImp(wbKeys.firstOrNull()))
-            return this.create(
+            return create(
                 activeWorkbookPointerMs = activeWbPointerMs,
                 id=id,
                 wbKeyMsSet = wbKeys.toSet()

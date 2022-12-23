@@ -6,7 +6,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateId
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import org.mockito.Mockito.mock
 import kotlin.test.*
 
@@ -20,7 +20,7 @@ class CellEditorStateImpTest {
 
     @Test
     fun `rangeSelectorAllowState when open-close editor`() {
-        val cursorIdMs:St<CursorStateId> = ms(mock(CursorStateId::class.java))
+        val cursorIdMs:St<CursorId> = ms(mock(CursorId::class.java))
         val o1=stdState.setCurrentText("").open(cursorIdMs)
         assertEquals(cursorIdMs,o1.targetCursorIdSt)
         assertEquals(RangeSelectorAllowState.START,o1.rangeSelectorAllowState)
@@ -35,7 +35,7 @@ class CellEditorStateImpTest {
     @Test
     fun allowRangeSelector() {
         val state = CellEditorStateImp.defaultForTest()
-        val mockCursorStatId=mock(CursorStateId::class.java).toMs()
+        val mockCursorStatId=mock(CursorId::class.java).toMs()
         val openedState = state.open(mockCursorStatId)
         assertTrue(openedState.setCurrentText("=1+").allowRangeSelector)
         assertFalse(openedState.setCurrentText("=1").allowRangeSelector)
@@ -43,7 +43,7 @@ class CellEditorStateImpTest {
 
     @Test
     fun stopGettingRange() {
-        val mockCursorStatId=mock(CursorStateId::class.java).toMs()
+        val mockCursorStatId=mock(CursorId::class.java).toMs()
         val state = CellEditorStateImp.defaultForTest().open(mockCursorStatId)
         val s2 = state.setCurrentText("=").setRangeSelectorTextField(TextFieldValue("=A1"))
         assertTrue(s2.allowRangeSelector)
