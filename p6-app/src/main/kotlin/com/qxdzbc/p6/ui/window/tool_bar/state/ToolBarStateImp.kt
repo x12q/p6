@@ -6,7 +6,7 @@ import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelecto
 import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelectorStateImp
 
 class ToolBarStateImp constructor(
-    override val textSizeSelectorStateMs: Ms<TextSizeSelectorState> = ms(TextSizeSelectorStateImp(headerText = "10")),
+    override val textSizeSelectorStateMs: Ms<TextSizeSelectorState> = ms(TextSizeSelectorStateImp()),
 ) : ToolBarState {
     override val textSizeSelectorState: TextSizeSelectorState
         get() = textSizeSelectorStateMs.value

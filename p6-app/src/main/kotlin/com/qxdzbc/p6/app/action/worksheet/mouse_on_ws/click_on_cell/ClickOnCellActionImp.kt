@@ -16,6 +16,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
+import com.qxdzbc.p6.app.action.cursor.on_cursor_changed_reactor.OnCursorChangeEventReactor
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -28,6 +29,7 @@ class ClickOnCellActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val updateRangeSelectorText: UpdateRangeSelectorText,
     private val runFormulaAction: RunFormulaOrSaveValueToCellAction,
+    private val onCursorChangeEventReactor: OnCursorChangeEventReactor,
 ) : ClickOnCellAction {
 
     private val stateCont by stateContSt
@@ -53,6 +55,7 @@ class ClickOnCellActionImp @Inject constructor(
                 runFormulaAction.runFormulaOrSaveValueToCell()
                 editorStateMs.value=editorState.close()
             }
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
         }
     }
 

@@ -29,6 +29,14 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
 
+    override fun getTextSizeSelectorStateMs(wbKey: WorkbookKey): Ms<TextSizeSelectorState>? {
+        return this.getWindowStateByWbKey(wbKey)?.toolBarState?.textSizeSelectorStateMs
+    }
+
+    override fun getTextSizeSelectorState(wbKey: WorkbookKey): TextSizeSelectorState? {
+        return this.getWindowStateByWbKey(wbKey)?.toolBarState?.textSizeSelectorState
+    }
+
     override fun getToolbarStateMs(windowId: String): Ms<ToolBarState>? {
         return getWindowStateById(windowId)?.toolBarStateMs
     }

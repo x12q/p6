@@ -18,10 +18,6 @@ class UndoOnCursorActionImp @Inject constructor(
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
 )  : UndoOnCursorAction {
     private val sc by stateContSt
-    override fun undoOnCursor(wbws: WbWs) {
-        val commandStackMs = sc.getWbState(wbws.wbKey)?.commandStackMs
-        undoOnCursor(commandStackMs)
-    }
 
     override fun undoOnCursor(wbwsSt: WbWsSt) {
         val commandStackMs = sc.getWbState(wbwsSt.wbKeySt)?.commandStackMs

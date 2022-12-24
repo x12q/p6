@@ -23,10 +23,10 @@ import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelecto
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TextSizeSelector(
-    windowId:String,
+    windowId: String,
     state: TextSizeSelectorState,
     action: TextSizeSelectorAction,
-    items: List<Int> = listOf(10, 12, 15, 17, 20, 22, 25, 27, 30, 40, 50),
+    items: List<Int> = listOf(5, 7, 10, 13, 12, 15, 17, 20, 22, 25, 27, 30, 40, 50),
 ) {
     val tempText = state.headerText
     var expanded by rms(false)

@@ -30,7 +30,7 @@ import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelecto
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 /**
- * An abstraction layer providing functions for looking up view states that is enclosed inside [AppState]
+ * This interface provide functions for looking up view states that is enclosed inside [AppState]
  */
 interface SubAppStateContainer {
 
@@ -39,6 +39,9 @@ interface SubAppStateContainer {
 
     fun getTextSizeSelectorStateMs(windowId:String):Ms<TextSizeSelectorState>?
     fun getTextSizeSelectorState(windowId:String):TextSizeSelectorState?
+
+    fun getTextSizeSelectorStateMs(wbKey:WorkbookKey):Ms<TextSizeSelectorState>?
+    fun getTextSizeSelectorState(wbKey:WorkbookKey):TextSizeSelectorState?
 
     fun getCellStateMsRs(wbwsSt:WbWsSt,cellAddress: CellAddress):Rse<Ms<CellState>>
     fun getCellStateMsRs(cellId:CellId):Rse<Ms<CellState>>

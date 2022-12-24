@@ -7,6 +7,5 @@ interface UndoOnCursorAction{
     /**
      * Perform undo on a cursor
      */
-    fun undoOnCursor(wbws: WbWs)
     fun undoOnCursor(wbwsSt: WbWsSt)
 }
