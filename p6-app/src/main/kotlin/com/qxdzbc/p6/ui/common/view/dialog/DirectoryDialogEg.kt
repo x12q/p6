@@ -12,7 +12,7 @@ fun main() {
     P6TestApp() {
         MaterialTheme(colors = P6GrayColors, typography = P6DefaultTypoGraphy) {
             MBox(modifier = Modifier.then(P6R.border.mod.black)) {
-                Dialogs.DirectoryDialog(
+                Dialogs.DirectoryDraggableDialog(
                     title="Dir",
                     initText="123",
                     onOk = {

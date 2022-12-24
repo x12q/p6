@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.P6R
@@ -27,12 +28,18 @@ fun SingleLineInputText(
     selectAll: Boolean = false,
     enabled: Boolean = true,
     textFq: FocusRequester? = null,
+    isBordered:Boolean = true,
 ) {
-    val borderColor = MaterialTheme.colors.onPrimary
     MBox(
         modifier = modifier
             .clip(P6R.shape.textFieldShape)
-            .border(1.dp, borderColor, P6R.shape.textFieldShape)
+            .let {
+                if(isBordered){
+                    it.border(1.dp, MaterialTheme.colors.onPrimary, P6R.shape.textFieldShape)
+                }else{
+                    it
+                }
+            }
             .padding(5.dp)
     ) {
         UseP6TextSelectionColor {

@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 
 object CellStates {
@@ -17,6 +18,6 @@ object CellStates {
     }
     @OptIn(ExperimentalUnitApi::class)
     val defaultTextStyle = TextStyle(
-        fontSize = TextUnit(13f, TextUnitType.Sp),
+        fontSize = TextUnit(TextFormat.defaultFontSize, TextFormat.textSizeUnitType),
     )
 }

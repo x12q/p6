@@ -10,7 +10,7 @@ fun StartKernelDialog(
     onCancel:()->Unit,
     openBrowserToUpdatePath: (text:Ms<String>)-> Unit = {},
     ){
-    Dialogs.DirectoryDialog(
+    Dialogs.DirectoryDraggableDialog(
         title = "Start kernel",
         initText ="",
         onOk = onOk,

@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.action
+package com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
@@ -33,13 +33,13 @@ class TextSizeSelectorActionImp @Inject constructor(
         returnFocusToCellCursor.returnFocusToCurrentCellCursor()
     }
 
-    override fun pickItemFromList(windowId: String, item: Int) {
+    override fun pickTextSize(windowId: String, textSize: Int) {
         sc.getActiveCursorMs()?.also {
-            updateCellFormatAction.setCellTextSize(it.value.mainCellId,item.toFloat())
+            updateCellFormatAction.setCellTextSize(it.value.mainCellId,textSize.toFloat())
         }
         sc.getTextSizeSelectorStateMs(windowId)?.also {
             it.value=it.value
-                .setHeaderText(item.toString())
+                .setHeaderText(textSize.toString())
 //                .setExpanded(false)
         }
         returnFocusToCellCursor.returnFocusToCurrentCellCursor()

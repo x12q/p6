@@ -62,6 +62,8 @@ dependencies {
 
 //    testImplementation("org.hamcrest:hamcrest:2.2")
 
+    implementation("com.godaddy.android.colorpicker:compose-color-picker-jvm:0.5.1")
+
     implementation("org.apache.commons:commons-text:${apacheCommonTextVersion}")
     implementation("org.apache.commons:commons-csv:${apacheCommonCsvVersion}")
     implementation("commons-io:commons-io:${apacheCommonIOVersion}")

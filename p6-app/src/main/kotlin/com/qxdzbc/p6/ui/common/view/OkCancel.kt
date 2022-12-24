@@ -37,10 +37,11 @@ fun CancelButton(
 fun OkCancel(
     okModifier: Modifier = Modifier,
     cancelModifier: Modifier = Modifier,
+    boxModifier: Modifier = Modifier,
     onOk: () -> Unit = {},
     onCancel: () -> Unit = {},
 ) {
-    Row {
+    Row(modifier = boxModifier) {
         OkButton(okModifier, onOk)
         Spacer(modifier = Modifier.width(P6R.padding.value.betweenButton))
         CancelButton(cancelModifier, onCancel)

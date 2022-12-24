@@ -13,28 +13,28 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogState
+import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 
 @Composable
-fun MDialog(
+fun DraggableDialog(
     title: String = "",
     size: DpSize = DpSize(100.dp, 100.dp),
     onCloseRequest: () -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {},
 ) {
 
-    MDialog(
+    DraggableDialog(
         title = {
             if (title.isNotEmpty()) {
-                BasicText(title, modifier = Modifier.align(Alignment.Center).padding(top=10.dp, bottom =5.dp))
+                BasicText(title, modifier = Modifier.align(Alignment.Center).padding(top = 10.dp, bottom = 5.dp))
             }
         },
-        size, onCloseRequest,content
+        size, onCloseRequest, content
     )
 }
 
@@ -42,7 +42,7 @@ fun MDialog(
  * A custom, empty dialog.
  */
 @Composable
-fun MDialog(
+fun DraggableDialog(
     title: @Composable BoxScope.() -> Unit = {},
     size: DpSize = DpSize(100.dp, 100.dp),
     onCloseRequest: () -> Unit = {},
@@ -54,15 +54,15 @@ fun MDialog(
         resizable = false, title = "",
         undecorated = true,
     ) {
-        WindowDraggableArea {
-            Surface {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    BorderBox (style = BorderStyle.NONE,modifier = Modifier.fillMaxWidth()) {
-                        title()
-                    }
-                    MBox(modifier = Modifier.fillMaxWidth().weight(1.0F)) {
-                        content()
-                    }
+
+        Surface {
+            WindowDraggableArea(modifier = Modifier.fillMaxSize()) {}
+            Column(modifier = Modifier.fillMaxSize()) {
+                BorderBox(style = BorderStyle.NONE, modifier = Modifier.fillMaxWidth()) {
+                    title()
+                }
+                MBox(modifier = Modifier.fillMaxWidth().weight(1.0F)) {
+                    content()
                 }
             }
         }
@@ -71,7 +71,7 @@ fun MDialog(
 
 fun main() = P6TestApp {
     MaterialTheme(colors = P6AllWhiteColors, typography = P6DefaultTypoGraphy) {
-        MDialog("Title ABC") {
+        DraggableDialog("Title ABC") {
             Text("QWE")
         }
     }

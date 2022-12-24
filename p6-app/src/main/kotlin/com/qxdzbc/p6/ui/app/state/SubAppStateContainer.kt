@@ -26,7 +26,7 @@ import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
-import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelectorState
+import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 /**

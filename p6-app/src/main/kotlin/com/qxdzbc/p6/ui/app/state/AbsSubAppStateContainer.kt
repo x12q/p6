@@ -1,9 +1,5 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.common.Rs
@@ -20,11 +16,9 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.document.cell.state.CellState
-import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
-import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelectorState
+import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {

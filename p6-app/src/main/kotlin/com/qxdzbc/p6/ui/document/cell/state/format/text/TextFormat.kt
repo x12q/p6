@@ -3,7 +3,9 @@ package com.qxdzbc.p6.ui.document.cell.state.format.text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnitType
 import com.qxdzbc.p6.ui.format.attr.BoolAttr
 
 interface TextFormat {
@@ -34,5 +36,12 @@ interface TextFormat {
 
     companion object{
         fun createDefaultTextFormat(): TextFormat = TextFormatImp()
+        const val defaultFontSize = 15f
+        val defaultTextColor = Color.Black
+        val defaultFontWeight = FontWeight.Normal
+        val defaultFontStyle = FontStyle.Normal
+        val textSizeUnitType = TextUnitType.Sp
+        val defaultTextHorizontalAlignment = TextHorizontalAlignment.Start
+        val defaultTextVerticalAlignment = TextVerticalAlignment.Center
     }
 }

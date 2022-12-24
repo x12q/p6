@@ -58,7 +58,7 @@ fun ConnectToKernelDialog(
             fq2.requestFocus()
         }
     }
-    Dialogs.SingleItemDialog(
+    Dialogs.SingleItemDraggableDialog(
         title = "Connect to a running kernel",
         size = DpSize(300.dp, 350.dp),
         onOk = {

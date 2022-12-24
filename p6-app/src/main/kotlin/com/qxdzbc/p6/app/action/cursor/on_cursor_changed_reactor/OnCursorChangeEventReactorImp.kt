@@ -6,7 +6,7 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
-import com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.state.TextSizeSelectorState
+import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 

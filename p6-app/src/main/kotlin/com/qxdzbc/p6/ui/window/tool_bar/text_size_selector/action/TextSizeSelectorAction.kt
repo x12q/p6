@@ -1,7 +1,7 @@
-package com.qxdzbc.p6.ui.window.tool_bar.font_size_selector.action
+package com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action
 
 interface TextSizeSelectorAction{
     fun submitManualEdit(windowId:String,value:String)
-    fun pickItemFromList(windowId:String, item:Int)
+    fun pickTextSize(windowId:String, textSize:Int)
     fun setHeaderTextOfTextSizeSelector(windowId:String, newText:String)
 }

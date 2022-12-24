@@ -13,7 +13,7 @@ fun main() {
     P6TestApp() {
         MaterialTheme(colors = P6AllWhiteColors, typography = P6DefaultTypoGraphy) {
             MBox(modifier = Modifier.then(P6R.border.mod.black)) {
-                Dialogs.SingleTextDialog ()
+                Dialogs.SingleTextDraggableDialog ()
             }
         }
     }

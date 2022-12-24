@@ -38,11 +38,10 @@ data class TextFormatImp(
     @OptIn(ExperimentalUnitApi::class)
     override fun toTextStyle(): TextStyle {
         return TextStyle(
-            fontSize = TextUnit(textSize ?: 13f, TextUnitType.Sp),
-            color = textColor ?: Color.Black,
-            fontWeight = fontWeight ?: FontWeight.Normal,
-            fontStyle = fontStyle ?: FontStyle.Normal,
-            textAlign = textAlign ,
+            fontSize = TextUnit(textSize ?: TextFormat.defaultFontSize, TextFormat.textSizeUnitType),
+            color = textColor ?: TextFormat.defaultTextColor,
+            fontWeight = fontWeight ?: TextFormat.defaultFontWeight,
+            fontStyle = fontStyle ?: TextFormat.defaultFontStyle,
             textDecoration = TextDecoration.combine(
                 emptyList<TextDecoration>().let {
                     var l = it
@@ -86,14 +85,6 @@ data class TextFormatImp(
         return this.copy(fontWeight=i)
     }
 
-    val textAlign: TextAlign = run {
-        when (horizontalAlignment) {
-            TextHorizontalAlignment.Start -> TextAlign.Start
-            TextHorizontalAlignment.Center -> TextAlign.Center
-            TextHorizontalAlignment.End -> TextAlign.End
-            null -> TextAlign.Start
-        }
-    }
     override val alignment: Alignment = run {
         when ((verticalAlignment to horizontalAlignment)) {
             TextVerticalAlignment.Top to TextHorizontalAlignment.Start -> {
@@ -123,7 +114,7 @@ data class TextFormatImp(
             TextVerticalAlignment.Center to TextHorizontalAlignment.End -> {
                 Alignment.CenterEnd
             }
-            else -> Alignment.TopStart
+            else -> Alignment.CenterStart
         }
     }
 

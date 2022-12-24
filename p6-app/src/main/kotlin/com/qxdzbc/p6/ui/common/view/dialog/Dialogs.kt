@@ -26,7 +26,7 @@ object Dialogs {
         onCancel: () -> Unit = {},
         onCloseRequest: () -> Unit = onCancel,
     ) {
-        SingleTextFieldDialog(
+        SingleTextFieldDraggableDialog(
             title = title,
             text = initName,
             selectAll = true,
@@ -45,14 +45,14 @@ object Dialogs {
      * This should be used to displayed very short text dialog
      */
     @Composable
-    fun SingleTextDialog(
+    fun SingleTextDraggableDialog(
         title: String = "",
         text: String = "default text",
         onOk: () -> Unit = {},
         onCancel: () -> Unit = {},
         onCloseRequest: () -> Unit = onCancel,
     ) {
-        MDialog(
+        DraggableDialog(
             size = DpSize(300.dp, 115.dp),
             title = title,
             onCloseRequest = onCloseRequest,
@@ -87,7 +87,7 @@ object Dialogs {
      * - a Cancel button
      */
     @Composable
-    fun SingleTextFieldDialog(
+    fun SingleTextFieldDraggableDialog(
         title: String = "",
         text: String = "",
         selectAll: Boolean = false,
@@ -98,7 +98,7 @@ object Dialogs {
         val currentText = rms(text)
         val fq = remember { FocusRequester() }
 
-        MDialog(
+        DraggableDialog(
             size = DpSize(300.dp, 115.dp),
             title = title,
             onCloseRequest = onCloseRequest,
@@ -138,7 +138,7 @@ object Dialogs {
      * - a Cancel button
      */
     @Composable
-    fun DirectoryDialog(
+    fun DirectoryDraggableDialog(
         title: String = "",
         initText: String = "",
         textFq: FocusRequester? = null,
@@ -149,7 +149,7 @@ object Dialogs {
     ) {
         val tMs = rms(initText)
         var t by tMs
-        SingleItemDialog(
+        SingleItemDraggableDialog(
             title = title,
             size = DpSize(300.dp, 115.dp),
             onOk = {
@@ -173,7 +173,7 @@ object Dialogs {
     }
 
     @Composable
-    fun SingleItemDialog(
+    fun SingleItemDraggableDialog(
         title: String = "",
         onOk: () -> Unit = {},
         onCancel: () -> Unit = {},
@@ -181,18 +181,69 @@ object Dialogs {
         size: DpSize = DpSize(100.dp, 100.dp),
         item: @Composable () -> Unit,
     ) {
-        MDialog(
+        DraggableDialog(
             size = size,
             title = title,
             onCloseRequest = onCloseRequest,
         ) {
             MBox(modifier = Modifier.fillMaxSize().padding(start = 15.dp, end = 15.dp)) {
                 Column(modifier = Modifier.align(Alignment.Center)) {
-                    MBox(modifier = Modifier.fillMaxWidth()) {
+                    MBox(modifier = Modifier.weight(1.0f)) {
                         item()
                     }
-                    MBox(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp, bottom = 0.dp)) {
+                    MBox(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp, bottom = 10.dp)) {
                         OkCancel(
+                            boxModifier = Modifier.align(Alignment.Center),
+                            onOk = onOk,
+                            onCancel = onCancel
+                        )
+                    }
+                }
+            }
+        }
+//        DraggableDialog(
+//            size = size,
+//            title = title,
+//            onCloseRequest = onCloseRequest,
+//        ) {
+//            MBox(modifier = Modifier.fillMaxSize().padding(start = 15.dp, end = 15.dp)) {
+//                Column(modifier = Modifier.align(Alignment.Center)) {
+//                    MBox(modifier = Modifier.fillMaxWidth()) {
+//                        item()
+//                    }
+//                    MBox(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp, bottom = 0.dp)) {
+//                        OkCancel(
+//                            onOk = onOk,
+//                            onCancel = onCancel
+//                        )
+//                    }
+//                }
+//            }
+//        }
+    }
+
+    @Composable
+    fun SingleItemMDialog(
+        title: String = "",
+        onOk: () -> Unit = {},
+        onCancel: () -> Unit = {},
+        onCloseRequest: () -> Unit = onCancel,
+        size: DpSize = DpSize(100.dp, 100.dp),
+        item: @Composable () -> Unit,
+    ) {
+        DraggableDialog(
+            size = size,
+            title = title,
+            onCloseRequest = onCloseRequest,
+        ) {
+            MBox(modifier = Modifier.fillMaxSize().padding(start = 15.dp, end = 15.dp)) {
+                Column(modifier = Modifier.align(Alignment.Center)) {
+                    MBox(modifier = Modifier.weight(1.0f)) {
+                        item()
+                    }
+                    MBox(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp, bottom = 10.dp)) {
+                        OkCancel(
+                            boxModifier = Modifier.align(Alignment.Center),
                             onOk = onOk,
                             onCancel = onCancel
                         )

@@ -33,14 +33,13 @@ fun CellView(
     boxModifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
 ) {
-    val color = state.backgroundColor
     val cell: Cell? = state.cell
     MBox(
         modifier = boxModifier
             .fillMaxSize()
             .apply {
-                color?.also {
-                    background(color)
+                state.cellFormat?.boxModifier?.also {
+                    then(it)
                 }
             }
 
@@ -48,8 +47,7 @@ fun CellView(
         if (cell != null) {
             Text(
                 cell.cachedDisplayText,
-                modifier =
-                textModifier
+                modifier = textModifier
                     .apply {
                         state.alignment?.also {
                             align(it)
