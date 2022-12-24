@@ -36,8 +36,10 @@ fun TextSizeSelector(
     items: List<Int> = listOf(5, 7, 10, 13, 12, 15, 17, 20, 22, 25, 27, 30, 40, 50),
 ) {
     val headerText = state.headerText
+    val expandedMs = rms(false)
     ToolBarDropDownMenuWithButton(
-        header= {
+        expanded = expandedMs.value,
+        header = {
             SingleLineInputText(
                 text = headerText,
                 isBordered = false,
@@ -45,7 +47,7 @@ fun TextSizeSelector(
                     action.setHeaderTextOfTextSizeSelector(windowId, it)
                 },
                 modifier = Modifier
-                    .size(width=40.dp,height=30.dp)
+                    .size(width = 40.dp, height = 30.dp)
                     .onPreviewKeyEvent {
                         if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
                             action.submitManualEdit(windowId, headerText)
@@ -56,7 +58,7 @@ fun TextSizeSelector(
                     }
             )
         },
-        items={expandedMs->
+        items = {
             items.forEachIndexed { i, item ->
                 DropdownMenuItem(
                     onClick = {
@@ -67,6 +69,12 @@ fun TextSizeSelector(
                     Text("$item")
                 }
             }
+        },
+        onDismiss = {
+            expandedMs.value = false
+        },
+        onButtonClick = {
+            expandedMs.value = true
         }
     )
 }
@@ -79,16 +87,16 @@ fun main() = application {
     ) {
         var s by rms(1f)
         var text by rms("")
-        val fc = remember{ FocusRequester() }
-        val stateMs = rms(TextSizeSelectorStateImp(headerText="10"))
-        Column{
-            TextField(text,onValueChange={
-                text=it
-            },modifier = Modifier.focusRequester(fc))
+        val fc = remember { FocusRequester() }
+        val stateMs = rms(TextSizeSelectorStateImp(headerText = "10"))
+        Column {
+            TextField(text, onValueChange = {
+                text = it
+            }, modifier = Modifier.focusRequester(fc))
             Text("$s")
             TextSizeSelector(
-                state =stateMs.value,
-                windowId =  "",
+                state = stateMs.value,
+                windowId = "",
                 action = TextSizeSelectorActionDoNothing(),
             )
         }
