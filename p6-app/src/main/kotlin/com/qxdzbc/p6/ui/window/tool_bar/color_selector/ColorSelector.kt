@@ -79,9 +79,14 @@ fun ColorSelector(
             }
         },
         items = {
-            Box(modifier = Modifier.padding(bottom = 3.dp).height(20.dp).fillMaxWidth().clickable {
-                action.clearColor(windowId)
-            }) {
+            Box(modifier = Modifier
+                .padding(bottom = 3.dp)
+                .height(20.dp)
+                .fillMaxWidth()
+                .clickable {
+                    action.clearColor(windowId)
+                    expanded = false
+                }) {
                 Text("clear", modifier = Modifier.align(Alignment.Center))
             }
             val chunks = colorList.chunked(10)
