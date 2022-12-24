@@ -14,38 +14,35 @@ import com.qxdzbc.p6.ui.format.attr.BoolAttr
 import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
 
 data class TextFormatImp(
-    override val textSize: Float = 13f,
-    val fontStyle: FontStyle = FontStyle.Normal,
-    override val verticalAlignment: TextVerticalAlignment = TextVerticalAlignment.Center,
-    override val horizontalAlignment: TextHorizontalAlignment = TextHorizontalAlignment.Start,
-    override val textColor: Color = Color.Black,
-    override val isUnderlinedAttr: BoolAttr = BoolAttr.FALSE,
-    override val isCrossedAttr:BoolAttr = BoolAttr.FALSE,
-    override val fontWeight: FontWeight = FontWeight.Normal,
+    override val textSize: Float? = null,
+    val fontStyle: FontStyle? = null,
+    override val verticalAlignment: TextVerticalAlignment? = null,
+    override val horizontalAlignment: TextHorizontalAlignment? = null,
+    override val textColor: Color? = null,
+    override val isUnderlinedAttr: BoolAttr? = null,
+    override val isCrossedAttr:BoolAttr? = null,
+    override val fontWeight: FontWeight? = null,
 ) : TextFormat {
 
-    override val isCrossed:Boolean get()= isCrossedAttr.boolean
-    override val isUnderlined:Boolean get()=isUnderlinedAttr.boolean
-    companion object {
-        val default = TextFormatImp()
-    }
+    override val isCrossed:Boolean get()= isCrossedAttr?.boolean ?: false
+    override val isUnderlined:Boolean get()=isUnderlinedAttr?.boolean ?: false
 
-    override fun setTextSize(i: Float): TextFormatImp {
+    override fun setTextSize(i: Float?): TextFormat {
         return this.copy(textSize=i)
     }
 
-    override fun setTextColor(i: Color): TextFormatImp {
+    override fun setTextColor(i: Color?): TextFormat {
         return this.copy(textColor=i)
     }
 
     @OptIn(ExperimentalUnitApi::class)
     override fun toTextStyle(): TextStyle {
         return TextStyle(
-            fontSize = TextUnit(textSize, TextUnitType.Sp),
-            color = textColor,
-            fontWeight = fontWeight,
-            fontStyle = fontStyle,
-            textAlign = textAlign,
+            fontSize = TextUnit(textSize ?: 13f, TextUnitType.Sp),
+            color = textColor ?: Color.Black,
+            fontWeight = fontWeight ?: FontWeight.Normal,
+            fontStyle = fontStyle ?: FontStyle.Normal,
+            textAlign = textAlign ,
             textDecoration = TextDecoration.combine(
                 emptyList<TextDecoration>().let {
                     var l = it
@@ -61,11 +58,11 @@ data class TextFormatImp(
         )
     }
 
-    override fun setVerticalAlignment(i: TextVerticalAlignment): TextFormatImp {
+    override fun setVerticalAlignment(i: TextVerticalAlignment?): TextFormat {
         return this.copy(verticalAlignment=i)
     }
 
-    override fun setHorizontalAlignment(i: TextHorizontalAlignment): TextFormatImp {
+    override fun setHorizontalAlignment(i: TextHorizontalAlignment?): TextFormat {
         return this.copy(horizontalAlignment=i)
     }
 
@@ -73,7 +70,7 @@ data class TextFormatImp(
         return this.copy(isCrossedAttr = i.toBoolAttr())
     }
 
-    override fun setCrossedAttr(i: BoolAttr): TextFormatImp {
+    override fun setCrossedAttr(i: BoolAttr?): TextFormat {
         return this.copy(isCrossedAttr=i)
     }
 
@@ -81,11 +78,11 @@ data class TextFormatImp(
         return this.copy(isUnderlinedAttr=i.toBoolAttr())
     }
 
-    override fun setUnderlinedAttr(i: BoolAttr): TextFormatImp {
+    override fun setUnderlinedAttr(i: BoolAttr?): TextFormat {
         return this.copy(isUnderlinedAttr=i)
     }
 
-    override fun setFontWeight(i: FontWeight): TextFormatImp {
+    override fun setFontWeight(i: FontWeight?): TextFormat {
         return this.copy(fontWeight=i)
     }
 
@@ -94,6 +91,7 @@ data class TextFormatImp(
             TextHorizontalAlignment.Start -> TextAlign.Start
             TextHorizontalAlignment.Center -> TextAlign.Center
             TextHorizontalAlignment.End -> TextAlign.End
+            null -> TextAlign.Start
         }
     }
     override val alignment: Alignment = run {
@@ -127,5 +125,9 @@ data class TextFormatImp(
             }
             else -> Alignment.TopStart
         }
+    }
+
+    companion object {
+        val default = TextFormatImp()
     }
 }

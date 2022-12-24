@@ -4,21 +4,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.ui.document.cell.state.CellStates.defaultTextStyle
+import com.qxdzbc.p6.app.document.cell.Cell
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
-import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormatImp
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 
 data class CellStateImp(
     override val address: CellAddress,
     override val cellMs: Ms<Cell>?,
-    override var textFormat: TextFormat?=null,
-    override var cellFormat: CellFormat? =null,
+    override var textFormat: TextFormat? = null,
+    override var cellFormat: CellFormat? = null,
 ) : CellState {
     init {
         if (cellMs != null) {
@@ -38,7 +36,7 @@ data class CellStateImp(
     }
 
     override fun setTextFormat(i: TextFormat?): CellStateImp {
-        return this.copy(textFormat=i)
+        return this.copy(textFormat = i)
     }
 
     override fun setVerticalAlignment(alignment: TextVerticalAlignment): CellState {
@@ -72,9 +70,10 @@ data class CellStateImp(
     override val fontWeight: FontWeight?
         get() = textFormat?.fontWeight
 
-    private inline val textFormatOrCreateNew:TextFormat get(){
-        return textFormat?: TextFormat.createDefaultTextFormat()
-    }
+    private inline val textFormatOrCreateNew: TextFormat
+        get() {
+            return textFormat ?: TextFormat.createDefaultTextFormat()
+        }
 
     override fun setFontWeight(i: FontWeight): CellState {
         textFormat = textFormatOrCreateNew.setFontWeight(i = i)
@@ -82,7 +81,7 @@ data class CellStateImp(
     }
 
     override val textStyle: TextStyle
-        get() = textFormat?.toTextStyle() ?: defaultTextStyle
+        get() = textFormat?.toTextStyle() ?: CellStates.defaultTextStyle
 
     override fun setCellFormat(i: CellFormat): CellStateImp {
         return this.copy(cellFormat = i)
