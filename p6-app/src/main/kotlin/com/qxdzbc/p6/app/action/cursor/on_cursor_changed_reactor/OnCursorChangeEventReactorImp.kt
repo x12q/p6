@@ -20,10 +20,22 @@ class OnCursorChangeEventReactorImp @Inject constructor(
 
     override fun onCursorChanged(cursorId: CursorId) {
         sc.getCursorState(cursorId)?.also { cursorState ->
-            val cellStateAtCursor=sc.getCellState(cursorState.mainCellId)
+            val cellStateAtCursor = sc.getCellState(cursorState.mainCellId)
             sc.getTextSizeSelectorStateMs(cursorId.wbKey)?.also { textSizeSelectorStateMs ->
                 textSizeSelectorStateMs.value = textSizeSelectorStateMs.value.setHeaderText(
                     cellStateAtCursor?.textFormat?.textSize?.toString() ?: TextSizeSelectorState.defaultHeader
+                )
+            }
+
+            sc.getTextColorSelectorStateMs(cursorId.wbKey)?.also { textColorSelectorStateMs ->
+                textColorSelectorStateMs.value = textColorSelectorStateMs.value.setCurrentColor(
+                    cellStateAtCursor?.textFormat?.textColor
+                )
+            }
+
+            sc.getCellBackgroundColorSelectorStateMs(cursorId.wbKey)?.also {cellBackgroundColorSelectorStateMs->
+                cellBackgroundColorSelectorStateMs.value = cellBackgroundColorSelectorStateMs.value.setCurrentColor(
+                    cellStateAtCursor?.cellFormat?.backgroundColor
                 )
             }
         }

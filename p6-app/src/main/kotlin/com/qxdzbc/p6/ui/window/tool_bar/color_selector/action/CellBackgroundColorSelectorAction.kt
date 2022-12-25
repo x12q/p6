@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatAction
+import com.qxdzbc.p6.app.action.tool_bar.return_focus_to_cell.ReturnFocusToCellCursor
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.action.CellBackgroundColorSelectorActionQ
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class CellBackgroundColorSelectorAction @Inject constructor(
     private val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
     val updateCellFormatAction: UpdateCellFormatAction,
+    val returnFocusToCellCursor: ReturnFocusToCellCursor,
 ) : ColorSelectorAction {
 
     private val sc by stateContainerSt
@@ -32,5 +34,6 @@ class CellBackgroundColorSelectorAction @Inject constructor(
         sc.getCellBackgroundColorSelectorStateMs(windowId)?.also {
             it.value = it.value.setCurrentColor(color)
         }
+        returnFocusToCellCursor.returnFocusToCurrentCellCursor()
     }
 }

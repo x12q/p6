@@ -1,8 +1,10 @@
 package com.qxdzbc.p6.ui.window.tool_bar.color_selector
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -70,6 +72,7 @@ fun ColorSelector(
             }) {
                 IconBox(
                     icon = icon,
+                    tint=MaterialTheme.colors.onPrimary,
                     modifier = Modifier.align(Alignment.TopCenter)
                 )
                 Box(
@@ -77,7 +80,7 @@ fun ColorSelector(
                         if (currentColor != null) {
                             it.background(currentColor)
                         } else {
-                            it
+                            it.border(1.dp, MaterialTheme.colors.onPrimary).background(ColorSelectorState.defaultColor)
                         }
                     }
                         .align(Alignment.BottomCenter)

@@ -20,6 +20,7 @@ internal class CellBackgroundColorSelectorActionTest :BaseTest(){
     fun b(){
         action = CellBackgroundColorSelectorAction(
             ts.stateContMs,
+            mock(),
             mock()
         )
     }

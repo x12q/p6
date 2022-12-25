@@ -6,4 +6,5 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelect
 interface ToolBarAction{
     val textSizeSelectorAction:TextSizeSelectorAction
     val textColorSelectorAction:ColorSelectorAction
+    val cellBackgroundColorSelectorAction:ColorSelectorAction
 }

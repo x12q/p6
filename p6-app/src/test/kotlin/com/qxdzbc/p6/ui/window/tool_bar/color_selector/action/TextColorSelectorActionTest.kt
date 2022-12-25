@@ -20,6 +20,7 @@ internal class TextColorSelectorActionTest : BaseTest(){
     fun b2(){
         action = TextColorSelectorAction(
             ts.stateContMs,
+            mock(),
             mock()
         )
     }

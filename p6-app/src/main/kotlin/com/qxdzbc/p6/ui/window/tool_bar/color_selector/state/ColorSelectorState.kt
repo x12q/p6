@@ -5,4 +5,7 @@ import androidx.compose.ui.graphics.Color
 interface ColorSelectorState{
     val currentColor: Color?
     fun setCurrentColor(i:Color?): ColorSelectorState
+    companion object{
+        val defaultColor = Color.White
+    }
 }

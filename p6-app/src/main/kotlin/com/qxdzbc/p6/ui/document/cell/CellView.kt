@@ -37,10 +37,10 @@ fun CellView(
     MBox(
         modifier = boxModifier
             .fillMaxSize()
-            .apply {
-                state.cellFormat?.boxModifier?.also {
-                    then(it)
-                }
+            .let {mod->
+                state.cellFormat?.boxModifier?.let {
+                    mod.then(it)
+                }?:mod
             }
 
     ) {
@@ -48,10 +48,10 @@ fun CellView(
             Text(
                 cell.cachedDisplayText,
                 modifier = textModifier
-                    .apply {
-                        state.alignment?.also {
-                            align(it)
-                        }
+                    .let {mod->
+                        state.alignment?.let {
+                            mod.align(it)
+                        }?:mod
                     },
                 style = state.textStyle,
             )
