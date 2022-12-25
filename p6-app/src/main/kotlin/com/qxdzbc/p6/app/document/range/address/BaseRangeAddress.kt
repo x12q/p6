@@ -47,9 +47,9 @@ abstract class BaseRangeAddress : RangeAddress {
         return topLeft == botRight
     }
 
-    override fun takeCrossCell(cellAddress: CellAddress): CellAddress {
+    override fun takeCrossCell(vertex: CellAddress): CellAddress {
         val selectedRange = this
-        val rt = when (cellAddress) {
+        val rt = when (vertex) {
             selectedRange.topLeft -> selectedRange.botRight
             selectedRange.botLeft -> selectedRange.topRight
             selectedRange.topRight -> selectedRange.botLeft

@@ -12,7 +12,7 @@ data class CellFormatImp(
         return this.copy(backgroundColor = i)
     }
 
-    override val boxModifier: Modifier
+    override val modifier: Modifier
         get() = Modifier
             .background(backgroundColor ?: CellFormat.defaultBackgroundColor)
 

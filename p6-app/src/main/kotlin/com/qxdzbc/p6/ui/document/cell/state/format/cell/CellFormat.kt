@@ -7,7 +7,7 @@ interface CellFormat{
 
     val backgroundColor: Color?
     fun setBackgroundColor(i:Color?):CellFormat
-    val boxModifier:Modifier
+    val modifier:Modifier
 
     companion object{
         val defaultBackgroundColor = Color.Transparent

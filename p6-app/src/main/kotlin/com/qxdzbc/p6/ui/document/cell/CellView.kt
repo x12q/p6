@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.document.cell
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +37,7 @@ fun CellView(
         modifier = boxModifier
             .fillMaxSize()
             .let {mod->
-                state.cellFormat?.boxModifier?.let {
+                state.cellFormat?.modifier?.let {
                     mod.then(it)
                 }?:mod
             }

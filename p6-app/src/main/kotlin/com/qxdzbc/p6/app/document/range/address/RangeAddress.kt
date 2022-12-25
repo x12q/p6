@@ -57,14 +57,14 @@ interface RangeAddress : RangeConstraint, Shiftable {
      * Eg: if the input == topLeft, then return botRight
      *
      * if the input == botRight, then return topLeft
-     * @return the cell on the other end of the crossing line that starts with [cellAddress]
+     * @return the cell on the other end of the crossing line that starts with [vertex]
      * @throws Exception if the input cell is not one of the 4 vertices of this [RangeAddress]
      */
-    fun takeCrossCell(cellAddress: CellAddress): CellAddress
+    fun takeCrossCell(vertex: CellAddress): CellAddress
 
     /**
      * Create a minimum range that contains both this range and [anotherRangeAddress].
-     * The resulting range may create cells that does not belong to both of the original range
+     * The resulting range may contain cells that does not belong to both of the original range
      */
     fun mergeWith(anotherRangeAddress: RangeAddress): RangeAddress
 

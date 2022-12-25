@@ -1,7 +1,9 @@
 package com.qxdzbc.p6.app.action.cell.update_cell_format
 
 import androidx.compose.ui.graphics.Color
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
@@ -10,6 +12,11 @@ interface UpdateCellFormatAction {
 
     fun setCellTextSize(cellId: CellId, textSize:Float)
     fun setCurrentCellTextSize(i:Float)
+
+    /**
+     * set text size of all cells selected by the current cursor to [textSize]
+     */
+    fun setSelectedCellsTextSize(textSize:Float)
 
     fun setCellTextColor(cellId: CellId, color:Color?)
     fun setCellTextUnderlined(cellId: CellId, underlined:Boolean)
