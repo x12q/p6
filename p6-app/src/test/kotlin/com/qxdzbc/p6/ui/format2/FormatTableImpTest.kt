@@ -32,7 +32,7 @@ internal class FormatTableImpTest : TestSplitter() {
         test("Add a independent mapping") {
             val cellQ10 = CellAddress("Q10")
             val expectation = table.copy(
-                textSizeMap = table.textSizeMap + (RangeAddressSet(RangeAddress("Q10")) to 10)
+                valueMap = table.valueMap + (RangeAddressSet(RangeAddress("Q10")) to 10)
             )
 
             preCondition {
@@ -48,7 +48,7 @@ internal class FormatTableImpTest : TestSplitter() {
         test("Add text size of a cell that will break old ranges"){
             val cellF4 = CellAddress("F4")
             val expectation = FormatTableImp(
-                textSizeMap = mapOf(
+                valueMap = mapOf(
                     RangeAddressSet(
                         RangeAddress("A4:B8"),
                         RangeAddress("D7:G11"),
@@ -72,7 +72,7 @@ internal class FormatTableImpTest : TestSplitter() {
         test("Add text size of a cell that will break old ranges"){
             val cellF4 = CellAddress("F4")
             val expectation = FormatTableImp(
-                textSizeMap = mapOf(
+                valueMap = mapOf(
                     RangeAddressSet(
                         RangeAddress("A4:B8"),
                         RangeAddress("D7:G11"),

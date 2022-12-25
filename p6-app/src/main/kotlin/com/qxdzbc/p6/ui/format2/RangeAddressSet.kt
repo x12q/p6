@@ -15,7 +15,11 @@ data class RangeAddressSet(
     }
 
     fun addRanges(rangeAddresses: Collection<RangeAddress>):RangeAddressSet{
-        val newSet = this.set + rangeAddresses
+        val newSet = RangeAddresses.exhaustiveMergeRanges(this.set + rangeAddresses).toSet()
+        return this.copy(set=newSet)
+    }
+    fun addRanges(vararg rangeAddresses:RangeAddress):RangeAddressSet{
+        val newSet = RangeAddresses.exhaustiveMergeRanges(this.set + rangeAddresses).toSet()
         return this.copy(set=newSet)
     }
 
@@ -26,21 +30,24 @@ data class RangeAddressSet(
     fun removeCell(cellAddress: CellAddress):RangeAddressSet{
         val brokenRanges = set.flatMap {
             it.removeCell(cellAddress)
-        }.toSet()
+        }
         val newSet = RangeAddresses.exhaustiveMergeRanges(brokenRanges).toSet()
         return this.copy(set = newSet)
+    }
+
+    /**
+     * Clip off all the part that intersect with [rangeAddress]
+     */
+    fun removeRange(rangeAddress: RangeAddress):RangeAddressSet{
+        val clippedRanges = set.flatMap {
+            it.getNotIn(rangeAddress)
+        }
+        val newSet = RangeAddresses.exhaustiveMergeRanges(clippedRanges).toSet()
+        return this.copy(set=newSet)
     }
 
     fun addCell(cellAddress: CellAddress):RangeAddressSet{
         val newSet = RangeAddresses.exhaustiveMergeRanges(set + RangeAddress(cellAddress)).toSet()
         return this.copy(set=newSet)
     }
-
-//    fun filterContain(cellAddress: CellAddress):List<RangeAddress>{
-//        TODO()
-//    }
-//
-//    fun filterContain(cellAddress: CellAddress):List<RangeAddress>{
-//        TODO()
-//    }
 }

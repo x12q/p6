@@ -39,9 +39,14 @@ interface RangeAddress : RangeConstraint, Shiftable {
     fun isValid(): Boolean
 
     /**
-     * @return a [RangeAddress] representing the intersection of this and [otherRangeAddress], return null if they do not overlap
+     * @return a [RangeAddress] representing the intersection of this RangeAddress and [otherRangeAddress], return null if they do not overlap
      */
     fun intersect(otherRangeAddress: RangeAddress): RangeAddress?
+
+    /**
+     * @return a list of fragment range address that are in this RangeAddress but not in the input [rangeAddress]
+     */
+    fun getNotIn(rangeAddress: RangeAddress):List<RangeAddress>
 
     /**
      * Remove a cell from this range if possible, effectively breaking a range into smaller ranges
