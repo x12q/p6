@@ -26,7 +26,7 @@ interface CellState {
     var textFormat: TextFormat?
     fun setTextFormat(i: TextFormat?):CellState
 
-    val alignment:Alignment?
+    val alignment:Alignment
     fun setVerticalAlignment(alignment: TextVerticalAlignment):CellState
     fun setHorizontalAlignment(alignment: TextHorizontalAlignment):CellState
 

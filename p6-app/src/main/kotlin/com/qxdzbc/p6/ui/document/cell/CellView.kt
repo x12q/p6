@@ -47,12 +47,7 @@ fun CellView(
         if (cell != null) {
             Text(
                 cell.cachedDisplayText,
-                modifier = textModifier
-                    .let {mod->
-                        state.alignment?.let {
-                            mod.align(it)
-                        }?:mod
-                    },
+                modifier = textModifier.align(state.alignment),
                 style = state.textStyle,
             )
         }

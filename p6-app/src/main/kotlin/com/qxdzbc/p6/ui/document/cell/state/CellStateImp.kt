@@ -49,8 +49,8 @@ data class CellStateImp(
         return this
     }
 
-    override val alignment: Alignment?
-        get() = textFormat?.alignment
+    override val alignment: Alignment
+        get() =  textFormat?.alignment ?: Alignment.CenterStart
     override val isTextCrossed: Boolean?
         get() = textFormat?.isCrossed
 

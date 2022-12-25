@@ -14,7 +14,7 @@ interface TextFormat {
     val isUnderlinedAttr: BoolAttr?
     val isCrossed: Boolean?
     val isCrossedAttr: BoolAttr?
-    val alignment: Alignment?
+    val alignment: Alignment
     val textSize: Float?
     fun setTextSize(i:Float?): TextFormat
 
