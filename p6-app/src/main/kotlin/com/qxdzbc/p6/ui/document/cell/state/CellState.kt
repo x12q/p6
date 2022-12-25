@@ -42,7 +42,7 @@ interface CellState {
     val textStyle:TextStyle
 
     val cellFormat: CellFormat?
-    fun setCellFormat(i:CellFormat): CellState
+    fun setCellFormat(i:CellFormat?): CellState
 
     val backgroundColor:Color?
     fun setBackgroundColor(hexColor:ULong):CellState

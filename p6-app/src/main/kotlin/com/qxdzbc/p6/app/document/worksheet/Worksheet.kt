@@ -68,7 +68,10 @@ interface Worksheet : WithSize, WbWsSt {
 
     fun getCellMs(label: String): Ms<Cell>?
 
-    @Deprecated("don't use, faulty")
+    /**
+     * @return error when the requested address does not exist.
+     * @return a cell state ms if it exists
+     */
     fun getCellMsRs(cellAddress: CellAddress): Rse<Ms<Cell>>
 
     fun getCell(cellAddress: CellAddress): Cell?
@@ -76,6 +79,10 @@ interface Worksheet : WithSize, WbWsSt {
     fun getCell(colIndex: Int, rowIndex: Int): Cell?
     fun getCell(label: String): Cell?
 
+    /**
+     * @return a cell if it exists or create an empty cell if the input address is legal
+     * @return an error is the input address is illegal (out of the bound limit of this worksheet)
+     */
     fun getCellOrDefaultRs(cellAddress: CellAddress): Result<Cell, ErrorReport>
 
     fun addOrOverwrite(cell: Cell): Worksheet

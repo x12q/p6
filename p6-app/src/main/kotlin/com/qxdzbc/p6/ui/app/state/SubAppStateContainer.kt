@@ -26,6 +26,7 @@ import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
+import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorState
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
@@ -42,6 +43,17 @@ interface SubAppStateContainer {
 
     fun getTextSizeSelectorStateMs(wbKey:WorkbookKey):Ms<TextSizeSelectorState>?
     fun getTextSizeSelectorState(wbKey:WorkbookKey):TextSizeSelectorState?
+
+    fun getTextColorSelectorStateMs(windowId:String):Ms<ColorSelectorState>?
+    fun getTextColorSelectorState(windowId:String):ColorSelectorState?
+
+    fun getTextColorSelectorStateMs(wbKey:WorkbookKey):Ms<ColorSelectorState>?
+    fun getTextColorSelectorState(wbKey:WorkbookKey):ColorSelectorState?
+
+    fun getCellBackgroundColorSelectorStateMs(windowId:String):Ms<ColorSelectorState>?
+    fun getCellBackgroundColorSelectorState(windowId:String):ColorSelectorState?
+    fun getCellBackgroundColorSelectorStateMs(wbKey:WorkbookKey):Ms<ColorSelectorState>?
+    fun getCellBackgroundColorSelectorState(wbKey:WorkbookKey):ColorSelectorState?
 
     fun getCellStateMsRs(wbwsSt:WbWsSt,cellAddress: CellAddress):Rse<Ms<CellState>>
     fun getCellStateMsRs(cellId:CellId):Rse<Ms<CellState>>

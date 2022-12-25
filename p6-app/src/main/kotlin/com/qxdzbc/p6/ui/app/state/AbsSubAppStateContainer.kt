@@ -1,27 +1,60 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.github.michaelbull.result.flatMap
+import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
-import com.github.michaelbull.result.flatMap
-import com.github.michaelbull.result.map
-import com.qxdzbc.p6.app.document.cell.CellId
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.window.state.WindowState
-import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
+import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
+import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
+
+    override fun getTextColorSelectorStateMs(windowId: String): Ms<ColorSelectorState>? {
+        return getToolbarState(windowId)?.textColorSelectorStateMs
+    }
+
+    override fun getTextColorSelectorState(windowId: String): ColorSelectorState? {
+        return getToolbarState(windowId)?.textColorSelectorStateMs?.value
+    }
+
+    override fun getTextColorSelectorStateMs(wbKey: WorkbookKey): Ms<ColorSelectorState>? {
+        return this.getWindowStateByWbKey(wbKey)?.toolBarState?.textColorSelectorStateMs
+    }
+
+    override fun getTextColorSelectorState(wbKey: WorkbookKey): ColorSelectorState? {
+        return this.getWindowStateByWbKey(wbKey)?.toolBarState?.textColorSelectorStateMs?.value
+    }
+
+    override fun getCellBackgroundColorSelectorStateMs(windowId: String): Ms<ColorSelectorState>? {
+        return this.getWindowStateById(windowId)?.toolBarState?.cellBackgroundColorSelectorStateMs
+    }
+
+    override fun getCellBackgroundColorSelectorState(windowId: String): ColorSelectorState? {
+        return this.getWindowStateById(windowId)?.toolBarState?.cellBackgroundColorSelectorStateMs?.value
+    }
+
+    override fun getCellBackgroundColorSelectorStateMs(wbKey: WorkbookKey): Ms<ColorSelectorState>? {
+        return this.getWindowStateByWbKey(wbKey)?.toolBarState?.cellBackgroundColorSelectorStateMs
+    }
+
+    override fun getCellBackgroundColorSelectorState(wbKey: WorkbookKey): ColorSelectorState? {
+        return this.getWindowStateByWbKey(wbKey)?.toolBarState?.cellBackgroundColorSelectorStateMs?.value
+    }
 
     override fun getTextSizeSelectorStateMs(wbKey: WorkbookKey): Ms<TextSizeSelectorState>? {
         return this.getWindowStateByWbKey(wbKey)?.toolBarState?.textSizeSelectorStateMs
@@ -40,7 +73,7 @@ abstract class AbsSubAppStateContainer : SubAppStateContainer {
     }
 
     override fun getTextSizeSelectorStateMs(windowId: String): Ms<TextSizeSelectorState>? {
-            return getWindowStateById(windowId)?.toolBarState?.textSizeSelectorStateMs
+        return getWindowStateById(windowId)?.toolBarState?.textSizeSelectorStateMs
     }
 
     override fun getTextSizeSelectorState(windowId: String): TextSizeSelectorState? {
@@ -60,22 +93,25 @@ abstract class AbsSubAppStateContainer : SubAppStateContainer {
     }
 
     override fun getCellStateMs(wbwsSt: WbWsSt, cellAddress: CellAddress): Ms<CellState>? {
-        return getCellStateMsRs(wbwsSt,cellAddress).component1()
+        return getCellStateMsRs(wbwsSt, cellAddress).component1()
     }
 
     override fun getCursorStateMs(wbwsSt: WbWsSt): Ms<CursorState>? {
         return this.getWsState(wbwsSt)?.cursorStateMs
     }
 
-    override fun getWindowStateByIdRs(windowId:String): Rse<WindowState> {
+    override fun getWindowStateByIdRs(windowId: String): Rse<WindowState> {
         return getWindowStateMsByIdRs(windowId).map { it.value }
     }
-    override fun getWindowStateById(windowId:String): WindowState? {
+
+    override fun getWindowStateById(windowId: String): WindowState? {
         return getWindowStateMsById(windowId)?.value
     }
+
     override fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState> {
         return getWindowStateMsByWbKeyRs(wbKey).map { it.value }
     }
+
     override fun getWindowStateByWbKey(wbKey: WorkbookKey): WindowState? {
         return getWindowStateMsByWbKey(wbKey)?.value
     }
@@ -84,14 +120,16 @@ abstract class AbsSubAppStateContainer : SubAppStateContainer {
         return getWindowStateMsByIdRs(windowId).component1()
     }
 
-    override fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>?{
+    override fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>? {
         return getFocusStateMsByWbKeyRs(wbKey).component1()
     }
+
     override fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>? {
         return this.getWindowStateMsByWbKeyRs(wbKey).component1()
     }
+
     override fun getWsStateMsRs(wbwsSt: WbWsSt): Rse<Ms<WorksheetState>> {
-        return this.getWsStateMsRs(wbwsSt.wbKeySt,wbwsSt.wsNameSt)
+        return this.getWsStateMsRs(wbwsSt.wbKeySt, wbwsSt.wsNameSt)
     }
 
     override fun getWsStateRs(wbwsSt: WbWsSt): Rse<WorksheetState> {
@@ -202,7 +240,7 @@ abstract class AbsSubAppStateContainer : SubAppStateContainer {
         return this.getCursorStateMs(wbws.wbKey, wbws.wsName)?.value
     }
 
-    override fun getCursorState(wbws: WbWsSt): CursorState?{
+    override fun getCursorState(wbws: WbWsSt): CursorState? {
         return this.getCursorStateMs(wbws)?.value
     }
 

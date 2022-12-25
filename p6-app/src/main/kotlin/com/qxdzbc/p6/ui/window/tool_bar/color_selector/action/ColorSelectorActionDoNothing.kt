@@ -7,7 +7,7 @@ class ColorSelectorActionDoNothing : ColorSelectorAction {
 
     }
 
-    override fun pickColor(windowId: String, color: Color) {
+    override fun pickColor(windowId: String, color: Color?) {
 
     }
 }

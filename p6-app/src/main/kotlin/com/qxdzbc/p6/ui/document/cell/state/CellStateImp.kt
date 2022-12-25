@@ -83,7 +83,7 @@ data class CellStateImp(
     override val textStyle: TextStyle
         get() = textFormat?.toTextStyle() ?: CellStates.defaultTextStyle
 
-    override fun setCellFormat(i: CellFormat): CellStateImp {
+    override fun setCellFormat(i: CellFormat?): CellStateImp {
         return this.copy(cellFormat = i)
     }
 

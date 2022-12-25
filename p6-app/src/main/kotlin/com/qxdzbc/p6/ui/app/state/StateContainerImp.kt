@@ -247,11 +247,15 @@ class StateContainerImp @Inject constructor(
         return windowMsRs
     }
 
-    override fun getActiveCursorMs(): Ms<CursorState>? {
+    override fun getActiveCursorStateMs(): Ms<CursorState>? {
         val rt = this.appState.activeWindowState?.activeWbPointer?.wbKeyMs?.let {
             this.getActiveCursorMs(it)
         }
         return rt
+    }
+
+    override fun getActiveCursorState(): CursorState? {
+        return getActiveCursorStateMs()?.value
     }
 
     override fun getActiveWbStateMs(): Ms<WorkbookState>? {

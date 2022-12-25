@@ -11,8 +11,8 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
     lateinit var wbwsSt:WbWsSt
     val cellEditorState get()=ts.sc.cellEditorState
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         act = ts.comp.colorFormulaActionImp()
         cellEditorAct = ts.comp.cellEditorAction()
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!

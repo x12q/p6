@@ -15,8 +15,8 @@ internal class CellEditorActionImpTest : BaseTest() {
     val editorState get() = editorStateMs.value
 
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         act = ts.comp.cursorEditorAction()
         wbws = ts.wb1.getWs(ts.wsn1)!!
         act.openCellEditor(wbws)

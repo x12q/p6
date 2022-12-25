@@ -41,7 +41,8 @@ interface StateContainer : SubAppStateContainer, DocumentContainer {
     /**
      * get cursor state ms of the active worksheet inside the active workbook
      */
-    fun getActiveCursorMs(): Ms<CursorState>?
+    fun getActiveCursorStateMs(): Ms<CursorState>?
+    fun getActiveCursorState(): CursorState?
 
     fun getActiveWbStateMs(): Ms<WorkbookState>?
     fun getActiveWbState(): WorkbookState?

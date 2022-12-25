@@ -34,11 +34,6 @@ abstract class BaseWorksheet : Worksheet {
         return table.getElement(CellAddress(label))
     }
 
-    /**
-     * TODO this implementation must be fixed so that it return Rse<Ms<Cell>?>.
-     * null is for when the obj does not exist, error report for when the requested address is illegal.
-     */
-    @Deprecated("don't use, faulty")
     override fun getCellMsRs(cellAddress: CellAddress): Rse<Ms<Cell>> {
         val cellMs: Ms<Cell>? = this.table.getElement(cellAddress)
         val rt: Rse<Ms<Cell>> = cellMs?.let {

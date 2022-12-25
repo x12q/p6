@@ -38,8 +38,8 @@ class WorksheetStateImpTest :BaseTest(){
     lateinit var worksheetIDMs: St<WorksheetId>
 
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         wb0 = WorkbookImp(
             WorkbookKey("Book0").toMs(),
         ).addMultiSheetOrOverwrite(

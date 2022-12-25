@@ -15,8 +15,8 @@ internal class CopyCellActionImpTest: BaseTest(){
     lateinit var updateCellAct:UpdateCellAction
     lateinit var fromCell:CellIdDM
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         act = ts.comp.copyCellAction()
         updateCellAct = ts.comp.updateCellAction()
         fromCell = CellIdDM(

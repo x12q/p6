@@ -4,14 +4,13 @@ import io.kotest.matchers.collections.*
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import test.BaseTest
-import test.TestSample
 import kotlin.test.*
 
 class CloseWorkbookActionImpTest: BaseTest(){
     lateinit var closeWbAct: CloseWorkbookActionImp
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         closeWbAct = ts.comp.closeWbAct()
     }
 

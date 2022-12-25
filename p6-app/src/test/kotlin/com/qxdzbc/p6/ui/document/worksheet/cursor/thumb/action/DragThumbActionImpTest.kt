@@ -13,8 +13,8 @@ internal class DragThumbActionImpTest:BaseTest(){
     lateinit var wbwsSt:WbWsSt
     lateinit var cursorStateMs:Ms<CursorState>
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         act = ts.comp.dragThumbAction()
         wbwsSt = ts.sc.getWbWsSt(WbWs(ts.wbKey1,ts.wsn1))!!
         cursorStateMs = ts.sc.getCursorStateMs(wbwsSt)!!

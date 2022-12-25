@@ -9,8 +9,8 @@ internal class CycleFormulaLockStateImpTest : BaseTest() {
     lateinit var act: CycleFormulaLockStateImp
 
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         act = ts.comp.cycleFormulaLockStateAct() as CycleFormulaLockStateImp
     }
 

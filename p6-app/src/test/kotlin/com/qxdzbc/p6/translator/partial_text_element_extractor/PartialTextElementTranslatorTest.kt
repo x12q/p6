@@ -16,8 +16,8 @@ internal class PartialTextElementTranslatorTest : BaseTest() {
     lateinit var extractor: PartialTextElementTranslator
 
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         extractor = ts.comp.partialTextElementExtractor()
     }
     @Test

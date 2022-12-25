@@ -73,7 +73,13 @@ fun ColorSelector(
                     modifier = Modifier.align(Alignment.TopCenter)
                 )
                 Box(
-                    modifier = Modifier.size(width = 15.dp, height = 4.dp).background(currentColor)
+                    modifier = Modifier.size(width = 15.dp, height = 4.dp).let {
+                        if (currentColor != null) {
+                            it.background(currentColor)
+                        } else {
+                            it
+                        }
+                    }
                         .align(Alignment.BottomCenter)
                 )
             }
@@ -96,10 +102,11 @@ fun ColorSelector(
                     horizontalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     for (color in chunk) {
-                        MBox(modifier = Modifier.clickable {
-                            action.pickColor(windowId, color)
-                            expanded = false
-                        }) {
+                        MBox(modifier = Modifier
+                            .clickable {
+                                expanded = false
+                                action.pickColor(windowId, color)
+                            }) {
                             ColorSquare(color)
                         }
                     }

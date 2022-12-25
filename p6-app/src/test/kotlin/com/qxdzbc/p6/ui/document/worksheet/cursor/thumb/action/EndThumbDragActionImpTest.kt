@@ -24,8 +24,8 @@ internal class EndThumbDragActionImpTest : BaseTest() {
     lateinit var startCellId: CellId
 
     @BeforeTest
-    override fun b() {
-        super.b()
+    override fun _b() {
+        super._b()
         act = ts.comp.endThumbDragAction()
         updateCellAct = ts.comp.updateCellAction()
         startCell = CellAddress("K10")

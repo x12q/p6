@@ -20,7 +20,7 @@ abstract class BaseTest : TestSplitter() {
     val comp get() = ts.comp
 
     @BeforeTest
-    open fun b() {
+    open fun _b() {
         _ts = TestSample()
     }
 }

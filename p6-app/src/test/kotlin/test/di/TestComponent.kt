@@ -48,6 +48,8 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
+import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.TextColorSelectorAction
+import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorActionImp
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
@@ -126,6 +128,8 @@ interface TestComponent : P6Component {
     fun closeCellEditorAction(): CloseCellEditorActionImp
     fun runFormulaOrSaveValueToCellAction(): RunFormulaOrSaveValueToCellActionImp
     fun updateCellFormatAction(): UpdateCellFormatActionImp
+    fun textSizeSelectorActionImp(): TextSizeSelectorActionImp
+    fun textColorSelectorAction(): TextColorSelectorAction
 
     @Component.Builder
     interface Builder {

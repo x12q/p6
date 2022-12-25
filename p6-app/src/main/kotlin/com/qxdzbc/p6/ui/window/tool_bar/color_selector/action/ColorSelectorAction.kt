@@ -4,5 +4,5 @@ import androidx.compose.ui.graphics.Color
 
 interface ColorSelectorAction{
     fun clearColor(windowId:String)
-    fun pickColor(windowId:String,color: Color)
+    fun pickColor(windowId:String,color: Color?)
 }
