@@ -4,20 +4,25 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
+import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
+import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.format2.CellFormatTable2
+import com.qxdzbc.p6.ui.format2.CellFormatTable2Imp
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -25,34 +30,47 @@ import dagger.assisted.AssistedInject
 /**
  * a GridSlider + col/row limit
  */
-data class WorksheetStateImp @AssistedInject constructor(
+data class WorksheetStateImp constructor(
     // ====Assisted inject properties ======//
-    @Assisted("1") override val wsMs: Ms<Worksheet>,
-    @Assisted("2") override val sliderMs: Ms<GridSlider>,
-    @Assisted("3") override val cursorStateMs: Ms<CursorState>,
-    @Assisted("4") override val colRulerStateMs: Ms<RulerState>,
-    @Assisted("5") override val rowRulerStateMs: Ms<RulerState>,
-    @Assisted("6") override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
+    override val wsMs: Ms<Worksheet>,
+    override val sliderMs: Ms<GridSlider>,
+    override val cursorStateMs: Ms<CursorState>,
+    override val colRulerStateMs: Ms<RulerState>,
+    override val rowRulerStateMs: Ms<RulerState>,
+    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
+
     //====Automatically injected properties====//
-//    @DefaultCellLayoutMap
-//    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
-    @DefaultLayoutCoorMs
-    override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
-    @DefaultLayoutCoorMs
-    override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
-    @DefaultCellStateContainer
-    val cellStateContMs: Ms<CellStateContainer>,
-    @DefaultSelectRectStateMs
-    override val selectRectStateMs: Ms<SelectRectState>,
-    @DefaultColResizeBarStateMs
-    override val colResizeBarStateMs: Ms<ResizeBarState>,
-    @DefaultRowResizeBarStateMs
-    override val rowResizeBarStateMs: Ms<ResizeBarState>,
-    @DefaultColRangeQualifier
+    override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
+    override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
+    val cellStateContMs: Ms<CellStateContainer> = CellStateContainers.immutable().toMs(),
+    override val selectRectStateMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
+    override val colResizeBarStateMs: Ms<ResizeBarState> = ms(ResizeBarStateImp(dimen = RulerType.Col, size = P6R.size.value.defaultRowHeight)),
+    override val rowResizeBarStateMs: Ms<ResizeBarState> = ms(ResizeBarStateImp(dimen = RulerType.Row, size = P6R.size.value.rowRulerWidth)),
     override val colRange: IntRange = P6R.worksheetValue.defaultColRange,
-    @DefaultRowRangeQualifier
     override val rowRange: IntRange = P6R.worksheetValue.defaultRowRange,
+    override val cellFormatTableMs: Ms<CellFormatTable2> = ms(CellFormatTable2Imp()),
 ) : BaseWorksheetState() {
+
+    @AssistedInject
+    constructor(
+        @Assisted("1") wsMs: Ms<Worksheet>,
+        @Assisted("2") sliderMs: Ms<GridSlider>,
+        @Assisted("3") cursorStateMs: Ms<CursorState>,
+        @Assisted("4") colRulerStateMs: Ms<RulerState>,
+        @Assisted("5") rowRulerStateMs: Ms<RulerState>,
+        @Assisted("6") cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
+    ) : this(
+        wsMs, sliderMs, cursorStateMs, colRulerStateMs, rowRulerStateMs, cellLayoutCoorMapMs,
+        cellGridLayoutCoorWrapperMs = ms(null),
+        wsLayoutCoorWrapperMs = ms(null),
+        cellStateContMs = CellStateContainers.immutable().toMs(),
+        selectRectStateMs = ms(SelectRectStateImp()),
+        colResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Col, size = P6R.size.value.defaultRowHeight)),
+        rowResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Row, size = P6R.size.value.rowRulerWidth)),
+        colRange = P6R.worksheetValue.defaultColRange,
+        rowRange = P6R.worksheetValue.defaultRowRange,
+        cellFormatTableMs = ms(CellFormatTable2Imp()),
+    )
 
 
     override val id: WorksheetId
@@ -64,9 +82,9 @@ data class WorksheetStateImp @AssistedInject constructor(
         val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
         // x: force refresh cell layout wrapper to force the app to redraw cell when col/row is resize. This is to fix the bug in which cell cursor is not resized when col/row is resized
         // x: TODO this might be optimized further to reduce redrawing.
-        val newLayout: LayoutCoorWrapper = if(oldLayout== null){
+        val newLayout: LayoutCoorWrapper = if (oldLayout == null) {
             layoutCoor
-        }else {
+        } else {
             if (oldLayout.layout != layoutCoor.layout) {
                 layoutCoor
             } else {
@@ -125,7 +143,7 @@ data class WorksheetStateImp @AssistedInject constructor(
             val cellState = cellStateMs.value
             val addr = cellState.address
             if (addr !in availableCellAddresses) {
-                if(cellState.textFormat!=null || cellState.cellFormat!=null){
+                if (cellState.textFormat != null || cellState.cellFormat != null) {
                     cellStateMs.value = cellState.removeDataCell()
                     newCellMsCont = newCellMsCont.set(addr, cellStateMs)
                 }
@@ -145,7 +163,7 @@ data class WorksheetStateImp @AssistedInject constructor(
 
     override fun setSliderAndRefreshDependentStates(i: GridSlider): WorksheetState {
         this.sliderMs.value = i
-        var wsState:WorksheetState = this
+        var wsState: WorksheetState = this
         wsState = wsState.removeAllCellLayoutCoor()
 
         colRulerStateMs.value = colRulerState
@@ -184,10 +202,10 @@ data class WorksheetStateImp @AssistedInject constructor(
 
     override fun addOrOverwriteCellState(cellState: CellState): WorksheetState {
         val cellStateMs = this.getCellStateMs(cellState.address)
-        if(cellStateMs!=null){
+        if (cellStateMs != null) {
             cellStateMs.value = cellState
             return this
-        }else{
+        } else {
             return this.createAndAddNewCellStateMs(cellState)
         }
     }

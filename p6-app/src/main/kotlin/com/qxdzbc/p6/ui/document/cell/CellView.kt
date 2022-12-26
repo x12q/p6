@@ -25,10 +25,13 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format.attr.BoolAttr.Companion.toBoolAttr
+import com.qxdzbc.p6.ui.format2.CellFormatTable2
+import com.qxdzbc.p6.ui.format2.CellFormatTable2Imp
 
 @Composable
 fun CellView(
     state: CellState,
+    formatTable: CellFormatTable2,
     boxModifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
 ) {
@@ -36,18 +39,18 @@ fun CellView(
     MBox(
         modifier = boxModifier
             .fillMaxSize()
-            .let {mod->
-                state.cellFormat?.modifier?.let {
+            .let { mod ->
+                formatTable.getCellModifier(state.address)?.let {
                     mod.then(it)
-                }?:mod
+                } ?: mod
             }
 
     ) {
         if (cell != null) {
             Text(
                 cell.cachedDisplayText,
-                modifier = textModifier.align(state.alignment),
-                style = state.textStyle,
+                modifier = textModifier.align(formatTable.getTextAlignment(state.address)),
+                style = formatTable.getTextStyle(state.address),
             )
         }
     }
@@ -62,7 +65,8 @@ fun main() = P6TestApp {
                 CellStateImp(
                     address = address,
                     cellMs = IndCellImp.random(address).toMs()
-                )
+                ),
+                formatTable = CellFormatTable2Imp(),
             )
         }
 
@@ -85,7 +89,8 @@ fun main() = P6TestApp {
                     cellFormat = CellFormatImp(
                         backgroundColor = Color.Blue
                     )
-                )
+                ),
+                formatTable = CellFormatTable2Imp(),
             )
         }
     }

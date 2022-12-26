@@ -13,6 +13,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.format2.CellFormatTable2
 
 /**
  * Worksheet + UI data
@@ -24,6 +25,9 @@ interface WorksheetState :WbWsSt {
 
     val idMs: Ms<WorksheetId>
     val id:WorksheetId
+
+    val cellFormatTableMs: Ms<CellFormatTable2>
+    val cellFormatTable: CellFormatTable2
 
     val colResizeBarStateMs: Ms<ResizeBarState>
     val colResizeBarState: ResizeBarState get() = colResizeBarStateMs.value

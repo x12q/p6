@@ -134,10 +134,13 @@ fun CellGridView(
                             if (cellState != null) {
                                 CellView(
                                     state = cellState,
+                                    formatTable = wsState.cellFormatTable,
                                     boxModifier = cellBoxMod
                                 )
                             } else {
                                 EmptyCellView(
+                                    cellAddress=cellAddress,
+                                    formatTable=wsState.cellFormatTable,
                                     boxModifier = cellBoxMod
                                 )
                             }

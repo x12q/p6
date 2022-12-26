@@ -16,6 +16,7 @@ import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.qxdzbc.p6.ui.format2.CellFormatTable2
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorState
@@ -23,6 +24,22 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
+
+    override fun getCellFormatTable2Ms(wbws: WbWs): Ms<CellFormatTable2>? {
+        return this.getWsState(wbws)?.cellFormatTableMs
+    }
+
+    override fun getCellFormatTable2(wbwsSt: WbWsSt): CellFormatTable2? {
+        return this.getWsState(wbwsSt)?.cellFormatTableMs?.value
+    }
+
+    override fun getCellFormatTable2(wbws: WbWs): CellFormatTable2? {
+        return this.getWsState(wbws)?.cellFormatTableMs?.value
+    }
+
+    override fun getCellFormatTable2Ms(wbwsSt: WbWsSt): Ms<CellFormatTable2>? {
+        return this.getWsState(wbwsSt)?.cellFormatTableMs
+    }
 
     override fun getTextColorSelectorStateMs(windowId: String): Ms<ColorSelectorState>? {
         return getToolbarState(windowId)?.textColorSelectorStateMs

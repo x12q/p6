@@ -5,8 +5,12 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.format2.CellFormatTable2
 
 abstract class BaseWorksheetState : WorksheetState {
+    override val cellFormatTable: CellFormatTable2
+        get() = cellFormatTableMs.value
+
     override fun getRulerState(rulerType: RulerType): RulerState {
         return when(rulerType){
             RulerType.Row->this.rowRulerState

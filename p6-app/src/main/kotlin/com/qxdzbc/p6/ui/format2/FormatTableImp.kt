@@ -77,4 +77,32 @@ data class FormatTableImp<T>(
         }
         return this.copy(valueMap = newMap)
     }
+
+    override fun removeValueFromMultiCells(cellAddresses: List<CellAddress>): FormatTable<T> {
+        val rt = cellAddresses.fold(this){acc:FormatTable<T>,ca->
+            acc.removeValue(ca)
+        }
+        return rt
+    }
+
+    override fun removeValueFromMultiRanges(rangeAddresses: List<RangeAddress>): FormatTable<T> {
+        val rt = rangeAddresses.fold(this){acc:FormatTable<T>,ra->
+            acc.removeValue(ra)
+        }
+        return rt
+    }
+
+    override fun addValueForMultiCells(cellAddresses: Collection<CellAddress>, formatValue: T): FormatTable<T> {
+        val rt = cellAddresses.fold(this){acc,ca->
+            acc.addValue(ca,formatValue)
+        }
+        return rt
+    }
+
+    override fun addValueForMultiRanges(rangeAddresses: Collection<RangeAddress>, formatValue: T): FormatTable<T> {
+        val rt = rangeAddresses.fold(this){acc,rangeAddress->
+            acc.addValue(rangeAddress,formatValue)
+        }
+        return rt
+    }
 }
