@@ -3,6 +3,8 @@ package com.qxdzbc.p6.ui.format2
 import com.qxdzbc.common.test_util.TestSplitter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlin.test.BeforeTest
@@ -11,20 +13,19 @@ import kotlin.test.Test
 internal class FormatTableImpTest : TestSplitter() {
     lateinit var table: FormatTableImp<Int>
     val v = 10
+    val k1 = RangeAddressSetImp(
+        RangeAddress("A1:B2"),
+        RangeAddress("D3:H5"),
+    )
+    val k2 = RangeAddressSetImp(
+        RangeAddress("A4:B8"),
+        RangeAddress("D7:G11"),
+    )
 
     @BeforeTest
     fun b() {
         table = FormatTableImp(
-            mapOf(
-                RangeAddressSet(
-                    RangeAddress("A1:B2"),
-                    RangeAddress("D3:H5"),
-                ) to 1,
-                RangeAddressSet(
-                    RangeAddress("A4:B8"),
-                    RangeAddress("D7:G11"),
-                ) to 2
-            )
+            mapOf(k1 to 1, k2 to 2)
         )
     }
 
@@ -33,7 +34,7 @@ internal class FormatTableImpTest : TestSplitter() {
         test("add independent range format", false) {
             val rangeE17F18 = RangeAddress("E17:F18")
             val expectation = table.copy(
-                valueMap = table.valueMap + (RangeAddressSet(rangeE17F18) to v)
+                valueMap = table.valueMap + (RangeAddressSetImp(rangeE17F18) to v)
             )
             preCondition {
                 table shouldNotBe expectation
@@ -54,12 +55,9 @@ internal class FormatTableImpTest : TestSplitter() {
             val rangeE9F9 = RangeAddress("E9:F9")
             val expectation = FormatTableImp(
                 mapOf(
-                    RangeAddressSet(
-                        RangeAddress("A1:B2"),
-                        RangeAddress("D3:H5"),
-                    ) to 1,
-                    RangeAddressSet(rangeE9F9) to v,
-                    RangeAddressSet(
+                    k1 to 1,
+                    RangeAddressSetImp(rangeE9F9) to v,
+                    RangeAddressSetImp(
                         RangeAddress("A4:B8"),
                     ).addRanges(RangeAddress("D7:G11").getNotIn(rangeE9F9)) to 2
                 )
@@ -81,28 +79,14 @@ internal class FormatTableImpTest : TestSplitter() {
         val rangeE9F9 = RangeAddress("E9:F9")
         val t0 = FormatTableImp(
             mapOf(
-                RangeAddressSet(
-                    RangeAddress("A1:B2"),
-                    RangeAddress("D3:H5"),
-                ) to 1,
-                RangeAddressSet(rangeE9F9) to v,
-                RangeAddressSet(
+                k1 to 1,
+                RangeAddressSetImp(rangeE9F9) to v,
+                RangeAddressSetImp(
                     RangeAddress("A4:B8"),
                 ).addRanges(RangeAddress("D7:G11").getNotIn(rangeE9F9)) to 2
             )
         )
-        val expectation = FormatTableImp(
-            mapOf(
-                RangeAddressSet(
-                    RangeAddress("A1:B2"),
-                    RangeAddress("D3:H5"),
-                ) to 1,
-                RangeAddressSet(
-                    RangeAddress("A4:B8"),
-                    RangeAddress("D7:G11")
-                ) to 2
-            )
-        )
+        val expectation = table
 
         preCondition {
             t0 shouldNotBe expectation
@@ -120,7 +104,7 @@ internal class FormatTableImpTest : TestSplitter() {
         test("Add a independent mapping") {
             val cellQ10 = CellAddress("Q10")
             val expectation = table.copy(
-                valueMap = table.valueMap + (RangeAddressSet(RangeAddress("Q10")) to v)
+                valueMap = table.valueMap + (RangeAddressSetImp(RangeAddress("Q10")) to v)
             )
             preCondition {
                 table shouldNotBe expectation
@@ -139,12 +123,12 @@ internal class FormatTableImpTest : TestSplitter() {
             val cellF4 = CellAddress("F4")
             val expectation = FormatTableImp(
                 valueMap = mapOf(
-                    RangeAddressSet(
+                    RangeAddressSetImp(
                         RangeAddress("A4:B8"),
                         RangeAddress("D7:G11"),
                     ) to 2,
-                    RangeAddressSet(RangeAddress("F4")) to v,
-                    RangeAddressSet(RangeAddress("A1:B2"))
+                    RangeAddressSetImp(RangeAddress("F4")) to v,
+                    RangeAddressSetImp(RangeAddress("A1:B2"))
                         .addRanges(RangeAddress("D3:H5").getNotIn(RangeAddress(cellF4))) to 1,
                 )
             )
@@ -167,23 +151,23 @@ internal class FormatTableImpTest : TestSplitter() {
 
             val t0 = FormatTableImp(
                 valueMap = mapOf(
-                    RangeAddressSet(
+                    RangeAddressSetImp(
                         RangeAddress("A4:B8"),
                         RangeAddress("D7:G11"),
                     ) to 2,
-                    RangeAddressSet(RangeAddress(cellF4)) to 100,
-                    RangeAddressSet(RangeAddress("A1:B2"))
+                    RangeAddressSetImp(RangeAddress(cellF4)) to 100,
+                    RangeAddressSetImp(RangeAddress("A1:B2"))
                         .addRanges(RangeAddress("D3:H5").removeCell(cellF4)) to 1,
                 )
             )
 
             val expectation = FormatTableImp(
                 valueMap = mapOf(
-                    RangeAddressSet(
+                    RangeAddressSetImp(
                         RangeAddress("A4:B8"),
                         RangeAddress("D7:G11"),
                     ) to 2,
-                    RangeAddressSet(RangeAddress("A1:B2"))
+                    RangeAddressSetImp(RangeAddress("A1:B2"))
                         .addRanges(RangeAddress("D3:H5")) to 1,
                 )
             )
@@ -196,6 +180,57 @@ internal class FormatTableImpTest : TestSplitter() {
             postCondition {
                 t2 shouldBe expectation
             }
+        }
+    }
+
+    @Test
+    fun `removeValue - remove cleanly a value`() {
+        val r = RangeAddress("A1:B2")
+        val t0 = table
+        val expectation = FormatTableImp(
+            mapOf(
+                RangeAddressSetImp(
+                    RangeAddress("D3:H5"),
+                ) to 1,
+                RangeAddressSetImp(
+                    RangeAddress("A4:B8"),
+                    RangeAddress("D7:G11"),
+                ) to 2
+            )
+        )
+        preCondition {
+            t0 shouldNotBe expectation
+            t0.getValue(r).shouldNotBeNull()
+        }
+
+        val t1 = t0.removeValue(r)
+
+        postCondition {
+            t1 shouldBe expectation
+            t1.getValue(r).shouldBeNull()
+        }
+    }
+
+    @Test
+    fun `removeValue - remove a value that will break ranges into smaller ranges`() {
+        val r = RangeAddress("A1")
+        val t0 = table
+        val expectation = FormatTableImp(
+            mapOf(
+                k1.removeRange(r) to 1,
+                k2 to 2
+            )
+        )
+        preCondition {
+            t0 shouldNotBe expectation
+            t0.getValue(r).shouldNotBeNull()
+        }
+
+        val t1 = t0.removeValue(r)
+
+        postCondition {
+            t1 shouldBe expectation
+            t1.getValue(r).shouldBeNull()
         }
     }
 }
