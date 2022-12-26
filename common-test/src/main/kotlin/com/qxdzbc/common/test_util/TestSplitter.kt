@@ -6,8 +6,10 @@ abstract class TestSplitter {
     /**
      * just to make long tests easier to read
      */
-    fun test(description: String = "", f: () -> Unit) {
-        f()
+    fun test(description: String = "", run:Boolean=true, f: () -> Unit) {
+        if(run){
+            f()
+        }
     }
 
     /**

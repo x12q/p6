@@ -1,15 +1,17 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor
 
+import com.qxdzbc.common.test_util.TestSplitter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
+import io.kotest.matchers.collections.shouldContainOnly
 import org.mockito.kotlin.mock
 import test.TestUtils.compare2ListIgnoreOrder
 import kotlin.test.*
 
 
-internal class CursorStateImpTest {
+internal class CursorStateImpTest : TestSplitter() {
 
     lateinit var cursorState: CursorStateImp
 
@@ -34,21 +36,43 @@ internal class CursorStateImpTest {
     }
 
     @Test
-    fun recursiveMerge() {
-        val l1 = listOf(
-            "D8:F11",
-            "G8:G12",
-            "D12:F12",
-            "D13:G13",
-            "J9:K15",
-        ).map { RangeAddress(it) }
+    fun exhaustiveMergeRanges() {
+        test("case 1"){
+            val l1 = listOf(
+                "D8:F11",
+                "G8:G12",
+                "D12:F12",
+                "D13:G13",
+                "J9:K15",
+            ).map { RangeAddress(it) }
 
-        val expect = listOf(
-            "D8:G13", "J9:K15",
-        ).map { RangeAddress(it) }
-        val rs = RangeAddresses.exhaustiveMergeRanges(l1)
-        assertEquals(2, rs.size)
-        assertTrue { rs.containsAll(expect) }
+            val expect = listOf(
+                "D8:G13", "J9:K15",
+            ).map { RangeAddress(it) }
+            val rs = RangeAddresses.exhaustiveMergeRanges(l1)
+            rs.shouldContainOnly(
+                expect
+            )
+        }
+
+        test("case 2"){
+            val ranges = listOf(
+                "B3:C5",
+                "D3:E5",
+                "F3:G5",
+                "B6:C9",
+                "F6:G9",
+                "B10:C12",
+                "D10:E12",
+                "F10:G12",
+            ).map{RangeAddress(it)}
+            val out = RangeAddresses.exhaustiveMergeRanges(ranges)
+            out.shouldContainOnly(
+                listOf(
+                    "B3:G5", "F6:G12","D10:E12","B6:C12"
+                ).map{RangeAddress(it)}
+            )
+        }
     }
 
     @Test

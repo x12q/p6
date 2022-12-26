@@ -301,4 +301,8 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
             .setBotRight(this.botRight.toProto())
             .build()
     }
+
+    override fun toString(): String {
+        return this.label
+    }
 }

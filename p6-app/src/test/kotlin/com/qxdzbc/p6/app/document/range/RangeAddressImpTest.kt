@@ -6,61 +6,59 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddressImp
 import com.qxdzbc.p6.ui.common.P6R
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.collections.shouldContainOnly
 import kotlin.test.*
 
-class RangeAddressImpTest : TestSplitter(){
+class RangeAddressImpTest : TestSplitter() {
     @Test
     fun getNotIn() {
-//        test("case1: B3:G12 <> D6:E9"){
-//            val r = RangeAddress("B3:G12")
-//            val r2 = RangeAddress("D6:E9")
-//            val rs = r.getNotIn(r2)
-//            rs shouldBe listOf(
-//                RangeAddress("B3:G5"),
-//                RangeAddress("F6:G12"),
-//                RangeAddress("B10:E12"),
-//                RangeAddress("B6:C9"),
-//            )
-//        }
-//        test("case2: B14:E26 <> D21:H29"){
-//            val r = RangeAddress("B14:E26")
-//            val r2 = RangeAddress("D21:H29")
-//            val rs = r.getNotIn(r2)
-//            rs shouldBe listOf(
-//                RangeAddress("B14:E20"),
-//                RangeAddress("B21:C26"),
-//            )
-//        }
-//
-//        test("case2: B14:E26 <> A21:C30"){
-//            val r = RangeAddress("B14:E26")
-//            val r2 = RangeAddress("A21:C30")
-//            val rs = r.getNotIn(r2)
-//            rs shouldBe listOf(
-//                RangeAddress("B14:E20"),
-//                RangeAddress("D21:E26"),
-//            )
-//        }
+        test("case1: B3:G12 <> D6:E9"){
+            val r = RangeAddress("B3:G12")
+            val r2 = RangeAddress("D6:E9")
+            val rs = r.getNotIn(r2)
+            rs.shouldContainOnly(
+                listOf("B3:G5", "F6:G12","D10:E12","B6:C12").map{RangeAddress(it)}
+            )
+        }
+        test("case2: B14:E26 <> D21:H29",true) {
+            val r = RangeAddress("B14:E26")
+            val r2 = RangeAddress("D21:H29")
+            val rs = r.getNotIn(r2)
+            rs.shouldContainOnly(
+                RangeAddress("B14:E20"),
+                RangeAddress("B21:C26"),
+            )
+        }
 
-        test("case2: B14:E26 <> D9:H19"){
+        test("case3: B14:E26 <> A21:C30"){
+            val r = RangeAddress("B14:E26")
+            val r2 = RangeAddress("A21:C30")
+            val rs = r.getNotIn(r2)
+            rs shouldContainOnly listOf(
+                RangeAddress("B14:E20"),
+                RangeAddress("D21:E26"),
+            )
+        }
+
+        test("case4: B14:E26 <> D9:H19"){
             val r = RangeAddress("B14:E26")
             val r2 = RangeAddress("D9:H19")
             val rs = r.getNotIn(r2)
-            rs shouldBe listOf(
-                RangeAddress("B14:C19"),
-                RangeAddress("B20:E26"),
+            rs shouldContainOnly listOf(
+                RangeAddress("B14:C26"),
+                RangeAddress("D20:E26"),
             )
         }
     }
 
 
     @Test
-    fun nextLockState(){
+    fun nextLockState() {
         val r = RangeAddress("A1:C3")
         val r2 = r.nextLockState()
-        assertEquals(r.topLeft.nextLockState(),r2.topLeft)
-        assertEquals(r.botRight.nextLockState(),r2.botRight)
+        assertEquals(r.topLeft.nextLockState(), r2.topLeft)
+        assertEquals(r.botRight.nextLockState(), r2.botRight)
     }
 
     @Test
