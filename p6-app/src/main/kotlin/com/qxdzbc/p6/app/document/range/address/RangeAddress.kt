@@ -99,6 +99,8 @@ interface RangeAddress : RangeConstraint, Shiftable {
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
     ): RangeAddress
+
+    fun isInterSectionExistWith(rangeAddress: RangeAddress): Boolean
 }
 
 /**

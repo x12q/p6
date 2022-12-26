@@ -9,34 +9,13 @@ data class FormatTableImp<T>(
 
 
     override fun addValue(cellAddress: CellAddress, formatValue: T): FormatTableImp<T> {
-        val toBeBroken = mutableListOf<Map.Entry<RangeAddressSet, T>>()
-        for (entry in valueMap) {
-            val (radSet:RangeAddressSet, ts) = entry
-            if (radSet.containsCell(cellAddress)) {
-                if (ts == formatValue) {
-                    return this
-                } else {
-                    toBeBroken.add(entry)
-                }
-            }else{
-                if(ts == formatValue){
-                    val newRangeAddressSet = radSet.addCell(cellAddress)
-                    val newMap:Map<RangeAddressSet, T> = valueMap.filter { (r,_)-> r!=radSet } + (newRangeAddressSet to ts)
-                    return this.copy(valueMap = newMap)
-                }
-            }
-        }
-        var newMap =  valueMap + (RangeAddressSet(RangeAddress(cellAddress)) to formatValue)
-
-        newMap = toBeBroken.fold(newMap){acc, (radSet,ts) ->
-            val newRadSet=radSet.removeCell(cellAddress)
-            acc.filterKeys { it!=radSet } + (newRadSet to ts)
-        }
-        return this.copy(valueMap = newMap)
+        return this.addValue(RangeAddress(cellAddress),formatValue)
     }
 
     override fun addValue(rangeAddress: RangeAddress, formatValue: T): FormatTableImp<T> {
+        var newMap:Map<RangeAddressSet, T> = this.valueMap
         val toBeBroken = mutableListOf<Map.Entry<RangeAddressSet, T>>()
+        var addValueByMerge = false
         for (entry in valueMap) {
             val (radSet:RangeAddressSet, ts) = entry
             if (radSet.containsRange(rangeAddress)) {
@@ -48,16 +27,25 @@ data class FormatTableImp<T>(
             }else{
                 if(ts == formatValue){
                     val newRangeAddressSet = radSet.addRanges(rangeAddress)
-                    val newMap:Map<RangeAddressSet, T> = valueMap.filter { (r,_)-> r!=radSet } + (newRangeAddressSet to ts)
-                    return this.copy(valueMap = newMap)
+                    newMap = valueMap.filter { (r,_)-> r!=radSet } + (newRangeAddressSet to ts)
+                    addValueByMerge = true
+                    break
                 }
             }
         }
-        var newMap =  valueMap + (RangeAddressSet(rangeAddress) to formatValue)
+        if(!addValueByMerge){
+            newMap =  newMap + (RangeAddressSet(rangeAddress) to formatValue)
+        }
 
         newMap = toBeBroken.fold(newMap){acc, (radSet,ts) ->
             val newRadSet=radSet.removeRange(rangeAddress)
-            acc.filterKeys { it!=radSet } + (newRadSet to ts)
+            acc.filterKeys { it!=radSet }.let {
+                if(newRadSet.isNotEmpty()){
+                    it + (newRadSet to ts)
+                }else{
+                    it
+                }
+            }
         }
         return this.copy(valueMap = newMap)
 

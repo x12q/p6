@@ -8,9 +8,18 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddressImp
 import com.qxdzbc.p6.ui.common.P6R
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainOnly
+import io.kotest.matchers.shouldBe
 import kotlin.test.*
 
 class RangeAddressImpTest : TestSplitter() {
+
+    @Test
+    fun isIntersectionExist(){
+        val r1 = RangeAddress("F4:F4")
+        val r2 = RangeAddress("G4:H4")
+        r2.isInterSectionExistWith(r1) shouldBe false
+    }
+
     @Test
     fun getNotIn() {
         test("case1: B3:G12 <> D6:E9"){
