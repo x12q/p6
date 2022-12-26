@@ -36,8 +36,7 @@ internal class TextSizeSelectorActionImpTest : BaseTest() {
         action.submitManualEdit(ts.window1Id, textSizeSelectorState.headerText)
 
         ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
-        verify(action.updateCellFormatAction,times(1)).setCellTextSize(
-            ts.stateCont.getActiveCursorState()!!.mainCellId,
+        verify(action.updateCellFormatAction,times(1)).setSelectedCellsTextSize(
             newTextSize.toFloat()
         )
         verify(action.returnFocusToCellCursor,times(1)).returnFocusToCurrentCellCursor()
@@ -50,8 +49,7 @@ internal class TextSizeSelectorActionImpTest : BaseTest() {
         action.pickTextSize(ts.window1Id, newTextSize)
 
         ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
-        verify(action.updateCellFormatAction,times(1)).setCellTextSize(
-            ts.stateCont.getActiveCursorState()!!.mainCellId,
+        verify(action.updateCellFormatAction,times(1)).setSelectedCellsTextSize(
             newTextSize.toFloat()
         )
         verify(action.returnFocusToCellCursor,times(1)).returnFocusToCurrentCellCursor()

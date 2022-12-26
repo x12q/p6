@@ -50,6 +50,16 @@ class RangeAddressImpTest : TestSplitter() {
                 RangeAddress("D20:E26"),
             )
         }
+
+        test("case4: B14:E26 <> C8:D30"){
+            val r = RangeAddress("B14:E26")
+            val r2 = RangeAddress("C8:D30")
+            val rs = r.getNotIn(r2)
+            rs shouldContainOnly listOf(
+                "B14:B26",
+                "E14:E26"
+            ).map{RangeAddress(it)}
+        }
     }
 
 

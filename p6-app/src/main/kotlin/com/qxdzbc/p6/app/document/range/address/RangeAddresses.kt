@@ -226,6 +226,9 @@ object RangeAddresses {
         return Pair(iterRange, unUsedRanges)
     }
 
+    /**
+     * @return a list of merged range and a list of un-used cells
+     */
     internal fun exhaustiveMergeCell(cellList: List<CellAddress>): Pair<List<RangeAddress>, List<CellAddress>> {
         val r = exhaustiveMergeRanges(cellList.map { RangeAddress(it) })
         val unUsedCells = r.filter { it.isCell() }.map { it.topLeft }
@@ -278,18 +281,18 @@ object RangeAddresses {
      * @return a list of ranges that cannot be further merged
      */
     fun exhaustiveMergeRanges(rangeList: Collection<RangeAddress>): List<RangeAddress> {
-//        var l = rangeList
-//        while (true) {
-//            val newL = exhaustiveMergeRange_OneIteration2(l.toList())
-//            if (l.size == newL.size) {
-//                break
-//            } else {
-//                l = newL
-//            }
-//        }
-//        return l.toList()
-        val rt = exhaustiveMergeRange_OneIteration2(rangeList.toList())
-        return rt
+        var l = rangeList
+        while (true) {
+            val newL = exhaustiveMergeRange_OneIteration2(l.toList())
+            if (l.size == newL.size) {
+                break
+            } else {
+                l = newL
+            }
+        }
+        return l.toList()
+//        val rt = exhaustiveMergeRange_OneIteration2(rangeList.toList())
+//        return rt
     }
 
     private fun exhaustiveMergeRange_OneIteration(rangeList: List<RangeAddress>): List<RangeAddress> {

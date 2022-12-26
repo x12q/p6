@@ -83,45 +83,48 @@ abstract class BaseRangeAddress : RangeAddress {
                     val p2 = interSectionPoints[1]
                     val p3 = interSectionPoints[2]
                     val p4 = interSectionPoints[3]
+                    fun commonCheck(r:RangeAddress):Boolean{
+                        return r in this && r.intersect(ra)==null
+                    }
 
                     val s1 = RangeAddress(this.topLeft,p1)
-                    if(s1 in this){
+                    if(commonCheck(s1)){
                         rt.add(s1)
                     }
                     val s2 = RangeAddress(p1.rightOneCol(), CellAddress(
                         col=p2.colIndex-1,row = this.rowRange.first
                     ))
-                    if(s2 in this){
+                    if(commonCheck(s2)){
                         rt.add(s2)
                     }
 
                     val s3 = RangeAddress(this.topRight,p2)
-                    if(s3 in this){
+                    if(commonCheck(s3)){
                         rt.add(s3)
                     }
 
                     val s4 = RangeAddress(p1.downOneRow(),CellAddress(col=this.colRange.first,row = p3.rowIndex-1))
-                    if(s4 in this){
+                    if(commonCheck(s4)){
                         rt.add(s4)
                     }
 
                     val s5 = RangeAddress(p2.downOneRow(),CellAddress(col=this.colRange.last,row=p4.rowIndex-1))
-                    if(s5 in this){
+                    if(commonCheck(s5)){
                         rt.add(s5)
                     }
 
                     val s6 = RangeAddress(this.botLeft,p3)
-                    if(s6 in this){
+                    if(commonCheck(s6)){
                         rt.add(s6)
                     }
 
                     val s7 = RangeAddress(p3.rightOneCol(), CellAddress(col=p4.colIndex-1,row=this.rowRange.last))
-                    if(s7 in this){
+                    if(commonCheck(s7)){
                         rt.add(s7)
                     }
 
                     val s8 = RangeAddress(this.botRight,p4)
-                    if(s8 in this){
+                    if(commonCheck(s8)){
                         rt.add(s8)
                     }
                     return RangeAddresses.exhaustiveMergeRanges(rt)
@@ -135,15 +138,29 @@ abstract class BaseRangeAddress : RangeAddress {
     }
 
     private fun isInterSectionExistWith(rangeAddress: RangeAddress): Boolean {
-        val intersectionExist = this.contains(rangeAddress.topLeft)
-                || this.contains(rangeAddress.topRight)
-                || this.contains(rangeAddress.botLeft)
-                || this.contains(rangeAddress.botRight)
-                || rangeAddress.contains(this.topLeft)
-                || rangeAddress.contains(this.topRight)
-                || rangeAddress.contains(this.botLeft)
-                || rangeAddress.contains(this.botRight)
-        return intersectionExist
+        val ra = rangeAddress
+        val intersectionExist = this.contains(ra.topLeft)
+                || this.contains(ra.topRight)
+                || this.contains(ra.botLeft)
+                || this.contains(ra.botRight)
+                || ra.contains(this.topLeft)
+                || ra.contains(this.topRight)
+                || ra.contains(this.botLeft)
+                || ra.contains(this.botRight)
+        val c2 =
+            (ra.topLeft.colIndex in this.colRange && ra.topLeft.rowIndex<=this.rowRange.last && ra.botLeft.rowIndex>=this.rowRange.first)
+                ||(ra.topLeft.rowIndex in this.rowRange && ra.topLeft.colIndex <=this.colRange.last && ra.topRight.colIndex>=this.rowRange.first)
+
+                || (ra.topRight.colIndex in this.colRange && ra.topRight.rowIndex <=this.rowRange.last && ra.botRight.rowIndex >= this.rowRange.first)
+                || (ra.topRight.rowIndex in this.rowRange && ra.topRight.colIndex >= this.colRange.first && ra.topLeft.colIndex<=this.colRange.last)
+
+                || (ra.botLeft.colIndex in this.colRange &&  ra.botLeft.rowIndex>=this.rowRange.first  && ra.topLeft.rowIndex <= this.rowRange.last)
+                || (ra.botLeft.rowIndex in this.rowRange && ra.botLeft.colIndex <=this.colRange.last && ra.botRight.colIndex>=this.colRange.first)
+
+                ||(ra.botRight.colIndex in this.colRange && ra.botRight.rowIndex >=this.rowRange.first && ra.topRight.rowIndex <=this.rowRange.last)
+                ||(ra.botRight.rowIndex in this.rowRange && ra.botRight.colIndex>=this.colRange.first && ra.botLeft.colIndex<=this.colRange.last)
+
+        return intersectionExist || c2
     }
 
     override fun intersect(otherRangeAddress: RangeAddress): RangeAddress? {

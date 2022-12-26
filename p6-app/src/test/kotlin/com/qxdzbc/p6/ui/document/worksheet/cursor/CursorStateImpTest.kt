@@ -7,7 +7,6 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import io.kotest.matchers.collections.shouldContainOnly
 import org.mockito.kotlin.mock
-import test.TestUtils.compare2ListIgnoreOrder
 import kotlin.test.*
 
 
@@ -17,27 +16,25 @@ internal class CursorStateImpTest : TestSplitter() {
 
     @BeforeTest
     fun beforeTest() {
-        cursorState = CursorStateImp.forTest(mock(),mock(),mock())
+        cursorState = CursorStateImp.forTest(mock(), mock(), mock())
     }
 
     @Test
-    fun exhaustiveMergeCell(){
+    fun exhaustiveMergeCell() {
         val cells = listOf(
-            "C2","C4","C3","C10",
-            "A3","A1","A2","A1",
-            "K12","L12", "X12",
-            "F1","F2","E1","E2",
-        ).map{CellAddress(it)}
+            "C2", "C4", "C3", "C10",
+            "A3", "A1", "A2", "A1",
+            "K12", "L12", "X12",
+            "F1", "F2", "E1", "E2",
+        ).map { CellAddress(it) }
         val (rr, unUsed) = RangeAddresses.exhaustiveMergeCell(cells)
-        assertTrue { compare2ListIgnoreOrder(
-            listOf("C2:C4","A1:A3","K12:L12","E1:F2").map{ RangeAddress(it) },
-            rr) }
-        assertTrue { compare2ListIgnoreOrder(listOf("C10","X12").map{CellAddress(it)}, unUsed) }
+        rr shouldContainOnly listOf("C2:C4", "A1:A3", "K12:L12", "E1:F2").map { RangeAddress(it) }
+        unUsed shouldContainOnly listOf("C10", "X12").map { CellAddress(it) }
     }
 
     @Test
     fun exhaustiveMergeRanges() {
-        test("case 1"){
+        test("case 1") {
             val l1 = listOf(
                 "D8:F11",
                 "G8:G12",
@@ -55,7 +52,7 @@ internal class CursorStateImpTest : TestSplitter() {
             )
         }
 
-        test("case 2"){
+        test("case 2") {
             val ranges = listOf(
                 "B3:C5",
                 "D3:E5",
@@ -65,12 +62,12 @@ internal class CursorStateImpTest : TestSplitter() {
                 "B10:C12",
                 "D10:E12",
                 "F10:G12",
-            ).map{RangeAddress(it)}
+            ).map { RangeAddress(it) }
             val out = RangeAddresses.exhaustiveMergeRanges(ranges)
             out.shouldContainOnly(
                 listOf(
-                    "B3:G5", "F6:G12","D10:E12","B6:C12"
-                ).map{RangeAddress(it)}
+                    "B3:G5", "F6:G12", "D10:E12", "B6:C12"
+                ).map { RangeAddress(it) }
             )
         }
     }
@@ -83,14 +80,16 @@ internal class CursorStateImpTest : TestSplitter() {
             RangeAddress("C3:C9"),
             RangeAddress("C11:C15")
         )
-        val (cellWasConsumed,l2) = RangeAddresses.exhaustiveMergeRanges(CellAddress("C10"), l1)
+        val (cellWasConsumed, l2) = RangeAddresses.exhaustiveMergeRanges(CellAddress("C10"), l1)
 
         assertTrue { cellWasConsumed }
-        assertEquals(listOf(
-            RangeAddress("A1:B3"),
-            RangeAddress("D3:K8"),
-            RangeAddress("C3:C15")
-        ),l2)
+        assertEquals(
+            listOf(
+                RangeAddress("A1:B3"),
+                RangeAddress("D3:K8"),
+                RangeAddress("C3:C15")
+            ), l2
+        )
     }
 
     @Test
@@ -126,7 +125,7 @@ internal class CursorStateImpTest : TestSplitter() {
     }
 
     @Test
-    fun addFragCells(){
+    fun addFragCells() {
 //        val c = cursorState.addFragRanges(
 //            listOf(
 //                RangeAddress("A1:B3"),
@@ -187,7 +186,7 @@ internal class CursorStateImpTest : TestSplitter() {
     @Test
     fun isPointingTo() {
         val cursorState = CursorStateImp
-            .forTest(mock(), mock(),mock())
+            .forTest(mock(), mock(), mock())
             .setMainCell(CellAddress(1, 2))
         assertTrue(cursorState.isPointingTo(CellAddress(1, 2)))
         assertFalse(cursorState.isPointingTo(CellAddress(1, 3)))
