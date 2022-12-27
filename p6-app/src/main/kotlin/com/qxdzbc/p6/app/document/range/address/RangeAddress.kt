@@ -100,7 +100,7 @@ interface RangeAddress : RangeConstraint, Shiftable {
         newAnchorCell: GenericCellAddress<Int, Int>
     ): RangeAddress
 
-    fun isInterSectionExistWith(rangeAddress: RangeAddress): Boolean
+    fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean
 }
 
 /**

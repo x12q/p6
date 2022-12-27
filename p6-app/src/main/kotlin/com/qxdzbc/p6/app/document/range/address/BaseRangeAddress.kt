@@ -72,7 +72,7 @@ abstract class BaseRangeAddress : RangeAddress {
 
     override fun getNotIn(rangeAddress: RangeAddress): List<RangeAddress> {
         if (this.isValid() && rangeAddress.isValid()) {
-            if (isInterSectionExistWith(rangeAddress)) {
+            if (hasIntersectionWith(rangeAddress)) {
                 if (this in rangeAddress) {
                     return emptyList()
                 } else {
@@ -141,7 +141,7 @@ abstract class BaseRangeAddress : RangeAddress {
         }
     }
 
-    override fun isInterSectionExistWith(rangeAddress: RangeAddress): Boolean {
+    override fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean {
         val ra = rangeAddress
         val intersectionExist = this.contains(ra.topLeft)
                 || this.contains(ra.topRight)
@@ -172,7 +172,7 @@ abstract class BaseRangeAddress : RangeAddress {
 
     override fun intersect(otherRangeAddress: RangeAddress): RangeAddress? {
         if (this.isValid() && otherRangeAddress.isValid()) {
-            if (isInterSectionExistWith(otherRangeAddress)) {
+            if (hasIntersectionWith(otherRangeAddress)) {
                 val firstCol = maxOf(this.colRange.first, otherRangeAddress.colRange.first)
                 val lastCol = minOf(this.colRange.last, otherRangeAddress.colRange.last)
                 val firstRow = maxOf(this.rowRange.first, otherRangeAddress.rowRange.first)

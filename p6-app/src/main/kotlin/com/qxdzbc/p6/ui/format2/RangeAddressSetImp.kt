@@ -23,8 +23,8 @@ data class RangeAddressSetImp(
         return this.copy(ranges=newSet)
     }
 
-    override fun contains(rangeAddress: RangeAddress):Boolean{
-        return ranges.firstOrNull { it.contains(rangeAddress) }!=null
+    override fun hasIntersectionWith(rangeAddress: RangeAddress):Boolean{
+        return ranges.firstOrNull { it.hasIntersectionWith(rangeAddress) }!=null
     }
 
     override fun removeCell(cellAddress: CellAddress):RangeAddressSetImp{

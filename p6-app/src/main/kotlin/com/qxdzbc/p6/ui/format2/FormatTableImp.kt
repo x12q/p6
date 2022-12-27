@@ -18,7 +18,7 @@ data class FormatTableImp<T>(
         var addValueByMerge = false
         for (entry in valueMap) {
             val (radSet: RangeAddressSet, ts) = entry
-            if (radSet.contains(rangeAddress)) {
+            if (radSet.hasIntersectionWith(rangeAddress)) {
                 if (ts == formatValue) {
                     return this
                 } else {
@@ -56,7 +56,7 @@ data class FormatTableImp<T>(
     }
 
     override fun getValue(rangeAddress: RangeAddress): T? {
-        return this.valueMap.entries.firstOrNull { (k, v) -> k.contains(rangeAddress) }?.value
+        return this.valueMap.entries.firstOrNull { (k, v) -> k.hasIntersectionWith(rangeAddress) }?.value
     }
 
     override fun removeValue(cellAddress: CellAddress): FormatTable<T> {
@@ -66,7 +66,7 @@ data class FormatTableImp<T>(
     override fun removeValue(rangeAddress: RangeAddress): FormatTable<T> {
         var newMap = this.valueMap
         for ((radSet, t) in newMap) {
-            if (radSet.contains(rangeAddress)) {
+            if (radSet.hasIntersectionWith(rangeAddress)) {
                 val newRadSet = radSet.removeRange(rangeAddress)
                 if (newRadSet.isEmpty()) {
                     newMap = newMap - radSet

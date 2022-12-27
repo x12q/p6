@@ -12,7 +12,7 @@ interface RangeAddressSet: WithSize {
     fun addCell(cellAddress: CellAddress): RangeAddressSet
 
     fun contains(cellAddress: CellAddress): Boolean
-    fun contains(rangeAddress: RangeAddress): Boolean
+    fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean
 
     fun removeCell(cellAddress: CellAddress): RangeAddressSet
 

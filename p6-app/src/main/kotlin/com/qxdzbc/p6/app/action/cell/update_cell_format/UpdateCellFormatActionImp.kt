@@ -9,6 +9,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.format2.CellFormatTable2
 import com.qxdzbc.p6.ui.format2.FormatTable
 import com.squareup.anvil.annotations.ContributesBinding
@@ -51,22 +52,35 @@ class UpdateCellFormatActionImp @Inject constructor(
     ) {
         sc.getActiveCursorState()?.also { csst ->
             sc.getCellFormatTable2Ms(csst)?.also { fmtMs ->
-                val newTable = getFormatTable(fmtMs.value)
-                    .removeValueFromMultiRanges(csst.allRanges)
-                    .removeValueFromMultiCells(csst.allFragCells)
-                    .let {
-                        if (formatValue != null) {
-                            it.addValueForMultiRanges(csst.allRanges, formatValue)
-                                .addValueForMultiCells(csst.allFragCells, formatValue)
-                        } else {
-                            it
-                        }
-                    }
-                fmtMs.value = updateCellFormatTable(newTable,fmtMs.value)
+                fmtMs.value = updateCellFormatTableWithNewFormatValueOnSelectedCells(
+                    formatValue, csst,fmtMs.value,
+                    getFormatTable,updateCellFormatTable
+                )
             }
         }
     }
 
+    fun <T> updateCellFormatTableWithNewFormatValueOnSelectedCells(
+        formatValue: T?,
+        cursorState: CursorState,
+        currentFormatTable: CellFormatTable2,
+        getFormatTable: (CellFormatTable2) -> FormatTable<T>,
+        updateCellFormatTable: (FormatTable<T>, CellFormatTable2) -> CellFormatTable2
+    ): CellFormatTable2 {
+        val csst = cursorState
+        val newTable = getFormatTable(currentFormatTable)
+            .removeValueFromMultiRanges(csst.allRanges)
+            .removeValueFromMultiCells(csst.allFragCells)
+            .let {
+                if (formatValue != null) {
+                    it.addValueForMultiRanges(csst.allRanges, formatValue)
+                        .addValueForMultiCells(csst.allFragCells, formatValue)
+                } else {
+                    it
+                }
+            }
+        return updateCellFormatTable(newTable, currentFormatTable)
+    }
 
 
     override fun setCellBackgroundColor(cellId: CellId, color: Color?) {
@@ -83,8 +97,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setBackgroundColorOnSelectedCells(color: Color?) {
         updateFormatOfSelectedCells(
             formatValue = color,
-            getFormatTable = {it.cellBackgroundColorTable },
-            updateCellFormatTable = {newTable,fmt->
+            getFormatTable = { it.cellBackgroundColorTable },
+            updateCellFormatTable = { newTable, fmt ->
                 fmt.setCellBackgroundColorTable(newTable)
             }
         )
@@ -104,8 +118,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setSelectedCellsTextSize(textSize: Float?) {
         updateFormatOfSelectedCells(
             formatValue = textSize,
-            getFormatTable = {it.textSizeTable },
-            updateCellFormatTable = {newTable,fmt->
+            getFormatTable = { it.textSizeTable },
+            updateCellFormatTable = { newTable, fmt ->
                 fmt.setTextSizeTable(newTable)
             }
         )
@@ -125,8 +139,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setSelectedCellsTextColor(color: Color?) {
         updateFormatOfSelectedCells(
             formatValue = color,
-            getFormatTable = {it.textColorTable },
-            updateCellFormatTable = {newTable,fmt->
+            getFormatTable = { it.textColorTable },
+            updateCellFormatTable = { newTable, fmt ->
                 fmt.setTextColorTable(newTable)
             }
         )
@@ -146,8 +160,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setUnderlinedOnSelectedCells(underlined: Boolean?) {
         updateFormatOfSelectedCells(
             formatValue = underlined,
-            getFormatTable = {it.textUnderlinedTable },
-            updateCellFormatTable = {newTable,fmt->
+            getFormatTable = { it.textUnderlinedTable },
+            updateCellFormatTable = { newTable, fmt ->
                 fmt.setTextUnderlinedTable(newTable)
             }
         )
@@ -167,8 +181,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setCrossedOnSelectedCell(cellId: CellId, crossed: Boolean?) {
         updateFormatOfSelectedCells(
             formatValue = crossed,
-            getFormatTable = {it.textCrossedTable },
-            updateCellFormatTable = {newTable,fmt->
+            getFormatTable = { it.textCrossedTable },
+            updateCellFormatTable = { newTable, fmt ->
                 fmt.setTextCrossedTable(newTable)
             }
         )
@@ -189,8 +203,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setHorizontalAlignmentOnSelectedCells(cellId: CellId, alignment: TextHorizontalAlignment?) {
         updateFormatOfSelectedCells(
             formatValue = alignment,
-            getFormatTable = {it.textHorizontalAlignmentTable },
-            updateCellFormatTable = {newTable,fmt->
+            getFormatTable = { it.textHorizontalAlignmentTable },
+            updateCellFormatTable = { newTable, fmt ->
                 fmt.setTextHorizontalAlignmentTable(newTable)
             }
         )
@@ -210,8 +224,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setVerticalAlignmentOnSelectedCells(cellId: CellId, alignment: TextVerticalAlignment?) {
         updateFormatOfSelectedCells(
             formatValue = alignment,
-            getFormatTable = {it.textVerticalAlignmentTable },
-            updateCellFormatTable = {newTable,fmt->
+            getFormatTable = { it.textVerticalAlignmentTable },
+            updateCellFormatTable = { newTable, fmt ->
                 fmt.setTextVerticalAlignmentTable(newTable)
             }
         )

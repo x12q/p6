@@ -17,7 +17,7 @@ class RangeAddressImpTest : TestSplitter() {
     fun isIntersectionExist(){
         val r1 = RangeAddress("F4:F4")
         val r2 = RangeAddress("G4:H4")
-        r2.isInterSectionExistWith(r1) shouldBe false
+        r2.hasIntersectionWith(r1) shouldBe false
     }
 
     @Test
