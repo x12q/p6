@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.format2
 import com.qxdzbc.common.CollectionUtils.replaceKey
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 
 data class FormatTableImp<T>(
     val valueMap: Map<RangeAddressSet, T> = emptyMap(),
@@ -59,30 +60,48 @@ data class FormatTableImp<T>(
         return this.valueMap.entries.firstOrNull { (k, v) -> k.hasIntersectionWith(rangeAddress) }?.value
     }
 
-    override fun getMultiValue(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T?>> {
-        val rt = mutableListOf<Pair<RangeAddressSet, T?>>()
-        // x: get all the existing format fragment
+    override fun getMultiValue(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T>> {
+        val rt = mutableListOf<Pair<RangeAddressSet, T>>()
         for((radSet,t) in this.valueMap){
             rt.add(radSet.getAllIntersectionWith(rangeAddress) to t)
         }
-        // x: get all the null format fragment
-
-//        var q = RangeAddressSetImp(rangeAddress)
-//        for((radSet,t) in this.valueMap){
-//            radSet.getNotInReversed(rangeAddress)
-//        }
         return rt
     }
 
-    override fun getMultiValueFromRanges(rangeAddresses: Collection<RangeAddress>): List<Pair<RangeAddressSet, T?>> {
-        val rt= rangeAddresses.fold(emptyList<Pair<RangeAddressSet, T?>>()){acc,rangeAddress->
+    override fun getMultiValueIncludeNullFormat(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T?>> {
+        val availableFormats = getMultiValue(rangeAddress)
+        val nullFormatRangeSet=RangeAddressSetImp(rangeAddress).getNotIn(
+            availableFormats.flatMap { it.first.ranges }.toSet()
+        )
+        return availableFormats + (nullFormatRangeSet to null)
+    }
+
+    override fun getMultiValueFromRanges(rangeAddresses: Collection<RangeAddress>): List<Pair<RangeAddressSet, T>> {
+        val rt= rangeAddresses.fold(emptyList<Pair<RangeAddressSet, T>>()){acc,rangeAddress->
             acc + this.getMultiValue(rangeAddress)
         }
         return rt
     }
 
-    override fun getMultiValueFromCells(cellAddresses: Collection<CellAddress>): List<Pair<RangeAddressSet, T?>> {
+    override fun getMultiValueFromRangesIncludeNullFormat(rangeAddresses: Collection<RangeAddress>): List<Pair<RangeAddressSet, T?>> {
+        val availableFormats = getMultiValueFromRanges(rangeAddresses)
+        val nullFormatRangeSet=RangeAddressSetImp(rangeAddresses).getNotIn(
+            availableFormats.flatMap { it.first.ranges }.toSet()
+        )
+        return availableFormats + (nullFormatRangeSet to null)
+    }
+
+    override fun getMultiValueFromCells(cellAddresses: Collection<CellAddress>): List<Pair<RangeAddressSet, T>> {
         return getMultiValueFromRanges(cellAddresses.map { RangeAddress(it) })
+    }
+
+    override fun getMultiValueFromCellsIncludeNullFormat(cellAddresses: Collection<CellAddress>): List<Pair<RangeAddressSet, T?>> {
+        val rangeAddresses = RangeAddresses.exhaustiveMergeRanges(cellAddresses.map { RangeAddress(it) })
+        val availableFormats = getMultiValueFromRanges(rangeAddresses)
+        val nullFormatRangeSet=RangeAddressSetImp(rangeAddresses).getNotIn(
+            availableFormats.flatMap { it.first.ranges }.toSet()
+        )
+        return availableFormats + (nullFormatRangeSet to null)
     }
 
     override fun removeValue(cellAddress: CellAddress): FormatTable<T> {

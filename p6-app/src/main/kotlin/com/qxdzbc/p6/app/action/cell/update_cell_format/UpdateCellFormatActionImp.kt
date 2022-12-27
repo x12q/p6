@@ -26,43 +26,6 @@ class UpdateCellFormatActionImp @Inject constructor(
     private val sc by stateContainerSt
 
 
-    private fun <T> updateFormatCommand(
-        cellId: CellId,
-        formatValue: T?,
-        undo: Boolean,
-        getFormatTable: (CellFormatTable) -> FormatTable<T>,
-        updateCellFormatTable: (FormatTable<T>, CellFormatTable) -> CellFormatTable
-    ) {
-        sc.getCellFormatTable2Ms(cellId)?.also { fmtMs ->
-            fun runSetFormat(fv: T?) {
-                val newTable = getFormatTable(fmtMs.value)
-                    .removeValue(cellId.address)
-                    .let {
-                        if (fv != null) {
-                            it.addValue(cellId.address, fv)
-                        } else {
-                            it
-                        }
-                    }
-                fmtMs.value = updateCellFormatTable(newTable, fmtMs.value)
-            }
-            if (undo) {
-                sc.getWbState(cellId.wbKeySt)?.also { wbState ->
-                    val oldFormatValue = getFormatTable(fmtMs.value).getFirstValue(cellId.address)
-                    wbState.commandStackMs.value = wbState.commandStack.add(
-                        Commands.makeCommand(
-                            run = { runSetFormat(formatValue) },
-                            undo = { runSetFormat(oldFormatValue) }
-                        )
-                    )
-                }
-            }
-            runSetFormat(formatValue)
-        }
-    }
-
-
-
     private fun <T> updateFormat(
         cellId: CellId,
         formatValue: T?,
@@ -107,10 +70,8 @@ class UpdateCellFormatActionImp @Inject constructor(
         sc.getActiveCursorState()?.also { csst ->
             sc.getCellFormatTable2Ms(csst)?.also { fmtMs ->
                 if (undo) {
-                    val oldFormatConfig1 =
-                        getFormatTable(fmtMs.value).getMultiValueFromRanges(csst.allRanges)
-                    val oldFormatConfig2 =
-                        getFormatTable(fmtMs.value).getMultiValueFromCells(csst.allFragCells)
+                    val oldFormatConfig1 = getFormatTable(fmtMs.value).getMultiValueFromRangesIncludeNullFormat(csst.allRanges)
+                    val oldFormatConfig2 = getFormatTable(fmtMs.value).getMultiValueFromCellsIncludeNullFormat(csst.allFragCells)
                     sc.getWbState(csst.wbKeySt)?.also {
                         it.commandStackMs.value = it.commandStack.add(Commands.makeCommand(
                             run = {
@@ -124,7 +85,7 @@ class UpdateCellFormatActionImp @Inject constructor(
                                 )
                             },
                             undo = {
-                                (oldFormatConfig1 + oldFormatConfig2).fold(fmtMs.value) { acc, (rangeSet, t) ->
+                                val newCellFormatTable= (oldFormatConfig1 + oldFormatConfig2).fold(fmtMs.value) { acc, (rangeSet, t) ->
                                     updateCellFormatTableWithNewFormatValueOnSelectedCells(
                                         formatValue = t,
                                         ranges = rangeSet.ranges,
@@ -134,6 +95,7 @@ class UpdateCellFormatActionImp @Inject constructor(
                                         updateCellFormatTable = updateCellFormatTable
                                     )
                                 }
+                                fmtMs.value = newCellFormatTable
                             }
                         ))
                     }

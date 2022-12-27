@@ -7,10 +7,23 @@ interface FormatTable<T> {
     fun getFirstValue(cellAddress: CellAddress): T?
     fun getFirstValue(rangeAddress: RangeAddress): T?
 
-    fun getMultiValue(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T?>>
+    /**
+     * Get all format values and their respective range set in the range denoted by [rangeAddress]
+     */
+    fun getMultiValue(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T>>
+    fun getMultiValueIncludeNullFormat(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T?>>
 
-    fun getMultiValueFromRanges(rangeAddresses: Collection<RangeAddress>): List<Pair<RangeAddressSet, T?>>
-    fun getMultiValueFromCells(cellAddresses: Collection<CellAddress>): List<Pair<RangeAddressSet, T?>>
+    /**
+     * Get all format values and their respective range set in the ranges denoted by [rangeAddresses]
+     */
+    fun getMultiValueFromRanges(rangeAddresses: Collection<RangeAddress>): List<Pair<RangeAddressSet, T>>
+    fun getMultiValueFromRangesIncludeNullFormat(rangeAddresses: Collection<RangeAddress>): List<Pair<RangeAddressSet, T?>>
+
+    /**
+     * Get all format values and their respective range set in the cell denoted by [cellAddresses]
+     */
+    fun getMultiValueFromCells(cellAddresses: Collection<CellAddress>): List<Pair<RangeAddressSet, T>>
+    fun getMultiValueFromCellsIncludeNullFormat(cellAddresses: Collection<CellAddress>): List<Pair<RangeAddressSet, T?>>
 
     fun addValue(cellAddress: CellAddress, formatValue: T): FormatTable<T>
     fun addValue(rangeAddress: RangeAddress, formatValue: T): FormatTable<T>
