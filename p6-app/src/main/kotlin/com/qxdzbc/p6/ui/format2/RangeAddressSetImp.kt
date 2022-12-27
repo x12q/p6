@@ -58,7 +58,11 @@ data class RangeAddressSetImp(
 
 
     override fun getNotIn(anotherSet: RangeAddressSet): RangeAddressSet {
-        val rt = anotherSet.ranges.fold(this){acc:RangeAddressSet,ra->
+        return getNotIn(anotherSet.ranges)
+    }
+
+    override fun getNotIn(ranges: Collection<RangeAddress>): RangeAddressSet {
+        val rt = ranges.fold(this){acc:RangeAddressSet,ra->
             acc.getNotIn(ra)
         }
         return rt

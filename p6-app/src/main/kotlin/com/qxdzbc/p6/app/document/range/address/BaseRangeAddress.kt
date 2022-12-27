@@ -19,48 +19,48 @@ abstract class BaseRangeAddress : RangeAddress {
             var p4 = op4
             //==== 1 2
             if (op1 !in this && op2 in this) {
-                p1 = CellAddress(this.colRange.first, op1.rowIndex)
+                p1 = CellAddress(this.colRange.first-1, op1.rowIndex)
             }
 
             if (op1 in this && op2 !in this) {
-                p2 = CellAddress(this.colRange.last, op2.rowIndex)
+                p2 = CellAddress(this.colRange.last+1, op2.rowIndex)
             }
 
             if (op1 !in this && op2 !in this && op1.rowIndex in this.rowRange) {
-                p1 = CellAddress(this.colRange.first, op1.rowIndex)
-                p2 = CellAddress(this.colRange.last, op2.rowIndex)
+                p1 = CellAddress(this.colRange.first-1, op1.rowIndex)
+                p2 = CellAddress(this.colRange.last+1, op2.rowIndex)
             }
             // ==== 1 3
             if (op1 in this && op3 !in this) {
-                p3 = CellAddress(op3.colIndex, this.rowRange.last)
+                p3 = CellAddress(op3.colIndex, this.rowRange.last+1)
             }
             if (op1 !in this && op3 in this) {
-                p1 = CellAddress(p1.colIndex, this.rowRange.first)
+                p1 = CellAddress(p1.colIndex, this.rowRange.first-1)
             }
 
             if (op1 !in this && op3 !in this && op1.colIndex in this.colRange) {
-                p1 = CellAddress(p1.colIndex, this.rowRange.first)
-                p3 = CellAddress(op3.colIndex, this.rowRange.last)
+                p3 = CellAddress(op3.colIndex, this.rowRange.last+1)
+                p1 = CellAddress(p1.colIndex, this.rowRange.first-1)
             }
 
             //==== 2 4
             if (op2 in this && op4 !in this) {
-                p4 = CellAddress(p4.colIndex, this.rowRange.last)
+                p4 = CellAddress(p4.colIndex, this.rowRange.last+1)
             }
             if (op2 !in this && op4 in this) {
-                p2 = CellAddress(p2.colIndex, this.rowRange.first)
+                p2 = CellAddress(p2.colIndex, this.rowRange.first-1)
             }
             if (op2 !in this && op4 !in this && op2.colIndex in this.colRange) {
-                p4 = CellAddress(p4.colIndex, this.rowRange.last)
-                p2 = CellAddress(p2.colIndex, this.rowRange.first)
+                p4 = CellAddress(p4.colIndex, this.rowRange.last+1)
+                p2 = CellAddress(p2.colIndex, this.rowRange.first-1)
             }
 
             // ==== 3 4
             if (op3 in this && op4 !in this) {
-                p4 = CellAddress(this.colRange.last, p4.rowIndex)
+                p4 = CellAddress(this.colRange.last+1, p4.rowIndex)
             }
             if (op3 !in this && op4 in this) {
-                p3 = CellAddress(this.colRange.first, p3.rowIndex)
+                p3 = CellAddress(this.colRange.first-1, p3.rowIndex)
             }
             if (op3 !in this && op4 !in this && op3.rowIndex in this.rowRange) {
                 p3 = CellAddress(this.colRange.first, p3.rowIndex)

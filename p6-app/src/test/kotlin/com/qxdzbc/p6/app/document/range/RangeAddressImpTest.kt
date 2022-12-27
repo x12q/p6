@@ -73,14 +73,14 @@ class RangeAddressImpTest : TestSplitter() {
 
     @Test
     fun `getNotIn - case 5 `(){
-        test("case5: B1:C12 <> A4:B6"){
+        test("B1:C12 <> A4:B6"){
             val r = RangeAddress("B1:C12")
             val r2 = RangeAddress("A4:B6")
             val rs = r.getNotIn(r2)
             rs shouldContainOnly listOf(
                 "B1:C3",
                 "C4:C12",
-                "B7:C12"
+                "B7:B12"
             ).map{RangeAddress(it)}
         }
     }
