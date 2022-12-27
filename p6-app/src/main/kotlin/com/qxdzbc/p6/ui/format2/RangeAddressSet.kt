@@ -25,4 +25,14 @@ interface RangeAddressSet: WithSize {
      * Get all intersection of ranges in this set with [rangeAddress]
      */
     fun getAllIntersectionWith(rangeAddress: RangeAddress):RangeAddressSet
+
+    /**
+     * Get all sub ranges that are in this set but not in [anotherSet]
+     */
+    fun getNotIn(anotherSet:RangeAddressSet):RangeAddressSet
+
+    /**
+     * Get all sub ranges that are in ranges of this set, but not in [rangeAddress]
+     */
+    fun getNotIn(rangeAddress: RangeAddress):RangeAddressSet
 }

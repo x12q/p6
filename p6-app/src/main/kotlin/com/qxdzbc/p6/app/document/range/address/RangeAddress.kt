@@ -44,7 +44,7 @@ interface RangeAddress : RangeConstraint, Shiftable {
     fun intersect(otherRangeAddress: RangeAddress): RangeAddress?
 
     /**
-     * @return a list of fragment range address that are in this RangeAddress but not in the input [rangeAddress]
+     * @return a list of sub range address that are in this RangeAddress but not in the input [rangeAddress] (the difference)
      */
     fun getNotIn(rangeAddress: RangeAddress):List<RangeAddress>
 

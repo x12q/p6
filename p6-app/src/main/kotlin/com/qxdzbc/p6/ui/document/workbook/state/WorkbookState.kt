@@ -38,7 +38,7 @@ interface WorkbookState {
      * A stack of [Command], for undoing actions
      */
     val commandStackMs:Ms<CommandStack>
-    var commandStack:CommandStack
+    val commandStack:CommandStack
     fun addCommand(command: Command):WorkbookState
 
     /**

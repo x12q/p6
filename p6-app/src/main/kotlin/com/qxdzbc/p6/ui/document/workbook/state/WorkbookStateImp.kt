@@ -195,9 +195,9 @@ data class WorkbookStateImp @AssistedInject constructor(
         }
     }
 
-    override var commandStack: CommandStack by commandStackMs
+    override val commandStack: CommandStack by commandStackMs
     override fun addCommand(command: Command): WorkbookState {
-        commandStack = commandStack.add(command)
+        commandStackMs.value = commandStack.add(command)
         return this
     }
 

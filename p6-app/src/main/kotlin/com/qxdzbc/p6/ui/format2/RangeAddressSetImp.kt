@@ -9,6 +9,7 @@ data class RangeAddressSetImp(
 ) : RangeAddressSet {
 
     constructor(vararg rangeAddresses: RangeAddress) : this(setOf(*rangeAddresses))
+    constructor(rangeAddresses: Collection<RangeAddress>) : this(rangeAddresses.toSet())
 
     override fun contains(cellAddress: CellAddress): Boolean {
         return ranges.firstOrNull { it.contains(cellAddress) } != null
@@ -53,6 +54,21 @@ data class RangeAddressSetImp(
                 it.intersect(rangeAddress)
             }.toSet()
         )
+    }
+
+
+    override fun getNotIn(anotherSet: RangeAddressSet): RangeAddressSet {
+        val rt = anotherSet.ranges.fold(this){acc:RangeAddressSet,ra->
+            acc.getNotIn(ra)
+        }
+        return rt
+    }
+
+    override fun getNotIn(rangeAddress: RangeAddress): RangeAddressSet {
+        val rt = RangeAddressSetImp(this.ranges.flatMap {
+            it.getNotIn(rangeAddress)
+        }.toSet())
+        return rt
     }
 
     override fun addCell(cellAddress: CellAddress): RangeAddressSetImp {

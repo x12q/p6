@@ -92,7 +92,8 @@ abstract class BaseRangeAddress : RangeAddress {
                         rt.add(s1)
                     }
                     val s2 = RangeAddress(
-                        p1.rightOneCol(), CellAddress(
+                        p1.rightOneCol(),
+                        CellAddress(
                             col = p2.colIndex - 1, row = this.rowRange.first
                         )
                     )
@@ -105,13 +106,18 @@ abstract class BaseRangeAddress : RangeAddress {
                         rt.add(s3)
                     }
 
-                    val s4 =
-                        RangeAddress(p1.downOneRow(), CellAddress(col = this.colRange.first, row = p3.rowIndex - 1))
+                    val s4 = RangeAddress(
+                        p1.downOneRow(),
+                        CellAddress(col = this.colRange.first, row = p3.rowIndex - 1)
+                    )
                     if (commonCheck(s4)) {
                         rt.add(s4)
                     }
 
-                    val s5 = RangeAddress(p2.downOneRow(), CellAddress(col = this.colRange.last, row = p4.rowIndex - 1))
+                    val s5 = RangeAddress(
+                        p2.downOneRow(),
+                        CellAddress(col = this.colRange.last, row = p4.rowIndex - 1)
+                    )
                     if (commonCheck(s5)) {
                         rt.add(s5)
                     }
@@ -121,8 +127,10 @@ abstract class BaseRangeAddress : RangeAddress {
                         rt.add(s6)
                     }
 
-                    val s7 =
-                        RangeAddress(p3.rightOneCol(), CellAddress(col = p4.colIndex - 1, row = this.rowRange.last))
+                    val s7 = RangeAddress(
+                        p3.rightOneCol(),
+                        CellAddress(col = p4.colIndex - 1, row = this.rowRange.last)
+                    )
                     if (commonCheck(s7)) {
                         rt.add(s7)
                     }

@@ -54,7 +54,8 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
 
         val table2= action.updateCellFormatTableWithNewFormatValueOnSelectedCells(
             formatValue =c2,
-            cursorState = cursorState2,
+            ranges = cursorState2.allRanges,
+            cells = cursorState2.allFragCells,
             currentFormatTable=table0,
             getFormatTable={
                 it.cellBackgroundColorTable

@@ -6,27 +6,27 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
 interface UpdateCellFormatAction {
-    fun setCellBackgroundColor(cellId: CellId, color: Color?)
-    fun setBackgroundColorOnSelectedCells(color: Color?)
+    fun setCellBackgroundColor(cellId: CellId, color: Color?,undo:Boolean=true)
+    fun setBackgroundColorOnSelectedCells(color: Color?,undo:Boolean=true)
 
-    fun setCellTextSize(cellId: CellId, textSize:Float?)
+    fun setCellTextSize(cellId: CellId, textSize:Float?,undo:Boolean=true)
     /**
      * set text size of all cells selected by the current cursor to [textSize]
      */
-    fun setSelectedCellsTextSize(textSize:Float?)
+    fun setSelectedCellsTextSize(textSize:Float?,undo:Boolean=true)
 
-    fun setCellTextColor(cellId: CellId, color:Color?)
-    fun setTextColorOnSelectedCells(color: Color?)
+    fun setCellTextColor(cellId: CellId, color:Color?,undo:Boolean=true)
+    fun setTextColorOnSelectedCells(color: Color?,undo:Boolean=true)
 
-    fun setCellTextUnderlined(cellId: CellId, underlined:Boolean?)
-    fun setUnderlinedOnSelectedCells(underlined:Boolean?)
+    fun setCellTextUnderlined(cellId: CellId, underlined:Boolean?,undo:Boolean=true)
+    fun setUnderlinedOnSelectedCells(underlined:Boolean?,undo:Boolean=true)
 
-    fun setCellTextCrossed(cellId: CellId, crossed:Boolean?)
-    fun setCrossedOnSelectedCell(cellId: CellId, crossed:Boolean?)
+    fun setCellTextCrossed(cellId: CellId, crossed:Boolean?,undo:Boolean=true)
+    fun setCrossedOnSelectedCell(cellId: CellId, crossed:Boolean?,undo:Boolean=true)
 
-    fun setCellHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment?)
-    fun setHorizontalAlignmentOnSelectedCells(cellId: CellId, alignment: TextHorizontalAlignment?)
+    fun setCellHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment?,undo:Boolean=true)
+    fun setHorizontalAlignmentOnSelectedCells(cellId: CellId, alignment: TextHorizontalAlignment?,undo:Boolean=true)
 
-    fun setCellVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment?)
-    fun setVerticalAlignmentOnSelectedCells(cellId: CellId, alignment: TextVerticalAlignment?)
+    fun setCellVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment?,undo:Boolean=true)
+    fun setVerticalAlignmentOnSelectedCells(cellId: CellId, alignment: TextVerticalAlignment?,undo:Boolean=true)
 }

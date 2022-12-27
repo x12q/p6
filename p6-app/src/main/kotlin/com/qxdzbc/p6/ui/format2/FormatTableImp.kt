@@ -59,12 +59,30 @@ data class FormatTableImp<T>(
         return this.valueMap.entries.firstOrNull { (k, v) -> k.hasIntersectionWith(rangeAddress) }?.value
     }
 
-    override fun getMultiValue(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T>> {
-        val rt = mutableListOf<Pair<RangeAddressSet, T>>()
+    override fun getMultiValue(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T?>> {
+        val rt = mutableListOf<Pair<RangeAddressSet, T?>>()
+        // x: get all the existing format fragment
         for((radSet,t) in this.valueMap){
             rt.add(radSet.getAllIntersectionWith(rangeAddress) to t)
         }
+        // x: get all the null format fragment
+
+//        var q = RangeAddressSetImp(rangeAddress)
+//        for((radSet,t) in this.valueMap){
+//            radSet.getNotInReversed(rangeAddress)
+//        }
         return rt
+    }
+
+    override fun getMultiValueFromRanges(rangeAddresses: Collection<RangeAddress>): List<Pair<RangeAddressSet, T?>> {
+        val rt= rangeAddresses.fold(emptyList<Pair<RangeAddressSet, T?>>()){acc,rangeAddress->
+            acc + this.getMultiValue(rangeAddress)
+        }
+        return rt
+    }
+
+    override fun getMultiValueFromCells(cellAddresses: Collection<CellAddress>): List<Pair<RangeAddressSet, T?>> {
+        return getMultiValueFromRanges(cellAddresses.map { RangeAddress(it) })
     }
 
     override fun removeValue(cellAddress: CellAddress): FormatTable<T> {
@@ -86,14 +104,15 @@ data class FormatTableImp<T>(
         return this.copy(valueMap = newMap)
     }
 
-    override fun removeValueFromMultiCells(cellAddresses: List<CellAddress>): FormatTable<T> {
+
+    override fun removeValueFromMultiCells(cellAddresses: Collection<CellAddress>): FormatTable<T> {
         val rt = cellAddresses.fold(this){acc:FormatTable<T>,ca->
             acc.removeValue(ca)
         }
         return rt
     }
 
-    override fun removeValueFromMultiRanges(rangeAddresses: List<RangeAddress>): FormatTable<T> {
+    override fun removeValueFromMultiRanges(rangeAddresses: Collection<RangeAddress>): FormatTable<T> {
         val rt = rangeAddresses.fold(this){acc:FormatTable<T>,ra->
             acc.removeValue(ra)
         }
