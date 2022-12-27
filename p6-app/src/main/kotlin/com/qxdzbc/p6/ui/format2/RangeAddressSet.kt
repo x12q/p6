@@ -20,4 +20,9 @@ interface RangeAddressSet: WithSize {
      * Clip off all the part that intersect with [rangeAddress]
      */
     fun removeRange(rangeAddress: RangeAddress): RangeAddressSet
+
+    /**
+     * Get all intersection of ranges in this set with [rangeAddress]
+     */
+    fun getAllIntersectionWith(rangeAddress: RangeAddress):RangeAddressSet
 }

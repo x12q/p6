@@ -22,8 +22,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
-import com.qxdzbc.p6.ui.format2.CellFormatTable2
+import com.qxdzbc.p6.ui.format2.CellFormatTable
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -36,11 +35,11 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
  */
 interface SubAppStateContainer {
 
-    fun getCellFormatTable2Ms(wbwsSt: WbWsSt):Ms<CellFormatTable2>?
-    fun getCellFormatTable2Ms(wbws: WbWs):Ms<CellFormatTable2>?
+    fun getCellFormatTable2Ms(wbwsSt: WbWsSt):Ms<CellFormatTable>?
+    fun getCellFormatTable2Ms(wbws: WbWs):Ms<CellFormatTable>?
 
-    fun getCellFormatTable2(wbwsSt: WbWsSt):CellFormatTable2?
-    fun getCellFormatTable2(wbws: WbWs):CellFormatTable2?
+    fun getCellFormatTable2(wbwsSt: WbWsSt):CellFormatTable?
+    fun getCellFormatTable2(wbws: WbWs):CellFormatTable?
 
     fun getToolbarStateMs(windowId: String):Ms<ToolBarState>?
     fun getToolbarState(windowId: String):ToolBarState?
@@ -70,8 +69,6 @@ interface SubAppStateContainer {
 
     fun getCellStateMs(cellId:CellId):Ms<CellState>?
     fun getCellState(cellId:CellId):CellState?
-
-    val formatTableMs: Ms<CellFormatFlyweightTable>
 
     val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
     var windowStateMap: Map<String, Ms<OuterWindowState>>

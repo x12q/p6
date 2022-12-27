@@ -21,8 +21,8 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.format2.CellFormatTable2
-import com.qxdzbc.p6.ui.format2.CellFormatTable2Imp
+import com.qxdzbc.p6.ui.format2.CellFormatTable
+import com.qxdzbc.p6.ui.format2.CellFormatTableImp
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -44,11 +44,21 @@ data class WorksheetStateImp constructor(
     override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
     val cellStateContMs: Ms<CellStateContainer> = CellStateContainers.immutable().toMs(),
     override val selectRectStateMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
-    override val colResizeBarStateMs: Ms<ResizeBarState> = ms(ResizeBarStateImp(dimen = RulerType.Col, size = P6R.size.value.defaultRowHeight)),
-    override val rowResizeBarStateMs: Ms<ResizeBarState> = ms(ResizeBarStateImp(dimen = RulerType.Row, size = P6R.size.value.rowRulerWidth)),
+    override val colResizeBarStateMs: Ms<ResizeBarState> = ms(
+        ResizeBarStateImp(
+            dimen = RulerType.Col,
+            size = P6R.size.value.defaultRowHeight
+        )
+    ),
+    override val rowResizeBarStateMs: Ms<ResizeBarState> = ms(
+        ResizeBarStateImp(
+            dimen = RulerType.Row,
+            size = P6R.size.value.rowRulerWidth
+        )
+    ),
     override val colRange: IntRange = P6R.worksheetValue.defaultColRange,
     override val rowRange: IntRange = P6R.worksheetValue.defaultRowRange,
-    override val cellFormatTableMs: Ms<CellFormatTable2> = ms(CellFormatTable2Imp()),
+    override val cellFormatTableMs: Ms<CellFormatTable> = ms(CellFormatTableImp()),
 ) : BaseWorksheetState() {
 
     @AssistedInject
@@ -69,7 +79,7 @@ data class WorksheetStateImp constructor(
         rowResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Row, size = P6R.size.value.rowRulerWidth)),
         colRange = P6R.worksheetValue.defaultColRange,
         rowRange = P6R.worksheetValue.defaultRowRange,
-        cellFormatTableMs = ms(CellFormatTable2Imp()),
+        cellFormatTableMs = ms(CellFormatTableImp()),
     )
 
 
@@ -118,14 +128,14 @@ data class WorksheetStateImp constructor(
      */
     override fun refreshCellState(): WorksheetState {
         var newCellMsCont = CellStateContainers.immutable()
-        val availableCells = this.worksheet.cellMsList
-        val availableCellAddresses = availableCells.map { it.value.address }.toSet()
+        val existingCells = this.worksheet.cellMsList
+        val existingCellAddresses = existingCells.map { it.value.address }.toSet()
         /*
         Update all cell state ms with the latest cell.
         Update cell state container too.
         Create missing cell state for new data cell.
          */
-        for (cellMs in availableCells) {
+        for (cellMs in existingCells) {
             val cellAddress = cellMs.value.address
             val cellStateMs = this.getCellStateMs(cellAddress)
             if (cellStateMs != null) {
@@ -138,15 +148,14 @@ data class WorksheetStateImp constructor(
         }
 
         val currentCellStateContainer = this.cellStateCont
-        // x: remove cell ms from cell state if the cell is not in the current cell list
+        // x: remove cell state if the cell is not in the current cell container
         for (cellStateMs in currentCellStateContainer.allElements) {
             val cellState = cellStateMs.value
             val addr = cellState.address
-            if (addr !in availableCellAddresses) {
-                if (cellState.textFormat != null || cellState.cellFormat != null) {
-                    cellStateMs.value = cellState.removeDataCell()
-                    newCellMsCont = newCellMsCont.set(addr, cellStateMs)
-                }
+            if (addr !in existingCellAddresses) {
+//                cellStateMs.value = cellState.removeDataCell()
+//                newCellMsCont = newCellMsCont.set(addr, cellStateMs)
+                newCellMsCont = newCellMsCont.remove(addr)
             }
         }
 

@@ -17,7 +17,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
-data class CellFormatTable2Imp(
+data class CellFormatTableImp(
     override val textSizeTable: FormatTable<Float> = FormatTableImp(),
     override val textColorTable: FormatTable<Color> = FormatTableImp(),
     override val textUnderlinedTable: FormatTable<Boolean> = FormatTableImp(),
@@ -27,58 +27,58 @@ data class CellFormatTable2Imp(
     override val textVerticalAlignmentTable: FormatTable<TextVerticalAlignment> = FormatTableImp(),
     override val textHorizontalAlignmentTable: FormatTable<TextHorizontalAlignment> = FormatTableImp(),
     override val cellBackgroundColorTable: FormatTable<Color> = FormatTableImp(),
-) : CellFormatTable2 {
+) : CellFormatTable {
 
-    override fun setTextSizeTable(i: FormatTable<Float>): CellFormatTable2Imp {
+    override fun setTextSizeTable(i: FormatTable<Float>): CellFormatTableImp {
         return this.copy(textSizeTable = i)
     }
 
-    override fun setTextColorTable(i: FormatTable<Color>): CellFormatTable2 {
+    override fun setTextColorTable(i: FormatTable<Color>): CellFormatTable {
         return this.copy(textColorTable=i)
     }
 
-    override fun setTextUnderlinedTable(i: FormatTable<Boolean>): CellFormatTable2 {
+    override fun setTextUnderlinedTable(i: FormatTable<Boolean>): CellFormatTable {
         return this.copy(textUnderlinedTable=i)
     }
 
-    override fun setTextCrossedTable(i: FormatTable<Boolean>): CellFormatTable2 {
+    override fun setTextCrossedTable(i: FormatTable<Boolean>): CellFormatTable {
         return this.copy(textCrossedTable=i)
     }
 
-    override fun setFontWeightTable(i: FormatTable<FontWeight>): CellFormatTable2 {
+    override fun setFontWeightTable(i: FormatTable<FontWeight>): CellFormatTable {
         return this.copy(fontWeightTable=i)
     }
 
-    override fun setFontStyleTable(i: FormatTable<FontStyle>): CellFormatTable2 {
+    override fun setFontStyleTable(i: FormatTable<FontStyle>): CellFormatTable {
         return this.copy(fontStyleTable=i)
     }
 
-    override fun setTextVerticalAlignmentTable(i: FormatTable<TextVerticalAlignment>): CellFormatTable2 {
+    override fun setTextVerticalAlignmentTable(i: FormatTable<TextVerticalAlignment>): CellFormatTable {
         return this.copy(textVerticalAlignmentTable=i)
     }
 
-    override fun setTextHorizontalAlignmentTable(i: FormatTable<TextHorizontalAlignment>): CellFormatTable2 {
+    override fun setTextHorizontalAlignmentTable(i: FormatTable<TextHorizontalAlignment>): CellFormatTable {
         return this.copy(textHorizontalAlignmentTable=i)
     }
 
-    override fun setCellBackgroundColorTable(i: FormatTable<Color>): CellFormatTable2 {
+    override fun setCellBackgroundColorTable(i: FormatTable<Color>): CellFormatTable {
         return this.copy(cellBackgroundColorTable=i)
     }
 
     override fun getCellModifier(cellAddress: CellAddress): Modifier? {
-        val backgroundColor = cellBackgroundColorTable.getValue(cellAddress)
+        val backgroundColor = cellBackgroundColorTable.getFirstValue(cellAddress)
         return Modifier
             .background(backgroundColor ?: CellFormat.defaultBackgroundColor)
     }
 
     @OptIn(ExperimentalUnitApi::class)
     override fun getTextStyle(cellAddress: CellAddress): TextStyle {
-        val textSize = this.textSizeTable.getValue(cellAddress)
-        val textColor: Color? = this.textColorTable.getValue(cellAddress)
-        val fontWeight:FontWeight?= this.fontWeightTable.getValue(cellAddress)
-        val fontStyle:FontStyle?=this.fontStyleTable.getValue(cellAddress)
-        val isCrossed:Boolean? = this.textCrossedTable.getValue(cellAddress)
-        val isUnderlined:Boolean? = this.textUnderlinedTable.getValue(cellAddress)
+        val textSize = this.textSizeTable.getFirstValue(cellAddress)
+        val textColor: Color? = this.textColorTable.getFirstValue(cellAddress)
+        val fontWeight:FontWeight?= this.fontWeightTable.getFirstValue(cellAddress)
+        val fontStyle:FontStyle?=this.fontStyleTable.getFirstValue(cellAddress)
+        val isCrossed:Boolean? = this.textCrossedTable.getFirstValue(cellAddress)
+        val isUnderlined:Boolean? = this.textUnderlinedTable.getFirstValue(cellAddress)
         if(listOf(textSize,textColor,fontWeight,fontStyle,isCrossed,isUnderlined).any{it!=null}){
             val rt= TextStyle(
                 fontSize = TextUnit(textSize ?: TextFormat.defaultFontSize, TextFormat.textSizeUnitType),
@@ -109,8 +109,8 @@ data class CellFormatTable2Imp(
     }
 
     override fun getTextAlignment(cellAddress: CellAddress): Alignment {
-        val verticalAlignment = this.textVerticalAlignmentTable.getValue(cellAddress)
-        val horizontalAlignment = this.textHorizontalAlignmentTable.getValue(cellAddress)
+        val verticalAlignment = this.textVerticalAlignmentTable.getFirstValue(cellAddress)
+        val horizontalAlignment = this.textHorizontalAlignmentTable.getFirstValue(cellAddress)
         return when ((verticalAlignment to horizontalAlignment)) {
             TextVerticalAlignment.Top to TextHorizontalAlignment.Start -> {
                 Alignment.TopStart

@@ -5,29 +5,30 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 
 data class RangeAddressSetImp(
-    override val ranges:Set<RangeAddress>
-):RangeAddressSet{
+    override val ranges: Set<RangeAddress>
+) : RangeAddressSet {
 
-    constructor(vararg rangeAddresses:RangeAddress):this(setOf(*rangeAddresses))
+    constructor(vararg rangeAddresses: RangeAddress) : this(setOf(*rangeAddresses))
 
-    override fun contains(cellAddress: CellAddress):Boolean{
-        return ranges.firstOrNull { it.contains(cellAddress) }!=null
+    override fun contains(cellAddress: CellAddress): Boolean {
+        return ranges.firstOrNull { it.contains(cellAddress) } != null
     }
 
-    override fun addRanges(rangeAddresses: Collection<RangeAddress>):RangeAddressSetImp{
+    override fun addRanges(rangeAddresses: Collection<RangeAddress>): RangeAddressSetImp {
         val newSet = RangeAddresses.exhaustiveMergeRanges(this.ranges + rangeAddresses).toSet()
-        return this.copy(ranges=newSet)
+        return this.copy(ranges = newSet)
     }
-    override fun addRanges(vararg rangeAddresses:RangeAddress):RangeAddressSetImp{
+
+    override fun addRanges(vararg rangeAddresses: RangeAddress): RangeAddressSetImp {
         val newSet = RangeAddresses.exhaustiveMergeRanges(this.ranges + rangeAddresses).toSet()
-        return this.copy(ranges=newSet)
+        return this.copy(ranges = newSet)
     }
 
-    override fun hasIntersectionWith(rangeAddress: RangeAddress):Boolean{
-        return ranges.firstOrNull { it.hasIntersectionWith(rangeAddress) }!=null
+    override fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean {
+        return ranges.firstOrNull { it.hasIntersectionWith(rangeAddress) } != null
     }
 
-    override fun removeCell(cellAddress: CellAddress):RangeAddressSetImp{
+    override fun removeCell(cellAddress: CellAddress): RangeAddressSetImp {
         val brokenRanges = ranges.flatMap {
             it.removeCell(cellAddress)
         }
@@ -36,19 +37,27 @@ data class RangeAddressSetImp(
     }
 
     /**
-     * Clip off all the part that intersect with [rangeAddress]
+     * Clip off all the ranges that intersect with [rangeAddress]
      */
-    override fun removeRange(rangeAddress: RangeAddress):RangeAddressSetImp{
+    override fun removeRange(rangeAddress: RangeAddress): RangeAddressSetImp {
         val clippedRanges = ranges.flatMap {
             it.getNotIn(rangeAddress)
         }
         val newSet = RangeAddresses.exhaustiveMergeRanges(clippedRanges).toSet()
-        return this.copy(ranges=newSet)
+        return this.copy(ranges = newSet)
     }
 
-    override fun addCell(cellAddress: CellAddress):RangeAddressSetImp{
+    override fun getAllIntersectionWith(rangeAddress: RangeAddress): RangeAddressSet {
+        return RangeAddressSetImp(
+            this.ranges.mapNotNull {
+                it.intersect(rangeAddress)
+            }.toSet()
+        )
+    }
+
+    override fun addCell(cellAddress: CellAddress): RangeAddressSetImp {
         val newSet = RangeAddresses.exhaustiveMergeRanges(ranges + RangeAddress(cellAddress)).toSet()
-        return this.copy(ranges=newSet)
+        return this.copy(ranges = newSet)
     }
 
     override val size: Int

@@ -5,8 +5,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
-import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
-import com.qxdzbc.p6.ui.format.CellFormatFlyweightTableImp
 import com.qxdzbc.common.flyweight.FlyweightTable
 import com.qxdzbc.common.flyweight.FlyweightTableImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
@@ -24,12 +22,6 @@ interface CellFormatTableModule {
         @Provides
         fun colorTable(): FlyweightTable<Color> {
             return FlyweightTableImp()
-        }
-
-        @Provides
-        @P6Singleton
-        fun CellFormatTableMs(i: CellFormatFlyweightTableImp):Ms<CellFormatFlyweightTable>{
-            return StateUtils.ms(i)
         }
 
         @Provides

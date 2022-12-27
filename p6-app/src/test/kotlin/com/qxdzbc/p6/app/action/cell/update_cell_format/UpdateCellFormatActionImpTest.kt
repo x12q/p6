@@ -1,19 +1,14 @@
 package com.qxdzbc.p6.app.action.cell.update_cell_format
 
 import androidx.compose.ui.graphics.Color
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
-import com.qxdzbc.p6.ui.format.CellFormatFlyweightTableImp
-import com.qxdzbc.p6.ui.format2.CellFormatTable2Imp
+import com.qxdzbc.p6.ui.format2.CellFormatTableImp
 import com.qxdzbc.p6.ui.format2.FormatTableImp
-import com.qxdzbc.p6.ui.format2.RangeAddressSet
 import com.qxdzbc.p6.ui.format2.RangeAddressSetImp
 import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.doReturn
@@ -26,8 +21,6 @@ import kotlin.test.Test
 internal class UpdateCellFormatActionImpTest : BaseTest() {
 
     lateinit var action: UpdateCellFormatActionImp
-    lateinit var cellFormatTableMs: Ms<CellFormatFlyweightTable>
-    val ffTable get() = cellFormatTableMs.value.floatTable
     lateinit var wbwsSt: WbWsSt
     val cellA1Id get() = CellId(CellAddress("A1"), wbwsSt)
     val cellB1Id get() = CellId(CellAddress("B1"), wbwsSt)
@@ -37,7 +30,6 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
 
     @BeforeTest
     fun b() {
-        cellFormatTableMs = ms(CellFormatFlyweightTableImp())
         action = UpdateCellFormatActionImp(
             stateContainerSt = comp.stateContMs()
         )
@@ -54,7 +46,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
             whenever(it.allRanges) doReturn (listOf(r2))
             whenever(it.allFragCells) doReturn (listOf(r2.topLeft))
         }
-        val table0 = CellFormatTable2Imp().setCellBackgroundColorTable(
+        val table0 = CellFormatTableImp().setCellBackgroundColorTable(
             FormatTableImp(mapOf(
                 RangeAddressSetImp(r1) to c1
             ))
@@ -71,15 +63,15 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
                 cft.setCellBackgroundColorTable(newTable)
             }
         )
-        table2.cellBackgroundColorTable.getValue(r2) shouldBe c2
+        table2.cellBackgroundColorTable.getFirstValue(r2) shouldBe c2
 
         val i=r2.cellIterator
         while(i.hasNext()){
-            table2.cellBackgroundColorTable.getValue(i.next()) shouldBe c2
+            table2.cellBackgroundColorTable.getFirstValue(i.next()) shouldBe c2
         }
 
         r1.getNotIn(r2).forEach {
-            table2.cellBackgroundColorTable.getValue(it) shouldBe c1
+            table2.cellBackgroundColorTable.getFirstValue(it) shouldBe c1
         }
 
     }

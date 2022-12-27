@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.format2
 import com.qxdzbc.common.test_util.TestSplitter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -26,6 +27,24 @@ internal class FormatTableImpTest : TestSplitter() {
     fun b() {
         table = FormatTableImp(
             mapOf(k1 to 1, k2 to 2)
+        )
+    }
+
+    @Test
+    fun getMultiValue() {
+        val table=FormatTableImp(
+            mapOf(
+                RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()) to 1,
+                RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()) to 2,
+                RangeAddressSetImp(listOf("B7:D12").map { RangeAddress(it) }.toSet()) to 3,
+            )
+        )
+
+        val o = table.getMultiValue(RangeAddress("B3:D8"))
+        o.shouldContainOnly(
+            RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()) to 1,
+            RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()) to 2,
+            RangeAddressSetImp(listOf("B7:D8").map { RangeAddress(it) }.toSet()) to 3,
         )
     }
 
@@ -200,14 +219,14 @@ internal class FormatTableImpTest : TestSplitter() {
         )
         preCondition {
             t0 shouldNotBe expectation
-            t0.getValue(r).shouldNotBeNull()
+            t0.getFirstValue(r).shouldNotBeNull()
         }
 
         val t1 = t0.removeValue(r)
 
         postCondition {
             t1 shouldBe expectation
-            t1.getValue(r).shouldBeNull()
+            t1.getFirstValue(r).shouldBeNull()
         }
     }
 
@@ -223,14 +242,14 @@ internal class FormatTableImpTest : TestSplitter() {
         )
         preCondition {
             t0 shouldNotBe expectation
-            t0.getValue(r).shouldNotBeNull()
+            t0.getFirstValue(r).shouldNotBeNull()
         }
 
         val t1 = t0.removeValue(r)
 
         postCondition {
             t1 shouldBe expectation
-            t1.getValue(r).shouldBeNull()
+            t1.getFirstValue(r).shouldBeNull()
         }
     }
 }

@@ -37,7 +37,6 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import com.qxdzbc.p6.ui.format.CellFormatFlyweightTable
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -147,9 +146,6 @@ class StateContainerImp @Inject constructor(
     override fun getCellStateMsRs(cellId: CellId): Rse<Ms<CellState>> {
         return subAppStateCont.getCellStateMsRs(cellId)
     }
-
-    override val formatTableMs: Ms<CellFormatFlyweightTable>
-        get() = subAppStateCont.formatTableMs
 
     override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
 

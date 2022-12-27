@@ -10,7 +10,7 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.format2.CellFormatTable2
+import com.qxdzbc.p6.ui.format2.CellFormatTable
 import com.qxdzbc.p6.ui.format2.FormatTable
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -18,18 +18,16 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(scope = P6AnvilScope::class)
 class UpdateCellFormatActionImp @Inject constructor(
-//    private val cellFormatTableMs: Ms<CellFormatFlyweightTable>,
     private val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
 ) : UpdateCellFormatAction {
 
     private val sc by stateContainerSt
-//    private val cTable by cellFormatTableMs
 
     private fun <T> updateFormat(
         cellId: CellId,
         formatValue: T?,
-        getFormatTable: (CellFormatTable2) -> FormatTable<T>,
-        updateCellFormatTable: (FormatTable<T>, CellFormatTable2) -> CellFormatTable2
+        getFormatTable: (CellFormatTable) -> FormatTable<T>,
+        updateCellFormatTable: (FormatTable<T>, CellFormatTable) -> CellFormatTable
     ) {
         sc.getCellFormatTable2Ms(cellId)?.also { fmtMs ->
             val newTable = getFormatTable(fmtMs.value)
@@ -47,8 +45,8 @@ class UpdateCellFormatActionImp @Inject constructor(
 
     fun <T> updateFormatOfSelectedCells(
         formatValue: T?,
-        getFormatTable: (CellFormatTable2) -> FormatTable<T>,
-        updateCellFormatTable: (FormatTable<T>, CellFormatTable2) -> CellFormatTable2
+        getFormatTable: (CellFormatTable) -> FormatTable<T>,
+        updateCellFormatTable: (FormatTable<T>, CellFormatTable) -> CellFormatTable
     ) {
         sc.getActiveCursorState()?.also { csst ->
             sc.getCellFormatTable2Ms(csst)?.also { fmtMs ->
@@ -63,10 +61,10 @@ class UpdateCellFormatActionImp @Inject constructor(
     fun <T> updateCellFormatTableWithNewFormatValueOnSelectedCells(
         formatValue: T?,
         cursorState: CursorState,
-        currentFormatTable: CellFormatTable2,
-        getFormatTable: (CellFormatTable2) -> FormatTable<T>,
-        updateCellFormatTable: (FormatTable<T>, CellFormatTable2) -> CellFormatTable2
-    ): CellFormatTable2 {
+        currentFormatTable: CellFormatTable,
+        getFormatTable: (CellFormatTable) -> FormatTable<T>,
+        updateCellFormatTable: (FormatTable<T>, CellFormatTable) -> CellFormatTable
+    ): CellFormatTable {
         val csst = cursorState
         val newTable = getFormatTable(currentFormatTable)
             .removeValueFromMultiRanges(csst.allRanges)
@@ -136,7 +134,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         )
     }
 
-    override fun setSelectedCellsTextColor(color: Color?) {
+    override fun setTextColorOnSelectedCells(color: Color?) {
         updateFormatOfSelectedCells(
             formatValue = color,
             getFormatTable = { it.textColorTable },

@@ -51,10 +51,6 @@ interface AppStateModule {
     @P6Singleton
     fun StateContainerSt(i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
 
-    @Binds
-    @P6Singleton
-    fun CellFormatTableSt(i:Ms<CellFormatFlyweightTable>):St<CellFormatFlyweightTable>
-
 
     companion object {
 

@@ -13,30 +13,31 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class OnCursorChangeEventReactorImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>
+    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
 ) : OnCursorChangeEventReactor {
 
     private val sc by stateContainerSt
 
     override fun onCursorChanged(cursorId: CursorId) {
         sc.getCursorState(cursorId)?.also { cursorState ->
-            val cellStateAtCursor = sc.getCellState(cursorState.mainCellId)
-            sc.getTextSizeSelectorStateMs(cursorId.wbKey)?.also { textSizeSelectorStateMs ->
-                textSizeSelectorStateMs.value = textSizeSelectorStateMs.value.setHeaderText(
-                    cellStateAtCursor?.textFormat?.textSize?.toString() ?: TextSizeSelectorState.defaultHeader
-                )
-            }
+            sc.getCellFormatTable2(cursorId)?.also {cft->
+                sc.getTextSizeSelectorStateMs(cursorId.wbKey)?.also { textSizeSelectorStateMs ->
+                    textSizeSelectorStateMs.value = textSizeSelectorStateMs.value.setHeaderText(
+                        cft.textSizeTable.getFirstValue(cursorState.mainCell)?.toString() ?: TextSizeSelectorState.defaultHeader
+                    )
+                }
 
-            sc.getTextColorSelectorStateMs(cursorId.wbKey)?.also { textColorSelectorStateMs ->
-                textColorSelectorStateMs.value = textColorSelectorStateMs.value.setCurrentColor(
-                    cellStateAtCursor?.textFormat?.textColor
-                )
-            }
+                sc.getTextColorSelectorStateMs(cursorId.wbKey)?.also { textColorSelectorStateMs ->
+                    textColorSelectorStateMs.value = textColorSelectorStateMs.value.setCurrentColor(
+                        cft.textColorTable.getFirstValue(cursorState.mainCell)
+                    )
+                }
 
-            sc.getCellBackgroundColorSelectorStateMs(cursorId.wbKey)?.also {cellBackgroundColorSelectorStateMs->
-                cellBackgroundColorSelectorStateMs.value = cellBackgroundColorSelectorStateMs.value.setCurrentColor(
-                    cellStateAtCursor?.cellFormat?.backgroundColor
-                )
+                sc.getCellBackgroundColorSelectorStateMs(cursorId.wbKey)?.also {cellBackgroundColorSelectorStateMs->
+                    cellBackgroundColorSelectorStateMs.value = cellBackgroundColorSelectorStateMs.value.setCurrentColor(
+                        cft.cellBackgroundColorTable.getFirstValue(cursorState.mainCell)
+                    )
+                }
             }
         }
     }

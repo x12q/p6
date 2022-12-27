@@ -51,12 +51,20 @@ data class FormatTableImp<T>(
 
     }
 
-    override fun getValue(cellAddress: CellAddress): T? {
+    override fun getFirstValue(cellAddress: CellAddress): T? {
         return this.valueMap.entries.firstOrNull { (k, v) -> k.contains(cellAddress) }?.value
     }
 
-    override fun getValue(rangeAddress: RangeAddress): T? {
+    override fun getFirstValue(rangeAddress: RangeAddress): T? {
         return this.valueMap.entries.firstOrNull { (k, v) -> k.hasIntersectionWith(rangeAddress) }?.value
+    }
+
+    override fun getMultiValue(rangeAddress: RangeAddress): List<Pair<RangeAddressSet, T>> {
+        val rt = mutableListOf<Pair<RangeAddressSet, T>>()
+        for((radSet,t) in this.valueMap){
+            rt.add(radSet.getAllIntersectionWith(rangeAddress) to t)
+        }
+        return rt
     }
 
     override fun removeValue(cellAddress: CellAddress): FormatTable<T> {

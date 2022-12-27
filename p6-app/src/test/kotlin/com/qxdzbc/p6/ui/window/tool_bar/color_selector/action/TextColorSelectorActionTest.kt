@@ -36,10 +36,18 @@ internal class TextColorSelectorActionTest : BaseTest(){
 
     @Test
     fun pickColor() {
-        val e = ColorSelectorStateImp(color)
-        ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldNotBe e
-        action.pickColor(ts.window1Id,color)
-        ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldBe e
-        verify(action.updateCellFormatAction,times(1)).setCellTextColor(ts.stateCont.getActiveCursorState()!!.mainCellId,color)
+        test(
+            """
+               trigger pickColor action, 
+               expect all cells and ranges selected by the current cursor
+               to have the selected color as their new text color 
+            """.trimIndent()
+        ){
+            val e = ColorSelectorStateImp(color)
+            ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldNotBe e
+            action.pickColor(ts.window1Id,color)
+            ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldBe e
+            verify(action.updateCellFormatAction,times(1)).setTextColorOnSelectedCells(color)
+        }
     }
 }

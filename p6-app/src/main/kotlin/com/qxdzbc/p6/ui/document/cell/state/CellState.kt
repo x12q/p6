@@ -22,29 +22,4 @@ interface CellState {
     val cellMs:Ms<Cell>?
     fun setCellMs(cellMs:Ms<Cell>):CellState
     fun removeDataCell():CellState
-
-    var textFormat: TextFormat?
-    fun setTextFormat(i: TextFormat?):CellState
-
-    val alignment:Alignment
-    fun setVerticalAlignment(alignment: TextVerticalAlignment):CellState
-    fun setHorizontalAlignment(alignment: TextHorizontalAlignment):CellState
-
-    val isTextCrossed:Boolean?
-    fun setTextCrossed(i:Boolean):CellState
-
-    val isTextUnderlined:Boolean?
-    fun setTextUnderlined(i:Boolean):CellState
-
-    val fontWeight:FontWeight?
-    fun setFontWeight(i:FontWeight):CellState
-
-    val textStyle:TextStyle
-
-    val cellFormat: CellFormat?
-    fun setCellFormat(i:CellFormat?): CellState
-
-    val backgroundColor:Color?
-    fun setBackgroundColor(hexColor:ULong):CellState
-    fun setBackgroundColor(color:Color):CellState
 }

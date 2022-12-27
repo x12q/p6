@@ -38,8 +38,7 @@ class WorksheetStateImpTest :BaseTest(){
     lateinit var worksheetIDMs: St<WorksheetId>
 
     @BeforeTest
-    override fun _b() {
-        super._b()
+    fun b() {
         wb0 = WorkbookImp(
             WorkbookKey("Book0").toMs(),
         ).addMultiSheetOrOverwrite(
@@ -135,20 +134,16 @@ class WorksheetStateImpTest :BaseTest(){
     fun refreshCellState(){
         test("""
             refresh a worksheet state in which:
-            - cell A1 point to valid cell, does not have format data => should be kept
-            - cell M10 points to no where, does not have format data => should be removed
-            - cell K12 points to no where but contains format data => should be kept
+            - cell A1 point to valid cell => should be kept
+            - cell M10 points to no where => should be removed
+            - cell K12 points to no where => should be removed
         """.trimIndent()){
+            val labelA1 = "A1"
             val labelK12="K12"
             val labelM10="M10"
             val wsState2 = wsStateForWb0Sheet1
                 .addBlankCellState(CellAddress(labelM10))
                 .addBlankCellState(CellAddress(labelK12))
-
-            val cellStateMsK12=wsState2.getCellStateMs(labelK12)!!
-            cellStateMsK12.value = cellStateMsK12.value.setTextFormat(
-                TextFormat.createDefaultTextFormat()
-            )
 
             preCondition {
                 val cellState = wsState2.getCellState(labelM10)
@@ -159,16 +154,13 @@ class WorksheetStateImpTest :BaseTest(){
             val wsState3=wsState2.refreshCellState()
 
             postCondition {
-                wsState3.cellStateCont.allElements.size shouldBe 2
+                wsState3.cellStateCont.allElements.size shouldBe 1
 
-                val cellStateA1 = wsState3.getCellState("A1")
+                val cellStateA1 = wsState3.getCellState(labelA1)
                 cellStateA1.shouldNotBeNull()
                 cellStateA1.cell.shouldNotBeNull()
 
-                val cellStateK12 = wsState3.getCellState(labelK12)
-                cellStateK12.shouldNotBeNull()
-                cellStateK12.cell.shouldBeNull()
-
+                wsState3.getCellState(labelK12).shouldBeNull()
                 wsState3.getCellState(labelM10).shouldBeNull()
             }
         }
