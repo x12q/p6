@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
 import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoOnCursorAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
-import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
+import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -43,7 +43,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     private val pasteRangeToCursorAction: PasteRangeToCursor,
     private val selectWholeCol: SelectWholeColumnForAllSelectedCellAction,
     private val selectWholeRow: SelectWholeRowForAllSelectedCellAction,
-    private val makeSliderFollowCellAct: MakeSliderFollowCellAction,
+    private val moveSliderAction: MoveSliderAction,
     private val copyCursorRangeToClipboardAction: CopyCursorRangeToClipboardAction,
     private val undoOnCursorAct: UndoOnCursorAction,
     private val cellEditorActionLz: dagger.Lazy<CellEditorAction>,
@@ -115,7 +115,14 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                             this.end(wsState)
                             true
                         }
-
+                        Key.PageDown->{
+                            this.pageDown(wsState)
+                            true
+                        }
+                        Key.PageUp->{
+                            this.pageUp(wsState)
+                            true
+                        }
                         else -> {
                             handleOtherKey(keyEvent, wsState)
                         }
@@ -275,8 +282,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val cursorState by wsState.cursorStateMs
             val targetCell = CellAddress(wsState.firstCol, cursorState.mainCell.rowIndex)
             val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptMainCell()
-            wsAction.makeSliderFollowCursorMainCell(newCursorState, wsState)
-            onCursorChangeEventReactor.onCursorChanged(cursorState.id)
+            wsState.cursorStateMs.value = newCursorState
+            onCursorChangeEventReactor.onCursorChanged(cursorState)
         }
     }
 
@@ -295,8 +302,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val targetCell = CellAddress(wsState.lastCol, cursorState.mainCell.rowIndex)
             val newCursorState = cursorState.setMainCell(targetCell).removeAllExceptMainCell()
             wsState.cursorStateMs.value = newCursorState
-            wsAction.makeSliderFollowCursorMainCell(newCursorState, wsState)
-            onCursorChangeEventReactor.onCursorChanged(cursorState.id)
+            onCursorChangeEventReactor.onCursorChanged(cursorState)
         }
     }
 
@@ -332,12 +338,10 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val wsState by it
             val cursorStateMs = wsState.cursorStateMs
             // go to the nearest non-empty cell on the same col of anchor cell
-            val cursorState by cursorStateMs
             val newCursorState = ctrlUpNoUpdate(wsState)
             if (newCursorState != null) {
                 cursorStateMs.value = newCursorState
-                wsAction.makeSliderFollowCursorMainCell(newCursorState, wsState)
-                onCursorChangeEventReactor.onCursorChanged(newCursorState.id)
+                onCursorChangeEventReactor.onCursorChanged(newCursorState)
             }
         }
     }
@@ -376,8 +380,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val newCursor = ctrlDownNoUpdate(wsState)
             if (newCursor != null) {
                 cursorStateMs.value = newCursor
-                wsAction.makeSliderFollowCursorMainCell(newCursor, wsState)
-                onCursorChangeEventReactor.onCursorChanged(newCursor.id)
+                onCursorChangeEventReactor.onCursorChanged(newCursor)
             }
         }
     }
@@ -398,8 +401,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val newCursorState = ctrlRightNoUpdate(wsState)
             if (newCursorState != null) {
                 cursorStateMs.value = newCursorState
-                wsAction.makeSliderFollowCursorMainCell(newCursorState, wsState)
-                onCursorChangeEventReactor.onCursorChanged(newCursorState.id)
+                onCursorChangeEventReactor.onCursorChanged(newCursorState)
             }
         }
     }
@@ -458,7 +460,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                         .addFragRange(
                             RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                         )
-                    onCursorChangeEventReactor.onCursorChanged(wsState.cursorStateMs.value.id)
+                    onCursorChangeEventReactor.onCursorChanged(wsState.cursorStateMs.value)
                 }
             }
         }
@@ -494,7 +496,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                             .addFragRange(
                                 RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                             )
-                        onCursorChangeEventReactor.onCursorChanged(wsState.cursorStateMs.value.id)
+                        onCursorChangeEventReactor.onCursorChanged(wsState.cursorStateMs.value)
                     }
                 }
             }
@@ -528,7 +530,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                             .addFragRange(
                                 RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                             )
-                        onCursorChangeEventReactor.onCursorChanged(wsState.cursorStateMs.value.id)
+                        onCursorChangeEventReactor.onCursorChanged(wsState.cursorStateMs.value)
                     }
                 }
             }
@@ -546,7 +548,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 
     fun ctrlShiftDown(wsState: WorksheetState?) {
         wsState?.also {
-            var cursorState by wsState.cursorStateMs
+            val cursorState by wsState.cursorStateMs
             val cell1 = cursorState.mainCell
             val maxRow = cursorState.maxRow
             if (maxRow != null) {
@@ -565,7 +567,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                             .addFragRange(
                                 RangeAddress(listOf(cell1, cell3, cell4, anchor2))
                             )
-                        onCursorChangeEventReactor.onCursorChanged(cursorState.id)
+                        onCursorChangeEventReactor.onCursorChanged(cursorState)
                     }
                 }
             }
@@ -585,8 +587,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val cs by cursorStateMs
             this.ctrlLeftNoUpdate(cs)?.also { newCursor ->
                 cursorStateMs.value = newCursor
-                wsAction.makeSliderFollowCursorMainCell(newCursor, cs)
-                onCursorChangeEventReactor.onCursorChanged(newCursor.id)
+                onCursorChangeEventReactor.onCursorChanged(newCursor)
             }
         }
     }
@@ -625,8 +626,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     fun up(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             cursorStateMs.value = cursorStateMs.value.up()
-            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, cursorStateMs.value)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
     }
 
@@ -642,8 +642,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     fun down(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             cursorStateMs.value = cursorStateMs.value.down()
-            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, cursorStateMs.value)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
     }
 
@@ -658,8 +657,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     fun left(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
             cursorStateMs.value = cursorStateMs.value.left()
-            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, cursorStateMs.value)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
     }
 
@@ -673,10 +671,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 
     fun right(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
-            val cursorState by cursorStateMs
             cursorStateMs.value = cursorStateMs.value.right()
-            wsAction.makeSliderFollowCursorMainCell(cursorStateMs.value, cursorState)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
     }
 
@@ -690,15 +686,14 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 
     fun shiftUp(cursorStateMs: Ms<CursorState>?) {
         cursorStateMs?.also {
-            var cursorState by cursorStateMs
+            val cursorState by cursorStateMs
             val mainCell = cursorState.mainCell
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
-            cursorState = cursorState.removeAllFragmentedCells()
+            cursorStateMs.value = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.upOneRow()))
-            wsAction.makeSliderFollowCursorMainCell(cursorState, cursorState)
             val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
     }
 
@@ -719,8 +714,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.downOneRow()))
             val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
     }
 
@@ -740,8 +735,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.leftOneCol()))
             val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
 
     }
@@ -762,8 +757,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             cursorState = cursorState.removeAllFragmentedCells()
                 .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.rightOneCol()))
             val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
-            makeSliderFollowCellAct.makeSliderFollowCell(cursorState, followTarget)
-            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value.id)
+            moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
+            onCursorChangeEventReactor.onCursorChanged(cursorStateMs.value)
         }
     }
 
@@ -796,6 +791,51 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 
     override fun onDeleteKey(wbwsSt: WbWsSt) {
         _onDeleteKey(sc.getCursorState(wbwsSt))
+    }
+
+    override fun onPageDown(wbws: WbWs) {
+        sc.getWsState(wbws)?.also{
+            pageUp(it)
+        }
+    }
+
+    override fun onPageDown(wbwsSt: WbWsSt) {
+        sc.getWsState(wbwsSt)?.also {
+            pageUp(it)
+        }
+    }
+
+    fun pageUpOrdown(wsState:WorksheetState, isUp:Boolean){
+        val visibleRowRange=wsState.slider.visibleRowRange
+        val rowCountInOnePage = visibleRowRange.last-visibleRowRange.first + 1
+        val cursorState by wsState.cursorStateMs
+        val currentMainCell =  cursorState.mainCell
+        val u = if(isUp) -rowCountInOnePage else rowCountInOnePage
+        val newMainCellAddress = currentMainCell.increaseRowBy(u)
+        val newCursorState=wsState.cursorState.removeAllExceptMainCell().setMainCell(newMainCellAddress)
+        wsState.cursorStateMs.value = newCursorState
+        onCursorChangeEventReactor.updateFormatIndicator(newCursorState)
+        moveSliderAction.shiftSlider(newCursorState,u,0)
+    }
+
+    fun pageUp(wsState:WorksheetState){
+        pageUpOrdown(wsState,true)
+    }
+
+    fun pageDown(wbws: WbWs) {
+        this.sc.getWsState(wbws)?.also{
+            this.pageDown(it)
+        }
+    }
+
+    fun pageDown(wsState:WorksheetState){
+        pageUpOrdown(wsState,false)
+    }
+
+    fun pageDown(wbwsSt: WbWsSt) {
+        sc.getWsState(wbwsSt)?.also {wsState->
+            pageDown(wsState)
+        }
     }
 
     override fun onDeleteKey(wbws: WbWs) {

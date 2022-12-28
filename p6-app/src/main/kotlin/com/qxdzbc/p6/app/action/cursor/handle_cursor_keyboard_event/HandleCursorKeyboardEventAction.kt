@@ -68,4 +68,13 @@ interface HandleCursorKeyboardEventAction {
 
     fun onDeleteKey(wbws: WbWs)
     fun onDeleteKey(wbwsSt: WbWsSt)
+
+    /**
+     * Move the cursor 1 page down
+     */
+    fun onPageDown(wbws: WbWs)
+    /**
+     * Move the cursor 1 page down
+     */
+    fun onPageDown(wbwsSt: WbWsSt)
 }

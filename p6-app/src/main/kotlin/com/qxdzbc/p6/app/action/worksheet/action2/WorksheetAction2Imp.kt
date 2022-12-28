@@ -13,7 +13,7 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
-import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MakeSliderFollowCellAction
+import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
@@ -25,7 +25,7 @@ class WorksheetAction2Imp @Inject constructor(
     private val mouseOnWsAction: MouseOnWorksheetAction,
     val stateContMs: Ms<StateContainer>,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
-    private val makeSliderFollowCellAct: MakeSliderFollowCellAction,
+    private val makeSliderFollowCellAct: MoveSliderAction,
 ) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction, ComputeSliderSizeAction by computeSliderSizeAction {
 
     private var sc by stateContMs
