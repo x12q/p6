@@ -33,6 +33,7 @@ repositories {
 val coroutineVersion = "1.6.1"
 val mockitoVersion = "4.5.1"
 val p6Version = "1.0"
+val kotestVersion="5.5.4"
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation("com.qxdzbc:err:${p6Version}")
@@ -43,6 +44,7 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 }
 
 tasks.getByName<Test>("test") {
