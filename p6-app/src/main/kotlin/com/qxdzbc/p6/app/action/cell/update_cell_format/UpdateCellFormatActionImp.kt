@@ -2,7 +2,10 @@ package com.qxdzbc.p6.app.action.cell.update_cell_format
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.command.BaseCommand
+import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.command.Commands
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -12,6 +15,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.format2.CellFormatTable
 import com.qxdzbc.p6.ui.format2.FormatTable
 import com.squareup.anvil.annotations.ContributesBinding
@@ -25,79 +29,141 @@ class UpdateCellFormatActionImp @Inject constructor(
 
     private val sc by stateContainerSt
 
+    private fun <T> runSetFormat(
+        formatValue: T?,
+        cellId: CellId,
+        fmtMs: Ms<CellFormatTable>,
+        getFormatTable: (CellFormatTable) -> FormatTable<T>,
+        updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
+    ) {
+        val newTable = getFormatTable(fmtMs.value)
+            .removeValue(cellId.address)
+            .let {
+                if (formatValue != null) {
+                    it.addValue(cellId.address, formatValue)
+                } else {
+                    it
+                }
+            }
+        fmtMs.value = updateCellFormatTable(fmtMs.value, newTable)
+    }
 
-    private fun <T> updateFormat(
+    fun <T> makeCommandForFormatOneCell(
+        cellId: CellId,
+        formatValue: T?,
+        fmtMs: Ms<CellFormatTable>,
+        getFormatTable: (CellFormatTable) -> FormatTable<T>,
+        updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
+    ): Command {
+        val oldFormatValue = getFormatTable(fmtMs.value).getFirstValue(cellId.address)
+        val command = Commands.makeCommand(
+            run = {
+                runSetFormat(
+                    formatValue = formatValue,
+                    cellId = cellId,
+                    fmtMs = fmtMs,
+                    getFormatTable = getFormatTable,
+                    updateCellFormatTable = updateCellFormatTable
+                )
+            },
+            undo = {
+                runSetFormat(
+                    formatValue = oldFormatValue,
+                    cellId = cellId,
+                    fmtMs = fmtMs,
+                    getFormatTable = getFormatTable,
+                    updateCellFormatTable = updateCellFormatTable
+                )
+            }
+        )
+        return command
+    }
+
+    fun <T> updateFormatOnOneCell(
         cellId: CellId,
         formatValue: T?,
         undo: Boolean,
         getFormatTable: (CellFormatTable) -> FormatTable<T>,
-        updateCellFormatTable: (FormatTable<T>, CellFormatTable) -> CellFormatTable
+        updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
     ) {
         sc.getCellFormatTable2Ms(cellId)?.also { fmtMs ->
-            fun runSetFormat(fv: T?) {
-                val newTable = getFormatTable(fmtMs.value)
-                    .removeValue(cellId.address)
-                    .let {
-                        if (fv != null) {
-                            it.addValue(cellId.address, fv)
-                        } else {
-                            it
-                        }
-                    }
-                fmtMs.value = updateCellFormatTable(newTable, fmtMs.value)
-            }
             if (undo) {
                 sc.getWbState(cellId.wbKeySt)?.also { wbState ->
-                    val oldFormatValue = getFormatTable(fmtMs.value).getFirstValue(cellId.address)
                     wbState.commandStackMs.value = wbState.commandStack.add(
-                        Commands.makeCommand(
-                            run = { runSetFormat(formatValue) },
-                            undo = { runSetFormat(oldFormatValue) }
-                        )
+                        makeCommandForFormatOneCell(cellId, formatValue, fmtMs, getFormatTable, updateCellFormatTable)
                     )
                 }
             }
-            runSetFormat(formatValue)
+            runSetFormat(formatValue, cellId, fmtMs, getFormatTable, updateCellFormatTable)
         }
+    }
+
+    /**
+     * Make an undoable command for the action of formatting cells selected by a cursor
+     */
+    fun <T> makeCommandForFormattingOnSelectedCells(
+        formatValue: T?,
+        cursorState: CursorState,
+        cellFormatTableMs: Ms<CellFormatTable>,
+        getFormatTable: (CellFormatTable) -> FormatTable<T>,
+        updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
+    ): Command {
+        val command: Command = object : BaseCommand() {
+            val _formatValue = formatValue
+            val _cursorState = cursorState
+            val _cellFormatTableMs = cellFormatTableMs
+            val oldFormatConfig1 =
+                getFormatTable(_cellFormatTableMs.value).getMultiValueFromRangesIncludeNullFormat(_cursorState.allRanges)
+            val oldFormatConfig2 =
+                getFormatTable(_cellFormatTableMs.value).getMultiValueFromCellsIncludeNullFormat(_cursorState.allFragCells)
+
+            override fun run() {
+                _cellFormatTableMs.value = updateCellFormatTableWithNewFormatValueOnSelectedCells(
+                    formatValue = _formatValue,
+                    ranges = _cursorState.allRanges,
+                    cells = _cursorState.allFragCells,
+                    currentFormatTable = _cellFormatTableMs.value,
+                    getFormatTable = getFormatTable,
+                    updateCellFormatTable = updateCellFormatTable
+                )
+            }
+
+            override fun undo() {
+                val newCellFormatTable =
+                    (oldFormatConfig1 + oldFormatConfig2).fold(cellFormatTableMs.value) { acc, (rangeSet, t) ->
+                        updateCellFormatTableWithNewFormatValueOnSelectedCells(
+                            formatValue = t,
+                            ranges = rangeSet.ranges,
+                            cells = emptyList(),
+                            currentFormatTable = acc,
+                            getFormatTable = getFormatTable,
+                            updateCellFormatTable = updateCellFormatTable
+                        )
+                    }
+                cellFormatTableMs.value = newCellFormatTable
+            }
+        }
+        return command
     }
 
     fun <T> updateFormatOfSelectedCells(
         formatValue: T?,
         undo: Boolean,
         getFormatTable: (CellFormatTable) -> FormatTable<T>,
-        updateCellFormatTable: (FormatTable<T>, CellFormatTable) -> CellFormatTable
+        updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
     ) {
         sc.getActiveCursorState()?.also { csst ->
             sc.getCellFormatTable2Ms(csst)?.also { fmtMs ->
                 if (undo) {
-                    val oldFormatConfig1 = getFormatTable(fmtMs.value).getMultiValueFromRangesIncludeNullFormat(csst.allRanges)
-                    val oldFormatConfig2 = getFormatTable(fmtMs.value).getMultiValueFromCellsIncludeNullFormat(csst.allFragCells)
                     sc.getWbState(csst.wbKeySt)?.also {
-                        it.commandStackMs.value = it.commandStack.add(Commands.makeCommand(
-                            run = {
-                                fmtMs.value = updateCellFormatTableWithNewFormatValueOnSelectedCells(
-                                    formatValue = formatValue,
-                                    ranges = csst.allRanges,
-                                    cells = csst.allFragCells,
-                                    currentFormatTable = fmtMs.value,
-                                    getFormatTable = getFormatTable,
-                                    updateCellFormatTable = updateCellFormatTable
-                                )
-                            },
-                            undo = {
-                                val newCellFormatTable= (oldFormatConfig1 + oldFormatConfig2).fold(fmtMs.value) { acc, (rangeSet, t) ->
-                                    updateCellFormatTableWithNewFormatValueOnSelectedCells(
-                                        formatValue = t,
-                                        ranges = rangeSet.ranges,
-                                        cells = emptyList(),
-                                        currentFormatTable = acc,
-                                        getFormatTable = getFormatTable,
-                                        updateCellFormatTable = updateCellFormatTable
-                                    )
-                                }
-                                fmtMs.value = newCellFormatTable
-                            }
-                        ))
+                        val command = makeCommandForFormattingOnSelectedCells(
+                            formatValue = formatValue,
+                            cursorState = csst,
+                            cellFormatTableMs = fmtMs,
+                            getFormatTable = getFormatTable,
+                            updateCellFormatTable = updateCellFormatTable
+                        )
+                        it.commandStackMs.value = it.commandStack.add(command)
                     }
                 }
                 fmtMs.value = updateCellFormatTableWithNewFormatValueOnSelectedCells(
@@ -118,7 +184,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         cells: Collection<CellAddress>,
         currentFormatTable: CellFormatTable,
         getFormatTable: (CellFormatTable) -> FormatTable<T>,
-        updateCellFormatTable: (FormatTable<T>, CellFormatTable) -> CellFormatTable
+        updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
     ): CellFormatTable {
         val newTable = getFormatTable(currentFormatTable)
             .removeValueFromMultiRanges(ranges)
@@ -131,19 +197,17 @@ class UpdateCellFormatActionImp @Inject constructor(
                     it
                 }
             }
-        return updateCellFormatTable(newTable, currentFormatTable)
+        return updateCellFormatTable(currentFormatTable, newTable)
     }
 
 
     override fun setCellBackgroundColor(cellId: CellId, color: Color?, undo: Boolean) {
-        updateFormat(
+        updateFormatOnOneCell(
             cellId = cellId,
             formatValue = color,
             undo = undo,
-            getFormatTable = { c -> c.cellBackgroundColorTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setCellBackgroundColorTable(newTable)
-            }
+            getFormatTable = CellFormatTable::cellBackgroundColorTable,
+            updateCellFormatTable = CellFormatTable::setCellBackgroundColorTable
         )
     }
 
@@ -151,22 +215,18 @@ class UpdateCellFormatActionImp @Inject constructor(
         updateFormatOfSelectedCells(
             formatValue = color,
             undo = undo,
-            getFormatTable = { it.cellBackgroundColorTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setCellBackgroundColorTable(newTable)
-            }
+            getFormatTable = CellFormatTable::cellBackgroundColorTable,
+            updateCellFormatTable = CellFormatTable::setCellBackgroundColorTable
         )
     }
 
     override fun setCellTextSize(cellId: CellId, textSize: Float?, undo: Boolean) {
-        updateFormat(
+        updateFormatOnOneCell(
             cellId = cellId,
             undo = undo,
             formatValue = textSize,
-            getFormatTable = { c -> c.textSizeTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextSizeTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textSizeTable,
+            updateCellFormatTable = CellFormatTable::setTextSizeTable
         )
     }
 
@@ -174,22 +234,18 @@ class UpdateCellFormatActionImp @Inject constructor(
         updateFormatOfSelectedCells(
             formatValue = textSize,
             undo = undo,
-            getFormatTable = { it.textSizeTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextSizeTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textSizeTable,
+            updateCellFormatTable = CellFormatTable::setTextSizeTable
         )
     }
 
     override fun setCellTextColor(cellId: CellId, color: Color?, undo: Boolean) {
-        updateFormat(
+        updateFormatOnOneCell(
             cellId = cellId,
             undo = undo,
             formatValue = color,
-            getFormatTable = { c -> c.textColorTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextColorTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textColorTable,
+            updateCellFormatTable = CellFormatTable::setTextColorTable
         )
     }
 
@@ -197,67 +253,57 @@ class UpdateCellFormatActionImp @Inject constructor(
         updateFormatOfSelectedCells(
             formatValue = color,
             undo = undo,
-            getFormatTable = { it.textColorTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextColorTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textColorTable,
+            updateCellFormatTable = CellFormatTable::setTextColorTable
         )
     }
 
     override fun setCellTextUnderlined(cellId: CellId, underlined: Boolean?, undo: Boolean) {
-        updateFormat(
+        updateFormatOnOneCell(
             cellId = cellId,
             formatValue = underlined,
             undo = undo,
-            getFormatTable = { c -> c.textUnderlinedTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextUnderlinedTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textUnderlinedTable,
+            updateCellFormatTable = CellFormatTable::setTextUnderlinedTable
         )
     }
 
     override fun setUnderlinedOnSelectedCells(underlined: Boolean?, undo: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = underlined,
-            undo = undo, getFormatTable = { it.textUnderlinedTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextUnderlinedTable(newTable)
-            }
+            undo = undo,
+            getFormatTable = CellFormatTable::textUnderlinedTable,
+            updateCellFormatTable = CellFormatTable::setTextUnderlinedTable
         )
     }
 
     override fun setCellTextCrossed(cellId: CellId, crossed: Boolean?, undo: Boolean) {
-        updateFormat(
+        updateFormatOnOneCell(
             cellId = cellId,
             formatValue = crossed,
             undo = undo,
-            getFormatTable = { c -> c.textCrossedTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextCrossedTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textCrossedTable,
+            updateCellFormatTable = CellFormatTable::setTextCrossedTable
         )
     }
 
     override fun setCrossedOnSelectedCell(cellId: CellId, crossed: Boolean?, undo: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = crossed,
-            undo = undo, getFormatTable = { it.textCrossedTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextCrossedTable(newTable)
-            }
+            undo = undo,
+            getFormatTable = CellFormatTable::textCrossedTable,
+            updateCellFormatTable = CellFormatTable::setTextCrossedTable
         )
     }
 
 
     override fun setCellHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment?, undo: Boolean) {
-        updateFormat(
+        updateFormatOnOneCell(
             cellId = cellId,
             formatValue = alignment,
             undo = undo,
-            getFormatTable = { c -> c.textHorizontalAlignmentTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextHorizontalAlignmentTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textHorizontalAlignmentTable,
+                    updateCellFormatTable = CellFormatTable::setTextHorizontalAlignmentTable
         )
     }
 
@@ -268,32 +314,28 @@ class UpdateCellFormatActionImp @Inject constructor(
     ) {
         updateFormatOfSelectedCells(
             formatValue = alignment,
-            undo = undo, getFormatTable = { it.textHorizontalAlignmentTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextHorizontalAlignmentTable(newTable)
-            }
+            undo = undo,
+            getFormatTable = CellFormatTable::textHorizontalAlignmentTable,
+            updateCellFormatTable = CellFormatTable::setTextHorizontalAlignmentTable
         )
     }
 
     override fun setCellVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment?, undo: Boolean) {
-        updateFormat(
+        updateFormatOnOneCell(
             cellId = cellId,
             formatValue = alignment,
             undo = undo,
-            getFormatTable = { c -> c.textVerticalAlignmentTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextVerticalAlignmentTable(newTable)
-            }
+            getFormatTable = CellFormatTable::textVerticalAlignmentTable,
+                    updateCellFormatTable = CellFormatTable::setTextVerticalAlignmentTable
         )
     }
 
     override fun setVerticalAlignmentOnSelectedCells(cellId: CellId, alignment: TextVerticalAlignment?, undo: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = alignment,
-            undo = undo, getFormatTable = { it.textVerticalAlignmentTable },
-            updateCellFormatTable = { newTable, fmt ->
-                fmt.setTextVerticalAlignmentTable(newTable)
-            }
+            undo = undo,
+            getFormatTable = CellFormatTable::textVerticalAlignmentTable,
+            updateCellFormatTable = CellFormatTable::setTextVerticalAlignmentTable
         )
     }
 }

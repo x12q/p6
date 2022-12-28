@@ -21,7 +21,7 @@ internal class RangeAddressSetImpTest {
     fun getNotIn() {
         RangeAddressSetImp(bigRange).getNotIn(r1) shouldBe RangeAddressSetImp(RangeAddress("E5:G8"))
         RangeAddressSetImp(RangeAddress("D11:F16")).getNotIn(r1) shouldBe RangeAddressSetImp(listOf(
-            "E11:F12", "D13:F16"
+            "E11:F16", "D13:D16"
         ).map { RangeAddress(it) })
     }
 

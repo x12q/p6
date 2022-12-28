@@ -60,7 +60,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
             getFormatTable={
                 it.cellBackgroundColorTable
             },
-            updateCellFormatTable = { newTable,cft->
+            updateCellFormatTable = { cft,newTable->
                 cft.setCellBackgroundColorTable(newTable)
             }
         )
