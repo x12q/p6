@@ -810,12 +810,12 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
         val rowCountInOnePage = visibleRowRange.last-visibleRowRange.first + 1
         val cursorState by wsState.cursorStateMs
         val currentMainCell =  cursorState.mainCell
-        val u = if(isUp) -rowCountInOnePage else rowCountInOnePage
-        val newMainCellAddress = currentMainCell.increaseRowBy(u)
+        val numberOfRowToShift = if(isUp) -rowCountInOnePage else rowCountInOnePage
+        val newMainCellAddress = currentMainCell.increaseRowBy(numberOfRowToShift)
         val newCursorState=wsState.cursorState.removeAllExceptMainCell().setMainCell(newMainCellAddress)
         wsState.cursorStateMs.value = newCursorState
         onCursorChangeEventReactor.updateFormatIndicator(newCursorState)
-        moveSliderAction.shiftSlider(newCursorState,u,0)
+        moveSliderAction.shiftSlider(newCursorState,numberOfRowToShift,0)
     }
 
     fun pageUp(wsState:WorksheetState){
