@@ -51,17 +51,17 @@ class UpdateCellFormatActionImp @Inject constructor(
     fun <T> makeCommandForFormatOneCell(
         cellId: CellId,
         formatValue: T?,
-        fmtMs: Ms<CellFormatTable>,
+        cellFormatTableMs: Ms<CellFormatTable>,
         getFormatTable: (CellFormatTable) -> FormatTable<T>,
         updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
     ): Command {
-        val oldFormatValue = getFormatTable(fmtMs.value).getFirstValue(cellId.address)
+        val oldFormatValue = getFormatTable(cellFormatTableMs.value).getFirstValue(cellId.address)
         val command = Commands.makeCommand(
             run = {
                 runSetFormat(
                     formatValue = formatValue,
                     cellId = cellId,
-                    fmtMs = fmtMs,
+                    fmtMs = cellFormatTableMs,
                     getFormatTable = getFormatTable,
                     updateCellFormatTable = updateCellFormatTable
                 )
@@ -70,7 +70,7 @@ class UpdateCellFormatActionImp @Inject constructor(
                 runSetFormat(
                     formatValue = oldFormatValue,
                     cellId = cellId,
-                    fmtMs = fmtMs,
+                    fmtMs = cellFormatTableMs,
                     getFormatTable = getFormatTable,
                     updateCellFormatTable = updateCellFormatTable
                 )
