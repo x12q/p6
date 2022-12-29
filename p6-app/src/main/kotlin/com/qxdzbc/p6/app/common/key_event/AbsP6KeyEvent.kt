@@ -47,7 +47,7 @@ abstract class AbsP6KeyEvent : AbsMKeyEvent(), P6KeyEvent {
                     Key.Break, Key.Insert, Key.Home, Key.MoveHome, Key.PageUp, Key.Delete, Key.MoveEnd,
                     Key.PageDown, Key.NumLock, Key.DirectionUp, Key.DirectionLeft,Key.DirectionDown,
                     Key.DirectionCenter,Key.DirectionDownLeft, Key.DirectionDownRight,
-                    Key.DirectionUpLeft,Key.DirectionUpRight,
+                    Key.DirectionUpLeft,Key.DirectionUpRight,Key.Enter
                     -> {
                         return false
                     }

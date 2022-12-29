@@ -91,7 +91,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                             true
                         }
 
-                        Key.DirectionDown -> {
+                        Key.DirectionDown, Key.Enter -> {
                             down(wsState)
                             true
                         }
@@ -158,6 +158,10 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     ): Boolean {
         if (keyEvent.isShiftPressedAlone) {
             return when (keyEvent.key) {
+                Key.Enter->{
+                    up(wbwsSt)
+                    true
+                }
                 Key.DirectionUp -> {
                     shiftUp(wbwsSt)
                     true

@@ -6,6 +6,7 @@ import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 
 interface HandleCursorKeyboardEventAction {
     fun handleKeyboardEvent(keyEvent: P6KeyEvent, wbws: WbWs): Boolean
+
     /**
      * f2 key
      */

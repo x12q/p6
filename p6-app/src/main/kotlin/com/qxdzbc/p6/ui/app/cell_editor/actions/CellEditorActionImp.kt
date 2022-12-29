@@ -184,6 +184,7 @@ class CellEditorActionImp @Inject constructor(
                     }
 
                     Key.Enter -> {
+                        val targetCursorId = editorState.targetCursorId
                         if (keyEvent.isAltPressedAlone) {
                             val newText = editorState.currentTextField
                                 .let { ctf ->
@@ -195,6 +196,18 @@ class CellEditorActionImp @Inject constructor(
                             changeTextField(newText)
                         } else {
                             runFormulaOrSaveValueToCell()
+                        }
+                        // x: move the target cursor 1 row down
+                        targetCursorId?.also {
+                            stateCont.getCursorStateMs(it)?.also { csMs ->
+                                csMs.value = csMs.value.removeAllExceptMainCell().let{cs->
+                                    if(keyEvent.isShiftPressedInCombination){
+                                        cs.up()
+                                    }else{
+                                        cs.down()
+                                    }
+                                }
+                            }
                         }
                         return true
                     }
