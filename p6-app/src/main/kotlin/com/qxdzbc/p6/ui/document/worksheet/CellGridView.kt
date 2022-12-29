@@ -131,16 +131,16 @@ fun CellGridView(
                                     wsActions.addCellLayoutCoor(cellAddress, it, wsState)
                                 }
                         ) {
+                            val format = wsState.cellFormatTable.getFormat(cellAddress)
                             if (cellState != null) {
                                 CellView(
                                     state = cellState,
-                                    formatTable = wsState.cellFormatTable,
+                                    format=format,
                                     boxModifier = cellBoxMod
                                 )
                             } else {
                                 EmptyCellView(
-                                    cellAddress=cellAddress,
-                                    formatTable=wsState.cellFormatTable,
+                                    format = format,
                                     boxModifier = cellBoxMod
                                 )
                             }

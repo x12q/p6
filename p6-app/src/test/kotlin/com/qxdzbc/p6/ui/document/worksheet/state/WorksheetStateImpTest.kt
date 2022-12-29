@@ -21,7 +21,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe

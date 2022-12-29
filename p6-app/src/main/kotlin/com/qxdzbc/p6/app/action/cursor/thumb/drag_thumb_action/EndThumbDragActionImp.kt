@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -84,7 +83,7 @@ class EndThumbDragActionImp @Inject constructor(
             wsName = wbws.wsName
         )
         for(cell in targetCells){
-            copyCellAct.copyCell(
+            copyCellAct.copyCellWithoutClipboard(
                 CopyCellRequest(
                     fromCell = fromCell,
                     toCell =CellIdDM(

@@ -86,7 +86,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         getFormatTable: (CellFormatTable) -> FormatTable<T>,
         updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
     ) {
-        sc.getCellFormatTable2Ms(cellId)?.also { fmtMs ->
+        sc.getCellFormatTableMs(cellId)?.also { fmtMs ->
             if (undo) {
                 sc.getWbState(cellId.wbKeySt)?.also { wbState ->
                     wbState.commandStackMs.value = wbState.commandStack.add(
@@ -153,7 +153,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         updateCellFormatTable: (CellFormatTable, FormatTable<T>) -> CellFormatTable
     ) {
         sc.getActiveCursorState()?.also { csst ->
-            sc.getCellFormatTable2Ms(csst)?.also { fmtMs ->
+            sc.getCellFormatTableMs(csst)?.also { fmtMs ->
                 if (undo) {
                     sc.getWbState(csst.wbKeySt)?.also {
                         val command = makeCommandForFormattingOnSelectedCells(

@@ -7,6 +7,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
@@ -39,7 +41,12 @@ interface CellFormatTable {
     val cellBackgroundColorTable:FormatTable<Color>
     fun setCellBackgroundColorTable(i:FormatTable<Color>):CellFormatTable
 
+    fun setFormatForMultiRanges(ranges:Collection<RangeAddress>, cellFormat:CellFormat):CellFormatTable
+    fun setFormat(range:RangeAddress, cellFormat:CellFormat):CellFormatTable
+    fun setFormatForMultiCells(cells:Collection<CellAddress>, cellFormat:CellFormat):CellFormatTable
+    fun setFormat(cell:CellAddress, cellFormat:CellFormat):CellFormatTable
+
+    fun getFormat(cell:CellAddress):CellFormat
+
     fun getCellModifier(cellAddress: CellAddress): Modifier?
-    fun getTextStyle(cellAddress: CellAddress): TextStyle
-    fun getTextAlignment(cellAddress: CellAddress):Alignment
 }

@@ -19,13 +19,15 @@ import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
+import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
 import com.qxdzbc.p6.ui.format2.CellFormatTable
 import com.qxdzbc.p6.ui.format2.CellFormatTableImp
 
 @Composable
 fun CellView(
     state: CellState,
-    formatTable: CellFormatTable,
+    format: CellFormat,
     boxModifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
 ) {
@@ -34,17 +36,18 @@ fun CellView(
         modifier = boxModifier
             .fillMaxSize()
             .let { mod ->
-                formatTable.getCellModifier(state.address)?.let {
+                format.cellModifier?.let {
                     mod.then(it)
                 } ?: mod
             }
 
     ) {
         if (cell != null) {
+
             Text(
                 cell.cachedDisplayText,
-                modifier = textModifier.align(formatTable.getTextAlignment(state.address)),
-                style = formatTable.getTextStyle(state.address),
+                modifier = textModifier.align(format.textAlignment),
+                style = format.toTextStyle(),
             )
         }
     }
@@ -60,7 +63,7 @@ fun main() = P6TestApp {
                     address = address,
                     cellMs = IndCellImp.random(address).toMs()
                 ),
-                formatTable = CellFormatTableImp(),
+                format= CellFormatImp()
             )
         }
 
@@ -71,7 +74,7 @@ fun main() = P6TestApp {
                     address = address,
                     cellMs = IndCellImp.random(address).toMs(),
                 ),
-                formatTable = CellFormatTableImp(),
+                format= CellFormatImp()
             )
         }
     }

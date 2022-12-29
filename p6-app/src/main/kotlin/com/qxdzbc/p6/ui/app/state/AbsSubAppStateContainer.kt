@@ -25,19 +25,19 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelecto
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
 
-    override fun getCellFormatTable2Ms(wbws: WbWs): Ms<CellFormatTable>? {
+    override fun getCellFormatTableMs(wbws: WbWs): Ms<CellFormatTable>? {
         return this.getWsState(wbws)?.cellFormatTableMs
     }
 
-    override fun getCellFormatTable2(wbwsSt: WbWsSt): CellFormatTable? {
+    override fun getCellFormatTable(wbwsSt: WbWsSt): CellFormatTable? {
         return this.getWsState(wbwsSt)?.cellFormatTableMs?.value
     }
 
-    override fun getCellFormatTable2(wbws: WbWs): CellFormatTable? {
+    override fun getCellFormatTable(wbws: WbWs): CellFormatTable? {
         return this.getWsState(wbws)?.cellFormatTableMs?.value
     }
 
-    override fun getCellFormatTable2Ms(wbwsSt: WbWsSt): Ms<CellFormatTable>? {
+    override fun getCellFormatTableMs(wbwsSt: WbWsSt): Ms<CellFormatTable>? {
         return this.getWsState(wbwsSt)?.cellFormatTableMs
     }
 

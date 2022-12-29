@@ -27,7 +27,13 @@ class CopyCellActionImp @Inject constructor(
 
     private val sc by stateContSt
 
-    override fun copyCell(request: CopyCellRequest): Rse<Unit> {
+    override fun copyCellWithoutClipboard(request: CopyCellRequest): Rse<Unit> {
+        val rt = copyData(request)
+        copyFormat(request)
+        return rt
+    }
+
+    private fun copyData(request: CopyCellRequest):Rse<Unit>{
         val rt:Rse<Unit> = sc.getCellMsRs(request.fromCell).flatMap { fromCellMs ->
             val toCellMs: Ms<Cell>? = sc.getCellMs(request.toCell)
             val q2: Rse<Unit> = sc.getWsMsRs(request.toCell).flatMap { wsMs ->
@@ -76,5 +82,17 @@ class CopyCellActionImp @Inject constructor(
             q2
         }
         return rt
+    }
+
+    private fun copyFormat(request: CopyCellRequest){
+        val fromCell = request.fromCell
+        val format = sc.getCellFormatTable(fromCell)?.getFormat(fromCell.address)
+        if(format!=null){
+            val toCell = request.toCell
+            sc.getCellFormatTableMs(toCell)?.also {
+                it.value =it.value.setFormat(toCell.address,format)
+            }
+        }
+
     }
 }

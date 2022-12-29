@@ -9,6 +9,9 @@ data class FormatTableImp<T>(
     val valueMap: Map<RangeAddressSet, T> = emptyMap(),
 ) : FormatTable<T> {
 
+    constructor(vararg pairs:Pair<RangeAddressSet,T>):this(pairs.toMap())
+    constructor(pairs:Collection<Pair<RangeAddressSet,T>>):this(pairs.toMap())
+
     override fun addValue(cellAddress: CellAddress, formatValue: T): FormatTableImp<T> {
         return this.addValue(RangeAddress(cellAddress), formatValue)
     }

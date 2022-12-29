@@ -4,8 +4,8 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest
 
 /**
- * Copy content of a cell to another cell directly without using the system clipboard
+ * Copy content (data + format) of a cell to another cell directly without using the system clipboard
  */
 interface CopyCellAction {
-    fun copyCell(request: CopyCellRequest):Rse<Unit>
+    fun copyCellWithoutClipboard(request: CopyCellRequest):Rse<Unit>
 }

@@ -46,7 +46,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
          When undid, this action should reverse cell A1 text size to null
          */
 
-        val cellFormatTableMs = ts.sc.getCellFormatTable2Ms(cellA1Id)!!
+        val cellFormatTableMs = ts.sc.getCellFormatTableMs(cellA1Id)!!
         val cellFormatTable by cellFormatTableMs
         val fontSize=123f
         val action = action.makeCommandForFormatOneCell(
@@ -72,7 +72,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
             whenever(it.allRanges) doReturn listOf("A1:A3","B2:D10").map{ RangeAddress(it) }
             whenever(it.allFragCells) doReturn listOf("Q10").map{ CellAddress(it) }
         }
-        val cellFormatTableMs = ts.sc.getCellFormatTable2Ms(cellA1Id)!!
+        val cellFormatTableMs = ts.sc.getCellFormatTableMs(cellA1Id)!!
         val cellFormatTable by cellFormatTableMs
         val fontSize=123f
         val action = action.makeCommandForFormattingOnSelectedCells(

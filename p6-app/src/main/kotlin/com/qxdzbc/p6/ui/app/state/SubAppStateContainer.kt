@@ -35,11 +35,11 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
  */
 interface SubAppStateContainer {
 
-    fun getCellFormatTable2Ms(wbwsSt: WbWsSt):Ms<CellFormatTable>?
-    fun getCellFormatTable2Ms(wbws: WbWs):Ms<CellFormatTable>?
+    fun getCellFormatTableMs(wbwsSt: WbWsSt):Ms<CellFormatTable>?
+    fun getCellFormatTableMs(wbws: WbWs):Ms<CellFormatTable>?
 
-    fun getCellFormatTable2(wbwsSt: WbWsSt):CellFormatTable?
-    fun getCellFormatTable2(wbws: WbWs):CellFormatTable?
+    fun getCellFormatTable(wbwsSt: WbWsSt):CellFormatTable?
+    fun getCellFormatTable(wbws: WbWs):CellFormatTable?
 
     fun getToolbarStateMs(windowId: String):Ms<ToolBarState>?
     fun getToolbarState(windowId: String):ToolBarState?

@@ -11,11 +11,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import com.qxdzbc.common.compose.ColorUtils.getBlackOrWhiteOnLuminance
-import com.qxdzbc.common.compose.ColorUtils.getContrastColor
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
-import com.qxdzbc.p6.ui.document.cell.state.format.cell.CellFormat
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
+import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
@@ -67,102 +67,81 @@ data class CellFormatTableImp(
         return this.copy(cellBackgroundColorTable = i)
     }
 
+    override fun setFormatForMultiRanges(
+        ranges: Collection<RangeAddress>,
+        cellFormat: CellFormat
+    ): CellFormatTable {
+        val tf = cellFormat
+        val rt = this.setTextSizeTable(
+            tf.textSize?.let{
+                this.textSizeTable.addValueForMultiRanges(ranges,it)
+            }?: this.textSizeTable.removeValueFromMultiRanges(ranges)
+        ).setFontStyleTable(
+            tf.fontStyle?.let{
+                this.fontStyleTable.addValueForMultiRanges(ranges,it)
+            }?: this.fontStyleTable.removeValueFromMultiRanges(ranges)
+        ).setFontWeightTable(
+            tf.fontWeight?.let{
+                this.fontWeightTable.addValueForMultiRanges(ranges,it)
+            }?: this.fontWeightTable.removeValueFromMultiRanges(ranges)
+        ).setTextColorTable(
+            tf.textColor?.let{
+                this.textColorTable.addValueForMultiRanges(ranges,it)
+            }?: this.textColorTable.removeValueFromMultiRanges(ranges)
+        ).setTextCrossedTable(
+            tf.isCrossed?.let{
+                this.textCrossedTable.addValueForMultiRanges(ranges,it)
+            }?: this.textCrossedTable.removeValueFromMultiRanges(ranges)
+        ).setTextUnderlinedTable(
+            tf.isUnderlined?.let{
+                this.textUnderlinedTable.addValueForMultiRanges(ranges,it)
+            }?: this.textUnderlinedTable.removeValueFromMultiRanges(ranges)
+        ).setTextHorizontalAlignmentTable(
+            tf.horizontalAlignment?.let{
+                this.textHorizontalAlignmentTable.addValueForMultiRanges(ranges,it)
+            }?: this.textHorizontalAlignmentTable.removeValueFromMultiRanges(ranges)
+        ).setTextVerticalAlignmentTable(
+            tf.verticalAlignment?.let{
+                this.textVerticalAlignmentTable.addValueForMultiRanges(ranges,it)
+            }?: this.textVerticalAlignmentTable.removeValueFromMultiRanges(ranges)
+        ).setCellBackgroundColorTable(
+            tf.backgroundColor?.let{
+                this.cellBackgroundColorTable.addValueForMultiRanges(ranges,it)
+            }?:this.cellBackgroundColorTable.removeValueFromMultiRanges(ranges)
+        )
+        return rt
+    }
+
+    override fun setFormat(range: RangeAddress, cellFormat: CellFormat): CellFormatTable {
+        return setFormatForMultiRanges(listOf(range),cellFormat)
+    }
+
+    override fun setFormatForMultiCells(cells: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable {
+        return setFormatForMultiRanges(cells.map{RangeAddress(it)},cellFormat)
+    }
+
+    override fun getFormat(cell: CellAddress): CellFormat {
+        val rt = CellFormatImp(
+            textSize = this.textSizeTable.getFirstValue(cell),
+            fontStyle = this.fontStyleTable.getFirstValue(cell),
+            verticalAlignment = this.textVerticalAlignmentTable.getFirstValue(cell),
+            horizontalAlignment = this.textHorizontalAlignmentTable.getFirstValue(cell),
+            textColor = this.textColorTable.getFirstValue(cell),
+            fontWeight = this.fontWeightTable.getFirstValue(cell),
+            isUnderlined = this.textUnderlinedTable.getFirstValue(cell),
+            isCrossed = this.textCrossedTable.getFirstValue(cell),
+            backgroundColor = this.cellBackgroundColorTable.getFirstValue(cell),
+        )
+        return rt
+    }
+
+    override fun setFormat(cell: CellAddress, cellFormat: CellFormat): CellFormatTable {
+        return setFormatForMultiRanges(listOf(RangeAddress(cell)),cellFormat)
+    }
+
     override fun getCellModifier(cellAddress: CellAddress): Modifier? {
         val backgroundColor = cellBackgroundColorTable.getFirstValue(cellAddress)
         return Modifier
             .background(backgroundColor ?: CellFormat.defaultBackgroundColor)
-    }
-
-    @OptIn(ExperimentalUnitApi::class)
-    override fun getTextStyle(cellAddress: CellAddress): TextStyle {
-        val textSize = this.textSizeTable.getFirstValue(cellAddress)
-        val textColor: Color = run {
-            val backgroundColor = this.cellBackgroundColorTable.getFirstValue(cellAddress)
-            val currentTextColor = this.textColorTable.getFirstValue(cellAddress)
-            if (currentTextColor != null) {
-                currentTextColor
-            } else {
-                // compute a contrast color
-//                backgroundColor?.getContrastColor() ?: TextFormat.defaultTextColor
-                backgroundColor?.getBlackOrWhiteOnLuminance() ?: TextFormat.defaultTextColor
-            }
-
-        }
-        val fontWeight: FontWeight? = this.fontWeightTable.getFirstValue(cellAddress)
-        val fontStyle: FontStyle? = this.fontStyleTable.getFirstValue(cellAddress)
-        val isCrossed: Boolean? = this.textCrossedTable.getFirstValue(cellAddress)
-        val isUnderlined: Boolean? = this.textUnderlinedTable.getFirstValue(cellAddress)
-        if (listOf(textSize, textColor, fontWeight, fontStyle, isCrossed, isUnderlined).any { it != null }) {
-            val rt = TextStyle(
-                fontSize = TextUnit(textSize ?: TextFormat.defaultFontSize, TextFormat.textSizeUnitType),
-                color = textColor,
-                fontWeight = fontWeight ?: TextFormat.defaultFontWeight,
-                fontStyle = fontStyle ?: TextFormat.defaultFontStyle,
-                textDecoration = TextDecoration.combine(
-                    emptyList<TextDecoration>().let {
-                        var l = it
-                        isCrossed?.also {
-                            if (isCrossed) {
-                                l = l + TextDecoration.LineThrough
-                            }
-                        }
-                        isUnderlined?.also {
-                            if (isUnderlined) {
-                                l = l + TextDecoration.Underline
-                            }
-                        }
-                        l
-                    }
-                )
-            )
-            return rt
-        } else {
-            return CellStates.defaultTextStyle
-        }
-    }
-
-    override fun getTextAlignment(cellAddress: CellAddress): Alignment {
-        val verticalAlignment = this.textVerticalAlignmentTable.getFirstValue(cellAddress)
-        val horizontalAlignment = this.textHorizontalAlignmentTable.getFirstValue(cellAddress)
-        return when ((verticalAlignment to horizontalAlignment)) {
-            TextVerticalAlignment.Top to TextHorizontalAlignment.Start -> {
-                Alignment.TopStart
-            }
-
-            TextVerticalAlignment.Top to TextHorizontalAlignment.Center -> {
-                Alignment.TopCenter
-            }
-
-            TextVerticalAlignment.Top to TextHorizontalAlignment.End -> {
-                Alignment.TopEnd
-            }
-
-            TextVerticalAlignment.Bot to TextHorizontalAlignment.Start -> {
-                Alignment.BottomStart
-            }
-
-            TextVerticalAlignment.Bot to TextHorizontalAlignment.Center -> {
-                Alignment.BottomCenter
-            }
-
-            TextVerticalAlignment.Bot to TextHorizontalAlignment.End -> {
-                Alignment.BottomEnd
-            }
-
-            TextVerticalAlignment.Center to TextHorizontalAlignment.Start -> {
-                Alignment.CenterStart
-            }
-
-            TextVerticalAlignment.Center to TextHorizontalAlignment.Center -> {
-                Alignment.Center
-            }
-
-            TextVerticalAlignment.Center to TextHorizontalAlignment.End -> {
-                Alignment.CenterEnd
-            }
-
-            else -> Alignment.CenterStart
-        }
-
     }
 }

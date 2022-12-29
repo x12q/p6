@@ -34,7 +34,7 @@ class OnCursorChangeEventReactorImp @Inject constructor(
 
     override fun updateFormatIndicator(cursorState:CursorState){
         val cursorId = cursorState.id
-        sc.getCellFormatTable2(cursorId)?.also {cft->
+        sc.getCellFormatTable(cursorId)?.also { cft->
             sc.getTextSizeSelectorStateMs(cursorId.wbKey)?.also { textSizeSelectorStateMs ->
                 textSizeSelectorStateMs.value = textSizeSelectorStateMs.value.setHeaderText(
                     cft.textSizeTable.getFirstValue(cursorState.mainCell)?.toString() ?: TextSizeSelectorState.defaultHeader

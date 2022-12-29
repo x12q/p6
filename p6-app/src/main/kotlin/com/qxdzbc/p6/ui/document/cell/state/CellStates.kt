@@ -3,11 +3,8 @@ package com.qxdzbc.p6.ui.document.cell.state
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormat
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextFormatImp
+import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 
 object CellStates {
     fun blank(cellAddress: CellAddress):CellState{
@@ -18,6 +15,6 @@ object CellStates {
     }
     @OptIn(ExperimentalUnitApi::class)
     val defaultTextStyle = TextStyle(
-        fontSize = TextUnit(TextFormat.defaultFontSize, TextFormat.textSizeUnitType),
+        fontSize = TextUnit(CellFormat.defaultFontSize, CellFormat.textSizeUnitType),
     )
 }
