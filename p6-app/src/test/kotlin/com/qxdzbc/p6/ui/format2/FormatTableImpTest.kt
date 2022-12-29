@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.format2
 import com.qxdzbc.common.test_util.TestSplitter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -32,7 +33,7 @@ internal class FormatTableImpTest : TestSplitter() {
 
     @Test
     fun getMultiValue() {
-        val table=FormatTableImp(
+        val table = FormatTableImp(
             mapOf(
                 RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()) to 1,
                 RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()) to 2,
@@ -41,11 +42,12 @@ internal class FormatTableImpTest : TestSplitter() {
         )
 
         val o = table.getMultiValue(RangeAddress("B3:D8"))
-        o.shouldContainOnly(
-            RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()) to 1,
-            RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()) to 2,
-            RangeAddressSetImp(listOf("B7:D8").map { RangeAddress(it) }.toSet()) to 3,
+        o.validSet.shouldContainOnly(
+            FormatConfigEntry(RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()), 1),
+            FormatConfigEntry(RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()), 2),
+            FormatConfigEntry(RangeAddressSetImp(listOf("B7:D8").map { RangeAddress(it) }.toSet()), 3),
         )
+        o.invalidSet.shouldBeEmpty()
     }
 
     @Test

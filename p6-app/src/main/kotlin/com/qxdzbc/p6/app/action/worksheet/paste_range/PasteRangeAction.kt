@@ -9,13 +9,12 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
  * Paste a range from the clipboard to a worksheet at [wbws], shift the range for any included formula if it is needed
  */
 interface PasteRangeAction {
-// TODO implement this
-//    fun pasteRange(wbws: WbWsSt, ra: RangeAddress):Rse<Unit>
+    fun pasteRange(wbwsSt: WbWsSt, rangeAddress: RangeAddress,undo:Boolean=true):Rse<Unit>
 
     /**
      * Paste a range from the clipboard to a worksheet at [wbws], shift the range for any included formula if it is needed
      * @param wbws for identifying the target worksheet
-     * @param ra for identifying the target range
+     * @param rangeAddress for identifying the target range
      */
-    fun pasteRange(wbws: WbWs, ra: RangeAddress):Rse<Unit>
+    fun pasteRange(wbws: WbWs, rangeAddress: RangeAddress,undo:Boolean=true):Rse<Unit>
 }

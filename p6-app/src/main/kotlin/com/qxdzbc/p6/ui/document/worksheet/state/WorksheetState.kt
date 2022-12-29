@@ -6,6 +6,8 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.app.command.Command
+import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
@@ -25,6 +27,12 @@ interface WorksheetState :WbWsSt {
 
     val idMs: Ms<WorksheetId>
     val id:WorksheetId
+
+    /**
+     * A stack of [Command], for undoing actions
+     */
+    val commandStackMs:Ms<CommandStack>
+    val commandStack: CommandStack
 
     val cellFormatTableMs: Ms<CellFormatTable>
     val cellFormatTable: CellFormatTable

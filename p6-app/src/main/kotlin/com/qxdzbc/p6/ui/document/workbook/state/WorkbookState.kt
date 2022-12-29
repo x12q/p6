@@ -35,13 +35,6 @@ interface WorkbookState {
     fun setNeedSave(i:Boolean):WorkbookState
 
     /**
-     * A stack of [Command], for undoing actions
-     */
-    val commandStackMs:Ms<CommandStack>
-    val commandStack:CommandStack
-    fun addCommand(command: Command):WorkbookState
-
-    /**
      * The data obj of shown on the workbook view
      */
     val wbMs: Ms<Workbook>

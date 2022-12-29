@@ -101,6 +101,12 @@ interface RangeAddress : RangeConstraint, Shiftable {
     ): RangeAddress
 
     fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean
+
+    companion object {
+        fun random(colRange:IntRange=1 .. 20, rowRange:IntRange = 1 .. 20):RangeAddress{
+            return RangeAddress(CellAddress.random(colRange,rowRange),CellAddress.random(colRange,rowRange))
+        }
+    }
 }
 
 /**

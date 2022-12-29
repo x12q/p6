@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.document.cell
 
-import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
@@ -103,9 +102,9 @@ data class CellImp(
     }
 
     override fun reRunRs(): Rse<Cell> {
-        val c = content.reRunRs()
-        val rt = c
-            .map { this.copy(content = it) }
+        val contentRs = content.reRunRs()
+        val rt = contentRs
+            .map { this.copy(content = it).evaluateDisplayText() }
         return rt
     }
 

@@ -6,6 +6,8 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.command.CommandStack
+import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
@@ -59,6 +61,7 @@ data class WorksheetStateImp constructor(
     override val colRange: IntRange = P6R.worksheetValue.defaultColRange,
     override val rowRange: IntRange = P6R.worksheetValue.defaultRowRange,
     override val cellFormatTableMs: Ms<CellFormatTable> = ms(CellFormatTableImp()),
+    override val commandStackMs: Ms<CommandStack>,
 ) : BaseWorksheetState() {
 
     @AssistedInject
@@ -80,6 +83,7 @@ data class WorksheetStateImp constructor(
         colRange = P6R.worksheetValue.defaultColRange,
         rowRange = P6R.worksheetValue.defaultRowRange,
         cellFormatTableMs = ms(CellFormatTableImp()),
+        commandStackMs = ms(CommandStacks.stdCommandStack())
     )
 
 

@@ -3,12 +3,11 @@ package com.qxdzbc.p6.app.action.worksheet.delete_multi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplier
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
-import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.rm.UpdateMultiCellRM
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -82,9 +81,9 @@ class DeleteMultiCellActionImp @Inject constructor(
 
 
     private fun createCommand(request: RemoveMultiCellRequest) {
-        val k = request.wbKey
-        val n = request.wsName
-        val ws = dc.getWs(k, n)
+        val wbKey = request.wbKey
+        val wsName = request.wsName
+        val ws = dc.getWs(wbKey, wsName)
         if (ws != null) {
             val command = object : BaseCommand() {
                 val allCell: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->
@@ -117,8 +116,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                     multiCellUpdateAct.updateMultiCell(cellMultiUpdateRequest,true)
                 }
             }
-            appState.queryStateByWorkbookKey(k).ifOk {
-                val commandStackMs = it.workbookState.commandStackMs
+            sc.getCommandStackMs(WbWs(wbKey,wsName))?.also {commandStackMs->
                 commandStackMs.value = commandStackMs.value.add(command)
             }
         }

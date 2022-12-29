@@ -40,21 +40,26 @@ data class CellFormatImp(
 
     @OptIn(ExperimentalUnitApi::class)
     override fun toTextStyle(): TextStyle {
-        val textColor: Color = run {
-            val backgroundColor = this.backgroundColor
-            val currentTextColor = this.textColor
-            if (currentTextColor != null) {
-                currentTextColor
+        val computedTextColor: Color? =if (textColor != null) {
+                textColor
             } else {
                 // compute a contrast color
-                backgroundColor?.getBlackOrWhiteOnLuminance() ?: CellFormat.defaultTextColor
+                backgroundColor?.getBlackOrWhiteOnLuminance()
             }
+        val isFormatEmpty =listOf(
+            textSize,
+            computedTextColor,
+            horizontalAlignment,
+            verticalAlignment,
+            fontWeight, fontStyle,
+            isCrossed, isUnderlined,
+            backgroundColor
+        ).any { it != null }
 
-        }
-        if (listOf(textSize, textColor, fontWeight, fontStyle, isCrossed, isUnderlined).any { it != null }) {
+        if (isFormatEmpty) {
             val rt = TextStyle(
                 fontSize = TextUnit(textSize ?: CellFormat.defaultFontSize, CellFormat.textSizeUnitType),
-                color = textColor,
+                color = computedTextColor ?: CellFormat.defaultTextColor,
                 fontWeight = fontWeight ?: CellFormat.defaultFontWeight,
                 fontStyle = fontStyle ?: CellFormat.defaultFontStyle,
                 textDecoration = TextDecoration.combine(

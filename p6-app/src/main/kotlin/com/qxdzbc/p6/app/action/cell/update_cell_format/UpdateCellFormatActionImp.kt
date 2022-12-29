@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.command.Commands
@@ -17,6 +19,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.format2.CellFormatTable
+import com.qxdzbc.p6.ui.format2.FormatConfig
 import com.qxdzbc.p6.ui.format2.FormatTable
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -88,10 +91,10 @@ class UpdateCellFormatActionImp @Inject constructor(
     ) {
         sc.getCellFormatTableMs(cellId)?.also { fmtMs ->
             if (undo) {
-                sc.getWbState(cellId.wbKeySt)?.also { wbState ->
-                    wbState.commandStackMs.value = wbState.commandStack.add(
+                sc.getCommandStackMs(cellId)?.also {
+                    val command =
                         makeCommandForFormatOneCell(cellId, formatValue, fmtMs, getFormatTable, updateCellFormatTable)
-                    )
+                    it.value = it.value.add(command)
                 }
             }
             runSetFormat(formatValue, cellId, fmtMs, getFormatTable, updateCellFormatTable)
@@ -130,7 +133,7 @@ class UpdateCellFormatActionImp @Inject constructor(
 
             override fun undo() {
                 val newCellFormatTable =
-                    (oldFormatConfig1 + oldFormatConfig2).fold(cellFormatTableMs.value) { acc, (rangeSet, t) ->
+                    (oldFormatConfig1.all + oldFormatConfig2.all).fold(cellFormatTableMs.value) { acc, (rangeSet, t) ->
                         updateCellFormatTableWithNewFormatValueOnSelectedCells(
                             formatValue = t,
                             ranges = rangeSet.ranges,
@@ -155,7 +158,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         sc.getActiveCursorState()?.also { csst ->
             sc.getCellFormatTableMs(csst)?.also { fmtMs ->
                 if (undo) {
-                    sc.getWbState(csst.wbKeySt)?.also {
+                    sc.getCommandStackMs(csst)?.also {
                         val command = makeCommandForFormattingOnSelectedCells(
                             formatValue = formatValue,
                             cursorState = csst,
@@ -163,7 +166,7 @@ class UpdateCellFormatActionImp @Inject constructor(
                             getFormatTable = getFormatTable,
                             updateCellFormatTable = updateCellFormatTable
                         )
-                        it.commandStackMs.value = it.commandStack.add(command)
+                        it.value = it.value.add(command)
                     }
                 }
                 fmtMs.value = updateCellFormatTableWithNewFormatValueOnSelectedCells(
@@ -200,6 +203,94 @@ class UpdateCellFormatActionImp @Inject constructor(
         return updateCellFormatTable(currentFormatTable, newTable)
     }
 
+    fun makeCommandToApplyFormatConfig(wbWsSt: WbWsSt, config: FormatConfig): Command {
+        val rt = object : BaseCommand() {
+            val _wbWsSt = wbWsSt
+            val newConfig = config
+            val oldConfig = sc.getCellFormatTable(wbWsSt)?.let {
+                it.getFormatConfigIncludeNullForConfig_Respectively(config)
+            }
+            val formatTableMs = sc.getCellFormatTableMs(_wbWsSt)
+            override fun run() {
+                // apply new config
+                formatTableMs?.also {
+                    it.value = it.value.applyConfig(newConfig)
+                }
+            }
+
+            override fun undo() {
+                formatTableMs?.also {
+                    if (oldConfig != null) {
+                        // apply old config
+                        it.value = it.value.applyConfig(oldConfig)
+                    } else {
+                        // remove format using the ranges in new config
+                        it.value = it.value.removeFormatByConfig_Flat(newConfig)
+                    }
+                }
+            }
+        }
+        return rt
+    }
+
+
+    override fun applyFormatConfig(wbWsSt: WbWsSt, config: FormatConfig, undo: Boolean) {
+        if (undo) {
+            val command = makeCommandToApplyFormatConfig(wbWsSt, config)
+            sc.getCommandStackMs(wbWsSt)?.also {
+                it.value = it.value.add(command)
+            }
+            command.run()
+        } else {
+            sc.getCellFormatTableMs(wbWsSt)?.also {
+                it.value = it.value.applyConfig(config)
+            }
+        }
+    }
+
+    override fun applyFormatConfig(wbWs: WbWs, config: FormatConfig, undo: Boolean) {
+        sc.getWbWsSt(wbWs)?.also {
+            applyFormatConfig(it, config, undo)
+        }
+    }
+
+    fun makeClearFormatCommand(wbWsSt: WbWsSt, config: FormatConfig):Command{
+        val command = object : BaseCommand() {
+            val oldConfig = sc.getCellFormatTable(wbWsSt)?.getFormatConfigIncludeNullForConfig_Flat(config)
+            val newConfig = config
+            override fun run() {
+                sc.getCellFormatTableMs(wbWsSt)?.also {
+                    it.value = it.value.removeFormatByConfig_Respectively(newConfig)
+                }
+            }
+
+            override fun undo() {
+                oldConfig?.also {
+                    sc.getCellFormatTableMs(wbWsSt)?.also {
+                        it.value = it.value.removeFormatByConfig_Respectively(oldConfig)
+                    }
+                }
+            }
+        }
+        return command
+    }
+
+    override fun clearFormat(wbWsSt: WbWsSt, config: FormatConfig, undo: Boolean) {
+        if (undo) {
+            sc.getCommandStackMs(wbWsSt)?.also {
+                it.value = it.value.add(makeClearFormatCommand(wbWsSt, config))
+            }
+        }
+        sc.getCellFormatTableMs(wbWsSt)?.also {
+            it.value = it.value.removeFormatByConfig_Respectively(config)
+        }
+    }
+
+    override fun clearFormat(wbWs: WbWs, config: FormatConfig, undo: Boolean) {
+        sc.getWbWsSt(wbWs)?.also {
+            clearFormat(it,config,undo)
+        }
+    }
 
     override fun setCellBackgroundColor(cellId: CellId, color: Color?, undo: Boolean) {
         updateFormatOnOneCell(
@@ -303,7 +394,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             formatValue = alignment,
             undo = undo,
             getFormatTable = CellFormatTable::textHorizontalAlignmentTable,
-                    updateCellFormatTable = CellFormatTable::setTextHorizontalAlignmentTable
+            updateCellFormatTable = CellFormatTable::setTextHorizontalAlignmentTable
         )
     }
 
@@ -326,7 +417,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             formatValue = alignment,
             undo = undo,
             getFormatTable = CellFormatTable::textVerticalAlignmentTable,
-                    updateCellFormatTable = CellFormatTable::setTextVerticalAlignmentTable
+            updateCellFormatTable = CellFormatTable::setTextVerticalAlignmentTable
         )
     }
 

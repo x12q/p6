@@ -53,8 +53,6 @@ data class WorkbookStateImp @AssistedInject constructor(
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
     @True private val refreshVar: Boolean = true,
     @True override val needSave: Boolean = true,
-    @DefaultCommandStack
-    override val commandStackMs: Ms<CommandStack> = ms(CommandStacks.stdCommandStack()),
     private val wsStateFactory: WorksheetStateFactory,
     private val gridSliderFactory: LimitedGridSliderFactory,
     private val cursorStateFactory: CursorStateFactory,
@@ -193,12 +191,6 @@ data class WorkbookStateImp @AssistedInject constructor(
         } else {
             return this
         }
-    }
-
-    override val commandStack: CommandStack by commandStackMs
-    override fun addCommand(command: Command): WorkbookState {
-        commandStackMs.value = commandStack.add(command)
-        return this
     }
 
     override var wb: Workbook by wbMs

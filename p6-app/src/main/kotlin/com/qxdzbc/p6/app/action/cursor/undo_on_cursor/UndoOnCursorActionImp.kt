@@ -20,7 +20,7 @@ class UndoOnCursorActionImp @Inject constructor(
     private val sc by stateContSt
 
     override fun undoOnCursor(wbwsSt: WbWsSt) {
-        val commandStackMs = sc.getWbState(wbwsSt.wbKeySt)?.commandStackMs
+        val commandStackMs = sc.getCommandStackMs(wbwsSt)
         undoOnCursor(commandStackMs)
     }
     fun undoOnCursor(commandStackMs:Ms<CommandStack>?) {

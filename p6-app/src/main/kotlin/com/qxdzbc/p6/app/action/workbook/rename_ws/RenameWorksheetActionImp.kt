@@ -12,6 +12,7 @@ import com.qxdzbc.common.error.ErrorReport
 
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
+import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
@@ -53,7 +54,9 @@ class RenameWorksheetActionImp @Inject constructor(
                     }
                 }
             }
-            wbStateMs.value = wbStateMs.value.addCommand(command)
+            sc.getCommandStackMs(WbWs(request.wbKey,request.oldName))?.also{
+                it.value = it.value.add(command)
+            }
         }
 
         val o = rm.renameWorksheet(request)

@@ -36,50 +36,49 @@ class CopyCellActionImp @Inject constructor(
     private fun copyData(request: CopyCellRequest):Rse<Unit>{
         val rt:Rse<Unit> = sc.getCellMsRs(request.fromCell).flatMap { fromCellMs ->
             val toCellMs: Ms<Cell>? = sc.getCellMs(request.toCell)
-            val q2: Rse<Unit> = sc.getWsMsRs(request.toCell).flatMap { wsMs ->
-                // x: get the worksheet
-                val ws:Worksheet by wsMs
+            val rs3: Rse<Unit> = sc.getWsMsRs(request.toCell).flatMap { toWsMs ->
+                val toWs:Worksheet by toWsMs
                 val wsStateMs: Ms<WorksheetState>? = sc.getWsStateMs(request.toCell)
                 // x: create the new cell if the destination cell does not exist
-                val newWs: Worksheet = if (toCellMs == null) {
+                val newToWs: Worksheet = if (toCellMs == null) {
                     val newCell = CellImp(
-                        id = CellId(request.toCell.address, ws.wbKeySt, ws.wsNameSt)
+                        id = CellId(request.toCell.address, toWs.wbKeySt, toWs.wsNameSt)
                     )
                     // x: add the new cell to the worksheet
-                    val newWs: Worksheet = wsMs.value.addOrOverwrite(newCell)
-                    wsMs.value = newWs
+                    val newWs: Worksheet = toWsMs.value.addOrOverwrite(newCell)
+                    toWsMs.value = newWs
                     newWs
                 } else {
-                    wsMs.value
+                    toWsMs.value
                 }
 
                 // x: update the destination cell
-                val q0 = newWs.getCellMsRs(request.toCell.address)
-                    .flatMap { newCellMs ->
-                        val copyContent: CellContent = if (request.shiftRange) {
+                val rs0 = newToWs.getCellMsRs(request.toCell.address)
+                    .flatMap { toCellMs ->
+                        val targetContent: CellContent = if (request.shiftRange) {
                             fromCellMs.value.content.shift(
                                 oldAnchorCell = fromCellMs.value.address,
-                                newAnchorCell = newCellMs.value.address
+                                newAnchorCell = toCellMs.value.address
                             )
                         } else {
                             fromCellMs.value.content
                         }
-                        newCellMs.value = newCellMs.value.setContent(copyContent)
+                        toCellMs.value = toCellMs.value.setContent(targetContent)
                         wsStateMs?.let {
                             it.value = it.value.refresh()
                         }
                         Ok(Unit)
                     }
                 // x: reRun the workbook containing the destination cell
-                val q1 = q0.flatMap {
-                    sc.getWbMsRs(ws.wbKeySt).flatMap {
+                val rs2 = rs0.flatMap {
+                    sc.getWbMsRs(toWs.wbKeySt).flatMap {
                         it.value = it.value.reRun()
                         Ok(Unit)
                     }
                 }
-                q1
+                rs2
             }
-            q2
+            rs3
         }
         return rt
     }
@@ -93,6 +92,5 @@ class CopyCellActionImp @Inject constructor(
                 it.value =it.value.setFormat(toCell.address,format)
             }
         }
-
     }
 }

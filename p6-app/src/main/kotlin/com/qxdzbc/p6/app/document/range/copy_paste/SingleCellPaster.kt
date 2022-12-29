@@ -19,36 +19,35 @@ import java.awt.datatransfer.Clipboard
 import javax.inject.Inject
 
 /**
- * Paste a range with target being a single cell
+ * Paste a range with target being a single cell. This is used inside [RangePasterImp]
  */
 class SingleCellPaster @Inject constructor(
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
-    private val transContMs: Ms<TranslatorContainer>,
-) : RangePaster {
+    override val transContMs: Ms<TranslatorContainer>,
+) : BaseRangePaster() {
 
-    val stateCont by stateContSt
+    override val stateCont by stateContSt
 
     override fun paste(target: RangeId): Result<Workbook, ErrorReport> {
         try {
-
-            val source: RangeCopy? = this.makeRangeCopyObj(target)
+            val source: RangeCopy? = this.readRangeCopyFromClipboard(target.wbKey,target.wsName)
             return this.paste(source, target)
         } catch (e: Throwable) {
             return CommonErrors.ExceptionError.report(e).toErr()
         }
     }
 
-    private fun makeRangeCopyObj(target: RangeId): RangeCopy? {
-        val wbwsSt = stateCont.getWbWsSt(target)
-        if(wbwsSt!=null){
-            val cl:Clipboard = Toolkit.getDefaultToolkit().systemClipboard
-            val translator = transContMs.value.getTranslatorOrCreate(wbwsSt)
-            val bytes:ByteArray = cl.getData(BinaryTransferable.binFlavor) as ByteArray
-            val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
-            return rangeCopy
-        } else{
-            return null
+    override fun paste2(target: RangeId): PasteResponse {
+        var sourceRangeId:RangeId?=null
+        val rs = try {
+            val source: RangeCopy? = this.readRangeCopyFromClipboard(target.wbKey,target.wsName)
+            sourceRangeId = source?.rangeId
+            this.paste(source, target)
+        } catch (e: Throwable) {
+            CommonErrors.ExceptionError.report(e).toErr()
         }
+        val rt = PasteResponse(sourceRangeId,rs)
+        return rt
     }
 
     private fun paste(source: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {

@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.range
 
-import com.qxdzbc.p6.app.action.range.paste_range.rm.PasteRangeRM
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.rm.CopyRangeToClipboardRM
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -13,5 +12,4 @@ class RangeRMImp @Inject constructor(
 
     private val copyRangeToClipboardRM: CopyRangeToClipboardRM,
 
-    private val pasteRangeRM : PasteRangeRM,
-) : RangeRM, PasteRangeRM by pasteRangeRM, CopyRangeToClipboardRM by copyRangeToClipboardRM
+) : RangeRM, CopyRangeToClipboardRM by copyRangeToClipboardRM

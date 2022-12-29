@@ -74,13 +74,6 @@ class WorkbookStateImpTest {
     }
 
     @Test
-    fun addCommand() {
-        assertTrue { wbState.commandStack.isEmpty() }
-        wbState.addCommand(mock())
-        assertTrue { wbState.commandStack.isNotEmpty() }
-    }
-
-    @Test
     fun setWorkbook() {
         val sheet1_1State:Ms<WorksheetState>? = wbState.getWsStateMs(wb0.getWs(0)!!.name)
         assertNotNull(sheet1_1State)

@@ -45,7 +45,6 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
         if (ws != null && wbKey != null && wsName != null && editTarget != null) {
             // x: execute the formula in the editor
             val cell = ws.getCell(editTarget)
-            // TODO re-check this
             val editorText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
 
             val reverseRequest = if (cell?.fullFormulaFromExUnit != null) {
@@ -91,8 +90,7 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
                 run = { updateCellAction.updateCellDM(request) },
                 undo = { updateCellAction.updateCellDM(reverseRequest) }
             )
-            stateCont.getWbState(wbKey)?.also {
-                val cMs = it.commandStackMs
+            stateCont.getCommandStackMs(ws)?.also {cMs->
                 cMs.value = cMs.value.add(command)
             }
             command.run()

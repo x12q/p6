@@ -21,4 +21,12 @@ class RangePasterImp @Inject constructor(
             return rangeRangePasterImp.paste(target)
         }
     }
+
+    override fun paste2(target: RangeId): PasteResponse {
+        if(target.rangeAddress.isCell()){
+            return singleCellPaster.paste2(target)
+        }else{
+            return rangeRangePasterImp.paste2(target)
+        }
+    }
 }

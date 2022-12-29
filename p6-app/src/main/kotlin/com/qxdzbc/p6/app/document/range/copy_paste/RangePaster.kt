@@ -14,4 +14,6 @@ interface RangePaster {
      * @return a new [Workbook], or an [ErrorReport] if there are errors
      */
     fun paste(target: RangeId):Result<Workbook,ErrorReport>
+
+    fun paste2(target: RangeId):PasteResponse
 }

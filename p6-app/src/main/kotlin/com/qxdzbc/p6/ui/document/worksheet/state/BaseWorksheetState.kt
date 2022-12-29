@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.state
 
 import androidx.compose.runtime.MutableState
+import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
@@ -8,6 +9,9 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.format2.CellFormatTable
 
 abstract class BaseWorksheetState : WorksheetState {
+    override val commandStack: CommandStack
+        get() = commandStackMs.value
+
     override val cellFormatTable: CellFormatTable
         get() = cellFormatTableMs.value
 

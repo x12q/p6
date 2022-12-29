@@ -115,7 +115,7 @@ internal class CopyCellActionImpTest : BaseTest() {
         assertTrue(ts.sc.getCellOrDefault(toCell)?.isFormula ?: false)
         assertEquals("=C2 + 1", ts.sc.getCellOrDefault(toCell)?.shortFormulaFromExUnit)
         assertEquals(3.0, ts.sc.getCellOrDefault(toCell)?.currentValue)
-        assertEquals("3", ts.sc.getCellOrDefault(toCell)?.attemptToAccessDisplayText())
+        ts.sc.getCellOrDefault(toCell)?.cachedDisplayText shouldBe "3"
         assertEquals(3.0, ts.sc.getCellOrDefault(toCell)?.valueAfterRun)
 
     }
@@ -136,6 +136,7 @@ internal class CopyCellActionImpTest : BaseTest() {
                 toCell = toCell,
             )
         )
-        assertEquals(content, ts.sc.getCellOrDefault(toCell)?.currentValue)
+        ts.sc.getCellOrDefault(toCell)?.currentValue shouldBe content
+        ts.sc.getCellOrDefault(toCell)?.cachedDisplayText shouldBe content
     }
 }

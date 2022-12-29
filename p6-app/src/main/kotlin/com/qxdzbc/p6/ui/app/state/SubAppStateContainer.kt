@@ -8,6 +8,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -34,6 +35,9 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
  * This interface provide functions for looking up view states that is enclosed inside [AppState]
  */
 interface SubAppStateContainer {
+
+    fun getCommandStackMs(wbwsSt: WbWsSt):Ms<CommandStack>?
+    fun getCommandStackMs(wbws: WbWs):Ms<CommandStack>?
 
     fun getCellFormatTableMs(wbwsSt: WbWsSt):Ms<CellFormatTable>?
     fun getCellFormatTableMs(wbws: WbWs):Ms<CellFormatTable>?

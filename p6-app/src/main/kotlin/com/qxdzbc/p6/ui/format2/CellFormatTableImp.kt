@@ -1,21 +1,11 @@
 package com.qxdzbc.p6.ui.format2
 
-import androidx.compose.foundation.background
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.TextUnit
-import com.qxdzbc.common.compose.ColorUtils.getBlackOrWhiteOnLuminance
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
-import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 
@@ -29,7 +19,7 @@ data class CellFormatTableImp(
     override val textVerticalAlignmentTable: FormatTable<TextVerticalAlignment> = FormatTableImp(),
     override val textHorizontalAlignmentTable: FormatTable<TextHorizontalAlignment> = FormatTableImp(),
     override val cellBackgroundColorTable: FormatTable<Color> = FormatTableImp(),
-) : CellFormatTable {
+) : BaseCellFormatTable() {
 
     override fun setTextSizeTable(i: FormatTable<Float>): CellFormatTableImp {
         return this.copy(textSizeTable = i)
@@ -73,75 +63,97 @@ data class CellFormatTableImp(
     ): CellFormatTable {
         val tf = cellFormat
         val rt = this.setTextSizeTable(
-            tf.textSize?.let{
-                this.textSizeTable.addValueForMultiRanges(ranges,it)
-            }?: this.textSizeTable.removeValueFromMultiRanges(ranges)
+            tf.textSize?.let {
+                this.textSizeTable.addValueForMultiRanges(ranges, it)
+            } ?: this.textSizeTable.removeValueFromMultiRanges(ranges)
         ).setFontStyleTable(
-            tf.fontStyle?.let{
-                this.fontStyleTable.addValueForMultiRanges(ranges,it)
-            }?: this.fontStyleTable.removeValueFromMultiRanges(ranges)
+            tf.fontStyle?.let {
+                this.fontStyleTable.addValueForMultiRanges(ranges, it)
+            } ?: this.fontStyleTable.removeValueFromMultiRanges(ranges)
         ).setFontWeightTable(
-            tf.fontWeight?.let{
-                this.fontWeightTable.addValueForMultiRanges(ranges,it)
-            }?: this.fontWeightTable.removeValueFromMultiRanges(ranges)
+            tf.fontWeight?.let {
+                this.fontWeightTable.addValueForMultiRanges(ranges, it)
+            } ?: this.fontWeightTable.removeValueFromMultiRanges(ranges)
         ).setTextColorTable(
-            tf.textColor?.let{
-                this.textColorTable.addValueForMultiRanges(ranges,it)
-            }?: this.textColorTable.removeValueFromMultiRanges(ranges)
+            tf.textColor?.let {
+                this.textColorTable.addValueForMultiRanges(ranges, it)
+            } ?: this.textColorTable.removeValueFromMultiRanges(ranges)
         ).setTextCrossedTable(
-            tf.isCrossed?.let{
-                this.textCrossedTable.addValueForMultiRanges(ranges,it)
-            }?: this.textCrossedTable.removeValueFromMultiRanges(ranges)
+            tf.isCrossed?.let {
+                this.textCrossedTable.addValueForMultiRanges(ranges, it)
+            } ?: this.textCrossedTable.removeValueFromMultiRanges(ranges)
         ).setTextUnderlinedTable(
-            tf.isUnderlined?.let{
-                this.textUnderlinedTable.addValueForMultiRanges(ranges,it)
-            }?: this.textUnderlinedTable.removeValueFromMultiRanges(ranges)
+            tf.isUnderlined?.let {
+                this.textUnderlinedTable.addValueForMultiRanges(ranges, it)
+            } ?: this.textUnderlinedTable.removeValueFromMultiRanges(ranges)
         ).setTextHorizontalAlignmentTable(
-            tf.horizontalAlignment?.let{
-                this.textHorizontalAlignmentTable.addValueForMultiRanges(ranges,it)
-            }?: this.textHorizontalAlignmentTable.removeValueFromMultiRanges(ranges)
+            tf.horizontalAlignment?.let {
+                this.textHorizontalAlignmentTable.addValueForMultiRanges(ranges, it)
+            } ?: this.textHorizontalAlignmentTable.removeValueFromMultiRanges(ranges)
         ).setTextVerticalAlignmentTable(
-            tf.verticalAlignment?.let{
-                this.textVerticalAlignmentTable.addValueForMultiRanges(ranges,it)
-            }?: this.textVerticalAlignmentTable.removeValueFromMultiRanges(ranges)
+            tf.verticalAlignment?.let {
+                this.textVerticalAlignmentTable.addValueForMultiRanges(ranges, it)
+            } ?: this.textVerticalAlignmentTable.removeValueFromMultiRanges(ranges)
         ).setCellBackgroundColorTable(
-            tf.backgroundColor?.let{
-                this.cellBackgroundColorTable.addValueForMultiRanges(ranges,it)
-            }?:this.cellBackgroundColorTable.removeValueFromMultiRanges(ranges)
+            tf.backgroundColor?.let {
+                this.cellBackgroundColorTable.addValueForMultiRanges(ranges, it)
+            } ?: this.cellBackgroundColorTable.removeValueFromMultiRanges(ranges)
         )
         return rt
     }
 
     override fun setFormat(range: RangeAddress, cellFormat: CellFormat): CellFormatTable {
-        return setFormatForMultiRanges(listOf(range),cellFormat)
+        return setFormatForMultiRanges(listOf(range), cellFormat)
     }
 
     override fun setFormatForMultiCells(cells: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable {
-        return setFormatForMultiRanges(cells.map{RangeAddress(it)},cellFormat)
+        return setFormatForMultiRanges(cells.map { RangeAddress(it) }, cellFormat)
     }
 
-    override fun getFormat(cell: CellAddress): CellFormat {
-        val rt = CellFormatImp(
-            textSize = this.textSizeTable.getFirstValue(cell),
-            fontStyle = this.fontStyleTable.getFirstValue(cell),
-            verticalAlignment = this.textVerticalAlignmentTable.getFirstValue(cell),
-            horizontalAlignment = this.textHorizontalAlignmentTable.getFirstValue(cell),
-            textColor = this.textColorTable.getFirstValue(cell),
-            fontWeight = this.fontWeightTable.getFirstValue(cell),
-            isUnderlined = this.textUnderlinedTable.getFirstValue(cell),
-            isCrossed = this.textCrossedTable.getFirstValue(cell),
-            backgroundColor = this.cellBackgroundColorTable.getFirstValue(cell),
+    override fun removeFormatByConfig_Respectively(config: FormatConfig): CellFormatTable {
+        return this.copy(
+            textSizeTable = textSizeTable.removeValueFromMultiRanges(config.textSizeConfig.allRanges),
+            textColorTable = textColorTable.removeValueFromMultiRanges(config.textColorConfig.allRanges),
+            textUnderlinedTable = textUnderlinedTable.removeValueFromMultiRanges(config.textUnderlinedConfig.allRanges),
+            textCrossedTable = textCrossedTable.removeValueFromMultiRanges(config.textCrossedConfig.allRanges),
+            fontWeightTable = fontWeightTable.removeValueFromMultiRanges(config.fontWeightConfig.allRanges),
+            fontStyleTable = fontStyleTable.removeValueFromMultiRanges(config.fontStyleConfig.allRanges),
+            textVerticalAlignmentTable = textVerticalAlignmentTable.removeValueFromMultiRanges(config.verticalAlignmentConfig.allRanges),
+            textHorizontalAlignmentTable = textHorizontalAlignmentTable.removeValueFromMultiRanges(config.horizontalAlignmentConfig.allRanges),
+            cellBackgroundColorTable = cellBackgroundColorTable.removeValueFromMultiRanges(config.backgroundColorConfig.allRanges),
         )
-        return rt
+    }
+
+    override fun removeFormatByConfig_Flat(config: FormatConfig): CellFormatTable {
+        val ranges = config.allRanges
+        return this.copy(
+            textSizeTable = textSizeTable.removeValueFromMultiRanges(ranges),
+            textColorTable = textColorTable.removeValueFromMultiRanges(ranges),
+            textUnderlinedTable = textUnderlinedTable.removeValueFromMultiRanges(ranges),
+            textCrossedTable = textCrossedTable.removeValueFromMultiRanges(ranges),
+            fontWeightTable = fontWeightTable.removeValueFromMultiRanges(ranges),
+            fontStyleTable = fontStyleTable.removeValueFromMultiRanges(ranges),
+            textVerticalAlignmentTable = textVerticalAlignmentTable.removeValueFromMultiRanges(ranges),
+            textHorizontalAlignmentTable = textHorizontalAlignmentTable.removeValueFromMultiRanges(ranges),
+            cellBackgroundColorTable = cellBackgroundColorTable.removeValueFromMultiRanges(ranges),
+        )
+    }
+
+    override fun applyConfig(config: FormatConfig): CellFormatTable {
+        return this.copy(
+            textSizeTable = textSizeTable.applyConfig(config.textSizeConfig),
+            textColorTable = textColorTable.applyConfig(config.textColorConfig),
+            textUnderlinedTable = textUnderlinedTable.applyConfig(config.textUnderlinedConfig),
+            textCrossedTable = textCrossedTable.applyConfig(config.textCrossedConfig),
+            fontWeightTable = fontWeightTable.applyConfig(config.fontWeightConfig),
+            fontStyleTable = fontStyleTable.applyConfig(config.fontStyleConfig),
+            textVerticalAlignmentTable = textVerticalAlignmentTable.applyConfig(config.verticalAlignmentConfig),
+            textHorizontalAlignmentTable = textHorizontalAlignmentTable.applyConfig(config.horizontalAlignmentConfig),
+            cellBackgroundColorTable = cellBackgroundColorTable.applyConfig(config.backgroundColorConfig),
+        )
     }
 
     override fun setFormat(cell: CellAddress, cellFormat: CellFormat): CellFormatTable {
-        return setFormatForMultiRanges(listOf(RangeAddress(cell)),cellFormat)
-    }
-
-    override fun getCellModifier(cellAddress: CellAddress): Modifier? {
-        val backgroundColor = cellBackgroundColorTable.getFirstValue(cellAddress)
-        return Modifier
-            .background(backgroundColor ?: CellFormat.defaultBackgroundColor)
+        return setFormatForMultiRanges(listOf(RangeAddress(cell)), cellFormat)
     }
 }

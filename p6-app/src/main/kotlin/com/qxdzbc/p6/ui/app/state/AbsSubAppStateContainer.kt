@@ -9,6 +9,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -24,6 +25,14 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
+
+    override fun getCommandStackMs(wbwsSt: WbWsSt): Ms<CommandStack>? {
+        return getWsState(wbwsSt)?.commandStackMs
+    }
+
+    override fun getCommandStackMs(wbws: WbWs): Ms<CommandStack>? {
+        return getWsState(wbws)?.commandStackMs
+    }
 
     override fun getCellFormatTableMs(wbws: WbWs): Ms<CellFormatTable>? {
         return this.getWsState(wbws)?.cellFormatTableMs
