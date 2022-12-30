@@ -45,7 +45,7 @@ data class CellContentDM(
 
     fun toCellContent(translator: P6Translator<ExUnit>): CellContent {
         val rt = formula?.let {
-            CellContentImp.fromTransRs(translator.translate(it),originalFormula = this.originalText)
+            CellContentImp.fromTransRs(translator.translate(formula),originalFormula = this.originalText)
         } ?: CellContentImp(cellValueMs = cellValue.toMs(),originalText = this.originalText)
         return rt
     }

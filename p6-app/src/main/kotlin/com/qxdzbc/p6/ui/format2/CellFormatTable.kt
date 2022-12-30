@@ -41,8 +41,8 @@ interface CellFormatTable {
 
     fun setFormatForMultiRanges(ranges: Collection<RangeAddress>, cellFormat: CellFormat): CellFormatTable
     fun setFormat(range: RangeAddress, cellFormat: CellFormat): CellFormatTable
-    fun setFormatForMultiCells(cellAddressList: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable
     fun setFormat(cellAddress: CellAddress, cellFormat: CellFormat): CellFormatTable
+    fun setFormatForMultiCells(cellAddressList: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable
 
     /**
      * Get [CellFormat] at [cellAddress]

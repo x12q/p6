@@ -3,8 +3,8 @@ package com.qxdzbc.p6.app.action.worksheet.delete_multi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
@@ -28,7 +28,7 @@ class DeleteMultiCellActionImp @Inject constructor(
     val applier: DeleteMultiApplier,
     private val appStateMs: Ms<AppState>,
     private val docContMs: Ms<DocumentContainer>,
-    private val multiCellUpdateAct:MultiCellUpdateAction,
+    private val multiCellUpdateAct:UpdateMultiCellAction,
     val stateContMs: Ms<SubAppStateContainer>,
 ) : DeleteMultiCellAction {
 
@@ -41,8 +41,10 @@ class DeleteMultiCellActionImp @Inject constructor(
         return internalApplyAtCursor(request)
     }
 
-    override fun deleteMultiCell(request: RemoveMultiCellRequest): RseNav<RemoveMultiCellResponse> {
-        createCommand(request)
+    override fun deleteMultiCell(request: RemoveMultiCellRequest,undoable:Boolean): RseNav<RemoveMultiCellResponse> {
+        if(undoable){
+            createCommand(request)
+        }
         return internalApply(request)
     }
 
@@ -108,7 +110,7 @@ class DeleteMultiCellActionImp @Inject constructor(
 
                 override fun undo() {
                     // need to implement multi update request
-                    val cellMultiUpdateRequest = MultiCellUpdateRequest(
+                    val cellMultiUpdateRequest = UpdateMultiCellRequest(
                         wbKeySt = ws.wbKeySt,
                         wsNameSt = ws.wsNameSt,
                         cellUpdateList = updateList
@@ -116,9 +118,11 @@ class DeleteMultiCellActionImp @Inject constructor(
                     multiCellUpdateAct.updateMultiCell(cellMultiUpdateRequest,true)
                 }
             }
-            sc.getCommandStackMs(WbWs(wbKey,wsName))?.also {commandStackMs->
-                commandStackMs.value = commandStackMs.value.add(command)
-            }
+
+                sc.getCommandStackMs(WbWs(wbKey,wsName))?.also {commandStackMs->
+                    commandStackMs.value = commandStackMs.value.add(command)
+                }
+
         }
     }
 }

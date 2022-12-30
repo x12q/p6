@@ -8,6 +8,7 @@ import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.DocProtos.CellIdProto
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 
 data class CellId(
     val address: CellAddress,
@@ -18,11 +19,23 @@ data class CellId(
     constructor(address: CellAddress,wbwsSt:WbWsSt):this(address,wbwsSt.wbKeySt,wbwsSt.wsNameSt)
 
     companion object {
+        /**
+         *
+         * a shallow model is a model that is not attached to the app state
+         */
         fun CellIdProto.toShallowModel(): CellId {
             return CellId(
                 address = this.cellAddress.toModel(),
                 wbKeySt = this.wbKey.toModel().toSt(),
                 wsNameSt = this.wsName.toSt()
+            )
+        }
+
+        fun CellIdProto.toModelDM(): CellIdDM {
+            return CellIdDM(
+                address = this.cellAddress.toModel(),
+                wbKey = this.wbKey.toModel(),
+                wsName = this.wsName
             )
         }
     }
@@ -51,5 +64,13 @@ data class CellId(
             .setWbKey(wbKey.toProto())
             .setWsName(wsName)
             .build()
+    }
+
+    fun toDm():CellIdDM{
+        return CellIdDM(
+            address = this.address,
+            wbKey = wbKey,
+            wsName = wsName
+        )
     }
 }

@@ -23,4 +23,8 @@ data class RangeIdImp(
             .build()
         return proto
     }
+
+    override fun toDm(): RangeId {
+        return RangeIdDM(rangeAddress, wbKey, wsName)
+    }
 }

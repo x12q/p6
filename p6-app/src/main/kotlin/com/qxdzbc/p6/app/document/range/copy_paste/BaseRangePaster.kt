@@ -1,13 +1,10 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
-import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.copiers.binary_copier.BinaryTransferable
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeId
+import com.qxdzbc.p6.app.action.worksheet.paste_range.RangeCopyDM
 import com.qxdzbc.p6.app.document.range.RangeCopy
-import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
@@ -20,7 +17,7 @@ abstract class BaseRangePaster : RangePaster {
     /**
      * extract the range copy from the clipboard
      */
-    protected fun readRangeCopyFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
+    override fun readRangeCopyFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
         val clipboard = Toolkit.getDefaultToolkit().systemClipboard
         val wbwsSt: WbWsSt? = stateCont.getWbWsSt(wbKey, wsName)
         if(wbwsSt!=null){
@@ -29,6 +26,16 @@ abstract class BaseRangePaster : RangePaster {
             val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
             return rangeCopy
         }else{
+            return null
+        }
+    }
+    override fun readRangeCopyDMFromClipboard(): RangeCopyDM? {
+        try{
+            val clipboard = Toolkit.getDefaultToolkit().systemClipboard
+            val bytes = clipboard.getData(BinaryTransferable.binFlavor) as ByteArray
+            val rangeCopy = RangeCopyDM.fromProtoBytes(bytes)
+            return rangeCopy
+        }catch(e:Exception){
             return null
         }
     }

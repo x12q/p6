@@ -9,6 +9,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellProto
+import com.qxdzbc.p6.rpc.cell.msg.CellDM
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 import kotlin.jvm.Throws
 
@@ -84,5 +85,6 @@ interface Cell :Shiftable,WbWsSt{
 
     fun hasContent(): Boolean
     fun toProto(): CellProto
+    fun toDm():CellDM
 }
 

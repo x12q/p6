@@ -5,6 +5,7 @@ import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.action.range.RangeIdDM.Companion.toModel
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toShallowModel
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.proto.RangeProtos.RangeCopyProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
@@ -12,7 +13,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 /**
  * contain a [RangeId] and a list of [Cell] in that range
  */
-class RangeCopy(
+data class RangeCopy(
     val rangeId: RangeId,
     val cells: List<Cell>
 ) {
@@ -39,4 +40,21 @@ class RangeCopy(
             .addAllCell(this.cells.map { it.toProto() })
             .build()
     }
+
+
+    fun shiftCells(target: RangeId): RangeCopy {
+        return this.shiftCells(target.rangeAddress.topLeft)
+    }
+
+    /**
+     * shift all the cell in this object using vector: topLeft of this range -> [newAnchorCell]
+     */
+    fun shiftCells(newAnchorCell:CellAddress): RangeCopy {
+        val sourceTopLeft: CellAddress = this.rangeId.rangeAddress.topLeft
+        val newCells=this.cells.map{
+            it.shift(sourceTopLeft,newAnchorCell)
+        }
+        return this.copy(cells = newCells)
+    }
+
 }

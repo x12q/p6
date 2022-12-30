@@ -5,7 +5,7 @@ import com.qxdzbc.p6.proto.WorksheetProtos.MultiCellUpdateRequestProto
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModelDM
 
 /**
  * for rpc call
@@ -17,7 +17,7 @@ data class MultiCellUpdateRequestDM(
     companion object {
         fun MultiCellUpdateRequestProto.toModel():MultiCellUpdateRequestDM{
             return MultiCellUpdateRequestDM(
-                wsId = this.wsId.toModel(),
+                wsId = this.wsId.toModelDM(),
                 cellUpdateList = this.updateEntriesList.map{it.toModel()}
             )
         }

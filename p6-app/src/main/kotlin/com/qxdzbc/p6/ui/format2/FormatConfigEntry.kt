@@ -3,6 +3,9 @@ package com.qxdzbc.p6.ui.format2
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 
+/**
+ * A pair value of a [RangeAddressSet] and a format value
+ */
 data class FormatConfigEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue: T):Shiftable{
 
     /**

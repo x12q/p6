@@ -4,5 +4,5 @@ import com.qxdzbc.p6.app.common.utils.RseNav
 
 interface DeleteMultiCellAction {
     fun deleteMultiCellAtCursor(request:DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse>
-    fun deleteMultiCell(request: RemoveMultiCellRequest): RseNav<RemoveMultiCellResponse>
+    fun deleteMultiCell(request: RemoveMultiCellRequest,undoable:Boolean): RseNav<RemoveMultiCellResponse>
 }

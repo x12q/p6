@@ -30,6 +30,6 @@ fun ColorSquare(
             borderColor = Color.Transparent
         }
     ) {
-        Box(modifier = Modifier.size(17.dp).padding(2.dp).background(color))
+        Box(modifier = Modifier.size(22.dp).padding(2.dp).background(color))
     }
 }

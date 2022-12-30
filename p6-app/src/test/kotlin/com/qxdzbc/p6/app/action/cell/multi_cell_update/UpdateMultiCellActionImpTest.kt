@@ -10,9 +10,9 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import test.TestSample
 import kotlin.test.*
 
-internal class MultiCellUpdateActionImpTest {
+internal class UpdateMultiCellActionImpTest {
     lateinit var ts: TestSample
-    lateinit var act:MultiCellUpdateAction
+    lateinit var act:UpdateMultiCellAction
     @BeforeTest
     fun b(){
         ts = TestSample()

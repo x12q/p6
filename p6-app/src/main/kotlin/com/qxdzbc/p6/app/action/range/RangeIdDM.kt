@@ -20,6 +20,10 @@ data class RangeIdDM(
         return proto
     }
 
+    override fun toDm(): RangeId {
+        return this
+    }
+
     companion object{
         fun RangeIdProto.toModel(): RangeIdDM {
             return RangeIdDM(

@@ -5,6 +5,9 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 
+/**
+ * A collection of valid and invalid [FormatConfigEntry]
+ */
 data class FormatConfigEntrySet<T>(
     val validSet: Set<FormatConfigEntry<T>> = emptySet(),
     val invalidSet: Set<FormatConfigEntry<T?>> = emptySet(),

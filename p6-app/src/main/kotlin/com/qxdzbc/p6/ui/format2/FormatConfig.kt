@@ -10,6 +10,9 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import kotlin.random.Random
 
+/**
+ * A collection of multiple format entry sets in different categories.
+ */
 data class FormatConfig(
     val textSizeConfig: FormatConfigEntrySet<Float> = FormatConfigEntrySet(),
     val textColorConfig: FormatConfigEntrySet<Color> = FormatConfigEntrySet(),

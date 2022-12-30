@@ -2,6 +2,7 @@ package com.qxdzbc.p6.app.document.cell
 
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.rpc.cell.msg.CellDM
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 abstract class BaseCell : Cell {
@@ -68,4 +69,12 @@ abstract class BaseCell : Cell {
             }
         }
     override val isFormula: Boolean get() = content.isFormula
+
+
+    override fun toDm(): CellDM {
+        return CellDM(
+            id=this.id.toDm(),
+            content = this.content.toDm()
+        )
+    }
 }

@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorActionImp
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorActionImp
@@ -106,7 +106,7 @@ interface TestComponent : P6Component {
     fun loadDataAction(): LoadDataAction
     fun removeAllCellAction(): RemoveAllCellAction
     fun removeAllWorksheetAction(): RemoveAllWorksheetAction
-    fun multiCellUpdateAction(): MultiCellUpdateAction
+    fun multiCellUpdateAction(): UpdateMultiCellAction
     fun newWorksheetAction(): NewWorksheetAction
     fun computeSliderSizeAction(): ComputeSliderSizeAction
     fun rulerAction(): RulerAction

@@ -3,8 +3,8 @@ package com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6Singleton
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class EndThumbDragActionImp @Inject constructor(
     val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
     private val copyCellAct: CopyCellAction,
-    private val multiCellUpdateAct: MultiCellUpdateAction,
+    private val multiCellUpdateAct: UpdateMultiCellAction,
 ) : EndThumbDragAction {
 
     val sc by stateContainerSt
@@ -63,7 +63,7 @@ class EndThumbDragActionImp @Inject constructor(
             )
         }
 
-        val updateRequest = MultiCellUpdateRequest(
+        val updateRequest = UpdateMultiCellRequest(
             wbKeySt = wbws.wbKeySt,
             wsNameSt = wbws.wsNameSt,
             cellUpdateList = updateEntries

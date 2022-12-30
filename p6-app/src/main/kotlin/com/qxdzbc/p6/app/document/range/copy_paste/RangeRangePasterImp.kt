@@ -61,16 +61,7 @@ class RangeRangePasterImp @Inject constructor(
         }
     }
 
-    override fun paste(target: RangeId): Result<Workbook, ErrorReport> {
-        try {
-            val rangeCopy: RangeCopy? = readRangeCopyFromClipboard(target.wbKey, target.wsName)
-            return this.paste(rangeCopy, target)
-        } catch (e: Throwable) {
-            return CommonErrors.ExceptionError.report(e).toErr()
-        }
-    }
-
-    override fun paste2(target: RangeId): PasteResponse {
+    override fun paste(target: RangeId): PasteResponse {
         var sourceRangeId: RangeId? = null
         val rs = try {
             val source: RangeCopy? = this.readRangeCopyFromClipboard(target.wbKey, target.wsName)

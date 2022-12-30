@@ -28,16 +28,7 @@ class SingleCellPaster @Inject constructor(
 
     override val stateCont by stateContSt
 
-    override fun paste(target: RangeId): Result<Workbook, ErrorReport> {
-        try {
-            val source: RangeCopy? = this.readRangeCopyFromClipboard(target.wbKey,target.wsName)
-            return this.paste(source, target)
-        } catch (e: Throwable) {
-            return CommonErrors.ExceptionError.report(e).toErr()
-        }
-    }
-
-    override fun paste2(target: RangeId): PasteResponse {
+    override fun paste(target: RangeId): PasteResponse {
         var sourceRangeId:RangeId?=null
         val rs = try {
             val source: RangeCopy? = this.readRangeCopyFromClipboard(target.wbKey,target.wsName)

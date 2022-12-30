@@ -2,8 +2,8 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action
 
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 internal class EndThumbDragActionImpTest : BaseTest() {
     lateinit var act: EndThumbDragAction
     lateinit var updateCellAct: UpdateCellAction
-    lateinit var multiCellUpdateAct:MultiCellUpdateAction
+    lateinit var multiCellUpdateAct:UpdateMultiCellAction
     lateinit var startCell: CellAddress
     var startValue: Double = 0.0
     lateinit var startCellId: CellId
@@ -49,7 +49,7 @@ internal class EndThumbDragActionImpTest : BaseTest() {
         val wbkSt= ts.wbKey1Ms
         val wsnSt=ts.sc.getWsNameSt(ts.wbKey1Ms,ts.wsn1)!!
         multiCellUpdateAct.updateMultiCell(
-            MultiCellUpdateRequest(
+            UpdateMultiCellRequest(
                 wbKeySt = wbkSt,
                 wsNameSt = wsnSt,
                 cellUpdateList = listOf(

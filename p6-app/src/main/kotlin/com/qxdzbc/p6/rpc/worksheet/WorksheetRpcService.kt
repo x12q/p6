@@ -29,7 +29,7 @@ import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.worksheet.msg.*
 import com.qxdzbc.p6.rpc.worksheet.msg.CheckContainAddressRequest.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest.Companion.toModel
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModelDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
@@ -73,7 +73,7 @@ class WorksheetRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
-                    val o = rpcActs.removeAllCell(request.toModel())
+                    val o = rpcActs.removeAllCell(request.toModelDM())
                     val rt = SingleSignalResponse.fromRs(o)
                     rt
                 }.await()
@@ -116,7 +116,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.GetAllCellResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wsId: WorksheetIdDM = request.toModel()
+            val wsId: WorksheetIdDM = request.toModelDM()
             val ws: Worksheet? = sc.getWs(wsId)
             val cellAddressList: List<CellAddress> = (ws?.cells ?: emptyList()).map { it.address }
             responseObserver.onNextAndComplete(GetAllCellResponse(cellAddressList).toProto())
@@ -128,7 +128,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.CellCountResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wsId: WorksheetIdDM = request.toModel()
+            val wsId: WorksheetIdDM = request.toModelDM()
             val count: Int = sc.getWs(wsId)?.size ?: 0
             responseObserver.onNextAndComplete(CellCountResponse(count.toLong()).toProto())
         }
@@ -140,7 +140,7 @@ class WorksheetRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.GetUsedRangeResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val wsId: WorksheetIdDM = request.toModel()
+            val wsId: WorksheetIdDM = request.toModelDM()
             val ra: RangeAddress? = sc.getWs(wsId)?.usedRange
             val res = GetUsedRangeResponse(ra)
             responseObserver.onNextAndComplete(res.toProto())
@@ -156,7 +156,7 @@ class WorksheetRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val cid: CellIdDM = request.toModel()
-                    val o = rpcActs.pasteRange(cid, RangeAddress(cid.address))
+                    val o = rpcActs.pasteRange(cid, RangeAddress(cid.address),true)
                     o
                 }.await()
             }
@@ -201,7 +201,8 @@ class WorksheetRpcService @Inject constructor(
                             cells = listOf(i.address),
                             clearFormat = false,
                             windowId = null
-                        )
+                        ),
+                        undoable =true
                     )
                     o
                 }.await()
@@ -228,7 +229,8 @@ class WorksheetRpcService @Inject constructor(
                             cells = listOf(),
                             clearFormat = false,
                             windowId = null
-                        )
+                        ),
+                        undoable=true
                     )
                     o
                 }.await()

@@ -20,13 +20,13 @@ import javax.inject.Inject
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
-class MultiCellUpdateActionImp @Inject constructor(
+class UpdateMultiCellActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val tcSt: St<@JvmSuppressWildcards TranslatorContainer>,
     val errorRouter: ErrorRouter,
     @AppCoroutineScope
     val crtScope: CoroutineScope
-) : MultiCellUpdateAction {
+) : UpdateMultiCellAction {
     val sc by stateContSt
     val tc by tcSt
 
@@ -41,7 +41,7 @@ class MultiCellUpdateActionImp @Inject constructor(
         return rt
     }
 
-    override fun updateMultiCell(request: MultiCellUpdateRequest, publishErr: Boolean): Rse<Unit> {
+    override fun updateMultiCell(request: UpdateMultiCellRequest, publishErr: Boolean): Rse<Unit> {
         val wsStateMsRs = sc.getWsStateMsRs(request)
         val rt = this.updateMultiCell(wsStateMsRs,request.cellUpdateList)
         rt.onFailure {
@@ -60,10 +60,10 @@ class MultiCellUpdateActionImp @Inject constructor(
                 wbKeySt = ws.wbKeySt, wsNameSt = ws.nameMs
             )
             // x: update ws with new data
-            for (entry in cellUpdateList) {
+            for (indCell in cellUpdateList) {
                 val updateRs = ws.updateCellContentRs(
-                    cellAddress = entry.address,
-                    cellContent = entry.content.toCellContent(translator)
+                    cellAddress = indCell.address,
+                    cellContent = indCell.content.toCellContent(translator)
                 )
                 updateRs.onSuccess {
                     ws = it

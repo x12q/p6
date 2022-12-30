@@ -8,4 +8,5 @@ import com.qxdzbc.p6.proto.DocProtos
 interface RangeId: WbWs {
     val rangeAddress: RangeAddress
     fun toProto(): DocProtos.RangeIdProto
+    fun toDm():RangeId
 }

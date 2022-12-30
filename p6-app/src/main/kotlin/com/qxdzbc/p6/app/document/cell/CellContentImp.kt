@@ -154,7 +154,7 @@ data class CellContentImp(
     override fun toDm(): CellContentDM {
         return CellContentDM(
             cellValue = this.cellValue,
-            formula = this.originalText,
+            formula = if(this.isFormula) this.originalText else null,
             originalText = this.originalText
         )
     }

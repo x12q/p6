@@ -8,7 +8,9 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.document.cell.CellId.Companion.toModelDM
 import com.qxdzbc.p6.app.document.cell.CellId.Companion.toShallowModel
+import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toModelDM
 import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toModel
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
@@ -16,6 +18,8 @@ import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.CellProto
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModelDM
+import com.qxdzbc.p6.rpc.cell.msg.CellDM
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
@@ -27,6 +31,16 @@ data class CellImp(
 ) : BaseCell(), WbWsSt by id {
 
     companion object {
+        fun CellProto.toModelDM():CellDM{
+            return CellDM(
+                id = this.id.toModelDM(),
+                content = this.content.toModelDM()
+            )
+        }
+
+        /**
+         * a shallow model is a model that is not attached to the app state
+         */
         fun CellProto.toShallowModel(
             translator: P6Translator<ExUnit>
         ): CellImp {

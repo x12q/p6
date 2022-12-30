@@ -77,7 +77,8 @@ class IntegrationTest {
                 cells= listOf(CellAddress("B1")),
                 wbKey = wbws.wbKey,
                 wsName = wbws.wsName
-            )
+            ),
+            undoable =true
         )
         assertEquals(originalErrMsg,sc.getCellOrDefault(wbws, CellAddress("A1"))!!.cachedDisplayText)
     }

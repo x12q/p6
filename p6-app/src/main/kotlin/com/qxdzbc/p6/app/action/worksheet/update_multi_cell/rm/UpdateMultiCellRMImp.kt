@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequest
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateResponse
 
 import com.qxdzbc.p6.app.document.cell.CellContent
@@ -34,7 +34,7 @@ class UpdateMultiCellRMImp @Inject constructor(
     var translatorCont by translatorContainerMs
     private var dc by docContMs
 
-    override fun cellMultiUpdate(request: MultiCellUpdateRequest): MultiCellUpdateResponse? {
+    override fun cellMultiUpdate(request: UpdateMultiCellRequest): MultiCellUpdateResponse? {
         val req = request
         val rs = dc.getWbRs(req.wbKey).andThen { wb->
             wb.getWsRs(req.wsName).andThen { ws->

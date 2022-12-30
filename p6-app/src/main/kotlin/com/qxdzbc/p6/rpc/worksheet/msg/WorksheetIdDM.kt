@@ -10,7 +10,7 @@ data class WorksheetIdDM(
     override val wsName:String,
 ) :WbWs{
     companion object {
-        fun WorksheetIdProto.toModel(): WorksheetIdDM {
+        fun WorksheetIdProto.toModelDM(): WorksheetIdDM {
             return WorksheetIdDM(
                 wbKey = this.wbKey.toModel(),
                 wsName =  this.wsName,

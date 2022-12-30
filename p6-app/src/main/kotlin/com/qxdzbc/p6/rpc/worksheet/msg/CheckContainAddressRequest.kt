@@ -3,7 +3,7 @@ package com.qxdzbc.p6.rpc.worksheet.msg
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.proto.WorksheetProtos
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModel
+import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModelDM
 
 data class CheckContainAddressRequest(
     val wsId: WorksheetIdDM,
@@ -12,7 +12,7 @@ data class CheckContainAddressRequest(
     companion object{
         fun WorksheetProtos.CheckContainAddressRequestProto.toModel(): CheckContainAddressRequest {
             return CheckContainAddressRequest(
-                wsId = this.wsId.toModel(),
+                wsId = this.wsId.toModelDM(),
                 cellAddress = this.cellAddress.toModel()
             )
         }

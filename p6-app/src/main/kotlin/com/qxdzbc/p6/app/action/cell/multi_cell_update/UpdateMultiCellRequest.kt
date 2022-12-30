@@ -10,7 +10,7 @@ import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 /**
  * this is for internal use. This use St wbkey and St ws name, these allow faster looking up.
  */
-data class MultiCellUpdateRequest(
+data class UpdateMultiCellRequest(
     override val wbKeySt:St<WorkbookKey>,
     override val wsNameSt:St<String>,
     val cellUpdateList: List<IndCellDM>
