@@ -21,6 +21,7 @@ import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.app.document.range.copy_paste.ClipboardReader
 import com.qxdzbc.p6.app.document.range.copy_paste.RangePaster
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -34,11 +35,11 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class PasteRangeActionImp @Inject constructor(
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    private val paster: RangePaster,
     val updateCellFormatAction: UpdateCellFormatAction,
     val updateCellAction: UpdateCellAction,
     val updateMultiCellAction: UpdateMultiCellAction,
     val deleteMultiCellAction: DeleteMultiCellAction,
+    val clipboardReader: ClipboardReader,
 ) : PasteRangeAction {
 
     private val sc by stateContSt
@@ -49,7 +50,7 @@ class PasteRangeActionImp @Inject constructor(
             wbKeySt = targetWbWsSt.wbKeySt,
             wsNameSt = targetWbWsSt.wsNameSt
         )
-        val clipboardData: RangeCopy? = paster.readDataFromClipboard(targetWbWsSt.wbKey, targetWbWsSt.wsName)
+        val clipboardData: RangeCopy? = clipboardReader.readDataFromClipboard(targetWbWsSt.wbKey, targetWbWsSt.wsName)
         val shiftedClipboardData = clipboardData?.shiftCells(targetRangeId.rangeAddress.topLeft)
         shiftedClipboardData?.also {
             val command = makePasteCommand(shiftedClipboardData, targetRangeAddress, targetWbWsSt)

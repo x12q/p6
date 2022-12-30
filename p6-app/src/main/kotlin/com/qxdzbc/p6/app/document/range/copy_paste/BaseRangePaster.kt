@@ -29,14 +29,4 @@ abstract class BaseRangePaster : RangePaster {
             return null
         }
     }
-    override fun readRangeCopyDMFromClipboard(): RangeCopyDM? {
-        try{
-            val clipboard = Toolkit.getDefaultToolkit().systemClipboard
-            val bytes = clipboard.getData(BinaryTransferable.binFlavor) as ByteArray
-            val rangeCopy = RangeCopyDM.fromProtoBytes(bytes)
-            return rangeCopy
-        }catch(e:Exception){
-            return null
-        }
-    }
 }
