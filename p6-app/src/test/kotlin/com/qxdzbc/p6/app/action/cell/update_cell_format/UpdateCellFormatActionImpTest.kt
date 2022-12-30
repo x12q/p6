@@ -8,10 +8,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.format2.CellFormatTable
-import com.qxdzbc.p6.ui.format2.CellFormatTableImp
-import com.qxdzbc.p6.ui.format2.FormatTableImp
-import com.qxdzbc.p6.ui.format2.RangeAddressSetImp
+import com.qxdzbc.p6.ui.format2.*
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.doReturn
@@ -40,6 +37,25 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     }
 
     @Test
+    fun makeCommandToApplyFormatConfig() {
+        val formatConfig = FormatConfig.random()
+        val command = action.makeCommandToApplyFormatConfig(
+            wbwsSt, formatConfig
+        )
+
+        fun resultFormat(): FormatConfig? {
+            return sc.getCellFormatTable(wbwsSt)?.getFormatConfigIncludeNullForConfig_Respectively(formatConfig)
+        }
+        resultFormat()?.isInvalid() shouldBe true
+        command.run()
+        val q = resultFormat()
+        q shouldBe formatConfig
+
+
+    }
+
+
+    @Test
     fun makeCommandForFormatOneCell() {
         /*
          Action set cell A1 text size to 123.
@@ -48,7 +64,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
 
         val cellFormatTableMs = ts.sc.getCellFormatTableMs(cellA1Id)!!
         val cellFormatTable by cellFormatTableMs
-        val fontSize=123f
+        val fontSize = 123f
         val action = action.makeCommandForFormatOneCell(
             cellId = cellA1Id,
             formatValue = fontSize,
@@ -64,39 +80,39 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
     }
 
     @Test
-    fun makeCommandForFormattingOnSelectedCells(){
+    fun makeCommandForFormattingOnSelectedCells() {
         /*
 
          */
-        val mockCursorState = mock<CursorState>{
-            whenever(it.allRanges) doReturn listOf("A1:A3","B2:D10").map{ RangeAddress(it) }
-            whenever(it.allFragCells) doReturn listOf("Q10").map{ CellAddress(it) }
+        val mockCursorState = mock<CursorState> {
+            whenever(it.allRanges) doReturn listOf("A1:A3", "B2:D10").map { RangeAddress(it) }
+            whenever(it.allFragCells) doReturn listOf("Q10").map { CellAddress(it) }
         }
         val cellFormatTableMs = ts.sc.getCellFormatTableMs(cellA1Id)!!
         val cellFormatTable by cellFormatTableMs
-        val fontSize=123f
+        val fontSize = 123f
         val action = action.makeCommandForFormattingOnSelectedCells(
             formatValue = fontSize,
             cursorState = mockCursorState,
-            cellFormatTableMs= cellFormatTableMs,
+            cellFormatTableMs = cellFormatTableMs,
             getFormatTable = CellFormatTable::textSizeTable,
-            updateCellFormatTable= CellFormatTable::setTextSizeTable
+            updateCellFormatTable = CellFormatTable::setTextSizeTable
         )
         preCondition {
-            mockCursorState.allRanges.forEach {r->
+            mockCursorState.allRanges.forEach { r ->
                 cellFormatTable.textSizeTable.getFirstValue(r).shouldBeNull()
             }
-            mockCursorState.allFragCells.forEach { c->
+            mockCursorState.allFragCells.forEach { c ->
                 cellFormatTable.textSizeTable.getFirstValue(c).shouldBeNull()
             }
         }
 
         action.run()
-        postCondition{
-            mockCursorState.allRanges.forEach {r->
+        postCondition {
+            mockCursorState.allRanges.forEach { r ->
                 cellFormatTable.textSizeTable.getFirstValue(r) shouldBe fontSize
             }
-            mockCursorState.allFragCells.forEach { c->
+            mockCursorState.allFragCells.forEach { c ->
                 cellFormatTable.textSizeTable.getFirstValue(c) shouldBe fontSize
             }
         }
@@ -104,10 +120,10 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
         action.undo()
 
         postCondition {
-            mockCursorState.allRanges.forEach {r->
+            mockCursorState.allRanges.forEach { r ->
                 cellFormatTable.textSizeTable.getFirstValue(r).shouldBeNull()
             }
-            mockCursorState.allFragCells.forEach { c->
+            mockCursorState.allFragCells.forEach { c ->
                 cellFormatTable.textSizeTable.getFirstValue(c).shouldBeNull()
             }
         }

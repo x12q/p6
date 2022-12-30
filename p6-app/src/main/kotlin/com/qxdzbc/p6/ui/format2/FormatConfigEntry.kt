@@ -5,20 +5,23 @@ import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 
 data class FormatConfigEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue: T):Shiftable{
 
-    fun empty():FormatConfigEntry<T?>{
+    /**
+     * nullify the format value of this entry
+     */
+    fun nullifyFormatValue():FormatConfigEntry<T?>{
         return FormatConfigEntry(rangeAddressSet,null)
     }
     companion object{
-        fun <T>random(randomGenerator:()->T): FormatConfigEntry<T> {
+        fun <T>random(numberRange:IntProgression,randomGenerator:()->T): FormatConfigEntry<T> {
             return FormatConfigEntry(
-                rangeAddressSet = RangeAddressSetImp.random(),
+                rangeAddressSet = RangeAddressSetImp.random(numberRange),
                 formatValue = randomGenerator()
             )
         }
 
-        fun <T>randomInvalid(): FormatConfigEntry<T?> {
+        fun <T>randomInvalid(numberRange:IntProgression): FormatConfigEntry<T?> {
             return FormatConfigEntry(
-                rangeAddressSet = RangeAddressSetImp.random(),
+                rangeAddressSet = RangeAddressSetImp.random(numberRange),
                 formatValue = null
             )
         }

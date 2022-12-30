@@ -93,10 +93,13 @@ data class RangeAddressSetImp(
     }
 
     companion object{
-        fun random(countRange:IntRange = 1 .. 20):RangeAddressSetImp{
+        /**
+         * generate a range address set of disjoint range address
+         */
+        fun random(numberRange:IntProgression):RangeAddressSetImp{
             return RangeAddressSetImp(
-                List((countRange).random()){
-                    RangeAddress.random(1 .. 100, 1 ..200)
+                numberRange.map {x->
+                    RangeAddress(CellAddress(x,x))
                 }
             )
         }

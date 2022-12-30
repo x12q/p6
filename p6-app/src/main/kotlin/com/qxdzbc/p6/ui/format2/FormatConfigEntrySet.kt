@@ -1,13 +1,14 @@
 package com.qxdzbc.p6.ui.format2
 
 import com.qxdzbc.p6.app.document.Shiftable
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 
-data class FormatConfigSet<T>(
+data class FormatConfigEntrySet<T>(
     val validSet: Set<FormatConfigEntry<T>> = emptySet(),
     val invalidSet: Set<FormatConfigEntry<T?>> = emptySet(),
-) :Shiftable{
+) : Shiftable {
     val allRanges: Set<RangeAddress>
         get() =
             invalidSet.flatMap { it.rangeAddressSet.ranges }.toSet() + validSet.flatMap { it.rangeAddressSet.ranges }
@@ -15,14 +16,14 @@ data class FormatConfigSet<T>(
 
     val all: Set<FormatConfigEntry<out T?>> get() = invalidSet + validSet
 
-    operator fun plus(other: FormatConfigSet<T>): FormatConfigSet<T> {
+    operator fun plus(other: FormatConfigEntrySet<T>): FormatConfigEntrySet<T> {
         return this.copy(
             validSet = this.validSet + other.validSet,
             invalidSet = this.invalidSet + other.invalidSet
         )
     }
 
-    operator fun plus(other: Pair<RangeAddressSet, T?>): FormatConfigSet<T> {
+    operator fun plus(other: Pair<RangeAddressSet, T?>): FormatConfigEntrySet<T> {
         if (other.second != null) {
             return this.copy(
                 validSet = this.validSet + FormatConfigEntry(other.first, other.second!!),
@@ -34,23 +35,30 @@ data class FormatConfigSet<T>(
         }
     }
 
-    fun empty():FormatConfigSet<T> {
-        return FormatConfigSet(
+    /**
+     * nullify all valid config entry, but keep their range address info
+     */
+    fun nullifyFormatValue(): FormatConfigEntrySet<T> {
+        return FormatConfigEntrySet(
             invalidSet = this.invalidSet + this.validSet.map {
-                it.empty()
+                it.nullifyFormatValue()
             }
         )
     }
 
+    fun isInvalid(): Boolean {
+        return this.validSet.isEmpty()
+    }
+
     companion object {
-        fun <T> invalid(vararg entries: FormatConfigEntry<T?>): FormatConfigSet<T> {
-            return FormatConfigSet(
+        fun <T> invalid(vararg entries: FormatConfigEntry<T?>): FormatConfigEntrySet<T> {
+            return FormatConfigEntrySet(
                 invalidSet = entries.toSet()
             )
         }
 
-        fun <T> invalid(vararg ranges: RangeAddress): FormatConfigSet<T> {
-            return FormatConfigSet(
+        fun <T> invalid(vararg ranges: RangeAddress): FormatConfigEntrySet<T> {
+            return FormatConfigEntrySet(
                 invalidSet = setOf(
                     FormatConfigEntry<T?>(
                         rangeAddressSet = RangeAddressSetImp(*ranges),
@@ -60,8 +68,8 @@ data class FormatConfigSet<T>(
             )
         }
 
-        fun <T> invalid(vararg rangeAddressSets: RangeAddressSet): FormatConfigSet<T> {
-            return FormatConfigSet(
+        fun <T> invalid(vararg rangeAddressSets: RangeAddressSet): FormatConfigEntrySet<T> {
+            return FormatConfigEntrySet(
                 invalidSet = rangeAddressSets.toSet().map {
                     FormatConfigEntry<T?>(
                         rangeAddressSet = it,
@@ -71,20 +79,23 @@ data class FormatConfigSet<T>(
             )
         }
 
-        fun <T> valid(vararg entries: FormatConfigEntry<T>): FormatConfigSet<T> {
-            return FormatConfigSet(
+        fun <T> valid(vararg entries: FormatConfigEntry<T>): FormatConfigEntrySet<T> {
+            return FormatConfigEntrySet(
                 validSet = entries.toSet()
             )
         }
 
-        fun <T> random(randomGenerator: () -> T): FormatConfigSet<T> {
-            return FormatConfigSet(
-                validSet = List(3) {
-                    FormatConfigEntry.random(randomGenerator)
+        fun <T> random(
+            validCount: Int = 2,
+            invalidCount: Int = 2,
+            randomGenerator: () -> T
+        ): FormatConfigEntrySet<T> {
+            return FormatConfigEntrySet(
+                validSet = List(validCount) {
+                    val x = it+1
+                    FormatConfigEntry.random(x .. x,randomGenerator)
                 }.toSet(),
-                invalidSet = List(3) {
-                    FormatConfigEntry.randomInvalid<T>()
-                }.toSet()
+                invalidSet = setOf(FormatConfigEntry.randomInvalid((validCount*10 .. (invalidCount+validCount)*10).step(10)))
             )
         }
     }
@@ -92,10 +103,10 @@ data class FormatConfigSet<T>(
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,
         newAnchorCell: GenericCellAddress<Int, Int>
-    ): FormatConfigSet<T> {
-        return FormatConfigSet(
-            validSet=this.validSet.map { it.shift(oldAnchorCell, newAnchorCell) }.toSet(),
-            invalidSet=this.invalidSet.map { it.shift(oldAnchorCell, newAnchorCell) }.toSet()
+    ): FormatConfigEntrySet<T> {
+        return FormatConfigEntrySet(
+            validSet = this.validSet.map { it.shift(oldAnchorCell, newAnchorCell) }.toSet(),
+            invalidSet = this.invalidSet.map { it.shift(oldAnchorCell, newAnchorCell) }.toSet()
         )
     }
 }

@@ -12,15 +12,15 @@ abstract class BaseCellFormatTable : CellFormatTable {
 
     override fun getFormatConfigIncludeNullForConfig_Respectively(config: FormatConfig): FormatConfig {
         return FormatConfig(
-            textSizeConfig = textSizeTable.getMultiValueFromRangesIncludeNullFormat(config.textSizeConfig.allRanges),
-            textColorConfig = textColorTable.getMultiValueFromRangesIncludeNullFormat(config.textColorConfig.allRanges),
-            textUnderlinedConfig = textUnderlinedTable.getMultiValueFromRangesIncludeNullFormat(config.textUnderlinedConfig.allRanges),
-            textCrossedConfig = textCrossedTable.getMultiValueFromRangesIncludeNullFormat(config.textCrossedConfig.allRanges),
-            fontWeightConfig = fontWeightTable.getMultiValueFromRangesIncludeNullFormat(config.fontWeightConfig.allRanges),
-            fontStyleConfig = fontStyleTable.getMultiValueFromRangesIncludeNullFormat(config.fontStyleConfig.allRanges),
-            horizontalAlignmentConfig = textHorizontalAlignmentTable.getMultiValueFromRangesIncludeNullFormat(config.horizontalAlignmentConfig.allRanges),
-            verticalAlignmentConfig = textVerticalAlignmentTable.getMultiValueFromRangesIncludeNullFormat(config.verticalAlignmentConfig.allRanges),
-            backgroundColorConfig = cellBackgroundColorTable.getMultiValueFromRangesIncludeNullFormat(config.backgroundColorConfig.allRanges),
+            textSizeConfig = textSizeTable.getConfigSetFromRanges(config.textSizeConfig.allRanges),
+            textColorConfig = textColorTable.getConfigSetFromRanges(config.textColorConfig.allRanges),
+            textUnderlinedConfig = textUnderlinedTable.getConfigSetFromRanges(config.textUnderlinedConfig.allRanges),
+            textCrossedConfig = textCrossedTable.getConfigSetFromRanges(config.textCrossedConfig.allRanges),
+            fontWeightConfig = fontWeightTable.getConfigSetFromRanges(config.fontWeightConfig.allRanges),
+            fontStyleConfig = fontStyleTable.getConfigSetFromRanges(config.fontStyleConfig.allRanges),
+            horizontalAlignmentConfig = textHorizontalAlignmentTable.getConfigSetFromRanges(config.horizontalAlignmentConfig.allRanges),
+            verticalAlignmentConfig = textVerticalAlignmentTable.getConfigSetFromRanges(config.verticalAlignmentConfig.allRanges),
+            backgroundColorConfig = cellBackgroundColorTable.getConfigSetFromRanges(config.backgroundColorConfig.allRanges),
         )
     }
 
@@ -29,45 +29,49 @@ abstract class BaseCellFormatTable : CellFormatTable {
         return this.getFormatConfigIncludeNullForRanges(allRanges)
     }
 
+    override fun applyConfig(config: FormatConfig): CellFormatTable {
+        TODO("Not yet implemented")
+    }
+
     override fun getFormatConfigIncludeNullForRanges(ranges: Collection<RangeAddress>): FormatConfig {
         return FormatConfig(
-            textSizeConfig = textSizeTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            textColorConfig = textColorTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            textUnderlinedConfig = textUnderlinedTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            textCrossedConfig = textCrossedTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            fontWeightConfig = fontWeightTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            fontStyleConfig = fontStyleTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            horizontalAlignmentConfig = textHorizontalAlignmentTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            verticalAlignmentConfig = textVerticalAlignmentTable.getMultiValueFromRangesIncludeNullFormat(ranges),
-            backgroundColorConfig = cellBackgroundColorTable.getMultiValueFromRangesIncludeNullFormat(ranges),
+            textSizeConfig = textSizeTable.getConfigSetFromRanges(ranges),
+            textColorConfig = textColorTable.getConfigSetFromRanges(ranges),
+            textUnderlinedConfig = textUnderlinedTable.getConfigSetFromRanges(ranges),
+            textCrossedConfig = textCrossedTable.getConfigSetFromRanges(ranges),
+            fontWeightConfig = fontWeightTable.getConfigSetFromRanges(ranges),
+            fontStyleConfig = fontStyleTable.getConfigSetFromRanges(ranges),
+            horizontalAlignmentConfig = textHorizontalAlignmentTable.getConfigSetFromRanges(ranges),
+            verticalAlignmentConfig = textVerticalAlignmentTable.getConfigSetFromRanges(ranges),
+            backgroundColorConfig = cellBackgroundColorTable.getConfigSetFromRanges(ranges),
         )
     }
 
     override fun getFormatConfigIncludeNullForCells(cells: Collection<CellAddress>): FormatConfig {
         return FormatConfig(
-            textSizeConfig = textSizeTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            textColorConfig = textColorTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            textUnderlinedConfig = textUnderlinedTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            textCrossedConfig = textCrossedTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            fontWeightConfig = fontWeightTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            fontStyleConfig = fontStyleTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            horizontalAlignmentConfig = textHorizontalAlignmentTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            verticalAlignmentConfig = textVerticalAlignmentTable.getMultiValueFromCellsIncludeNullFormat(cells),
-            backgroundColorConfig = cellBackgroundColorTable.getMultiValueFromCellsIncludeNullFormat(cells),
+            textSizeConfig = textSizeTable.getConfigSetFromCells(cells),
+            textColorConfig = textColorTable.getConfigSetFromCells(cells),
+            textUnderlinedConfig = textUnderlinedTable.getConfigSetFromCells(cells),
+            textCrossedConfig = textCrossedTable.getConfigSetFromCells(cells),
+            fontWeightConfig = fontWeightTable.getConfigSetFromCells(cells),
+            fontStyleConfig = fontStyleTable.getConfigSetFromCells(cells),
+            horizontalAlignmentConfig = textHorizontalAlignmentTable.getConfigSetFromCells(cells),
+            verticalAlignmentConfig = textVerticalAlignmentTable.getConfigSetFromCells(cells),
+            backgroundColorConfig = cellBackgroundColorTable.getConfigSetFromCells(cells),
         )
     }
 
     override fun getFormatConfigIncludeNullForRange(rangeAddress: RangeAddress): FormatConfig {
         return FormatConfig(
-            textSizeConfig = textSizeTable.getMultiValueIncludeNullFormat(rangeAddress),
-            textColorConfig = textColorTable.getMultiValueIncludeNullFormat(rangeAddress),
-            textUnderlinedConfig = textUnderlinedTable.getMultiValueIncludeNullFormat(rangeAddress),
-            textCrossedConfig = textCrossedTable.getMultiValueIncludeNullFormat(rangeAddress),
-            fontWeightConfig = fontWeightTable.getMultiValueIncludeNullFormat(rangeAddress),
-            fontStyleConfig = fontStyleTable.getMultiValueIncludeNullFormat(rangeAddress),
-            horizontalAlignmentConfig = textHorizontalAlignmentTable.getMultiValueIncludeNullFormat(rangeAddress),
-            verticalAlignmentConfig = textVerticalAlignmentTable.getMultiValueIncludeNullFormat(rangeAddress),
-            backgroundColorConfig = cellBackgroundColorTable.getMultiValueIncludeNullFormat(rangeAddress),
+            textSizeConfig = textSizeTable.getConfigSet(rangeAddress),
+            textColorConfig = textColorTable.getConfigSet(rangeAddress),
+            textUnderlinedConfig = textUnderlinedTable.getConfigSet(rangeAddress),
+            textCrossedConfig = textCrossedTable.getConfigSet(rangeAddress),
+            fontWeightConfig = fontWeightTable.getConfigSet(rangeAddress),
+            fontStyleConfig = fontStyleTable.getConfigSet(rangeAddress),
+            horizontalAlignmentConfig = textHorizontalAlignmentTable.getConfigSet(rangeAddress),
+            verticalAlignmentConfig = textVerticalAlignmentTable.getConfigSet(rangeAddress),
+            backgroundColorConfig = cellBackgroundColorTable.getConfigSet(rangeAddress),
         )
     }
 

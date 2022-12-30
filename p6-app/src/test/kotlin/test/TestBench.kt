@@ -8,12 +8,10 @@ class TestBench {
 
     @Test
     fun t() {
-
-        val m = mapOf<RangeAddressSetImp,Int>()
-        val r = RangeAddressSetImp()
-        val m2 = m - r
-
-
+        val r = (1 .. 100).step(10)
+        r.forEach {
+            println(it)
+        }
     }
 }
 

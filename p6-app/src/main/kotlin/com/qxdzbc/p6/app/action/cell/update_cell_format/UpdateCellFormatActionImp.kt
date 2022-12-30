@@ -51,6 +51,9 @@ class UpdateCellFormatActionImp @Inject constructor(
         fmtMs.value = updateCellFormatTable(fmtMs.value, newTable)
     }
 
+    /**
+     * create an undoable command to update format of the cell at [cellId]
+     */
     fun <T> makeCommandForFormatOneCell(
         cellId: CellId,
         formatValue: T?,
@@ -82,6 +85,9 @@ class UpdateCellFormatActionImp @Inject constructor(
         return command
     }
 
+    /**
+     * Update format value for one cell at [cellId]
+     */
     fun <T> updateFormatOnOneCell(
         cellId: CellId,
         formatValue: T?,
@@ -116,9 +122,9 @@ class UpdateCellFormatActionImp @Inject constructor(
             val _cursorState = cursorState
             val _cellFormatTableMs = cellFormatTableMs
             val oldFormatConfig1 =
-                getFormatTable(_cellFormatTableMs.value).getMultiValueFromRangesIncludeNullFormat(_cursorState.allRanges)
+                getFormatTable(_cellFormatTableMs.value).getConfigSetFromRanges(_cursorState.allRanges)
             val oldFormatConfig2 =
-                getFormatTable(_cellFormatTableMs.value).getMultiValueFromCellsIncludeNullFormat(_cursorState.allFragCells)
+                getFormatTable(_cellFormatTableMs.value).getConfigSetFromCells(_cursorState.allFragCells)
 
             override fun run() {
                 _cellFormatTableMs.value = updateCellFormatTableWithNewFormatValueOnSelectedCells(
@@ -181,6 +187,10 @@ class UpdateCellFormatActionImp @Inject constructor(
         }
     }
 
+    /**
+     * update cell format table with new format value on selected cells.
+     * @return a new cell format table by update format value of cells in [ranges] and [cells] with [formatValue]
+     */
     fun <T> updateCellFormatTableWithNewFormatValueOnSelectedCells(
         formatValue: T?,
         ranges: Collection<RangeAddress>,
@@ -203,13 +213,15 @@ class UpdateCellFormatActionImp @Inject constructor(
         return updateCellFormatTable(currentFormatTable, newTable)
     }
 
+    /**
+     * create an undoable Command for applying a format config to the cell format table at [wbWsSt]
+     */
     fun makeCommandToApplyFormatConfig(wbWsSt: WbWsSt, config: FormatConfig): Command {
         val rt = object : BaseCommand() {
             val _wbWsSt = wbWsSt
             val newConfig = config
-            val oldConfig = sc.getCellFormatTable(wbWsSt)?.let {
-                it.getFormatConfigIncludeNullForConfig_Respectively(config)
-            }
+            val oldConfig = sc.getCellFormatTable(wbWsSt)
+                ?.getFormatConfigIncludeNullForConfig_Respectively(config)
             val formatTableMs = sc.getCellFormatTableMs(_wbWsSt)
             override fun run() {
                 // apply new config

@@ -32,6 +32,52 @@ internal class FormatTableImpTest : TestSplitter() {
     }
 
     @Test
+    fun applyConfig() {
+        val t0 = FormatTableImp<Int>()
+        val configSet = FormatConfigEntrySet.random { (1..2000).random() }
+        val validRanges: List<RangeAddress> = configSet.validSet.flatMap { it.rangeAddressSet.ranges }
+        val invalidRanges = configSet.invalidSet.flatMap { it.rangeAddressSet.ranges }
+
+        preCondition {
+            t0.getValidConfigSetFromRanges(validRanges).validSet.shouldBeEmpty()
+            t0.getValidConfigSetFromRanges(validRanges).invalidSet.shouldBeEmpty()
+            t0.getConfigSetFromRanges(validRanges).validSet.shouldBeEmpty()
+            for (range in validRanges) {
+                t0.getFirstValue(range).shouldBeNull()
+            }
+
+            t0.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe configSet.invalidSet
+            t0.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
+            for (range in invalidRanges) {
+                t0.getFirstValue(range).shouldBeNull()
+                t0.getValidConfigSet(range).validSet.shouldBeEmpty()
+                t0.getConfigSet(range).invalidSet shouldBe setOf(FormatConfigEntry(RangeAddressSetImp(range), null))
+            }
+        }
+
+        val t1 = t0.applyConfig(configSet)
+
+
+        postCondition {
+            t1.getValidConfigSetFromRanges(validRanges).validSet shouldBe configSet.validSet
+            t1.getValidConfigSetFromRanges(validRanges).invalidSet.shouldBeEmpty()
+            t1.getConfigSetFromRanges(validRanges).validSet shouldBe configSet.validSet
+            for (range in validRanges) {
+                t1.getFirstValue(range).shouldNotBeNull()
+            }
+
+
+            t1.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe configSet.invalidSet
+            t1.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
+            for (range in invalidRanges) {
+                t1.getFirstValue(range).shouldBeNull()
+                t1.getValidConfigSet(range).validSet.shouldBeEmpty()
+                t1.getConfigSet(range).invalidSet shouldBe setOf(FormatConfigEntry(RangeAddressSetImp(range), null))
+            }
+        }
+    }
+
+    @Test
     fun getMultiValue() {
         val table = FormatTableImp(
             mapOf(
@@ -41,7 +87,7 @@ internal class FormatTableImpTest : TestSplitter() {
             )
         )
 
-        val o = table.getMultiValue(RangeAddress("B3:D8"))
+        val o = table.getValidConfigSet(RangeAddress("B3:D8"))
         o.validSet.shouldContainOnly(
             FormatConfigEntry(RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()), 1),
             FormatConfigEntry(RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()), 2),
