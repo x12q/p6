@@ -10,11 +10,11 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
  */
 interface PasteRangeAction {
     /**
-     * Paste a range from the clipboard to a worksheet at [wbwsSt], shift the range for any included formula if it is needed
-     * @param wbwsSt target worksheet
-     * @param rangeAddress target range address
+     * Paste a range from the clipboard to a worksheet at [targetWbWsSt], shift the range for any included formula if it is needed
+     * @param targetWbWsSt target worksheet address
+     * @param targetRangeAddress target range address
      */
-    fun pasteRange(wbwsSt: WbWsSt, rangeAddress: RangeAddress,undo:Boolean):Rse<Unit>
+    fun pasteRange(targetWbWsSt: WbWsSt, targetRangeAddress: RangeAddress, undoable:Boolean):Rse<Unit>
 
     /**
      * Paste a range from the clipboard to a worksheet at [wbws], shift the range for any included formula if it is needed

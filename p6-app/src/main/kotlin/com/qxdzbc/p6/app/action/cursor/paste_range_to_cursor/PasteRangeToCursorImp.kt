@@ -32,9 +32,9 @@ class PasteRangeToCursorImp @Inject constructor(
         val cursorState = sc.getCursorState(wbwsSt)
         if (cursorState != null) {
             pasteRangeAction.pasteRange(
-                wbwsSt=cursorState,
-                rangeAddress=cursorState.mainRange ?: RangeAddress(cursorState.mainCell),
-                undo = true
+                targetWbWsSt=cursorState,
+                targetRangeAddress=cursorState.mainRange ?: RangeAddress(cursorState.mainCell),
+                undoable = true
             )
         }
     }

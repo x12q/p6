@@ -17,7 +17,7 @@ abstract class BaseRangePaster : RangePaster {
     /**
      * extract the range copy from the clipboard
      */
-    override fun readRangeCopyFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
+    override fun readDataFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
         val clipboard = Toolkit.getDefaultToolkit().systemClipboard
         val wbwsSt: WbWsSt? = stateCont.getWbWsSt(wbKey, wsName)
         if(wbwsSt!=null){

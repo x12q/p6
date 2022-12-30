@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.common.copiers.binary_copier.BinaryTransferable
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.common.error.CommonErrors
@@ -14,8 +13,6 @@ import com.qxdzbc.p6.app.document.cell.Cell
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
-import java.awt.Toolkit
-import java.awt.datatransfer.Clipboard
 import javax.inject.Inject
 
 /**
@@ -31,7 +28,7 @@ class SingleCellPaster @Inject constructor(
     override fun paste(target: RangeId): PasteResponse {
         var sourceRangeId:RangeId?=null
         val rs = try {
-            val source: RangeCopy? = this.readRangeCopyFromClipboard(target.wbKey,target.wsName)
+            val source: RangeCopy? = this.readDataFromClipboard(target.wbKey,target.wsName)
             sourceRangeId = source?.rangeId
             this.paste(source, target)
         } catch (e: Throwable) {
