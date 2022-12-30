@@ -3,14 +3,19 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.CellErrors
-import com.qxdzbc.p6.di.P6Singleton
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.squareup.anvil.annotations.ContributesBinding
-import javax.inject.Inject
 
 object ExUnitErrors {
     val prefix = "ExUnitErrors "
-    val all = listOf(IncompatibleType,IllegalReturnType,InvalidFunction)
+
+    val all:List<Any> get(){
+        if(_l==null){
+            _l=listOf(IncompatibleType,IllegalReturnType,InvalidFunction)
+        }
+        return _l!!
+    }
+    private var _l:List<Any>? = null
+
+
     fun coldInit(){
         val q = listOf(this)+ CellErrors.all
         for (e in q){

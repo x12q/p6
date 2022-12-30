@@ -7,8 +7,13 @@ import com.qxdzbc.common.error.ErrorReport
 object ClipboardReaderErrors {
     private const val prefix = "Clipboard reader error "
 
-    val l get()= listOf(InvalidWbWs, ExceptionWhileTryingToReadData)
-
+    val l:List<Any> get(){
+        if(_l==null){
+            _l=listOf(InvalidWbWs, ExceptionWhileTryingToReadData)
+        }
+        return _l!!
+    }
+    private var _l:List<Any>? = null
     fun coldInit() {
         val q = listOf(this) + l
         for (e in q) {

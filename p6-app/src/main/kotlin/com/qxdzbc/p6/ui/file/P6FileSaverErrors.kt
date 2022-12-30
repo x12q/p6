@@ -7,7 +7,15 @@ import java.nio.file.Path
 object P6FileSaverErrors {
     val prefix = "P6FileSaverErrors_"
 
-    val all = listOf(TargetPathPointToAnAlreadyOpenWb)
+
+    val all:List<Any> get(){
+        if(_l==null){
+            _l=listOf(TargetPathPointToAnAlreadyOpenWb)
+        }
+        return _l!!
+    }
+    private var _l:List<Any>? = null
+
     fun coldInit(){
         val q = listOf(this)+all
         for( e in q){

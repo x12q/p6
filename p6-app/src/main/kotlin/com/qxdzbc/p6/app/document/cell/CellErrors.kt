@@ -6,7 +6,15 @@ import com.qxdzbc.common.error.ErrorReport
 
 object CellErrors {
     val CellUIErr = "UI_CellErrors_"
-    val all = listOf(NotEditable,InvalidCellValue,InvalidCellAddress,OverflowError)
+
+    val all:List<Any> get(){
+        if(_l==null){
+            _l=listOf(NotEditable,InvalidCellValue,InvalidCellAddress,OverflowError)
+        }
+        return _l!!
+    }
+    private var _l:List<Any>? = null
+
     fun coldInit(){
         val q = listOf(this)+all
         for( e in q){

@@ -41,13 +41,9 @@ data class RangeCopy(
             .build()
     }
 
-
-    fun shiftCells(target: RangeId): RangeCopy {
-        return this.shiftCells(target.rangeAddress.topLeft)
-    }
-
     /**
-     * shift all the cell in this object using vector: topLeft of this range -> [newAnchorCell]
+     * shift all the cell in this object using vector: topLeft of this range -> [newAnchorCell].
+     * [rangeId] is preserved.
      */
     fun shiftCells(newAnchorCell:CellAddress): RangeCopy {
         val sourceTopLeft: CellAddress = this.rangeId.rangeAddress.topLeft
