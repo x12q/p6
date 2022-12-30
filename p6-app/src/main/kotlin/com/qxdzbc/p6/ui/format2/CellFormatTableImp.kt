@@ -106,8 +106,8 @@ data class CellFormatTableImp(
         return setFormatForMultiRanges(listOf(range), cellFormat)
     }
 
-    override fun setFormatForMultiCells(cells: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable {
-        return setFormatForMultiRanges(cells.map { RangeAddress(it) }, cellFormat)
+    override fun setFormatForMultiCells(cellAddressList: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable {
+        return setFormatForMultiRanges(cellAddressList.map { RangeAddress(it) }, cellFormat)
     }
 
     override fun removeFormatByConfig_Respectively(config: FormatConfig): CellFormatTable {
@@ -153,7 +153,7 @@ data class CellFormatTableImp(
         )
     }
 
-    override fun setFormat(cell: CellAddress, cellFormat: CellFormat): CellFormatTable {
-        return setFormatForMultiRanges(listOf(RangeAddress(cell)), cellFormat)
+    override fun setFormat(cellAddress: CellAddress, cellFormat: CellFormat): CellFormatTable {
+        return setFormatForMultiRanges(listOf(RangeAddress(cellAddress)), cellFormat)
     }
 }

@@ -72,10 +72,10 @@ class PasteRangeActionImp @Inject constructor(
 
                     val sourceFormat = sourceRangeId
                         ?.let { sc.getCellFormatTable(it) }
-                        ?.getFormatConfigIncludeNullForRange(sourceRangeId.rangeAddress)
+                        ?.getFormatConfigForRange(sourceRangeId.rangeAddress)
                         ?.shift(sourceRangeId.rangeAddress.topLeft,targetRangeId.rangeAddress.topLeft)
                     val targetFormat = sc.getCellFormatTable(targetRangeId)
-                        ?.getFormatConfigIncludeNullForRange(targetRangeId.rangeAddress)
+                        ?.getFormatConfigForRange(targetRangeId.rangeAddress)
                     override fun run() {
                         wbUpdateApplier.apply(_updateRequest)
                         targetFormat?.also {

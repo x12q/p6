@@ -221,7 +221,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             val _wbWsSt = wbWsSt
             val newConfig = config
             val oldConfig = sc.getCellFormatTable(wbWsSt)
-                ?.getFormatConfigIncludeNullForConfig_Respectively(config)
+                ?.getFormatConfigForConfig_Respectively(config)
             val formatTableMs = sc.getCellFormatTableMs(_wbWsSt)
             override fun run() {
                 // apply new config
@@ -268,7 +268,7 @@ class UpdateCellFormatActionImp @Inject constructor(
 
     fun makeClearFormatCommand(wbWsSt: WbWsSt, config: FormatConfig):Command{
         val command = object : BaseCommand() {
-            val oldConfig = sc.getCellFormatTable(wbWsSt)?.getFormatConfigIncludeNullForConfig_Flat(config)
+            val oldConfig = sc.getCellFormatTable(wbWsSt)?.getFormatConfigForConfig_Flat(config)
             val newConfig = config
             override fun run() {
                 sc.getCellFormatTableMs(wbWsSt)?.also {

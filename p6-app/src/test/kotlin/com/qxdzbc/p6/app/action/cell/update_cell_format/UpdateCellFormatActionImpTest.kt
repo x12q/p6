@@ -44,7 +44,7 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
         )
 
         fun resultFormat(): FormatConfig? {
-            return sc.getCellFormatTable(wbwsSt)?.getFormatConfigIncludeNullForConfig_Respectively(formatConfig)
+            return sc.getCellFormatTable(wbwsSt)?.getFormatConfigForConfig_Respectively(formatConfig)
         }
         resultFormat()?.isInvalid() shouldBe true
         command.run()

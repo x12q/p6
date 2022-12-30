@@ -10,7 +10,7 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
 abstract class BaseCellFormatTable : CellFormatTable {
 
 
-    override fun getFormatConfigIncludeNullForConfig_Respectively(config: FormatConfig): FormatConfig {
+    override fun getFormatConfigForConfig_Respectively(config: FormatConfig): FormatConfig {
         return FormatConfig(
             textSizeConfig = textSizeTable.getConfigSetFromRanges(config.textSizeConfig.allRanges),
             textColorConfig = textColorTable.getConfigSetFromRanges(config.textColorConfig.allRanges),
@@ -24,16 +24,12 @@ abstract class BaseCellFormatTable : CellFormatTable {
         )
     }
 
-    override fun getFormatConfigIncludeNullForConfig_Flat(config: FormatConfig): FormatConfig {
+    override fun getFormatConfigForConfig_Flat(config: FormatConfig): FormatConfig {
         val allRanges = config.allRanges
-        return this.getFormatConfigIncludeNullForRanges(allRanges)
+        return this.getFormatConfigForRanges(allRanges)
     }
 
-    override fun applyConfig(config: FormatConfig): CellFormatTable {
-        TODO("Not yet implemented")
-    }
-
-    override fun getFormatConfigIncludeNullForRanges(ranges: Collection<RangeAddress>): FormatConfig {
+    override fun getFormatConfigForRanges(ranges: Collection<RangeAddress>): FormatConfig {
         return FormatConfig(
             textSizeConfig = textSizeTable.getConfigSetFromRanges(ranges),
             textColorConfig = textColorTable.getConfigSetFromRanges(ranges),
@@ -47,7 +43,7 @@ abstract class BaseCellFormatTable : CellFormatTable {
         )
     }
 
-    override fun getFormatConfigIncludeNullForCells(cells: Collection<CellAddress>): FormatConfig {
+    override fun getFormatConfigForCells(cells: Collection<CellAddress>): FormatConfig {
         return FormatConfig(
             textSizeConfig = textSizeTable.getConfigSetFromCells(cells),
             textColorConfig = textColorTable.getConfigSetFromCells(cells),
@@ -61,7 +57,7 @@ abstract class BaseCellFormatTable : CellFormatTable {
         )
     }
 
-    override fun getFormatConfigIncludeNullForRange(rangeAddress: RangeAddress): FormatConfig {
+    override fun getFormatConfigForRange(rangeAddress: RangeAddress): FormatConfig {
         return FormatConfig(
             textSizeConfig = textSizeTable.getConfigSet(rangeAddress),
             textColorConfig = textColorTable.getConfigSet(rangeAddress),
@@ -75,17 +71,17 @@ abstract class BaseCellFormatTable : CellFormatTable {
         )
     }
 
-    override fun getFormat(cell: CellAddress): CellFormat {
+    override fun getFormat(cellAddress: CellAddress): CellFormat {
         val rt = CellFormatImp(
-            textSize = this.textSizeTable.getFirstValue(cell),
-            fontStyle = this.fontStyleTable.getFirstValue(cell),
-            verticalAlignment = this.textVerticalAlignmentTable.getFirstValue(cell),
-            horizontalAlignment = this.textHorizontalAlignmentTable.getFirstValue(cell),
-            textColor = this.textColorTable.getFirstValue(cell),
-            fontWeight = this.fontWeightTable.getFirstValue(cell),
-            isUnderlined = this.textUnderlinedTable.getFirstValue(cell),
-            isCrossed = this.textCrossedTable.getFirstValue(cell),
-            backgroundColor = this.cellBackgroundColorTable.getFirstValue(cell),
+            textSize = this.textSizeTable.getFirstValue(cellAddress),
+            fontStyle = this.fontStyleTable.getFirstValue(cellAddress),
+            verticalAlignment = this.textVerticalAlignmentTable.getFirstValue(cellAddress),
+            horizontalAlignment = this.textHorizontalAlignmentTable.getFirstValue(cellAddress),
+            textColor = this.textColorTable.getFirstValue(cellAddress),
+            fontWeight = this.fontWeightTable.getFirstValue(cellAddress),
+            isUnderlined = this.textUnderlinedTable.getFirstValue(cellAddress),
+            isCrossed = this.textCrossedTable.getFirstValue(cellAddress),
+            backgroundColor = this.cellBackgroundColorTable.getFirstValue(cellAddress),
         )
         return rt
     }

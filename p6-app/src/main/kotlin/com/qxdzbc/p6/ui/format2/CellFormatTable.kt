@@ -41,43 +41,53 @@ interface CellFormatTable {
 
     fun setFormatForMultiRanges(ranges: Collection<RangeAddress>, cellFormat: CellFormat): CellFormatTable
     fun setFormat(range: RangeAddress, cellFormat: CellFormat): CellFormatTable
-    fun setFormatForMultiCells(cells: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable
-    fun setFormat(cell: CellAddress, cellFormat: CellFormat): CellFormatTable
+    fun setFormatForMultiCells(cellAddressList: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable
+    fun setFormat(cellAddress: CellAddress, cellFormat: CellFormat): CellFormatTable
 
-    fun getFormat(cell: CellAddress): CellFormat
+    /**
+     * Get [CellFormat] at [cellAddress]
+     */
+    fun getFormat(cellAddress: CellAddress): CellFormat
 
+    /**
+     * Get a modifier meant for the cell box
+     */
     fun getCellModifier(cellAddress: CellAddress): Modifier?
 
     /**
      * get a [FormatConfig] including null format for [config]
      */
-    fun getFormatConfigIncludeNullForRange(rangeAddress: RangeAddress): FormatConfig
+    fun getFormatConfigForRange(rangeAddress: RangeAddress): FormatConfig
 
     /**
      * get a [FormatConfig] including null format for all ranges in [ranges]
      */
-    fun getFormatConfigIncludeNullForRanges(ranges: Collection<RangeAddress>): FormatConfig
+    fun getFormatConfigForRanges(ranges: Collection<RangeAddress>): FormatConfig
 
     /**
      * get a [FormatConfig] including null format for all cell in [cells]
      */
-    fun getFormatConfigIncludeNullForCells(cells: Collection<CellAddress>): FormatConfig
+    fun getFormatConfigForCells(cells: Collection<CellAddress>): FormatConfig
 
     /**
      * get a [FormatConfig] including null format for all ranges in [config].
      * Ranges of each category are used to produce a respective format set in the new format config obj.
      */
-    fun getFormatConfigIncludeNullForConfig_Respectively(config:FormatConfig): FormatConfig
+    fun getFormatConfigForConfig_Respectively(config:FormatConfig): FormatConfig
     /**
      * get a [FormatConfig] including null format for all ranges in [config].
      * Ranges of all categories are flatten, and use to produce each new category in the new format config obj
      */
-    fun getFormatConfigIncludeNullForConfig_Flat(config:FormatConfig): FormatConfig
+    fun getFormatConfigForConfig_Flat(config:FormatConfig): FormatConfig
+
+    /**
+     * Remove all format in for all ranges in [config] by each categories in [config]
+     */
+    fun removeFormatByConfig_Respectively(config:FormatConfig):CellFormatTable
 
     /**
      * Remove all format in for all ranges in [config]
      */
-    fun removeFormatByConfig_Respectively(config:FormatConfig):CellFormatTable
     fun removeFormatByConfig_Flat(config:FormatConfig):CellFormatTable
 
     /**

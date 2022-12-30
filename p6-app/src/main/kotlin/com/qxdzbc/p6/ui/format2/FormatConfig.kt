@@ -124,5 +124,4 @@ data class FormatConfig(
             )
         }
     }
-
 }
