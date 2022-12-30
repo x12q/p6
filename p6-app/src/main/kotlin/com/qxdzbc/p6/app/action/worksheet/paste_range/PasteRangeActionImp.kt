@@ -79,7 +79,7 @@ class PasteRangeActionImp @Inject constructor(
                     override fun run() {
                         wbUpdateApplier.apply(_updateRequest)
                         targetFormat?.also {
-                            updateCellFormatAction.clearFormat(targetRangeId, targetFormat, false)
+                            updateCellFormatAction.clearFormat_Respective(targetRangeId, targetFormat, false)
                         }
                         sourceFormat?.also {
                             updateCellFormatAction.applyFormatConfig(targetRangeId, sourceFormat, false)
@@ -89,7 +89,7 @@ class PasteRangeActionImp @Inject constructor(
                     override fun undo() {
                         wbUpdateApplier.apply(reverseRes)
                         sourceFormat?.also {
-                            updateCellFormatAction.clearFormat(targetRangeId, sourceFormat, false)
+                            updateCellFormatAction.clearFormat_Respective(targetRangeId, sourceFormat, false)
                         }
                         targetFormat?.also {
                             updateCellFormatAction.applyFormatConfig(targetRangeId, targetFormat, false)

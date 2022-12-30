@@ -16,8 +16,11 @@ interface UpdateCellFormatAction {
     fun applyFormatConfig(wbWsSt: WbWsSt, config:FormatConfig, undoable: Boolean)
     fun applyFormatConfig(wbWs: WbWs, config:FormatConfig, undoable: Boolean)
 
-    fun clearFormat(wbWsSt: WbWsSt, config:FormatConfig, undoable: Boolean)
-    fun clearFormat(wbWs: WbWs, config:FormatConfig, undoable: Boolean)
+    fun clearFormat_Flat(wbWsSt: WbWsSt, config:FormatConfig, undoable: Boolean)
+    fun clearFormat_Flat(wbWs: WbWs, config:FormatConfig, undoable: Boolean)
+
+    fun clearFormat_Respective(wbWsSt: WbWsSt, config:FormatConfig, undoable: Boolean)
+    fun clearFormat_Respective(wbWs: WbWs, config:FormatConfig, undoable: Boolean)
 
     /**
      * set background of cell at [cellId] to color [color]

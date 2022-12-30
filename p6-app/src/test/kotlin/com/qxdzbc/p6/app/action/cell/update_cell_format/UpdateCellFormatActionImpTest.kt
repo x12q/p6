@@ -11,6 +11,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.format2.*
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -35,6 +36,27 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
         )
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!
     }
+    @Test
+    fun makeClearFormatCommand(){
+        val config1 = FormatConfig.random()
+
+        fun getConfig1(): FormatConfig? {
+            return sc.getCellFormatTable(wbwsSt)?.getFormatConfigForConfig_Respectively(config1)
+        }
+        preCondition {
+            action.applyFormatConfig(wbwsSt,config1,undoable = false)
+            getConfig1() shouldBe config1
+        }
+
+        val command = action.makeClearFormatCommandUsingFormatConfig_Respective(wbwsSt,config1)
+
+        command.run()
+        getConfig1() shouldNotBe config1
+        getConfig1()?.isInvalid() shouldBe true
+        command.undo()
+        getConfig1() shouldBe config1
+
+    }
 
     @Test
     fun makeCommandToApplyFormatConfig() {
@@ -47,11 +69,13 @@ internal class UpdateCellFormatActionImpTest : BaseTest() {
             return sc.getCellFormatTable(wbwsSt)?.getFormatConfigForConfig_Respectively(formatConfig)
         }
         resultFormat()?.isInvalid() shouldBe true
+
         command.run()
-        val q = resultFormat()
-        q shouldBe formatConfig
+        resultFormat() shouldBe formatConfig
 
-
+        command.undo()
+        resultFormat() shouldNotBe formatConfig
+        resultFormat()?.isInvalid() shouldBe true
     }
 
 

@@ -70,13 +70,13 @@ interface CellFormatTable {
     fun getFormatConfigForCells(cells: Collection<CellAddress>): FormatConfig
 
     /**
-     * get a [FormatConfig] including null format for all ranges in [config].
-     * Ranges of each category are used to produce a respective format set in the new format config obj.
+     * get a respective [FormatConfig] including null format for all ranges in [config].
+     * The result format config mirrors the ranges of each category in the input [config]
      */
     fun getFormatConfigForConfig_Respectively(config:FormatConfig): FormatConfig
     /**
      * get a [FormatConfig] including null format for all ranges in [config].
-     * Ranges of all categories are flatten, and use to produce each new category in the new format config obj
+     * Ranges of all categories are flatten, and used to produce each new category in the result format config obj
      */
     fun getFormatConfigForConfig_Flat(config:FormatConfig): FormatConfig
 

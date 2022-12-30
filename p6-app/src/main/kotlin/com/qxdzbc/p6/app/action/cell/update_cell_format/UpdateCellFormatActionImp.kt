@@ -266,20 +266,20 @@ class UpdateCellFormatActionImp @Inject constructor(
         }
     }
 
-    fun makeClearFormatCommand(wbWsSt: WbWsSt, config: FormatConfig):Command{
+    fun makeClearFormatCommandUsingFormatConfig_Flat(wbWsSt: WbWsSt, config: FormatConfig):Command{
         val command = object : BaseCommand() {
             val oldConfig = sc.getCellFormatTable(wbWsSt)?.getFormatConfigForConfig_Flat(config)
-            val newConfig = config
+            val _config = config
             override fun run() {
                 sc.getCellFormatTableMs(wbWsSt)?.also {
-                    it.value = it.value.removeFormatByConfig_Respectively(newConfig)
+                    it.value = it.value.removeFormatByConfig_Flat(_config)
                 }
             }
 
             override fun undo() {
                 oldConfig?.also {
                     sc.getCellFormatTableMs(wbWsSt)?.also {
-                        it.value = it.value.removeFormatByConfig_Respectively(oldConfig)
+                        it.value = it.value.applyConfig(oldConfig)
                     }
                 }
             }
@@ -287,10 +287,55 @@ class UpdateCellFormatActionImp @Inject constructor(
         return command
     }
 
-    override fun clearFormat(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
+    override fun clearFormat_Flat(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
         if (undoable) {
             sc.getCommandStackMs(wbWsSt)?.also {
-                it.value = it.value.add(makeClearFormatCommand(wbWsSt, config))
+                it.value = it.value.add(makeClearFormatCommandUsingFormatConfig_Flat(wbWsSt, config))
+            }
+        }
+        sc.getCellFormatTableMs(wbWsSt)?.also {
+            it.value = it.value.removeFormatByConfig_Flat(config)
+        }
+    }
+
+    override fun clearFormat_Flat(wbWs: WbWs, config: FormatConfig, undoable: Boolean) {
+        sc.getWbWsSt(wbWs)?.also {
+            clearFormat_Flat(it,config,undoable)
+        }
+    }
+
+    fun makeClearFormatCommandUsingFormatConfig_Respective(wbWsSt: WbWsSt, config: FormatConfig):Command{
+        val command = object : BaseCommand() {
+            // x: it is essential to get a flat config here to ensure that format of all categories are collected for all ranges.
+            val oldConfig = sc.getCellFormatTable(wbWsSt)?.getFormatConfigForConfig_Flat(config)
+            val _config = config
+            override fun run() {
+                /*
+                clear format at the target config
+                 */
+                sc.getCellFormatTableMs(wbWsSt)?.also {
+                    it.value = it.value.removeFormatByConfig_Respectively(_config)
+                }
+            }
+
+            override fun undo() {
+                /*
+                restore the old config
+                 */
+                oldConfig?.also {
+                    sc.getCellFormatTableMs(wbWsSt)?.also {
+                        it.value = it.value.applyConfig(oldConfig)
+                    }
+                }
+            }
+        }
+        return command
+    }
+
+    override fun clearFormat_Respective(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
+        if (undoable) {
+            sc.getCommandStackMs(wbWsSt)?.also {
+                it.value = it.value.add(makeClearFormatCommandUsingFormatConfig_Respective(wbWsSt, config))
             }
         }
         sc.getCellFormatTableMs(wbWsSt)?.also {
@@ -298,9 +343,9 @@ class UpdateCellFormatActionImp @Inject constructor(
         }
     }
 
-    override fun clearFormat(wbWs: WbWs, config: FormatConfig, undoable: Boolean) {
+    override fun clearFormat_Respective(wbWs: WbWs, config: FormatConfig, undoable: Boolean) {
         sc.getWbWsSt(wbWs)?.also {
-            clearFormat(it,config,undoable)
+            clearFormat_Respective(it,config,undoable)
         }
     }
 
