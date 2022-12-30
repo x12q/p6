@@ -34,7 +34,7 @@ class TextColorSelectorAction @Inject constructor(
      * Color the text of the current cell with [color]
      */
     override fun pickColor(windowId: String, color: Color?) {
-        updateCellFormatAction.setTextColorOnSelectedCells(color)
+        updateCellFormatAction.setTextColorOnSelectedCells(color,undoable=true)
         sc.getTextColorSelectorStateMs(windowId)?.also {colorSelectorStateMs->
             colorSelectorStateMs.value = colorSelectorStateMs.value.setCurrentColor(color)
         }

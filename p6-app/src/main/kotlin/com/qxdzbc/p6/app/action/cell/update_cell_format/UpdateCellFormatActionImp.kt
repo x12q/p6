@@ -234,8 +234,8 @@ class UpdateCellFormatActionImp @Inject constructor(
     }
 
 
-    override fun applyFormatConfig(wbWsSt: WbWsSt, config: FormatConfig, undo: Boolean) {
-        if (undo) {
+    override fun applyFormatConfig(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
+        if (undoable) {
             val command = makeCommandToApplyFormatConfig(wbWsSt, config)
             sc.getCommandStackMs(wbWsSt)?.also {
                 it.value = it.value.add(command)
@@ -248,9 +248,9 @@ class UpdateCellFormatActionImp @Inject constructor(
         }
     }
 
-    override fun applyFormatConfig(wbWs: WbWs, config: FormatConfig, undo: Boolean) {
+    override fun applyFormatConfig(wbWs: WbWs, config: FormatConfig, undoable: Boolean) {
         sc.getWbWsSt(wbWs)?.also {
-            applyFormatConfig(it, config, undo)
+            applyFormatConfig(it, config, undoable)
         }
     }
 
@@ -275,8 +275,8 @@ class UpdateCellFormatActionImp @Inject constructor(
         return command
     }
 
-    override fun clearFormat(wbWsSt: WbWsSt, config: FormatConfig, undo: Boolean) {
-        if (undo) {
+    override fun clearFormat(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
+        if (undoable) {
             sc.getCommandStackMs(wbWsSt)?.also {
                 it.value = it.value.add(makeClearFormatCommand(wbWsSt, config))
             }
@@ -286,113 +286,113 @@ class UpdateCellFormatActionImp @Inject constructor(
         }
     }
 
-    override fun clearFormat(wbWs: WbWs, config: FormatConfig, undo: Boolean) {
+    override fun clearFormat(wbWs: WbWs, config: FormatConfig, undoable: Boolean) {
         sc.getWbWsSt(wbWs)?.also {
-            clearFormat(it,config,undo)
+            clearFormat(it,config,undoable)
         }
     }
 
-    override fun setCellBackgroundColor(cellId: CellId, color: Color?, undo: Boolean) {
+    override fun setCellBackgroundColor(cellId: CellId, color: Color?, undoable: Boolean) {
         updateFormatOnOneCell(
             cellId = cellId,
             formatValue = color,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::cellBackgroundColorTable,
             updateCellFormatTable = CellFormatTable::setCellBackgroundColorTable
         )
     }
 
-    override fun setBackgroundColorOnSelectedCells(color: Color?, undo: Boolean) {
+    override fun setBackgroundColorOnSelectedCells(color: Color?, undoable: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = color,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::cellBackgroundColorTable,
             updateCellFormatTable = CellFormatTable::setCellBackgroundColorTable
         )
     }
 
-    override fun setCellTextSize(cellId: CellId, textSize: Float?, undo: Boolean) {
+    override fun setCellTextSize(cellId: CellId, textSize: Float?, undoable: Boolean) {
         updateFormatOnOneCell(
             cellId = cellId,
-            undo = undo,
+            undo = undoable,
             formatValue = textSize,
             getFormatTable = CellFormatTable::textSizeTable,
             updateCellFormatTable = CellFormatTable::setTextSizeTable
         )
     }
 
-    override fun setSelectedCellsTextSize(textSize: Float?, undo: Boolean) {
+    override fun setSelectedCellsTextSize(textSize: Float?, undoable: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = textSize,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textSizeTable,
             updateCellFormatTable = CellFormatTable::setTextSizeTable
         )
     }
 
-    override fun setCellTextColor(cellId: CellId, color: Color?, undo: Boolean) {
+    override fun setCellTextColor(cellId: CellId, color: Color?, undoable: Boolean) {
         updateFormatOnOneCell(
             cellId = cellId,
-            undo = undo,
+            undo = undoable,
             formatValue = color,
             getFormatTable = CellFormatTable::textColorTable,
             updateCellFormatTable = CellFormatTable::setTextColorTable
         )
     }
 
-    override fun setTextColorOnSelectedCells(color: Color?, undo: Boolean) {
+    override fun setTextColorOnSelectedCells(color: Color?, undoable: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = color,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textColorTable,
             updateCellFormatTable = CellFormatTable::setTextColorTable
         )
     }
 
-    override fun setCellTextUnderlined(cellId: CellId, underlined: Boolean?, undo: Boolean) {
+    override fun setCellTextUnderlined(cellId: CellId, underlined: Boolean?, undoable: Boolean) {
         updateFormatOnOneCell(
             cellId = cellId,
             formatValue = underlined,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textUnderlinedTable,
             updateCellFormatTable = CellFormatTable::setTextUnderlinedTable
         )
     }
 
-    override fun setUnderlinedOnSelectedCells(underlined: Boolean?, undo: Boolean) {
+    override fun setUnderlinedOnSelectedCells(underlined: Boolean?, undoable: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = underlined,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textUnderlinedTable,
             updateCellFormatTable = CellFormatTable::setTextUnderlinedTable
         )
     }
 
-    override fun setCellTextCrossed(cellId: CellId, crossed: Boolean?, undo: Boolean) {
+    override fun setCellTextCrossed(cellId: CellId, crossed: Boolean?, undoable: Boolean) {
         updateFormatOnOneCell(
             cellId = cellId,
             formatValue = crossed,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textCrossedTable,
             updateCellFormatTable = CellFormatTable::setTextCrossedTable
         )
     }
 
-    override fun setCrossedOnSelectedCell(cellId: CellId, crossed: Boolean?, undo: Boolean) {
+    override fun setCrossedOnSelectedCell(cellId: CellId, crossed: Boolean?, undoable: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = crossed,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textCrossedTable,
             updateCellFormatTable = CellFormatTable::setTextCrossedTable
         )
     }
 
 
-    override fun setCellHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment?, undo: Boolean) {
+    override fun setCellHorizontalAlignment(cellId: CellId, alignment: TextHorizontalAlignment?, undoable: Boolean) {
         updateFormatOnOneCell(
             cellId = cellId,
             formatValue = alignment,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textHorizontalAlignmentTable,
             updateCellFormatTable = CellFormatTable::setTextHorizontalAlignmentTable
         )
@@ -401,30 +401,30 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun setHorizontalAlignmentOnSelectedCells(
         cellId: CellId,
         alignment: TextHorizontalAlignment?,
-        undo: Boolean
+        undoable: Boolean
     ) {
         updateFormatOfSelectedCells(
             formatValue = alignment,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textHorizontalAlignmentTable,
             updateCellFormatTable = CellFormatTable::setTextHorizontalAlignmentTable
         )
     }
 
-    override fun setCellVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment?, undo: Boolean) {
+    override fun setCellVerticalAlignment(cellId: CellId, alignment: TextVerticalAlignment?, undoable: Boolean) {
         updateFormatOnOneCell(
             cellId = cellId,
             formatValue = alignment,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textVerticalAlignmentTable,
             updateCellFormatTable = CellFormatTable::setTextVerticalAlignmentTable
         )
     }
 
-    override fun setVerticalAlignmentOnSelectedCells(cellId: CellId, alignment: TextVerticalAlignment?, undo: Boolean) {
+    override fun setVerticalAlignmentOnSelectedCells(cellId: CellId, alignment: TextVerticalAlignment?, undoable: Boolean) {
         updateFormatOfSelectedCells(
             formatValue = alignment,
-            undo = undo,
+            undo = undoable,
             getFormatTable = CellFormatTable::textVerticalAlignmentTable,
             updateCellFormatTable = CellFormatTable::setTextVerticalAlignmentTable
         )

@@ -37,7 +37,7 @@ internal class TextSizeSelectorActionImpTest : BaseTest() {
 
         ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
         verify(action.updateCellFormatAction,times(1)).setSelectedCellsTextSize(
-            newTextSize.toFloat()
+            newTextSize.toFloat(),undoable=true
         )
         verify(action.returnFocusToCellCursor,times(1)).returnFocusToCurrentCellCursor()
     }
@@ -50,7 +50,7 @@ internal class TextSizeSelectorActionImpTest : BaseTest() {
 
         ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
         verify(action.updateCellFormatAction,times(1)).setSelectedCellsTextSize(
-            newTextSize.toFloat()
+            newTextSize.toFloat(),undoable=true
         )
         verify(action.returnFocusToCellCursor,times(1)).returnFocusToCurrentCellCursor()
     }

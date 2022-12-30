@@ -26,7 +26,7 @@ class TextSizeSelectorActionImp @Inject constructor(
     override fun submitManualEdit(windowId: String, value: String) {
         val num = value.toFloatOrNull()
         num?.also {
-            updateCellFormatAction.setSelectedCellsTextSize(num)
+            updateCellFormatAction.setSelectedCellsTextSize(num,undoable=true)
             sc.getTextSizeSelectorStateMs(windowId)?.also {
                 it.value = it.value.setHeaderText(value)
             }
@@ -35,7 +35,7 @@ class TextSizeSelectorActionImp @Inject constructor(
     }
 
     override fun pickTextSize(windowId: String, textSize: Int) {
-        updateCellFormatAction.setSelectedCellsTextSize(textSize.toFloat())
+        updateCellFormatAction.setSelectedCellsTextSize(textSize.toFloat(),undoable=true)
         sc.getTextSizeSelectorStateMs(windowId)?.also {
             it.value = it.value.setHeaderText(textSize.toString())
         }

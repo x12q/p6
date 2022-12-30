@@ -47,7 +47,7 @@ internal class TextColorSelectorActionTest : BaseTest(){
             ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldNotBe e
             action.pickColor(ts.window1Id,color)
             ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldBe e
-            verify(action.updateCellFormatAction,times(1)).setTextColorOnSelectedCells(color)
+            verify(action.updateCellFormatAction,times(1)).setTextColorOnSelectedCells(color,undoable=true)
         }
     }
 }

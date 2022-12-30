@@ -28,7 +28,7 @@ class CellBackgroundColorSelectorAction @Inject constructor(
     }
 
     override fun pickColor(windowId: String, color: Color?) {
-        updateCellFormatAction.setBackgroundColorOnSelectedCells(color)
+        updateCellFormatAction.setBackgroundColorOnSelectedCells(color,undoable=true)
         sc.getCellBackgroundColorSelectorStateMs(windowId)?.also {
             it.value = it.value.setCurrentColor(color)
         }
