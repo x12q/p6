@@ -6,12 +6,23 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.proto.CellFormatProtos
+import com.qxdzbc.p6.proto.CellFormatProtos.CellFormatTableProto
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toColorModel
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontStyleModel
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontWeightModel
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toModel
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextHorizontalModel
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextVerticalModel
 
 
 interface CellFormatTable {
+
+    fun toProto(): CellFormatProtos.CellFormatTableProto
+
     val textSizeTable: FormatTable<Float>
     fun setTextSizeTable(i: FormatTable<Float>): CellFormatTable
 
@@ -73,27 +84,45 @@ interface CellFormatTable {
      * get a respective [FormatConfig] including null format for all ranges in [config].
      * The result format config mirrors the ranges of each category in the input [config]
      */
-    fun getFormatConfigForConfig_Respectively(config:FormatConfig): FormatConfig
+    fun getFormatConfigForConfig_Respectively(config: FormatConfig): FormatConfig
+
     /**
      * get a [FormatConfig] including null format for all ranges in [config].
      * Ranges of all categories are flatten, and used to produce each new category in the result format config obj
      */
-    fun getFormatConfigForConfig_Flat(config:FormatConfig): FormatConfig
+    fun getFormatConfigForConfig_Flat(config: FormatConfig): FormatConfig
 
     /**
      * Remove all format in for all ranges in [config] by each categories in [config]
      */
-    fun removeFormatByConfig_Respectively(config:FormatConfig):CellFormatTable
+    fun removeFormatByConfig_Respectively(config: FormatConfig): CellFormatTable
 
     /**
      * Remove all format in for all ranges in [config]
      */
-    fun removeFormatByConfig_Flat(config:FormatConfig):CellFormatTable
+    fun removeFormatByConfig_Flat(config: FormatConfig): CellFormatTable
 
     /**
      * apply [config] to this table to create a new table
      */
-    fun applyConfig(config:FormatConfig):CellFormatTable
+    fun applyConfig(config: FormatConfig): CellFormatTable
 
     fun getValidFormatConfigForRange(rangeAddress: RangeAddress): FormatConfig
+
+    companion object {
+        fun CellFormatTableProto.toModel(): CellFormatTable {
+            val rt = CellFormatTableImp(
+                textSizeTable = textSizeTable.toModel(),
+                textColorTable = textColorTable.toColorModel(),
+                textUnderlinedTable = textUnderlinedTable.toModel(),
+                textCrossedTable = textCrossedTable.toModel(),
+                fontWeightTable = fontWeightTable.toFontWeightModel(),
+                fontStyleTable = fontStyleTable.toFontStyleModel(),
+                textVerticalAlignmentTable = textVerticalAlignmentTable.toTextVerticalModel(),
+                textHorizontalAlignmentTable = textHorizontalAlignmentTable.toTextHorizontalModel(),
+                cellBackgroundColorTable = cellBackgroundColorTable.toColorModel(),
+            )
+            return rt
+        }
+    }
 }

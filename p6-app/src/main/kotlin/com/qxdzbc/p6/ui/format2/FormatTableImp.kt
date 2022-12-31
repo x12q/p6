@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 
 data class FormatTableImp<T>(
-    val valueMap: Map<RangeAddressSet, T> = emptyMap(),
+    override val valueMap: Map<RangeAddressSet, T> = emptyMap(),
 ) : FormatTable<T> {
 
     constructor(vararg pairs: Pair<RangeAddressSet, T>) : this(pairs.toMap())
