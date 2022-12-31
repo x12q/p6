@@ -26,12 +26,20 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelecto
 
 abstract class AbsSubAppStateContainer : SubAppStateContainer {
 
-    override fun getCommandStackMs(wbwsSt: WbWsSt): Ms<CommandStack>? {
-        return getWsState(wbwsSt)?.commandStackMs
+    override fun getRedoStackMs(wbwsSt: WbWsSt): Ms<CommandStack>? {
+        return getWsState(wbwsSt)?.redoStackMs
     }
 
-    override fun getCommandStackMs(wbws: WbWs): Ms<CommandStack>? {
-        return getWsState(wbws)?.commandStackMs
+    override fun getRedoStackMs(wbws: WbWs): Ms<CommandStack>? {
+        return getWsState(wbws)?.redoStackMs
+    }
+
+    override fun getUndoStackMs(wbwsSt: WbWsSt): Ms<CommandStack>? {
+        return getWsState(wbwsSt)?.undoStackMs
+    }
+
+    override fun getUndoStackMs(wbws: WbWs): Ms<CommandStack>? {
+        return getWsState(wbws)?.undoStackMs
     }
 
     override fun getCellFormatTableMs(wbws: WbWs): Ms<CellFormatTable>? {

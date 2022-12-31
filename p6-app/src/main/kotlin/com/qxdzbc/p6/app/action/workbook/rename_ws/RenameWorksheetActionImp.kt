@@ -54,7 +54,7 @@ class RenameWorksheetActionImp @Inject constructor(
                     }
                 }
             }
-            sc.getCommandStackMs(WbWs(request.wbKey,request.oldName))?.also{
+            sc.getUndoStackMs(WbWs(request.wbKey,request.oldName))?.also{
                 it.value = it.value.add(command)
             }
         }

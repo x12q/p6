@@ -31,8 +31,14 @@ interface WorksheetState :WbWsSt {
     /**
      * A stack of [Command], for undoing actions
      */
-    val commandStackMs:Ms<CommandStack>
-    val commandStack: CommandStack
+    val undoStackMs:Ms<CommandStack>
+    val undoStack: CommandStack
+
+    /**
+     * A stack of [Command], for re-doing actions
+     */
+    val redoStackMs:Ms<CommandStack>
+    val redoStack: CommandStack
 
     val cellFormatTableMs: Ms<CellFormatTable>
     val cellFormatTable: CellFormatTable

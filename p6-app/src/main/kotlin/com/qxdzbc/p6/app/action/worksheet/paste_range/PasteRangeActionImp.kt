@@ -54,7 +54,7 @@ class PasteRangeActionImp @Inject constructor(
         shiftedClipboardData?.also {
             val command = makePasteCommand(targetRangeId,shiftedClipboardData, )
             if (undoable) {
-                val commandStackMs = sc.getCommandStackMs(targetWbWsSt)
+                val commandStackMs = sc.getUndoStackMs(targetWbWsSt)
                 if (commandStackMs != null) {
                     commandStackMs.value = commandStackMs.value.add(command)
                 }

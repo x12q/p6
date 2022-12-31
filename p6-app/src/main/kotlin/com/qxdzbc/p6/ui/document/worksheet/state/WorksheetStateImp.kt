@@ -61,7 +61,8 @@ data class WorksheetStateImp constructor(
     override val colRange: IntRange = P6R.worksheetValue.defaultColRange,
     override val rowRange: IntRange = P6R.worksheetValue.defaultRowRange,
     override val cellFormatTableMs: Ms<CellFormatTable> = ms(CellFormatTableImp()),
-    override val commandStackMs: Ms<CommandStack>,
+    override val undoStackMs: Ms<CommandStack>,
+    override val redoStackMs: Ms<CommandStack>,
 ) : BaseWorksheetState() {
 
     @AssistedInject
@@ -83,7 +84,8 @@ data class WorksheetStateImp constructor(
         colRange = P6R.worksheetValue.defaultColRange,
         rowRange = P6R.worksheetValue.defaultRowRange,
         cellFormatTableMs = ms(CellFormatTableImp()),
-        commandStackMs = ms(CommandStacks.stdCommandStack())
+        undoStackMs = ms(CommandStacks.stdCommandStack()),
+        redoStackMs = ms(CommandStacks.stdCommandStack()),
     )
 
 

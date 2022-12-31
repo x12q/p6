@@ -97,7 +97,7 @@ class UpdateCellFormatActionImp @Inject constructor(
     ) {
         sc.getCellFormatTableMs(cellId)?.also { fmtMs ->
             if (undo) {
-                sc.getCommandStackMs(cellId)?.also {
+                sc.getUndoStackMs(cellId)?.also {
                     val command =
                         makeCommandForFormatOneCell(cellId, formatValue, fmtMs, getFormatTable, updateCellFormatTable)
                     it.value = it.value.add(command)
@@ -164,7 +164,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         sc.getActiveCursorState()?.also { csst ->
             sc.getCellFormatTableMs(csst)?.also { fmtMs ->
                 if (undo) {
-                    sc.getCommandStackMs(csst)?.also {
+                    sc.getUndoStackMs(csst)?.also {
                         val command = makeCommandForFormattingOnSelectedCells(
                             formatValue = formatValue,
                             cursorState = csst,
@@ -249,7 +249,7 @@ class UpdateCellFormatActionImp @Inject constructor(
     override fun applyFormatConfig(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
         if (undoable) {
             val command = makeCommandToApplyFormatConfig(wbWsSt, config)
-            sc.getCommandStackMs(wbWsSt)?.also {
+            sc.getUndoStackMs(wbWsSt)?.also {
                 it.value = it.value.add(command)
             }
             command.run()
@@ -289,7 +289,7 @@ class UpdateCellFormatActionImp @Inject constructor(
 
     override fun clearFormat_Flat(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
         if (undoable) {
-            sc.getCommandStackMs(wbWsSt)?.also {
+            sc.getUndoStackMs(wbWsSt)?.also {
                 it.value = it.value.add(makeClearFormatCommandUsingFormatConfig_Flat(wbWsSt, config))
             }
         }
@@ -334,7 +334,7 @@ class UpdateCellFormatActionImp @Inject constructor(
 
     override fun clearFormat_Respective(wbWsSt: WbWsSt, config: FormatConfig, undoable: Boolean) {
         if (undoable) {
-            sc.getCommandStackMs(wbWsSt)?.also {
+            sc.getUndoStackMs(wbWsSt)?.also {
                 it.value = it.value.add(makeClearFormatCommandUsingFormatConfig_Respective(wbWsSt, config))
             }
         }

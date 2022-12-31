@@ -9,8 +9,10 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.format2.CellFormatTable
 
 abstract class BaseWorksheetState : WorksheetState {
-    override val commandStack: CommandStack
-        get() = commandStackMs.value
+    override val redoStack: CommandStack
+        get() = redoStackMs.value
+    override val undoStack: CommandStack
+        get() = undoStackMs.value
 
     override val cellFormatTable: CellFormatTable
         get() = cellFormatTableMs.value

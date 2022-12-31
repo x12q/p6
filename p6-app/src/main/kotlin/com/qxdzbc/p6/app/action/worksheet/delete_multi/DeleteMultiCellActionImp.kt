@@ -119,7 +119,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                 }
             }
 
-                sc.getCommandStackMs(WbWs(wbKey,wsName))?.also {commandStackMs->
+                sc.getUndoStackMs(WbWs(wbKey,wsName))?.also { commandStackMs->
                     commandStackMs.value = commandStackMs.value.add(command)
                 }
 

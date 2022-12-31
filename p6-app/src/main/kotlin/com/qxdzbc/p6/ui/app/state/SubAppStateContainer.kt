@@ -36,8 +36,11 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
  */
 interface SubAppStateContainer {
 
-    fun getCommandStackMs(wbwsSt: WbWsSt):Ms<CommandStack>?
-    fun getCommandStackMs(wbws: WbWs):Ms<CommandStack>?
+    fun getUndoStackMs(wbwsSt: WbWsSt):Ms<CommandStack>?
+    fun getUndoStackMs(wbws: WbWs):Ms<CommandStack>?
+
+    fun getRedoStackMs(wbwsSt: WbWsSt):Ms<CommandStack>?
+    fun getRedoStackMs(wbws: WbWs):Ms<CommandStack>?
 
     fun getCellFormatTableMs(wbwsSt: WbWsSt):Ms<CellFormatTable>?
     fun getCellFormatTableMs(wbws: WbWs):Ms<CellFormatTable>?

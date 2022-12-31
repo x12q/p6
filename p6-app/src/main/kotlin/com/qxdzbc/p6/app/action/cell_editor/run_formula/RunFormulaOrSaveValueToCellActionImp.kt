@@ -90,7 +90,7 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
                 run = { updateCellAction.updateCellDM(request) },
                 undo = { updateCellAction.updateCellDM(reverseRequest) }
             )
-            stateCont.getCommandStackMs(ws)?.also {cMs->
+            stateCont.getUndoStackMs(ws)?.also { cMs->
                 cMs.value = cMs.value.add(command)
             }
             command.run()

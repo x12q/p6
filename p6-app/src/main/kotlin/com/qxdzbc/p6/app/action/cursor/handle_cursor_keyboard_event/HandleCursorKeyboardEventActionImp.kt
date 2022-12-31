@@ -13,7 +13,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.cursor.copy_cursor_range_to_clipboard.CopyCursorRangeToClipboardAction
 import com.qxdzbc.p6.app.action.cursor.on_cursor_changed_reactor.OnCursorChangeEventReactor
 import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
-import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoOnCursorAction
+import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MoveSliderAction
@@ -45,7 +45,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     private val selectWholeRow: SelectWholeRowForAllSelectedCellAction,
     private val moveSliderAction: MoveSliderAction,
     private val copyCursorRangeToClipboardAction: CopyCursorRangeToClipboardAction,
-    private val undoOnCursorAct: UndoOnCursorAction,
+    private val undoOnCursorAct: UndoRedoAction,
     private val cellEditorActionLz: dagger.Lazy<CellEditorAction>,
     private val onCursorChangeEventReactor: OnCursorChangeEventReactor
 
@@ -243,7 +243,12 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
                 }
 
                 Key.Z -> {
-                    undoOnCursorAct.undoOnCursor(cursorState)
+                    undoOnCursorAct.undoOnWorksheet(cursorState)
+                    true
+                }
+
+                Key.Y ->{
+                    undoOnCursorAct.redoOnWorksheet(cursorState)
                     true
                 }
 

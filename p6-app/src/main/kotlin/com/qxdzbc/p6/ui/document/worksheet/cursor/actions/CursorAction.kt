@@ -7,7 +7,7 @@ import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.app.action.cursor.copy_cursor_range_to_clipboard.CopyCursorRangeToClipboardAction
 import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
-import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoOnCursorAction
+import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.ThumbAction
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.SelectWholeColumnForAllSelectedCellAction
@@ -19,7 +19,7 @@ interface CursorAction :
     HandleCursorKeyboardEventAction,
     PasteRangeToCursor,
     CopyCursorRangeToClipboardAction,
-    UndoOnCursorAction
+    UndoRedoAction
 {
     val cellEditorAction: CellEditorAction
     val thumbAction: ThumbAction

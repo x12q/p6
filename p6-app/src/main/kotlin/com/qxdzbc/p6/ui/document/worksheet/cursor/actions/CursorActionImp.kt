@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.cursor.copy_cursor_range_to_clipboard.CopyCursorRangeToClipboardAction
 import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
-import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoOnCursorAction
+import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -39,14 +39,14 @@ class CursorActionImp @Inject constructor(
     override val thumbAction: ThumbAction,
     private val handleCursorKeyboardEventAction: HandleCursorKeyboardEventAction,
     private val copyCursorRangeToClipboardAction: CopyCursorRangeToClipboardAction,
-    private val undoOnCursorAct: UndoOnCursorAction,
+    private val undoOnCursorAct: UndoRedoAction,
 ) : CursorAction,
     SelectWholeColumnForAllSelectedCellAction by selectWholeCol,
     SelectWholeRowForAllSelectedCellAction by selectWholeRow,
     HandleCursorKeyboardEventAction by handleCursorKeyboardEventAction,
     PasteRangeToCursor by pasteRangeToCursor,
     CopyCursorRangeToClipboardAction by copyCursorRangeToClipboardAction,
-    UndoOnCursorAction by undoOnCursorAct {
+    UndoRedoAction by undoOnCursorAct {
     private val sc by stateContSt
 
     /**
