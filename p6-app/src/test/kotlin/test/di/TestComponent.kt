@@ -6,6 +6,7 @@ import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
 import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
+import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
@@ -132,6 +133,7 @@ interface TestComponent : P6Component {
     fun textSizeSelectorActionImp(): TextSizeSelectorActionImp
     fun textColorSelectorAction(): TextColorSelectorAction
     fun pasteRangeActionImp(): PasteRangeActionImp
+    fun loadWorkbookActionImp(): LoadWorkbookActionImp
 
     @Component.Builder
     interface Builder {

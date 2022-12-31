@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses.toModel
-import com.qxdzbc.p6.proto.CellFormatProtos.RangeAddressSetProto
+import com.qxdzbc.p6.proto.DocProtos.RangeAddressSetProto
 
 data class RangeAddressSetImp(
     override val ranges: Set<RangeAddress>

@@ -9,17 +9,19 @@ import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.ui.document.workbook.state.CanConvertToWorkbookProto
 
 /**
  * essentially a map of worksheet
  */
-interface Workbook : WithSize {
+interface Workbook : WithSize, CanConvertToWorkbookProto {
 
     fun reRun():Workbook
     fun refreshDisplayText():Workbook
 
-    fun toProto(): WorkbookProto
-
+    /**
+     * A savable copy is a workbook with an empty workbook key (with empty name and null path) that is completely detached from the app state.
+     */
     fun makeSavableCopy(): Workbook
 
     val keyMs:Ms<WorkbookKey>

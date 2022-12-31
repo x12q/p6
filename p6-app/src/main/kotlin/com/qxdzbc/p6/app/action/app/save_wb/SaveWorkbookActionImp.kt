@@ -67,10 +67,10 @@ class SaveWorkbookActionImp @Inject constructor(
     }
 
     fun performSave(wbKey: WorkbookKey, path: Path): Rse<Unit> {
-        val wbRs = sc.getWbRs(wbKey)
+        val wbRs = sc.getWbStateRs(wbKey)
         val rt = wbRs.flatMap { wb ->
             val saveRs = if (path.isRegularFile() && path.toString().endsWith(".csv")) {
-                saver.saveFirstWsAsCsv(wb, path)
+                saver.saveFirstWsAsCsv(wb.wb, path)
             } else {
                 saver.saveAsProtoBuf(wb, path)
             }

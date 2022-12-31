@@ -2,6 +2,7 @@ package com.qxdzbc.p6.app.communication.applier.app.load_wb
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.load_wb.applier.LoadWorkbookInternalApplierImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -17,7 +18,7 @@ import kotlin.test.assertNotNull
 class LoadWorkbookInternalApplierImpTest {
     lateinit var scMs: Ms<StateContainer>
     val appState get() = scMs.value
-    lateinit var loadWbInternalApplier: LoadWorkbookInternalApplierImp
+    lateinit var loadWbInternalApplier: LoadWorkbookActionImp
     lateinit var errorRouter: ErrorRouter
     lateinit var ts: TestSample
 
@@ -26,7 +27,7 @@ class LoadWorkbookInternalApplierImpTest {
         ts = TestSample()
         scMs = ts.scMs
         errorRouter = ErrorRouterImp(scMs,ts.appState.errorContainerMs)
-        loadWbInternalApplier = LoadWorkbookInternalApplierImp(ts.stateContMs())
+        loadWbInternalApplier = ts.comp.loadWorkbookActionImp()
     }
 
     @Test
@@ -34,7 +35,7 @@ class LoadWorkbookInternalApplierImpTest {
         val windowId = scMs.value.windowStateMsList[0].value.id
         val wb = WorkbookImp(WorkbookKey("Book33").toMs())
         ts.stateContMs().value.wbCont = ts.stateContMs().value.wbCont.addWb(wb)
-        loadWbInternalApplier.apply(windowId, wb)
+        loadWbInternalApplier.apply(windowId, wb,null)
         assertNotNull(appState.getWbState(wb.key))
     }
 
@@ -43,7 +44,7 @@ class LoadWorkbookInternalApplierImpTest {
         val windowId = "invalid wd id"
         val wb = WorkbookImp(WorkbookKey("Book33").toMs())
         ts.stateContMs().value.wbCont = ts.stateContMs().value.wbCont.addWb(wb)
-        loadWbInternalApplier.apply(windowId, wb)
+        loadWbInternalApplier.apply(windowId, wb,null)
         val wds = appState.getWindowStateMsById(windowId)
         assertNotNull(wds)
         assertEquals(listOf(wb), wds.value.wbList)

@@ -57,7 +57,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     private val gridSliderFactory: LimitedGridSliderFactory,
     private val cursorStateFactory: CursorStateFactory,
     private val thumbStateFactory: ThumbStateFactory,
-) : WorkbookState {
+) : BaseWorkbookState() {
     companion object {
         fun default(
             wbMs: Ms<Workbook>,

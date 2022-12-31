@@ -12,7 +12,6 @@ import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
 import com.qxdzbc.p6.app.file.saver.P6SaverImp
-import io.kotest.matchers.shouldBe
 import test.TestSample
 import java.nio.file.Files
 
@@ -61,7 +60,7 @@ class P6Loader_SaverTest {
         assertTrue { srs is Ok }
         assertTrue { srs2 is Ok }
 
-        val lRs = loader.load(path)
+        val lRs = loader.loadToWb(path)
         assertTrue { lRs is Ok }
         val loadedWb = lRs.component1()!!
 

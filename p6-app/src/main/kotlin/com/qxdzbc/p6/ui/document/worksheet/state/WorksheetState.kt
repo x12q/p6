@@ -1,13 +1,14 @@
 package com.qxdzbc.p6.ui.document.worksheet.state
 
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.command.CommandStack
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
@@ -23,21 +24,24 @@ import com.qxdzbc.p6.ui.format2.CellFormatTable
  * provide method to lookup cell state + ms
  * store + expose ms object of cell state
  */
-interface WorksheetState :WbWsSt {
+interface WorksheetState : WbWsSt {
 
     val idMs: Ms<WorksheetId>
-    val id:WorksheetId
+    val id: WorksheetId
+
+    fun toProto():WorksheetProto
+
 
     /**
      * A stack of [Command], for undoing actions
      */
-    val undoStackMs:Ms<CommandStack>
+    val undoStackMs: Ms<CommandStack>
     val undoStack: CommandStack
 
     /**
      * A stack of [Command], for re-doing actions
      */
-    val redoStackMs:Ms<CommandStack>
+    val redoStackMs: Ms<CommandStack>
     val redoStack: CommandStack
 
     val cellFormatTableMs: Ms<CellFormatTable>
@@ -57,18 +61,18 @@ interface WorksheetState :WbWsSt {
     /**
      * The layout coor of the cell grid
      */
-    val cellGridLayoutCoorWrapperMs:Ms<LayoutCoorWrapper?>
+    val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
     val cellGridLayoutCoorWrapper: LayoutCoorWrapper?
-    val cellGridLayoutCoors: LayoutCoordinates? get()=cellGridLayoutCoorWrapper?.layout
-    fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper):WorksheetState
+    val cellGridLayoutCoors: LayoutCoordinates? get() = cellGridLayoutCoorWrapper?.layout
+    fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper): WorksheetState
 
     /**
      * The layout coor of the whole worksheet (including the grid + the ruler)
      */
-    val wsLayoutCoorWrapperMs:Ms<LayoutCoorWrapper?>
+    val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
     val wsLayoutCoorWrapper: LayoutCoorWrapper?
     val wsLayoutCoors: LayoutCoordinates? get() = wsLayoutCoorWrapper?.layout
-    fun setwsLayoutCoorWrapper(i: LayoutCoorWrapper):WorksheetState
+    fun setwsLayoutCoorWrapper(i: LayoutCoorWrapper): WorksheetState
 
     val wsMs: Ms<Worksheet>
     val worksheet: Worksheet
@@ -77,7 +81,7 @@ interface WorksheetState :WbWsSt {
     /**
      * point this state to another worksheet, and update the state id
      */
-    fun setWsMs(wsMs: Ms<Worksheet>):WorksheetState
+    fun setWsMs(wsMs: Ms<Worksheet>): WorksheetState
 
     val cursorStateMs: Ms<CursorState>
     val cursorState: CursorState get() = cursorStateMs.value
@@ -90,7 +94,7 @@ interface WorksheetState :WbWsSt {
      *  - ruler states
      *  - cell layouts
      */
-    fun setSliderAndRefreshDependentStates(i:GridSlider):WorksheetState
+    fun setSliderAndRefreshDependentStates(i: GridSlider): WorksheetState
 
     val selectRectStateMs: Ms<SelectRectState>
     val selectRectState: SelectRectState get() = selectRectStateMs.value
@@ -108,17 +112,17 @@ interface WorksheetState :WbWsSt {
     /**
      * Add or overwrite a cell state if one already exist
      */
-    fun addOrOverwriteCellState(cellState: CellState):WorksheetState
+    fun addOrOverwriteCellState(cellState: CellState): WorksheetState
 
     fun addBlankCellState(address: CellAddress): WorksheetState
-    fun addBlankCellState(label:String): WorksheetState
+    fun addBlankCellState(label: String): WorksheetState
     fun removeAllCellState(): WorksheetState
 
     fun getCellStateMs(colIndex: Int, rowIndex: Int): Ms<CellState>?
     fun getCellStateMs(cellAddress: CellAddress): Ms<CellState>?
-    fun getCellStateMs(label:String): Ms<CellState>?
+    fun getCellStateMs(label: String): Ms<CellState>?
     fun getCellState(cellAddress: CellAddress): CellState?
-    fun getCellState(label:String): CellState?
+    fun getCellState(label: String): CellState?
     fun getCellState(colIndex: Int, rowIndex: Int): CellState?
 
     /**
@@ -167,9 +171,9 @@ interface WorksheetState :WbWsSt {
     fun removeCellLayoutCoor(cellAddress: CellAddress): WorksheetState
     fun removeAllCellLayoutCoor(): WorksheetState
 
-    fun refreshCellState():WorksheetState
-    fun refresh():WorksheetState
-    fun getRulerState(rulerType: RulerType):RulerState
+    fun refreshCellState(): WorksheetState
+    fun refresh(): WorksheetState
+    fun getRulerState(rulerType: RulerType): RulerState
 }
 
 

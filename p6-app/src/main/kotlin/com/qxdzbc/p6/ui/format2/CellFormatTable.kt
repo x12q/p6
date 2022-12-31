@@ -6,8 +6,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.proto.CellFormatProtos
-import com.qxdzbc.p6.proto.CellFormatProtos.CellFormatTableProto
+import com.qxdzbc.p6.proto.DocProtos
+import com.qxdzbc.p6.proto.DocProtos.CellFormatTableProto
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
@@ -21,7 +21,7 @@ import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextVerticalModel
 
 interface CellFormatTable {
 
-    fun toProto(): CellFormatProtos.CellFormatTableProto
+    fun toProto(): DocProtos.CellFormatTableProto
 
     val textSizeTable: FormatTable<Float>
     fun setTextSizeTable(i: FormatTable<Float>): CellFormatTable

@@ -3,12 +3,22 @@ package com.qxdzbc.p6.ui.document.worksheet.state
 import androidx.compose.runtime.MutableState
 import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.format2.CellFormatTable
 
 abstract class BaseWorksheetState : WorksheetState {
+
+    override fun toProto(): DocProtos.WorksheetProto {
+        val proto1 = this.wsMs.value.toProto()
+        val rt = DocProtos.WorksheetProto.newBuilder(proto1)
+            .setCellFormatTable(this.cellFormatTable.toProto())
+            .build()
+        return rt
+    }
+
     override val redoStack: CommandStack
         get() = redoStackMs.value
     override val undoStack: CommandStack

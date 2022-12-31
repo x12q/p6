@@ -10,6 +10,8 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.proto.P6FileProtos.*
+import com.qxdzbc.p6.ui.document.workbook.state.CanConvertToWorkbookProto
+import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.squareup.anvil.annotations.ContributesBinding
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
@@ -23,10 +25,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class P6SaverImp @Inject constructor() : P6Saver {
-    override fun saveAsProtoBuf(wb: Workbook, path: Path): Result<Unit, ErrorReport> {
+    override fun saveAsProtoBuf(wb: CanConvertToWorkbookProto, path: Path): Result<Unit, ErrorReport> {
         try {
-            val savableWb = wb.makeSavableCopy()
-            val proto: WorkbookProto = savableWb.toProto()
+            val proto: WorkbookProto = wb.toProto()
             val date = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
             val fileContent = P6FileContentProto.newBuilder()
                 .setMeta(

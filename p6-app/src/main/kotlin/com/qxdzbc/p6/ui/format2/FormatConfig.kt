@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.proto.CellFormatProtos.FormatConfigProto
+import com.qxdzbc.p6.proto.DocProtos.FormatConfigProto
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format2.FormatEntrySet.Companion.fontStyleToProto

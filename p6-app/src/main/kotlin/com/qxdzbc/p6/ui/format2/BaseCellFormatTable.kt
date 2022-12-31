@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.proto.CellFormatProtos
+import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
 import com.qxdzbc.p6.ui.format2.FormatTable.Companion.colorToProto
@@ -16,8 +16,8 @@ import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toProto
 
 abstract class BaseCellFormatTable : CellFormatTable {
 
-    override fun toProto(): CellFormatProtos.CellFormatTableProto {
-        val rt = CellFormatProtos.CellFormatTableProto.newBuilder()
+    override fun toProto(): DocProtos.CellFormatTableProto {
+        val rt = DocProtos.CellFormatTableProto.newBuilder()
             .setTextSizeTable(textSizeTable.toProto())
             .setTextColorTable(textColorTable.colorToProto())
             .setTextUnderlinedTable(textUnderlinedTable.toProto())

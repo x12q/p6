@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.proto.CellFormatProtos
+import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format2.RangeAddressSetImp.Companion.toModel
@@ -37,7 +37,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
     }
 
     companion object {
-        fun CellFormatProtos.IntFormatEntryProto.toTextVerticalAlignmentModel(): FormatEntry<TextVerticalAlignment?> {
+        fun DocProtos.IntFormatEntryProto.toTextVerticalAlignmentModel(): FormatEntry<TextVerticalAlignment?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) {
@@ -46,8 +46,8 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out TextVerticalAlignment?>.textVerticalToProto(): CellFormatProtos.IntFormatEntryProto {
-            val builder = CellFormatProtos.IntFormatEntryProto
+        fun FormatEntry<out TextVerticalAlignment?>.textVerticalToProto(): DocProtos.IntFormatEntryProto {
+            val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
             this.formatValue?.also {
@@ -59,7 +59,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
 
         //====
 
-        fun CellFormatProtos.IntFormatEntryProto.toTextHorizontalAlignmentModel(): FormatEntry<TextHorizontalAlignment?> {
+        fun DocProtos.IntFormatEntryProto.toTextHorizontalAlignmentModel(): FormatEntry<TextHorizontalAlignment?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) {
@@ -68,8 +68,8 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out TextHorizontalAlignment?>.textHorizontalToProto(): CellFormatProtos.IntFormatEntryProto {
-            val builder = CellFormatProtos.IntFormatEntryProto
+        fun FormatEntry<out TextHorizontalAlignment?>.textHorizontalToProto(): DocProtos.IntFormatEntryProto {
+            val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
             this.formatValue?.also {
@@ -81,7 +81,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
 
         //====
 
-        fun CellFormatProtos.IntFormatEntryProto.toFontStyleModel(): FormatEntry<FontStyle?> {
+        fun DocProtos.IntFormatEntryProto.toFontStyleModel(): FormatEntry<FontStyle?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) {
@@ -94,8 +94,8 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out FontStyle?>.fontStyleToProto(): CellFormatProtos.IntFormatEntryProto {
-            val builder = CellFormatProtos.IntFormatEntryProto
+        fun FormatEntry<out FontStyle?>.fontStyleToProto(): DocProtos.IntFormatEntryProto {
+            val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
             this.formatValue?.also {
@@ -107,15 +107,15 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
 
         //====
 
-        fun CellFormatProtos.IntFormatEntryProto.toFontWeightModel(): FormatEntry<FontWeight?> {
+        fun DocProtos.IntFormatEntryProto.toFontWeightModel(): FormatEntry<FontWeight?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) FontWeight(this.formatValue) else null
             )
         }
 
-        fun FormatEntry<out FontWeight?>.fontWeightToProto(): CellFormatProtos.IntFormatEntryProto {
-            val builder = CellFormatProtos.IntFormatEntryProto
+        fun FormatEntry<out FontWeight?>.fontWeightToProto(): DocProtos.IntFormatEntryProto {
+            val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
             this.formatValue?.also {
@@ -128,15 +128,15 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
 
         //====
 
-        fun CellFormatProtos.BoolFormatEntryProto.toModel(): FormatEntry<Boolean?> {
+        fun DocProtos.BoolFormatEntryProto.toModel(): FormatEntry<Boolean?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) this.formatValue else null
             )
         }
 
-        fun FormatEntry<out Boolean?>.boolToProto(): CellFormatProtos.BoolFormatEntryProto {
-            val builder = CellFormatProtos.BoolFormatEntryProto
+        fun FormatEntry<out Boolean?>.boolToProto(): DocProtos.BoolFormatEntryProto {
+            val builder = DocProtos.BoolFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
             this.formatValue?.also {
@@ -149,14 +149,14 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
 
         // ====
 
-        fun CellFormatProtos.UInt64FormatEntryProto.toColorModel(): FormatEntry<Color?> {
+        fun DocProtos.UInt64FormatEntryProto.toColorModel(): FormatEntry<Color?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) Color(this.formatValue) else null
             )
         }
-        fun FormatEntry<out Color?>.colorToProto(): CellFormatProtos.UInt64FormatEntryProto {
-            val builder = CellFormatProtos.UInt64FormatEntryProto
+        fun FormatEntry<out Color?>.colorToProto(): DocProtos.UInt64FormatEntryProto {
+            val builder = DocProtos.UInt64FormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
             this.formatValue?.also {
@@ -167,15 +167,15 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
         }
 
         //====
-        fun CellFormatProtos.FloatFormatEntryProto.toModel(): FormatEntry<Float?> {
+        fun DocProtos.FloatFormatEntryProto.toModel(): FormatEntry<Float?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) this.formatValue else null
             )
         }
 
-        fun FormatEntry<out Float?>.floatToProto(): CellFormatProtos.FloatFormatEntryProto {
-            val builder = CellFormatProtos.FloatFormatEntryProto
+        fun FormatEntry<out Float?>.floatToProto(): DocProtos.FloatFormatEntryProto {
+            val builder = DocProtos.FloatFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
             this.formatValue?.also {

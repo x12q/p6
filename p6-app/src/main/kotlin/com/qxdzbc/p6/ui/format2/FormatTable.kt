@@ -5,7 +5,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.proto.CellFormatProtos
+import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.boolToProto
@@ -109,94 +109,94 @@ interface FormatTable<T> {
 
 
         // ====
-        fun CellFormatProtos.FloatFormatTableProto.toModel(): FormatTable<Float> {
+        fun DocProtos.FloatFormatTableProto.toModel(): FormatTable<Float> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to it.formatValue
             })
         }
-        fun FormatTable<Float>.toProto():CellFormatProtos.FloatFormatTableProto{
-            return CellFormatProtos.FloatFormatTableProto.newBuilder()
+        fun FormatTable<Float>.toProto():DocProtos.FloatFormatTableProto{
+            return DocProtos.FloatFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
                     FormatEntry(it.key,it.value).floatToProto()
                 }).build()
         }
 
         // ====
-        fun CellFormatProtos.BoolFormatTableProto.toModel(): FormatTable<Boolean> {
+        fun DocProtos.BoolFormatTableProto.toModel(): FormatTable<Boolean> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to it.formatValue
             })
         }
 
-        fun FormatTable<Boolean>.toProto():CellFormatProtos.BoolFormatTableProto{
-            return CellFormatProtos.BoolFormatTableProto.newBuilder()
+        fun FormatTable<Boolean>.toProto():DocProtos.BoolFormatTableProto{
+            return DocProtos.BoolFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
                     FormatEntry(it.key,it.value).boolToProto()
                 }).build()
         }
         // ====
 
-        fun FormatTable<Color>.colorToProto():CellFormatProtos.UInt64FormatTableProto{
-            return CellFormatProtos.UInt64FormatTableProto.newBuilder()
+        fun FormatTable<Color>.colorToProto():DocProtos.UInt64FormatTableProto{
+            return DocProtos.UInt64FormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
                     FormatEntry(it.key,it.value).colorToProto()
                 }).build()
         }
 
-        fun CellFormatProtos.UInt64FormatTableProto.toModel(): FormatTable<Long> {
+        fun DocProtos.UInt64FormatTableProto.toModel(): FormatTable<Long> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to it.formatValue
             })
         }
 
-        fun CellFormatProtos.UInt64FormatTableProto.toColorModel(): FormatTable<Color> {
+        fun DocProtos.UInt64FormatTableProto.toColorModel(): FormatTable<Color> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to Color(it.formatValue)
             })
         }
 
         //====
-        fun FormatTable<FontWeight>.fontWeightToProto():CellFormatProtos.IntFormatTableProto{
-            return CellFormatProtos.IntFormatTableProto.newBuilder()
+        fun FormatTable<FontWeight>.fontWeightToProto():DocProtos.IntFormatTableProto{
+            return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
                     FormatEntry(it.key,it.value).fontWeightToProto()
                 }).build()
         }
 
-        fun FormatTable<FontStyle>.fontStyleToProto():CellFormatProtos.IntFormatTableProto{
-            return CellFormatProtos.IntFormatTableProto.newBuilder()
+        fun FormatTable<FontStyle>.fontStyleToProto():DocProtos.IntFormatTableProto{
+            return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
                     FormatEntry(it.key,it.value).fontStyleToProto()
                 }).build()
         }
 
-        fun FormatTable<TextHorizontalAlignment>.textHorizontalToProto():CellFormatProtos.IntFormatTableProto{
-            return CellFormatProtos.IntFormatTableProto.newBuilder()
+        fun FormatTable<TextHorizontalAlignment>.textHorizontalToProto():DocProtos.IntFormatTableProto{
+            return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
                     FormatEntry(it.key,it.value).textHorizontalToProto()
                 }).build()
         }
 
-        fun FormatTable<TextVerticalAlignment>.textVerticalToProto():CellFormatProtos.IntFormatTableProto{
-            return CellFormatProtos.IntFormatTableProto.newBuilder()
+        fun FormatTable<TextVerticalAlignment>.textVerticalToProto():DocProtos.IntFormatTableProto{
+            return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
                     FormatEntry(it.key,it.value).textVerticalToProto()
                 }).build()
         }
 
-        fun CellFormatProtos.IntFormatTableProto.toModel(): FormatTable<Int> {
+        fun DocProtos.IntFormatTableProto.toModel(): FormatTable<Int> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to it.formatValue
             })
         }
 
-        fun CellFormatProtos.IntFormatTableProto.toFontWeightModel(): FormatTable<FontWeight> {
+        fun DocProtos.IntFormatTableProto.toFontWeightModel(): FormatTable<FontWeight> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to FontWeight(it.formatValue)
             })
         }
 
-        fun CellFormatProtos.IntFormatTableProto.toFontStyleModel(): FormatTable<FontStyle> {
+        fun DocProtos.IntFormatTableProto.toFontStyleModel(): FormatTable<FontStyle> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to if (it.formatValue > 0) {
                     FontStyle.Italic
@@ -206,13 +206,13 @@ interface FormatTable<T> {
             })
         }
 
-        fun CellFormatProtos.IntFormatTableProto.toTextHorizontalModel(): FormatTable<TextHorizontalAlignment> {
+        fun DocProtos.IntFormatTableProto.toTextHorizontalModel(): FormatTable<TextHorizontalAlignment> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to TextHorizontalAlignment.fromInt(it.formatValue)
             })
         }
 
-        fun CellFormatProtos.IntFormatTableProto.toTextVerticalModel(): FormatTable<TextVerticalAlignment> {
+        fun DocProtos.IntFormatTableProto.toTextVerticalModel(): FormatTable<TextVerticalAlignment> {
             return FormatTableImp(this.entriesList.associate {
                 it.rangeAddressSet.toModel() to TextVerticalAlignment.fromInt(it.formatValue)
             })
