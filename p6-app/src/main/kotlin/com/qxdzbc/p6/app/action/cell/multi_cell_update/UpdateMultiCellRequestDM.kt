@@ -10,13 +10,13 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModelDM
 /**
  * for rpc call
  */
-data class MultiCellUpdateRequestDM(
+data class UpdateMultiCellRequestDM(
     val wsId:WorksheetIdDM,
     val cellUpdateList: List<IndCellDM>
 ) : WbWs by wsId{
     companion object {
-        fun MultiCellUpdateRequestProto.toModel():MultiCellUpdateRequestDM{
-            return MultiCellUpdateRequestDM(
+        fun MultiCellUpdateRequestProto.toModel():UpdateMultiCellRequestDM{
+            return UpdateMultiCellRequestDM(
                 wsId = this.wsId.toModelDM(),
                 cellUpdateList = this.updateEntriesList.map{it.toModel()}
             )

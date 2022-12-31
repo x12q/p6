@@ -22,7 +22,7 @@ internal class UpdateMultiCellActionImpTest {
     fun updateMultiCell() {
         val wbk = ts.wbKey1
         val wsn = ts.wsn1
-        val request = MultiCellUpdateRequestDM(
+        val request = UpdateMultiCellRequestDM(
             wsId = WorksheetIdDM(wbk,wsn),
             cellUpdateList = listOf(
                 IndCellDM(

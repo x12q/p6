@@ -6,6 +6,6 @@ interface UpdateMultiCellAction {
     /**
      * this one is for rpc call, slower than the other
      */
-    fun updateMultiCellDM(request:MultiCellUpdateRequestDM, publishErr:Boolean = true):Rse<Unit>
+    fun updateMultiCellDM(request:UpdateMultiCellRequestDM, publishErr:Boolean = true):Rse<Unit>
     fun updateMultiCell(request:UpdateMultiCellRequest, publishErr:Boolean = true):Rse<Unit>
 }

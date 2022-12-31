@@ -6,7 +6,7 @@ import com.github.michaelbull.result.flatMap
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.MultiCellUpdateRequestDM
+import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequestDM
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatAction
@@ -113,7 +113,7 @@ class PasteRangeActionImp @Inject constructor(
 
                 _oldData?.also {
                     updateMultiCellAction.updateMultiCellDM(
-                        request = MultiCellUpdateRequestDM(
+                        request = UpdateMultiCellRequestDM(
                             wsId = WorksheetIdDM(_oldData.wbKey, _oldData.wsName),
                             cellUpdateList = _oldData.cells.map { c -> c.toIndCellDM() }
                         )
