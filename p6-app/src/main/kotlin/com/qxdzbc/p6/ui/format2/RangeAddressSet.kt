@@ -5,6 +5,7 @@ import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.proto.CellFormatProtos.RangeAddressSetProto
 
 interface RangeAddressSet: WithSize,Shiftable {
     val ranges: Set<RangeAddress>
@@ -43,4 +44,5 @@ interface RangeAddressSet: WithSize,Shiftable {
      * Get all sub ranges that are in ranges of this set, but not in [rangeAddress]
      */
     fun getNotIn(rangeAddress: RangeAddress):RangeAddressSet
+    fun toProto():RangeAddressSetProto
 }

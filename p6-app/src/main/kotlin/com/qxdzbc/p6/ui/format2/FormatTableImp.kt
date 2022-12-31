@@ -63,20 +63,20 @@ data class FormatTableImp<T>(
         return this.valueMap.entries.firstOrNull { (k, v) -> k.hasIntersectionWith(rangeAddress) }?.value
     }
 
-    override fun getValidConfigSet(rangeAddress: RangeAddress): FormatConfigEntrySet<T> {
-        val rt = mutableSetOf<FormatConfigEntry<T>>()
+    override fun getValidConfigSet(rangeAddress: RangeAddress): FormatEntrySet<T> {
+        val rt = mutableSetOf<FormatEntry<T>>()
         for ((radSet, t) in this.valueMap) {
             val rangeAddressSet = radSet.getAllIntersectionWith(rangeAddress)
             if(rangeAddressSet.isNotEmpty()){
-                rt.add(FormatConfigEntry(radSet.getAllIntersectionWith(rangeAddress), t))
+                rt.add(FormatEntry(radSet.getAllIntersectionWith(rangeAddress), t))
             }
         }
-        return FormatConfigEntrySet(
+        return FormatEntrySet(
             validSet = rt,
         )
     }
 
-    override fun getConfigSet(rangeAddress: RangeAddress): FormatConfigEntrySet<T> {
+    override fun getConfigSet(rangeAddress: RangeAddress): FormatEntrySet<T> {
         val validSet = getValidConfigSet(rangeAddress)
         val nullFormatRangeSet = RangeAddressSetImp(rangeAddress).getNotIn(
             validSet.validSet.flatMap { it.rangeAddressSet.ranges }.toSet()
@@ -84,14 +84,14 @@ data class FormatTableImp<T>(
         return validSet + (nullFormatRangeSet to null)
     }
 
-    override fun getValidConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatConfigEntrySet<T> {
-        val rt = rangeAddresses.fold(FormatConfigEntrySet<T>()) { acc, rangeAddress ->
+    override fun getValidConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatEntrySet<T> {
+        val rt = rangeAddresses.fold(FormatEntrySet<T>()) { acc, rangeAddress ->
             acc + this.getValidConfigSet(rangeAddress)
         }
         return rt
     }
 
-    override fun getConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatConfigEntrySet<T> {
+    override fun getConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatEntrySet<T> {
         val availableFormats = getValidConfigSetFromRanges(rangeAddresses)
         val nullFormatRangeSet = RangeAddressSetImp(rangeAddresses).getNotIn(
             availableFormats.validSet.flatMap { it.rangeAddressSet.ranges }.toSet()
@@ -99,11 +99,11 @@ data class FormatTableImp<T>(
         return availableFormats + (nullFormatRangeSet to null)
     }
 
-    override fun getValidConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatConfigEntrySet<T> {
+    override fun getValidConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatEntrySet<T> {
         return getValidConfigSetFromRanges(cellAddresses.map { RangeAddress(it) })
     }
 
-    override fun getConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatConfigEntrySet<T> {
+    override fun getConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatEntrySet<T> {
         val rangeAddresses = RangeAddresses.exhaustiveMergeRanges(cellAddresses.map { RangeAddress(it) })
         val availableFormats = getValidConfigSetFromRanges(rangeAddresses)
         val nullFormatRangeSet = RangeAddressSetImp(rangeAddresses).getNotIn(
@@ -146,7 +146,7 @@ data class FormatTableImp<T>(
         return rt
     }
 
-    override fun applyConfig(configSet: FormatConfigEntrySet<T>): FormatTable<T> {
+    override fun applyConfig(configSet: FormatEntrySet<T>): FormatTable<T> {
         val t1 = configSet.validSet.fold(this){acc:FormatTable<T>,entry->
             acc.addValueForMultiRanges(entry.rangeAddressSet.ranges,entry.formatValue)
         }

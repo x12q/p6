@@ -34,7 +34,7 @@ internal class FormatTableImpTest : TestSplitter() {
     @Test
     fun applyConfig() {
         val t0 = FormatTableImp<Int>()
-        val configSet = FormatConfigEntrySet.random { (1..2000).random() }
+        val configSet = FormatEntrySet.random { (1..2000).random() }
         val validRanges: List<RangeAddress> = configSet.validSet.flatMap { it.rangeAddressSet.ranges }
         val invalidRanges = configSet.invalidSet.flatMap { it.rangeAddressSet.ranges }
 
@@ -51,7 +51,7 @@ internal class FormatTableImpTest : TestSplitter() {
             for (range in invalidRanges) {
                 t0.getFirstValue(range).shouldBeNull()
                 t0.getValidConfigSet(range).validSet.shouldBeEmpty()
-                t0.getConfigSet(range).invalidSet shouldBe setOf(FormatConfigEntry(RangeAddressSetImp(range), null))
+                t0.getConfigSet(range).invalidSet shouldBe setOf(FormatEntry(RangeAddressSetImp(range), null))
             }
         }
 
@@ -72,7 +72,7 @@ internal class FormatTableImpTest : TestSplitter() {
             for (range in invalidRanges) {
                 t1.getFirstValue(range).shouldBeNull()
                 t1.getValidConfigSet(range).validSet.shouldBeEmpty()
-                t1.getConfigSet(range).invalidSet shouldBe setOf(FormatConfigEntry(RangeAddressSetImp(range), null))
+                t1.getConfigSet(range).invalidSet shouldBe setOf(FormatEntry(RangeAddressSetImp(range), null))
             }
         }
     }
@@ -89,9 +89,9 @@ internal class FormatTableImpTest : TestSplitter() {
 
         val o = table.getValidConfigSet(RangeAddress("B3:D8"))
         o.validSet.shouldContainOnly(
-            FormatConfigEntry(RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()), 1),
-            FormatConfigEntry(RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()), 2),
-            FormatConfigEntry(RangeAddressSetImp(listOf("B7:D8").map { RangeAddress(it) }.toSet()), 3),
+            FormatEntry(RangeAddressSetImp(listOf("B3:D4", "B5:B6").map { RangeAddress(it) }.toSet()), 1),
+            FormatEntry(RangeAddressSetImp(listOf("C5:D6").map { RangeAddress(it) }.toSet()), 2),
+            FormatEntry(RangeAddressSetImp(listOf("B7:D8").map { RangeAddress(it) }.toSet()), 3),
         )
         o.invalidSet.shouldBeEmpty()
     }

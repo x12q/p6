@@ -1,5 +1,7 @@
 package test
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.qxdzbc.p6.ui.format2.RangeAddressSetImp
 import kotlin.test.Test
 
@@ -8,10 +10,8 @@ class TestBench {
 
     @Test
     fun t() {
-        val r = (1 .. 100).step(10)
-        r.forEach {
-            println(it)
-        }
+        val color = Color.Magenta
+
     }
 }
 

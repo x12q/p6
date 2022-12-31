@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.format2.FormatConfig
-import com.qxdzbc.p6.ui.format2.FormatConfigEntrySet
+import com.qxdzbc.p6.ui.format2.FormatEntrySet
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import test.BaseAppStateTest
@@ -48,13 +48,13 @@ internal class PasteRangeActionImpTest : BaseAppStateTest(){
 
 
         targetFormat = FormatConfig(
-            textSizeConfig = FormatConfigEntrySet.valid(
+            textSizeConfig = FormatEntrySet.valid(
                 RangeAddress(g9) to Random.nextFloat()
             )
         )
 
         sourceFormat = FormatConfig(
-            textSizeConfig = FormatConfigEntrySet.valid(
+            textSizeConfig = FormatEntrySet.valid(
                 RangeAddress(a1) to Random.nextFloat()
             )
         )

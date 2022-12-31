@@ -18,32 +18,32 @@ interface FormatTable<T> {
     /**
      * Get all valid format values and their respective range set in the range denoted by [rangeAddress]
      */
-    fun getValidConfigSet(rangeAddress: RangeAddress): FormatConfigEntrySet<T>
+    fun getValidConfigSet(rangeAddress: RangeAddress): FormatEntrySet<T>
 
     /**
      * Get all valid + invalid format values and their respective range set in the range denoted by [rangeAddress]
      */
-    fun getConfigSet(rangeAddress: RangeAddress): FormatConfigEntrySet<T>
+    fun getConfigSet(rangeAddress: RangeAddress): FormatEntrySet<T>
 
     /**
      * Get all valid format values and their respective range set in the ranges denoted by [rangeAddresses]
      */
-    fun getValidConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatConfigEntrySet<T>
+    fun getValidConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatEntrySet<T>
 
     /**
      * Get all (valid + invalid) format values and their respective range set in the ranges denoted by [rangeAddresses]
      */
-    fun getConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatConfigEntrySet<T>
+    fun getConfigSetFromRanges(rangeAddresses: Collection<RangeAddress>): FormatEntrySet<T>
 
     /**
      * Get all valid format values and their respective range set in the cell denoted by [cellAddresses]
      */
-    fun getValidConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatConfigEntrySet<T>
+    fun getValidConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatEntrySet<T>
 
     /**
      * Get all valid + invalid format values and their respective range set in the cell denoted by [cellAddresses]
      */
-    fun getConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatConfigEntrySet<T>
+    fun getConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatEntrySet<T>
 
     /**
      * add and pair [formatValue] with [cellAddress]
@@ -86,7 +86,7 @@ interface FormatTable<T> {
     fun addValueForMultiCells(cellAddresses: Collection<CellAddress>, formatValue: T): FormatTable<T>
 
     /**
-     * Write format data in a [FormatConfigEntrySet] to this table
+     * Write format data in a [FormatEntrySet] to this table
      */
-    fun applyConfig(configSet: FormatConfigEntrySet<T>): FormatTable<T>
+    fun applyConfig(configSet: FormatEntrySet<T>): FormatTable<T>
 }

@@ -5,6 +5,8 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddresses.toModel
+import com.qxdzbc.p6.proto.CellFormatProtos.RangeAddressSetProto
 
 data class RangeAddressSetImp(
     override val ranges: Set<RangeAddress>
@@ -92,6 +94,12 @@ data class RangeAddressSetImp(
         return this.copy(ranges=this.ranges.map{it.shift(oldAnchorCell, newAnchorCell)}.toSet())
     }
 
+    override fun toProto():RangeAddressSetProto{
+        return RangeAddressSetProto.newBuilder()
+            .addAllRanges(this.ranges.map{it.toProto()})
+            .build()
+    }
+
     companion object{
         /**
          * generate a range address set of disjoint range address
@@ -101,6 +109,12 @@ data class RangeAddressSetImp(
                 numberRange.map {x->
                     RangeAddress(CellAddress(x,x))
                 }
+            )
+        }
+
+        fun RangeAddressSetProto.toModel():RangeAddressSetImp{
+            return RangeAddressSetImp(
+                this.rangesList.map{it.toModel()}.toSet()
             )
         }
     }
