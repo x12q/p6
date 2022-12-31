@@ -91,8 +91,11 @@ class PasteRangeActionImp @Inject constructor(
             }
 
             override fun undo() {
-                // x: undo cell data = delete the clipboard data + restore the old data
+                /*
+                restore data + format of target range
+                 */
 
+                // x: undo data = delete the data written from clipboard data + write back the old data
                 deleteMultiCellAction.deleteMultiCell(
                     request = RemoveMultiCellRequest(
                         ranges = listOf(
@@ -117,12 +120,12 @@ class PasteRangeActionImp @Inject constructor(
                     )
                 }
 
-                // x: undo cell format
+                // x: undo cell format = remove the current format + write back the old format
                 _shiftedSourceFormat?.also {
-                    updateCellFormatAction.clearFormat_Respective(targetRangeId, _shiftedSourceFormat, false)
+                    updateCellFormatAction.clearFormat_Respective(_targetRangeId, _shiftedSourceFormat, false)
                 }
                 _targetFormat?.also {
-                    updateCellFormatAction.applyFormatConfig(targetRangeId, _targetFormat, false)
+                    updateCellFormatAction.applyFormatConfig(_targetRangeId, _targetFormat, false)
                 }
             }
         }
@@ -130,7 +133,7 @@ class PasteRangeActionImp @Inject constructor(
     }
 
     /**
-     * paste [shiftedClipboardData], [shiftedSourceFormat] into range at [targetWbWsSt], [targetRangeId],
+     * paste [shiftedClipboardData], [shiftedSourceFormat] into range at [targetWbWsSt], [targetRangeId].
      * use [targetFormat] to clear the target format before pasting format data
      * @param shiftedClipboardData is a [RangeCopy] that has its cells' addresses shifted using the vector [source range's top left -> target range's top left]
      * @param shiftedSourceFormat is a [FormatConfig] that has its entries' range addresses shifted using the vector [source range's top left -> target range's top left]

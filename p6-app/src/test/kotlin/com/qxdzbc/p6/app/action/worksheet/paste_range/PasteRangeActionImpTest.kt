@@ -124,6 +124,11 @@ internal class PasteRangeActionImpTest : BaseAppStateTest(){
             ts.sc.getCellMs(ts.wbKey1,ts.wsn1, CellAddress(f7)).shouldBeNull()
             ts.sc.getCellMs(ts.wbKey1,ts.wsn1, CellAddress(g9)).shouldBeNull()
         }
+
+        command.run()
+        postCondition("check redo effect") {
+            afterPasteAssertion()
+        }
     }
 
     fun afterPasteAssertion(){
