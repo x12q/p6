@@ -1,7 +1,14 @@
 package com.qxdzbc.p6.ui.format2
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.proto.CellFormatProtos
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.format2.RangeAddressSetImp.Companion.toModel
 
 interface FormatTable<T> {
 
@@ -89,4 +96,66 @@ interface FormatTable<T> {
      * Write format data in a [FormatEntrySet] to this table
      */
     fun applyConfig(configSet: FormatEntrySet<T>): FormatTable<T>
+
+
+    companion object {
+        fun CellFormatProtos.FloatFormatTableProto.toModel(): FormatTable<Float> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to it.formatValue
+            })
+        }
+
+        fun CellFormatProtos.BoolFormatTableProto.toModel(): FormatTable<Boolean> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to it.formatValue
+            })
+        }
+
+        fun CellFormatProtos.UInt64FormatTableProto.toModel(): FormatTable<Long> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to it.formatValue
+            })
+        }
+
+        fun CellFormatProtos.UInt64FormatTableProto.toColorModel(): FormatTable<Color> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to Color(it.formatValue)
+            })
+        }
+
+
+        fun CellFormatProtos.IntFormatTableProto.toModel(): FormatTable<Int> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to it.formatValue
+            })
+        }
+
+        fun CellFormatProtos.IntFormatTableProto.toFontWeightModel(): FormatTable<FontWeight> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to FontWeight(it.formatValue)
+            })
+        }
+
+        fun CellFormatProtos.IntFormatTableProto.toFontStyleModel(): FormatTable<FontStyle> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to if (it.formatValue > 0) {
+                    FontStyle.Italic
+                } else {
+                    FontStyle.Normal
+                }
+            })
+        }
+
+        fun CellFormatProtos.IntFormatTableProto.toTextHorizontalModel(): FormatTable<TextHorizontalAlignment> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to TextHorizontalAlignment.fromInt(it.formatValue)
+            })
+        }
+
+        fun CellFormatProtos.IntFormatTableProto.toTextVerticalModel(): FormatTable<TextVerticalAlignment> {
+            return FormatTableImp(this.entriesList.associate {
+                it.rangeAddressSet.toModel() to TextVerticalAlignment.fromInt(it.formatValue)
+            })
+        }
+    }
 }

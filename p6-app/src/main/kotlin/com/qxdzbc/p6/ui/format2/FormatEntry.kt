@@ -41,12 +41,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) {
-                    when (this.formatValue) {
-                        TextVerticalAlignment.Top.ordinal -> TextVerticalAlignment.Top
-                        TextVerticalAlignment.Bot.ordinal -> TextVerticalAlignment.Bot
-                        TextVerticalAlignment.Center.ordinal -> TextVerticalAlignment.Center
-                        else -> null
-                    }
+                    TextVerticalAlignment.fromIntOrNull(this.formatValue)
                 } else null
             )
         }
@@ -68,12 +63,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
                 formatValue = if (this.hasFormatValue()) {
-                    when (this.formatValue) {
-                        TextHorizontalAlignment.Start.ordinal -> TextHorizontalAlignment.Start
-                        TextHorizontalAlignment.End.ordinal -> TextHorizontalAlignment.End
-                        TextHorizontalAlignment.Center.ordinal -> TextHorizontalAlignment.Center
-                        else -> null
-                    }
+                    TextHorizontalAlignment.fromIntOrNull(this.formatValue)
                 } else null
             )
         }
