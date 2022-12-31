@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action
 
-import com.qxdzbc.p6.app.document.cell.CellId
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorStateImp
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -9,10 +7,10 @@ import org.junit.Before
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.Test
 
-internal class TextSizeSelectorActionImpTest : BaseTest() {
+internal class TextSizeSelectorActionImpTest : BaseAppStateTest() {
 
     lateinit var action: TextSizeSelectorActionImp
     lateinit var textSizeSelectorState: TextSizeSelectorStateImp

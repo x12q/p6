@@ -47,6 +47,7 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionImp
+import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.TextColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorActionImp
@@ -130,6 +131,7 @@ interface TestComponent : P6Component {
     fun updateCellFormatAction(): UpdateCellFormatActionImp
     fun textSizeSelectorActionImp(): TextSizeSelectorActionImp
     fun textColorSelectorAction(): TextColorSelectorAction
+    fun pasteRangeActionImp(): PasteRangeActionImp
 
     @Component.Builder
     interface Builder {

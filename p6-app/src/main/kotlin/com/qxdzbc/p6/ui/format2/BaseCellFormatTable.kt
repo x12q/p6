@@ -71,6 +71,20 @@ abstract class BaseCellFormatTable : CellFormatTable {
         )
     }
 
+    override fun getValidFormatConfigForRange(rangeAddress: RangeAddress): FormatConfig {
+        return FormatConfig(
+            textSizeConfig = textSizeTable.getValidConfigSet(rangeAddress),
+            textColorConfig = textColorTable.getValidConfigSet(rangeAddress),
+            textUnderlinedConfig = textUnderlinedTable.getValidConfigSet(rangeAddress),
+            textCrossedConfig = textCrossedTable.getValidConfigSet(rangeAddress),
+            fontWeightConfig = fontWeightTable.getValidConfigSet(rangeAddress),
+            fontStyleConfig = fontStyleTable.getValidConfigSet(rangeAddress),
+            horizontalAlignmentConfig = textHorizontalAlignmentTable.getValidConfigSet(rangeAddress),
+            verticalAlignmentConfig = textVerticalAlignmentTable.getValidConfigSet(rangeAddress),
+            backgroundColorConfig = cellBackgroundColorTable.getValidConfigSet(rangeAddress),
+        )
+    }
+
     override fun getFormat(cellAddress: CellAddress): CellFormat {
         val rt = CellFormatImp(
             textSize = this.textSizeTable.getFirstValue(cellAddress),

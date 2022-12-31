@@ -95,4 +95,5 @@ interface CellFormatTable {
      */
     fun applyConfig(config:FormatConfig):CellFormatTable
 
+    fun getValidFormatConfigForRange(rangeAddress: RangeAddress): FormatConfig
 }

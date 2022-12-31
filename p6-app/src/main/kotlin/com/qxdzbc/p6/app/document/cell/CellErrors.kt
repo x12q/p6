@@ -5,7 +5,7 @@ import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
 
 object CellErrors {
-    val CellUIErr = "UI_CellErrors_"
+    val prefix = "CellErrors "
 
     val all:List<Any> get(){
         if(_l==null){
@@ -22,7 +22,7 @@ object CellErrors {
         }
     }
     object NotEditable{
-        val header = ErrorHeader("${CellUIErr}0","Cell cannot be edited")
+        val header = ErrorHeader("${prefix}0","Cell cannot be edited")
         fun report(cellAddress: CellAddress):ErrorReport{
             return ErrorReport(
                 header= header.setDescription("Cell ${cellAddress.label} cannot be edited")
@@ -30,7 +30,7 @@ object CellErrors {
         }
     }
     object InvalidCellValue{
-        val header = ErrorHeader("${CellUIErr}1","Invalid cell value")
+        val header = ErrorHeader("${prefix}1","Invalid cell value")
         fun report(newValue:Any?):ErrorReport{
             return ErrorReport(
                 header= header.setDescription("Invalid cell value. A cell can only store text, number, boolean, range, cell, or error. The new value type is ${newValue?.javaClass?.name}")
@@ -38,7 +38,7 @@ object CellErrors {
         }
     }
     object InvalidCellAddress{
-        val header = ErrorHeader("${CellUIErr}2","Invalid cell address")
+        val header = ErrorHeader("${prefix}2","Invalid cell address")
         fun report(label:String):ErrorReport{
             return ErrorReport(
                 header= header.setDescription("Invalid cell address: ${label}")
@@ -46,7 +46,7 @@ object CellErrors {
         }
     }
     object OverflowError{
-        val header = ErrorHeader("${CellUIErr}3","Overflowing")
+        val header = ErrorHeader("${prefix}3","Overflowing")
         fun report(detail:String?=null):ErrorReport{
             return ErrorReport(
                 header= detail?.let { header.setDescription(detail) } ?: header

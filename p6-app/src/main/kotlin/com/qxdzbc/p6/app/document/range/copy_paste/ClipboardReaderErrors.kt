@@ -5,7 +5,7 @@ import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
 
 object ClipboardReaderErrors {
-    private const val prefix = "Clipboard reader error "
+    private const val prefix = "ClipboardReaderError "
 
     val l:List<Any> get(){
         if(_l==null){

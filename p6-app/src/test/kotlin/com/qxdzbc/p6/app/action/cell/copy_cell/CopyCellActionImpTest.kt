@@ -1,9 +1,6 @@
 package com.qxdzbc.p6.app.action.cell.copy_cell
 
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -11,14 +8,12 @@ import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.*
 
-internal class CopyCellActionImpTest : BaseTest() {
+internal class CopyCellActionImpTest : BaseAppStateTest() {
     lateinit var toCell: CellIdDM
     lateinit var act: CopyCellAction
     lateinit var updateCellAct: UpdateCellAction

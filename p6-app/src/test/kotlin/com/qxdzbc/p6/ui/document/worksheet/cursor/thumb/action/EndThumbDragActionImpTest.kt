@@ -10,12 +10,12 @@ import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class EndThumbDragActionImpTest : BaseTest() {
+internal class EndThumbDragActionImpTest : BaseAppStateTest() {
     lateinit var act: EndThumbDragAction
     lateinit var updateCellAct: UpdateCellAction
     lateinit var multiCellUpdateAct:UpdateMultiCellAction

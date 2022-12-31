@@ -33,11 +33,11 @@ import io.kotest.matchers.string.shouldBeEmpty
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
-import test.BaseTest
+import test.BaseAppStateTest
 import test.test_implementation.MockP6KeyEvent
 import kotlin.test.*
 
-class CursorAndCellEditorTest : BaseTest() {
+class CursorAndCellEditorTest : BaseAppStateTest() {
 
     val cellEditorAction get() = comp.cellEditorAction()
     val cursorAction get()=comp.cursorAction()

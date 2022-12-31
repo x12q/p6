@@ -4,6 +4,7 @@ import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.ui.format2.FormatConfigEntry.Companion.toFormatConfigEntry
 
 /**
  * A collection of valid and invalid [FormatConfigEntry]
@@ -18,6 +19,13 @@ data class FormatConfigEntrySet<T>(
                 .toSet()
 
     val all: Set<FormatConfigEntry<out T?>> get() = invalidSet + validSet
+
+    /**
+     * Only take valid entries, remove all invalid entries
+     */
+    fun takeValid():FormatConfigEntrySet<T>{
+        return this.copy(invalidSet = emptySet())
+    }
 
     operator fun plus(other: FormatConfigEntrySet<T>): FormatConfigEntrySet<T> {
         return this.copy(
@@ -87,6 +95,18 @@ data class FormatConfigEntrySet<T>(
                 validSet = entries.toSet()
             )
         }
+        fun <T> valid(vararg entries: Pair<RangeAddress,T>): FormatConfigEntrySet<T> {
+            val configEntries = entries.groupBy(
+                keySelector = { it.second },
+                valueTransform = {it.first}
+            ) .map{
+                FormatConfigEntry(RangeAddressSetImp().addRanges(it.value),it.key)
+            }
+            return FormatConfigEntrySet(
+                validSet =configEntries.toSet()
+            )
+        }
+
 
         fun <T> random(
             validCount: Int = 2,

@@ -7,11 +7,11 @@ import io.kotest.matchers.shouldNotBe
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-internal class TextColorSelectorActionTest : BaseTest(){
+internal class TextColorSelectorActionTest : BaseAppStateTest(){
 
     lateinit var action:TextColorSelectorAction
     val color = Color(123)

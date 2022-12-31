@@ -21,17 +21,16 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
-import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.mock
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WorksheetStateImpTest :BaseTest(){
+class WorksheetStateImpTest :BaseAppStateTest(){
     lateinit var wsStateForWb0Sheet1: WorksheetStateImp
     lateinit var wb0: Workbook
     lateinit var wb1: Workbook

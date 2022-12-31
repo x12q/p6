@@ -4,10 +4,10 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.*
 
-internal class CellEditorActionImpTest : BaseTest() {
+internal class CellEditorActionImpTest : BaseAppStateTest() {
 
     lateinit var act: CellEditorAction
     lateinit var wbws: WbWsSt

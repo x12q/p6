@@ -5,10 +5,10 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.DragThumbAction
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.*
 
-internal class DragThumbActionImpTest:BaseTest(){
+internal class DragThumbActionImpTest:BaseAppStateTest(){
     lateinit var act: DragThumbAction
     lateinit var wbwsSt:WbWsSt
     lateinit var cursorStateMs:Ms<CursorState>

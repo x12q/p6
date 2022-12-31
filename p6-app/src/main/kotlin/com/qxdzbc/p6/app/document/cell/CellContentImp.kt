@@ -27,12 +27,8 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
  * This implementation hold a mutable [CellValue] instance([cellValueMs]), whenever [cellValueAfterRun] is access, a new instance of cell value is computed. This is for auto formula computation
  */
 data class CellContentImp(
-    // this is stored as a Ms so that when ExUnit rerun, it can update the cellValue without creating new CellContentValue.
-    // I am not sure this is a good idea.
     private val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
-    // TODO set to default null temporarily, until all the related code is updated
-//    override val originalText: String? = null,
     override val originalText: String?,
 ) : CellContent {
 

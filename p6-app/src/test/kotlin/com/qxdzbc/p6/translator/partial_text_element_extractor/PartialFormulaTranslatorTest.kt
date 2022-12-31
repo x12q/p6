@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.qxdzbc.p6.translator.P6Translator
-import test.BaseTest
+import test.BaseAppStateTest
 
-internal class PartialFormulaTranslatorTest : BaseTest() {
+internal class PartialFormulaTranslatorTest : BaseAppStateTest() {
     lateinit var translator: P6Translator<String?>
 
 //    @BeforeTest

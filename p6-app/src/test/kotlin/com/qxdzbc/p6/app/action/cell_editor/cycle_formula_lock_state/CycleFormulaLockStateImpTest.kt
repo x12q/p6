@@ -1,11 +1,11 @@
 package com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state
 
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class CycleFormulaLockStateImpTest : BaseTest() {
+internal class CycleFormulaLockStateImpTest : BaseAppStateTest() {
     lateinit var act: CycleFormulaLockStateImp
 
     @BeforeTest

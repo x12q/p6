@@ -4,14 +4,13 @@ import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorStateImp
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.*
 
-internal class CellBackgroundColorSelectorActionTest :BaseTest(){
+internal class CellBackgroundColorSelectorActionTest :BaseAppStateTest(){
 
     lateinit var action:CellBackgroundColorSelectorAction
     val color = Color(123)

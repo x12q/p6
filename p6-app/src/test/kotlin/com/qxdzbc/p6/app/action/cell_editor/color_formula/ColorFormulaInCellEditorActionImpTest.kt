@@ -3,9 +3,9 @@ package com.qxdzbc.p6.app.action.cell_editor.color_formula
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import kotlin.test.*
-import test.BaseTest
+import test.BaseAppStateTest
 
-internal class ColorFormulaInCellEditorActionImpTest : BaseTest(){
+internal class ColorFormulaInCellEditorActionImpTest : BaseAppStateTest(){
     lateinit var act:ColorFormulaInCellEditorActionImp
     lateinit var cellEditorAct:CellEditorAction
     lateinit var wbwsSt:WbWsSt

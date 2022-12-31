@@ -15,11 +15,11 @@ import io.kotest.matchers.shouldNotBe
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-internal class UpdateCellFormatActionImpTest : BaseTest() {
+internal class UpdateCellFormatActionImpTest : BaseAppStateTest() {
 
     lateinit var action: UpdateCellFormatActionImp
     lateinit var wbwsSt: WbWsSt

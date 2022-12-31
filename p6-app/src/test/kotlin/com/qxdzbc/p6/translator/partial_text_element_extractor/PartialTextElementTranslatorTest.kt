@@ -7,12 +7,12 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.Basi
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TokenPosition
 import io.kotest.assertions.asClue
 import io.kotest.matchers.collections.shouldContainOnly
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class PartialTextElementTranslatorTest : BaseTest() {
+internal class PartialTextElementTranslatorTest : BaseAppStateTest() {
     lateinit var extractor: PartialTextElementTranslator
 
     @BeforeTest

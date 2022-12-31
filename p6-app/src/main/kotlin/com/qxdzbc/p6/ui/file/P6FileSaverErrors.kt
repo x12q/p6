@@ -5,7 +5,7 @@ import com.qxdzbc.common.error.ErrorReport
 import java.nio.file.Path
 
 object P6FileSaverErrors {
-    val prefix = "P6FileSaverErrors_"
+    val prefix = "P6FileSaverErrors "
 
 
     val all:List<Any> get(){

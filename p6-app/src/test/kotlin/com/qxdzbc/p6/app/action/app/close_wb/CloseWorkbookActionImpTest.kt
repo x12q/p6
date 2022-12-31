@@ -3,10 +3,10 @@ package com.qxdzbc.p6.app.action.app.close_wb
 import io.kotest.matchers.collections.*
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import test.BaseTest
+import test.BaseAppStateTest
 import kotlin.test.*
 
-class CloseWorkbookActionImpTest: BaseTest(){
+class CloseWorkbookActionImpTest: BaseAppStateTest(){
     lateinit var closeWbAct: CloseWorkbookActionImp
     @BeforeTest
     override fun _b() {

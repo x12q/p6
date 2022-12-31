@@ -4,7 +4,11 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import kotlin.test.BeforeTest
 import com.qxdzbc.common.test_util.TestSplitter
-abstract class BaseTest : TestSplitter() {
+
+/**
+ * A base test class that provided a ready-to-use app state. This app state is identical to the one used in the actual app.
+ */
+abstract class BaseAppStateTest : TestSplitter() {
     private var _ts: TestSample? = null
     val ts: TestSample
         get() {

@@ -13,7 +13,6 @@ import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatAction
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.action.range.RangeIdDM
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
@@ -22,12 +21,12 @@ import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.copy_paste.ClipboardReader
-import com.qxdzbc.p6.app.document.range.copy_paste.RangePaster
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.format2.FormatConfig
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -53,7 +52,7 @@ class PasteRangeActionImp @Inject constructor(
         val clipboardData: RangeCopy? = clipboardReader.readDataFromClipboard(targetWbWsSt.wbKey, targetWbWsSt.wsName)
         val shiftedClipboardData = clipboardData?.shiftCells(targetRangeId.rangeAddress.topLeft)
         shiftedClipboardData?.also {
-            val command = makePasteCommand(shiftedClipboardData, targetRangeAddress, targetWbWsSt)
+            val command = makePasteCommand(targetRangeId,shiftedClipboardData, )
             if (undoable) {
                 val commandStackMs = sc.getCommandStackMs(targetWbWsSt)
                 if (commandStackMs != null) {
@@ -66,50 +65,29 @@ class PasteRangeActionImp @Inject constructor(
     }
 
     fun makePasteCommand(
+        targetRangeId:RangeId,
         shiftedClipboardData: RangeCopy,
-        targetRangeAddress: RangeAddress,
-        targetWbWsSt: WbWsSt,
     ): Command {
         val command = object : BaseCommand() {
-            val _clipboardData = shiftedClipboardData!!
-            val sourceRangeId = _clipboardData.rangeId
-            val targetRangeId = RangeIdImp(
-                rangeAddress = targetRangeAddress,
-                wbKeySt=targetWbWsSt.wbKeySt,
-                wsNameSt = targetWbWsSt.wsNameSt,
-            )
-            val oldData = RangeCopyDM.findRangeCopyInAppState(
-                RangeIdDM(
-                    rangeAddress = targetRangeAddress,
-                    wbKey = targetWbWsSt.wbKey,
-                    wsName = targetWbWsSt.wsName
-                ), sc
+            val _targetRangeId = targetRangeId
+            val _shiftedClipboardData = shiftedClipboardData
+            val _sourceRangeId = _shiftedClipboardData.rangeId
+            val _oldData = RangeCopyDM.findRangeCopyInAppState(
+                _targetRangeId, sc
             )
 
-            val sourceFormat = sourceRangeId
+            val _shiftedSourceFormat = _sourceRangeId
                 .let { sc.getCellFormatTable(it) }
-                ?.getFormatConfigForRange(sourceRangeId.rangeAddress)
-                ?.shift(sourceRangeId.rangeAddress.topLeft, targetRangeId.rangeAddress.topLeft)
-            val targetFormat = sc.getCellFormatTable(targetRangeId)
+                ?.getFormatConfigForRange(_sourceRangeId.rangeAddress)
+                ?.shift(_sourceRangeId.rangeAddress.topLeft, targetRangeId.rangeAddress.topLeft)
+
+            val _targetFormat = sc.getCellFormatTable(targetRangeId)
                 ?.getFormatConfigForRange(targetRangeId.rangeAddress)
 
             override fun run() {
-                // x: write clipboard data to target
-                updateMultiCellAction.updateMultiCell(
-                    request = UpdateMultiCellRequest(
-                        wbKeySt = targetWbWsSt.wbKeySt,
-                        wsNameSt = targetWbWsSt.wsNameSt,
-                        cellUpdateList = _clipboardData.cells.map { IndCellDM(it.address, it.content.toDm()) }
-                    )
+                paste(
+                    _targetRangeId, _shiftedClipboardData, _targetFormat, _shiftedSourceFormat
                 )
-
-                // x: apply cell format to target
-                targetFormat?.also {
-                    updateCellFormatAction.clearFormat_Respective(targetRangeId, targetFormat, false)
-                }
-                sourceFormat?.also {
-                    updateCellFormatAction.applyFormatConfig(targetRangeId, sourceFormat, false)
-                }
             }
 
             override fun undo() {
@@ -118,37 +96,68 @@ class PasteRangeActionImp @Inject constructor(
                 deleteMultiCellAction.deleteMultiCell(
                     request = RemoveMultiCellRequest(
                         ranges = listOf(
-                            _clipboardData.rangeId.rangeAddress.shift(
-                                sourceRangeId.rangeAddress.topLeft, targetRangeId.rangeAddress.topLeft
+                            _shiftedClipboardData.rangeId.rangeAddress.shift(
+                                _sourceRangeId.rangeAddress.topLeft, targetRangeId.rangeAddress.topLeft
                             )
                         ),
-                        wbKey = targetWbWsSt.wbKey,
-                        wsName = targetWbWsSt.wsName,
+                        wbKey = _targetRangeId.wbKey,
+                        wsName = _targetRangeId.wsName,
                         clearFormat = false,
                         windowId = null
                     ),
                     undoable = false,
                 )
 
-                oldData?.also {
+                _oldData?.also {
                     updateMultiCellAction.updateMultiCellDM(
                         request = MultiCellUpdateRequestDM(
-                            wsId = WorksheetIdDM(oldData.wbKey, oldData.wsName),
-                            cellUpdateList = oldData.cells.map { c -> c.toIndCellDM() }
+                            wsId = WorksheetIdDM(_oldData.wbKey, _oldData.wsName),
+                            cellUpdateList = _oldData.cells.map { c -> c.toIndCellDM() }
                         )
                     )
                 }
 
                 // x: undo cell format
-                sourceFormat?.also {
-                    updateCellFormatAction.clearFormat_Respective(targetRangeId, sourceFormat, false)
+                _shiftedSourceFormat?.also {
+                    updateCellFormatAction.clearFormat_Respective(targetRangeId, _shiftedSourceFormat, false)
                 }
-                targetFormat?.also {
-                    updateCellFormatAction.applyFormatConfig(targetRangeId, targetFormat, false)
+                _targetFormat?.also {
+                    updateCellFormatAction.applyFormatConfig(targetRangeId, _targetFormat, false)
                 }
             }
         }
         return command
+    }
+
+    /**
+     * paste [shiftedClipboardData], [shiftedSourceFormat] into range at [targetWbWsSt], [targetRangeId],
+     * use [targetFormat] to clear the target format before pasting format data
+     * @param shiftedClipboardData is a [RangeCopy] that has its cells' addresses shifted using the vector [source range's top left -> target range's top left]
+     * @param shiftedSourceFormat is a [FormatConfig] that has its entries' range addresses shifted using the vector [source range's top left -> target range's top left]
+     */
+    fun paste(
+        targetRangeId: RangeId,
+        shiftedClipboardData: RangeCopy,
+        targetFormat: FormatConfig?,
+        shiftedSourceFormat: FormatConfig?,
+    ) {
+        sc.getWbWsSt(targetRangeId)?.also { targetWbWsSt ->
+            updateMultiCellAction.updateMultiCell(
+                request = UpdateMultiCellRequest(
+                    wbKeySt = targetWbWsSt.wbKeySt,
+                    wsNameSt = targetWbWsSt.wsNameSt,
+                    cellUpdateList = shiftedClipboardData.cells.map { IndCellDM(it.address, it.content.toDm()) }
+                )
+            )
+
+            // x: apply cell format to target
+            targetFormat?.also {
+                updateCellFormatAction.clearFormat_Respective(targetRangeId, targetFormat, false)
+            }
+            shiftedSourceFormat?.also {
+                updateCellFormatAction.applyFormatConfig(targetRangeId, shiftedSourceFormat, false)
+            }
+        }
     }
 
     override fun pasteRange(wbws: WbWs, rangeAddress: RangeAddress, undo: Boolean): Rse<Unit> {

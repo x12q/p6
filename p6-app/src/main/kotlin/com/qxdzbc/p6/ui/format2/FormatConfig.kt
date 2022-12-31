@@ -52,6 +52,20 @@ data class FormatConfig(
         )
     }
 
+    fun takeValid():FormatConfig{
+        return FormatConfig(
+            textSizeConfig = textSizeConfig.takeValid(),
+            textColorConfig = textColorConfig.takeValid(),
+            textUnderlinedConfig = textUnderlinedConfig.takeValid(),
+            textCrossedConfig = textCrossedConfig.takeValid(),
+            fontWeightConfig = fontWeightConfig.takeValid(),
+            fontStyleConfig = fontStyleConfig.takeValid(),
+            horizontalAlignmentConfig = horizontalAlignmentConfig.takeValid(),
+            verticalAlignmentConfig = verticalAlignmentConfig.takeValid(),
+            backgroundColorConfig = backgroundColorConfig.takeValid(),
+        )
+    }
+
 
     override fun shift(
         oldAnchorCell: GenericCellAddress<Int, Int>,

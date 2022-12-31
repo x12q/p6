@@ -41,6 +41,9 @@ import java.nio.file.Paths
 
 
 class TestSample: TestAppScope {
+    val wb1Ws1St get()=this.sc.getWbWsSt(wbKey1,wsn1)!!
+    val wb2Ws1St get()=this.sc.getWbWsSt(wbKey2,wsn1)!!
+
     val wsn1 = TestSample.wsn1
     val wsn2 = TestSample.wsn2
 

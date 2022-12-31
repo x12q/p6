@@ -1,17 +1,8 @@
 package com.qxdzbc.p6.ui.app.cell_editor.in_cell
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.app.cell_editor.CellEditorView
-import test.BaseTest
-import test.testRunApp
+import test.BaseAppStateTest
 
-internal class CellEditorViewKtTest: BaseTest(){
+internal class CellEditorViewKtTest: BaseAppStateTest(){
 }
 fun main(){
 //    testRunApp {
