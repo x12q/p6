@@ -52,27 +52,21 @@ fun FrameWindowScope.FileDialog2(
                 val filter = fileChooser.fileFilter
                 val truePath = makeSavePath.makeSavePath(path, filter)
                 truePath?.also {
-//                    var showOverwriteDialog by remember { ms(Files.exists(truePath)) }
-//                    if (showOverwriteDialog) {
-                    if (Files.exists(truePath)) {
-                        val fileName = FilenameUtils.getName(truePath.toString())
-//                        Dialogs.SingleTextDialog(
-//                            title = "Overwrite file?",
-//                            text = "File ${fileName} already exists. Do you want to overwrite it?",
-//                            onOk = {
-//                                onResult(truePath)
-//                            },
-//                            onCancel = {
-//                                showOverwriteDialog = false
-//                            }
-//                        )
-//
-                        val i = JOptionPane.showConfirmDialog(null, "File ${fileName} already exists. Do you want to overwrite it?", "Overwrite file?", JOptionPane.YES_NO_OPTION)
-                        if (i == JOptionPane.YES_OPTION) {
+                    if(!isLoad){
+                        if (Files.exists(truePath)) {
+                            val fileName = FilenameUtils.getName(truePath.toString())
+                            val i = JOptionPane.showConfirmDialog(null, "File ${fileName} already exists. Do you want to overwrite it?", "Overwrite file?", JOptionPane.YES_NO_OPTION)
+                            if (i == JOptionPane.YES_OPTION) {
+                                onResult(truePath)
+                            }
+
+                        } else {
                             onResult(truePath)
                         }
-                    } else {
-                        onResult(truePath)
+                    }else{
+                        if (Files.exists(truePath)) {
+                            onResult(truePath)
+                        }
                     }
                 }
             } else {
