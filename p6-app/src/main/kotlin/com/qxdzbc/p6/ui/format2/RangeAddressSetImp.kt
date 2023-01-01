@@ -1,8 +1,7 @@
 package com.qxdzbc.p6.ui.format2
 
-import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses.toModel
@@ -88,8 +87,8 @@ data class RangeAddressSetImp(
         get() = ranges.size
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): RangeAddressSetImp {
         return this.copy(ranges=this.ranges.map{it.shift(oldAnchorCell, newAnchorCell)}.toSet())
     }

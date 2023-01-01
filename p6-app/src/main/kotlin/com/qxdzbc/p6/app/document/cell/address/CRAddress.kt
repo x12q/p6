@@ -1,6 +1,9 @@
 package com.qxdzbc.p6.app.document.cell.address
 
-interface GenericCellAddress<C,R> {
+/**
+ * Col-row address
+ */
+interface CRAddress<C,R> {
     val colIndex:C
     val rowIndex:R
 }

@@ -13,7 +13,7 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toCellValue
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellContentProto
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
@@ -68,22 +68,7 @@ data class CellContentImp(
     }
 
     companion object {
-        fun randomNumericContent():CellContentImp{
-            val num = (1 .. 1000).random()
-            return CellContentImp(
-                cellValueMs = ms(num.toCellValue()),
-                exUnit = null,
-                originalText = num.toString()
-            )
-        }
-        fun randomExUnitContent():CellContentImp{
-            val num=(1 .. 1000).random()
-            return CellContentImp(
-                cellValueMs = ms(CellValue.empty),
-                exUnit = IntUnit(num),
-                originalText = "=${num}"
-            )
-        }
+
         val empty get() = CellContentImp(originalText=null)
 
         /**
@@ -104,8 +89,8 @@ data class CellContentImp(
     }
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): CellContent {
         if (exUnit != null) {
             return this.copy(exUnit = exUnit.shift(oldAnchorCell, newAnchorCell))

@@ -12,7 +12,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.FunctionMap
@@ -80,8 +80,8 @@ data class GetCellUnit(
     }
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): ExUnit {
         return this.copy(cellAddressUnit = cellAddressUnit.shift(oldAnchorCell, newAnchorCell))
     }

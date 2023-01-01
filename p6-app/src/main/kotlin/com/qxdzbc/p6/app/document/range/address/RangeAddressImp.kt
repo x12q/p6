@@ -4,7 +4,7 @@ import com.qxdzbc.common.IntRangeUtils.dif
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
@@ -60,8 +60,8 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     }
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): RangeAddress {
         val tl=this.topLeft.shift(oldAnchorCell,newAnchorCell)
         val br = this.botRight.shift(oldAnchorCell, newAnchorCell)

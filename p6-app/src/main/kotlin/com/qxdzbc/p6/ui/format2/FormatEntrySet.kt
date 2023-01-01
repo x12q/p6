@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
@@ -362,8 +362,8 @@ data class FormatEntrySet<T>(
     }
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): FormatEntrySet<T> {
         return FormatEntrySet(
             validSet = this.validSet.map { it.shift(oldAnchorCell, newAnchorCell) }.toSet(),

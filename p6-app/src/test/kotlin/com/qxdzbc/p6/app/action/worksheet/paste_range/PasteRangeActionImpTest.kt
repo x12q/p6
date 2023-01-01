@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.action.worksheet.paste_range
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeIdDM
 import com.qxdzbc.p6.app.document.cell.Cell
+import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -63,7 +64,7 @@ internal class PasteRangeActionImpTest : BaseAppStateTest(){
         clipboadCellMap = listOf(
             f7, g9
         ).associateWith {
-            IndCellImp(CellAddress(it), content = CellContentImp.randomNumericContent())
+            IndCellImp(CellAddress(it), content = CellContent.randomNumericContent())
         }
 
         shiftedClipboardData = RangeCopy(

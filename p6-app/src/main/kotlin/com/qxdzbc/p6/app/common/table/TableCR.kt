@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.common.table
 
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 
 /**
  * a 2d table with custom col and row
@@ -17,27 +17,27 @@ interface TableCR<C, R, E> :Map<C, Map<R, E>> {
     val allRows:List<TableCRRow<R,E>>
 
     fun getElement(colKey: C, rowKey: R): E?
-    fun getElement(address: GenericCellAddress<C, R>): E? {
+    fun getElement(address: CRAddress<C, R>): E? {
         return this.getElement(address.colIndex, address.rowIndex)
     }
 
     fun remove(colKey: C, rowKey: R): TableCR<C, R, E>
-    fun remove(address:GenericCellAddress<C, R>): TableCR<C, R, E> {
+    fun remove(address:CRAddress<C, R>): TableCR<C, R, E> {
         return this.remove(address.colIndex,address.rowIndex)
     }
     fun removeAll(): TableCR<C, R, E>
 
     fun set(colKey: C, rowKey: R, element: E): TableCR<C, R, E>
 
-    fun set(cellAddress: GenericCellAddress<C, R>, element: E): TableCR<C, R, E> {
-        return this.set(cellAddress.colIndex, cellAddress.rowIndex, element)
+    fun set(crAddress: CRAddress<C, R>, element: E): TableCR<C, R, E> {
+        return this.set(crAddress.colIndex, crAddress.rowIndex, element)
     }
 
     fun hasElementAt(colKey: C, rowKey: R): Boolean {
         return getElement(colKey, rowKey) != null
     }
 
-    fun hasElementAt(cellAddress: GenericCellAddress<C, R>): Boolean {
+    fun hasElementAt(cellAddress: CRAddress<C, R>): Boolean {
         return hasElementAt(cellAddress.colIndex, cellAddress.rowIndex)
     }
 

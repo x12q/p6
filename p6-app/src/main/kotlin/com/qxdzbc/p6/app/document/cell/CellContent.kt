@@ -3,12 +3,15 @@ package com.qxdzbc.p6.app.document.cell
 import androidx.compose.ui.text.AnnotatedString
 import com.qxdzbc.common.CanCheckEmpty
 import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toCellValue
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.IntUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
@@ -18,8 +21,8 @@ interface CellContent:CanCheckEmpty,Shiftable {
     val originalText:String?
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): CellContent
 
     val exUnit: ExUnit?
@@ -53,5 +56,24 @@ interface CellContent:CanCheckEmpty,Shiftable {
     val isFormula: Boolean
 
     fun toProto(): DocProtos.CellContentProto
+
+    companion object{
+        fun randomNumericContent():CellContentImp{
+            val num = (1 .. 1000).random()
+            return CellContentImp(
+                cellValueMs = StateUtils.ms(num.toCellValue()),
+                exUnit = null,
+                originalText = num.toString()
+            )
+        }
+        fun randomExUnitContent():CellContentImp{
+            val num=(1 .. 1000).random()
+            return CellContentImp(
+                cellValueMs = StateUtils.ms(CellValue.empty),
+                exUnit = IntUnit(num),
+                originalText = "=${num}"
+            )
+        }
+    }
 }
 

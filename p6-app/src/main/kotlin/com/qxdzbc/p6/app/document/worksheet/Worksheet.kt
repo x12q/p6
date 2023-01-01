@@ -5,8 +5,10 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.common.table.TableCRColumn
 import com.qxdzbc.p6.app.common.table.TableCRRow
@@ -21,6 +23,7 @@ import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
+import java.util.UUID
 
 interface Worksheet : WithSize, WbWsSt {
     /**
@@ -111,4 +114,24 @@ interface Worksheet : WithSize, WbWsSt {
     fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet
 
     fun refreshDisplayText():Worksheet
+
+    companion object {
+        fun random():Worksheet{
+            val rt= WorksheetImp(
+                nameMs= ms("Worksheet-"+UUID.randomUUID().toString()),
+                wbKeySt = ms(WorkbookKey.random()),
+                table = run {
+                    var tb= ImmutableTableCR<Int,Int,Ms<Cell>>()
+                    for(c in 1 .. 10){
+                        for (r in 1 .. 10){
+                           tb = tb.set(c,r, ms(Cell.random(CellAddress(c,r))))
+                        }
+                    }
+                    tb
+                }
+            )
+            return rt
+        }
+
+    }
 }

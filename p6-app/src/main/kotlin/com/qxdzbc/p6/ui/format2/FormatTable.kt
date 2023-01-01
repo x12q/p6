@@ -19,6 +19,7 @@ import com.qxdzbc.p6.ui.format2.RangeAddressSetImp.Companion.toModel
 
 interface FormatTable<T> {
     val valueMap: Map<RangeAddressSet, T>
+
     /**
      * Search the table, return the first format value associating with [cellAddress]
      */
@@ -105,7 +106,13 @@ interface FormatTable<T> {
     fun applyConfig(configSet: FormatEntrySet<T>): FormatTable<T>
 
     companion object {
-
+        fun <T> random(randomGenerator: () -> T): FormatTable<T> {
+            val formatEntrySet = FormatEntrySet.random(5, 0, randomGenerator)
+            val rt = FormatTableImp(formatEntrySet.validSet.associate {
+                it.rangeAddressSet to it.formatValue
+            })
+            return rt
+        }
 
         // ====
         fun DocProtos.FloatFormatTableProto.toModel(): FormatTable<Float> {
@@ -113,10 +120,11 @@ interface FormatTable<T> {
                 it.rangeAddressSet.toModel() to it.formatValue
             })
         }
-        fun FormatTable<Float>.toProto():DocProtos.FloatFormatTableProto{
+
+        fun FormatTable<Float>.toProto(): DocProtos.FloatFormatTableProto {
             return DocProtos.FloatFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).toFloatProto()
+                    FormatEntry(it.key, it.value).toFloatProto()
                 }).build()
         }
 
@@ -127,18 +135,18 @@ interface FormatTable<T> {
             })
         }
 
-        fun FormatTable<Boolean>.toProto():DocProtos.BoolFormatTableProto{
+        fun FormatTable<Boolean>.toProto(): DocProtos.BoolFormatTableProto {
             return DocProtos.BoolFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).toBoolProto()
+                    FormatEntry(it.key, it.value).toBoolProto()
                 }).build()
         }
         // ====
 
-        fun FormatTable<Color>.toColorProto():DocProtos.UInt64FormatTableProto{
+        fun FormatTable<Color>.toColorProto(): DocProtos.UInt64FormatTableProto {
             return DocProtos.UInt64FormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).toColorProto()
+                    FormatEntry(it.key, it.value).toColorProto()
                 }).build()
         }
 
@@ -155,31 +163,31 @@ interface FormatTable<T> {
         }
 
         //====
-        fun FormatTable<FontWeight>.toFontWeightProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<FontWeight>.toFontWeightProto(): DocProtos.IntFormatTableProto {
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).toFontWeightProto()
+                    FormatEntry(it.key, it.value).toFontWeightProto()
                 }).build()
         }
 
-        fun FormatTable<FontStyle>.toFontStyleProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<FontStyle>.toFontStyleProto(): DocProtos.IntFormatTableProto {
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).toFontStyleProto()
+                    FormatEntry(it.key, it.value).toFontStyleProto()
                 }).build()
         }
 
-        fun FormatTable<TextHorizontalAlignment>.toTextHorizontalProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<TextHorizontalAlignment>.toTextHorizontalProto(): DocProtos.IntFormatTableProto {
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).toTextHorizontalProto()
+                    FormatEntry(it.key, it.value).toTextHorizontalProto()
                 }).build()
         }
 
-        fun FormatTable<TextVerticalAlignment>.toTextVerticalProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<TextVerticalAlignment>.toTextVerticalProto(): DocProtos.IntFormatTableProto {
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).toTextVerticalProto()
+                    FormatEntry(it.key, it.value).toTextVerticalProto()
                 }).build()
         }
 

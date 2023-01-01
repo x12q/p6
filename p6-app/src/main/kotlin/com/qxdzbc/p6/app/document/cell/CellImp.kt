@@ -10,10 +10,9 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId.Companion.toModelDM
 import com.qxdzbc.p6.app.document.cell.CellId.Companion.toShallowModel
-import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toModelDM
 import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toModel
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.cell.address.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
@@ -109,7 +108,7 @@ data class CellImp(
         return this.copy(error0 = i)
     }
 
-    override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): Cell {
+    override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): Cell {
         val newAddress: CellAddress = address.shift(oldAnchorCell, newAnchorCell)
         val newContent: CellContent = content.shift(oldAnchorCell, newAnchorCell)
         return this.setAddress(newAddress).setContent(newContent)

@@ -17,6 +17,8 @@ import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontWeightModel
 import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toModel
 import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextHorizontalModel
 import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextVerticalModel
+import kotlin.random.Random
+import kotlin.random.nextULong
 
 
 interface CellFormatTable {
@@ -123,6 +125,20 @@ interface CellFormatTable {
                 cellBackgroundColorTable = cellBackgroundColorTable.toColorModel(),
             )
             return rt
+        }
+
+        fun random():CellFormatTable{
+            return CellFormatTableImp(
+                textSizeTable = FormatTable.random { Random.nextFloat() },
+                textColorTable = FormatTable.random { Color(Random.nextULong()) },
+                textUnderlinedTable = FormatTable.random { Random.nextBoolean() },
+                textCrossedTable = FormatTable.random { Random.nextBoolean() },
+                fontWeightTable = FormatTable.random { FontWeight((1 .. 1000).random()) },
+                fontStyleTable = FormatTable.random { FontStyle.Normal },
+                textVerticalAlignmentTable = FormatTable.random { TextVerticalAlignment.random() },
+                textHorizontalAlignmentTable = FormatTable.random { TextHorizontalAlignment.random() },
+                cellBackgroundColorTable = FormatTable.random { Color(Random.nextULong()) },
+            )
         }
     }
 }

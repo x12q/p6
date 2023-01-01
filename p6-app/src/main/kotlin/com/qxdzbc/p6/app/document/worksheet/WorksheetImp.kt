@@ -35,45 +35,6 @@ data class WorksheetImp(
     override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
 ) : BaseWorksheet() {
 
-
-    companion object {
-        val emptyTable: TableCR<Int, Int, Ms<Cell>> = ImmutableTableCR()
-        fun fromCellList(
-            name: String,
-            cellList: List<Ms<Cell>> = emptyList(),
-            rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
-            wbKeyMs: Ms<WorkbookKey>,
-        ): WorksheetImp {
-
-            val cellMap =  cellList
-                .groupBy { it.value.address.colIndex }
-                .map { (colIndex, cl) -> colIndex to cl.associateBy { it.value.address.rowIndex } }
-                .toMap()
-            val rt=WorksheetImp(
-                nameMs = ms(name),
-                table = ImmutableTableCR(cellMap),
-                rangeConstraint = rangeConstraint,
-                wbKeySt = wbKeyMs
-            )
-            return rt
-        }
-
-        /**
-         * Create a shallow model from a proto. A shallow model is one that contain fake Ms or St states that do not exist in the app state. Be extra careful when using them.
-         */
-        fun WorksheetProto.toShallowModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
-            var ws: Worksheet = WorksheetImp(
-                nameMs = ms(this.name),
-                table = ImmutableTableCR(),
-                wbKeySt = wbKeyMs
-            )
-            for (cell: Cell in cellsList.map { it.toShallowModel(translator) }) {
-                ws = ws.addOrOverwrite(cell)
-            }
-            return ws
-        }
-    }
-
     constructor(
         nameMs: Ms<String>,
         wbKeySt: St<WorkbookKey>,
@@ -333,4 +294,43 @@ data class WorksheetImp(
         result = 31 * result + name.hashCode()
         return result
     }
+
+    companion object {
+        val emptyTable: TableCR<Int, Int, Ms<Cell>> = ImmutableTableCR()
+        fun fromCellList(
+            name: String,
+            cellList: List<Ms<Cell>> = emptyList(),
+            rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+            wbKeyMs: Ms<WorkbookKey>,
+        ): WorksheetImp {
+
+            val cellMap =  cellList
+                .groupBy { it.value.address.colIndex }
+                .map { (colIndex, cl) -> colIndex to cl.associateBy { it.value.address.rowIndex } }
+                .toMap()
+            val rt=WorksheetImp(
+                nameMs = ms(name),
+                table = ImmutableTableCR(cellMap),
+                rangeConstraint = rangeConstraint,
+                wbKeySt = wbKeyMs
+            )
+            return rt
+        }
+
+        /**
+         * Create a shallow model from a proto. A shallow model is one that contain fake Ms or St states that do not exist in the app state. Be extra careful when using them.
+         */
+        fun WorksheetProto.toShallowModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
+            var ws: Worksheet = WorksheetImp(
+                nameMs = ms(this.name),
+                table = ImmutableTableCR(),
+                wbKeySt = wbKeyMs
+            )
+            for (cell: Cell in cellsList.map { it.toShallowModel(translator) }) {
+                ws = ws.addOrOverwrite(cell)
+            }
+            return ws
+        }
+    }
+
 }

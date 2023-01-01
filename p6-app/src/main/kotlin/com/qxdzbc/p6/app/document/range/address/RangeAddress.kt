@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.document.range.address
 
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressProto
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
@@ -96,8 +96,8 @@ interface RangeAddress : RangeConstraint, Shiftable {
     fun getCellAddressCycle(cellAddress: CellAddress): CellAddress
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): RangeAddress
 
     fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean

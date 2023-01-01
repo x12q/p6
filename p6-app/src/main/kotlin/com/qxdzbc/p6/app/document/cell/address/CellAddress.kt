@@ -2,7 +2,6 @@ package com.qxdzbc.p6.app.document.cell.address
 
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
 
 /**
@@ -22,7 +21,7 @@ fun CellAddress(label: String): CellAddress {
     return CellAddresses.fromLabel(label)
 }
 
-interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
+interface CellAddress : CRAddress<Int, Int>, Shiftable {
 
     companion object{
         fun random(colRange:IntRange=1 .. 20, rowRange:IntRange = 1 .. 20):CellAddress{
@@ -54,7 +53,7 @@ interface CellAddress : GenericCellAddress<Int, Int>, Shiftable {
      * Shift this address using the vector defined by: [oldAnchorCell] --> [newAnchorCell].
      * See the test for more detail
      */
-    override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): CellAddress
+    override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): CellAddress
     fun increaseRowBy(v: Int): CellAddress
     fun increaseColBy(v: Int): CellAddress
 

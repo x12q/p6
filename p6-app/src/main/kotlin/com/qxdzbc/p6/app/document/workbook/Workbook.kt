@@ -9,6 +9,8 @@ import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.CanConvertToWorkbookProto
 
 /**
@@ -89,4 +91,18 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
 
     fun removeAllWs(): Workbook
     fun reRunAndRefreshDisplayText(): Workbook
+
+    companion object{
+        fun random():Workbook{
+            val wb=WorkbookImp(
+                keyMs= ms(WorkbookKey.random()),
+                worksheetMsList = listOf(
+                )
+            )
+
+            return wb.addMultiSheetOrOverwrite((1 .. 3).map{
+                Worksheet.random()
+            })
+        }
+    }
 }

@@ -6,7 +6,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.proto.DocProtos.CellProto
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
@@ -25,7 +25,7 @@ data class IndCellImp(
             return IndCellImp.random(CellAddress.random())
         }
         fun random(address: CellAddress):IndCellImp{
-            val ct = CellContentImp.randomNumericContent()
+            val ct = CellContent.randomNumericContent()
             return IndCellImp(
                 address = address,
                 content = ct,
@@ -38,7 +38,7 @@ data class IndCellImp(
         return this.copy(error0=i)
     }
 
-    override fun shift(oldAnchorCell: GenericCellAddress<Int, Int>, newAnchorCell: GenericCellAddress<Int, Int>): Cell {
+    override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): Cell {
         val newAddress:CellAddress = address.shift(oldAnchorCell, newAnchorCell)
         val newContent: CellContent = content.shift(oldAnchorCell, newAnchorCell)
         return this.copy(

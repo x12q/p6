@@ -3,7 +3,7 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 data class DoubleUnit(val v: Double):ExUnit {
@@ -20,8 +20,8 @@ data class DoubleUnit(val v: Double):ExUnit {
     }
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): ExUnit {
         return this
     }

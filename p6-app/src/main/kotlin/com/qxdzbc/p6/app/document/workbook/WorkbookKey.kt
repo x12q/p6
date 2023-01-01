@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.document.workbook
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorkbookKeyProto
 import java.nio.file.Path
+import java.util.*
 
 interface WorkbookKey{
     val name:String
@@ -10,6 +11,12 @@ interface WorkbookKey{
     fun toProto(): WorkbookKeyProto
     fun setName(i: String): WorkbookKey
     fun setPath(i: Path?): WorkbookKey
+
+    companion object{
+        fun random():WorkbookKey{
+            return WorkbookKey("Worksheet-"+UUID.randomUUID().toString())
+        }
+    }
 }
 
 fun WorkbookKey(name:String,path:Path?=null):WorkbookKey{

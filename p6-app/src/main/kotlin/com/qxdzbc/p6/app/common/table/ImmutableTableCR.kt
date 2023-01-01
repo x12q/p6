@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.common.table
 
-import com.qxdzbc.p6.app.document.cell.address.GenericCellAddress
+import com.qxdzbc.p6.app.document.cell.address.CRAddress
 
 /**
  */
@@ -22,8 +22,8 @@ data class ImmutableTableCR<C, R, E>(
         }
     }
 
-    override fun set(cellAddress: GenericCellAddress<C, R>, element: E): ImmutableTableCR<C, R, E> {
-        return this.set(cellAddress.colIndex, cellAddress.rowIndex, element)
+    override fun set(crAddress: CRAddress<C, R>, element: E): ImmutableTableCR<C, R, E> {
+        return this.set(crAddress.colIndex, crAddress.rowIndex, element)
     }
 
     override fun set(colKey: C, rowKey: R, element: E): ImmutableTableCR<C, R, E> {

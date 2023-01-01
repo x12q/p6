@@ -18,17 +18,19 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
+import com.qxdzbc.p6.ui.format2.CellFormatTable
 import com.qxdzbc.p6.ui.format2.CellFormatTable.Companion.toModel
 import com.squareup.anvil.annotations.ContributesBinding
 import java.util.*
 import javax.inject.Inject
+
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
-class LoadWorkbookActionImp @Inject constructor(
+data class LoadWorkbookActionImp @Inject constructor(
     val stateContMs: Ms<StateContainer>,
     val errorRouter: ErrorRouter,
     private val loader: P6FileLoader,
-    val translatorContainerMs:Ms<TranslatorContainer>,
+    val translatorContainerMs: Ms<TranslatorContainer>,
 ) : LoadWorkbookAction {
 
     private var sc by stateContMs
@@ -43,7 +45,7 @@ class LoadWorkbookActionImp @Inject constructor(
         if (path.exists() && path.isRegularFile()) {
             if (path.isReadable()) {
                 val res = loadWb(request)
-                applyResponse(res.first,res.second)
+                applyResponse(res.first, res.second)
                 return res.first
             } else {
                 val e = P6FileLoaderErrors.notReadableFile(path)
@@ -73,7 +75,7 @@ class LoadWorkbookActionImp @Inject constructor(
         }
     }
 
-    fun loadWb(request: LoadWorkbookRequest): Pair<LoadWorkbookResponse,WorkbookProto?> {
+    fun loadWb(request: LoadWorkbookRequest): Pair<LoadWorkbookResponse, WorkbookProto?> {
         val loadRs = loader.load3Rs(request.path.path)
         when (loadRs) {
             is Ok -> {
@@ -84,6 +86,7 @@ class LoadWorkbookActionImp @Inject constructor(
                     wb = wb
                 ) to loadRs.value
             }
+
             is Err -> {
                 return LoadWorkbookResponse(
                     windowId = request.windowId,
@@ -94,23 +97,26 @@ class LoadWorkbookActionImp @Inject constructor(
         }
     }
 
-    fun applyResponse(res:LoadWorkbookResponse?,proto:WorkbookProto?) {
+    fun applyResponse(res: LoadWorkbookResponse?, proto: WorkbookProto?) {
         if (res != null) {
             val err = res.errorReport
             if (err != null) {
                 errorRouter.publishToWindow(err, res.windowId, res.wbKey)
             } else {
-                apply(res.windowId, res.wb,proto)
+                val cellFormatTableMap = proto?.worksheetList?.associate { wsProto ->
+                    wsProto.name to wsProto.cellFormatTable.toModel()
+                }
+                apply(res.windowId, res.wb, cellFormatTableMap)
             }
         }
     }
 
-    fun apply(windowId: String?, workbook: Workbook?,proto:WorkbookProto?) {
-        val windowStateMsRs =  sc.getWindowStateMsDefaultRs(windowId)
+    fun apply(windowId: String?, workbook: Workbook?, cellFormatTableMap: Map<String, CellFormatTable>?) {
+        val windowStateMsRs = sc.getWindowStateMsDefaultRs(windowId)
         workbook?.also {
             wbCont = wbCont.addOrOverWriteWb(workbook)
-            when(windowStateMsRs){
-                is Ok ->{
+            when (windowStateMsRs) {
+                is Ok -> {
                     val windowStateMs = windowStateMsRs.value
                     val wbk = workbook.key
                     val wbkMs = workbook.keyMs
@@ -119,7 +125,8 @@ class LoadWorkbookActionImp @Inject constructor(
                     }
                     windowStateMs.value = windowStateMs.value.addWbKey(wbkMs)
                 }
-                is Err ->{
+
+                is Err -> {
                     // x: designated window does not exist and can't get a default window state => create a new window for the loaded workbook with the provided window id or a new random window id
                     val newWindowId = windowId ?: UUID.randomUUID().toString()
                     val (newStateCont, newOuterWindowStateMs) = sc.createNewWindowStateMs(newWindowId)
@@ -127,15 +134,15 @@ class LoadWorkbookActionImp @Inject constructor(
                     val newWindowStateMs = newOuterWindowStateMs.value.innerWindowStateMs
                     wbStateCont.getWbStateMs(workbook.key)?.also {
                         it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
-                        newWindowStateMs.value.activeWbPointer = newWindowStateMs.value.activeWbPointer.pointTo(it.value.wbKeyMs)
+                        newWindowStateMs.value.activeWbPointer =
+                            newWindowStateMs.value.activeWbPointer.pointTo(it.value.wbKeyMs)
                     }
                     val s2 = newWindowStateMs.value.addWbKey(workbook.keyMs)
                     newWindowStateMs.value = s2
                 }
             }
-            proto?.worksheetList?.forEach {wsProto->
-                sc.getCellFormatTableMs(WbWs(workbook.key,wsProto.name))?.also {
-                    val cellFormatTable = wsProto.cellFormatTable.toModel()
+            cellFormatTableMap?.forEach { (wsName, cellFormatTable) ->
+                sc.getCellFormatTableMs(WbWs(workbook.key, wsName))?.also {
                     it.value = cellFormatTable
                 }
             }

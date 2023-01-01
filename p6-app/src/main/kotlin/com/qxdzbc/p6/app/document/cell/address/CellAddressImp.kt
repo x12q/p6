@@ -118,8 +118,8 @@ data class CellAddressImp constructor(
     }
 
     override fun shift(
-        oldAnchorCell: GenericCellAddress<Int, Int>,
-        newAnchorCell: GenericCellAddress<Int, Int>
+        oldAnchorCell: CRAddress<Int, Int>,
+        newAnchorCell: CRAddress<Int, Int>
     ): CellAddress {
         val newColCR: CR = if (colCR.isLocked) {
             colCR
