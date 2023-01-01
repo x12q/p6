@@ -33,9 +33,16 @@ interface RulerState: WbWsSt,RulerSig {
     fun clearItemLayoutCoorsMap(): RulerState
 
     val defaultItemSize:Int
+
+    /**
+     * Width or height of items in this ruler state.
+     * If this ruler state server a column ruler, this map contains the items' height.
+     * If this ruler state server a row ruler, this map contains the items' width.
+     */
     val itemSizeMap:Map<Int,Int>
     fun changeItemSize(itemIndex: Int, diff:Float): RulerState
     fun setItemSize(itemIndex: Int, size:Int):RulerState
+    fun setMultiItemSize(itemMap:Map<Int,Int>):RulerState
     fun getItemSizeOrDefault(itemIndex: Int):Int
     fun removeItemSize(itemIndex: Int):RulerState
 }

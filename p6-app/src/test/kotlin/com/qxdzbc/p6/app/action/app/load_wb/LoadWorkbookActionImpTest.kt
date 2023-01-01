@@ -9,6 +9,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
+import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -46,7 +47,10 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
         val cellFormatTableMap = wb.worksheets.associate{
             it.name to CellFormatTable.random()
         }
-        action.apply(windowId, wb, cellFormatTableMap)
+
+
+
+        action.apply(windowId, wb, cellFormatTableMap,null,null)
         postCondition {
             val wbState=ts.sc.getWbState(wb.key)
             wbState.shouldNotBeNull()
@@ -64,7 +68,7 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
         val windowId = "invalid wd id"
         val wb = WorkbookImp(WorkbookKey("Book33").toMs())
         ts.stateContMs().value.wbCont = ts.stateContMs().value.wbCont.addWb(wb)
-        action.apply(windowId, wb,null)
+        action.apply(windowId, wb,null,null,null)
         val wds = ts.sc.getWindowStateMsById(windowId)
         assertNotNull(wds)
         assertEquals(listOf(wb), wds.value.wbList)

@@ -17,6 +17,7 @@ import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
+import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
 import com.qxdzbc.p6.ui.format2.CellFormatTable
 import com.qxdzbc.p6.ui.format2.CellFormatTable.Companion.toModel
@@ -106,12 +107,28 @@ data class LoadWorkbookActionImp @Inject constructor(
                 val cellFormatTableMap = proto?.worksheetList?.associate { wsProto ->
                     wsProto.name to wsProto.cellFormatTable.toModel()
                 }
-                apply(res.windowId, res.wb, cellFormatTableMap)
+
+                val colWidthMapByWsName:Map<String,Map<Int,Int>>? = proto?.worksheetList?.associate {wsProto->
+                    wsProto.name to wsProto.columnWidthMapMap
+                }
+
+                val rowHeightByWsName = proto?.worksheetList?.associate {wsProto->
+                    wsProto.name to wsProto.rowHeightMapMap
+                }
+
+                apply(res.windowId, res.wb, cellFormatTableMap,colWidthMapByWsName,rowHeightByWsName)
             }
         }
     }
 
-    fun apply(windowId: String?, workbook: Workbook?, cellFormatTableMap: Map<String, CellFormatTable>?) {
+    fun apply(
+        windowId: String?,
+        workbook: Workbook?,
+        cellFormatTableMap:Map<String,CellFormatTable>?,
+        colWidthMapByWsName:Map<String,Map<Int,Int>>?,
+        rowHeightByWsName:Map<String,Map<Int,Int>>?,
+    ) {
+
         val windowStateMsRs = sc.getWindowStateMsDefaultRs(windowId)
         workbook?.also {
             wbCont = wbCont.addOrOverWriteWb(workbook)
@@ -141,11 +158,28 @@ data class LoadWorkbookActionImp @Inject constructor(
                     newWindowStateMs.value = s2
                 }
             }
+
             cellFormatTableMap?.forEach { (wsName, cellFormatTable) ->
                 sc.getCellFormatTableMs(WbWs(workbook.key, wsName))?.also {
                     it.value = cellFormatTable
                 }
             }
+
+            colWidthMapByWsName?.forEach { (wsName, colWidthMap) ->
+                val wbws = WbWs(workbook.key,wsName)
+                sc.getRulerStateMs(wbws, RulerType.Col)?.also {
+                    it.value =it.value.setMultiItemSize(colWidthMap)
+                }
+            }
+
+            rowHeightByWsName?.forEach{(wsName,rowHeightMap)->
+                val wbws = WbWs(workbook.key,wsName)
+                sc.getRulerStateMs(wbws,RulerType.Row)?.also{
+                    it.value = it.value.setMultiItemSize(rowHeightMap)
+                }
+            }
+
+
         }
     }
 }

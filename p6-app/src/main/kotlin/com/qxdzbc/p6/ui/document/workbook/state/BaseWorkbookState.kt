@@ -9,7 +9,9 @@ abstract class BaseWorkbookState : WorkbookState{
             .clearWorksheet()
             .addAllWorksheet(
                 this.worksheetStateList.map{it.toProto()}
-            ).build()
+            )
+            .build()
+
         return rt
     }
 }

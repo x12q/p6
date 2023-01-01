@@ -94,7 +94,6 @@ class SaveWorkbookActionImp @Inject constructor(
                             }
                         }
                         .onSuccess { wbStateMs ->
-                            val oldWb = wbStateMs.value.wb
                             val newWbKey: WorkbookKey = wbKey.setPath(savedPath).setName(savedPath.fileName.toString())
 
                             sc.getWindowStateByWbKey(wbKey)?.also { windowState ->

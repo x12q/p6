@@ -40,23 +40,23 @@ import kotlin.test.*
 class CursorAndCellEditorTest : BaseAppStateTest() {
 
     val cellEditorAction get() = comp.cellEditorAction()
-    val cursorAction get()=comp.cursorAction()
+    val cursorAction get() = comp.cursorAction()
 
     @Test
-    fun `bug-click on another cell while editing cell editor without range selector enabled`(){
+    fun `bug-click on another cell while editing cell editor without range selector enabled`() {
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
         val clickOnCell = comp.clickOnCellAction()
         val ws by sc.getWsMs(wbwsSt)!!
 
-        test("open editor on A1, input 123abc, then click on B3"){
+        test("open editor on A1, input 123abc, then click on B3") {
             preCondition {
-                cursorAction.moveCursorTo(ws,"A1")
+                cursorAction.moveCursorTo(ws, "A1")
                 ws.getCell("A1")?.currentValue shouldBe null
             }
 
             cellEditorAction.openCellEditor(wbwsSt)
             cellEditorAction.changeText("123abc")
-            clickOnCell.clickOnCell(CellAddress("B3"),wbwsSt)
+            clickOnCell.clickOnCell(CellAddress("B3"), wbwsSt)
 
             postCondition {
                 sc.cellEditorState.isOpen shouldBe false
@@ -64,14 +64,14 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             }
         }
 
-        test("open editor on D2, input =1+2, then click on B3"){
+        test("open editor on D2, input =1+2, then click on B3") {
             preCondition {
                 ws.getCell("D2")?.currentValue shouldBe null
-                cursorAction.moveCursorTo(ws,"D2")
+                cursorAction.moveCursorTo(ws, "D2")
             }
             cellEditorAction.openCellEditor(wbwsSt)
             cellEditorAction.changeText("=1+2")
-            clickOnCell.clickOnCell(CellAddress("B3"),wbwsSt)
+            clickOnCell.clickOnCell(CellAddress("B3"), wbwsSt)
 
             postCondition {
                 sc.cellEditorState.isOpen shouldBe false
@@ -81,7 +81,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
     }
 
     @Test
-    fun `bug-range selector is wrongfully turned on by non-formula text`(){
+    fun `bug-range selector is wrongfully turned on by non-formula text`() {
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
         val cellEditorState by appState.cellEditorStateMs
         cellEditorAction.openCellEditor(wbwsSt)
@@ -90,7 +90,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
     }
 
     @Test
-    fun `bug-input and run formula in a cell, then open editor in another cell, cell highlight information should be empty`(){
+    fun `bug-input and run formula in a cell, then open editor in another cell, cell highlight information should be empty`() {
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
         val cursorState by sc.getCursorStateMs(wbwsSt)!!
 
@@ -98,22 +98,22 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         cellEditorAction.changeText("=B2+F10+123")
         cellEditorAction.runFormulaOrSaveValueToCell(true)
 
-        cursorAction.moveCursorTo(wbwsSt,"C1")
+        cursorAction.moveCursorTo(wbwsSt, "C1")
 
         cursorState.mainCell shouldBe CellAddress("C1")
         cellEditorAction.openCellEditor(wbwsSt)
-        val hightlightInfo =cursorAction.getFormulaRangeAndColor(wbwsSt)
+        val hightlightInfo = cursorAction.getFormulaRangeAndColor(wbwsSt)
         hightlightInfo.shouldBeEmpty()
     }
 
     @Test
-    fun `bug-test open cell editor on cel with error formula`(){
+    fun `bug-test open cell editor on cel with error formula`() {
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
         val cellEditorState by appState.cellEditorStateMs
         cellEditorAction.openCellEditor(wbwsSt)
         cellEditorAction.changeText("=B2+ww")
         cellEditorAction.runFormulaOrSaveValueToCell(true)
-        val cellMs = sc.getCellMs(ts.wbKey1,ts.wsn1,CellAddress("A1"))!!
+        val cellMs = sc.getCellMs(ts.wbKey1, ts.wsn1, CellAddress("A1"))!!
 
         cellEditorAction.openCellEditor(wbwsSt)
         cellEditorState.displayText shouldBe "=B2+ww"
@@ -441,10 +441,10 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         assertTrue(focusState.isEditorFocused)
 
         listOf(
-            "a", "+", "?","@",">","<","#",
-            "*",".","/",">=","<=",
-            "!","$","%","^","&",
-           "|","\\","-","_","~","`"
+            "a", "+", "?", "@", ">", "<", "#",
+            "*", ".", "/", ">=", "<=",
+            "!", "$", "%", "^", "&",
+            "|", "\\", "-", "_", "~", "`"
         ).forEach { chr ->
             //"=A1+M5a123"
             //"=A1+M5+123"
@@ -460,6 +460,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             assertEquals(expectText2, cellEditorState.displayText, "violating char: ${chr}")
         }
     }
+
     @Test
     fun `test input text after generate formula using range selector`() {
         val wbk = ts.wbKey1Ms.value
@@ -472,12 +473,12 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
         // x: open cell editor on a worksheet
         val wbws = WbWsImp(wbk, wsn1)
-        test("input '+' into a cell editor after clicking on a cell"){
+        test("input '+' into a cell editor after clicking on a cell") {
             cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
-            val text="=D3+"
+            val text = "=D3+"
             val clickOnCellAction: ClickOnCellAction = ts.comp.clickOnCellAction()
             cellEditorAction.changeText("=")
-            clickOnCellAction.clickOnCell(CellAddress("D3"),wbws)
+            clickOnCellAction.clickOnCell(CellAddress("D3"), wbws)
             cellEditorAction.changeText(text)
             postCondition {
                 cellEditorState.displayText shouldBe text
@@ -485,12 +486,12 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             cellEditorAction.closeEditor()
         }
 
-        test("input 'a' into a cell editor after clicking on a cell"){
+        test("input 'a' into a cell editor after clicking on a cell") {
             cellEditorAction.openCellEditor(WbWsImp(wbk, wsn1))
-            val text="=D3a"
+            val text = "=D3a"
             val clickOnCellAction: ClickOnCellAction = ts.comp.clickOnCellAction()
             cellEditorAction.changeText("=")
-            clickOnCellAction.clickOnCell(CellAddress("D3"),wbws)
+            clickOnCellAction.clickOnCell(CellAddress("D3"), wbws)
             cellEditorAction.changeText(text)
             postCondition {
                 cellEditorState.displayText shouldBe text
@@ -548,7 +549,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             }
         }
 
-        test("click on a cell in a different sheet, in a different workbook"){
+        test("click on a cell in a different sheet, in a different workbook") {
             val c3 = CellAddress("Z78")
             clickOnCellAction.clickOnCell(c3, WbWs(wbk2, wsn1))
             postCondition {
@@ -955,13 +956,16 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
     }
 
 
-    /**
-     * Cell editor is open with non-range-selector content
-     * Switch sheet
-     * Expect: cell editor is closed, content is clear, cursor is focused
-     */
+
     @Test
     fun `test cursor & cell editor state after switching ws`() {
+
+        /*
+         Cell editor is open with non-range-selector content
+         Switch sheet
+         Expect: cell editor is closed, content is clear, cursor is focused
+         */
+
         val wbk = ts.wbKey1Ms.value
         val wsn = "Sheet1"
         val cursorMs = sc.getCursorStateMs(wbk, wsn)
@@ -983,21 +987,23 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         )
         wbAction.switchToWorksheet(request)
 
-        cellEditorMs.value.isOpen shouldBe false
-        cellEditorMs.value.currentText.shouldBeEmpty()
+        postCondition {
+            cellEditorMs.value.isOpen shouldBe false
+            cellEditorMs.value.currentText.shouldBeEmpty()
 
-        wds.value.focusState.isEditorFocused shouldBe false
-        wds.value.focusState.isCursorFocused shouldBe true
+            wds.value.focusState.isEditorFocused shouldBe false
+            wds.value.focusState.isCursorFocused shouldBe true
+        }
     }
 
-    /**
-     * Cell editor is opened, content is range-selector-enable
-     * Switch sheet
-     * expect: cursor is not focused, editor is kept open, opened and editor's content is preserved
-     */
 
     @Test
     fun `test preserving cell editor focus after switching ws`() {
+        /*
+         Cell editor is opened, content is range-selector-enable
+         Switch sheet
+         expect: cursor is not focused, editor is kept open, opened and editor's content is preserved
+         */
 
         val wbk = ts.wbKey1Ms.value
         val wsn = "Sheet1"

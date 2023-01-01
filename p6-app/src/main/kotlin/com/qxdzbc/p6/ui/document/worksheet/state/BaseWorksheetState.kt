@@ -15,7 +15,10 @@ abstract class BaseWorksheetState : WorksheetState {
         val proto1 = this.wsMs.value.toProto()
         val rt = DocProtos.WorksheetProto.newBuilder(proto1)
             .setCellFormatTable(this.cellFormatTable.toProto())
+            .putAllColumnWidthMap(this.columnWidthMap)
+            .putAllRowHeightMap(this.rowHeightMap)
             .build()
+
         return rt
     }
 

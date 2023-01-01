@@ -91,6 +91,11 @@ data class RulerStateImp constructor(
         return this
     }
 
+    override fun setMultiItemSize(itemMap: Map<Int, Int>): RulerState {
+        this.itemSizeMapMs.value = this.itemSizeMap + itemMap
+        return this
+    }
+
     override fun getItemSizeOrDefault(itemIndex: Int): Int {
         return itemSizeMap[itemIndex] ?: this.defaultItemSize
     }
