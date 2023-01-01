@@ -96,7 +96,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
 
         cellEditorAction.openCellEditor(wbwsSt)
         cellEditorAction.changeText("=B2+F10+123")
-        cellEditorAction.runFormulaOrSaveValueToCell()
+        cellEditorAction.runFormulaOrSaveValueToCell(true)
 
         cursorAction.moveCursorTo(wbwsSt,"C1")
 
@@ -112,7 +112,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         val cellEditorState by appState.cellEditorStateMs
         cellEditorAction.openCellEditor(wbwsSt)
         cellEditorAction.changeText("=B2+ww")
-        cellEditorAction.runFormulaOrSaveValueToCell()
+        cellEditorAction.runFormulaOrSaveValueToCell(true)
         val cellMs = sc.getCellMs(ts.wbKey1,ts.wsn1,CellAddress("A1"))!!
 
         cellEditorAction.openCellEditor(wbwsSt)
@@ -163,7 +163,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         val cellEditorAction: CellEditorAction = ts.comp.cellEditorAction()
         cellEditorAction.openCellEditor(cursor1Ms.value)
         cellEditorAction.changeText("=SUM(B2:C4)")
-        cellEditorAction.runFormulaOrSaveValueToCell()
+        cellEditorAction.runFormulaOrSaveValueToCell(true)
         cellEditorAction.openCellEditor(cursor1Ms.value)
         val formulaBar: FormulaBarState? =
             ts.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
@@ -589,7 +589,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         cellEditorAction.changeText("=1+2+3")
 
         // x: run the formula
-        cellEditorAction.runFormulaOrSaveValueToCell()
+        cellEditorAction.runFormulaOrSaveValueToCell(true)
 
         assertEquals(6.0, sc.getCellOrDefault(targetWb, targetWsName, targetCell)?.currentCellValue?.value)
         assertNull(cellEditorState.targetCursorIdSt)

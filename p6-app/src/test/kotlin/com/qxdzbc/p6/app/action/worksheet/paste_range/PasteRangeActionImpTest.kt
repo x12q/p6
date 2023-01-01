@@ -12,6 +12,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.format2.FormatConfig
 import com.qxdzbc.p6.ui.format2.FormatEntrySet
 import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import test.BaseAppStateTest
 import kotlin.random.Random
@@ -111,7 +112,7 @@ internal class PasteRangeActionImpTest : BaseAppStateTest(){
     fun makePasteCommand() {
 
         val command = action.makePasteCommand(targetRangeId, shiftedClipboardData)
-
+        command.shouldNotBeNull()
         command.run()
         postCondition("check run effect") {
             afterPasteAssertion()

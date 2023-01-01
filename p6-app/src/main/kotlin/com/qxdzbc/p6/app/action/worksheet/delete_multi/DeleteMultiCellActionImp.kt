@@ -6,6 +6,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
+import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
 import com.qxdzbc.p6.app.command.BaseCommand
@@ -43,7 +44,7 @@ class DeleteMultiCellActionImp @Inject constructor(
 
     override fun deleteMultiCell(request: RemoveMultiCellRequest,undoable:Boolean): RseNav<RemoveMultiCellResponse> {
         if(undoable){
-            createCommand(request)
+            createDeleteMultiCellCommand(request)
         }
         return internalApply(request)
     }
@@ -67,7 +68,7 @@ class DeleteMultiCellActionImp @Inject constructor(
         if (ws != null) {
             val cursorState: CursorState? = sc.getCursorState(k, n)
             if (cursorState != null) {
-                createCommand(
+                createDeleteMultiCellCommand(
                     RemoveMultiCellRequest(
                     ranges = cursorState.allRanges,
                     cells = cursorState.allFragCells,
@@ -82,17 +83,19 @@ class DeleteMultiCellActionImp @Inject constructor(
     }
 
 
-    private fun createCommand(request: RemoveMultiCellRequest) {
+    private fun createDeleteMultiCellCommand(request: RemoveMultiCellRequest) {
         val wbKey = request.wbKey
         val wsName = request.wsName
         val ws = dc.getWs(wbKey, wsName)
         if (ws != null) {
             val command = object : BaseCommand() {
-                val allCell: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->
-                    val z = ws.getCellsInRange(range).map { it.address }
-                    acc + z
+                val _request = request
+                val _wbWsSt = WbWsSt(ws.wbKeySt,ws.wsNameSt)
+                val allCellAddresses: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->
+                    val addressesFromWs = ws.getCellsInRange(range).map { it.address }
+                    acc + addressesFromWs
                 } + request.cells
-                val updateList: List<IndCellDM> = allCell.mapNotNull {
+                val updateList: List<IndCellDM> = allCellAddresses.mapNotNull {
                     val cell = ws.getCell(it)
                     if (cell != null) {
                         IndCellDM(
@@ -104,15 +107,20 @@ class DeleteMultiCellActionImp @Inject constructor(
                     }
                 }
 
+                val _oRequest get()=_request.copy(
+                    wbKey = _wbWsSt.wbKey,
+                    wsName = _wbWsSt.wsName,
+                )
+
                 override fun run() {
-                    internalApply(request)
+                    internalApply(_oRequest)
                 }
 
                 override fun undo() {
                     // need to implement multi update request
                     val cellMultiUpdateRequest = UpdateMultiCellRequest(
-                        wbKeySt = ws.wbKeySt,
-                        wsNameSt = ws.wsNameSt,
+                        wbKeySt = _wbWsSt.wbKeySt,
+                        wsNameSt = _wbWsSt.wsNameSt,
                         cellUpdateList = updateList
                     )
                     multiCellUpdateAct.updateMultiCell(cellMultiUpdateRequest,true)

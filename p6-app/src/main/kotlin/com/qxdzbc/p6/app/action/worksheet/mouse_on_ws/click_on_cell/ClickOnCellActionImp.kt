@@ -52,7 +52,7 @@ class ClickOnCellActionImp @Inject constructor(
                 editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
                 updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
             }else{
-                runFormulaAction.runFormulaOrSaveValueToCell()
+                runFormulaAction.runFormulaOrSaveValueToCell(true)
                 editorStateMs.value=editorState.close()
             }
             commonReactionOnCursorChanged.onCursorChanged(cursorStateMs.value.id)

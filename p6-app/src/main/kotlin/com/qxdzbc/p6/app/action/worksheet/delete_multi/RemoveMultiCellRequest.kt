@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.common.err.WithReportNavInfo
 /**
  * Request for deleting multiple cells and ranges at the same time
  */
-class RemoveMultiCellRequest(
+data class RemoveMultiCellRequest(
     val ranges: List<RangeAddress> = emptyList(),
     val cells: List<CellAddress> = emptyList(),
     override val wbKey: WorkbookKey,

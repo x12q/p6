@@ -195,7 +195,7 @@ class CellEditorActionImp @Inject constructor(
                                 }
                             changeTextField(newText)
                         } else {
-                            runFormulaOrSaveValueToCell()
+                            runFormulaOrSaveValueToCell(true)
                         }
                         // x: move the target cursor 1 row down
                         targetCursorId?.also {
