@@ -5,5 +5,5 @@ import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Result
 
 interface RenameWorksheetAction {
-    fun renameWorksheetRs(request: RenameWorksheetRequest): Result<Unit, ErrorReport>
+    fun renameWorksheetRs(request: RenameWorksheetRequest,undoable:Boolean): Result<Unit, ErrorReport>
 }

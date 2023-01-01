@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChanged
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.BaseCommand
@@ -28,6 +29,7 @@ import javax.inject.Inject
 @ContributesBinding(scope = P6AnvilScope::class)
 class UpdateCellFormatActionImp @Inject constructor(
     private val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged,
 ) : UpdateCellFormatAction {
 
     private val sc by stateContainerSt

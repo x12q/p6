@@ -31,9 +31,7 @@ internal class UpdateCellFormatActionImpTest : BaseAppStateTest() {
 
     @BeforeTest
     fun b() {
-        action = UpdateCellFormatActionImp(
-            stateContainerSt = comp.stateContMs()
-        )
+        action = comp.updateCellFormatAction()
         wbwsSt = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!
     }
     @Test

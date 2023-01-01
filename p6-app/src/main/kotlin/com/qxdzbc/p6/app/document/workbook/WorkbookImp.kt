@@ -205,9 +205,7 @@ data class WorkbookImp(
                     return WorkbookErrors.IllegalSheetName.report("Sheet name \"${newName}\" is illegal").toErr()
                 }
                 if (!this.containSheet(newName)) {
-                    val oldWorkSheet = wsMs.value
-                    val newWorksheet = oldWorkSheet.setWsName(newName)
-                    wsMs.value = newWorksheet
+                    wsMs.value.nameMs.value = newName
                     return Ok(this)
                 } else {
                     return WorkbookErrors.WorksheetAlreadyExist.report(newName).toErr()

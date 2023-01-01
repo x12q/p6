@@ -54,7 +54,7 @@ class ErrorRouterImp @Inject constructor(
         if (workbookKey != null) {
             val windowStateMs = sc.getWindowStateMsByWbKey(workbookKey)
             if (windowStateMs != null) {
-                val ne = errorReport?.toException()?.stackTrace.toString()
+//                val ne = errorReport?.toException()?.stackTrace.toString()
 
 
                 windowStateMs.value.errorContainer =

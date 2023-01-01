@@ -6,6 +6,7 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChanged
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -25,8 +26,10 @@ class UpdateMultiCellActionImp @Inject constructor(
     val tcSt: St<@JvmSuppressWildcards TranslatorContainer>,
     val errorRouter: ErrorRouter,
     @AppCoroutineScope
-    val crtScope: CoroutineScope
+    val crtScope: CoroutineScope,
+    val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged
 ) : UpdateMultiCellAction {
+
     val sc by stateContSt
     val tc by tcSt
 
@@ -37,6 +40,8 @@ class UpdateMultiCellActionImp @Inject constructor(
             if (publishErr) {
                 errorRouter.publishToWindow(it, request.wbKey)
             }
+        }.onSuccess {
+            commonReactionWhenAppStatesChanged.onUpdateMultipleCells(request)
         }
         return rt
     }
@@ -48,6 +53,8 @@ class UpdateMultiCellActionImp @Inject constructor(
             if (publishErr) {
                 errorRouter.publishToWindow(it, request.wbKey)
             }
+        }.onSuccess {
+            commonReactionWhenAppStatesChanged.onUpdateMultipleCells(request)
         }
         return rt
     }

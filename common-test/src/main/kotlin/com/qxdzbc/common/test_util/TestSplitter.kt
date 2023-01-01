@@ -32,4 +32,8 @@ abstract class TestSplitter {
     fun setup(description: String = "", f: () -> Unit) {
         f()
     }
+
+    fun action(description: String = "", f: () -> Unit){
+        f()
+    }
 }

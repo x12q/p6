@@ -249,7 +249,7 @@ class WorkbookRpcService @Inject constructor(
         if (request != null && responseObserver != null) {
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
-                    val rs = rpcActions.renameWorksheetRs(request.toModel())
+                    val rs = rpcActions.renameWorksheetRs(request.toModel(),true)
                     val rt = SingleSignalResponse.fromRs(rs)
                     rt
                 }.await()

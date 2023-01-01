@@ -30,6 +30,7 @@ interface AppState {
     /**
      * Extract information related to a workbook key. Such as the workbook the key is pointing to, the window in which the workbook locates.
      */
+    @Deprecated("dont use, pending to be deleted")
     fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult
     val docContMs: Ms<DocumentContainer>
     var docCont: DocumentContainer

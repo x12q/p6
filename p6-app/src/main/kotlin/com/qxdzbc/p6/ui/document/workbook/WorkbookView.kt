@@ -96,7 +96,7 @@ fun WorkbookView(
                                 wb.key,
                                 renameTarget,
                                 newName
-                            )
+                            ),true
                         )
                         openRenameDialog = false
                     }, onCancel = {
