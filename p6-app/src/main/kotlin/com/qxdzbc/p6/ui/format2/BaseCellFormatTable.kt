@@ -7,11 +7,11 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.colorToProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.fontStyleToProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.fontWeightToProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.textHorizontalToProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.textVerticalToProto
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toColorProto
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontStyleProto
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontWeightProto
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextHorizontalProto
+import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextVerticalProto
 import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toProto
 
 abstract class BaseCellFormatTable : CellFormatTable {
@@ -19,14 +19,14 @@ abstract class BaseCellFormatTable : CellFormatTable {
     override fun toProto(): DocProtos.CellFormatTableProto {
         val rt = DocProtos.CellFormatTableProto.newBuilder()
             .setTextSizeTable(textSizeTable.toProto())
-            .setTextColorTable(textColorTable.colorToProto())
+            .setTextColorTable(textColorTable.toColorProto())
             .setTextUnderlinedTable(textUnderlinedTable.toProto())
             .setTextCrossedTable(textCrossedTable.toProto())
-            .setFontWeightTable(fontWeightTable.fontWeightToProto())
-            .setFontStyleTable(fontStyleTable.fontStyleToProto())
-            .setTextVerticalAlignmentTable(textVerticalAlignmentTable.textVerticalToProto())
-            .setTextHorizontalAlignmentTable(textHorizontalAlignmentTable.textHorizontalToProto())
-            .setCellBackgroundColorTable(cellBackgroundColorTable.colorToProto())
+            .setFontWeightTable(fontWeightTable.toFontWeightProto())
+            .setFontStyleTable(fontStyleTable.toFontStyleProto())
+            .setTextVerticalAlignmentTable(textVerticalAlignmentTable.toTextVerticalProto())
+            .setTextHorizontalAlignmentTable(textHorizontalAlignmentTable.toTextHorizontalProto())
+            .setCellBackgroundColorTable(cellBackgroundColorTable.toColorProto())
             .build()
         return rt
     }

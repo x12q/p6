@@ -46,7 +46,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out TextVerticalAlignment?>.textVerticalToProto(): DocProtos.IntFormatEntryProto {
+        fun FormatEntry<out TextVerticalAlignment?>.toTextVerticalProto(): DocProtos.IntFormatEntryProto {
             val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
@@ -68,7 +68,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out TextHorizontalAlignment?>.textHorizontalToProto(): DocProtos.IntFormatEntryProto {
+        fun FormatEntry<out TextHorizontalAlignment?>.toTextHorizontalProto(): DocProtos.IntFormatEntryProto {
             val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
@@ -94,7 +94,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out FontStyle?>.fontStyleToProto(): DocProtos.IntFormatEntryProto {
+        fun FormatEntry<out FontStyle?>.toFontStyleProto(): DocProtos.IntFormatEntryProto {
             val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
@@ -114,7 +114,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out FontWeight?>.fontWeightToProto(): DocProtos.IntFormatEntryProto {
+        fun FormatEntry<out FontWeight?>.toFontWeightProto(): DocProtos.IntFormatEntryProto {
             val builder = DocProtos.IntFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
@@ -135,7 +135,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out Boolean?>.boolToProto(): DocProtos.BoolFormatEntryProto {
+        fun FormatEntry<out Boolean?>.toBoolProto(): DocProtos.BoolFormatEntryProto {
             val builder = DocProtos.BoolFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
@@ -152,10 +152,10 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
         fun DocProtos.UInt64FormatEntryProto.toColorModel(): FormatEntry<Color?> {
             return FormatEntry(
                 rangeAddressSet = this.rangeAddressSet.toModel(),
-                formatValue = if (this.hasFormatValue()) Color(this.formatValue) else null
+                formatValue = if (this.hasFormatValue()) Color(this.formatValue.toULong()) else null
             )
         }
-        fun FormatEntry<out Color?>.colorToProto(): DocProtos.UInt64FormatEntryProto {
+        fun FormatEntry<out Color?>.toColorProto(): DocProtos.UInt64FormatEntryProto {
             val builder = DocProtos.UInt64FormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
@@ -174,7 +174,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
             )
         }
 
-        fun FormatEntry<out Float?>.floatToProto(): DocProtos.FloatFormatEntryProto {
+        fun FormatEntry<out Float?>.toFloatProto(): DocProtos.FloatFormatEntryProto {
             val builder = DocProtos.FloatFormatEntryProto
                 .newBuilder()
                 .setRangeAddressSet(this.rangeAddressSet.toProto())
@@ -188,14 +188,14 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
 
         fun <T> random(numberRange: IntProgression, randomGenerator: () -> T): FormatEntry<T> {
             return FormatEntry(
-                rangeAddressSet = RangeAddressSetImp.random(numberRange),
+                rangeAddressSet = RangeAddressSet.random(numberRange),
                 formatValue = randomGenerator()
             )
         }
 
         fun <T> randomInvalid(numberRange: IntProgression): FormatEntry<T?> {
             return FormatEntry(
-                rangeAddressSet = RangeAddressSetImp.random(numberRange),
+                rangeAddressSet = RangeAddressSet.random(numberRange),
                 formatValue = null
             )
         }

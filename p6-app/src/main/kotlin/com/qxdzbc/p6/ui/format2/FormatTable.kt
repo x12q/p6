@@ -8,14 +8,13 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.boolToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.colorToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.floatToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.fontStyleToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.fontWeightToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.textHorizontalToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.textVerticalToProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toBoolProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toColorProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFloatProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontStyleProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontWeightProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextHorizontalProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextVerticalProto
 import com.qxdzbc.p6.ui.format2.RangeAddressSetImp.Companion.toModel
 
 interface FormatTable<T> {
@@ -117,7 +116,7 @@ interface FormatTable<T> {
         fun FormatTable<Float>.toProto():DocProtos.FloatFormatTableProto{
             return DocProtos.FloatFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).floatToProto()
+                    FormatEntry(it.key,it.value).toFloatProto()
                 }).build()
         }
 
@@ -131,15 +130,15 @@ interface FormatTable<T> {
         fun FormatTable<Boolean>.toProto():DocProtos.BoolFormatTableProto{
             return DocProtos.BoolFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).boolToProto()
+                    FormatEntry(it.key,it.value).toBoolProto()
                 }).build()
         }
         // ====
 
-        fun FormatTable<Color>.colorToProto():DocProtos.UInt64FormatTableProto{
+        fun FormatTable<Color>.toColorProto():DocProtos.UInt64FormatTableProto{
             return DocProtos.UInt64FormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).colorToProto()
+                    FormatEntry(it.key,it.value).toColorProto()
                 }).build()
         }
 
@@ -151,36 +150,36 @@ interface FormatTable<T> {
 
         fun DocProtos.UInt64FormatTableProto.toColorModel(): FormatTable<Color> {
             return FormatTableImp(this.entriesList.associate {
-                it.rangeAddressSet.toModel() to Color(it.formatValue)
+                it.rangeAddressSet.toModel() to Color(it.formatValue.toULong())
             })
         }
 
         //====
-        fun FormatTable<FontWeight>.fontWeightToProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<FontWeight>.toFontWeightProto():DocProtos.IntFormatTableProto{
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).fontWeightToProto()
+                    FormatEntry(it.key,it.value).toFontWeightProto()
                 }).build()
         }
 
-        fun FormatTable<FontStyle>.fontStyleToProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<FontStyle>.toFontStyleProto():DocProtos.IntFormatTableProto{
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).fontStyleToProto()
+                    FormatEntry(it.key,it.value).toFontStyleProto()
                 }).build()
         }
 
-        fun FormatTable<TextHorizontalAlignment>.textHorizontalToProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<TextHorizontalAlignment>.toTextHorizontalProto():DocProtos.IntFormatTableProto{
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).textHorizontalToProto()
+                    FormatEntry(it.key,it.value).toTextHorizontalProto()
                 }).build()
         }
 
-        fun FormatTable<TextVerticalAlignment>.textVerticalToProto():DocProtos.IntFormatTableProto{
+        fun FormatTable<TextVerticalAlignment>.toTextVerticalProto():DocProtos.IntFormatTableProto{
             return DocProtos.IntFormatTableProto.newBuilder()
                 .addAllEntries(valueMap.map {
-                    FormatEntry(it.key,it.value).textVerticalToProto()
+                    FormatEntry(it.key,it.value).toTextVerticalProto()
                 }).build()
         }
 

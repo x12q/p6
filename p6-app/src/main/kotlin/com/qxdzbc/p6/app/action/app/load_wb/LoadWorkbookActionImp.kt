@@ -107,36 +107,36 @@ class LoadWorkbookActionImp @Inject constructor(
 
     fun apply(windowId: String?, workbook: Workbook?,proto:WorkbookProto?) {
         val windowStateMsRs =  sc.getWindowStateMsDefaultRs(windowId)
-        workbook?.also { wb ->
-            wbCont = wbCont.addOrOverWriteWb(wb)
+        workbook?.also {
+            wbCont = wbCont.addOrOverWriteWb(workbook)
             when(windowStateMsRs){
                 is Ok ->{
                     val windowStateMs = windowStateMsRs.value
-                    val wbk = wb.key
-                    val wbkMs = wb.keyMs
+                    val wbk = workbook.key
+                    val wbkMs = workbook.keyMs
                     wbStateCont.getWbStateMs(wbk)?.also {
                         it.value = it.value.setWindowId(windowId).setNeedSave(false)
                     }
                     windowStateMs.value = windowStateMs.value.addWbKey(wbkMs)
                 }
                 is Err ->{
-                    // x: designated window does not exist and can't get a default window state => create a new window for the loaded workbook with the provided window id
+                    // x: designated window does not exist and can't get a default window state => create a new window for the loaded workbook with the provided window id or a new random window id
                     val newWindowId = windowId ?: UUID.randomUUID().toString()
                     val (newStateCont, newOuterWindowStateMs) = sc.createNewWindowStateMs(newWindowId)
                     sc = newStateCont
                     val newWindowStateMs = newOuterWindowStateMs.value.innerWindowStateMs
-                    wbStateCont.getWbStateMs(wb.key)?.also {
+                    wbStateCont.getWbStateMs(workbook.key)?.also {
                         it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
                         newWindowStateMs.value.activeWbPointer = newWindowStateMs.value.activeWbPointer.pointTo(it.value.wbKeyMs)
                     }
-                    val s2 = newWindowStateMs.value.addWbKey(wb.keyMs)
+                    val s2 = newWindowStateMs.value.addWbKey(workbook.keyMs)
                     newWindowStateMs.value = s2
                 }
             }
             proto?.worksheetList?.forEach {wsProto->
-                sc.getCellFormatTableMs(WbWs(wb.key,wsProto.name))?.also {
-                    val cellFormatTableProto = wsProto.cellFormatTable.toModel()
-                    it.value = cellFormatTableProto
+                sc.getCellFormatTableMs(WbWs(workbook.key,wsProto.name))?.also {
+                    val cellFormatTable = wsProto.cellFormatTable.toModel()
+                    it.value = cellFormatTable
                 }
             }
         }

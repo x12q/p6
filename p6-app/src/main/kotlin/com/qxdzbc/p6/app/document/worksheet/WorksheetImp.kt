@@ -291,7 +291,7 @@ data class WorksheetImp(
                 newTable = newTable.set(newCell.address, cMs)
                 newWs = newWs.addOrOverwrite(newCell)
             }
-            return newWs
+            return newWs.reRunAndRefreshDisplayText()
         } else {
             throw IllegalArgumentException("Cannot update sheet named \"${this.name}\" with data from sheet named \"${wsProto.name}\"")
         }

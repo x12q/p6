@@ -222,16 +222,16 @@ class UpdateCellFormatActionImp @Inject constructor(
             val newConfig = config
             val oldConfig = sc.getCellFormatTable(wbWsSt)
                 ?.getFormatConfigForConfig_Respectively(config)
-            val formatTableMs = sc.getCellFormatTableMs(_wbWsSt)
+            val cellFormatTableMs = sc.getCellFormatTableMs(_wbWsSt)
             override fun run() {
                 // apply new config
-                formatTableMs?.also {
+                cellFormatTableMs?.also {
                     it.value = it.value.applyConfig(newConfig)
                 }
             }
 
             override fun undo() {
-                formatTableMs?.also {
+                cellFormatTableMs?.also {
                     if (oldConfig != null) {
                         // apply old config
                         it.value = it.value.applyConfig(oldConfig)

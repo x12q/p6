@@ -9,20 +9,19 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.boolToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.colorToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.floatToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.fontStyleToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.fontWeightToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.textHorizontalToProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.textVerticalToProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toBoolProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toColorProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFloatProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontStyleProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontWeightProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextHorizontalProto
+import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextVerticalProto
 import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toColorModel
 import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontStyleModel
 import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontWeightModel
 import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toModel
 import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextHorizontalAlignmentModel
 import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextVerticalAlignmentModel
-import com.qxdzbc.p6.ui.format2.FormatEntrySet.Companion.textVerticalToProto
 
 /**
  * A collection of valid and invalid [FormatEntry]
@@ -83,10 +82,10 @@ data class FormatEntrySet<T>(
         fun FormatEntrySet<TextVerticalAlignment>.textVerticalToProto(): DocProtos.IntFormatEntrySetProto {
             val builder = DocProtos.IntFormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {
-                it.textVerticalToProto()
+                it.toTextVerticalProto()
             }
             val invalidEntries = invalidSet.map {
-                it.textVerticalToProto()
+                it.toTextVerticalProto()
             }
             val rt = builder
                 .addAllValidEntries(validEntries)
@@ -114,10 +113,10 @@ data class FormatEntrySet<T>(
         fun FormatEntrySet<TextHorizontalAlignment>.textHorizontalToProto(): DocProtos.IntFormatEntrySetProto {
             val builder = DocProtos.IntFormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {
-                it.textHorizontalToProto()
+                it.toTextHorizontalProto()
             }
             val invalidEntries = invalidSet.map {
-                it.textHorizontalToProto()
+                it.toTextHorizontalProto()
             }
             val rt = builder
                 .addAllValidEntries(validEntries)
@@ -145,10 +144,10 @@ data class FormatEntrySet<T>(
         fun FormatEntrySet<FontStyle>.fontStyleToProto(): DocProtos.IntFormatEntrySetProto {
             val builder = DocProtos.IntFormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {
-                it.fontStyleToProto()
+                it.toFontStyleProto()
             }
             val invalidEntries = invalidSet.map {
-                it.fontStyleToProto()
+                it.toFontStyleProto()
             }
             val rt = builder
                 .addAllValidEntries(validEntries)
@@ -176,10 +175,10 @@ data class FormatEntrySet<T>(
         fun FormatEntrySet<FontWeight>.fontWeightToProto(): DocProtos.IntFormatEntrySetProto {
             val builder = DocProtos.IntFormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {
-                it.fontWeightToProto()
+                it.toFontWeightProto()
             }
             val invalidEntries = invalidSet.map {
-                it.fontWeightToProto()
+                it.toFontWeightProto()
             }
             val rt = builder
                 .addAllValidEntries(validEntries)
@@ -207,10 +206,10 @@ data class FormatEntrySet<T>(
         fun FormatEntrySet<Boolean>.toProto(): DocProtos.BoolFormatEntrySetProto {
             val builder = DocProtos.BoolFormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {
-                it.boolToProto()
+                it.toBoolProto()
             }
             val invalidEntries = invalidSet.map {
-                it.boolToProto()
+                it.toBoolProto()
             }
             val rt = builder
                 .addAllValidEntries(validEntries)
@@ -239,10 +238,10 @@ data class FormatEntrySet<T>(
         fun FormatEntrySet<Color>.toProto(): DocProtos.UInt64FormatEntrySetProto {
             val builder = DocProtos.UInt64FormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {
-                it.colorToProto()
+                it.toColorProto()
             }
             val invalidEntries = invalidSet.map {
-                it.colorToProto()
+                it.toColorProto()
             }
             val rt = builder
                 .addAllValidEntries(validEntries)
@@ -271,10 +270,10 @@ data class FormatEntrySet<T>(
         fun FormatEntrySet<Float>.toProto(): DocProtos.FloatFormatEntrySetProto {
             val builder = DocProtos.FloatFormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {
-                it.floatToProto()
+                it.toFloatProto()
             }
             val invalidEntries = invalidSet.map {
-                it.floatToProto()
+                it.toFloatProto()
             }
             val rt = builder
                 .addAllValidEntries(validEntries)

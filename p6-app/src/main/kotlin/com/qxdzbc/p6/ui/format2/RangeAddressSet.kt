@@ -45,4 +45,14 @@ interface RangeAddressSet: WithSize,Shiftable {
      */
     fun getNotIn(rangeAddress: RangeAddress):RangeAddressSet
     fun toProto():RangeAddressSetProto
+
+    companion object{
+        fun random(numberRange:IntProgression):RangeAddressSetImp{
+            return RangeAddressSetImp(
+                numberRange.map {x->
+                    RangeAddress(CellAddress(x,x))
+                }
+            )
+        }
+    }
 }
