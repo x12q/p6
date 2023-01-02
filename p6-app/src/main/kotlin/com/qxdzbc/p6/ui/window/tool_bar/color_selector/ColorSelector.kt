@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.P6R
@@ -26,6 +25,8 @@ import com.qxdzbc.p6.ui.window.tool_bar.ToolBarDropDownMenu
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.ColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.ColorSelectorActionDoNothing
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.color_dialog.ColorDialog
+import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorInternalState
+import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorInternalStateImp
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorState
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorStateImp
 
@@ -54,25 +55,26 @@ internal val defaultColorList = listOf(
 )
 
 @Composable
-fun ColorSelectorView(
+fun ColorSelector(
     windowId: String,
     state: ColorSelectorState,
     action: ColorSelectorAction,
     icon: ImageVector,
-    colorList: List<Color> = defaultColorList
+    colorList: List<Color> = defaultColorList,
+    internalStateMs:Ms<ColorSelectorInternalState> = rms(ColorSelectorInternalStateImp())
 ) {
     val currentColor = state.currentColor
-    var openColorDialog by rms(false)
-    var expanded by rms(false)
+    val openColorDialog = internalStateMs.value.openColorDialog
+    val expanded = internalStateMs.value.expanded
     ToolBarDropDownMenu(
         expanded = expanded,
         header = {
             Box(modifier = Modifier.clickable {
-                expanded = true
+                internalStateMs.value = internalStateMs.value.setExpanded(true)
             }) {
                 IconBox(
                     icon = icon,
-                    tint=MaterialTheme.colors.onPrimary,
+                    tint = MaterialTheme.colors.onPrimary,
                     modifier = Modifier.align(Alignment.TopCenter)
                 )
                 Box(
@@ -94,7 +96,7 @@ fun ColorSelectorView(
                 .fillMaxWidth()
                 .clickable {
                     action.clearColor(windowId)
-                    expanded = false
+                    internalStateMs.value = internalStateMs.value.setExpanded(false)
                 }) {
                 Text("clear", modifier = Modifier.align(Alignment.Center))
             }
@@ -107,31 +109,33 @@ fun ColorSelectorView(
                     for (color in chunk) {
                         MBox(modifier = Modifier
                             .clickable {
-                                expanded = false
+                                internalStateMs.value = internalStateMs.value.setExpanded(false)
                                 action.pickColor(windowId, color)
                             }) {
-                            ColorSquareView(color)
+                            ColorSquare(color)
                         }
                     }
                 }
             }
             Box(modifier = Modifier.padding(top = 3.dp).height(20.dp).fillMaxWidth().clickable {
-                openColorDialog = true
-                expanded = false
+                internalStateMs.value = internalStateMs.value.setExpanded(false).setOpenColorDialog(true)
             }) {
                 Text("custom color", modifier = Modifier.align(Alignment.Center))
             }
         },
         onDismiss = {
-            expanded = false
+            internalStateMs.value = internalStateMs.value.setExpanded(false)
         }
     )
     if (openColorDialog) {
         ColorDialog(
             onPick = {
-                expanded = false
+                action.pickColor(windowId, it)
+                internalStateMs.value = internalStateMs.value.setOpenColorDialog(false)
             },
-            onCancel = { openColorDialog = false }
+            onCancel = {
+                internalStateMs.value = internalStateMs.value.setOpenColorDialog(false)
+            }
         )
     }
 }
@@ -142,7 +146,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication
     ) {
         Column {
-            ColorSelectorView(
+            ColorSelector(
                 windowId = "",
                 icon = P6R.icons.FormatColorText,
                 state = ColorSelectorStateImp(Color.Red),

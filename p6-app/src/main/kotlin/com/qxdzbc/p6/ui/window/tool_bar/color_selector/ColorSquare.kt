@@ -16,9 +16,12 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 
+/**
+ * A colored squared. This is used to depict a color option in [ColorSelector]
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ColorSquareView(
+fun ColorSquare(
     color: Color
 ) {
     var borderColor by rms(Color.Transparent)

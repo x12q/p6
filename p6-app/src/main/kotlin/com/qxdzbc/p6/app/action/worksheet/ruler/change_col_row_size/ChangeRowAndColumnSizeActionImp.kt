@@ -90,8 +90,7 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
                 it.value = it.value.add(command)
             }
         }
-
-
+        
         sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
             val newWsState = wsStateMs.value.changeRowHeight(rowIndex, sizeDiff)
             wsStateMs.value = newWsState
