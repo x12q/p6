@@ -128,18 +128,19 @@ class UpdateCellFormatActionImp @Inject constructor(
     ): Command {
         val command: Command = object : BaseCommand() {
             val _formatValue = formatValue
-            val _cursorState = cursorState
+            val _cursorRanges = cursorState.allRanges
+            val _cursorCells = cursorState.allFragCells
             val _cellFormatTableMs = cellFormatTableMs
-            val oldFormatConfig1 =
-                getFormatTable(_cellFormatTableMs.value).getConfigSetFromRanges(_cursorState.allRanges)
-            val oldFormatConfig2 =
-                getFormatTable(_cellFormatTableMs.value).getConfigSetFromCells(_cursorState.allFragCells)
+            val _oldFormatConfig1 =
+                getFormatTable(_cellFormatTableMs.value).getConfigSetFromRanges(_cursorRanges)
+            val _oldFormatConfig2 =
+                getFormatTable(_cellFormatTableMs.value).getConfigSetFromCells(_cursorCells)
 
             override fun run() {
                 _cellFormatTableMs.value = updateCellFormatTableWithNewFormatValueOnSelectedCells(
                     formatValue = _formatValue,
-                    ranges = _cursorState.allRanges,
-                    cells = _cursorState.allFragCells,
+                    ranges = _cursorRanges,
+                    cells = _cursorCells,
                     currentFormatTable = _cellFormatTableMs.value,
                     getFormatTable = getFormatTable,
                     updateCellFormatTable = updateCellFormatTable
@@ -148,7 +149,7 @@ class UpdateCellFormatActionImp @Inject constructor(
 
             override fun undo() {
                 val newCellFormatTable =
-                    (oldFormatConfig1.all + oldFormatConfig2.all).fold(cellFormatTableMs.value) { acc, (rangeSet, t) ->
+                    (_oldFormatConfig1.all + _oldFormatConfig2.all).fold(cellFormatTableMs.value) { acc, (rangeSet, t) ->
                         updateCellFormatTableWithNewFormatValueOnSelectedCells(
                             formatValue = t,
                             ranges = rangeSet.ranges,
@@ -231,7 +232,7 @@ class UpdateCellFormatActionImp @Inject constructor(
             val newConfig = config
             val oldConfig = sc.getCellFormatTable(wbWsSt)
                 ?.getFormatConfigForConfig_Respectively(config)
-            val cellFormatTableMs = sc.getCellFormatTableMs(_wbWsSt)
+            val cellFormatTableMs get() = sc.getCellFormatTableMs(_wbWsSt)
             override fun run() {
                 // apply new config
                 cellFormatTableMs?.also {
@@ -278,7 +279,7 @@ class UpdateCellFormatActionImp @Inject constructor(
     fun makeClearFormatCommandUsingFormatConfig_Flat(wbWsSt: WbWsSt, config: FormatConfig):Command{
         val command = object : BaseCommand() {
             val _wbwsSt = wbWsSt
-            val oldConfig = sc.getCellFormatTable(_wbwsSt)?.getFormatConfigForConfig_Flat(config)
+            val _oldConfig = sc.getCellFormatTable(_wbwsSt)?.getFormatConfigForConfig_Flat(config)
             val _config = config
             override fun run() {
                 sc.getCellFormatTableMs(_wbwsSt)?.also {
@@ -287,9 +288,9 @@ class UpdateCellFormatActionImp @Inject constructor(
             }
 
             override fun undo() {
-                oldConfig?.also {
+                _oldConfig?.also {
                     sc.getCellFormatTableMs(_wbwsSt)?.also {
-                        it.value = it.value.applyConfig(oldConfig)
+                        it.value = it.value.applyConfig(_oldConfig)
                     }
                 }
             }
@@ -318,7 +319,7 @@ class UpdateCellFormatActionImp @Inject constructor(
         val command = object : BaseCommand() {
             val _wbWsSt=wbWsSt
             // x: it is essential to get a flat config here to ensure that format of all categories are collected for all ranges.
-            val oldConfig = sc.getCellFormatTable(_wbWsSt)?.getFormatConfigForConfig_Flat(config)
+            val _oldConfig = sc.getCellFormatTable(_wbWsSt)?.getFormatConfigForConfig_Flat(config)
             val _config = config
             override fun run() {
                 /*
@@ -333,9 +334,9 @@ class UpdateCellFormatActionImp @Inject constructor(
                 /*
                 restore the old config
                  */
-                oldConfig?.also {
+                _oldConfig?.also {
                     sc.getCellFormatTableMs(_wbWsSt)?.also {
-                        it.value = it.value.applyConfig(oldConfig)
+                        it.value = it.value.applyConfig(_oldConfig)
                     }
                 }
             }

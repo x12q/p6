@@ -8,7 +8,9 @@ import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAct
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.common.utils.TextUtils
+import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -68,7 +70,7 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
                 )
             )
             if(undoable){
-                val command = makeRunFormulaOrSaveValueToCellCommand()
+                val command = makeCommandToRunFormulaOrSaveValueToCell()
                 command?.also {
                     stateCont.getUndoStackMs(ws)?.also { cMs ->
                         cMs.value = cMs.value.add(command)
@@ -80,7 +82,7 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
         }
     }
 
-    fun makeRunFormulaOrSaveValueToCellCommand(): Command? {
+    fun makeCommandToRunFormulaOrSaveValueToCell(): Command? {
         val wsStateMs: Ms<WorksheetState>? = editorState.targetCursorId?.let { stateCont.getWsStateMs(it) }
         val ws = wsStateMs?.value?.worksheet
         val wbKey = editorState.targetWbKey
@@ -100,10 +102,10 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
                 value = editorText
             }
             val command = object : BaseCommand() {
-                val _cell = cell
+                val _cell: Cell? = cell
                 val _targetWbKeySt = editorState.targetCursorId?.wbKeySt
                 val _targetWsNameSt = editorState.targetCursorId?.wsNameSt
-                val _editTarget = editorState.targetCell
+                val _editTarget:CellAddress? = editorState.targetCell
 
                 val _request:CellUpdateRequestDM? = run{
                     if(_targetWbKeySt != null && _targetWsNameSt!=null && this._editTarget !=null){

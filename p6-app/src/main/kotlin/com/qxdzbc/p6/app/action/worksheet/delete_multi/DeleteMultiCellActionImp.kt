@@ -22,6 +22,7 @@ import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteMultiCellActionImp @Inject constructor(
@@ -29,7 +30,7 @@ class DeleteMultiCellActionImp @Inject constructor(
     val applier: DeleteMultiApplier,
     private val appStateMs: Ms<AppState>,
     private val docContMs: Ms<DocumentContainer>,
-    private val multiCellUpdateAct:UpdateMultiCellAction,
+    private val multiCellUpdateAct: UpdateMultiCellAction,
     val stateContMs: Ms<SubAppStateContainer>,
 ) : DeleteMultiCellAction {
 
@@ -42,9 +43,9 @@ class DeleteMultiCellActionImp @Inject constructor(
         return internalApplyAtCursor(request)
     }
 
-    override fun deleteMultiCell(request: RemoveMultiCellRequest,undoable:Boolean): RseNav<RemoveMultiCellResponse> {
-        if(undoable){
-            createDeleteMultiCellCommand(request)
+    override fun deleteMultiCell(request: RemoveMultiCellRequest, undoable: Boolean): RseNav<RemoveMultiCellResponse> {
+        if (undoable) {
+            createCommandToDeleteMultiCell(request)
         }
         return internalApply(request)
     }
@@ -68,68 +69,75 @@ class DeleteMultiCellActionImp @Inject constructor(
         if (ws != null) {
             val cursorState: CursorState? = sc.getCursorState(k, n)
             if (cursorState != null) {
-                createDeleteMultiCellCommand(
+                createCommandToDeleteMultiCell(
                     RemoveMultiCellRequest(
-                    ranges = cursorState.allRanges,
-                    cells = cursorState.allFragCells,
-                    wbKey = request.wbKey,
-                    wsName = request.wsName,
-                    clearFormat = request.clearFormat,
-                    windowId = request.windowId
-                )
+                        ranges = cursorState.allRanges,
+                        cells = cursorState.allFragCells,
+                        wbKey = request.wbKey,
+                        wsName = request.wsName,
+                        clearFormat = request.clearFormat,
+                        windowId = request.windowId
+                    )
                 )
             }
         }
     }
 
 
-    private fun createDeleteMultiCellCommand(request: RemoveMultiCellRequest) {
+    private fun createCommandToDeleteMultiCell(request: RemoveMultiCellRequest) {
         val wbKey = request.wbKey
         val wsName = request.wsName
         val ws = dc.getWs(wbKey, wsName)
         if (ws != null) {
             val command = object : BaseCommand() {
-                val _request = request
-                val _wbWsSt = WbWsSt(ws.wbKeySt,ws.wsNameSt)
-                val allCellAddresses: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->
-                    val addressesFromWs = ws.getCellsInRange(range).map { it.address }
-                    acc + addressesFromWs
-                } + request.cells
-                val updateList: List<IndCellDM> = allCellAddresses.mapNotNull {
-                    val cell = ws.getCell(it)
-                    if (cell != null) {
-                        IndCellDM(
-                            address = it,
-                            content = cell.content.toDm()
-                        )
-                    } else {
-                        null
+                val _originalRequest = request
+                val _wbKeySt = ws.wbKeySt
+                val _wsNameSt=ws.wsNameSt
+
+                val updateList: List<IndCellDM> = run {
+                    val _allCellAddresses: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->
+                        val addressesFromWs = ws.getCellsInRange(range).map { it.address }
+                        acc + addressesFromWs
+                    } + request.cells
+
+                    _allCellAddresses.mapNotNull {
+                        val cell = ws.getCell(it)
+                        if (cell != null) {
+                            IndCellDM(
+                                address = it,
+                                content = cell.content.toDm()
+                            )
+                        } else {
+                            null
+                        }
                     }
                 }
 
-                val _oRequest get()=_request.copy(
-                    wbKey = _wbWsSt.wbKey,
-                    wsName = _wbWsSt.wsName,
-                )
-
                 override fun run() {
-                    internalApply(_oRequest)
+                    /*
+                    need to re-create the request every time the command is run because
+                    the target Workbook key and Worksheet name might have changed
+                     */
+                    val _runRequest = _originalRequest.copy(
+                        wbKey = _wbKeySt.value,
+                        wsName = _wsNameSt.value,
+                    )
+                    internalApply(_runRequest)
                 }
 
                 override fun undo() {
-                    // need to implement multi update request
-                    val cellMultiUpdateRequest = UpdateMultiCellRequest(
-                        wbKeySt = _wbWsSt.wbKeySt,
-                        wsNameSt = _wbWsSt.wsNameSt,
+                    val undoRequest = UpdateMultiCellRequest(
+                        wbKeySt = _wbKeySt,
+                        wsNameSt = _wsNameSt,
                         cellUpdateList = updateList
                     )
-                    multiCellUpdateAct.updateMultiCell(cellMultiUpdateRequest,true)
+                    multiCellUpdateAct.updateMultiCell(undoRequest, true)
                 }
             }
 
-                sc.getUndoStackMs(WbWs(wbKey,wsName))?.also { commandStackMs->
-                    commandStackMs.value = commandStackMs.value.add(command)
-                }
+            sc.getUndoStackMs(WbWs(wbKey, wsName))?.also { commandStackMs ->
+                commandStackMs.value = commandStackMs.value.add(command)
+            }
 
         }
     }
