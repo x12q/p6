@@ -61,8 +61,8 @@ abstract class BaseWorksheetState : WorksheetState {
         return this.getColumnWidth(colIndex) ?: defaultColWidth
     }
 
-    override fun changeColSize(colIndex: Int, sizeDiff: Float): WorksheetState {
-        val sd = sizeDiff.toInt()
+    override fun changeColWidth(colIndex: Int, sizeDiff: Int): WorksheetState {
+        val sd = sizeDiff
         if (sd != 0) {
             val oldSize = this.getColumnWidth(colIndex) ?: defaultColWidth
             val newSize = oldSize + sd
@@ -75,8 +75,8 @@ abstract class BaseWorksheetState : WorksheetState {
         return this
     }
 
-    override fun changeRowSize(rowIndex: Int, sizeDiff: Float): WorksheetState {
-        val sd = sizeDiff.toInt()
+    override fun changeRowHeight(rowIndex: Int, sizeDiff: Int): WorksheetState {
+        val sd = sizeDiff
         if (sd != 0) {
             val wsState = this
             val oldSize = wsState.getRowHeight(rowIndex) ?: defaultRowHeight

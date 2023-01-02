@@ -10,6 +10,9 @@ import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
 import com.qxdzbc.common.compose.Ms
 
+/**
+ * Describe resize operation (which edge the mouse is on) for a mouse cursor on a resizable box
+ */
 sealed interface ResizeOperations {
     val icon: PointerIcon
     fun difFunction(anchorMousePos: Offset, currentMousePos: Offset): Float

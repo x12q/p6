@@ -9,6 +9,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -23,11 +24,12 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @P6Singleton
-@ContributesBinding(P6AnvilScope::class)
+@ContributesBinding(P6AnvilScope::class,boundType=RulerAction::class)
 class RulerActionImp @Inject constructor(
     private val stateContMs: Ms<StateContainer>,
     val updateCellEditorText: UpdateRangeSelectorText,
-) : RulerAction {
+    val changColRowSizeAction: ChangeRowAndColumnSizeAction
+) : RulerAction , ChangeRowAndColumnSizeAction by changColRowSizeAction{
 
     private var sc by stateContMs
 
@@ -82,20 +84,6 @@ class RulerActionImp @Inject constructor(
                 }
             }
             this.updateCellEditorTextIfNeed()
-        }
-    }
-
-    override fun changeColWidth(colIndex: Int, sizeDiff: Float, wbwsSt: WbWsSt) {
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            wsStateMs.value = wsStateMs.value.changeColSize(colIndex, sizeDiff)
-        }
-
-    }
-
-    override fun changeRowHeight(rowIndex: Int, sizeDiff: Float, wbwsSt: WbWsSt) {
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            val newWsState = wsStateMs.value.changeRowSize(rowIndex, sizeDiff)
-            wsStateMs.value = newWsState
         }
     }
 
@@ -156,7 +144,7 @@ class RulerActionImp @Inject constructor(
             val colResizeBar by wsState.colResizeBarStateMs
             if (colResizeBar.isShow) {
                 val sizeDiff = colResizeBar.position.x - colResizeBar.anchorPoint.x
-                this.changeColWidth(colIndex, sizeDiff, wbwsSt)
+                this.changeColWidth(colIndex, sizeDiff.toInt(), wbwsSt,true)
                 wsState.colResizeBarStateMs.value = colResizeBar.deactivate().hideThumb().hide()
             }
         }
@@ -220,7 +208,7 @@ class RulerActionImp @Inject constructor(
             val rowResizeBar by wsState.rowResizeBarStateMs
             if (rowResizeBar.isShow) {
                 val sizeDiff = rowResizeBar.position.y - rowResizeBar.anchorPoint.y
-                this.changeRowHeight(rowIndex, sizeDiff, wbwsSt)
+                this.changeRowHeight(rowIndex, sizeDiff.toInt(), wbwsSt,true)
                 wsState.rowResizeBarStateMs.value = rowResizeBar.hide().hideThumb().deactivate()
             }
         }

@@ -4,13 +4,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeAction
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 
-interface RulerAction {
+interface RulerAction : ChangeRowAndColumnSizeAction {
     fun clickRulerItem(itemIndex: Int, rulerSig: RulerSig)
-    fun changeColWidth(colIndex: Int, sizeDiff: Float, wbwsSt: WbWsSt)
-    fun changeRowHeight(rowIndex: Int, sizeDiff: Float, wbwsSt: WbWsSt)
     fun showColResizeBarThumb(index: Int, wbwsSt: WbWsSt)
     fun hideColResizeBarThumb(wbwsSt: WbWsSt)
     fun startColResizing(currentPos: Offset, wbwsSt: WbWsSt)

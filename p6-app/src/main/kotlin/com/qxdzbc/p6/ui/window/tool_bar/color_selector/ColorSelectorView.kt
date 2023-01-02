@@ -54,7 +54,7 @@ internal val defaultColorList = listOf(
 )
 
 @Composable
-fun ColorSelector(
+fun ColorSelectorView(
     windowId: String,
     state: ColorSelectorState,
     action: ColorSelectorAction,
@@ -110,7 +110,7 @@ fun ColorSelector(
                                 expanded = false
                                 action.pickColor(windowId, color)
                             }) {
-                            ColorSquare(color)
+                            ColorSquareView(color)
                         }
                     }
                 }
@@ -142,7 +142,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication
     ) {
         Column {
-            ColorSelector(
+            ColorSelectorView(
                 windowId = "",
                 icon = P6R.icons.FormatColorText,
                 state = ColorSelectorStateImp(Color.Red),

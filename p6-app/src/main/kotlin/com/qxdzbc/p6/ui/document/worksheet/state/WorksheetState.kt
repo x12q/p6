@@ -152,7 +152,7 @@ interface WorksheetState : WbWsSt {
     fun getColumnWidthOrDefault(colIndex: Int): Int
     fun addColumnWidth(colIndex: Int, colWidth: Int): WorksheetState
     fun restoreColumnWidthToDefault(colIndex: Int): WorksheetState
-    fun changeColSize(colIndex: Int, sizeDiff: Float): WorksheetState
+    fun changeColWidth(colIndex: Int, sizeDiff: Int): WorksheetState
 
     val defaultRowHeight: Int
     fun getRowHeight(rowIndex: Int): Int?
@@ -163,7 +163,7 @@ interface WorksheetState : WbWsSt {
     /**
      * change size of the row at [rowIndex] by adding [sizeDiff] to the current size
      */
-    fun changeRowSize(rowIndex: Int, sizeDiff: Float): WorksheetState
+    fun changeRowHeight(rowIndex: Int, sizeDiff: Int): WorksheetState
 
     val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>
     val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> get() = cellLayoutCoorMapMs.value

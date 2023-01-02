@@ -18,7 +18,7 @@ import com.qxdzbc.p6.ui.common.view.BorderBox
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ColorSquare(
+fun ColorSquareView(
     color: Color
 ) {
     var borderColor by rms(Color.Transparent)

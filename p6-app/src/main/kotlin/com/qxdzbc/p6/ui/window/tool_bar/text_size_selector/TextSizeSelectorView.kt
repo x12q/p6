@@ -29,7 +29,7 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelecto
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun TextSizeSelector(
+fun TextSizeSelectorView(
     windowId: String,
     state: TextSizeSelectorState,
     action: TextSizeSelectorAction,
@@ -94,7 +94,7 @@ fun main() = application {
                 text = it
             }, modifier = Modifier.focusRequester(fc))
             Text("$s")
-            TextSizeSelector(
+            TextSizeSelectorView(
                 state = stateMs.value,
                 windowId = "",
                 action = TextSizeSelectorActionDoNothing(),
