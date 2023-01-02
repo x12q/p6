@@ -72,7 +72,7 @@ interface WindowState : WithSize {
     fun setWbKeySet(wbKeySet: Set<Ms<WorkbookKey>>): WindowState
 
     val activeWbPointerMs: Ms<ActiveWorkbookPointer>
-    var activeWbPointer: ActiveWorkbookPointer
+    val activeWbPointer: ActiveWorkbookPointer
     val activeWbState: WorkbookState?
     val activeWbStateMs: Ms<WorkbookState>?
     val activeWbKey:WorkbookKey? get() = activeWbPointer.wbKey

@@ -50,7 +50,7 @@ class MoveToWbActionImp @Inject constructor(
             activeWindowPointerMs.value = activeWindowPointerMs.value.pointTo(wds.id)
             val wbkMs = sc.getWbKeyMs(wbKey)
             wbkMs?.also {
-                wds.activeWbPointer = wds.activeWbPointer.pointTo(it)
+                wds.activeWbPointerMs.value = wds.activeWbPointer.pointTo(it)
             }
         }
     }

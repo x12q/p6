@@ -31,7 +31,7 @@ class SetActiveWorkbookActionImp @Inject constructor(
             val wds = owds
             appState.activeWindowPointer = appState.activeWindowPointer.pointTo(wds.id)
             stateCont.getWbKeyMs(wbk)?.also {
-                wds.activeWbPointer = wds.activeWbPointer.pointTo(it)
+                wds.activeWbPointerMs.value = wds.activeWbPointer.pointTo(it)
             }
             Unit
         }

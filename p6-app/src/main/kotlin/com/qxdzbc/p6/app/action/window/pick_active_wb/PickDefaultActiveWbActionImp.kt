@@ -19,7 +19,7 @@ class PickDefaultActiveWbActionImp @Inject constructor(
             val newPointer = ws.wbKeyMsSet.firstOrNull()?.let {
                 ws.activeWbPointer.pointTo(it)
             } ?: ws.activeWbPointer
-            windowState.activeWbPointer = newPointer
+            windowState.activeWbPointerMs.value = newPointer
         }
     }
 

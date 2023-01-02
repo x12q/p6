@@ -141,6 +141,9 @@ interface WorksheetState : WbWsSt {
 
     val defaultColWidth: Int
 
+
+    val columnWidthMap:Map<Int,Int>
+
     /**
      * @return column width or null if it is not available
      */
@@ -154,6 +157,7 @@ interface WorksheetState : WbWsSt {
     fun restoreColumnWidthToDefault(colIndex: Int): WorksheetState
     fun changeColWidth(colIndex: Int, sizeDiff: Int): WorksheetState
 
+    val rowHeightMap:Map<Int,Int>
     val defaultRowHeight: Int
     fun getRowHeight(rowIndex: Int): Int?
     fun getRowHeightOrDefault(rowIndex: Int): Int

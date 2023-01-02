@@ -90,8 +90,8 @@ abstract class BaseWorksheetState : WorksheetState {
         return this
     }
 
-    private val columnWidthMap: Map<Int, Int> get() = colRulerState.itemSizeMap
-    private val rowHeightMap: Map<Int, Int> get() = rowRulerState.itemSizeMap
+    override val columnWidthMap: Map<Int, Int> get() = colRulerState.itemSizeMap
+    override val rowHeightMap: Map<Int, Int> get() = rowRulerState.itemSizeMap
     override val defaultColWidth: Int get() = colRulerState.defaultItemSize
     override val defaultRowHeight: Int get() = rowRulerState.defaultItemSize
 

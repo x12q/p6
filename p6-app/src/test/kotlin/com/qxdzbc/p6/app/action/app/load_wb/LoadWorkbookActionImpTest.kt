@@ -15,6 +15,11 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
 import com.qxdzbc.p6.ui.format2.CellFormatTable
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.equality.shouldBeEqualToComparingFields
+import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.doReturn
@@ -41,16 +46,32 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
     @Test
     fun `applyLoadWorkbook std case`() {
         val windowId = scMs.value.windowStateMsList[0].value.id
-//        val wb = WorkbookImp(WorkbookKey("Book33").toMs())
         val wb = Workbook.random()
-        ts.stateContMs().value.wbCont = ts.stateContMs().value.wbCont.addWb(wb)
         val cellFormatTableMap = wb.worksheets.associate{
             it.name to CellFormatTable.random()
         }
 
+        val colWidthMapByWsName = mapOf(
+            wb.getWs(0)!!.name to mapOf(
+                1 to 100,
+                2 to 200
+            )
+        )
+        val rowHeightMapByWsName = mapOf(
+            wb.getWs(0)!!.name to mapOf(
+                1 to 1000,
+                2 to 2000
+            )
+        )
 
+        preCondition {
+            ts.sc.getWindowStateByWbKey(wb.key).shouldBeNull()
+            ts.sc.getWbState(wb.key).shouldBeNull()
+            ts.sc.getWb(wb.key).shouldBeNull()
+        }
 
-        action.apply(windowId, wb, cellFormatTableMap,null,null)
+        action.apply(windowId, wb, cellFormatTableMap,colWidthMapByWsName,rowHeightMapByWsName)
+
         postCondition {
             val wbState=ts.sc.getWbState(wb.key)
             wbState.shouldNotBeNull()
@@ -60,6 +81,10 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
                 tb.shouldNotBeNull()
                 tb shouldBe cellFormatTableMap[ws.name]
             }
+            ts.sc.getWindowStateByWbKey(wb.key)!!.activeWbPointer.isPointingTo(wb).shouldBeTrue()
+
+            ts.sc.getWsState(wb.key, wb.getWs(0)!!.name)!!.columnWidthMap.shouldContainExactly(colWidthMapByWsName.values.first())
+            ts.sc.getWsState(wb.key, wb.getWs(0)!!.name)!!.rowHeightMap.shouldContainExactly(rowHeightMapByWsName.values.first())
         }
     }
 

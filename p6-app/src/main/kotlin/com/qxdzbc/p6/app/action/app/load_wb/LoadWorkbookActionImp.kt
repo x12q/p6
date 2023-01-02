@@ -76,6 +76,9 @@ data class LoadWorkbookActionImp @Inject constructor(
         }
     }
 
+    /**
+     * Read data from file, convert it to appropriate format and return it
+     */
     fun loadWb(request: LoadWorkbookRequest): Pair<LoadWorkbookResponse, WorkbookProto?> {
         val loadRs = loader.load3Rs(request.path.path)
         when (loadRs) {
@@ -98,6 +101,9 @@ data class LoadWorkbookActionImp @Inject constructor(
         }
     }
 
+    /**
+     * Apply loaded data to the app state
+     */
     fun applyResponse(res: LoadWorkbookResponse?, proto: WorkbookProto?) {
         if (res != null) {
             val err = res.errorReport
@@ -121,6 +127,9 @@ data class LoadWorkbookActionImp @Inject constructor(
         }
     }
 
+    /**
+     * Apply loaded data to the app state
+     */
     fun apply(
         windowId: String?,
         workbook: Workbook?,
@@ -141,6 +150,7 @@ data class LoadWorkbookActionImp @Inject constructor(
                         it.value = it.value.setWindowId(windowId).setNeedSave(false)
                     }
                     windowStateMs.value = windowStateMs.value.addWbKey(wbkMs)
+                    windowStateMs.value.activeWbPointerMs.value  = windowStateMs.value.activeWbPointerMs.value.pointTo(wbkMs)
                 }
 
                 is Err -> {
@@ -151,7 +161,7 @@ data class LoadWorkbookActionImp @Inject constructor(
                     val newWindowStateMs = newOuterWindowStateMs.value.innerWindowStateMs
                     wbStateCont.getWbStateMs(workbook.key)?.also {
                         it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
-                        newWindowStateMs.value.activeWbPointer =
+                        newWindowStateMs.value.activeWbPointerMs.value =
                             newWindowStateMs.value.activeWbPointer.pointTo(it.value.wbKeyMs)
                     }
                     val s2 = newWindowStateMs.value.addWbKey(workbook.keyMs)
@@ -178,8 +188,6 @@ data class LoadWorkbookActionImp @Inject constructor(
                     it.value = it.value.setMultiItemSize(rowHeightMap)
                 }
             }
-
-
         }
     }
 }
