@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
-import com.qxdzbc.p6.ui.format2.CellFormatTable
+import com.qxdzbc.p6.ui.format.CellFormatTable
 
 @Composable
 fun EmptyCellView(

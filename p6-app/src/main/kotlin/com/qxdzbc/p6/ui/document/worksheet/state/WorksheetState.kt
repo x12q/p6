@@ -16,7 +16,7 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.format2.CellFormatTable
+import com.qxdzbc.p6.ui.format.CellFormatTable
 
 /**
  * Worksheet + UI data

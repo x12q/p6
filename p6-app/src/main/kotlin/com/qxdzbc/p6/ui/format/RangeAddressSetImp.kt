@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CRAddress

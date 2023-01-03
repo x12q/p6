@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle

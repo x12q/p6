@@ -23,8 +23,8 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.format2.CellFormatTable
-import com.qxdzbc.p6.ui.format2.CellFormatTableImp
+import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.CellFormatTableImp
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

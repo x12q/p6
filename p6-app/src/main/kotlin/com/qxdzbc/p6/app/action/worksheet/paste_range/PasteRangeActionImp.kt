@@ -26,7 +26,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.format2.FormatConfig
+import com.qxdzbc.p6.ui.format.FormatConfig
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 

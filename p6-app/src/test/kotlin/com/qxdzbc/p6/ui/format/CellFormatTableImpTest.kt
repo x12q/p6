@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.common.test_util.TestSplitter
 import io.kotest.matchers.shouldBe

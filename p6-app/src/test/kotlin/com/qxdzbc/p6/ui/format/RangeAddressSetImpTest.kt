@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import io.kotest.matchers.collections.shouldContainOnly

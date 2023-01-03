@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.common.test_util.TestSplitter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress

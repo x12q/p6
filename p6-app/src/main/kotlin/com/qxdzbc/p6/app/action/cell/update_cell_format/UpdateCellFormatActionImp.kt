@@ -18,9 +18,9 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.format2.CellFormatTable
-import com.qxdzbc.p6.ui.format2.FormatConfig
-import com.qxdzbc.p6.ui.format2.FormatTable
+import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.FormatConfig
+import com.qxdzbc.p6.ui.format.FormatTable
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 

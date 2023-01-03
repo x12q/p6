@@ -1,22 +1,22 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextVerticalProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextHorizontalProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontWeightProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontStyleProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toColorModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toColorProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontStyleModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontWeightModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toProto
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextHorizontalModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextVerticalModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextVerticalProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextHorizontalProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontWeightProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontStyleProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toColorModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toColorProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontStyleModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontWeightModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextHorizontalModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextVerticalModel
 import io.kotest.matchers.shouldBe
 import kotlin.test.*
 

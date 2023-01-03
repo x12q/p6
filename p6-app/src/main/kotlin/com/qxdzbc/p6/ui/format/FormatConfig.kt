@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -9,11 +9,11 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos.FormatConfigProto
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format2.FormatEntrySet.Companion.fontStyleToProto
-import com.qxdzbc.p6.ui.format2.FormatEntrySet.Companion.fontWeightToProto
-import com.qxdzbc.p6.ui.format2.FormatEntrySet.Companion.textHorizontalToProto
-import com.qxdzbc.p6.ui.format2.FormatEntrySet.Companion.textVerticalToProto
-import com.qxdzbc.p6.ui.format2.FormatEntrySet.Companion.toProto
+import com.qxdzbc.p6.ui.format.FormatEntrySet.Companion.fontStyleToProto
+import com.qxdzbc.p6.ui.format.FormatEntrySet.Companion.fontWeightToProto
+import com.qxdzbc.p6.ui.format.FormatEntrySet.Companion.textHorizontalToProto
+import com.qxdzbc.p6.ui.format.FormatEntrySet.Companion.textVerticalToProto
+import com.qxdzbc.p6.ui.format.FormatEntrySet.Companion.toProto
 import kotlin.random.Random
 
 /**

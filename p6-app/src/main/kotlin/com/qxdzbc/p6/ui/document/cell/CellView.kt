@@ -21,8 +21,8 @@ import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
-import com.qxdzbc.p6.ui.format2.CellFormatTable
-import com.qxdzbc.p6.ui.format2.CellFormatTableImp
+import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.CellFormatTableImp
 
 @Composable
 fun CellView(

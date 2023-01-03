@@ -1,11 +1,11 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format2.CellFormatTable.Companion.toModel
+import com.qxdzbc.p6.ui.format.CellFormatTable.Companion.toModel
 import io.kotest.matchers.shouldBe
 import kotlin.test.*
 

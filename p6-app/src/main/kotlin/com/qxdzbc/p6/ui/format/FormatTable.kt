@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -8,14 +8,14 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toBoolProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toColorProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFloatProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontStyleProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toFontWeightProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextHorizontalProto
-import com.qxdzbc.p6.ui.format2.FormatEntry.Companion.toTextVerticalProto
-import com.qxdzbc.p6.ui.format2.RangeAddressSetImp.Companion.toModel
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toBoolProto
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toColorProto
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFloatProto
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontStyleProto
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontWeightProto
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextHorizontalProto
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalProto
+import com.qxdzbc.p6.ui.format.RangeAddressSetImp.Companion.toModel
 
 interface FormatTable<T> {
     val valueMap: Map<RangeAddressSet, T>

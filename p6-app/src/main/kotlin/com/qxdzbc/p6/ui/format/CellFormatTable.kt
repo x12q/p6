@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.format2
+package com.qxdzbc.p6.ui.format
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -11,12 +11,12 @@ import com.qxdzbc.p6.proto.DocProtos.CellFormatTableProto
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toColorModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontStyleModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toFontWeightModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextHorizontalModel
-import com.qxdzbc.p6.ui.format2.FormatTable.Companion.toTextVerticalModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toColorModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontStyleModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontWeightModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextHorizontalModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextVerticalModel
 import kotlin.random.Random
 import kotlin.random.nextULong
 

@@ -9,8 +9,8 @@ import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.format2.FormatConfig
-import com.qxdzbc.p6.ui.format2.FormatEntrySet
+import com.qxdzbc.p6.ui.format.FormatConfig
+import com.qxdzbc.p6.ui.format.FormatEntrySet
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe

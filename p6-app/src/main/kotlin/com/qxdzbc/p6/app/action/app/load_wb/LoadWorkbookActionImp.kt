@@ -19,8 +19,8 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.file.P6FileLoaderErrors
-import com.qxdzbc.p6.ui.format2.CellFormatTable
-import com.qxdzbc.p6.ui.format2.CellFormatTable.Companion.toModel
+import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.format.CellFormatTable.Companion.toModel
 import com.squareup.anvil.annotations.ContributesBinding
 import java.util.*
 import javax.inject.Inject
