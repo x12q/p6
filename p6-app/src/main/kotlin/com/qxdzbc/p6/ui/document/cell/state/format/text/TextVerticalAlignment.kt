@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.document.cell.state.format.text
 
-import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalAlignmentModel
-
 enum class TextVerticalAlignment {
     Top, Bot, Center;
     companion object {
