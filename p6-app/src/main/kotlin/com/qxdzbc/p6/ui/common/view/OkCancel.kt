@@ -31,7 +31,7 @@ fun CancelButton(
 }
 
 /**
- * A panel of Ok and Cancel button
+ * an Ok and a Cancel button
  */
 @Composable
 fun OkCancel(

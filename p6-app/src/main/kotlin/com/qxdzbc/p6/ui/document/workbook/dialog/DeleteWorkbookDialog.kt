@@ -10,7 +10,7 @@ fun DeleteWorksheetDialog(
     onCancel:()->Unit
 ) {
 
-    Dialogs.SingleTextDraggableDialog (
+    Dialogs.MessageDialog (
         text= "Delete ${sheetName}?",
         onOk = {onOk(sheetName)},
         onCancel=onCancel)

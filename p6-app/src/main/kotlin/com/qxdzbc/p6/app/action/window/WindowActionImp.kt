@@ -16,10 +16,12 @@ import com.qxdzbc.p6.app.action.app.process_save_path.MakeSavePath
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
+import com.qxdzbc.p6.app.action.window.open_close_save_dialog.OpenCloseSaveDialogOnWindowAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostAction
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.CompletableDeferred
@@ -29,7 +31,7 @@ import java.nio.file.Path
 import javax.inject.Inject
 
 @P6Singleton
-@ContributesBinding(P6AnvilScope::class,boundType=WindowAction::class)
+@ContributesBinding(P6AnvilScope::class, boundType = WindowAction::class)
 class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
     private val closeWbAction: CloseWorkbookAction,
@@ -41,11 +43,14 @@ class WindowActionImp @Inject constructor(
     private val closeWindowAct: CloseWindowAction,
     private val makeSavePath: MakeSavePath,
     override val toolBarAction: ToolBarAction,
+    override val windowDialogHostAction: WindowDialogHostAction,
+    val openCloseSaveDialog: OpenCloseSaveDialogOnWindowAction,
 ) : WindowAction,
     MakeSavePath by makeSavePath,
     CloseWindowAction by closeWindowAct,
     SetActiveWindowAction by setActiveWdAct,
-    SaveWorkbookAction by saveWbAction {
+    SaveWorkbookAction by saveWbAction,
+    OpenCloseSaveDialogOnWindowAction by openCloseSaveDialog {
 
     private var sc by stateContMs
 
@@ -109,26 +114,12 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun saveActiveWorkbook(path: Path?, windowId: String) {
-        sc.getWindowStateById(windowId)?.also {wbState->
+        sc.getWindowStateById(windowId)?.also { wbState ->
             if (path != null) {
-                wbState.activeWbKey?.also{wbKey->
+                wbState.activeWbKey?.also { wbKey ->
                     this.saveWorkbook(wbKey, path, windowId)
                 }
             }
-        }
-    }
-
-    override fun openSaveFileDialog(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
-            val windowState = it.value
-            windowState.saveDialogStateMs.value = windowState.saveDialogState.setOpen(true)
-        }
-    }
-
-    override fun closeSaveFileDialog(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
-            val windowState = it.value
-            windowState.saveDialogStateMs.value = windowState.saveDialogState.setOpen(false)
         }
     }
 
@@ -159,10 +150,17 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun closeWorkbook(workbookKey: WorkbookKey, windowId: String) {
-        val req = CloseWorkbookRequest(
-            wbKey = workbookKey,
-            windowId = windowId
-        )
-        closeWbAction.closeWb(req)
+
+        sc.getWbState(workbookKey)?.also {
+            if (it.needSave) {
+                this.windowDialogHostAction.askSaveDialogAction.open(windowId)
+            } else {
+                val req = CloseWorkbookRequest(
+                    wbKey = workbookKey,
+                    windowId = windowId
+                )
+                closeWbAction.closeWb(req)
+            }
+        }
     }
 }

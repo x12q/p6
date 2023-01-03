@@ -5,6 +5,8 @@ import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorContainerImp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostState
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostStateImp
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
 import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState
@@ -35,6 +37,7 @@ interface WindowStateFactory {
         @Assisted("showConnectToKernelDialogStateMs")
         showConnectToKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
         commonFileDialogJob: CompletableDeferred<Path?>? = null,
+        dialogHostStateMs: Ms<WindowDialogHostState> = ms(WindowDialogHostStateImp())
     ): WindowStateImp
 
     companion object {

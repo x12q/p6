@@ -5,13 +5,16 @@ import com.qxdzbc.p6.app.action.app.process_save_path.MakeSavePath
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
+import com.qxdzbc.p6.app.action.window.open_close_save_dialog.OpenCloseSaveDialogOnWindowAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostAction
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import java.nio.file.Path
 
-interface WindowAction : SaveWorkbookAction, SetActiveWindowAction,CloseWindowAction, MakeSavePath {
+interface WindowAction : SaveWorkbookAction, SetActiveWindowAction,CloseWindowAction, MakeSavePath,
+    OpenCloseSaveDialogOnWindowAction {
     val toolBarAction: ToolBarAction
     fun showCommonFileDialog(job: CompletableDeferred<Path?>, windowId: String)
     fun openCommonFileBrowserAndUpdatePath(tMs: Ms<String>, executionScope: CoroutineScope, windowId: String)
@@ -23,13 +26,13 @@ interface WindowAction : SaveWorkbookAction, SetActiveWindowAction,CloseWindowAc
     fun closeDialogToConnectToKernel(windowId: String)
     fun onFatalError()
     fun saveActiveWorkbook(path: Path?, windowId: String)
-    fun openSaveFileDialog(windowId: String)
-    fun closeSaveFileDialog(windowId: String)
     fun openLoadFileDialog(windowId: String)
     fun loadWorkbook(path: Path?, windowId: String)
     fun closeLoadFileDialog(windowId: String)
     fun createNewWorkbook(windowId: String)
-    fun closeWorkbook(workbookKey: WorkbookKey,windowId: String)
+    fun closeWorkbook(workbookKey: WorkbookKey, windowId: String)
+
+    val windowDialogHostAction: WindowDialogHostAction
 }
 
 

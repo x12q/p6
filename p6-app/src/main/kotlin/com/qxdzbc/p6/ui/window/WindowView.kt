@@ -14,6 +14,7 @@ import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogHost
 import com.qxdzbc.p6.ui.window.file_dialog.FileDialog2
 import com.qxdzbc.p6.ui.window.menu.WindowMenu
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
@@ -109,5 +110,10 @@ fun WindowView(
                 makeSavePath = windowAction
             )
         }
+
+        WindowDialogHost(
+            windowState =state.innerWindowState,
+            action = windowAction.windowDialogHostAction
+        )
     }
 }

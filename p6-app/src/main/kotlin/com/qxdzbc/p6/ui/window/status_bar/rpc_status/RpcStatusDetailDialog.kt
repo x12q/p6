@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.MButton
 import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
-import com.qxdzbc.p6.ui.common.view.dialog.DraggableDialog
+import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 import com.qxdzbc.p6.ui.window.status_bar.DetailEntry
 
 @Composable
@@ -23,7 +23,7 @@ fun RpcStatusDetailDialog(
 ) {
     val s = state
 
-    DraggableDialog(title = "RPC server status", onCloseRequest = onClickClose, size = DpSize(300.dp, 330.dp)) {
+    Dialogs.DraggableDialog(title = "RPC server status", onCloseRequest = onClickClose, size = DpSize(300.dp, 330.dp)) {
         MBox(modifier = Modifier.padding(10.dp)) {
             Column(modifier = Modifier.fillMaxSize()) {
                 MBox(modifier = Modifier.weight(1.0F)) {

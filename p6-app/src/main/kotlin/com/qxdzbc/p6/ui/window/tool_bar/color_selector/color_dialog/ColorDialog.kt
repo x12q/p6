@@ -23,7 +23,7 @@ fun ColorDialog(
     onCancel: ()->Unit = {}
 ) {
     var color by rms(Color.Transparent)
-    Dialogs.SingleItemMDialog(
+    Dialogs.SingleItemDraggableDialog (
         title="pick color",
         size = DpSize(300.dp,300.dp),
         onOk = {

@@ -31,6 +31,7 @@ import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.di.state.app_state.MsKernelContextQualifier
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -57,6 +58,8 @@ data class WindowStateImp @AssistedInject constructor(
         ShowDialogStateImp()
     ),
     @Assisted override val commonFileDialogJob: CompletableDeferred<Path?>? = null,
+    @Assisted override val dialogHostStateMs: Ms<WindowDialogHostState>,
+    // ===========================================================================
 
     override val wbContMs: Ms<WorkbookContainer>,
     override val wbStateContMs: Ms<WorkbookStateContainer>,
@@ -66,6 +69,7 @@ data class WindowStateImp @AssistedInject constructor(
     @DefaultFocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,
     override val formulaColorGenerator: FormulaColorGenerator,
+
 ) : BaseWindowState() {
     override val wbKeySet: Set<WorkbookKey> get()= wbKeyMsSet.map{it.value}.toSet()
     override var showStartKernelDialogState: ShowDialogState by showStartKernelDialogStateMs

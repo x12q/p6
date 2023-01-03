@@ -51,33 +51,6 @@ fun WorkbookTabBarView(
                 )
             }
 
-//            val stateHorizontal = rememberScrollState(0)
-//            MBox(modifier = Modifier.weight(1.0F).horizontalScroll(stateHorizontal)) {
-//
-//                Row {
-//                    for (tabState in state.tabStateList) {
-//                        MBox(
-//                            modifier = Modifier
-//                                .requiredWidthIn(
-//                                    p6R.size.value.minWorkbookTabWidth.dp,
-//                                    p6R.size.value.maxWorkbookTabWidth.dp
-//                                )
-//                                .height(p6R.size.value.tabHeight.dp)
-//                        ) {
-//                            WorkbookTabView(
-//                                tabState,
-//                                onClick = {
-//                                    wbTabBarActions.moveToWorkbook(it)
-//                                },
-//                                onClose = {
-//                                    wbTabBarActions.close(it, state.windowId)
-//                                }
-//                            )
-//                        }
-//                    }
-//                }
-//            }
-
             // x: this is the button to create new workbook
             BorderBox(
                 style = BorderStyle.LEFT_RIGHT,

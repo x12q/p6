@@ -2,6 +2,8 @@ package com.qxdzbc.p6.ui.common.view.dialog
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.window.WindowDraggableArea
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -9,6 +11,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
@@ -16,7 +20,7 @@ import com.qxdzbc.p6.ui.common.view.*
 
 object Dialogs {
     /**
-     * For renaming
+     * A draggable dialog that host a single editable text field, an Ok button, and a cancel button. For renaming things
      */
     @Composable
     fun RenameDialog(
@@ -37,15 +41,15 @@ object Dialogs {
     }
 
     /**
-     * This Composable is a Dialog with:
-     * - a single-line text title. If the title is empty, the title box will not be rendered
-     * - a single-line non-editable text field
-     * - an Ok button
-     * - a Cancel button
-     * This should be used to displayed very short text dialog
+     * A Dialog with:
+     * - a single-line text title.
+     * - a single-line non-editable text field.
+     * - an Ok button.
+     * - a Cancel button.
+     * This should be used to displaying a short message.
      */
     @Composable
-    fun SingleTextDraggableDialog(
+    fun MessageDialog(
         title: String = "",
         text: String = "default text",
         onOk: () -> Unit = {},
@@ -134,8 +138,7 @@ object Dialogs {
      * A dialog containing:
      * - a text field showing a directory
      * - a button to open a file chooser to update the directory text
-     * - an Ok button
-     * - a Cancel button
+     * - an Ok button and a Cancel button
      */
     @Composable
     fun DirectoryDraggableDialog(
@@ -201,52 +204,54 @@ object Dialogs {
                 }
             }
         }
-//        DraggableDialog(
-//            size = size,
-//            title = title,
-//            onCloseRequest = onCloseRequest,
-//        ) {
-//            MBox(modifier = Modifier.fillMaxSize().padding(start = 15.dp, end = 15.dp)) {
-//                Column(modifier = Modifier.align(Alignment.Center)) {
-//                    MBox(modifier = Modifier.fillMaxWidth()) {
-//                        item()
-//                    }
-//                    MBox(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp, bottom = 0.dp)) {
-//                        OkCancel(
-//                            onOk = onOk,
-//                            onCancel = onCancel
-//                        )
-//                    }
-//                }
-//            }
-//        }
     }
 
+    /**
+     * An empty dialog that can be moved around by dragging
+     */
     @Composable
-    fun SingleItemMDialog(
+    fun DraggableDialog(
         title: String = "",
-        onOk: () -> Unit = {},
-        onCancel: () -> Unit = {},
-        onCloseRequest: () -> Unit = onCancel,
         size: DpSize = DpSize(100.dp, 100.dp),
-        item: @Composable () -> Unit,
+        onCloseRequest: () -> Unit = {},
+        content: @Composable BoxScope.() -> Unit = {},
     ) {
+
         DraggableDialog(
-            size = size,
-            title = title,
+            title = {
+                if (title.isNotEmpty()) {
+                    BasicText(title, modifier = Modifier.align(Alignment.Center).padding(top = 10.dp, bottom = 5.dp))
+                }
+            },
+            size, onCloseRequest, content
+        )
+    }
+
+    /**
+     * A custom, empty dialog that can be moved around by dragging
+     */
+    @Composable
+    fun DraggableDialog(
+        title: @Composable BoxScope.() -> Unit = {},
+        size: DpSize = DpSize(100.dp, 100.dp),
+        onCloseRequest: () -> Unit = {},
+        content: @Composable BoxScope.() -> Unit = {},
+    ) {
+        Dialog(
             onCloseRequest = onCloseRequest,
+            state = DialogState(size = size),
+            resizable = false, title = "",
+            undecorated = true,
         ) {
-            MBox(modifier = Modifier.fillMaxSize().padding(start = 15.dp, end = 15.dp)) {
-                Column(modifier = Modifier.align(Alignment.Center)) {
-                    MBox(modifier = Modifier.weight(1.0f)) {
-                        item()
+
+            Surface {
+                WindowDraggableArea(modifier = Modifier.fillMaxSize()) {}
+                Column(modifier = Modifier.fillMaxSize()) {
+                    BorderBox(style = BorderStyle.NONE, modifier = Modifier.fillMaxWidth()) {
+                        title()
                     }
-                    MBox(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp, bottom = 10.dp)) {
-                        OkCancel(
-                            boxModifier = Modifier.align(Alignment.Center),
-                            onOk = onOk,
-                            onCancel = onCancel
-                        )
+                    MBox(modifier = Modifier.fillMaxWidth().weight(1.0F)) {
+                        content()
                     }
                 }
             }
