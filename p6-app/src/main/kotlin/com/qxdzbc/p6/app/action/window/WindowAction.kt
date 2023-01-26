@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
 import com.qxdzbc.p6.app.action.window.open_close_save_dialog.OpenCloseSaveDialogOnWindowAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostAction
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogGroupAction
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +32,5 @@ interface WindowAction : SaveWorkbookAction, SetActiveWindowAction,CloseWindowAc
     fun createNewWorkbook(windowId: String)
     fun closeWorkbook(workbookKey: WorkbookKey, windowId: String)
 
-    val windowDialogHostAction: WindowDialogHostAction
+    val windowDialogGroupAction: WindowDialogGroupAction
 }
-
-

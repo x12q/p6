@@ -22,12 +22,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.window.dialog.ask_to_save_dialog.AskSaveDialog
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -38,6 +41,7 @@ fun WorkbookTabView(
     onClose: (workbookKey: WorkbookKey) -> Unit = {},
 ) {
     var mouseOnTab: Boolean by remember { ms(false) }
+    var openSavedDialog by rms(false)
     ContextMenuArea(items = {
         listOf(
             ContextMenuItem("Close") { onClose(state.wbKey) },
@@ -78,7 +82,11 @@ fun WorkbookTabView(
                             .background(MaterialTheme.colors.primary)
                             .size(DpSize(18.dp, 18.dp))
                             .clickable {
-                                onClose(state.wbKey)
+                                if(state.needSave){
+                                    openSavedDialog = true
+                                }else{
+                                    onClose(state.wbKey)
+                                }
                             }
 
                     ) {
@@ -90,5 +98,22 @@ fun WorkbookTabView(
                 }
             }
         }
+    }
+
+    if(openSavedDialog){
+        AskSaveDialog(
+            state.tabName,
+            onCancel = {
+                openSavedDialog =false
+            },
+            onDontSave = {
+                openSavedDialog =false
+                onClose(state.wbKey)
+            },
+            onSave = {
+                openSavedDialog =false
+                // open save dialog
+            }
+        )
     }
 }

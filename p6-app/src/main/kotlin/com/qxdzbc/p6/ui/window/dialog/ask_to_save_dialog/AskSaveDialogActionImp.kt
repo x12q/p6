@@ -9,7 +9,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostState
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogGroupState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ class AskSaveDialogActionImp @Inject constructor(
 
     override fun onSave(windowId: String, wbKeySt: St<WorkbookKey>) {
         sc.getWindowStateById(windowId)?.also {
-            it.dialogHostStateMs.value = it.dialogHostState.setIsAskSaveOpen(false)
+//            it.dialogHostStateMs.value = it.dialogHostState.setIsAskSaveOpen(false)
             close(windowId)
             openCloseSaveDialogAction.openSaveFileDialog(windowId)
         }
@@ -46,8 +46,9 @@ class AskSaveDialogActionImp @Inject constructor(
         }
     }
 
-    fun getDialogHostStateMs(windowId: String):Ms<WindowDialogHostState>?{
-        return sc.getWindowStateById(windowId)?.dialogHostStateMs
+    fun getDialogHostStateMs(windowId: String):Ms<WindowDialogGroupState>?{
+//        return sc.getWindowStateById(windowId)?.dialogHostStateMs
+        TODO()
     }
 
     override fun open(windowId: String) {

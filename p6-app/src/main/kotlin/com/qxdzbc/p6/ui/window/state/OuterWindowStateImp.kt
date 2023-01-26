@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostState
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogGroupState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import dagger.assisted.Assisted
@@ -14,8 +14,6 @@ import dagger.assisted.AssistedInject
 data class OuterWindowStateImp @AssistedInject constructor(
     @Assisted override val innerWindowStateMs: Ms<WindowState>
 ) : OuterWindowState {
-    override val dialogHostState: WindowDialogHostState
-        get() = innerWindowState.dialogHostState
     override var innerWindowState: WindowState by innerWindowStateMs
     override val windowId: String get() = innerWindowState.id
     override var focusState: WindowFocusState by innerWindowState.focusStateMs

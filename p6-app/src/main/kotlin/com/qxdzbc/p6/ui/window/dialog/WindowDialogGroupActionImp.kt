@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
-class WindowDialogHostActionImp @Inject constructor(
+class WindowDialogGroupActionImp @Inject constructor(
     override val askSaveDialogAction: AskSaveDialogAction
-) : WindowDialogHostAction
+) : WindowDialogGroupAction

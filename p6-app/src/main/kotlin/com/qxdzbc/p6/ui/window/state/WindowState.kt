@@ -10,10 +10,9 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
-import com.qxdzbc.p6.ui.common.color_generator.MultiColorGenerator
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
-import com.qxdzbc.p6.ui.window.dialog.WindowDialogHostState
+import com.qxdzbc.p6.ui.window.dialog.WindowDialogGroupState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
@@ -28,8 +27,8 @@ interface WindowState : WithSize {
 
     val id:String
 
-    val dialogHostStateMs: Ms<WindowDialogHostState>
-    val dialogHostState: WindowDialogHostState
+//    val dialogHostStateMs: Ms<WindowDialogGroupState>
+//    val dialogHostState: WindowDialogGroupState
 
     val toolBarStateMs:Ms<ToolBarState>
     val toolBarState:ToolBarState
