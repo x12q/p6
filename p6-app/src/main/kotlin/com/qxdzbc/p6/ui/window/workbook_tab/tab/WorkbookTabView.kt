@@ -1,6 +1,9 @@
 package com.qxdzbc.p6.ui.window.workbook_tab.tab
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ContextMenuArea
+import androidx.compose.foundation.ContextMenuItem
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.size
@@ -11,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -22,26 +24,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.window.dialog.ask_to_save_dialog.AskSaveDialog
+import com.qxdzbc.p6.ui.window.dialog.AskSaveDialog
+
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun WorkbookTabView(
     state: WorkbookTabState,
+    internalStateMs: Ms<WorkbookTabInternalState> = rms(WorkbookTabInternalStateImp()),
     modifier: Modifier = Modifier,
     onClick: (workbookKey: WorkbookKey) -> Unit = {},
     onClose: (workbookKey: WorkbookKey) -> Unit = {},
+    onClickSave: () -> Unit = {},
 ) {
-    var mouseOnTab: Boolean by remember { ms(false) }
-    var openSavedDialog by rms(false)
+
+    val openAskToSaveDialog = internalStateMs.value.openAskToSaveDialog
+    var internalState by internalStateMs
+
     ContextMenuArea(items = {
         listOf(
             ContextMenuItem("Close") { onClose(state.wbKey) },
@@ -53,10 +59,10 @@ fun WorkbookTabView(
                 .fillMaxHeight()
                 .clickable { onClick(state.wbKey) }
                 .onPointerEvent(PointerEventType.Enter) {
-                    mouseOnTab = true
+                    internalState = internalState.setMouseOnTab(true)
                 }
                 .onPointerEvent(PointerEventType.Exit) {
-                    mouseOnTab = false
+                    internalState = internalState.setMouseOnTab(false)
                 }
         ) {
             BorderBox(
@@ -82,9 +88,9 @@ fun WorkbookTabView(
                             .background(MaterialTheme.colors.primary)
                             .size(DpSize(18.dp, 18.dp))
                             .clickable {
-                                if(state.needSave){
-                                    openSavedDialog = true
-                                }else{
+                                if (state.needSave) {
+                                    internalState = internalState.setOpenAskToSaveDialog(true)
+                                } else {
                                     onClose(state.wbKey)
                                 }
                             }
@@ -100,19 +106,19 @@ fun WorkbookTabView(
         }
     }
 
-    if(openSavedDialog){
+    if (openAskToSaveDialog) {
         AskSaveDialog(
             state.tabName,
             onCancel = {
-                openSavedDialog =false
+                internalState = internalState.setOpenAskToSaveDialog(false)
             },
             onDontSave = {
-                openSavedDialog =false
+                internalState = internalState.setOpenAskToSaveDialog(false)
                 onClose(state.wbKey)
             },
             onSave = {
-                openSavedDialog =false
-                // open save dialog
+                internalState = internalState.setOpenAskToSaveDialog(false)
+                onClickSave()
             }
         )
     }

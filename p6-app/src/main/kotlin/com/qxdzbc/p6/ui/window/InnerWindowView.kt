@@ -49,7 +49,7 @@ fun InnerWindowView(
                 workbookTab = {
                     WorkbookTabBarView(
                         state = state.wbTabBarState,
-                        wbTabBarActions = windowActionTable.wbTabBarAction
+                        action = windowActionTable.wbTabBarAction
                     )
                 },
                 workbookView = {

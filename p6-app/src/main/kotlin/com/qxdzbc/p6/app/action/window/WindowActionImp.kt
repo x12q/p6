@@ -21,7 +21,6 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
-import com.qxdzbc.p6.ui.window.dialog.WindowDialogGroupAction
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.CompletableDeferred
@@ -43,7 +42,6 @@ class WindowActionImp @Inject constructor(
     private val closeWindowAct: CloseWindowAction,
     private val makeSavePath: MakeSavePath,
     override val toolBarAction: ToolBarAction,
-    override val windowDialogGroupAction: WindowDialogGroupAction,
     val openCloseSaveDialog: OpenCloseSaveDialogOnWindowAction,
 ) : WindowAction,
     MakeSavePath by makeSavePath,
@@ -150,16 +148,12 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun closeWorkbook(workbookKey: WorkbookKey, windowId: String) {
-        sc.getWbState(workbookKey)?.also {wbState->
-            if (wbState.needSave) {
-                this.windowDialogGroupAction.askSaveDialogAction.open(windowId)
-            } else {
-                val req = CloseWorkbookRequest(
-                    wbKey = workbookKey,
-                    windowId = windowId
-                )
-                closeWbAction.closeWb(req)
-            }
+        sc.getWbState(workbookKey)?.also { wbState ->
+            val req = CloseWorkbookRequest(
+                wbKey = workbookKey,
+                windowId = windowId
+            )
+            closeWbAction.closeWb(req)
         }
     }
 }

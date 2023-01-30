@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.window.dialog.ask_to_save_dialog
+package com.qxdzbc.p6.ui.window.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

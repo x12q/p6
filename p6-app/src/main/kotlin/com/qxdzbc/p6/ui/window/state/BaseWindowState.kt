@@ -5,12 +5,9 @@ import com.qxdzbc.p6.build.BuildConfig
 import com.qxdzbc.p6.build.BuildVariant
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.window.dialog.WindowDialogGroupState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 abstract class BaseWindowState : WindowState {
-
-//    override val dialogHostState: WindowDialogGroupState get() = dialogHostStateMs.value
 
     override val toolBarState: ToolBarState
         get() = toolBarStateMs.value
