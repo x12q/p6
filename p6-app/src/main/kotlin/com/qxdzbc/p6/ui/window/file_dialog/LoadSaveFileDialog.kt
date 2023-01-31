@@ -18,11 +18,11 @@ import javax.swing.JOptionPane
 import javax.swing.filechooser.FileFilter
 
 @Composable
-fun FrameWindowScope.FileDialog2(
+fun FrameWindowScope.LoadSaveFileDialog(
     title: String? = null,
     isLoad: Boolean = true,
     defaultFileFilter: FileFilter? = P6JFileFilters.p6,
-    launchScope: CoroutineScope = GlobalScope,
+    launchScope: CoroutineScope,
     makeSavePath: MakeSavePath,
     onResult: (result: Path?) -> Unit,
     onCancel: () -> Unit,
@@ -39,11 +39,18 @@ fun FrameWindowScope.FileDialog2(
                 dialogTitle = title
             }
         }
+
+        /*
+         x: result code indicates the button that users click after the dialog is displayed
+         JFileChooser.APPROVE_OPTION: click Ok button
+         JFileChooser.CANCEL_OPTION: click Cancel button
+         */
         val resultCode = if (isLoad) {
             fileChooser.showOpenDialog(window)
         } else {
             fileChooser.showSaveDialog(window)
         }
+
         when (resultCode) {
             JFileChooser.APPROVE_OPTION -> {
                 val path = fileChooser.selectedFile?.toPath()
@@ -90,8 +97,8 @@ fun FrameWindowScope.FileDialog2(
 
 fun main() {
     singleWindowApplication {
-        FileDialog2(title = " custom title", isLoad = true, defaultFileFilter = null, onResult = {
+        LoadSaveFileDialog(title = " custom title", isLoad = true, defaultFileFilter = null, onResult = {
             println(it)
-        }, onCancel = {}, makeSavePath = MakeSavePathImp())
+        }, onCancel = {}, makeSavePath = MakeSavePathImp(), launchScope = GlobalScope)
     }
 }
