@@ -3,7 +3,7 @@ package test.di
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookActionImp
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookAction
+import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookActionImp
@@ -97,7 +97,7 @@ interface TestComponent : P6Component {
     fun mouseOnWsAction(): MouseOnWorksheetAction
     fun stateContMs(): MutableState<StateContainer>
     fun workbookFactory(): WorkbookFactory
-    fun createNewWbAction(): CreateNewWorkbookAction
+    fun createNewWbActionImp(): CreateNewWorkbookActionImp
     fun setActiveWorkbookAction(): SetActiveWorkbookAction
     fun fileLoader(): P6FileLoader
     fun loadWbAction(): LoadWorkbookAction
