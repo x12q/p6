@@ -27,9 +27,9 @@ class CreateNewWorkbookActionImp @Inject constructor(
     private val wbf: WorkbookFactory,
 ) : CreateNewWorkbookAction {
 
-    private var stateCont by stateContMs
-    private var globalWbCont by stateCont.wbContMs
-    private var globalWbStateCont by stateCont.wbStateContMs
+    private val stateCont by stateContMs
+    private val globalWbCont by stateCont.wbContMs
+    private val globalWbStateCont by stateCont.wbStateContMs
 
     override fun createNewWb(request: CreateNewWorkbookRequest): CreateNewWorkbookResponse {
         val rt = wbf.createWbRs(request.wbName)
@@ -52,7 +52,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
         if (wb != null) {
             val wbk = wb.key
             val wbkMs = wb.keyMs
-            globalWbCont = globalWbCont.addOrOverWriteWb(wb)
+            stateCont.wbContMs.value = globalWbCont.addOrOverWriteWb(wb)
             globalWbStateCont.getWbStateMs(wbk)?.also {
                 it.value = it.value.setWindowId(windowId)
             }
@@ -65,7 +65,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
                 // x: only create new window state if no window is available
                 val newWid = windowId ?: UUID.randomUUID().toString()
                 val (newStateCont, newWindowState) = stateCont.createNewWindowStateMs(newWid)
-                stateCont = newStateCont
+                stateContMs.value = newStateCont
                 useNewWindow = true
                 newWindowState.value.innerWindowStateMs
             }
