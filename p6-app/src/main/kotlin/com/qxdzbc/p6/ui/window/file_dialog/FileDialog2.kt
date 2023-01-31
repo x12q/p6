@@ -1,16 +1,14 @@
 package com.qxdzbc.p6.ui.window.file_dialog
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.action.app.process_save_path.MakeSavePath
 import com.qxdzbc.p6.app.action.app.process_save_path.MakeSavePathImp
-import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.swing.Swing
 import org.apache.commons.io.FilenameUtils
 import java.nio.file.Files
@@ -46,30 +44,44 @@ fun FrameWindowScope.FileDialog2(
         } else {
             fileChooser.showSaveDialog(window)
         }
-        if (resultCode == JFileChooser.APPROVE_OPTION) {
-            val path = fileChooser.selectedFile?.toPath()
-            if (path != null) {
-                val filter = fileChooser.fileFilter
-                val truePath = makeSavePath.makeSavePath(path, filter)
-                truePath?.also {
-                    if(!isLoad){
-                        if (Files.exists(truePath)) {
-                            val fileName = FilenameUtils.getName(truePath.toString())
-                            val i = JOptionPane.showConfirmDialog(null, "File ${fileName} already exists. Do you want to overwrite it?", "Overwrite file?", JOptionPane.YES_NO_OPTION)
-                            if (i == JOptionPane.YES_OPTION) {
+        when (resultCode) {
+            JFileChooser.APPROVE_OPTION -> {
+                val path = fileChooser.selectedFile?.toPath()
+                if (path != null) {
+                    val truePath = makeSavePath.makeSavePath(path, fileChooser.fileFilter)
+                    truePath?.also {
+                        if (!isLoad) {
+                            if (Files.exists(truePath)) {
+                                val fileName = FilenameUtils.getName(truePath.toString())
+                                val i = JOptionPane.showConfirmDialog(
+                                    null,
+                                    "File ${fileName} already exists. Do you want to overwrite it?",
+                                    "Overwrite file?",
+                                    JOptionPane.YES_NO_OPTION
+                                )
+                                if (i == JOptionPane.YES_OPTION) {
+                                    onResult(truePath)
+                                }
+
+                            } else {
                                 onResult(truePath)
                             }
-
                         } else {
-                            onResult(truePath)
-                        }
-                    }else{
-                        if (Files.exists(truePath)) {
-                            onResult(truePath)
+                            if (Files.exists(truePath)) {
+                                onResult(truePath)
+                            }
                         }
                     }
+                } else {
+                    onCancel()
                 }
-            } else {
+            }
+
+            JFileChooser.CANCEL_OPTION -> {
+                onCancel()
+            }
+
+            else -> {
                 onCancel()
             }
         }

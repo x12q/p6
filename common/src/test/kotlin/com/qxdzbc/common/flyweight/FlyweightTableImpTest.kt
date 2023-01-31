@@ -17,11 +17,10 @@ class FlyweightTableImpTest :TestSplitter(){
 
     @Test
     fun addMarkedAttr() {
-        val attr = Flyweights.wrap(123f).increaseRefCount()
-        val msAttr=attr
-        table.getFlyweight(10f).shouldBeNull()
-        val t2 = table.addFlyweight(10f,msAttr)
-        t2.getFlyweight(10f) shouldBe msAttr
+        val w = Flyweights.wrap(123f).increaseRefCount()
+        table.getFlyweight(123f).shouldBeNull()
+        val t2 = table.addFlyweight(w)
+        t2.getFlyweight(123f) shouldBe w
     }
 
     /**
