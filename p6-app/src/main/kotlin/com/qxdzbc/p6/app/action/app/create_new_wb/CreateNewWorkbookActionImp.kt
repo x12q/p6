@@ -1,11 +1,7 @@
 package com.qxdzbc.p6.app.action.app.create_new_wb
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.onFailure
-import com.github.michaelbull.result.onSuccess
-import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -37,7 +33,6 @@ class CreateNewWorkbookActionImp @Inject constructor(
                 success = {
                     iapply(it, request.windowId)
                     CreateNewWorkbookResponse(null, it, request.windowId)
-
                 },
                 failure = {
                     errorRouter.publishToWindow(it, request.windowId)
@@ -47,8 +42,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
         return rt
     }
 
-    fun iapply(workbook: Workbook?, windowId: String?) {
-        val wb = workbook
+    fun iapply(wb: Workbook?, windowId: String?) {
         if (wb != null) {
             val wbk = wb.key
             val wbkMs = wb.keyMs
@@ -69,11 +63,10 @@ class CreateNewWorkbookActionImp @Inject constructor(
                 useNewWindow = true
                 newWindowState.value.innerWindowStateMs
             }
-            val wdMs = oWdMs
-            val windowWasEmptyBeforeAdding = wdMs.value.isEmpty()
-            wdMs.value = wdMs.value.addWbKey(wbkMs)
+            val windowWasEmptyBeforeAdding = oWdMs.value.isEmpty()
+            oWdMs.value = oWdMs.value.addWbKey(wbkMs)
             if (useNewWindow || windowWasEmptyBeforeAdding) {
-                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(wdMs.value)
+                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(oWdMs.value)
             }
         }
     }
