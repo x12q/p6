@@ -46,11 +46,11 @@ internal class CopyCellActionImpTest : BaseAppStateTest() {
                 undoable = true
             )
 
-            val toCellFormat = CellFormatImp(textSize = 123f, isCrossed = true)
+            val toCellFormat = CellFormatImp.random()
             val toCellFormatConfig = FormatConfig.fromCellFormat(toCell.address,toCellFormat)
 
-            val fromCellColor = Color.Black
-            val fromCellFormat = CellFormatImp(textColor = fromCellColor)
+//            val fromCellFormat = CellFormatImp(textColor = fromCellColor)
+            val fromCellFormat = CellFormatImp.random()
             val fromCellFormatConfig = FormatConfig.fromCellFormat(fromCell.address, fromCellFormat)
 
             preCondition("A1 has value = 1, with custom text color, A2 has value 3, with custom text size") {

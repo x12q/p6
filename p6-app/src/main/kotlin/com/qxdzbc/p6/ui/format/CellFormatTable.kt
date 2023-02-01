@@ -52,10 +52,16 @@ interface CellFormatTable {
     val cellBackgroundColorTable: FormatTable<Color>
     fun setCellBackgroundColorTable(i: FormatTable<Color>): CellFormatTable
 
-    fun setFormatForMultiRanges(ranges: Collection<RangeAddress>, cellFormat: CellFormat): CellFormatTable
-    fun setFormat(range: RangeAddress, cellFormat: CellFormat): CellFormatTable
+
+    fun setFormat(rangeAddress: RangeAddress, cellFormat: CellFormat): CellFormatTable
     fun setFormat(cellAddress: CellAddress, cellFormat: CellFormat): CellFormatTable
+    fun setFormatForMultiRanges(ranges: Collection<RangeAddress>, cellFormat: CellFormat): CellFormatTable
     fun setFormatForMultiCells(cellAddressList: Collection<CellAddress>, cellFormat: CellFormat): CellFormatTable
+
+    fun removeFormat(cellAddress: CellAddress):CellFormatTable
+    fun removeFormat(rangeAddress: RangeAddress):CellFormatTable
+    fun removeFormatForMultiRanges(ranges: Collection<RangeAddress>): CellFormatTable
+    fun removeFormatForMultiCells(cellAddressList: Collection<CellAddress>): CellFormatTable
 
     /**
      * Get [CellFormat] at [cellAddress]

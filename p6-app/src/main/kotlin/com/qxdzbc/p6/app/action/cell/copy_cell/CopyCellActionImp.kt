@@ -41,16 +41,14 @@ class CopyCellActionImp @Inject constructor(
     private val sc by stateContSt
 
     override fun copyCellWithoutClipboard(request: CopyCellRequest): Rse<Unit> {
+        val command = makeCopyCommand(request)
         if (request.undoable) {
             sc.getUndoStackMs(request.toCell)?.also {
-                val command = makeCopyCommand(request)
                 it.value = it.value.add(command)
             }
         }
-
-        val rt = copyData(request)
-        copyFormat(request)
-        return rt
+        command.run()
+        return Ok(Unit)
     }
 
     fun makeCopyCommand(request: CopyCellRequest): Command {
@@ -59,7 +57,9 @@ class CopyCellActionImp @Inject constructor(
             val _toCellId: CellId? get() = sc.getCellId(_request.toCell)
             var oldCellDM: CellDM? = null
             var oldCellFormat: FormatConfig? = null
-
+            init{
+                storeOldData()
+            }
             private fun storeOldData(){
                 oldCellDM = _toCellId?.let { sc.getCellMs(it)?.value?.toDm() }
                 oldCellFormat = sc.getCellFormatTable(request.toCell)
@@ -67,7 +67,6 @@ class CopyCellActionImp @Inject constructor(
             }
 
             override fun run() {
-                storeOldData()
                 copyData(request)
                 copyFormat(request)
             }
