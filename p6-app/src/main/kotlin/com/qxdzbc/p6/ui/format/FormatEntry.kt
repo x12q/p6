@@ -21,7 +21,7 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
     )
 
     /**
-     * nullify the format value of this entry
+     * nullify the format value of this entry. Effectively create an invalid entry
      */
     fun nullifyFormatValue(): FormatEntry<T?> {
         return FormatEntry(rangeAddressSet, null)

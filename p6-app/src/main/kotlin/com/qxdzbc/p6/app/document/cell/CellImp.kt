@@ -25,7 +25,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 data class CellImp(
     override val id: CellId,
     override val content: CellContent = CellContentImp.empty,
-    override val error0: ErrorReport? = null,
+    override val externalEvalError: ErrorReport? = null,
     override val cachedDisplayText: String = "",
 ) : BaseCell(), WbWsSt by id {
 
@@ -104,8 +104,8 @@ data class CellImp(
         }
     }
 
-    override fun setError0(i: ErrorReport?): CellImp {
-        return this.copy(error0 = i)
+    override fun setExternalEvalError(i: ErrorReport?): CellImp {
+        return this.copy(externalEvalError = i)
     }
 
     override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): Cell {
@@ -142,7 +142,7 @@ data class CellImp(
                     CommonErrors.ExceptionError.report(e)
                 }
             }
-            return this.copy(error0 = newError0, cachedDisplayText = ErrorDisplayText.err)
+            return this.copy(externalEvalError = newError0, cachedDisplayText = ErrorDisplayText.err)
         }
     }
 

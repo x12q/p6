@@ -20,7 +20,7 @@ import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -73,7 +73,7 @@ class UpdateMultiCellRMImp @Inject constructor(
         return rt
     }
 
-    private fun makeContent(indCellDM: IndCellDM, translator:P6Translator<ExUnit>): CellContent {
+    private fun makeContent(indCellDM: IndependentCellDM, translator:P6Translator<ExUnit>): CellContent {
         val formula=indCellDM.content.formula
         if(!formula.isNullOrEmpty()) {
             val transRs = translator.translate(formula)

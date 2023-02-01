@@ -14,9 +14,9 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellId
+import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.LazyRangeFactory
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -30,6 +30,7 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
+
 @ContributesBinding(P6AnvilScope::class)
 class DocumentContainerImp @Inject constructor(
     override val wbContMs: Ms<WorkbookContainer>,
@@ -87,7 +88,7 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun getWsNameMs(wbKeySt: St<WorkbookKey>, wsName: String): Ms<String>? {
-        return this.getWs(wbKeySt.value,wsName)?.nameMs
+        return this.getWs(wbKeySt.value, wsName)?.nameMs
     }
 
     override fun getWb(wbKey: WorkbookKey): Workbook? {
@@ -263,7 +264,11 @@ class DocumentContainerImp @Inject constructor(
         return rt
     }
 
-    override fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Result<Cell, ErrorReport> {
+    override fun getCellRsOrDefault(
+        wbKey: WorkbookKey,
+        wsName: String,
+        cellAddress: CellAddress
+    ): Result<Cell, ErrorReport> {
         return this.getWsRs(wbKey, wsName).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
@@ -280,7 +285,7 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun getCellRsOrDefault(cellId: CellId): Rs<Cell, ErrorReport> {
-        return getCellRsOrDefault(cellId.wbKeySt,cellId.wsNameSt,cellId.address)
+        return getCellRsOrDefault(cellId.wbKeySt, cellId.wsNameSt, cellId.address)
     }
 
     override fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
@@ -292,12 +297,12 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
-        val rt= this.getCellMsRs(wbKeySt, wsNameSt, cellAddress).component1()?.value
+        val rt = this.getCellMsRs(wbKeySt, wsNameSt, cellAddress).component1()?.value
         return rt
     }
 
     override fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
-        return this.getCellOrDefault(wbwsSt.wbKeySt,wbwsSt.wsNameSt,cellAddress)
+        return this.getCellOrDefault(wbwsSt.wbKeySt, wbwsSt.wsNameSt, cellAddress)
     }
 
     override fun getCellOrDefault(cellId: CellIdDM): Cell? {
@@ -306,7 +311,7 @@ class DocumentContainerImp @Inject constructor(
 
     override fun getCellOrDefault(cellId: CellId): Cell? {
         return this.getCellOrDefault(
-            cellId.wbKeySt,cellId.wsNameSt,cellId.address
+            cellId.wbKeySt, cellId.wsNameSt, cellId.address
         )
     }
 
@@ -338,8 +343,31 @@ class DocumentContainerImp @Inject constructor(
         return getCellMsRs(wbKey, wsName, cellAddress).component1()
     }
 
-    override fun getCellMs(cellId: CellIdDM): Ms<Cell>? {
-        return getCellMsRs(cellId).component1()
+    override fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>? {
+        return getCellMsRs(cellIdDM).component1()
+    }
+
+    override fun getCellMs(cellId: CellId): Ms<Cell>? {
+        val rt = getWsRs(cellId).flatMap {
+            it.getCellMsRs(cellId.address)
+        }.component1()
+        return rt
+    }
+
+    override fun getCell(cellIdDM: CellIdDM): Cell? {
+        return getCellMs(cellIdDM)?.value
+    }
+
+    override fun getCell(cellId: CellId): Cell? {
+        return getCellMs(cellId)?.value
+    }
+
+    override fun getCellIdRs(cellIdDM: CellIdDM): Rs<CellId, ErrorReport> {
+        return getCellMsRs(cellIdDM).map { it.value.id }
+    }
+
+    override fun getCellId(cellIdDM: CellIdDM): CellId? {
+        return getCellIdRs(cellIdDM).component1()
     }
 
     override fun replaceWb(newWb: Workbook): DocumentContainer {

@@ -19,9 +19,12 @@ interface Cell :Shiftable,WbWsSt{
     /**
      * This is error caused by evaluation that happens outside of cell content
      */
-    val error0: ErrorReport?
-    fun setError0(i: ErrorReport?):Cell
+    val externalEvalError: ErrorReport?
+    fun setExternalEvalError(i: ErrorReport?):Cell
 
+    /**
+     * A cell is similar to another cell if they are in the same ws, same wb, and their content is similar
+     */
     fun isSimilar(c: Cell):Boolean
 
     override fun shift(

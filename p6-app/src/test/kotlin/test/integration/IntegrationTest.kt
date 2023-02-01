@@ -4,11 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellRequest
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
@@ -72,8 +71,8 @@ class IntegrationTest {
         val cell2 = sc.getCellOrDefault(wbws, CellAddress("A1"))!!
         assertEquals(originalErrMsg,cell2.cachedDisplayText)
 
-        deleteMultiCellAction.deleteMultiCell(
-            RemoveMultiCellRequest(
+        deleteMultiCellAction.deleteDataOfMultiCell(
+            DeleteMultiCellRequest(
                 cells= listOf(CellAddress("B1")),
                 wbKey = wbws.wbKey,
                 wsName = wbws.wsName

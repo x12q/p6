@@ -526,8 +526,28 @@ class StateContainerImp @Inject constructor(
         return docCont.getCellMs(wbKey, wsName, cellAddress)
     }
 
-    override fun getCellMs(cellId: CellIdDM): Ms<Cell>? {
+    override fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>? {
+        return docCont.getCellMs(cellIdDM)
+    }
+
+    override fun getCellMs(cellId: CellId): Ms<Cell>? {
         return docCont.getCellMs(cellId)
+    }
+
+    override fun getCell(cellIdDM: CellIdDM): Cell? {
+        return docCont.getCell(cellIdDM)
+    }
+
+    override fun getCell(cellId: CellId): Cell? {
+        return docCont.getCell(cellId)
+    }
+
+    override fun getCellIdRs(cellIdDM: CellIdDM): Rs<CellId, ErrorReport> {
+        return docCont.getCellIdRs(cellIdDM)
+    }
+
+    override fun getCellId(cellIdDM: CellIdDM): CellId? {
+        return docCont.getCellId(cellIdDM)
     }
 
     override fun replaceWb(newWb: Workbook): DocumentContainer {

@@ -17,17 +17,17 @@ interface UpdateCellFormatAction {
     fun applyFormatConfig(wbWs: WbWs, config:FormatConfig, undoable: Boolean)
 
     /**
-     * Clear format of cell format table at [wbWsSt] respectively. This action ranges of all categories to clear each category. This action is highly destructive and unpredictable. Use with care
+     * Clear format of cell-format-table at [wbWsSt] respectively. This action uses the ranges of all categories to clear each category. This action is highly destructive and unpredictable. Use with care
      */
     fun clearFormat_Flat(wbWsSt: WbWsSt, config:FormatConfig, undoable: Boolean)
 
     /**
-     * Clear format of cell format table at [wbWs] respectively. This action ranges of all categories to clear each category. This action is highly destructive and unpredictable. Use with care
+     * Clear format of cell-format-table at [wbWs] respectively. This action uses ranges of all categories to clear each category. This action is highly destructive and unpredictable. Use with care
      */
     fun clearFormat_Flat(wbWs: WbWs, config:FormatConfig, undoable: Boolean)
 
     /**
-     * Clear format of cell format table at [wbWsSt] respectively. This ensures that ranges in each category are used for clear format of that category only.
+     * Clear format of cell-format-table at [wbWsSt] respectively. This ensures that ranges in each category are used for clear format of that category only.
      */
     fun clearFormat_Respective(wbWsSt: WbWsSt, config:FormatConfig, undoable: Boolean)
     /**

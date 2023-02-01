@@ -283,7 +283,7 @@ object RangeAddresses {
     fun exhaustiveMergeRanges(rangeList: Collection<RangeAddress>): List<RangeAddress> {
         var l = rangeList
         while (true) {
-            val newL = exhaustiveMergeRange_OneIteration2(l.toList())
+            val newL = exhaustiveMergeRange_OneIteration2(l)
             if (l.size == newL.size) {
                 break
             } else {
@@ -291,10 +291,11 @@ object RangeAddresses {
             }
         }
         return l.toList()
-//        val rt = exhaustiveMergeRange_OneIteration2(rangeList.toList())
-//        return rt
     }
 
+    /**
+     * TODO Check if this has any use, delete if it does not.
+     */
     private fun exhaustiveMergeRange_OneIteration(rangeList: List<RangeAddress>): List<RangeAddress> {
         if (rangeList.isEmpty() || rangeList.size == 1) {
             return rangeList
@@ -327,9 +328,9 @@ object RangeAddresses {
         }
     }
 
-    private fun exhaustiveMergeRange_OneIteration2(rangeList: List<RangeAddress>): List<RangeAddress> {
+    private fun exhaustiveMergeRange_OneIteration2(rangeList: Collection<RangeAddress>): List<RangeAddress> {
         if (rangeList.isEmpty() || rangeList.size == 1) {
-            return rangeList
+            return rangeList.toList()
         } else {
             val used = mutableSetOf<RangeAddress>()
             val oRangeList = rangeList.toMutableList()

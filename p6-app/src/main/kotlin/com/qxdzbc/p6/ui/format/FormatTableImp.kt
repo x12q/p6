@@ -109,7 +109,8 @@ data class FormatTableImp<T>(
         val nullFormatRangeSet = RangeAddressSetImp(rangeAddresses).getNotIn(
             availableFormats.validSet.flatMap { it.rangeAddressSet.ranges }.toSet()
         )
-        return availableFormats + (nullFormatRangeSet to null)
+        val rt= availableFormats + (nullFormatRangeSet to null)
+        return rt
     }
 
     override fun removeValue(cellAddress: CellAddress): FormatTable<T> {

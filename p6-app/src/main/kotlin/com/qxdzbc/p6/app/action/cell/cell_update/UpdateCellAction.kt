@@ -1,20 +1,25 @@
 package com.qxdzbc.p6.app.action.cell.cell_update
 
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
-import com.qxdzbc.p6.app.action.worksheet.paste_range.RangeCopyDM
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 
 /**
- * Update a cell
+ * Update a single cell
  */
-interface UpdateCellAction{
+interface UpdateCellAction {
     /**
      * An indirect update function, use raw data and perform state lookup underneath to find the state to update. Slower than direct method, but more straightforward to use and is used in RPC server.
      */
-    fun updateCellDM(request: CellUpdateRequestDM, publishError:Boolean = true):Rse<Unit>
+    fun updateCellDM(request: CellUpdateRequestDM, publishError: Boolean = true): Rse<Unit>
+    fun updateCellDM(
+        cellId: CellIdDM,
+        cellContent: CellContentDM,
+        publishError: Boolean = true
+    ): Rse<Unit>
 
     /**
      * Direct update function, use state reference to directly get the state object to update
      */
-    fun updateCell(request: CellUpdateRequest, publishError:Boolean = true):Rse<Unit>
+    fun updateCell(request: CellUpdateRequest, publishError: Boolean = true): Rse<Unit>
 }

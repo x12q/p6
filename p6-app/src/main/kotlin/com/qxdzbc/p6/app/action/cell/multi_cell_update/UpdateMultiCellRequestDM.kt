@@ -2,8 +2,8 @@ package com.qxdzbc.p6.app.action.cell.multi_cell_update
 
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.proto.WorksheetProtos.MultiCellUpdateRequestProto
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM.Companion.toModel
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM.Companion.toModel
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModelDM
 
@@ -12,7 +12,7 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM.Companion.toModelDM
  */
 data class UpdateMultiCellRequestDM(
     val wsId:WorksheetIdDM,
-    val cellUpdateList: List<IndCellDM>
+    val cellUpdateList: List<IndependentCellDM>
 ) : WbWs by wsId{
     companion object {
         fun MultiCellUpdateRequestProto.toModel():UpdateMultiCellRequestDM{

@@ -17,6 +17,9 @@ import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextHorizontalProto
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalProto
 import com.qxdzbc.p6.ui.format.RangeAddressSetImp.Companion.toModel
 
+/**
+ * TODO add a boolean option to include/exclude invalid entry in FormatEntrySet return by retriever functions
+ */
 interface FormatTable<T> {
     val valueMap: Map<RangeAddressSet, T>
 

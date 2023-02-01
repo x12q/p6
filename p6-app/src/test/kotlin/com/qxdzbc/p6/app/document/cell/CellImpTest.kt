@@ -31,12 +31,12 @@ class CellImpTest {
             )
         )
         assertEquals("",cell.cachedDisplayText)
-        assertEquals(null,cell.error0)
+        assertEquals(null,cell.externalEvalError)
         val c2Rs = cell.reRunRs().map { it.evaluateDisplayText() }
         assertTrue(c2Rs is Ok)
         val c2 = c2Rs.value
         assertEquals("123",c2.cachedDisplayText)
-        assertEquals(null,c2.error0)
+        assertEquals(null,c2.externalEvalError)
     }
 
     @Test

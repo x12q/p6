@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.DocProtos.CellIdProto
 
 /**
- * A direct mapping to [CellIdProto]
+ * A direct mapping to [CellIdProto]. This class can store cell id that is completely detacched from the app state.
  */
 data class CellIdDM(
     val address: CellAddress,

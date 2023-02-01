@@ -5,7 +5,6 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequestDM
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
@@ -15,7 +14,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellRequest
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.document.range.RangeCopy
@@ -23,7 +22,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.copy_paste.ClipboardReader
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.format.FormatConfig
@@ -35,7 +34,6 @@ import javax.inject.Inject
 class PasteRangeActionImp @Inject constructor(
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val updateCellFormatAction: UpdateCellFormatAction,
-    val updateCellAction: UpdateCellAction,
     val updateMultiCellAction: UpdateMultiCellAction,
     val deleteMultiCellAction: DeleteMultiCellAction,
     val clipboardReader: ClipboardReader,
@@ -108,8 +106,8 @@ class PasteRangeActionImp @Inject constructor(
                      */
 
                     // x: undo data = delete the data written from clipboard data + write back the old data
-                    deleteMultiCellAction.deleteMultiCell(
-                        request = RemoveMultiCellRequest(
+                    deleteMultiCellAction.deleteDataOfMultiCell(
+                        request = DeleteMultiCellRequest(
                             ranges = listOf(
                                 _shiftedClipboardData.rangeId.rangeAddress.shift(
                                     _sourceRangeId.rangeAddress.topLeft, targetRangeId.rangeAddress.topLeft
@@ -163,7 +161,7 @@ class PasteRangeActionImp @Inject constructor(
                 request = UpdateMultiCellRequest(
                     wbKeySt = targetWbWsSt.wbKeySt,
                     wsNameSt = targetWbWsSt.wsNameSt,
-                    cellUpdateList = shiftedClipboardData.cells.map { IndCellDM(it.address, it.content.toDm()) }
+                    cellUpdateList = shiftedClipboardData.cells.map { IndependentCellDM(it.address, it.content.toDm()) }
                 )
             )
 

@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragAction
 import test.BaseAppStateTest
 import kotlin.test.BeforeTest
@@ -53,9 +53,9 @@ internal class EndThumbDragActionImpTest : BaseAppStateTest() {
                 wbKeySt = wbkSt,
                 wsNameSt = wsnSt,
                 cellUpdateList = listOf(
-                    IndCellDM(CellAddress("A1"), CellContentDM.fromAny(1)),
-                    IndCellDM(CellAddress("A2"), CellContentDM.fromAny(2)),
-                    IndCellDM(CellAddress("B1"), CellContentDM.fromFormula("=A1+1")),
+                    IndependentCellDM(CellAddress("A1"), CellContentDM.fromAny(1)),
+                    IndependentCellDM(CellAddress("A2"), CellContentDM.fromAny(2)),
+                    IndependentCellDM(CellAddress("B1"), CellContentDM.fromFormula("=A1+1")),
                 )
             )
         )

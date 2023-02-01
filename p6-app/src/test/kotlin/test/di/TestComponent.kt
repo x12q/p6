@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
-import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
+import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellActionImp
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorActionImp
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
@@ -120,7 +120,7 @@ interface TestComponent : P6Component {
     fun thumbStateFactory(): ThumbStateFactory
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
-    fun copyCellAction(): CopyCellAction
+    fun copyCellActionImp(): CopyCellActionImp
     fun partialTextElementExtractor(): PartialTextElementTranslator
     fun cycleFormulaLockStateAct(): CycleFormulaLockStateAction
     fun partialFormulaTreeExtractor(): PartialFormulaTreeExtractor

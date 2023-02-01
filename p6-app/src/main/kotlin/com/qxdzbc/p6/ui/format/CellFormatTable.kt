@@ -81,6 +81,7 @@ interface CellFormatTable {
      * get a [FormatConfig] including null format for all cell in [cells]
      */
     fun getFormatConfigForCells(cells: Collection<CellAddress>): FormatConfig
+    fun getFormatConfigForCells(vararg cells: CellAddress): FormatConfig
 
     /**
      * get a respective [FormatConfig] including null format for all ranges in [config].

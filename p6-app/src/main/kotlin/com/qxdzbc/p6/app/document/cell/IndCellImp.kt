@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 data class IndCellImp(
     override val address: CellAddress,
     override val content: CellContent = CellContentImp.empty,
-    override val error0: ErrorReport? = null,
+    override val externalEvalError: ErrorReport? = null,
     override val cachedDisplayText: String = "",
 ) : BaseCell() {
 
@@ -34,8 +34,8 @@ data class IndCellImp(
         }
     }
 
-    override fun setError0(i: ErrorReport?): Cell {
-        return this.copy(error0=i)
+    override fun setExternalEvalError(i: ErrorReport?): Cell {
+        return this.copy(externalEvalError=i)
     }
 
     override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): Cell {

@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequestDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.range.RangeIdDM.Companion.toModel
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellRequest
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -193,8 +193,8 @@ class WorksheetRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val i: CellIdDM = request.toModel()
-                    val o = rpcActs.deleteMultiCell(
-                        RemoveMultiCellRequest(
+                    val o = rpcActs.deleteDataOfMultiCell(
+                        DeleteMultiCellRequest(
                             wbKey = i.wbKey,
                             wsName = i.wsName,
                             ranges = emptyList(),
@@ -221,8 +221,8 @@ class WorksheetRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val i = request.toModel()
-                    val o = rpcActs.deleteMultiCell(
-                        RemoveMultiCellRequest(
+                    val o = rpcActs.deleteDataOfMultiCell(
+                        DeleteMultiCellRequest(
                             wbKey = i.wbKey,
                             wsName = i.wsName,
                             ranges = listOf(i.rangeAddress),

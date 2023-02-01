@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.rpc.common_data_structure.IndWorksheet
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadType
@@ -34,9 +34,9 @@ internal class LoadDataActionImpTest {
         indWs = IndWorksheet(
             id = WorksheetIdDM(wbk, wsn),
             cells = listOf(
-                IndCellDM(CellAddress("A1"), CellContentDM(CellValue.from(11),originalText="11")),
-                IndCellDM(CellAddress("A2"), CellContentDM(CellValue.from(12),originalText="12")),
-                IndCellDM(CellAddress("B3"), CellContentDM(CellValue.from(23),originalText="23")),
+                IndependentCellDM(CellAddress("A1"), CellContentDM(CellValue.from(11),originalText="11")),
+                IndependentCellDM(CellAddress("A2"), CellContentDM(CellValue.from(12),originalText="12")),
+                IndependentCellDM(CellAddress("B3"), CellContentDM(CellValue.from(23),originalText="23")),
             )
         )
     }

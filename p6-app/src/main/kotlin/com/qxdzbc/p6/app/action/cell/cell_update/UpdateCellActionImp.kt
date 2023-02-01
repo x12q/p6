@@ -9,6 +9,8 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
+import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 
 
 import com.qxdzbc.p6.translator.P6Translator
@@ -31,11 +33,15 @@ class UpdateCellActionImp @Inject constructor(
     val translatorCont by translatorContainerMs
 
     override fun updateCellDM(request: CellUpdateRequestDM, publishError: Boolean): Rse<Unit> {
-        val cellRs = sc.getCellRsOrDefault(request.cellId)
+        return updateCellDM(request.cellId,request.cellContent,publishError)
+    }
+
+    override fun updateCellDM(cellId: CellIdDM, cellContent: CellContentDM, publishError: Boolean): Rse<Unit> {
+        val cellRs = sc.getCellRsOrDefault(cellId)
         return cellRs.flatMap { cell ->
             updateCell(
                 CellUpdateRequest(
-                    cell.id, request.cellContent
+                    cell.id, cellContent
                 ), publishError
             )
         }

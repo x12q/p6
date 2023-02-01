@@ -10,21 +10,21 @@ import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toBoolProto
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toColorModel
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toColorProto
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFloatProto
-import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontStyleProto
-import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontWeightProto
-import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextHorizontalProto
-import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalProto
-import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toColorModel
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontStyleModel
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontStyleProto
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontWeightModel
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toFontWeightProto
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toModel
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextHorizontalAlignmentModel
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextHorizontalProto
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalAlignmentModel
+import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalProto
 
 /**
- * A collection of valid and invalid [FormatEntry]
+ * A collection of valid and invalid [FormatEntry]. A valid entry is an entry with non-null format value
  */
 data class FormatEntrySet<T>(
     val validSet: Set<FormatEntry<T>> = emptySet(),
@@ -79,6 +79,23 @@ data class FormatEntrySet<T>(
     }
 
     companion object {
+        fun <T> fromSingleValue(address: RangeAddress, v: T?): FormatEntrySet<T> {
+            val q: Set<FormatEntry<T>> = if (v != null) {
+                setOf(FormatEntry(address, v))
+            } else {
+                emptySet()
+            }
+            val rt = FormatEntrySet(
+                validSet = q,
+                invalidSet = if (v == null) {
+                    setOf(FormatEntry(address, null))
+                } else {
+                    emptySet()
+                }
+            )
+            return rt
+        }
+
         fun FormatEntrySet<TextVerticalAlignment>.textVerticalToProto(): DocProtos.IntFormatEntrySetProto {
             val builder = DocProtos.IntFormatEntrySetProto.newBuilder()
             val validEntries = validSet.map {

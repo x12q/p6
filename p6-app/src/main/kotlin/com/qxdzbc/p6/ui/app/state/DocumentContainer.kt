@@ -102,7 +102,14 @@ interface DocumentContainer : WorkbookGetter {
     fun getCellMsRs(cellId: CellIdDM): Rs<Ms<Cell>, ErrorReport>
 
     fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>?
-    fun getCellMs(cellId: CellIdDM): Ms<Cell>?
+    fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>?
+    fun getCellMs(cellId: CellId): Ms<Cell>?
+
+    fun getCell(cellIdDM:CellIdDM):Cell?
+    fun getCell(cellId:CellId):Cell?
+
+    fun getCellIdRs(cellIdDM:CellIdDM):Rs<CellId,ErrorReport>
+    fun getCellId(cellIdDM:CellIdDM):CellId?
 
     /**
      * replace a workbook with a new workbook with the same workbook key

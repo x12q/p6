@@ -7,9 +7,9 @@ import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAtCursorRequest
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellResponse
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellRequest
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -30,7 +30,7 @@ class DeleteMultiRMImp @Inject constructor(
 ) : DeleteMultiRM {
     val stateCont by stateContSt
 
-    override fun deleteMultiCellAtCursor(request: DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse> {
+    override fun deleteMultiCellAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         val rangeCells = stateCont.getWsStateRs(request.wbKey, request.wsName).map { wsState ->
             val ranges = wsState.cursorState.allRanges
             val cells = wsState.cursorState.allFragCells
@@ -39,7 +39,7 @@ class DeleteMultiRMImp @Inject constructor(
         val ranges = rangeCells.component1()?.first ?: emptyList()
         val cells = rangeCells.component1()?.second ?: emptyList()
         val q = deleteMultiCell(
-            RemoveMultiCellRequest(
+            DeleteMultiCellRequest(
                 ranges = ranges,
                 cells = cells,
                 wbKey = request.wbKey,
@@ -51,7 +51,7 @@ class DeleteMultiRMImp @Inject constructor(
         return q
     }
 
-    override fun deleteMultiCell(request: RemoveMultiCellRequest): RseNav<RemoveMultiCellResponse> {
+    override fun deleteMultiCell(request: DeleteMultiCellRequest): RseNav<RemoveMultiCellResponse> {
         val wbk = request.wbKey
         val wsn = request.wsName
         val rt = stateCont.getWbRs(wbk).flatMap { wb ->

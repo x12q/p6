@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
 import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.app.action.window.tool_bar.UpdateFormatIndicator
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiAtCursorRequest
+import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAtCursorRequest
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -791,12 +791,12 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 
     fun _onDeleteKey(cursorState: CursorState?) {
         cursorState?.also {
-            val req = DeleteMultiAtCursorRequest(
+            val req = DeleteMultiCellAtCursorRequest(
                 wbKey = cursorState.id.wbKey,
                 wsName = cursorState.id.wsName,
                 windowId = null
             )
-            wsAction.deleteMultiCellAtCursor(req)
+            wsAction.deleteDataOfMultiCellAtCursor(req)
         }
     }
 

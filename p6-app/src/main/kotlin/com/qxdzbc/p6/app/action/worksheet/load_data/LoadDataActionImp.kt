@@ -12,7 +12,7 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadDataRequest
 import com.qxdzbc.p6.rpc.worksheet.msg.LoadType
 import com.qxdzbc.p6.translator.P6Translator
@@ -60,7 +60,7 @@ class LoadDataActionImp @Inject constructor(
     ): Rse<Worksheet> {
         var rt: Worksheet = ws
         val lt = request.loadType
-        for (indCellDM:IndCellDM in request.ws.cells) {
+        for (indCellDM:IndependentCellDM in request.ws.cells) {
             if (lt == LoadType.KEEP_OLD_DATA_IF_COLLIDE) {
                 // x: don't overwrite existing old cell
                 val oldCell = rt.getCell(indCellDM.address)

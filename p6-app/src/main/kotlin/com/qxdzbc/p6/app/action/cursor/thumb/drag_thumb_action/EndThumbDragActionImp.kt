@@ -13,7 +13,7 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -57,7 +57,7 @@ class EndThumbDragActionImp @Inject constructor(
 
         val updateEntries = targetCells.map{
             val num:Double = startNum + if (onRow) it.rowIndex - startCell.rowIndex else it.colIndex - startCell.colIndex
-            IndCellDM(
+            IndependentCellDM(
                 address = it,
                 content = CellContentDM.fromAny(num)
             )

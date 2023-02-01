@@ -1,12 +1,10 @@
 package com.qxdzbc.p6.app.action.worksheet.delete_multi
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
 import com.qxdzbc.p6.app.command.BaseCommand
@@ -15,7 +13,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
@@ -34,35 +32,34 @@ class DeleteMultiCellActionImp @Inject constructor(
     val stateContMs: Ms<SubAppStateContainer>,
 ) : DeleteMultiCellAction {
 
-    private var sc by stateContMs
-    private var appState by appStateMs
-    private var dc by docContMs
+    private val sc by stateContMs
+    private val dc by docContMs
 
-    override fun deleteMultiCellAtCursor(request: DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse> {
+    override fun deleteDataOfMultiCellAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         createCommandAtCursor(request)
         return internalApplyAtCursor(request)
     }
 
-    override fun deleteMultiCell(request: RemoveMultiCellRequest, undoable: Boolean): RseNav<RemoveMultiCellResponse> {
+    override fun deleteDataOfMultiCell(request: DeleteMultiCellRequest, undoable: Boolean): RseNav<RemoveMultiCellResponse> {
         if (undoable) {
             createCommandToDeleteMultiCell(request)
         }
         return internalApply(request)
     }
 
-    private fun internalApplyAtCursor(request: DeleteMultiAtCursorRequest): RseNav<RemoveMultiCellResponse> {
+    private fun internalApplyAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         val response = rm.deleteMultiCellAtCursor(request)
         applier.apply(response)
         return response
     }
 
-    private fun internalApply(request: RemoveMultiCellRequest): RseNav<RemoveMultiCellResponse> {
+    private fun internalApply(request: DeleteMultiCellRequest): RseNav<RemoveMultiCellResponse> {
         val response = rm.deleteMultiCell(request)
         applier.apply(response)
         return response
     }
 
-    private fun createCommandAtCursor(request: DeleteMultiAtCursorRequest) {
+    private fun createCommandAtCursor(request: DeleteMultiCellAtCursorRequest) {
         val k = request.wbKey
         val n = request.wsName
         val ws = dc.getWs(k, n)
@@ -70,7 +67,7 @@ class DeleteMultiCellActionImp @Inject constructor(
             val cursorState: CursorState? = sc.getCursorState(k, n)
             if (cursorState != null) {
                 createCommandToDeleteMultiCell(
-                    RemoveMultiCellRequest(
+                    DeleteMultiCellRequest(
                         ranges = cursorState.allRanges,
                         cells = cursorState.allFragCells,
                         wbKey = request.wbKey,
@@ -84,7 +81,7 @@ class DeleteMultiCellActionImp @Inject constructor(
     }
 
 
-    private fun createCommandToDeleteMultiCell(request: RemoveMultiCellRequest) {
+    private fun createCommandToDeleteMultiCell(request: DeleteMultiCellRequest) {
         val wbKey = request.wbKey
         val wsName = request.wsName
         val ws = dc.getWs(wbKey, wsName)
@@ -94,7 +91,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                 val _wbKeySt = ws.wbKeySt
                 val _wsNameSt=ws.wsNameSt
 
-                val updateList: List<IndCellDM> = run {
+                val updateList: List<IndependentCellDM> = run {
                     val _allCellAddresses: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->
                         val addressesFromWs = ws.getCellsInRange(range).map { it.address }
                         acc + addressesFromWs
@@ -103,7 +100,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                     _allCellAddresses.mapNotNull {
                         val cell = ws.getCell(it)
                         if (cell != null) {
-                            IndCellDM(
+                            IndependentCellDM(
                                 address = it,
                                 content = cell.content.toDm()
                             )

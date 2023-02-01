@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChan
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
@@ -59,7 +59,7 @@ class UpdateMultiCellActionImp @Inject constructor(
         return rt
     }
 
-    fun updateMultiCell(wsStateMsRs:Rse<Ms<WorksheetState>>, cellUpdateList:List<IndCellDM>): Rse<Unit> {
+    fun updateMultiCell(wsStateMsRs:Rse<Ms<WorksheetState>>, cellUpdateList:List<IndependentCellDM>): Rse<Unit> {
         val rt = wsStateMsRs.flatMap { wsStateMs ->
             var ws = wsStateMs.value.worksheet
             var err: Err<ErrorReport>? = null

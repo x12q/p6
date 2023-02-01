@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
-import com.qxdzbc.p6.rpc.common_data_structure.IndCellDM
+import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import test.TestSample
 import kotlin.test.*
@@ -25,15 +25,15 @@ internal class UpdateMultiCellActionImpTest {
         val request = UpdateMultiCellRequestDM(
             wsId = WorksheetIdDM(wbk,wsn),
             cellUpdateList = listOf(
-                IndCellDM(
+                IndependentCellDM(
                     address = CellAddress("Q6"),
                     content = CellContentDM(formula="=1+2+3",originalText="=1+2+3")
                 ),
-                IndCellDM(
+                IndependentCellDM(
                     address = CellAddress("Q9"),
                     content = CellContentDM(formula="=Q6+1",originalText ="=Q6+1")
                 ),
-                IndCellDM(
+                IndependentCellDM(
                     address = CellAddress("X4"),
                     content = CellContentDM(CellValue.fromAny(123),originalText="123")
                 )

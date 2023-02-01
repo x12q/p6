@@ -11,7 +11,7 @@ import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
 /**
- * A direct mapping (DM) of [CellContentProto]
+ * A direct mapping (DM) of [CellContentProto]. This class can store cell content that is completely detached from the app state.
  */
 data class CellContentDM(
     val cellValue: CellValue = CellValue.empty,

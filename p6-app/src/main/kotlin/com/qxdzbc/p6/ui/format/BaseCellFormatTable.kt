@@ -78,6 +78,10 @@ abstract class BaseCellFormatTable : CellFormatTable {
         )
     }
 
+    override fun getFormatConfigForCells(vararg cells: CellAddress): FormatConfig {
+        return getFormatConfigForCells(cells.asList())
+    }
+
     override fun getFormatConfigForRange(rangeAddress: RangeAddress): FormatConfig {
         return FormatConfig(
             textSizeConfig = textSizeTable.getConfigSet(rangeAddress),
