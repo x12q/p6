@@ -192,6 +192,11 @@ data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue:
                 formatValue = randomGenerator()
             )
         }
+        fun <T> randomize(entry:FormatEntry<T>, randomGenerator: () -> T): FormatEntry<T> {
+            return entry.copy(
+                formatValue =  randomGenerator()
+            )
+        }
 
         fun <T> randomInvalid(numberRange: IntProgression): FormatEntry<T?> {
             return FormatEntry(

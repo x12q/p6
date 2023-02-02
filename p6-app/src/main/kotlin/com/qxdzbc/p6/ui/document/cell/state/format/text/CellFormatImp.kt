@@ -25,7 +25,6 @@ data class CellFormatImp(
     override val backgroundColor: Color? = null,
 ) : CellFormat {
 
-
     override fun setFontStyle(i: FontStyle?): CellFormat {
         return this.copy(fontStyle = i)
     }
@@ -40,13 +39,13 @@ data class CellFormatImp(
 
     @OptIn(ExperimentalUnitApi::class)
     override fun toTextStyle(): TextStyle {
-        val computedTextColor: Color? =if (textColor != null) {
-                textColor
-            } else {
-                // compute a contrast color
-                backgroundColor?.getBlackOrWhiteOnLuminance()
-            }
-        val isFormatEmpty =listOf(
+        val computedTextColor: Color? = if (textColor != null) {
+            textColor
+        } else {
+            // compute a contrast color
+            backgroundColor?.getBlackOrWhiteOnLuminance()
+        }
+        val isFormatEmpty = listOf(
             textSize,
             computedTextColor,
             horizontalAlignment,
@@ -105,6 +104,16 @@ data class CellFormatImp(
         return this.copy(fontWeight = i)
     }
 
+    /**
+     * A [CellFormatImp] is empty when all of its properties are null
+     */
+    override fun isEmpty(): Boolean {
+        return textSize == null && fontStyle == null
+                && verticalAlignment == null && horizontalAlignment == null
+                && textColor == null && fontWeight == null
+                && isUnderlined == null && isCrossed == null && backgroundColor == null
+    }
+
     override val textAlignment: Alignment = run {
         when ((verticalAlignment to horizontalAlignment)) {
             TextVerticalAlignment.Top to TextHorizontalAlignment.Start -> {
@@ -157,17 +166,17 @@ data class CellFormatImp(
 
     companion object {
         val default = CellFormatImp()
-        fun random():CellFormatImp{
+        fun random(): CellFormatImp {
             return CellFormatImp(
-                textSize = (1 .. 100).random().toFloat(),
+                textSize = (1..100).random().toFloat(),
                 fontStyle = FontStyle.values().random(),
                 verticalAlignment = TextVerticalAlignment.random(),
                 horizontalAlignment = TextHorizontalAlignment.random(),
-                textColor = Color((1 .. 100).random()),
+                textColor = Color((1..100).random()),
                 fontWeight = listOf(FontWeight.Black, FontWeight.Bold, FontWeight.ExtraLight).random(),
-                isUnderlined = (1 .. 100).random() % 2 == 0,
-                isCrossed = (1 .. 100).random() % 2 == 0,
-                backgroundColor = Color((1 .. 100).random())
+                isUnderlined = (1..100).random() % 2 == 0,
+                isCrossed = (1..100).random() % 2 == 0,
+                backgroundColor = Color((1..100).random())
             )
         }
     }

@@ -179,5 +179,38 @@ data class FormatConfig(
                 },
             )
         }
+
+        /**
+         * randomize valid format value of a config, keep all range value
+         */
+        fun randomize(config:FormatConfig):FormatConfig{
+            return FormatConfig(
+                textSizeConfig = FormatEntrySet.randomize(config.textSizeConfig) { Random.nextFloat() },
+                textColorConfig = FormatEntrySet.randomize(config.textColorConfig) {
+                    Color(Random.nextInt())
+                },
+                textUnderlinedConfig = FormatEntrySet.randomize(config.textUnderlinedConfig) {
+                    Random.nextInt() % 2 == 0
+                },
+                textCrossedConfig = FormatEntrySet.randomize(config.textCrossedConfig) {
+                    Random.nextInt() % 2 == 0
+                },
+                fontWeightConfig = FormatEntrySet.randomize(config.fontWeightConfig) {
+                    listOf(FontWeight.Black, FontWeight.ExtraLight, FontWeight.Bold).random()
+                },
+                fontStyleConfig = FormatEntrySet.randomize(config.fontStyleConfig) {
+                    FontStyle.values().random()
+                },
+                horizontalAlignmentConfig = FormatEntrySet.randomize(config.horizontalAlignmentConfig) {
+                    TextHorizontalAlignment.random()
+                },
+                verticalAlignmentConfig = FormatEntrySet.randomize(config.verticalAlignmentConfig) {
+                    TextVerticalAlignment.random()
+                },
+                backgroundColorConfig = FormatEntrySet.randomize(config.backgroundColorConfig) {
+                    Color(Random.nextInt())
+                },
+            )
+        }
     }
 }

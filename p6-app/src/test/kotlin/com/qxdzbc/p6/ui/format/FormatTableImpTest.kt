@@ -1,8 +1,25 @@
 package com.qxdzbc.p6.ui.format
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import com.qxdzbc.common.test_util.TestSplitter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toColorModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toColorProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontStyleModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontStyleProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontWeightModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toFontWeightProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextHorizontalModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextHorizontalProto
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextVerticalModel
+import com.qxdzbc.p6.ui.format.FormatTable.Companion.toTextVerticalProto
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.nulls.shouldBeNull
@@ -34,9 +51,9 @@ internal class FormatTableImpTest : TestSplitter() {
     @Test
     fun applyConfig() {
         val t0 = FormatTableImp<Int>()
-        val configSet = FormatEntrySet.random { (1..2000).random() }
-        val validRanges: List<RangeAddress> = configSet.validSet.flatMap { it.rangeAddressSet.ranges }
-        val invalidRanges = configSet.invalidSet.flatMap { it.rangeAddressSet.ranges }
+        val formatEntrySet = FormatEntrySet.random { (1..2000).random() }
+        val validRanges: List<RangeAddress> = formatEntrySet.validSet.flatMap { it.rangeAddressSet.ranges }
+        val invalidRanges = formatEntrySet.invalidSet.flatMap { it.rangeAddressSet.ranges }
 
         preCondition {
             t0.getValidConfigSetFromRanges(validRanges).validSet.shouldBeEmpty()
@@ -46,7 +63,7 @@ internal class FormatTableImpTest : TestSplitter() {
                 t0.getFirstValue(range).shouldBeNull()
             }
 
-            t0.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe configSet.invalidSet
+            t0.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe formatEntrySet.invalidSet
             t0.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
             for (range in invalidRanges) {
                 t0.getFirstValue(range).shouldBeNull()
@@ -55,24 +72,34 @@ internal class FormatTableImpTest : TestSplitter() {
             }
         }
 
-        val t1 = t0.applyConfig(configSet)
-
+        val t1 = t0.applyConfig(formatEntrySet)
 
         postCondition {
-            t1.getValidConfigSetFromRanges(validRanges).validSet shouldBe configSet.validSet
+            t1.getValidConfigSetFromRanges(validRanges).validSet shouldBe formatEntrySet.validSet
             t1.getValidConfigSetFromRanges(validRanges).invalidSet.shouldBeEmpty()
-            t1.getConfigSetFromRanges(validRanges).validSet shouldBe configSet.validSet
+            t1.getConfigSetFromRanges(validRanges).validSet shouldBe formatEntrySet.validSet
             for (range in validRanges) {
                 t1.getFirstValue(range).shouldNotBeNull()
             }
 
-
-            t1.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe configSet.invalidSet
+            t1.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe formatEntrySet.invalidSet
             t1.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
             for (range in invalidRanges) {
                 t1.getFirstValue(range).shouldBeNull()
                 t1.getValidConfigSet(range).validSet.shouldBeEmpty()
                 t1.getConfigSet(range).invalidSet shouldBe setOf(FormatEntry(RangeAddressSetImp(range), null))
+            }
+        }
+
+        test("Test applying a new config with the same range address as the existing config") {
+            val formatEntrySet2 = FormatEntrySet.randomize(formatEntrySet) { (2000..3000).random() }
+            val t2 = t1.applyConfig(formatEntrySet2)
+            postCondition {
+                t2.getConfigSetFromRanges(validRanges).validSet shouldBe formatEntrySet2.validSet
+                t2.getConfigSetFromRanges(validRanges).invalidSet.shouldBeEmpty()
+
+                t2.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe formatEntrySet2.invalidSet
+                t2.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
             }
         }
     }
@@ -299,5 +326,75 @@ internal class FormatTableImpTest : TestSplitter() {
             t1 shouldBe expectation
             t1.getFirstValue(r).shouldBeNull()
         }
+    }
+
+    @Test
+    fun convertFloatTableToProtoBackandForth() {
+        val t0 = FormatTableImp(
+            RangeAddressSet.random(1..2) to 1f
+        )
+        val proto = t0.toProto()
+        val t1 = proto.toModel()
+        t1 shouldBe t0
+    }
+
+    @Test
+    fun convertLongTableToProtoBackandForth() {
+        val t0 = FormatTableImp(
+            RangeAddressSet.random(1..2) to Color.Black
+        )
+        val proto = t0.toColorProto()
+        val t1 = proto.toColorModel()
+        t1 shouldBe t0
+    }
+
+    @Test
+    fun convertBoolTableToProtoBackandForth() {
+        val t0 = FormatTableImp(
+            RangeAddressSet.random(1..2) to true
+        )
+        val proto = t0.toProto()
+        val t1 = proto.toModel()
+        t1 shouldBe t0
+    }
+
+    @Test
+    fun convertFontStyleTableToProtoBackandForth() {
+        val t0 = FormatTableImp(
+            RangeAddressSet.random(1..2) to FontStyle.Italic
+        )
+        val proto = t0.toFontStyleProto()
+        val t1 = proto.toFontStyleModel()
+        t1 shouldBe t0
+    }
+
+    @Test
+    fun convertFontWeightTableToProtoBackandForth() {
+        val t0 = FormatTableImp(
+            RangeAddressSet.random(1..2) to FontWeight(200)
+        )
+        val proto = t0.toFontWeightProto()
+        val t1 = proto.toFontWeightModel()
+        t1 shouldBe t0
+    }
+
+    @Test
+    fun convertTextHorizontalAlignmentTableToProtoBackandForth() {
+        val t0 = FormatTableImp(
+            RangeAddressSet.random(1..2) to TextHorizontalAlignment.random()
+        )
+        val proto = t0.toTextHorizontalProto()
+        val t1 = proto.toTextHorizontalModel()
+        t1 shouldBe t0
+    }
+
+    @Test
+    fun convertTextVerticalAlignmentTableToProtoBackandForth() {
+        val t0 = FormatTableImp(
+            RangeAddressSet.random(1..2) to TextVerticalAlignment.random()
+        )
+        val proto = t0.toTextVerticalProto()
+        val t1 = proto.toTextVerticalModel()
+        t1 shouldBe t0
     }
 }

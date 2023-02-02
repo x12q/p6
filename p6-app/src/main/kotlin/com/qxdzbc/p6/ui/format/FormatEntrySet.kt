@@ -376,6 +376,14 @@ data class FormatEntrySet<T>(
                 invalidSet = setOf(FormatEntry.randomInvalid((validCount * 10..(invalidCount + validCount) * 10).step(10)))
             )
         }
+
+        fun <T> randomize(formatEntrySet: FormatEntrySet<T>, randomGenerator: () -> T): FormatEntrySet<T> {
+           return formatEntrySet.copy(
+               validSet = formatEntrySet.validSet.map {
+                   FormatEntry.randomize(it,randomGenerator)
+               }.toSet(),
+           )
+        }
     }
 
     override fun shift(

@@ -21,35 +21,39 @@ data class FormatTableImp<T>(
         val toBeBroken = mutableListOf<Map.Entry<RangeAddressSet, T>>()
         var addValueByMerge = false
         for (entry in valueMap) {
-            val (radSet: RangeAddressSet, ts) = entry
+            val (radSet: RangeAddressSet, existingFormatValue) = entry
             if (radSet.hasIntersectionWith(rangeAddress)) {
-                if (ts == formatValue) {
+                if (existingFormatValue == formatValue) {
                     return this
                 } else {
+                    // x: mark a RangeAddressSet for breaking later
                     toBeBroken.add(entry)
                 }
             } else {
-                if (ts == formatValue) {
+                // x: append the new range address to an existing RangeAddressSet
+                // because this set is pointing to the same target format value
+                if (existingFormatValue == formatValue) {
                     val newRangeAddressSet = radSet.addRanges(rangeAddress)
-                    newMap = newMap - radSet + (newRangeAddressSet to ts)
+                    newMap = newMap - radSet + (newRangeAddressSet to existingFormatValue)
                     addValueByMerge = true
                     break
                 }
             }
         }
-        if (!addValueByMerge) {
-            newMap = newMap + (RangeAddressSetImp(rangeAddress) to formatValue)
-        }
 
-        newMap = toBeBroken.fold(newMap) { acc, (radSet, ts) ->
+        newMap = toBeBroken.fold(newMap) { accMap:Map<RangeAddressSet,T>, (radSet:RangeAddressSet, fv:T) ->
             val newRadSet = radSet.removeRange(rangeAddress)
-            acc.filterKeys { it != radSet }.let {
+            accMap.filter { it.key != radSet }
+                .let {
                 if (newRadSet.isNotEmpty()) {
-                    it + (newRadSet to ts)
+                    it + (newRadSet to fv)
                 } else {
                     it
                 }
             }
+        }
+        if (addValueByMerge.not()) {
+            newMap = newMap + (RangeAddressSetImp(rangeAddress) to formatValue)
         }
         return this.copy(valueMap = newMap)
 
@@ -96,7 +100,11 @@ data class FormatTableImp<T>(
         val nullFormatRangeSet = RangeAddressSetImp(rangeAddresses).getNotIn(
             availableFormats.validSet.flatMap { it.rangeAddressSet.ranges }.toSet()
         )
-        return availableFormats + (nullFormatRangeSet to null)
+        if(nullFormatRangeSet.isNotEmpty()){
+            return availableFormats + (nullFormatRangeSet to null)
+        }else{
+            return availableFormats
+        }
     }
 
     override fun getValidConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatEntrySet<T> {
@@ -113,11 +121,11 @@ data class FormatTableImp<T>(
         return rt
     }
 
-    override fun removeValue(cellAddress: CellAddress): FormatTable<T> {
+    override fun removeValue(cellAddress: CellAddress): FormatTableImp<T> {
         return this.removeValue(RangeAddress(cellAddress))
     }
 
-    override fun removeValue(rangeAddress: RangeAddress): FormatTable<T> {
+    override fun removeValue(rangeAddress: RangeAddress): FormatTableImp<T> {
         var newMap = this.valueMap
         for ((radSet, t) in newMap) {
             if (radSet.hasIntersectionWith(rangeAddress)) {
@@ -133,38 +141,38 @@ data class FormatTableImp<T>(
     }
 
 
-    override fun removeValueFromMultiCells(cellAddresses: Collection<CellAddress>): FormatTable<T> {
-        val rt = cellAddresses.fold(this) { acc: FormatTable<T>, ca ->
+    override fun removeValueFromMultiCells(cellAddresses: Collection<CellAddress>): FormatTableImp<T> {
+        val rt = cellAddresses.fold(this) { acc: FormatTableImp<T>, ca ->
             acc.removeValue(ca)
         }
         return rt
     }
 
-    override fun removeValueFromMultiRanges(rangeAddresses: Collection<RangeAddress>): FormatTable<T> {
-        val rt = rangeAddresses.fold(this) { acc: FormatTable<T>, ra ->
+    override fun removeValueFromMultiRanges(rangeAddresses: Collection<RangeAddress>): FormatTableImp<T> {
+        val rt = rangeAddresses.fold(this) { acc: FormatTableImp<T>, ra ->
             acc.removeValue(ra)
         }
         return rt
     }
 
-    override fun applyConfig(configSet: FormatEntrySet<T>): FormatTable<T> {
-        val t1 = configSet.validSet.fold(this){acc:FormatTable<T>,entry->
+    override fun applyConfig(configSet: FormatEntrySet<T>): FormatTableImp<T> {
+        val t1 = configSet.validSet.fold(this){acc:FormatTableImp<T>,entry->
             acc.addValueForMultiRanges(entry.rangeAddressSet.ranges,entry.formatValue)
         }
-        val t2 = configSet.invalidSet.fold(t1){acc:FormatTable<T>,entry->
+        val t2 = configSet.invalidSet.fold(t1){acc:FormatTableImp<T>,entry->
             acc.removeValueFromMultiRanges(entry.rangeAddressSet.ranges)
         }
         return t2
     }
 
-    override fun addValueForMultiCells(cellAddresses: Collection<CellAddress>, formatValue: T): FormatTable<T> {
+    override fun addValueForMultiCells(cellAddresses: Collection<CellAddress>, formatValue: T): FormatTableImp<T> {
         val rt = cellAddresses.fold(this) { acc, ca ->
             acc.addValue(ca, formatValue)
         }
         return rt
     }
 
-    override fun addValueForMultiRanges(rangeAddresses: Collection<RangeAddress>, formatValue: T): FormatTable<T> {
+    override fun addValueForMultiRanges(rangeAddresses: Collection<RangeAddress>, formatValue: T): FormatTableImp<T> {
         val rt = rangeAddresses.fold(this) { acc, rangeAddress ->
             acc.addValue(rangeAddress, formatValue)
         }
