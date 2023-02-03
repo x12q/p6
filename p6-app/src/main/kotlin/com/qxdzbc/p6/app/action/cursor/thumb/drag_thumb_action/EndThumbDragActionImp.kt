@@ -91,7 +91,7 @@ class EndThumbDragActionImp @Inject constructor(
                         wbKey = wbws.wbKey,
                         wsName = wbws.wsName
                     )
-                )
+                ),false
             )
         }
     }

@@ -113,7 +113,7 @@ class CellRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val req = request.toModel()
-                    val rt = acts.copyCellWithoutClipboard(req)
+                    val rt = acts.copyCellWithoutClipboard(req,false)
                     rt
                 }.await()
             }

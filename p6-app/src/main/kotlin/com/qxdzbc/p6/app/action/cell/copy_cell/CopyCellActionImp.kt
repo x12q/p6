@@ -1,11 +1,11 @@
 package com.qxdzbc.p6.app.action.cell.copy_cell
 
 import androidx.compose.runtime.getValue
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.flatMap
+import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
@@ -22,6 +22,7 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellDM
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.format.FormatConfig
@@ -32,23 +33,52 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class CopyCellActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    val deleteMultiCellAction: DeleteMultiCellAction,
     val updateCellFormatAction: UpdateCellFormatAction,
-    val updateMultiCellAction: UpdateMultiCellAction,
     val updateCellAction: UpdateCellAction,
+    val errorRouter: ErrorRouter,
 ) : CopyCellAction {
 
     private val sc by stateContSt
 
-    override fun copyCellWithoutClipboard(request: CopyCellRequest): Rse<Unit> {
-        val command = makeCopyCommand(request)
+    override fun copyCellWithoutClipboard(request: CopyCellRequest,publishError:Boolean): Rse<Unit> {
+
         if (request.undoable) {
+            val command = makeCopyCommand(request)
             sc.getUndoStackMs(request.toCell)?.also {
                 it.value = it.value.add(command)
             }
         }
-        command.run()
-        return Ok(Unit)
+//        copyData(request)
+//        copyFormat(request)
+//        return Ok(Unit)
+        val rs1 = copyData(request)
+        val rs2 = copyFormat(request)
+        if(publishError){
+            rs1.onFailure { errorReport ->
+                errorRouter.publishToWindow(errorReport,request.toCell.wbKey)
+            }
+            rs2.onFailure { errorReport ->
+                errorRouter.publishToWindow(errorReport,request.toCell.wbKey)
+            }
+        }
+        if(rs1 is Ok && rs2 is Ok){
+            return Ok(Unit)
+        }
+        if(rs1 is Err){
+            if(rs2 is Err){
+                return CommonErrors.MultipleErrors.report(listOf(rs1.error,rs2.error)).toErr()
+            }else{
+                return rs1
+            }
+        }
+        if(rs2 is Err){
+            if(rs1 is Err){
+                return CommonErrors.MultipleErrors.report(listOf(rs1.error,rs2.error)).toErr()
+            }else{
+                return rs2
+            }
+        }
+        return CommonErrors.Unknown.report("unknown error in CopyCellActionImp").toErr()
     }
 
     fun makeCopyCommand(request: CopyCellRequest): Command {
@@ -146,14 +176,25 @@ class CopyCellActionImp @Inject constructor(
         return rt
     }
 
-    private fun copyFormat(request: CopyCellRequest) {
+    private fun copyFormat(request: CopyCellRequest):Rse<Unit> {
         val fromCell = request.fromCell
-        val format = sc.getCellFormatTable(fromCell)?.getFormat(fromCell.address)
-        if (format != null) {
+        val formatRs = sc.getCellFormatTableRs(fromCell).map {
+            it.getFormat(fromCell.address)
+        }
+        val q = formatRs.flatMap {format->
             val toCell = request.toCell
-            sc.getCellFormatTableMs(toCell)?.also {
+            sc.getCellFormatTableMsRs(toCell).map {
                 it.value = it.value.setFormat(toCell.address, format)
             }
         }
+        return q
+//        val format = sc.getCellFormatTable(fromCell)?.getFormat(fromCell.address)
+//        if (format != null) {
+//            val toCell = request.toCell
+//            sc.getCellFormatTableMs(toCell)?.also {
+//                it.value = it.value.setFormat(toCell.address, format)
+//            }
+//        }
+
     }
 }

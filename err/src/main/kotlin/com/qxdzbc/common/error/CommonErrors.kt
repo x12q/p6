@@ -82,7 +82,7 @@ object CommonErrors {
         }
     }
     object UnPlanned {
-        val header = ErrorHeader("${prefix} 6", "Un planned error")
+        val header = ErrorHeader("${prefix} 6", "Unplanned error")
 
         fun report(detail: String): ErrorReport {
             return header.setDescription(detail).toErrorReport()

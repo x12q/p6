@@ -45,8 +45,14 @@ interface SubAppStateContainer {
     fun getCellFormatTableMs(wbwsSt: WbWsSt):Ms<CellFormatTable>?
     fun getCellFormatTableMs(wbws: WbWs):Ms<CellFormatTable>?
 
+    fun getCellFormatTableMsRs(wbwsSt: WbWsSt):Rse<Ms<CellFormatTable>>
+    fun getCellFormatTableMsRs(wbws: WbWs):Rse<Ms<CellFormatTable>>
+
     fun getCellFormatTable(wbwsSt: WbWsSt):CellFormatTable?
     fun getCellFormatTable(wbws: WbWs):CellFormatTable?
+
+    fun getCellFormatTableRs(wbwsSt: WbWsSt):Rse<CellFormatTable>
+    fun getCellFormatTableRs(wbws: WbWs):Rse<CellFormatTable>
 
     fun getToolbarStateMs(windowId: String):Ms<ToolBarState>?
     fun getToolbarState(windowId: String):ToolBarState?

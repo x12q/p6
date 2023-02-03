@@ -115,8 +115,8 @@ internal class CopyCellActionImpTest : BaseAppStateTest() {
             CopyCellRequest(
                 fromCell = fromCell,
                 toCell = toCell,
-                shiftRange = true
-            )
+                shiftRange = true,
+            ),false
         )
 
         postCondition {
@@ -173,7 +173,7 @@ internal class CopyCellActionImpTest : BaseAppStateTest() {
                     fromCell = fromCell,
                     toCell = toCell,
                     shiftRange = true
-                )
+                ),false
             )
 
             postCondition {
@@ -200,7 +200,7 @@ internal class CopyCellActionImpTest : BaseAppStateTest() {
             CopyCellRequest(
                 fromCell = fromCell,
                 toCell = toCell,
-            )
+            ),false
         )
         ts.sc.getCellOrDefault(toCell)?.currentValue shouldBe content
         ts.sc.getCellOrDefault(toCell)?.cachedDisplayText shouldBe content
