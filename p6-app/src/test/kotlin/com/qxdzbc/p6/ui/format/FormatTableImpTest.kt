@@ -60,13 +60,13 @@ internal class FormatTableImpTest : TestSplitter() {
             t0.getValidConfigSetFromRanges(validRanges).invalidSet.shouldBeEmpty()
             t0.getConfigSetFromRanges(validRanges).validSet.shouldBeEmpty()
             for (range in validRanges) {
-                t0.getFirstValue(range).shouldBeNull()
+                t0.getFormatValue(range).shouldBeNull()
             }
 
             t0.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe formatEntrySet.invalidSet
             t0.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
             for (range in invalidRanges) {
-                t0.getFirstValue(range).shouldBeNull()
+                t0.getFormatValue(range).shouldBeNull()
                 t0.getValidConfigSet(range).validSet.shouldBeEmpty()
                 t0.getConfigSet(range).invalidSet shouldBe setOf(FormatEntry(RangeAddressSetImp(range), null))
             }
@@ -74,32 +74,43 @@ internal class FormatTableImpTest : TestSplitter() {
 
         val t1 = t0.applyConfig(formatEntrySet)
 
-        postCondition {
-            t1.getValidConfigSetFromRanges(validRanges).validSet shouldBe formatEntrySet.validSet
-            t1.getValidConfigSetFromRanges(validRanges).invalidSet.shouldBeEmpty()
-            t1.getConfigSetFromRanges(validRanges).validSet shouldBe formatEntrySet.validSet
-            for (range in validRanges) {
-                t1.getFirstValue(range).shouldNotBeNull()
+        fun <T> assertGetters(formatEntrySet: FormatEntrySet<T>, t1: FormatTableImp<T>) {
+            val _validRanges: List<RangeAddress> = formatEntrySet.validSet.flatMap { it.rangeAddressSet.ranges }
+            val _invalidRanges = formatEntrySet.invalidSet.flatMap { it.rangeAddressSet.ranges }
+            with(t1.getValidConfigSetFromRanges(_validRanges)) {
+                validSet shouldBe formatEntrySet.validSet
+                invalidSet.shouldBeEmpty()
             }
 
-            t1.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe formatEntrySet.invalidSet
-            t1.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
-            for (range in invalidRanges) {
-                t1.getFirstValue(range).shouldBeNull()
+            with(t1.getConfigSetFromRanges(_validRanges)) {
+                validSet shouldBe formatEntrySet.validSet
+                invalidSet.shouldBeEmpty()
+            }
+            for (range in _validRanges) {
+                t1.getFormatValue(range) shouldBe formatEntrySet.validSet.first { it.rangeAddressSet.contains(range) }.formatValue
+            }
+
+            with(t1.getConfigSetFromRanges(_invalidRanges)) {
+                invalidSet shouldBe formatEntrySet.invalidSet
+                validSet.shouldBeEmpty()
+            }
+
+            for (range in _invalidRanges) {
+                t1.getFormatValue(range).shouldBeNull()
                 t1.getValidConfigSet(range).validSet.shouldBeEmpty()
                 t1.getConfigSet(range).invalidSet shouldBe setOf(FormatEntry(RangeAddressSetImp(range), null))
             }
         }
 
-        test("Test applying a new config with the same range address as the existing config") {
+        postCondition("make sure all relevant getters return correct results after applying a format config") {
+            assertGetters(formatEntrySet, t1)
+        }
+
+        test("Test applying a new config with the same range addresses as the ones of existing config") {
             val formatEntrySet2 = FormatEntrySet.randomize(formatEntrySet) { (2000..3000).random() }
             val t2 = t1.applyConfig(formatEntrySet2)
-            postCondition {
-                t2.getConfigSetFromRanges(validRanges).validSet shouldBe formatEntrySet2.validSet
-                t2.getConfigSetFromRanges(validRanges).invalidSet.shouldBeEmpty()
-
-                t2.getConfigSetFromRanges(invalidRanges).invalidSet shouldBe formatEntrySet2.invalidSet
-                t2.getConfigSetFromRanges(invalidRanges).validSet.shouldBeEmpty()
+            postCondition("make sure all relevant getters return correct results after applying a format config") {
+                assertGetters(formatEntrySet2, t2)
             }
         }
     }
@@ -294,14 +305,14 @@ internal class FormatTableImpTest : TestSplitter() {
         )
         preCondition {
             t0 shouldNotBe expectation
-            t0.getFirstValue(r).shouldNotBeNull()
+            t0.getFormatValue(r).shouldNotBeNull()
         }
 
         val t1 = t0.removeValue(r)
 
         postCondition {
             t1 shouldBe expectation
-            t1.getFirstValue(r).shouldBeNull()
+            t1.getFormatValue(r).shouldBeNull()
         }
     }
 
@@ -317,14 +328,14 @@ internal class FormatTableImpTest : TestSplitter() {
         )
         preCondition {
             t0 shouldNotBe expectation
-            t0.getFirstValue(r).shouldNotBeNull()
+            t0.getFormatValue(r).shouldNotBeNull()
         }
 
         val t1 = t0.removeValue(r)
 
         postCondition {
             t1 shouldBe expectation
-            t1.getFirstValue(r).shouldBeNull()
+            t1.getFormatValue(r).shouldBeNull()
         }
     }
 

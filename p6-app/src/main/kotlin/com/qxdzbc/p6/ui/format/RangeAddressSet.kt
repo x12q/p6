@@ -20,6 +20,8 @@ interface RangeAddressSet: WithSize,Shiftable {
     fun addCell(cellAddress: CellAddress): RangeAddressSet
 
     fun contains(cellAddress: CellAddress): Boolean
+    fun contains(rangeAddress: RangeAddress): Boolean
+
     fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean
 
     fun removeCell(cellAddress: CellAddress): RangeAddressSet
@@ -47,6 +49,9 @@ interface RangeAddressSet: WithSize,Shiftable {
     fun toProto():RangeAddressSetProto
 
     companion object{
+        /**
+         * Generate a [RangeAddressSetImp] that contains only non-overlapping [RangeAddress]
+         */
         fun random(numberRange:IntProgression):RangeAddressSetImp{
             return RangeAddressSetImp(
                 numberRange.map {x->

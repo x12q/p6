@@ -18,6 +18,10 @@ data class RangeAddressSetImp(
         return ranges.firstOrNull { it.contains(cellAddress) } != null
     }
 
+    override fun contains(rangeAddress: RangeAddress): Boolean {
+        return ranges.firstOrNull { it.contains(rangeAddress) } != null
+    }
+
     override fun addRanges(rangeAddresses: Collection<RangeAddress>): RangeAddressSetImp {
         val newSet = RangeAddresses.exhaustiveMergeRanges(this.ranges + rangeAddresses).toSet()
         return this.copy(ranges = newSet)

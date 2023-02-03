@@ -26,12 +26,12 @@ interface FormatTable<T> {
     /**
      * Search the table, return the first format value associating with [cellAddress]
      */
-    fun getFirstValue(cellAddress: CellAddress): T?
+    fun getFormatValue(cellAddress: CellAddress): T?
 
     /**
      * Search the table, return the first format value associating with [rangeAddress]
      */
-    fun getFirstValue(rangeAddress: RangeAddress): T?
+    fun getFormatValue(rangeAddress: RangeAddress): T?
 
     /**
      * Get all valid format values and their respective range set in the range denoted by [rangeAddress]

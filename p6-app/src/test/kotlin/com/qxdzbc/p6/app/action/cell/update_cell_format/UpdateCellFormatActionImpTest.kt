@@ -94,11 +94,11 @@ internal class UpdateCellFormatActionImpTest : BaseAppStateTest() {
             getFormatTable = CellFormatTable::textSizeTable,
             updateCellFormatTable = CellFormatTable::setTextSizeTable
         )
-        cellFormatTable.textSizeTable.getFirstValue(cellA1Id.address).shouldBeNull()
+        cellFormatTable.textSizeTable.getFormatValue(cellA1Id.address).shouldBeNull()
         action.run()
-        cellFormatTable.textSizeTable.getFirstValue(cellA1Id.address) shouldBe fontSize
+        cellFormatTable.textSizeTable.getFormatValue(cellA1Id.address) shouldBe fontSize
         action.undo()
-        cellFormatTable.textSizeTable.getFirstValue(cellA1Id.address).shouldBeNull()
+        cellFormatTable.textSizeTable.getFormatValue(cellA1Id.address).shouldBeNull()
     }
 
     @Test
@@ -122,20 +122,20 @@ internal class UpdateCellFormatActionImpTest : BaseAppStateTest() {
         )
         preCondition {
             mockCursorState.allRanges.forEach { r ->
-                cellFormatTable.textSizeTable.getFirstValue(r).shouldBeNull()
+                cellFormatTable.textSizeTable.getFormatValue(r).shouldBeNull()
             }
             mockCursorState.allFragCells.forEach { c ->
-                cellFormatTable.textSizeTable.getFirstValue(c).shouldBeNull()
+                cellFormatTable.textSizeTable.getFormatValue(c).shouldBeNull()
             }
         }
 
         action.run()
         postCondition {
             mockCursorState.allRanges.forEach { r ->
-                cellFormatTable.textSizeTable.getFirstValue(r) shouldBe fontSize
+                cellFormatTable.textSizeTable.getFormatValue(r) shouldBe fontSize
             }
             mockCursorState.allFragCells.forEach { c ->
-                cellFormatTable.textSizeTable.getFirstValue(c) shouldBe fontSize
+                cellFormatTable.textSizeTable.getFormatValue(c) shouldBe fontSize
             }
         }
 
@@ -143,10 +143,10 @@ internal class UpdateCellFormatActionImpTest : BaseAppStateTest() {
 
         postCondition {
             mockCursorState.allRanges.forEach { r ->
-                cellFormatTable.textSizeTable.getFirstValue(r).shouldBeNull()
+                cellFormatTable.textSizeTable.getFormatValue(r).shouldBeNull()
             }
             mockCursorState.allFragCells.forEach { c ->
-                cellFormatTable.textSizeTable.getFirstValue(c).shouldBeNull()
+                cellFormatTable.textSizeTable.getFormatValue(c).shouldBeNull()
             }
         }
     }
@@ -181,15 +181,15 @@ internal class UpdateCellFormatActionImpTest : BaseAppStateTest() {
                 cft.setCellBackgroundColorTable(newTable)
             }
         )
-        table2.cellBackgroundColorTable.getFirstValue(r2) shouldBe c2
+        table2.cellBackgroundColorTable.getFormatValue(r2) shouldBe c2
 
         val i = r2.cellIterator
         while (i.hasNext()) {
-            table2.cellBackgroundColorTable.getFirstValue(i.next()) shouldBe c2
+            table2.cellBackgroundColorTable.getFormatValue(i.next()) shouldBe c2
         }
 
         r1.getNotIn(r2).forEach {
-            table2.cellBackgroundColorTable.getFirstValue(it) shouldBe c1
+            table2.cellBackgroundColorTable.getFormatValue(it) shouldBe c1
         }
 
     }

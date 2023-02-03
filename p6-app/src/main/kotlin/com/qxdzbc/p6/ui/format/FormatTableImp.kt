@@ -59,11 +59,11 @@ data class FormatTableImp<T>(
 
     }
 
-    override fun getFirstValue(cellAddress: CellAddress): T? {
+    override fun getFormatValue(cellAddress: CellAddress): T? {
         return this.valueMap.entries.firstOrNull { (k, v) -> k.contains(cellAddress) }?.value
     }
 
-    override fun getFirstValue(rangeAddress: RangeAddress): T? {
+    override fun getFormatValue(rangeAddress: RangeAddress): T? {
         return this.valueMap.entries.firstOrNull { (k, v) -> k.hasIntersectionWith(rangeAddress) }?.value
     }
 

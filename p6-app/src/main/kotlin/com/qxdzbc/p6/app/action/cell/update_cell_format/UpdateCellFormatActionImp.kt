@@ -65,7 +65,7 @@ class UpdateCellFormatActionImp @Inject constructor(
 
         val command = object:BaseCommand(){
             val _formatValue = formatValue
-            val _oldFormatValue = getFormatTable(cellFormatTableMs.value).getFirstValue(cellId.address)
+            val _oldFormatValue = getFormatTable(cellFormatTableMs.value).getFormatValue(cellId.address)
             val _cellFormatTableMs = cellFormatTableMs
             val _cellId = cellId
             val _getFormatTable = getFormatTable

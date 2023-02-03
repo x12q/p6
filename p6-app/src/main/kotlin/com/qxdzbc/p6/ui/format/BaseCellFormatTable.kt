@@ -112,21 +112,21 @@ abstract class BaseCellFormatTable : CellFormatTable {
 
     override fun getFormat(cellAddress: CellAddress): CellFormat {
         val rt = CellFormatImp(
-            textSize = this.textSizeTable.getFirstValue(cellAddress),
-            fontStyle = this.fontStyleTable.getFirstValue(cellAddress),
-            verticalAlignment = this.textVerticalAlignmentTable.getFirstValue(cellAddress),
-            horizontalAlignment = this.textHorizontalAlignmentTable.getFirstValue(cellAddress),
-            textColor = this.textColorTable.getFirstValue(cellAddress),
-            fontWeight = this.fontWeightTable.getFirstValue(cellAddress),
-            isUnderlined = this.textUnderlinedTable.getFirstValue(cellAddress),
-            isCrossed = this.textCrossedTable.getFirstValue(cellAddress),
-            backgroundColor = this.cellBackgroundColorTable.getFirstValue(cellAddress),
+            textSize = this.textSizeTable.getFormatValue(cellAddress),
+            fontStyle = this.fontStyleTable.getFormatValue(cellAddress),
+            verticalAlignment = this.textVerticalAlignmentTable.getFormatValue(cellAddress),
+            horizontalAlignment = this.textHorizontalAlignmentTable.getFormatValue(cellAddress),
+            textColor = this.textColorTable.getFormatValue(cellAddress),
+            fontWeight = this.fontWeightTable.getFormatValue(cellAddress),
+            isUnderlined = this.textUnderlinedTable.getFormatValue(cellAddress),
+            isCrossed = this.textCrossedTable.getFormatValue(cellAddress),
+            backgroundColor = this.cellBackgroundColorTable.getFormatValue(cellAddress),
         )
         return rt
     }
 
     override fun getCellModifier(cellAddress: CellAddress): Modifier? {
-        val backgroundColor = cellBackgroundColorTable.getFirstValue(cellAddress)
+        val backgroundColor = cellBackgroundColorTable.getFormatValue(cellAddress)
         return Modifier
             .background(backgroundColor ?: CellFormat.defaultBackgroundColor)
     }

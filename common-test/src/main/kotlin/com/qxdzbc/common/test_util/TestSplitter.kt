@@ -6,9 +6,11 @@ abstract class TestSplitter {
     /**
      * just to make long tests easier to read
      */
-    fun test(description: String = "", run:Boolean=true, f: () -> Unit) {
+    fun <T>test(description: String = "", run:Boolean=true, f: () -> T):T? {
         if(run){
-            f()
+            return f()
+        }else{
+            return null
         }
     }
 
