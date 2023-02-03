@@ -1,12 +1,10 @@
 package com.qxdzbc.p6.app.document.worksheet
 
-import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.common.table.TableCR
@@ -56,10 +54,10 @@ interface Worksheet : WithSize, WbWsSt {
     /**
      * return a range derived from this worksheet
      */
-    fun range(address: RangeAddress): Result<Range, ErrorReport>
+    fun range(address: RangeAddress): Rse<Range>
 
-    fun updateCellValue(cellAddress: CellAddress, value: Any?): Result<Worksheet, ErrorReport>
-    fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Result<Worksheet, ErrorReport>
+    fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Worksheet>
+    fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Rse<Worksheet>
 
     fun getCellsInRange(rangeAddress: RangeAddress): List<Cell>
 
@@ -86,7 +84,7 @@ interface Worksheet : WithSize, WbWsSt {
      * @return a cell if it exists or create an empty cell if the input address is legal
      * @return an error is the input address is illegal (out of the bound limit of this worksheet)
      */
-    fun getCellOrDefaultRs(cellAddress: CellAddress): Result<Cell, ErrorReport>
+    fun getCellOrDefaultRs(cellAddress: CellAddress): Rse<Cell>
 
     fun addOrOverwrite(cell: Cell): Worksheet
 

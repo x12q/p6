@@ -2,8 +2,9 @@ package com.qxdzbc.p6.ui.app.state
 
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.addError
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
@@ -18,7 +19,7 @@ class QueryByWorkbookKeyResult2(
  * [workbookStateMs] is the workbook the key is pointing to, null if the key is invalid.
  * [windowStateMs] the window in which the workbook locates, null if the key is invalid.
  * [errorContainerMs] the relavant oddity container. It is the window's oddity container if the key is valid; otherwise it is the app's oddity container.
- * [ErrorReport] gives detail the error (if any) when doing query.
+ * [SingleErrorReport] gives detail the error (if any) when doing query.
  */
 class QueryByWorkbookKeyResult(
     val windowStateOrNull: Ms<WindowState>? = null,

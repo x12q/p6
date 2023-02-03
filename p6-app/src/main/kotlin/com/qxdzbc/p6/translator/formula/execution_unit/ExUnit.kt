@@ -5,8 +5,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import com.github.michaelbull.result.Result
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
@@ -87,7 +86,7 @@ interface ExUnit : Shiftable, ColorKey {
     /**
      * returns something that can be stored in a cell.
      */
-    fun runRs(): Result<Any?, ErrorReport>
+    fun runRs(): Rse<Any?>
     fun run(): Any? {
         return runRs().component1()
     }

@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.common.table.TableCRColumn
 import com.qxdzbc.p6.app.common.table.TableCRColumnImp
 import com.qxdzbc.p6.app.common.table.TableCRRow
@@ -54,7 +54,7 @@ abstract class BaseWorksheet : Worksheet {
         return getCellMs(CellAddress(label))?.value
     }
 
-    override fun getCellOrDefaultRs(cellAddress: CellAddress): Result<Cell, ErrorReport> {
+    override fun getCellOrDefaultRs(cellAddress: CellAddress): Result<Cell, SingleErrorReport> {
         if (rangeConstraint.contains(cellAddress)) {
             return Ok(getCell(cellAddress) ?: CellImp(CellId(cellAddress, wbKeySt, wsNameSt)))
         } else {

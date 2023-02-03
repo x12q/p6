@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.document.worksheet
 
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.p6.di.P6Singleton
@@ -14,7 +14,7 @@ class WsNameGeneratorImp @Inject constructor() : WsNameGenerator {
     companion object {
         val namePattern = Pattern.compile("Sheet[1-9][0-9]*")
     }
-    override fun nextName(oldName: List<String>): Result<String, ErrorReport> {
+    override fun nextName(oldName: List<String>): Result<String, SingleErrorReport> {
         val nextIndex = (oldName.filter { namePattern.matcher(it).matches() }.map {
             it.substring("Sheet".length).toInt()
         }.maxOrNull() ?: 0) + 1

@@ -23,7 +23,8 @@ val p6Version = "1.0"
 val kotestVersion="5.5.4"
 dependencies {
     implementation("com.michael-bull.kotlin-result:kotlin-result-jvm:1.1.12")
-    implementation("com.qxdzbc:err:${p6Version}")
+//    implementation("com.qxdzbc:err:${p6Version}")
+    implementation(project(":err"))
     implementation(kotlin("stdlib-jdk8"))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")

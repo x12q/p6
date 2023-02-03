@@ -5,10 +5,11 @@ import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.document.cell.*
@@ -95,7 +96,7 @@ data class WorksheetImp(
 
     override var id: WorksheetId by idMs
 
-    override fun range(address: RangeAddress): Result<Range, ErrorReport> {
+    override fun range(address: RangeAddress): Rse<Range> {
         if (this.rangeConstraint.contains(address)) {
             return Ok(
                 OneOffRange(
@@ -132,7 +133,7 @@ data class WorksheetImp(
             .build()
     }
 
-    override fun updateCellValue(cellAddress: CellAddress, value: Any?): Result<Worksheet, ErrorReport> {
+    override fun updateCellValue(cellAddress: CellAddress, value: Any?): Result<Worksheet, SingleErrorReport> {
         val cellRs = this.getCellOrDefaultRs(cellAddress)
         val rt = cellRs.map { cell ->
             val newContent = cell.content.setValueAndDeleteExUnit(CellValue.fromAny(value))
@@ -145,7 +146,7 @@ data class WorksheetImp(
     override fun updateCellContentRs(
         cellAddress: CellAddress,
         cellContent: CellContent
-    ): Result<Worksheet, ErrorReport> {
+    ): Result<Worksheet, SingleErrorReport> {
         val cellRs = this.getCellOrDefaultRs(cellAddress)
         val rt = cellRs.map { cell ->
             val newCell = cell.setContent(cellContent)

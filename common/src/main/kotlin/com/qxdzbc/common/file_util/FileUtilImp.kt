@@ -1,10 +1,9 @@
 package com.qxdzbc.common.file_util
 
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rs
-import com.qxdzbc.common.file_util.FileUtil
+import com.qxdzbc.common.error.ErrorReport
 import java.nio.file.Files
 import java.nio.file.Path
 

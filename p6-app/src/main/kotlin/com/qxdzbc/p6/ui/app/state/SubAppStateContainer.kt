@@ -5,7 +5,7 @@ import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.CommandStack
@@ -135,10 +135,10 @@ interface SubAppStateContainer {
     fun getWsStateMs(wbws: WbWs): Ms<WorksheetState>?
     fun getWsState(wbws: WbWs): WorksheetState?
 
-    fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport>
+    fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, SingleErrorReport>
     fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>?
 
-    fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, ErrorReport>
+    fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, SingleErrorReport>
     fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>?
 
     fun getWindowStateByIdRs(windowId: String): Rse<WindowState>
@@ -146,7 +146,7 @@ interface SubAppStateContainer {
     fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState>
     fun getWindowStateByWbKey(wbKey: WorkbookKey): WindowState?
 
-    fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport>
+    fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, SingleErrorReport>
     fun getWindowStateMsById(windowId: String): Ms<WindowState>?
 
     fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>?

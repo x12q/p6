@@ -8,7 +8,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.action.range.RangeIdImp
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -32,8 +32,8 @@ data class GetCellUnit(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun runRs(): Result<St<Cell>?, ErrorReport> {
-        val rt= super.runRs() as Result<St<Cell>?, ErrorReport>
+    override fun runRs(): Result<St<Cell>?, SingleErrorReport> {
+        val rt= super.runRs() as Result<St<Cell>?, SingleErrorReport>
         return rt
     }
 

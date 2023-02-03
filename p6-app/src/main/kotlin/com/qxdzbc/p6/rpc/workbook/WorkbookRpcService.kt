@@ -7,10 +7,8 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
 import com.google.protobuf.Int64Value
-import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetRequest.Companion.toModel
@@ -21,12 +19,10 @@ import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetResponse2
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetWithIndexRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.common.utils.CoroutineUtils
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.ActionDispatcherMain
 import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -36,7 +32,6 @@ import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.WorkbookProtos
 import com.qxdzbc.p6.proto.WorksheetProtos
-import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.WorkbookServiceGrpc
 import com.qxdzbc.p6.rpc.workbook.msg.GetAllWorksheetsResponse
 import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
@@ -175,7 +170,7 @@ class WorkbookRpcService @Inject constructor(
             val rt = runBlocking {
                 async(actionDispatcherDefault) {
                     val req = SetWbKeyRequest.fromProto(request)
-                    val rs: Rs<Unit, ErrorReport> = rpcActions.replaceWbKey(req)
+                    val rs: Rse<Unit> = rpcActions.replaceWbKey(req)
                     val rt = SingleSignalResponse.fromRs(rs).toProto()
                     rt
                 }.await()
@@ -197,7 +192,7 @@ class WorkbookRpcService @Inject constructor(
                     val wbkMsRs = dc.getWbRs(wbKey = wbk)
                     val rs = wbkMsRs.flatMap { wb ->
                         val req = request.toModel(wb.keyMs, translator)
-                        val rs: Rs<AddWorksheetResponse, ErrorReport> = rpcActions.createNewWorksheetRs(req)
+                        val rs: Rse<AddWorksheetResponse> = rpcActions.createNewWorksheetRs(req)
                         rs
                     }
                     val rt = SingleSignalResponse.fromRs(rs).toProto()

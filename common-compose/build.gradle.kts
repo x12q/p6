@@ -36,8 +36,10 @@ val p6Version = "1.0"
 val kotestVersion="5.5.4"
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("com.qxdzbc:err:${p6Version}")
-    implementation("com.qxdzbc:common:${p6Version}")
+//    implementation("com.qxdzbc:common:${p6Version}")
+//    implementation("com.qxdzbc:err:${p6Version}")
+    implementation(project(":err"))
+    implementation(project(":common"))
     implementation("com.michael-bull.kotlin-result:kotlin-result-jvm:1.1.12")
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-inline:${mockitoVersion}")

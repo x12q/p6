@@ -10,7 +10,6 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorContainerImp
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.di.state.window.DefaultFocusStateMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -110,7 +109,7 @@ data class WindowStateImp @AssistedInject constructor(
         return wbStateCont.getWbStateMs(workbookKey)
     }
 
-    private fun getWorkbookStateMsRs(workbookKey: WorkbookKey): Result<Ms<WorkbookState>, ErrorReport> {
+    private fun getWorkbookStateMsRs(workbookKey: WorkbookKey): Rse<Ms<WorkbookState>> {
         val wbsMs = wbStateCont.getWbStateMsRs(workbookKey)
         return wbsMs
     }

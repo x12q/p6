@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.document.cell
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toCellValue
@@ -55,7 +55,7 @@ object Cells {
                         }
                     }
                     is Err<*> -> {
-                        return o.component2() is ErrorReport
+                        return o.component2() is SingleErrorReport
                     }
                 }
             }

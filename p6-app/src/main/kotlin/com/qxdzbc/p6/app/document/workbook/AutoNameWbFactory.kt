@@ -2,11 +2,10 @@ package com.qxdzbc.p6.app.document.workbook
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
@@ -31,7 +30,7 @@ class AutoNameWbFactory @Inject constructor(
         private val namePattern = Pattern.compile("Book[1-9][0-9]*")
     }
 
-    override fun createWbRs(wbName: String?): Result<Workbook, ErrorReport> {
+    override fun createWbRs(wbName: String?): Rse<Workbook> {
         // extract indices from workbook name that follow the patter.
         // Eg:{ "Book1", "Book2" }-> {1,2}
 

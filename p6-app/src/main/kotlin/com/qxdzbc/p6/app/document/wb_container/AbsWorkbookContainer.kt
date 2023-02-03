@@ -3,11 +3,10 @@ package com.qxdzbc.p6.app.document.wb_container
 import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.Rse
 import java.nio.file.Path
 
 abstract class AbsWorkbookContainer : WorkbookContainer {
@@ -15,7 +14,7 @@ abstract class AbsWorkbookContainer : WorkbookContainer {
     override val size: Int
         get() = allWbs.size
 
-    override fun getWbRs(wbKeySt: St<WorkbookKey>): Result<Workbook, ErrorReport> {
+    override fun getWbRs(wbKeySt: St<WorkbookKey>): Rse<Workbook> {
         return getWbMsRs(wbKeySt).map { it.value }
     }
 
@@ -40,7 +39,7 @@ abstract class AbsWorkbookContainer : WorkbookContainer {
         return rs.component1()
     }
 
-    override fun getWbRs(wbKey: WorkbookKey): Result<Workbook, ErrorReport> {
+    override fun getWbRs(wbKey: WorkbookKey): Rse<Workbook> {
         return this.getWbMsRs(wbKey).map { it.value }
     }
 
@@ -48,7 +47,7 @@ abstract class AbsWorkbookContainer : WorkbookContainer {
         return this.getWbRs(path).component1()
     }
 
-    override fun getWbRs(path: Path):Result<Workbook,ErrorReport>{
+    override fun getWbRs(path: Path):Rse<Workbook>{
         return this.getWbMsRs(path).map { it.value }
     }
 }

@@ -3,9 +3,9 @@ package com.qxdzbc.p6.rpc.workbook.msg
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
-import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.WorkbookProtos
 
 class WorksheetWithErrorReportMsg(

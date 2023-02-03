@@ -5,9 +5,10 @@ import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellContentImp
@@ -98,11 +99,11 @@ class JvmFormulaTranslator_Integration_Test {
         p6FunctDefs = P6FunctionDefinitionsImp(
             appStateMs, ts.appState.docContMs,
         )
-        fun add(n1: Int, n2: Int): Result<Int, ErrorReport> {
+        fun add(n1: Int, n2: Int): Result<Int, SingleErrorReport> {
             return Ok(n1 + n2)
         }
 
-        fun toUpper(str: String): Result<String, ErrorReport> {
+        fun toUpper(str: String): Result<String, SingleErrorReport> {
             return Ok(str.uppercase())
         }
 
@@ -122,7 +123,7 @@ class JvmFormulaTranslator_Integration_Test {
 
     @Test
     fun `translate formula that call a function`() {
-        val inputMap: Map<String, Result<Any?, ErrorReport>> = mapOf(
+        val inputMap: Map<String, Rse<Any?>> = mapOf(
             "=A1" to sc.getCellMsRs(wbKey, wsName, CellAddress("A1")),
             "=A1:B3@Sheet2" to sc.getRangeRs(wbKey, "Sheet2", RangeAddress("A1:B3")),
             "=A1:B3@'Sheet not exist'" to sc.getRangeRs(wbKey, "Sheet not exist", RangeAddress("A1:B3")),

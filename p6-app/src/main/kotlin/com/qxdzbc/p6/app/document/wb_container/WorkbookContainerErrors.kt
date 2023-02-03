@@ -2,7 +2,7 @@ package com.qxdzbc.p6.app.document.wb_container
 
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import java.nio.file.Path
 
 object WorkbookContainerErrors {
@@ -10,36 +10,36 @@ object WorkbookContainerErrors {
 
     object InvalidWorkbook {
         val header = ErrorHeader("${UI_WErr}0", "invalid workbook")
-        fun report(workbookKey: WorkbookKey) = ErrorReport(
+        fun report(workbookKey: WorkbookKey) = SingleErrorReport(
             header = header.setDescription("Invalid workbook at ${workbookKey.path}"),
             data = workbookKey,
         )
 
-        fun report(path: Path) = ErrorReport(
+        fun report(path: Path) = SingleErrorReport(
             header = header.setDescription("Invalid workbook at ${path}"),
             data = path
         )
-        fun reportDefault(name: String) = ErrorReport(
+        fun reportDefault(name: String) = SingleErrorReport(
             header = header.setDescription("Workbook named ${name} does not exist."),
         )
-        fun report(detail: String?) = ErrorReport(
+        fun report(detail: String?) = SingleErrorReport(
             header = detail?.let { header.setDescription(it) } ?: header,
         )
-        fun report(index: Int) = ErrorReport(
+        fun report(index: Int) = SingleErrorReport(
             header = header.setDescription("Workbook at ${index} does not exist."),
         )
     }
 
     object WorkbookAlreadyExist {
         val header = ErrorHeader("${UI_WErr}1", "")
-        fun report(wbKey: WorkbookKey): ErrorReport {
-            return ErrorReport(
+        fun report(wbKey: WorkbookKey): SingleErrorReport {
+            return SingleErrorReport(
                 header = header.setDescription("workbook at key ${wbKey} already exist")
             )
         }
 
-        fun report2(detail:String?): ErrorReport {
-            return ErrorReport(
+        fun report2(detail:String?): SingleErrorReport {
+            return SingleErrorReport(
                 header = detail?.let { header.setDescription(detail) } ?: header
             )
         }

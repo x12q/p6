@@ -3,9 +3,8 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -68,7 +67,7 @@ data class UnarySubtract(val u: ExUnit) : ExUnit {
         }
     }
 
-    override fun runRs(): Result<Double, ErrorReport> {
+    override fun runRs(): Rse<Double> {
         val runRs = u.runRs()
         val rt = runRs.andThen { rs ->
             val trueR = rs?.let { ExUnits.extractFromCellOrNull(rs) }?:0

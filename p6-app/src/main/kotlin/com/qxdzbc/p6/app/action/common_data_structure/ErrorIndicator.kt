@@ -4,12 +4,13 @@ import com.qxdzbc.p6.app.common.proto.ProtoUtils.toModel
 import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
 import com.qxdzbc.p6.app.communication.res_req_template.IsError
 import com.qxdzbc.p6.app.communication.res_req_template.WithErrorReport
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.CommonProtos.ErrorIndicatorProto
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rs
+import com.qxdzbc.common.error.ErrorReport
 
 data class ErrorIndicator(
     override val errorReport: ErrorReport?
@@ -27,7 +28,7 @@ data class ErrorIndicator(
         /**
          * create an error indicator from an error report
          */
-        fun error(errorReport: ErrorReport): ErrorIndicator {
+        fun error(errorReport: SingleErrorReport): ErrorIndicator {
             return ErrorIndicator(
                 errorReport
             )
@@ -36,11 +37,11 @@ data class ErrorIndicator(
         /**
          * convert an error report into an error indicator
          */
-        fun ErrorReport.toErrIndicator(): ErrorIndicator {
+        fun SingleErrorReport.toErrIndicator(): ErrorIndicator {
             return ErrorIndicator(this)
         }
 
-        fun Rs<Unit, ErrorReport>.toErrIndicator(): ErrorIndicator {
+        fun Rs<Unit, SingleErrorReport>.toErrIndicator(): ErrorIndicator {
             when(this){
                 is Ok->return noError
                 is Err -> return error(this.error)

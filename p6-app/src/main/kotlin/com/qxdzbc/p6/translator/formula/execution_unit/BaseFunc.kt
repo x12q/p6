@@ -5,6 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
@@ -44,7 +45,7 @@ abstract class BaseFunc : ExUnit {
                         try {
                             val functionExecutor: FunctionExecutor = funcDef.functionExecutor
                             val funcOutput:Any = functionExecutor.execute(func, argValues)
-                            return funcOutput as Result<Any, ErrorReport>
+                            return funcOutput as Result<Any, SingleErrorReport>
                         } catch (e: Exception) {
                             return CommonErrors.ExceptionError.report(e).toErr()
                         }

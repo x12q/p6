@@ -1,8 +1,9 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import kotlin.reflect.KFunction
 
 /**
@@ -12,27 +13,27 @@ interface FunctionExecutor {
     /**
      * execute a function, and return what the function returned
      */
-    fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport>
+    fun execute(func: KFunction<Any>, args: Array<Any?>): Rse<Any>
 
     object ArgsAsArray : FunctionExecutor {
         @Suppress("UNCHECKED_CAST")
-        override fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport> {
+        override fun execute(func: KFunction<Any>, args: Array<Any?>): Rse<Any> {
             return runFunction {
-                func.call(*args) as Result<Any, ErrorReport>
+                func.call(*args) as Result<Any, SingleErrorReport>
             }
         }
     }
     @Suppress("UNCHECKED_CAST")
     object ArgsAsList : FunctionExecutor {
-        override fun execute(func: KFunction<Any>, args: Array<Any?>): Result<Any, ErrorReport> {
+        override fun execute(func: KFunction<Any>, args: Array<Any?>): Rse<Any> {
             return runFunction{
-                func.call(args.asList()) as Result<Any, ErrorReport>
+                func.call(args.asList()) as Result<Any, SingleErrorReport>
             }
         }
     }
 
     companion object{
-        private fun runFunction(f:()->Result<Any, ErrorReport>):Result<Any, ErrorReport>{
+        private fun runFunction(f:()->Rse<Any>):Rse<Any>{
             try {
                 return f()
             } catch (e: Throwable) {

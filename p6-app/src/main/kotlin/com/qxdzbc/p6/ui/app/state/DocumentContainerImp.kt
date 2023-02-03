@@ -2,15 +2,12 @@ package com.qxdzbc.p6.ui.app.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
-import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeId
@@ -103,7 +100,7 @@ class DocumentContainerImp @Inject constructor(
         return this.wbCont.getWbMs(wbKey)
     }
 
-    override fun getWbMsRs(wbKey: WorkbookKey): Result<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(wbKey: WorkbookKey): Rse<Ms<Workbook>> {
         return this.wbCont.getWbMsRs(wbKey)
     }
 
@@ -111,11 +108,11 @@ class DocumentContainerImp @Inject constructor(
         return this.wbCont.getWb(path)
     }
 
-    override fun getWbRs(path: Path): Result<Workbook, ErrorReport> {
+    override fun getWbRs(path: Path): Rse<Workbook> {
         return this.wbCont.getWbRs(path)
     }
 
-    override fun getWbMsRs(path: Path): Result<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(path: Path): Rse<Ms<Workbook>> {
         return this.wbCont.getWbMsRs(path)
     }
 
@@ -123,37 +120,37 @@ class DocumentContainerImp @Inject constructor(
         return this.wbCont.getWb(wbKeySt)
     }
 
-    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Rs<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<Workbook>> {
         return this.wbCont.getWbMsRs(wbKeySt)
     }
 
-    override fun getWbRs(wbKey: WorkbookKey): Result<Workbook, ErrorReport> {
+    override fun getWbRs(wbKey: WorkbookKey): Rse<Workbook> {
         return this.wbCont.getWbRs(wbKey)
     }
 
-    override fun getWbRs(wbKeySt: St<WorkbookKey>): Rs<Workbook, ErrorReport> {
+    override fun getWbRs(wbKeySt: St<WorkbookKey>): Rse<Workbook> {
         return this.wbCont.getWbRs(wbKeySt)
     }
 
-    override fun getWsRs(wbKey: WorkbookKey, wsName: String): Result<Worksheet, ErrorReport> {
+    override fun getWsRs(wbKey: WorkbookKey, wsName: String): Rse<Worksheet> {
         return this.wbCont.getWbRs(wbKey).flatMap {
             it.getWsRs(wsName)
         }
     }
 
-    override fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Worksheet, ErrorReport> {
+    override fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Worksheet> {
         return this.wbCont.getWbRs(wbKeySt).flatMap {
             it.getWsRs(wsNameSt)
         }
     }
 
-    override fun getWsRs(wbwsSt: WbWsSt): Rs<Worksheet, ErrorReport> {
+    override fun getWsRs(wbwsSt: WbWsSt): Rse<Worksheet> {
         return this.wbCont.getWbRs(wbwsSt.wbKeySt).flatMap {
             it.getWsRs(wbwsSt.wsNameSt)
         }
     }
 
-    override fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport> {
+    override fun getWsRs(wbws: WbWs): Rse<Worksheet> {
         return this.wbCont.getWbRs(wbws.wbKey).flatMap {
             it.getWsRs(wbws.wsName)
         }
@@ -190,21 +187,21 @@ class DocumentContainerImp @Inject constructor(
         }
     }
 
-    override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<Worksheet>> {
         return this.wbCont.getWbRs(wbKey).flatMap { it.getWsMsRs(wsName) }
     }
 
-    override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<Worksheet>> {
         return this.wbCont.getWbRs(wbKeySt).flatMap { it.getWsMsRs(wsNameSt) }
     }
 
-    override fun getWsMsRs(wbwsSt: WbWsSt): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbwsSt: WbWsSt): Rse<Ms<Worksheet>> {
         return this.wbCont.getWbRs(wbwsSt.wbKeySt).flatMap {
             it.getWsMsRs(wbwsSt.wsNameSt)
         }
     }
 
-    override fun getWsMsRs(wbws: WbWs): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbws: WbWs): Rse<Ms<Worksheet>> {
         return this.wbCont.getWbRs(wbws.wbKey).flatMap {
             it.getWsMsRs(wbws.wsName)
         }
@@ -238,7 +235,7 @@ class DocumentContainerImp @Inject constructor(
 
     override fun getLazyRangeRs(
         wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress
-    ): Rs<Range, ErrorReport> {
+    ): Rse<Range> {
         val rt = this.getWbRs(wbKey).flatMap { wb ->
             wb.getWsRs(wsName).map { ws ->
                 lazyRangeFactory.create(
@@ -253,7 +250,7 @@ class DocumentContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         rangeAddress: RangeAddress
-    ): Rs<Range, ErrorReport> {
+    ): Rse<Range> {
         val rt = this.getWbRs(wbKeySt).flatMap { wb ->
             wb.getWsRs(wsNameSt).map { ws ->
                 lazyRangeFactory.create(
@@ -268,7 +265,7 @@ class DocumentContainerImp @Inject constructor(
         wbKey: WorkbookKey,
         wsName: String,
         cellAddress: CellAddress
-    ): Result<Cell, ErrorReport> {
+    ): Rse<Cell> {
         return this.getWsRs(wbKey, wsName).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
@@ -276,15 +273,15 @@ class DocumentContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
-    ): Rs<Cell, ErrorReport> {
+    ): Rse<Cell> {
         return this.getWsRs(wbKeySt, wsNameSt).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
-    override fun getCellRsOrDefault(cellId: CellIdDM): Rs<Cell, ErrorReport> {
+    override fun getCellRsOrDefault(cellId: CellIdDM): Rse<Cell> {
         return getCellRsOrDefault(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
-    override fun getCellRsOrDefault(cellId: CellId): Rs<Cell, ErrorReport> {
+    override fun getCellRsOrDefault(cellId: CellId): Rse<Cell> {
         return getCellRsOrDefault(cellId.wbKeySt, cellId.wsNameSt, cellId.address)
     }
 
@@ -319,7 +316,7 @@ class DocumentContainerImp @Inject constructor(
         wbKey: WorkbookKey,
         wsName: String,
         cellAddress: CellAddress
-    ): Rs<Ms<Cell>, ErrorReport> {
+    ): Rse<Ms<Cell>> {
         return getWsRs(wbKey, wsName).flatMap {
             it.getCellMsRs(cellAddress)
         }
@@ -329,13 +326,13 @@ class DocumentContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
-    ): Rs<Ms<Cell>, ErrorReport> {
+    ): Rse<Ms<Cell>> {
         return getWsRs(wbKeySt, wsNameSt).flatMap {
             it.getCellMsRs(cellAddress)
         }
     }
 
-    override fun getCellMsRs(cellId: CellIdDM): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(cellId: CellIdDM): Rse<Ms<Cell>> {
         return getCellMsRs(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
@@ -362,7 +359,7 @@ class DocumentContainerImp @Inject constructor(
         return getCellMs(cellId)?.value
     }
 
-    override fun getCellIdRs(cellIdDM: CellIdDM): Rs<CellId, ErrorReport> {
+    override fun getCellIdRs(cellIdDM: CellIdDM): Rse<CellId> {
         return getCellMsRs(cellIdDM).map { it.value.id }
     }
 
@@ -380,7 +377,7 @@ class DocumentContainerImp @Inject constructor(
     override val allWbMs: List<Ms<Workbook>>
         get() = wbCont.allWbMs
 
-    override fun getRangeRs(rangeId: RangeId): Result<Range, ErrorReport> {
+    override fun getRangeRs(rangeId: RangeId): Rse<Range> {
         val rt = this.getWbRs(rangeId.wbKey).andThen { wb ->
             wb.getWsRs(rangeId.wsName).andThen { ws ->
                 ws.range(rangeId.rangeAddress)
@@ -391,7 +388,7 @@ class DocumentContainerImp @Inject constructor(
 
     override fun getRangeRs(
         wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress
-    ): Result<Range, ErrorReport> {
+    ): Rse<Range> {
         val rt = this.getWsRs(wbKey, wsName).andThen { ws -> ws.range(rangeAddress) }
         return rt
     }

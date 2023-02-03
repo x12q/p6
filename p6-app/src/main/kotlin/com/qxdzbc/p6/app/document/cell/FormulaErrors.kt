@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.document.cell
 
 import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 
 /**
@@ -33,14 +34,14 @@ object FormulaErrors {
     /**
      * Extract a representative string to show inside a cell on the UI
      */
-    fun getCellRepStr(err: ErrorReport): String {
+    fun getCellRepStr(err: SingleErrorReport): String {
         return err.header.errorCode
     }
 
     /**
      * Extract error detail to be showed somewhere on the UI (tooltips, status bar, or similar places)
      */
-    fun getDetailStr(err: ErrorReport): String {
+    fun getDetailStr(err: SingleErrorReport): String {
         return err.header.errorDescription
     }
 }

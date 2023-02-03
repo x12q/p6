@@ -6,7 +6,7 @@ import com.github.michaelbull.result.Result
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.translator.formula.FunctionMap
@@ -20,14 +20,14 @@ import kotlin.test.*
 
 
 internal class FuncUnitTest {
-    fun add(n1: Int, n2: Int): Result<Int, ErrorReport> {
+    fun add(n1: Int, n2: Int): Result<Int, SingleErrorReport> {
         return Ok(n1 + n2)
     }
 
-    fun toUpper(str: String): Result<String, ErrorReport> {
+    fun toUpper(str: String): Result<String, SingleErrorReport> {
         return Ok(str.uppercase())
     }
-    fun someFunction(i:Int): Result<Int, ErrorReport> {
+    fun someFunction(i:Int): Result<Int, SingleErrorReport> {
         return i.toOk()
     }
 

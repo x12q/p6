@@ -2,7 +2,7 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
@@ -15,7 +15,7 @@ data class DoubleUnit(val v: Double):ExUnit {
             return DoubleUnit(this.toDouble())
         }
     }
-    override fun runRs(): Result<Double, ErrorReport> {
+    override fun runRs(): Result<Double, SingleErrorReport> {
         return Ok(v)
     }
 

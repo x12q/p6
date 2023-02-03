@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.document.workbook
 
 import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 
 object WorkbookErrors {
@@ -8,26 +9,26 @@ object WorkbookErrors {
 
     object InvalidWorksheet {
         val header = ErrorHeader("${prefix}0", "invalid worksheet")
-        fun report(wsName: String): ErrorReport {
-            return ErrorReport(
+        fun report(wsName: String): SingleErrorReport {
+            return SingleErrorReport(
                 header = header.setDescription("Worksheet named \"${wsName}\" does not exist")
             )
         }
 
-        fun report(i: Int): ErrorReport {
-            return ErrorReport(
+        fun report(i: Int): SingleErrorReport {
+            return SingleErrorReport(
                 header = header.setDescription("Worksheet at index \"${i}\" does not exist")
             )
         }
-        fun reportWithDetail(detail:String?):ErrorReport{
+        fun reportWithDetail(detail:String?): ErrorReport {
             return (detail?.let { header.setDescription(detail) } ?: header).toErrorReport()
         }
     }
 
     object WorksheetAlreadyExist {
         val header = ErrorHeader("${prefix}1", "worksheet already exists")
-        fun report(wsName: String): ErrorReport {
-            return ErrorReport(
+        fun report(wsName: String): SingleErrorReport {
+            return SingleErrorReport(
                 header = header.setDescription("Worksheet named \"${wsName}\" already exists")
             )
         }

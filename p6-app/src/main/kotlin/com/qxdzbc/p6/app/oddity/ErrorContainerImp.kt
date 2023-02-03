@@ -2,9 +2,10 @@ package com.qxdzbc.p6.app.oddity
 
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 
-fun ErrorReport.oddMsg():String{
+fun SingleErrorReport.oddMsg():String{
     return this.toString()
 }
 
@@ -14,7 +15,7 @@ data class ErrorContainerImp constructor (override val errList: List<ErrMsg> = e
     }
 
     override fun addErrorReport(errorReport: ErrorReport?): ErrorContainer {
-        return this.add(ErrMsg.Error(errorReport ?: ErrorReport(CommonErrors.Unknown.header)))
+        return this.add(ErrMsg.Error(errorReport ?: SingleErrorReport(CommonErrors.Unknown.header)))
     }
 
     override fun addFatalErrorReport(errorReport: ErrorReport?): ErrorContainer {

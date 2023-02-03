@@ -13,7 +13,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.common.utils.WorkbookUtils
@@ -117,7 +117,7 @@ data class WorkbookImp(
         return this.copy(worksheetMapMs = emptyMap())
     }
 
-    override fun createNewWsRs(name: String?): Result<Workbook, ErrorReport> {
+    override fun createNewWsRs(name: String?): Rse<Workbook> {
         val actualName = name ?: WorkbookUtils.generateNewSheetName(this.worksheets.map { it.name })
         if (actualName in this.worksheetMap.keys) {
             return WorkbookErrors.WorksheetAlreadyExist.report(actualName).toErr()
@@ -195,7 +195,7 @@ data class WorkbookImp(
     override fun renameWsRs(
         oldName: String,
         newName: String
-    ): Result<Workbook, ErrorReport> {
+    ): Rse<Workbook> {
         val wsMs = this.getWsMs(oldName)
         if (wsMs != null) {
             if (oldName == newName) {
@@ -219,7 +219,7 @@ data class WorkbookImp(
     override fun renameWsRs(
         index: Int,
         newName: String,
-    ): Result<Workbook, ErrorReport> {
+    ): Result<Workbook, SingleErrorReport> {
         val oldWsMs = this.getWsMs(index)
 
         if (oldWsMs != null) {
@@ -228,15 +228,15 @@ data class WorkbookImp(
             oldWsMs.value = newWorksheet
             return Ok(this)
         } else {
-            return Err(ErrorReport(ErrorHeader("zx", "${index} sheet does not exist"), ""))
+            return Err(SingleErrorReport(ErrorHeader("zx", "${index} sheet does not exist"), ""))
         }
     }
 
-    override fun moveWs(targetIndex: Int, toIndex: Int): Result<Workbook, ErrorReport> {
+    override fun moveWs(targetIndex: Int, toIndex: Int): Result<Workbook, SingleErrorReport> {
         TODO("Not yet implemented")
     }
 
-    override fun moveWs(targetName: String, toIndex: Int): Result<Workbook, ErrorReport> {
+    override fun moveWs(targetName: String, toIndex: Int): Result<Workbook, SingleErrorReport> {
         TODO("Not yet implemented")
     }
 

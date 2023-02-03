@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.app.state
 
 import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
@@ -16,12 +17,12 @@ object AppStateErrors {
 
     object InvalidWindowState {
         val header = ErrorHeader("${ASErr}1", "Invalid window")
-        fun report1(workbookKey: WorkbookKey) = ErrorReport(
+        fun report1(workbookKey: WorkbookKey) = SingleErrorReport(
             header = header.setDescription("Workbook named ${workbookKey.name} at path=${workbookKey.path} is not opened by any window")
         )
 
-        fun report2(windowId: String): ErrorReport {
-            return ErrorReport(
+        fun report2(windowId: String): SingleErrorReport {
+            return SingleErrorReport(
                 header = InvalidWindowState.header.setDescription("Invalid window state at id ${windowId} ")
             )
         }

@@ -1,9 +1,7 @@
 package com.qxdzbc.p6.app.document.workbook
 
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
@@ -18,7 +16,7 @@ abstract class BaseWorkbook : Workbook {
         return getWsRs(name).component1()
     }
 
-    override fun getWsRs(index: Int): Result<Worksheet, ErrorReport> {
+    override fun getWsRs(index: Int): Rse<Worksheet> {
         if (index in worksheets.indices) {
             return Ok(worksheets[index])
         } else {
@@ -26,7 +24,7 @@ abstract class BaseWorkbook : Workbook {
         }
     }
 
-    override fun getWsRs(name: String): Result<Worksheet, ErrorReport> {
+    override fun getWsRs(name: String): Rse<Worksheet> {
         val ws = worksheets.firstOrNull { it.name == name }
         return ws?.let { Ok(it) } ?: WorkbookErrors.InvalidWorksheet.report(name).toErr()
     }
@@ -53,7 +51,7 @@ abstract class BaseWorkbook : Workbook {
         return ws?.let { Ok(it) } ?: WorkbookErrors.InvalidWorksheet.report(name).toErr()
     }
 
-    override fun getWsMsRs(nameSt: St<String>): Result<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(nameSt: St<String>): Rse<Ms<Worksheet>> {
         return getWsMs(nameSt)?.toOk()
             ?: WorkbookErrors.InvalidWorksheet.report(nameSt.value).toErr()
     }
@@ -62,8 +60,8 @@ abstract class BaseWorkbook : Workbook {
         return worksheetMapMs[nameSt]?.value
     }
 
-    override fun getWsRs(nameSt: St<String>): Result<Worksheet, ErrorReport> {
-        val rt:Result<Worksheet, ErrorReport> = worksheetMapMs[nameSt]?.value?.toOk() ?: WorkbookErrors.InvalidWorksheet.report(nameSt.value).toErr()
+    override fun getWsRs(nameSt: St<String>): Rse<Worksheet> {
+        val rt:Rse<Worksheet> = worksheetMapMs[nameSt]?.value?.toOk() ?: WorkbookErrors.InvalidWorksheet.report(nameSt.value).toErr()
         return rt
     }
 

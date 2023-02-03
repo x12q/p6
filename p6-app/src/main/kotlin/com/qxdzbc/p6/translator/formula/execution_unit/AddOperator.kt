@@ -3,9 +3,8 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.flatMap
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -78,9 +77,9 @@ data class AddOperator constructor(val u1: ExUnit, val u2: ExUnit,
         }
     }
 
-    override fun runRs(): Result<Any, ErrorReport> {
+    override fun runRs(): Rse<Any> {
             val r1Rs = u1.runRs()
-            val rt: Result<Any, ErrorReport> = r1Rs.flatMap { r1 ->
+            val rt: Rse<Any> = r1Rs.flatMap { r1 ->
                 u2.runRs().flatMap { r2 ->
                     val trueR1 = r1?.let{ExUnits.extractFromCellOrNull(r1)}?:0
                     val trueR2 = r2?.let{ExUnits.extractFromCellOrNull(r2)}?:0
@@ -101,12 +100,6 @@ data class AddOperator constructor(val u1: ExUnit, val u2: ExUnit,
                             val err= ExUnitErrors.IncompatibleType.report(
                                 "Expect two numbers or first argument as text, but got ${trueR1::class.simpleName} and ${trueR2::class.simpleName}"
                             ).toErr()
-//                            val q = _IncompatibleType()
-//                            val err= q.report().toErr()
-
-//                            val err= errX.report(
-//                                "Expect two numbers or first argument as text, but got ${trueR1::class.simpleName} and ${trueR2::class.simpleName}"
-//                            ).toErr()
                             return err
                         }
                     }

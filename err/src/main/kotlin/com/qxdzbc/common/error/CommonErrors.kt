@@ -12,7 +12,7 @@ object CommonErrors {
     }
 
     fun makeCommonExceptionErrorReport(templateHeader: ErrorHeader,detail:String?,exception: Throwable): ErrorReport {
-        return ErrorReport(
+        return SingleErrorReport(
             header = templateHeader.let { errHeader ->
                 detail?.let {
                     errHeader.setDescription(detail)
@@ -63,10 +63,10 @@ object CommonErrors {
 
         data class Data(val errorList: List<ErrorReport>)
 
-        fun report(errorList: List<ErrorReport>): ErrorReport {
-            return ErrorReport(
+        fun report(errorList: List<ErrorReport>): MultiErrorReport {
+            return MultiErrorReport(
                 header = header,
-                data =Data(errorList)
+                singleErrorReportList =errorList
             )
         }
     }

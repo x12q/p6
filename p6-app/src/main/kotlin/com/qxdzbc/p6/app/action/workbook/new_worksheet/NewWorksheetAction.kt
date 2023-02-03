@@ -1,8 +1,7 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet
 
-import com.qxdzbc.common.Rs
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.Rse
 
 interface NewWorksheetAction {
-    fun createNewWorksheetRs(request: CreateNewWorksheetRequest, publishError:Boolean = true): Rs<CreateNewWorksheetResponse, ErrorReport>
+    fun createNewWorksheetRs(request: CreateNewWorksheetRequest, publishError:Boolean = true): Rse<CreateNewWorksheetResponse>
 }

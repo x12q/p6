@@ -10,7 +10,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
@@ -222,7 +222,7 @@ data class SubAppStateContainerImp @Inject constructor(
         return this.wbStateCont.getWbStateMsRs(wbKey)
     }
 
-    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport> {
+    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, SingleErrorReport> {
         val w = windowStateMap.values.firstOrNull { owds ->
             owds.value.innerWindowState.containWbKey(wbKey)
         }?.value?.innerWindowStateMs
@@ -233,7 +233,7 @@ data class SubAppStateContainerImp @Inject constructor(
         }
     }
 
-    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport> {
+    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, SingleErrorReport> {
         val w = windowStateMap[windowId]?.value?.innerWindowStateMs
         if (w != null) {
             return w.toOk()

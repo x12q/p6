@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action
 
-import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
 

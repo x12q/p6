@@ -3,13 +3,10 @@ package com.qxdzbc.p6.translator.formula.function_def
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
-import com.qxdzbc.common.Rs
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -40,18 +37,18 @@ class P6FunctionDefinitionsImp @Inject constructor(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 rangeAddress: RangeAddress
-            ): Rs<Range, ErrorReport> {
+            ): Rse<Range> {
                 return docCont.getLazyRangeRs(wbKeySt, wsNameSt, rangeAddress)
             }
             override val name: String = P6FunctionDefinitions.getRangeRs
-            override val function: KFunction<Rs<Range, ErrorReport>> = ::getLazyRangeRs
+            override val function: KFunction<Rse<Range>> = ::getLazyRangeRs
         },
         object : AbstractFunctionDef() {
             fun getCellRs(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
-            ): Rs<St<Cell>?, ErrorReport> {
+            ): Rse<St<Cell>?> {
                 val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
                     it.value.getCellMs(cellAddress)
                 }
@@ -59,7 +56,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
 
             override val name: String = P6FunctionDefinitions.getCellRs
-            override val function: KFunction<Rs<St<Cell>?, ErrorReport>> = ::getCellRs
+            override val function: KFunction<Rse<St<Cell>?>> = ::getCellRs
         }
     )
 
@@ -76,7 +73,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             /**
              * SUM accepts a mix list of Cell, Range, and Number, remember to check for type before doing anything
              */
-            fun SUM(inputList: List<Any?>): Result<Double, ErrorReport> {
+            fun SUM(inputList: List<Any?>): Rse<Double> {
                 var rt: Double = 0.0
                 if (inputList.isNotEmpty()) {
                     val invalidArgumentReport =
@@ -129,7 +126,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
 
             override val name = "SUM"
-            override val function: KFunction<Result<Double, ErrorReport>> = ::SUM
+            override val function: KFunction<Rse<Double>> = ::SUM
         },
     ) + documentFunctions
 

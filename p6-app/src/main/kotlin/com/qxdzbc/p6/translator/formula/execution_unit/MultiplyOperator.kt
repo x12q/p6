@@ -3,9 +3,8 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -75,7 +74,7 @@ data class MultiplyOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         }
     }
 
-    override fun runRs(): Result<Double, ErrorReport> {
+    override fun runRs(): Rse<Double> {
         val r1Rs = u1.runRs()
         val rt = r1Rs.andThen { r1 ->
             val r2Rs = u2.runRs()

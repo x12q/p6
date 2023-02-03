@@ -5,20 +5,16 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.document.cell.CellValue.Companion.toCellValue
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos.CellContentProto
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.IntUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
@@ -74,7 +70,7 @@ data class CellContentImp(
         /**
          * create a CellContent from a translation Rs
          */
-        fun fromTransRs(rs: Rs<ExUnit, ErrorReport>, originalFormula:String?): CellContentImp {
+        fun fromTransRs(rs: Rse<ExUnit>, originalFormula:String?): CellContentImp {
             when (rs) {
                 is Ok -> return CellContentImp(
                     exUnit = rs.value,

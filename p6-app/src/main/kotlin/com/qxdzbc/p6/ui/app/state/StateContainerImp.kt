@@ -11,7 +11,7 @@ import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeId
@@ -131,11 +131,11 @@ class StateContainerImp @Inject constructor(
         return subAppStateCont.getWsStateMsRs(wbKey, wsName)
     }
 
-    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, ErrorReport> {
+    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, SingleErrorReport> {
         return subAppStateCont.getWindowStateMsByWbKeyRs(wbKey)
     }
 
-    override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, ErrorReport> {
+    override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, SingleErrorReport> {
         return subAppStateCont.getFocusStateMsByWbKeyRs(wbKey)
     }
 
@@ -155,7 +155,7 @@ class StateContainerImp @Inject constructor(
     override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
         get() = this.subAppStateCont.windowStateMapMs
 
-    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, ErrorReport> {
+    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, SingleErrorReport> {
         return subAppStateCont.getWindowStateMsByIdRs(windowId)
     }
 
@@ -318,23 +318,23 @@ class StateContainerImp @Inject constructor(
         return docCont.getWbWsStRs(wbWs)
     }
 
-    override fun getWbRs(wbKey: WorkbookKey): Rs<Workbook, ErrorReport> {
+    override fun getWbRs(wbKey: WorkbookKey): Rse<Workbook> {
         return docCont.getWbRs(wbKey)
     }
 
-    override fun getWbRs(path: Path): Result<Workbook, ErrorReport> {
+    override fun getWbRs(path: Path): Rse<Workbook> {
         return docCont.getWbRs(path)
     }
 
-    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Result<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<Workbook>> {
         return docCont.getWbMsRs(wbKeySt)
     }
 
-    override fun getWbMsRs(wbKey: WorkbookKey): Result<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(wbKey: WorkbookKey): Rse<Ms<Workbook>> {
         return docCont.getWbMsRs(wbKey)
     }
 
-    override fun getWbMsRs(path: Path): Result<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(path: Path): Rse<Ms<Workbook>> {
         return docCont.getWbMsRs(path)
     }
 
@@ -354,23 +354,23 @@ class StateContainerImp @Inject constructor(
         return docCont.getWbMs(wbKey)
     }
 
-    override fun getWbRs(wbKeySt: St<WorkbookKey>): Result<Workbook, ErrorReport> {
+    override fun getWbRs(wbKeySt: St<WorkbookKey>): Rse<Workbook> {
         return docCont.getWbRs(wbKeySt)
     }
 
-    override fun getWsRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport> {
+    override fun getWsRs(wbKey: WorkbookKey, wsName: String): Rse<Worksheet> {
         return docCont.getWsRs(wbKey, wsName)
     }
 
-    override fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Worksheet, ErrorReport> {
+    override fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Worksheet> {
         return docCont.getWsRs(wbKeySt, wsNameSt)
     }
 
-    override fun getWsRs(wbwsSt: WbWsSt): Rs<Worksheet, ErrorReport> {
+    override fun getWsRs(wbwsSt: WbWsSt): Rse<Worksheet> {
         return docCont.getWsRs(wbwsSt)
     }
 
-    override fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport> {
+    override fun getWsRs(wbws: WbWs): Rse<Worksheet> {
         return docCont.getWsRs(wbws)
     }
 
@@ -394,19 +394,19 @@ class StateContainerImp @Inject constructor(
         return docCont.getWs(wsId)
     }
 
-    override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<Worksheet>> {
         return docCont.getWsMsRs(wbKey, wsName)
     }
 
-    override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<Worksheet>> {
         return docCont.getWsMsRs(wbKeySt, wsNameSt)
     }
 
-    override fun getWsMsRs(wbwsSt: WbWsSt): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbwsSt: WbWsSt): Rse<Ms<Worksheet>> {
         return docCont.getWsMsRs(wbwsSt)
     }
 
-    override fun getWsMsRs(wbws: WbWs): Rs<Ms<Worksheet>, ErrorReport> {
+    override fun getWsMsRs(wbws: WbWs): Rse<Ms<Worksheet>> {
         return docCont.getWsMsRs(wbws)
     }
 
@@ -426,11 +426,11 @@ class StateContainerImp @Inject constructor(
         return docCont.getWsMs(wbwsSt)
     }
 
-    override fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport> {
+    override fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rse<Range> {
         return docCont.getRangeRs(wbKey, wsName, rangeAddress)
     }
 
-    override fun getRangeRs(rangeId: RangeId): Rs<Range, ErrorReport> {
+    override fun getRangeRs(rangeId: RangeId): Rse<Range> {
         return docCont.getRangeRs(rangeId)
     }
 
@@ -446,7 +446,7 @@ class StateContainerImp @Inject constructor(
         wbKey: WorkbookKey,
         wsName: String,
         rangeAddress: RangeAddress
-    ): Rs<Range, ErrorReport> {
+    ): Rse<Range> {
         return docCont.getLazyRangeRs(wbKey, wsName, rangeAddress)
     }
 
@@ -454,7 +454,7 @@ class StateContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         rangeAddress: RangeAddress
-    ): Rs<Range, ErrorReport> {
+    ): Rse<Range> {
         return docCont.getLazyRangeRs(wbKeySt, wsNameSt, rangeAddress)
     }
 
@@ -462,7 +462,7 @@ class StateContainerImp @Inject constructor(
         wbKey: WorkbookKey,
         wsName: String,
         cellAddress: CellAddress
-    ): Rs<Cell, ErrorReport> {
+    ): Rse<Cell> {
         return docCont.getCellRsOrDefault(wbKey, wsName, cellAddress)
     }
 
@@ -470,15 +470,15 @@ class StateContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
-    ): Rs<Cell, ErrorReport> {
+    ): Rse<Cell> {
         return docCont.getCellRsOrDefault(wbKeySt, wsNameSt, cellAddress)
     }
 
-    override fun getCellRsOrDefault(cellId: CellIdDM): Rs<Cell, ErrorReport> {
+    override fun getCellRsOrDefault(cellId: CellIdDM): Rse<Cell> {
         return docCont.getCellRsOrDefault(cellId)
     }
 
-    override fun getCellRsOrDefault(cellId: CellId): Rs<Cell, ErrorReport> {
+    override fun getCellRsOrDefault(cellId: CellId): Rse<Cell> {
         return docCont.getCellRsOrDefault(cellId)
     }
 
@@ -506,7 +506,7 @@ class StateContainerImp @Inject constructor(
         return docCont.getCellOrDefault(cellId)
     }
 
-    override fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Ms<Cell>> {
         return docCont.getCellMsRs(wbKey, wsName, cellAddress)
     }
 
@@ -514,11 +514,11 @@ class StateContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
-    ): Rs<Ms<Cell>, ErrorReport> {
+    ): Rse<Ms<Cell>> {
         return docCont.getCellMsRs(wbKeySt, wsNameSt, cellAddress)
     }
 
-    override fun getCellMsRs(cellId: CellIdDM): Rs<Ms<Cell>, ErrorReport> {
+    override fun getCellMsRs(cellId: CellIdDM): Rse<Ms<Cell>> {
         return docCont.getCellMsRs(cellId)
     }
 
@@ -542,7 +542,7 @@ class StateContainerImp @Inject constructor(
         return docCont.getCell(cellId)
     }
 
-    override fun getCellIdRs(cellIdDM: CellIdDM): Rs<CellId, ErrorReport> {
+    override fun getCellIdRs(cellIdDM: CellIdDM): Rse<CellId> {
         return docCont.getCellIdRs(cellIdDM)
     }
 

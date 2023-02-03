@@ -7,15 +7,12 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.window.state.WindowState
-import org.mockito.kotlin.mock
 import test.TestSample
 
 import kotlin.test.*
@@ -68,7 +65,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     @Test
     fun `applyDeleteMulti error response`() {
         val appState = appStateMs
-        val e = ErrorReport(
+        val e = SingleErrorReport(
             header = ErrorHeader("z", "q")
         )
         val response = DeleteMultiResponse(

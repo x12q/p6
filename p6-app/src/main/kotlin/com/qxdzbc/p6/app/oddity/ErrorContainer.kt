@@ -2,8 +2,8 @@ package com.qxdzbc.p6.app.oddity
 
 import com.qxdzbc.common.WithSize
 import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.error.ErrorReport
 
 interface ErrorContainer : WithSize {
     val errList: List<ErrMsg>

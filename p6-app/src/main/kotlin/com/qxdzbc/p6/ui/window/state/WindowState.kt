@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
@@ -81,7 +81,7 @@ interface WindowState : WithSize {
 
     val errorContainerMs: Ms<ErrorContainer>
     var errorContainer: ErrorContainer
-    fun publishError(errorReport: ErrorReport):WindowState
+    fun publishError(errorReport: SingleErrorReport):WindowState
 
     val wbTabBarState: WorkbookTabBarState
 

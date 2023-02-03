@@ -2,7 +2,7 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -37,7 +37,7 @@ data class CellAddressUnit(val cellAddress: CellAddress) : ExUnit {
         return cellAddress.label
     }
 
-    override fun runRs(): Result<CellAddress, ErrorReport> {
+    override fun runRs(): Result<CellAddress, SingleErrorReport> {
         return Ok(cellAddress)
     }
 }

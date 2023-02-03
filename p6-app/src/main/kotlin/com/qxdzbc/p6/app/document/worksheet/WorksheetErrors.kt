@@ -3,6 +3,7 @@ package com.qxdzbc.p6.app.document.worksheet
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
@@ -30,8 +31,8 @@ object WorksheetErrors {
                 .toErrorReport()
         }
     }
-    fun InvalidCell(cellAddress: CellAddress): ErrorReport {
-        return ErrorReport(
+    fun InvalidCell(cellAddress: CellAddress): SingleErrorReport {
+        return SingleErrorReport(
             header = ErrorHeader(
                 errorCode = "${UI_WSErr}0",
                 errorDescription = "Cell address ${cellAddress.label} is invalid"
@@ -39,7 +40,7 @@ object WorksheetErrors {
         )
     }
 
-    val CantCopyOnFragmentedSelection = ErrorReport(
+    val CantCopyOnFragmentedSelection = SingleErrorReport(
         header = ErrorHeader(
             errorCode = "${UI_WSErr}1",
             errorDescription = "Can't perform copy over fragmented selection"

@@ -2,10 +2,8 @@ package com.qxdzbc.p6.app.action.workbook.delete_worksheet
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.applier.DeleteWorksheetApplier
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.rm.DeleteWorksheetRM
-import com.qxdzbc.common.error.ErrorReport
 
 
 import com.qxdzbc.p6.rpc.workbook.WorkbookRpcMsgErrors
@@ -13,6 +11,7 @@ import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
@@ -29,7 +28,7 @@ class DeleteWorksheetActionImp @Inject constructor(
 
     private var dc by docContMs
 
-    override fun deleteWorksheetRs(request: WorksheetIdWithIndexPrt): Rs<Unit, ErrorReport> {
+    override fun deleteWorksheetRs(request: WorksheetIdWithIndexPrt): Rse<Unit> {
         if (request.wsName != null || request.wsIndex != null) {
             val res = rm.makeRequest(request)
             when(res){

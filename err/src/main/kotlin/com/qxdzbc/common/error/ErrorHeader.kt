@@ -12,7 +12,7 @@ data class ErrorHeader(val errorCode: String, val errorDescription: String){
      * convenient method for non-production operation
      */
     fun toErrorReport(): ErrorReport {
-        return ErrorReport(
+        return SingleErrorReport(
             header =this,
         )
     }

@@ -14,19 +14,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.andThen
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.app.app_context.P6GlobalAccessPoint
-import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -34,7 +28,6 @@ import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorType
 import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.di.P6Component
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
@@ -45,7 +38,6 @@ import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 import kotlinx.coroutines.*
-import java.nio.file.Paths
 
 fun main() {
     runBlocking {

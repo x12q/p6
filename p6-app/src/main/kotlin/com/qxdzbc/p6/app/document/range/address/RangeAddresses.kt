@@ -3,8 +3,7 @@ package com.qxdzbc.p6.app.document.range.address
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.mapBoth
 import com.qxdzbc.common.ResultUtils.toOk
-import com.qxdzbc.common.Rs
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.cell.address.CR
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
@@ -27,7 +26,7 @@ object RangeAddresses {
     val singleWholeColAddressPattern = Regex("[$]?[a-zA-Z]+")
     val singleWholeRowAddressPattern = Regex("[$]?[1-9][0-9]*")
 
-    fun fromLabelRs(label: String): Rs<RangeAddress, ErrorReport> {
+    fun fromLabelRs(label: String): Rse<RangeAddress> {
         val rt = CellAddresses.fromLabelRs(label).mapBoth(
             success = {
                 Ok(RangeAddress(it))

@@ -1,10 +1,8 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.range.RangeId
@@ -56,10 +54,10 @@ interface DocumentContainer : WorkbookGetter {
      */
     fun getWbWsStRs(wbWs: WbWs):Rse<WbWsSt>
 
-    fun getWsRs(wbKey: WorkbookKey, wsName: String): Rs<Worksheet, ErrorReport>
-    fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Worksheet, ErrorReport>
-    fun getWsRs(wbwsSt: WbWsSt): Rs<Worksheet, ErrorReport>
-    fun getWsRs(wbws: WbWs): Rs<Worksheet, ErrorReport>
+    fun getWsRs(wbKey: WorkbookKey, wsName: String): Rse<Worksheet>
+    fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Worksheet>
+    fun getWsRs(wbwsSt: WbWsSt): Rse<Worksheet>
+    fun getWsRs(wbws: WbWs): Rse<Worksheet>
 
     fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet?
     fun getWs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Worksheet?
@@ -67,28 +65,28 @@ interface DocumentContainer : WorkbookGetter {
     fun getWs(wbws: WbWs): Worksheet?
     fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet?
 
-    fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rs<Ms<Worksheet>, ErrorReport>
-    fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rs<Ms<Worksheet>, ErrorReport>
-    fun getWsMsRs(wbwsSt:WbWsSt): Rs<Ms<Worksheet>, ErrorReport>
-    fun getWsMsRs(wbws:WbWs): Rs<Ms<Worksheet>, ErrorReport>
+    fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<Worksheet>>
+    fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<Worksheet>>
+    fun getWsMsRs(wbwsSt:WbWsSt): Rse<Ms<Worksheet>>
+    fun getWsMsRs(wbws:WbWs): Rse<Ms<Worksheet>>
 
     fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>?
     fun getWsMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<Worksheet>?
     fun getWsMs(wbws: WbWs): Ms<Worksheet>?
     fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>?
 
-    fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
-    fun getRangeRs(rangeId: RangeId): Rs<Range, ErrorReport>
+    fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rse<Range>
+    fun getRangeRs(rangeId: RangeId): Rse<Range>
     fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?
 
     fun getLazyRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?
-    fun getLazyRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rs<Range, ErrorReport>
-    fun getLazyRangeRs(wbKeySt:St<WorkbookKey> , wsNameSt:St<String> , rangeAddress: RangeAddress): Rs<Range, ErrorReport>
+    fun getLazyRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rse<Range>
+    fun getLazyRangeRs(wbKeySt:St<WorkbookKey> , wsNameSt:St<String> , rangeAddress: RangeAddress): Rse<Range>
 
-    fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Cell, ErrorReport>
-    fun getCellRsOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Cell, ErrorReport>
-    fun getCellRsOrDefault(cellId: CellIdDM): Rs<Cell, ErrorReport>
-    fun getCellRsOrDefault(cellId: CellId): Rs<Cell, ErrorReport>
+    fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRsOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRsOrDefault(cellId: CellIdDM): Rse<Cell>
+    fun getCellRsOrDefault(cellId: CellId): Rse<Cell>
 
     fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?
     fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): Cell?
@@ -97,9 +95,9 @@ interface DocumentContainer : WorkbookGetter {
     fun getCellOrDefault(cellId: CellIdDM): Cell?
     fun getCellOrDefault(cellId: CellId): Cell?
 
-    fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
-    fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rs<Ms<Cell>, ErrorReport>
-    fun getCellMsRs(cellId: CellIdDM): Rs<Ms<Cell>, ErrorReport>
+    fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Ms<Cell>>
+    fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Ms<Cell>>
+    fun getCellMsRs(cellId: CellIdDM): Rse<Ms<Cell>>
 
     fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>?
     fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>?
@@ -108,7 +106,7 @@ interface DocumentContainer : WorkbookGetter {
     fun getCell(cellIdDM:CellIdDM):Cell?
     fun getCell(cellId:CellId):Cell?
 
-    fun getCellIdRs(cellIdDM:CellIdDM):Rs<CellId,ErrorReport>
+    fun getCellIdRs(cellIdDM:CellIdDM):Rse<CellId>
     fun getCellId(cellIdDM:CellIdDM):CellId?
 
     /**

@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.translator.jvm_translator.tree_extractor
 
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.formula.translator.antlr.FormulaLexer
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.formula.translator.errors.TranslatorErrors
@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
 class TreeExtractorImp @Inject constructor() : TreeExtractor {
-    override fun extractTree(formula: String): Result<ParseTree, ErrorReport> {
+    override fun extractTree(formula: String): Result<ParseTree, SingleErrorReport> {
         var parserErrorData: TranslatorErrors.ParserErr.Data? = null
         var lexerErrData: TranslatorErrors.LexerErr.Data? = null
 
@@ -67,7 +67,7 @@ class TreeExtractorImp @Inject constructor() : TreeExtractor {
         val tree: ParseTree = parser.formula()
         if(parserErrorData!=null || lexerErrData!=null){
             return Err(
-                ErrorReport(
+                SingleErrorReport(
                     header = TranslatorErrors.TranslatingErr.header,
                     data = TranslatorErrors.TranslatingErr.Data(
                         lexerErr = lexerErrData,

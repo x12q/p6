@@ -3,7 +3,7 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
@@ -37,7 +37,7 @@ data class WbKeyStUnit(val wbKeySt: St<WorkbookKey>) : ExUnit {
         }
     }
 
-    override fun runRs(): Result<St<WorkbookKey>, ErrorReport> {
+    override fun runRs(): Result<St<WorkbookKey>, SingleErrorReport> {
         return Ok(wbKeySt)
     }
 }

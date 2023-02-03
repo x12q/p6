@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.window.state
 
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.build.BuildConfig
 import com.qxdzbc.p6.build.BuildVariant
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -31,7 +31,7 @@ abstract class BaseWindowState : WindowState {
             this.wbContMs.value.getWb(it)
         }
 
-    override fun publishError(errorReport: ErrorReport): WindowState {
+    override fun publishError(errorReport: SingleErrorReport): WindowState {
         this.errorContainer = this.errorContainer.addErrorReport(errorReport)
         return this
     }

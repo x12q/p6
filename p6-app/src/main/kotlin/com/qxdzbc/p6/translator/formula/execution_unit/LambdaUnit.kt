@@ -1,11 +1,11 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
 import com.github.michaelbull.result.Result
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-class LambdaUnit(val lambda:()->Result<Any, ErrorReport>) : ExUnit {
+class LambdaUnit(val lambda:()->Result<Any, SingleErrorReport>) : ExUnit {
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
@@ -21,7 +21,7 @@ class LambdaUnit(val lambda:()->Result<Any, ErrorReport>) : ExUnit {
         return null
     }
 
-    override fun runRs(): Result<Any, ErrorReport> {
+    override fun runRs(): Result<Any, SingleErrorReport> {
         return lambda()
     }
 }

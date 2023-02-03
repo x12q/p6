@@ -6,7 +6,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.app.oddity.ErrMsg
 import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 
@@ -14,7 +14,7 @@ import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 fun main() = P6TestApp {
     ErrorDialogWithStackTrace(
         errMsg = ErrMsg.Error(
-            ErrorReport(
+            SingleErrorReport(
                 header = ErrorHeader(
                     errorCode = "Code123",
                     errorDescription = "QWE"

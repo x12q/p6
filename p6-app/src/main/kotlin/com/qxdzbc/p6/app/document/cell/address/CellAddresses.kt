@@ -1,12 +1,11 @@
 package com.qxdzbc.p6.app.document.cell.address
 
-import com.qxdzbc.common.Rs
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.app.document.cell.CellErrors
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.proto.DocProtos
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.Rse
 import java.util.regex.Pattern
 
 object CellAddresses {
@@ -48,7 +47,7 @@ object CellAddresses {
     // A1, A2
     val labelPattern: Pattern = Pattern.compile("[$]?[A-Za-z]+[$]?[1-9][0-9]*")
 
-    fun fromLabelRs(label: String): Rs<CellAddress, ErrorReport> {
+    fun fromLabelRs(label: String): Rse<CellAddress> {
         if (labelPattern.matcher(label).matches()) {
             // extract col and row index from the label
             var colLabel = ""

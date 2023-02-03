@@ -4,7 +4,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -40,7 +40,7 @@ class CellValueTest {
         class B
         val c = CellValue(number = 123.0)
         val c2 = c.setValue(B())
-        assertTrue(c2.value is ErrorReport)
+        assertTrue(c2.value is SingleErrorReport)
     }
 
     @Test

@@ -7,7 +7,7 @@ import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -34,15 +34,15 @@ data class WorkbookContainerImp @Inject constructor(
     override val allWbMs: List<Ms<Workbook>>
         get() = wbStateCont.allStates.map{it.wbMs}
 
-    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Result<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<Workbook>> {
         return wbStateCont.getWbStateRs(wbKeySt).map { it.wbMs }
     }
 
-    override fun getWbMsRs(wbKey:WorkbookKey): Result<Ms<Workbook>,ErrorReport>{
+    override fun getWbMsRs(wbKey:WorkbookKey): Rse<Ms<Workbook>>{
         return this.wbStateCont.getWbStateRs(wbKey).map { it.wbMs }
     }
 
-    override fun getWbMsRs(path: Path): Result<Ms<Workbook>, ErrorReport> {
+    override fun getWbMsRs(path: Path): Result<Ms<Workbook>, SingleErrorReport> {
         val rt:Ms<Workbook>? = this.wbStateCont.allStates.firstOrNull { it.wbKey.path?.absolute() == path.absolute() }?.wbMs
         if (rt != null) {
             return Ok(rt)
@@ -51,7 +51,7 @@ data class WorkbookContainerImp @Inject constructor(
         }
     }
 
-    override fun addWbRs(wb: Workbook): Result<WorkbookContainer, ErrorReport> {
+    override fun addWbRs(wb: Workbook): Rse<WorkbookContainer> {
         if (this.wbStateCont.containWbKey(wb.key)) {
             return WorkbookContainerErrors.WorkbookAlreadyExist.report2("Can't add workbook because workbook at ${wb.key} already exist").toErr()
         } else {

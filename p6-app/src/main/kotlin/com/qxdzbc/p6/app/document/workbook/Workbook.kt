@@ -4,12 +4,8 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.common.compose.Ms
-import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.CanConvertToWorkbookProto
 
@@ -39,7 +35,7 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
     fun getWsMsRs(index: Int): Rse<Ms<Worksheet>>
     fun getWs(index: Int): Worksheet?
 
-    fun getWsRs(index: Int): Result<Worksheet, ErrorReport>
+    fun getWsRs(index: Int): Rse<Worksheet>
 
     fun getWsMs(name: String): Ms<Worksheet>?
     fun getWsMs(nameSt: St<String>): Ms<Worksheet>?
@@ -48,8 +44,8 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
 
     fun getWs(name: String): Worksheet?
     fun getWs(nameSt: St<String>): Worksheet?
-    fun getWsRs(name: String): Result<Worksheet, ErrorReport>
-    fun getWsRs(nameSt: St<String>): Result<Worksheet, ErrorReport>
+    fun getWsRs(name: String): Rse<Worksheet>
+    fun getWsRs(nameSt: St<String>): Rse<Worksheet>
 
     /**
      * trying to create a new worksheet inside this workbook.
@@ -57,7 +53,7 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
      */
     fun createNewWs(name: String? = null): Workbook
     fun createNewWs_MoreDetail(name: String? = null): CreateNewWorksheetResponse
-    fun createNewWsRs(name: String? = null): Result<Workbook, ErrorReport>
+    fun createNewWsRs(name: String? = null): Rse<Workbook>
 
     /**
      * create a new ws, return a more detailed result than [createNewWsRs]
@@ -78,11 +74,11 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
     /**
      * for renaming a worksheet inside a workbook. This include checking the legality of the new worksheet name (illegal name format, name collision)
      */
-    fun renameWsRs(oldName: String, newName: String): Result<Workbook, ErrorReport>
-    fun renameWsRs(index: Int, newName: String): Result<Workbook, ErrorReport>
+    fun renameWsRs(oldName: String, newName: String): Rse<Workbook>
+    fun renameWsRs(index: Int, newName: String): Rse<Workbook>
 
-    fun moveWs(targetIndex: Int, toIndex: Int): Result<Workbook, ErrorReport>
-    fun moveWs(targetName: String, toIndex: Int): Result<Workbook, ErrorReport>
+    fun moveWs(targetIndex: Int, toIndex: Int): Rse<Workbook>
+    fun moveWs(targetName: String, toIndex: Int): Rse<Workbook>
 
     fun setKey(newKey: WorkbookKey): Workbook
     fun containSheet(sheetName: String): Boolean {

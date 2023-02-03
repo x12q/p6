@@ -4,9 +4,9 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -38,7 +38,7 @@ class SingleCellPaster @Inject constructor(
         return rt
     }
 
-    private fun paste(source: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
+    private fun paste(source: RangeCopy?, target: RangeId): Rse<Workbook> {
         val rt = stateCont.getWbRs(target.wbKey)
             .flatMap { wb ->
                 if(source!=null){

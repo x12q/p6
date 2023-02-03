@@ -2,13 +2,12 @@ package com.qxdzbc.p6.app.document.range.copy_paste
 
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -32,7 +31,7 @@ class RangeRangePasterImp @Inject constructor(
     override val stateCont by stateContSt
 
     companion object {
-        fun pasteRs(source: RangeCopy, target: RangeId, wb: Workbook): Result<Workbook, ErrorReport> {
+        fun pasteRs(source: RangeCopy, target: RangeId, wb: Workbook): Rse<Workbook> {
             return wb.getWsRs(target.wsName).map {
                 var tws: Worksheet = it
                 val sourceRangeAddress: RangeAddress = source.rangeId.rangeAddress
@@ -74,8 +73,8 @@ class RangeRangePasterImp @Inject constructor(
         return rt
     }
 
-    private fun paste(rangeCopy: RangeCopy?, target: RangeId): Result<Workbook, ErrorReport> {
-        val rt: Result<Workbook, ErrorReport> = stateContSt.value.getWbRs(target.wbKey).flatMap { wb ->
+    private fun paste(rangeCopy: RangeCopy?, target: RangeId): Rse<Workbook> {
+        val rt: Rse<Workbook> = stateContSt.value.getWbRs(target.wbKey).flatMap { wb ->
             if (rangeCopy != null) {
                 pasteRs(rangeCopy, target, wb)
             } else {

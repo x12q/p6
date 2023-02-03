@@ -1,12 +1,11 @@
 package com.qxdzbc.p6.rpc
 
-import com.qxdzbc.common.Rs
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.Rse
 import io.grpc.Server
 
 interface P6RpcServer {
     val port:Int
     val server:Server?
-    fun start(): Rs<Unit, ErrorReport>
-    fun stop(): Rs<Unit, ErrorReport>
+    fun start(): Rse<Unit>
+    fun stop(): Rse<Unit>
 }

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.translator.jvm_translator
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.translator.formula.function_def.AbstractFunctionDef
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
@@ -37,11 +37,11 @@ class JvmFormulaTranslatorTest {
     @BeforeTest
     fun b() {
         ts = TestSample()
-        fun add(n1: Int, n2: Int): Result<Int, ErrorReport> {
+        fun add(n1: Int, n2: Int): Result<Int, SingleErrorReport> {
             return Ok(n1 + n2)
         }
 
-        fun toUpper(str: String): Result<String, ErrorReport> {
+        fun toUpper(str: String): Result<String, SingleErrorReport> {
             return Ok(str.uppercase())
         }
         functionMap = FunctionMapImp(

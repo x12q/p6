@@ -1,26 +1,24 @@
 package com.qxdzbc.p6.translator.formula
 
-import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
+import com.qxdzbc.common.Rse
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
 
 data class FunctionMapImp(
-    private val m:Map<String, FunctionDef>
+    private val m: Map<String, FunctionDef>
 ) : FunctionMap, Map<String, FunctionDef> by m {
 
     override fun getFunc(name: String): FunctionDef? {
         return m[name]
     }
 
-    override fun getFuncRs(name: String): Result<FunctionDef, ErrorReport> {
+    override fun getFuncRs(name: String): Rse<FunctionDef> {
         val f = m[name]
-        if(f!=null){
+        if (f != null) {
             return Ok(f)
-        }else{
-            return ExUnitErrors.
-            InvalidFunction.report(name).toErr()
+        } else {
+            return ExUnitErrors.InvalidFunction.report(name).toErr()
         }
     }
 

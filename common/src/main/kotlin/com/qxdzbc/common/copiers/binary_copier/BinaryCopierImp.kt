@@ -2,10 +2,10 @@ package com.qxdzbc.common.copiers.binary_copier
 
 import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.error.ErrorReport
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.qxdzbc.common.error.ErrorReport
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 

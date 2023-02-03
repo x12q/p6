@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.Rs
-import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -14,7 +13,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -28,16 +27,12 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.c
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
-import com.github.michaelbull.result.unwrap
 import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.TRUE
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import test.di.DaggerTestComponent
-import test.di.WindowStateModuleForTest
-import java.nio.file.Paths
 
 
 class TestSample: TestAppScope {
@@ -64,14 +59,14 @@ class TestSample: TestAppScope {
         val wbk1: WorkbookKey = WorkbookKey("Book1", null)
         val wbk3 = WorkbookKey("Book3", null)
         val wbk4 = WorkbookKey("Book4", null)
-        val sampleErrorReport = ErrorReport(
+        val sampleErrorReport = SingleErrorReport(
             header = ErrorHeader(
                 errorCode = "123", errorDescription = "test sample error"
             )
         )
         val sampleErrIndicator = ErrorIndicator.error(sampleErrorReport)
         val mockTranslator = object : P6Translator<ExUnit> {
-            override fun translate(formula: String): Rs<ExUnit, ErrorReport> {
+            override fun translate(formula: String): Rs<ExUnit, SingleErrorReport> {
                 return TRUE.toOk()
             }
         }
@@ -101,7 +96,7 @@ class TestSample: TestAppScope {
     val errorRouter = comp.errorRouter()
 
     val mockTranslator = object : P6Translator<ExUnit> {
-        override fun translate(formula: String): Rs<ExUnit, ErrorReport> {
+        override fun translate(formula: String): Rs<ExUnit, SingleErrorReport> {
             return TRUE.toOk()
         }
     }

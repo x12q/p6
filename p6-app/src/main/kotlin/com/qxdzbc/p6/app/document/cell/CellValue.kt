@@ -2,9 +2,10 @@ package com.qxdzbc.p6.app.document.cell
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
+import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.common.utils.TypeUtils.checkStAndCast
 import com.qxdzbc.p6.app.document.range.Range
@@ -71,7 +72,7 @@ data class CellValue constructor(
 
     companion object {
         val empty = CellValue()
-        fun fromRs(rs: Result<Any?, ErrorReport>): CellValue {
+        fun fromRs(rs: Rse<Any?>): CellValue {
             when (rs) {
                 is Err -> {
                     return CellValue(errorReport = rs.error)
@@ -94,7 +95,7 @@ data class CellValue constructor(
                 is Number -> return from(i.toDouble())
                 is Boolean -> return from(i)
                 is Range -> return from(i)
-                is ErrorReport -> return from(i)
+                is SingleErrorReport -> return from(i)
                 else -> {
                     val casted: St<Cell>? = i.checkStAndCast()
                     if(casted!=null){
@@ -151,7 +152,7 @@ data class CellValue constructor(
             return CellValue(errorReport = i)
         }
 
-        fun ErrorReport.toCellValue(): CellValue {
+        fun SingleErrorReport.toCellValue(): CellValue {
             return CellValue(errorReport = this)
         }
 

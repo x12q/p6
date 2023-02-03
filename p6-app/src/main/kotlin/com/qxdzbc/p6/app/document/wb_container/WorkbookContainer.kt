@@ -1,16 +1,14 @@
 package com.qxdzbc.p6.app.document.wb_container
 
-import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 interface WorkbookContainer : WorkbookGetter,WithSize{
 
     fun addWb(wb: Workbook): WorkbookContainer
-    fun addWbRs(wb: Workbook):Result<WorkbookContainer,ErrorReport>
+    fun addWbRs(wb: Workbook):Rse<WorkbookContainer>
 
     fun overwriteWB(wb: Workbook):WorkbookContainer
     fun overwriteWBRs(wb: Workbook): Rse<WorkbookContainer>

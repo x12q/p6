@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.github.michaelbull.result.Err
-import com.qxdzbc.common.error.ErrorReport
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.formula.translator.antlr.FormulaLexer
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.github.michaelbull.result.Ok
@@ -16,7 +16,7 @@ import javax.inject.Inject
  * A tree extractor that work on partially completed formula
  */
 class PartialFormulaTreeExtractor @Inject constructor() : TreeExtractor {
-    override fun extractTree(formula: String): Result<ParseTree, ErrorReport> {
+    override fun extractTree(formula: String): Result<ParseTree, SingleErrorReport> {
         var parserErrorData: TranslatorErrors.ParserErr.Data? = null
         var lexerErrData: TranslatorErrors.LexerErr.Data? = null
         val charStream: CharStream = CharStreams.fromString(formula)
@@ -73,7 +73,7 @@ class PartialFormulaTreeExtractor @Inject constructor() : TreeExtractor {
         val tree: ParseTree = parser.formula()
         if(parserErrorData!=null && formula.startsWith("=").not()){
             return Err(
-                ErrorReport(
+                SingleErrorReport(
                     header = TranslatorErrors.TranslatingErr.header,
                     data = TranslatorErrors.TranslatingErr.Data(
                         lexerErr = lexerErrData,

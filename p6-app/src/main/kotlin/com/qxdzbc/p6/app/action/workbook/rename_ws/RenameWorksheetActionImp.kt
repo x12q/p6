@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChanged
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
@@ -19,8 +18,6 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -38,7 +35,7 @@ data class RenameWorksheetActionImp @Inject constructor(
     private val dc by docContMs
     val appState by appStateMs
 
-    override fun renameWorksheetRs(request: RenameWorksheetRequest, undoable: Boolean): Result<Unit, ErrorReport> {
+    override fun renameWorksheetRs(request: RenameWorksheetRequest, undoable: Boolean): Rse<Unit> {
 
         if (undoable) {
             makeCommand(request)?.also { command ->

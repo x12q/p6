@@ -7,7 +7,7 @@ object WorkbookRpcMsgErrors {
     val prefix = "WorkbookRpcMsgErrors_"
     object IllegalMsg{
         val header = ErrorHeader("${prefix}0","Msg in illegal state")
-        fun report(detail:String):ErrorReport{
+        fun report(detail:String): ErrorReport {
             return header.setDescription(detail).toErrorReport()
         }
     }

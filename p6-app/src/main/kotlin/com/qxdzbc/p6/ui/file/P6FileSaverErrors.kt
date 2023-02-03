@@ -24,7 +24,7 @@ object P6FileSaverErrors {
     }
 
     object TargetPathPointToAnAlreadyOpenWb{
-        fun report(path:Path):ErrorReport{
+        fun report(path:Path): ErrorReport {
             return ErrorHeader("${prefix}${all.indexOf(TargetPathPointToAnAlreadyOpenWb)}","workbook at path ${path.toAbsolutePath()} is already opened for editing, another workbook cannot overwrite it").toErrorReport()
         }
         fun report(detail:String?=null):ErrorReport{

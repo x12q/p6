@@ -2,6 +2,7 @@ package com.qxdzbc.p6.app.app_context
 
 import com.github.michaelbull.result.Err
 import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 
 /**
@@ -9,7 +10,7 @@ import com.qxdzbc.common.error.ErrorReport
  */
 object InitErrors {
     private val label = "UI_InitErrors_"
-    fun invalidInitScript() = ErrorReport(
+    fun invalidInitScript() = SingleErrorReport(
         header = ErrorHeader("${label}0", "missing/invalid init script")
     )
 

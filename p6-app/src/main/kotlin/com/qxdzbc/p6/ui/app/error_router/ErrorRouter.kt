@@ -17,6 +17,7 @@ interface ErrorRouter {
 
     /**
      * route an error report to script editor window
+     * TODO delete this
      */
     fun publishToScriptWindow(errorReport: ErrorReport?)
 

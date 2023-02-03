@@ -21,7 +21,7 @@ object ErrorRouters {
         return this
     }
 
-    fun <T> Rs<T,ErrorReport>.publishErrToWindowIfNeed(errorRouter: ErrorRouter, windowId:String?=null):Rs<T,ErrorReport>{
+    fun <T> Rs<T, ErrorReport>.publishErrToWindowIfNeed(errorRouter: ErrorRouter, windowId:String?=null):Rs<T,ErrorReport>{
         this.onFailure {
             errorRouter.publishToWindow(it,windowId)
         }
