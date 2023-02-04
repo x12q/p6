@@ -34,4 +34,5 @@ sealed interface ErrorReport {
      * Merge this [ErrorReport] with [another] [ErrorReport]
      */
     operator fun plus(another: ErrorReport): ErrorReport
+    fun mergeWith(another:ErrorReport):ErrorReport
 }

@@ -14,7 +14,7 @@ internal class MultiErrorReportTest {
         val es3 = SingleErrorReport.random()
         val e1 = MultiErrorReport(header = ErrorHeader.random(), listOf(es1))
         e1.singleErrorReportList.shouldContainOnly(es1)
-        val e2 = e1 + es2 + es3
+        val e2 = e1.mergeWith(es2).mergeWith(es3)
         e2.shouldBeInstanceOf<MultiErrorReport>()
         e2.singleErrorReportList.shouldContainOnly(es1, es2, es3)
     }

@@ -10,11 +10,11 @@ internal class SingleErrorReportTest{
         val e1 = SingleErrorReport.random()
         val e2 = SingleErrorReport.random()
         val e3 = SingleErrorReport.random()
-        val em1 = e1+e2
+        val em1 = e1.mergeWith(e2)
         em1.shouldBeInstanceOf<MultiErrorReport>()
         em1.singleErrorReportList.shouldContainOnly(e1,e2)
 
-        val em2 = em1+e3
+        val em2 = em1.mergeWith(e3)
         em2.shouldBeInstanceOf<MultiErrorReport>()
         em2.singleErrorReportList.shouldContainOnly(e1,e2,e3)
     }

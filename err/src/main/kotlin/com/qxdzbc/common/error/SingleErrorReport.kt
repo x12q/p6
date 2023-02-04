@@ -23,6 +23,10 @@ class SingleErrorReport(
     }
 
     override fun plus(another: ErrorReport): ErrorReport {
+        return this.mergeWith(another)
+    }
+
+    override fun mergeWith(another: ErrorReport): ErrorReport {
         when (another) {
             is MultiErrorReport -> {
                 return another.copy(
