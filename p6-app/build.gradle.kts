@@ -58,9 +58,6 @@ val apacheCommonCsvVersion = "1.9.0"
 val apacheCommonIOVersion = "2.11.0"
 val kotestVersion="5.5.4"
 dependencies {
-//    implementation("com.google.code.gson:gson:2.10")
-
-//    testImplementation("org.hamcrest:hamcrest:2.2")
 
     implementation("com.godaddy.android.colorpicker:compose-color-picker-jvm:0.5.1")
 

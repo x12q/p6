@@ -1,5 +1,7 @@
 package com.qxdzbc.common.error
 
+import java.util.UUID
+
 data class ErrorHeader(val errorCode: String, val errorDescription: String){
     override fun toString(): String {
         return "${errorCode}: $errorDescription"
@@ -21,5 +23,12 @@ data class ErrorHeader(val errorCode: String, val errorDescription: String){
     }
     fun setDescription(newDescription:String): ErrorHeader {
         return this.copy(errorDescription =  newDescription)
+    }
+
+    companion object{
+        fun random():ErrorHeader{
+            val id = UUID.randomUUID().toString()
+            return ErrorHeader(id,"Error description: $id")
+        }
     }
 }
