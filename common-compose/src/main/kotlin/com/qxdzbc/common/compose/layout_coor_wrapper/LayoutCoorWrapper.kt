@@ -35,7 +35,14 @@ interface LayoutCoorWrapper {
      * position in window is null if [layout] is not attached
      */
     val posInWindow:Offset?
+
+    /**
+     * convert a [local] offset to a window offset
+     */
     fun localToWindow(local:Offset):Offset
+    /**
+     * convert a [window] offset to a local offset relative to this layout coordinates
+     */
     fun windowToLocal(window:Offset):Offset
     val isAttached:Boolean
     fun ifAttached(f:(lc: LayoutCoorWrapper)->Unit)

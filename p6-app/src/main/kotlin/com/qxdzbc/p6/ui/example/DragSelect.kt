@@ -24,7 +24,9 @@ import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
 
-@OptIn(ExperimentalComposeUiApi::class)
+/**
+ * Select multiple things by dragging a temporary rectangular over them
+ */
 fun main() {
     val map = (1..120).associateBy(
         keySelector = { it },
