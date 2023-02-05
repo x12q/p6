@@ -30,13 +30,13 @@ class CreateNewWorkbookActionImp @Inject constructor(
     override fun createNewWb(request: CreateNewWorkbookRequest): CreateNewWorkbookResponse {
         val rt = wbf.createWbRs(request.wbName)
             .mapBoth(
-                success = {
-                    iapply(it, request.windowId)
-                    CreateNewWorkbookResponse(null, it, request.windowId)
+                success = {newWb->
+                    iapply(newWb, request.windowId)
+                    CreateNewWorkbookResponse(null, newWb, request.windowId)
                 },
-                failure = {
-                    errorRouter.publishToWindow(it, request.windowId)
-                    CreateNewWorkbookResponse(it, null, request.windowId)
+                failure = {err->
+                    errorRouter.publishToWindow(err, request.windowId)
+                    CreateNewWorkbookResponse(err, null, request.windowId)
                 }
             )
         return rt
@@ -44,10 +44,8 @@ class CreateNewWorkbookActionImp @Inject constructor(
 
     fun iapply(wb: Workbook?, windowId: String?) {
         if (wb != null) {
-            val wbk = wb.key
-            val wbkMs = wb.keyMs
             stateCont.wbContMs.value = globalWbCont.addOrOverWriteWb(wb)
-            globalWbStateCont.getWbStateMs(wbk)?.also {
+            globalWbStateCont.getWbStateMs(wb.key)?.also {
                 it.value = it.value.setWindowId(windowId)
             }
             var useNewWindow = false
@@ -55,18 +53,18 @@ class CreateNewWorkbookActionImp @Inject constructor(
              * If the request contains a non-existing window id, a new window will be created with that id to hold the newly create wb.
              * If the request contains null window id, a default window will be picked (active window, then first window) if possible, if no window is available, a new window will be created.
              */
-            val oWdMs = stateCont.getWindowStateMsDefaultRs(windowId).component1() ?: run {
+            val windowStateMs = stateCont.getWindowStateMsDefaultRs(windowId).component1() ?: run {
                 // x: only create new window state if no window is available
-                val newWid = windowId ?: UUID.randomUUID().toString()
-                val (newStateCont, newWindowState) = stateCont.createNewWindowStateMs(newWid)
+                val newWindowId = windowId ?: UUID.randomUUID().toString()
+                val (newStateCont, newWindowState) = stateCont.createNewWindowStateMs(newWindowId)
                 stateContMs.value = newStateCont
                 useNewWindow = true
                 newWindowState.value.innerWindowStateMs
             }
-            val windowWasEmptyBeforeAdding = oWdMs.value.isEmpty()
-            oWdMs.value = oWdMs.value.addWbKey(wbkMs)
+            val windowWasEmptyBeforeAdding = windowStateMs.value.isEmpty()
+            windowStateMs.value = windowStateMs.value.addWbKey(wb.keyMs)
             if (useNewWindow || windowWasEmptyBeforeAdding) {
-                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(oWdMs.value)
+                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs.value)
             }
         }
     }

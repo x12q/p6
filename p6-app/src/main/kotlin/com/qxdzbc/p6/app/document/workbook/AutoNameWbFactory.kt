@@ -31,7 +31,7 @@ class AutoNameWbFactory @Inject constructor(
     }
 
     override fun createWbRs(wbName: String?): Rse<Workbook> {
-        // extract indices from workbook name that follow the patter.
+        // extract indices from workbook name that conforms with the pattern "Book<num>".
         // Eg:{ "Book1", "Book2" }-> {1,2}
 
         val newWbName = wbName?: run{

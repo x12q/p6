@@ -13,25 +13,22 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.app.command.Command
-import com.qxdzbc.p6.app.command.CommandStack
-import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.True
-import com.qxdzbc.p6.di.state.wb.DefaultCommandStack
 import com.qxdzbc.p6.di.state.wb.DefaultWsStateMap
 import com.qxdzbc.p6.di.state.ws.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
@@ -52,7 +49,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     @DefaultActiveWorksheetPointer
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
     @True private val refreshVar: Boolean = true,
-    @True override val needSave: Boolean = true,
+    @False override val needSave: Boolean = false,
     private val wsStateFactory: WorksheetStateFactory,
     private val gridSliderFactory: LimitedGridSliderFactory,
     private val cursorStateFactory: CursorStateFactory,
@@ -68,8 +65,8 @@ data class WorkbookStateImp @AssistedInject constructor(
         ): WorkbookStateImp {
             val activeSheetName = wbMs.value.getWs(0)?.nameMs
             return default(
-                wbMs=wbMs,
-                activeSheetPointerMs=ms(ActiveWorksheetPointerImp(activeSheetName)),
+                wbMs = wbMs,
+                activeSheetPointerMs = ms(ActiveWorksheetPointerImp(activeSheetName)),
                 wsStateFactory = wsStateFactory,
                 gridSliderFactory = gridSliderFactory,
                 cursorStateFactory = cursorStateFactory,
@@ -103,11 +100,13 @@ data class WorkbookStateImp @AssistedInject constructor(
                             cursorStateMs = cursorStateFactory.create(
                                 idMs = cursorIdMs,
                                 cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
-                                thumbStateMs = ms(thumbStateFactory.create(
-                                    cursorIdSt =cursorIdMs,
-                                    mainCellSt = mainCellMs,
-                                    cellLayoutCoorMapSt = cellLayoutCoorMapMs
-                                )),
+                                thumbStateMs = ms(
+                                    thumbStateFactory.create(
+                                        cursorIdSt = cursorIdMs,
+                                        mainCellSt = mainCellMs,
+                                        cellLayoutCoorMapSt = cellLayoutCoorMapMs
+                                    )
+                                ),
                                 mainCellMs = mainCellMs
                             ).toMs(),
                             cellLayoutCoorMapMs = cellLayoutCoorMapMs
@@ -125,7 +124,6 @@ data class WorkbookStateImp @AssistedInject constructor(
                 thumbStateFactory = thumbStateFactory,
                 windowId = null
             )
-
         }
     }
 
