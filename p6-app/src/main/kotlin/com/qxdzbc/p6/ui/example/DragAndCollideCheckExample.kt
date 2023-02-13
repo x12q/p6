@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -43,13 +44,14 @@ fun main() = application {
 
         val greenBoxPosMs:Ms<LayoutCoorWrapper?> = rms(null)
         val redBoxPosMs:Ms<LayoutCoorWrapper?> = rms(null)
-        var colPos: LayoutCoorWrapper? by rms(null)
+        var dragHostCoorWrapper: LayoutCoorWrapper? by rms(null)
 
+        // drag host
         Surface(color = Color.Black, modifier = Modifier
             .onPointerEvent(PointerEventType.Move) {
                 if (isClicked) {
                     it.changes.getOrNull(0)?.position?.also { mousePos ->
-                        colPos?.let { cp ->
+                        dragHostCoorWrapper?.let { cp ->
                             pos = cp.localToWindow(mousePos).toIntOffset()
                         }
                     }
@@ -61,9 +63,10 @@ fun main() = application {
                     gb.overlaps(rb)
                 }
             } ?: false
-            Column(modifier = Modifier.onGloballyPositioned { colPos = it.wrap() }) {
+            Column(modifier = Modifier.onGloballyPositioned { dragHostCoorWrapper = it.wrap() }) {
                 Text("Overlap: $isOverlap", color = Color.White)
                 Box(modifier = Modifier.fillMaxSize()) {
+                    // drag obj
                     MBox(
                         modifier = Modifier.size(120.dp, 30.dp).offset(0.dp, 100.dp).background(Color.Red)
                             .onGloballyPositioned {
@@ -71,6 +74,7 @@ fun main() = application {
                             }
                     )
 
+                    // drag receiver point
                     MBox(
                         modifier = Modifier.size(50.dp)
                             .let { mod ->
