@@ -72,4 +72,8 @@ data class LayoutCoorWrapperImp(
     override fun forceRefresh(i: Boolean): LayoutCoorWrapper {
         return this.copy(refreshVar = i)
     }
+
+    override fun forceRefresh(): LayoutCoorWrapper {
+        return this.copy(refreshVar = !refreshVar)
+    }
 }

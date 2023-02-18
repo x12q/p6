@@ -55,4 +55,5 @@ interface LayoutCoorWrapper {
      * [layout] is sometimes mutated directly by compose runtime. This mean re-setting layout may or may not cause re-composition. To force re-composition, call this function with [i] being the opposite of [refreshVar] of this wrapper or the wrapper to be replaced by this wrapper.
      */
     fun forceRefresh(i:Boolean):LayoutCoorWrapper
+    fun forceRefresh():LayoutCoorWrapper
 }

@@ -17,11 +17,11 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
-import com.qxdzbc.p6.ui.common.view.BorderBox
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.p6.ui.common.view.BorderBox
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -40,15 +40,17 @@ fun main() {
         MBox(modifier = Modifier.fillMaxSize().onGloballyPositioned {
             lc = it
         }) {
-            Box(modifier = Modifier.size(10.dp).offset {
-                val l = lc
-                if (l != null && l.isAttached) {
-                    l.windowToLocal(currentMousePos ?: Offset(0F, 0F)).toIntOffset()
-                }else{
-                    IntOffset(0, 0)
-                }
-            }.background(Color.Blue)) {
-            }
+            Box(
+                modifier = Modifier.size(10.dp).offset {
+                    val l = lc
+                    if (l != null && l.isAttached) {
+                        l.windowToLocal(currentMousePos ?: Offset(0F, 0F)).toIntOffset()
+                    } else {
+                        IntOffset(0, 0)
+                    }
+                }.background(Color.Blue)
+            )
+
             Column {
                 BasicText("Anchor mouse: ${anchorMousePos ?: ""}")
                 BasicText("current mouse: ${currentMousePos ?: ""}")
@@ -69,14 +71,14 @@ fun main() {
                                 anchorWidth = width
                                 mouseDown = true
                                 val tlc = thumbLc
-                                if(tlc!=null && tlc.isAttached){
+                                if (tlc != null && tlc.isAttached) {
                                     anchorMousePos = tlc.localToWindow(it.changes.first().position)
                                 }
                             }.onPointerEvent(PointerEventType.Release) {
                                 mouseDown = false
                             }.onPointerEvent(PointerEventType.Move) {
                                 val tlc = thumbLc
-                                if(tlc!=null && tlc.isAttached){
+                                if (tlc != null && tlc.isAttached) {
                                     currentMousePos = tlc.localToWindow(it.changes.first().position)
                                 }
                                 if (mouseDown) {
