@@ -56,4 +56,17 @@ interface LayoutCoorWrapper {
      */
     fun forceRefresh(i:Boolean):LayoutCoorWrapper
     fun forceRefresh():LayoutCoorWrapper
+
+    companion object{
+        /**
+         * Replace a [LayoutCoorWrapper] with another. If they are the same, force refresh.
+         */
+        fun LayoutCoorWrapper?.replaceWith(i: LayoutCoorWrapper?): LayoutCoorWrapper? {
+            if (i != this) {
+                return i
+            } else {
+                return this?.forceRefresh()
+            }
+        }
+    }
 }

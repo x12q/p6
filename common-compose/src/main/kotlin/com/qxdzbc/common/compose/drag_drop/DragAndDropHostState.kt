@@ -11,16 +11,27 @@ interface DragAndDropHostState {
     val mousePosition: IntOffset?
     fun setMousePosition(i: IntOffset?): DragAndDropHostState
 
-    val dragObjCoorWrapper:LayoutCoorWrapper?
-    fun setDragObjCoorWrapper(i:LayoutCoorWrapper?):DragAndDropHostState
+    val currentDrag:Any?
+    fun setCurrentDrag(i:Any?):DragAndDropHostState
 
-//    val dragReceiverCoorWrappers: List<LayoutCoorWrapper>
-    // TODO remember to check for equality, and force refresh.
-//    fun setDragReceiverCoorWrappers(i: List<LayoutCoorWrapper>): DragAndDropHostState
-    val dropTargetCoorWrapper: LayoutCoorWrapper?
-    fun setDropTargetCoorWrapper(i: LayoutCoorWrapper?): DragAndDropHostState
+    /**
+     * Reset this state to the state in which no dragging is happening
+     */
+    fun resetToNonDragState():DragAndDropHostState
 
-    val dragHostCoorWrapper: LayoutCoorWrapper?
-    fun setHostLayoutCoor(i:LayoutCoorWrapper?):DragAndDropHostState
+    /**
+     * A map of [LayoutCoorWrapper] by some key. This is for identifying the currently dragged item.
+     */
+    val dragMap:Map<Any,LayoutCoorWrapper>
+    fun setDragLayoutCoorWrapper(key:Any, layoutCoorWrapper: LayoutCoorWrapper):DragAndDropHostState
+    fun removeDragLayoutCoorWrapper(key:Any):DragAndDropHostState
+
+    val dropMap:Map<Any,LayoutCoorWrapper>
+    fun setDropLayoutCoorWrapper(key:Any, layoutCoorWrapper: LayoutCoorWrapper):DragAndDropHostState
+    fun removeDropLayoutCoorWrapper(key:Any):DragAndDropHostState
+    fun clearDropLayoutCoorWrapper():DragAndDropHostState
+
+    val hostCoorWrapper: LayoutCoorWrapper?
+    fun setHostLayoutCoorWrapper(i:LayoutCoorWrapper?):DragAndDropHostState
 }
 

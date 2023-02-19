@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
@@ -22,24 +21,21 @@ import com.qxdzbc.common.compose.view.MBox
 
 /**
  * dragging a green box over a red box, detect when they overlap.
- * Need:
- * - a surface to track mouse position
- * - a drag obj: must have it position cached, a  nullable variable to hold its position
- * - a target : target is where a certain action is trigger when the dragged obj overlap it.
- * Any way to make this a general solution? I rather not touch the swing layer.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
     Window(
         state = WindowState(width = 350.dp, height = 450.dp),
         onCloseRequest = ::exitApplication
     ) {
-
+        val green = "green"
+        val red = "red"
+        val blue = "blue"
         // drag host
         val stateMs: Ms<DragAndDropHostState> = rms(DragAndDropHostStateImp())
-        val pos: IntOffset? = stateMs.value.mousePosition
-        val greenBoxPos: LayoutCoorWrapper? = stateMs.value.dragObjCoorWrapper
-        val redBoxPos: LayoutCoorWrapper? = stateMs.value.dropTargetCoorWrapper
+
+        val greenBoxPos: LayoutCoorWrapper? = stateMs.value.dragMap[green]
+        val redBoxPos: LayoutCoorWrapper? = stateMs.value.dropMap[red]
+
         val isOverlap = greenBoxPos?.boundInWindow?.let { gb ->
             redBoxPos?.boundInWindow?.let { rb ->
                 gb.overlaps(rb)
@@ -49,31 +45,27 @@ fun main() = application {
             internalStateMs = stateMs,
         ) {
             Column {
-                Text("Overlap: $isOverlap", color = Color.Black)
-                MBox(modifier = Modifier.fillMaxSize()) {
-                    Drop(stateMs) {
+                Text("Overlap: $isOverlap", color = Color.White)
+                MBox(modifier = Modifier.fillMaxSize().background(Color.Gray)) {
+                    Drag(
+                        internalStateMs = stateMs,
+                        identifier = { blue }
+                    ) {
+                        MBox(
+                            modifier = Modifier.size(50.dp)
+                                .background(Color.Blue)
+                        )
+                    }
+
+                    Drop(
+                        internalStateMs = stateMs,
+                        identifier = { red }
+                    ) {
                         MBox(
                             modifier = Modifier.size(120.dp, 30.dp).offset(0.dp, 100.dp).background(Color.Red)
                         )
                     }
-
-                    Drag(stateMs,
-                        onClick = {
-                            //on click
-                        }, onDrop = {
-
-                        }) {
-                        MBox(
-                            modifier = Modifier.size(50.dp)
-                                .let { mod ->
-                                    pos?.let {
-                                        mod.offset { it }
-                                    } ?: mod
-                                }.background(Color.Green)
-                        )
-                    }
                 }
-
             }
         }
     }

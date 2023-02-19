@@ -4,6 +4,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -21,11 +22,14 @@ fun DragAndDropHost(
     ) -> Unit,
 ) {
     val state = internalStateMs.value
-    Surface(modifier = Modifier
+    Surface(
+        color = Color.Black,
+        modifier = Modifier
         .onPointerEvent(PointerEventType.Move) {
             if (state.isClicked) {
                 it.changes.getOrNull(0)?.position?.also { mousePos ->
-                    state.dragHostCoorWrapper?.let { cp ->
+                    println("QQQQ")
+                    state.hostCoorWrapper?.let { cp ->
                         internalStateMs.value = state.setMousePosition(cp.localToWindow(mousePos).toIntOffset())
                     }
                 }
@@ -34,7 +38,7 @@ fun DragAndDropHost(
     ) {
         MBox(
             modifier = Modifier.onGloballyPositioned {
-                internalStateMs.value = state.setHostLayoutCoor(it.wrap())
+                internalStateMs.value = state.setHostLayoutCoorWrapper(it.wrap())
             }
         ){
             content(internalStateMs)
