@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.IntOffset
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
 import kotlin.math.roundToInt
 
@@ -48,8 +49,8 @@ fun Drag(
     content: @Composable () -> Unit,
 ) {
     val state by internalStateMs
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
+    var offsetX by rms(0f)
+    var offsetY by rms(0f)
     MBox(
         modifier = Modifier
             .offset {
