@@ -72,6 +72,9 @@ data class DragAndDropHostStateImp(
     }
 
     companion object {
+        /**
+         * Update a layout map with a pair of [key] and a [LayoutCoorWrapper]
+         */
         fun Map<Any, LayoutCoorWrapper>.updateLayoutMap(
             key: Any,
             layoutCoorWrapper: LayoutCoorWrapper

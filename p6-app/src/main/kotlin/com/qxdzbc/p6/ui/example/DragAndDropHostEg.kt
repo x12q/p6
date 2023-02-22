@@ -32,20 +32,20 @@ fun main() = application {
         // drag host
         val stateMs: Ms<DragAndDropHostState> = rms(DragAndDropHostStateImp())
 
-        val greenBoxPos: LayoutCoorWrapper? = stateMs.value.dragMap[green]
+        val blueBoxPos: LayoutCoorWrapper? = stateMs.value.dragMap[blue]
         val redBoxPos: LayoutCoorWrapper? = stateMs.value.dropMap[red]
 
-        val isOverlap = greenBoxPos?.boundInWindow?.let { gb ->
+        val isOverlap = blueBoxPos?.boundInWindow?.let { bb ->
             redBoxPos?.boundInWindow?.let { rb ->
-                gb.overlaps(rb)
+                bb.overlaps(rb)
             }
         } ?: false
         DragDropHost(
             internalStateMs = stateMs,
         ) {
-            Column(modifier=Modifier.padding(10.dp)) {
-                Text("Overlap: $isOverlap", color = Color.White)
-                MBox(modifier=Modifier.fillMaxWidth().height(30.dp).border(1.dp,Color.Red).background(Color.Gray)){
+            Column(modifier = Modifier.padding(10.dp)) {
+                Text("Blue overlap: $isOverlap", color = Color.White)
+                MBox(modifier = Modifier.fillMaxWidth().height(30.dp).border(1.dp, Color.Red).background(Color.Gray)) {
                     Text("Padding", modifier = Modifier.align(Alignment.Center))
                 }
                 MBox(modifier = Modifier.fillMaxSize()) {
@@ -74,10 +74,11 @@ fun main() = application {
 
                     Drop(
                         internalStateMs = stateMs,
-                        identifier = { red }
+                        identifier = { red },
+                        modifier = Modifier.offset(0.dp, 100.dp)
                     ) {
                         MBox(
-                            modifier = Modifier.size(120.dp, 30.dp).offset(0.dp, 100.dp).background(Color.Red)
+                            modifier = Modifier.size(120.dp, 30.dp).background(Color.Red)
                         )
                     }
                 }

@@ -9,16 +9,17 @@ import com.qxdzbc.common.compose.view.MBox
 
 /**
  * TODO use local provider to pass the internal state implicitly to this function
+ * Offset modifier must be set on the Drop composable. Don't set offset in its children composables.
  */
-
 @Composable
 fun Drop(
     internalStateMs: Ms<DragAndDropHostState>,
     identifier:()->Any,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     MBox(
-        modifier = Modifier
+        modifier = modifier
             .onGloballyPositioned {
                 internalStateMs.value = internalStateMs.value.setDropLayoutCoorWrapper(identifier(),it.wrap())
             }
