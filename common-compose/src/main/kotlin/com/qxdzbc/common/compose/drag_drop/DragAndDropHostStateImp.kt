@@ -11,7 +11,7 @@ data class DragAndDropHostStateImp(
     override val dragMap: Map<Any, LayoutCoorWrapper> = emptyMap(),
     override val dropMap: Map<Any, LayoutCoorWrapper> = emptyMap(),
     override val currentDrag: Any? = null,
-    override val currentDragOriginalPosition: Offset? = null
+    override val currentDragOriginalPositionInWindow: Offset? = null
 ) : DragAndDropHostState {
 
     override fun setIsClicked(i: Boolean): DragAndDropHostStateImp {
@@ -22,8 +22,8 @@ data class DragAndDropHostStateImp(
         return this.copy(mousePosition = i)
     }
 
-    override fun setCurrentDragOriginalPosition(i: Offset?): DragAndDropHostStateImp {
-        return this.copy(currentDragOriginalPosition = i)
+    override fun setCurrentDragOriginalPositionInWindow(i: Offset?): DragAndDropHostStateImp {
+        return this.copy(currentDragOriginalPositionInWindow = i)
     }
 
     override fun setCurrentDrag(i: Any?): DragAndDropHostStateImp {
@@ -39,11 +39,11 @@ data class DragAndDropHostStateImp(
             isClicked = false,
             currentDrag = null,
             mousePosition = null,
-            currentDragOriginalPosition = null
+            currentDragOriginalPositionInWindow = null
         )
     }
 
-    override fun setDragLayoutCoorWrapper(key: Any, layoutCoorWrapper: LayoutCoorWrapper): DragAndDropHostStateImp {
+    override fun addDragLayoutCoorWrapper(key: Any, layoutCoorWrapper: LayoutCoorWrapper): DragAndDropHostStateImp {
         return this.copy(dragMap = this.dragMap.updateLayoutMap(key, layoutCoorWrapper))
     }
 
@@ -53,7 +53,7 @@ data class DragAndDropHostStateImp(
         )
     }
 
-    override fun setDropLayoutCoorWrapper(key: Any, layoutCoorWrapper: LayoutCoorWrapper): DragAndDropHostStateImp {
+    override fun addDropLayoutCoorWrapper(key: Any, layoutCoorWrapper: LayoutCoorWrapper): DragAndDropHostStateImp {
         return this.copy(dropMap = this.dropMap.updateLayoutMap(key, layoutCoorWrapper))
     }
 

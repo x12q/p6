@@ -21,7 +21,7 @@ fun Drop(
     MBox(
         modifier = modifier
             .onGloballyPositioned {
-                internalStateMs.value = internalStateMs.value.setDropLayoutCoorWrapper(identifier(),it.wrap())
+                internalStateMs.value = internalStateMs.value.addDropLayoutCoorWrapper(identifier(),it.wrap())
             }
     ) {
         content()

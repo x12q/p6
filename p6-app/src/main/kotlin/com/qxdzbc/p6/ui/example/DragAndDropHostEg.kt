@@ -71,7 +71,6 @@ fun main() = application {
                         }
                     }
 
-
                     Drop(
                         internalStateMs = stateMs,
                         identifier = { red },
