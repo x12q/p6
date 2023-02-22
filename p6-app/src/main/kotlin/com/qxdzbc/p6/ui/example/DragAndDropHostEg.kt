@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
@@ -41,7 +40,7 @@ fun main() = application {
                 gb.overlaps(rb)
             }
         } ?: false
-        DragAndDropHost(
+        DragDropHost(
             internalStateMs = stateMs,
         ) {
             Column {

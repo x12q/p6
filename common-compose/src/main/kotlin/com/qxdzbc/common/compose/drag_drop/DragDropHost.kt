@@ -16,7 +16,7 @@ import com.qxdzbc.common.compose.view.MBox
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun DragAndDropHost(
+fun DragDropHost(
     internalStateMs: Ms<DragAndDropHostState>,
     content: @Composable (
         internalStateMs: Ms<DragAndDropHostState>
