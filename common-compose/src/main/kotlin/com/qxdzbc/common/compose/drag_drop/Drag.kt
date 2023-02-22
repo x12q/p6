@@ -8,11 +8,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.toOffset
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
 import com.qxdzbc.common.compose.view.MBox
+
+@Composable
+fun Drag(
+    internalStateMs: Ms<DragAndDropHostState>,
+    identifier: () -> Any,
+    onClick: () -> Unit = {},
+    onDrop: () -> Unit = {},
+    content: @Composable () -> Unit,
+) {
+    Drag(
+        internalStateMs = internalStateMs,
+        identifier = identifier(),
+        onClick = onClick,
+        onDrop = onDrop,
+        content = content
+    )
+}
 
 /**
  * TODO use local provider to pass the internal state implicitly to this function
@@ -22,21 +38,29 @@ import com.qxdzbc.common.compose.view.MBox
 @Composable
 fun Drag(
     internalStateMs: Ms<DragAndDropHostState>,
-    identifier: () -> Any,
+    identifier: Any,
     onClick: () -> Unit = {},
     onDrop: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
-
     val state by internalStateMs
-
     MBox(
         modifier = Modifier
             .let { mod ->
-                if (state.isClicked && identifier() == state.currentDrag) {
-                    state.mousePosition?.let { state.hostCoorWrapper?.windowToLocal(it.toOffset()) }
-                        ?.let { mod.offset { it.toIntOffset() } }
-                        ?: mod
+                if (state.isClicked && identifier == state.currentDrag) {
+
+                    val localMousePos = state.mousePosition?.let {
+                        state.hostCoorWrapper?.windowToLocal(it)
+                    }
+                    val originalPos = state.currentDragOriginalPosition
+                    // offset = offset from original position
+                    val newOffset = if(localMousePos!=null && originalPos!=null){
+                        localMousePos.minus(originalPos)
+                    }else{
+                        null
+                    }
+                    val newMod = newOffset?.let { mod.offset { it.toIntOffset() } }?: mod
+                    newMod
                 } else {
                     mod
                 }
@@ -44,13 +68,17 @@ fun Drag(
             .onPointerEvent(PointerEventType.Press) {
                 internalStateMs.value = state
                     .setIsClicked(true)
-                    .setCurrentDrag(identifier())
+                    .setCurrentDrag(identifier)
+                     .let {st->
+                         val posInWindow = state.dragMap[identifier]?.posInWindow
+                         posInWindow?.let { st.setCurrentDragOriginalPosition(it) } ?: st
+                     }
                 onClick()
             }.onPointerEvent(PointerEventType.Release) {
                 internalStateMs.value = state.resetToNonDragState()
                 onDrop()
             }.onGloballyPositioned {
-                internalStateMs.value = state.setDragLayoutCoorWrapper(identifier(), it.wrap())
+                internalStateMs.value = state.setDragLayoutCoorWrapper(identifier, it.wrap())
             }) {
         content()
     }

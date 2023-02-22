@@ -11,7 +11,6 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
 import com.qxdzbc.common.compose.view.MBox
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -30,7 +29,8 @@ fun DragDropHost(
             if (state.isClicked) {
                 it.changes.getOrNull(0)?.position?.also { mousePos ->
                     state.hostCoorWrapper?.let { cp ->
-                        internalStateMs.value = state.setMousePosition(cp.localToWindow(mousePos).toIntOffset())
+                        val mousePosInWindow = cp.localToWindow(mousePos)
+                        internalStateMs.value = state.setMousePosition(mousePosInWindow)
                     }
                 }
             }

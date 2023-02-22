@@ -1,11 +1,10 @@
 package com.qxdzbc.p6.ui.example
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -29,6 +28,7 @@ fun main() = application {
         val green = "green"
         val red = "red"
         val blue = "blue"
+        val cyan = "cyan"
         // drag host
         val stateMs: Ms<DragAndDropHostState> = rms(DragAndDropHostStateImp())
 
@@ -43,28 +43,34 @@ fun main() = application {
         DragDropHost(
             internalStateMs = stateMs,
         ) {
-            Column {
+            Column(modifier=Modifier.padding(10.dp)) {
                 Text("Overlap: $isOverlap", color = Color.White)
-                MBox(modifier = Modifier.fillMaxSize().background(Color.Gray)) {
-                    Drag(
-                        internalStateMs = stateMs,
-                        identifier = { blue }
-                    ) {
-                        MBox(
-                            modifier = Modifier.size(50.dp)
-                                .background(Color.Blue)
-                        )
+                MBox(modifier=Modifier.fillMaxWidth().height(30.dp).border(1.dp,Color.Red).background(Color.Gray)){
+                    Text("Padding", modifier = Modifier.align(Alignment.Center))
+                }
+                MBox(modifier = Modifier.fillMaxSize()) {
+                    Row {
+                        Drag(
+                            internalStateMs = stateMs,
+                            identifier = blue
+                        ) {
+                            MBox(
+                                modifier = Modifier.size(50.dp)
+                                    .background(Color.Blue)
+                            )
+                        }
+
+                        Drag(
+                            internalStateMs = stateMs,
+                            identifier = green
+                        ) {
+                            MBox(
+                                modifier = Modifier.size(50.dp)
+                                    .background(Color.Green)
+                            )
+                        }
                     }
 
-                    Drag(
-                        internalStateMs = stateMs,
-                        identifier = { red }
-                    ) {
-                        MBox(
-                            modifier = Modifier.size(20.dp)
-                                .background(Color.Red)
-                        )
-                    }
 
                     Drop(
                         internalStateMs = stateMs,

@@ -1,5 +1,6 @@
 package com.qxdzbc.common.compose.drag_drop
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntOffset
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 
@@ -8,8 +9,11 @@ interface DragAndDropHostState {
     val isClicked:Boolean
     fun setIsClicked(i:Boolean):DragAndDropHostState
 
-    val mousePosition: IntOffset?
-    fun setMousePosition(i: IntOffset?): DragAndDropHostState
+    val mousePosition: Offset?
+    fun setMousePosition(i: Offset?): DragAndDropHostState
+
+    val currentDragOriginalPosition:Offset?
+    fun setCurrentDragOriginalPosition(i:Offset?):DragAndDropHostState
 
     val currentDrag:Any?
     fun setCurrentDrag(i:Any?):DragAndDropHostState
