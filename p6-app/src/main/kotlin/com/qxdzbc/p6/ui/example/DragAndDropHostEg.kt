@@ -57,6 +57,16 @@ fun main() = application {
                         )
                     }
 
+                    Drag(
+                        internalStateMs = stateMs,
+                        identifier = { red }
+                    ) {
+                        MBox(
+                            modifier = Modifier.size(20.dp)
+                                .background(Color.Red)
+                        )
+                    }
+
                     Drop(
                         internalStateMs = stateMs,
                         identifier = { red }

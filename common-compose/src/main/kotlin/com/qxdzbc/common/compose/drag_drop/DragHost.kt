@@ -2,6 +2,7 @@ package com.qxdzbc.common.compose.drag_drop
 
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,14 +22,13 @@ fun DragAndDropHost(
         internalStateMs: Ms<DragAndDropHostState>
     ) -> Unit,
 ) {
-    val state = internalStateMs.value
+    val state by internalStateMs
     Surface(
         color = Color.Black,
         modifier = Modifier
         .onPointerEvent(PointerEventType.Move) {
             if (state.isClicked) {
                 it.changes.getOrNull(0)?.position?.also { mousePos ->
-                    println("QQQQ")
                     state.hostCoorWrapper?.let { cp ->
                         internalStateMs.value = state.setMousePosition(cp.localToWindow(mousePos).toIntOffset())
                     }

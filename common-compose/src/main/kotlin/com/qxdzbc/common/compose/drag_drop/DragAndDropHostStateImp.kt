@@ -62,7 +62,7 @@ data class DragAndDropHostStateImp(
     }
 
     override fun setHostLayoutCoorWrapper(i: LayoutCoorWrapper?): DragAndDropHostStateImp {
-        return this.copy(hostCoorWrapper = hostCoorWrapper?.replaceWith(i))
+        return this.copy(hostCoorWrapper = hostCoorWrapper.replaceWith(i))
     }
 
     companion object {
@@ -77,15 +77,6 @@ data class DragAndDropHostStateImp(
             } else {
                 return this - key
             }
-//            if (currentLayout != null) {
-//                if (currentLayout != layoutCoorWrapper) {
-//                    return this + (key to layoutCoorWrapper)
-//                } else {
-//                    return this + (key to currentLayout.forceRefresh())
-//                }
-//            } else {
-//                return this + (key to layoutCoorWrapper)
-//            }
         }
     }
 }

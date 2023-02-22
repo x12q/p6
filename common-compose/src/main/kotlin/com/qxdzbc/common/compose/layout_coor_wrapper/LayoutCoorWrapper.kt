@@ -65,6 +65,7 @@ interface LayoutCoorWrapper {
             if (i != this) {
                 return i
             } else {
+                // same = same layout + same force var
                 return this?.forceRefresh()
             }
         }

@@ -2,6 +2,7 @@ package com.qxdzbc.common.compose.drag_drop
 
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
@@ -27,7 +28,7 @@ fun Drag(
     content: @Composable () -> Unit,
 ) {
 
-    val state = internalStateMs.value
+    val state by internalStateMs
 
     MBox(
         modifier = Modifier
