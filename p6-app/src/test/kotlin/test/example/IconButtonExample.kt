@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.example
+package test.example
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Icon

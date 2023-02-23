@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package com.qxdzbc.p6.ui.common.view.dialog
+package test.example
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.Modifier

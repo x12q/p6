@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.d_menu
+package test.example
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf

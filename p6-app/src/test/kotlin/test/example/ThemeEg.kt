@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.example
+package test.example
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

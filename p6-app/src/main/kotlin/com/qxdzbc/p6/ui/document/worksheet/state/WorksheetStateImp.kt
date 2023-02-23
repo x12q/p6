@@ -6,6 +6,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper.Companion.replaceWith
 import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -96,17 +97,21 @@ data class WorksheetStateImp constructor(
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
         val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
-        // x: force refresh cell layout wrapper to force the app to redraw cell when col/row is resize. This is to fix the bug in which cell cursor is not resized when col/row is resized
-        // x: TODO this might be optimized further to reduce redrawing.
-        val newLayout: LayoutCoorWrapper = if (oldLayout == null) {
-            layoutCoor
-        } else {
-            if (oldLayout.layout != layoutCoor.layout) {
-                layoutCoor
-            } else {
-                layoutCoor.forceRefresh(!oldLayout.refreshVar)
-            }
-        }
+        val newLayout = oldLayout.replaceWith(layoutCoor) ?: layoutCoor
+        // TODO: keep the below commented code just in case the new code has bug.
+//        val newLayout: LayoutCoorWrapper = if (oldLayout == null) {
+//            layoutCoor
+//        } else {
+//            if (oldLayout.layout != layoutCoor.layout) {
+//                layoutCoor
+//            } else {
+//                /*
+//                Force refresh cell layout wrapper to force the app to redraw cell when col/row is resize. This is to fix the bug that cell cursor is not resized when col/row is resized
+//                TODO this might be optimized further to reduce redrawing.
+//                 */
+//                layoutCoor.forceRefresh(!oldLayout.refreshVar)
+//            }
+//        }
         val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
         this.cellLayoutCoorMapMs.value = newMap
         return this

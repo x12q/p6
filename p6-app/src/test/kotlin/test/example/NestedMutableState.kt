@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.example
+package test.example
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -110,7 +110,7 @@ fun main() {
 }
 
 @Composable
-fun BView2(cState:BState){
+fun BView2(cState: BState){
     MBox{
         Row {
             MBox{
@@ -122,7 +122,7 @@ fun BView2(cState:BState){
     }
 }
 @Composable
-fun CView2(cState:CState){
+fun CView2(cState: CState){
     Row {
         MBox{
             println("render C2")

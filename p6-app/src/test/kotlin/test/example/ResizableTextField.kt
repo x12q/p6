@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.example
+package test.example
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box

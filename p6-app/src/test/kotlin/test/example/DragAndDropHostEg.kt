@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.example
+package test.example
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,11 +16,10 @@ import androidx.compose.ui.window.application
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.drag_drop.*
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.view.MBox
 
 /**
- * dragging a green box over a red box, detect when they overlap.
+ * Example on how to use DragHost
  */
 fun main() = application {
     Window(
@@ -53,8 +52,8 @@ fun main() = application {
                 Text("Blue: ${state.dragMap[blue]?.boundInWindow}", color = Color.White)
                 Text("Green: ${state.dragMap[green]?.boundInWindow}", color = Color.White)
                 Text("Red: ${state.dropMap[red]?.boundInWindow}", color = Color.White)
-                Text("Blue overlap: $isBlueOverlap", color = Color.White)
-                Text("Green overlap: $isGreenOverlap", color = Color.White)
+                Text("Blue overlap Red: $isBlueOverlap", color = Color.White)
+                Text("Green overlap Red: $isGreenOverlap", color = Color.White)
                 Text("Drop event: ${dropEventText}", color = Color.White)
 
                 MBox(modifier = Modifier.fillMaxWidth().height(30.dp).border(1.dp, Color.Red).background(Color.Gray)) {

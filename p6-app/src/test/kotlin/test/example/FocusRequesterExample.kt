@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.example
+package test.example
 
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
@@ -16,11 +16,11 @@ import com.qxdzbc.common.compose.StateUtils.rms
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 
 data class ViewState(val isShow:Boolean, val fc:FocusRequester = FocusRequester()){
-    fun rf():ViewState{
+    fun rf(): ViewState {
         fc.requestFocus()
         return this
     }
-    fun setShow(v:Boolean):ViewState{
+    fun setShow(v:Boolean): ViewState {
         return this.copy(isShow=v)
     }
 }

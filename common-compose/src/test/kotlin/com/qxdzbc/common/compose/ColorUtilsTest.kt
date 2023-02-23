@@ -8,7 +8,7 @@ import kotlin.test.*
 internal class ColorUtilsTest {
 
     @Test
-    fun findContrast() {
+    fun getContrastColor() {
         Color.Black.getContrastColor() shouldBe Color.White
     }
 }

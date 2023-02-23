@@ -27,7 +27,7 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
     }
     @Test
     fun detectDrop_3() {
-        test("drag overlap 2 drop, mouse out side of both, but also casts shadow over d1") {
+        test("drag r1 overlap drop d1 and d2, mouse outside of both, but also casts shadow over d1") {
             val mousePos: Offset = Offset(200f,18f)
             val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
                 boundInWindow = Rect(Offset(5f, 22f), Offset(20f, 33f))
@@ -64,7 +64,7 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
 
     @Test
     fun detectDrop_2() {
-        test("drag overlap 2 drop, mouse in d2, but also casts shadow over d1 (mouse x or y is in d1's ranges)") {
+        test("drag r1 overlap drop d1 and d2, mouse in d2, but also casts shadow over d1 (mouse x or y is in d1's ranges)") {
             val mousePos: Offset = Offset(13f, 36f)
             val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
                 boundInWindow = Rect(Offset(5f, 22f), Offset(20f, 33f))
@@ -101,7 +101,7 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
 
     @Test
     fun detectDrop_1() {
-        test("drag overlap 1 drop") {
+        test("drag r1 overlap drop d1") {
             val mousePos: Offset = mock()
             val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
                 boundInWindow = Rect(Offset(10f, 10f), Offset(20f, 20f))

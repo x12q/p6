@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.example
+package test.example
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -57,7 +57,7 @@ fun qWindow(appScope:ApplicationScope, xState: XState, onClick:()->Unit ){
 data class QState(val i:Int){
     val i10: Int get()=i*10
 
-    fun up():QState{
+    fun up(): QState {
         return this.copy(i=i+1)
     }
 }
