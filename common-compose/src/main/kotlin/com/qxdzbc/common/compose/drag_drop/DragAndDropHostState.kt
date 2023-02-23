@@ -8,11 +8,8 @@ interface DragAndDropHostState {
     val isClicked:Boolean
     fun setIsClicked(i:Boolean):DragAndDropHostState
 
-    val mousePosition: Offset?
-    fun setMousePosition(i: Offset?): DragAndDropHostState
-
-    val currentDragOriginalPositionInWindow:Offset?
-    fun setCurrentDragOriginalPositionInWindow(i:Offset?):DragAndDropHostState
+    val mousePositionInWindow: Offset?
+    fun setMousePositionWindow(i: Offset?): DragAndDropHostState
 
     val currentDrag:Any?
     fun setCurrentDrag(i:Any?):DragAndDropHostState

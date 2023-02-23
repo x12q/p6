@@ -30,7 +30,7 @@ fun DragDropHost(
                 it.changes.getOrNull(0)?.position?.also { mousePos ->
                     state.hostCoorWrapper?.let { cp ->
                         val mousePosInWindow = cp.localToWindow(mousePos)
-                        internalStateMs.value = state.setMousePosition(mousePosInWindow)
+                        internalStateMs.value = state.setMousePositionWindow(mousePosInWindow)
                     }
                 }
             }

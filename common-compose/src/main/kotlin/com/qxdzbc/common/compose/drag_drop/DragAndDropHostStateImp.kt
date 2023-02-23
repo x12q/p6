@@ -6,24 +6,19 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper.Companion
 
 data class DragAndDropHostStateImp(
     override val isClicked: Boolean = false,
-    override val mousePosition: Offset? = null,
+    override val mousePositionInWindow: Offset? = null,
     override val hostCoorWrapper: LayoutCoorWrapper? = null,
     override val dragMap: Map<Any, LayoutCoorWrapper> = emptyMap(),
     override val dropMap: Map<Any, LayoutCoorWrapper> = emptyMap(),
     override val currentDrag: Any? = null,
-    override val currentDragOriginalPositionInWindow: Offset? = null
 ) : DragAndDropHostState {
 
     override fun setIsClicked(i: Boolean): DragAndDropHostStateImp {
         return this.copy(isClicked = i)
     }
 
-    override fun setMousePosition(i: Offset?): DragAndDropHostState {
-        return this.copy(mousePosition = i)
-    }
-
-    override fun setCurrentDragOriginalPositionInWindow(i: Offset?): DragAndDropHostStateImp {
-        return this.copy(currentDragOriginalPositionInWindow = i)
+    override fun setMousePositionWindow(i: Offset?): DragAndDropHostState {
+        return this.copy(mousePositionInWindow = i)
     }
 
     override fun setCurrentDrag(i: Any?): DragAndDropHostStateImp {
@@ -38,8 +33,7 @@ data class DragAndDropHostStateImp(
         return this.copy(
             isClicked = false,
             currentDrag = null,
-            mousePosition = null,
-            currentDragOriginalPositionInWindow = null
+            mousePositionInWindow = null,
         )
     }
 

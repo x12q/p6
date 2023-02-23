@@ -1,6 +1,7 @@
 package com.qxdzbc.common.compose.drag_drop
 
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -61,28 +62,28 @@ fun Drag(
                 }
             }
             .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    change.consume()
-                    offsetX += dragAmount.x
-                    offsetY += dragAmount.y
-                }
-            }
-            .onPointerEvent(PointerEventType.Press) {
-                internalStateMs.value = state
-                    .setIsClicked(true)
-                    .setCurrentDrag(identifier)
-                    .let { st ->
-                        // store the original position of the current drag to the state
-                        val posInWindow = state.dragMap[identifier]?.posInWindow
-                        posInWindow?.let { st.setCurrentDragOriginalPositionInWindow(it) } ?: st
+                detectDragGestures(
+                    onDragStart = {
+                        internalStateMs.value = state
+                            .setIsClicked(true)
+                            .setCurrentDrag(identifier)
+                        onClick()
+                    },
+                    onDrag = { change, dragAmount ->
+                        change.consume()
+                        offsetX += dragAmount.x
+                        offsetY += dragAmount.y
+                    },
+                    onDragEnd={
+                        internalStateMs.value = state.resetToNonDragState()
+                        offsetX = 0f
+                        offsetY = 0f
+                        onDrop()
                     }
-                onClick()
-            }.onPointerEvent(PointerEventType.Release) {
-                internalStateMs.value = state.resetToNonDragState()
-                offsetX = 0f
-                offsetY = 0f
-                onDrop()
-            }.onGloballyPositioned {
+                )
+            }
+
+            .onGloballyPositioned {
                 internalStateMs.value = state.addDragLayoutCoorWrapper(identifier, it.wrap())
             }) {
         content()

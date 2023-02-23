@@ -13,9 +13,8 @@ internal class DragAndDropHostStateImpTest{
     fun makeDraggingState(): DragAndDropHostStateImp {
         val s1 = DragAndDropHostStateImp(
             isClicked = true,
-            mousePosition = Offset.Zero,
+            mousePositionInWindow = Offset.Zero,
             currentDrag = "Something",
-            currentDragOriginalPositionInWindow = Offset.Zero
         )
         return s1
     }
@@ -55,8 +54,7 @@ internal class DragAndDropHostStateImpTest{
         val s1 = makeDraggingState()
         val s2 = s1.resetToNonDragState()
         s2.isClicked.shouldBeFalse()
-        s2.mousePosition.shouldBeNull()
+        s2.mousePositionInWindow.shouldBeNull()
         s2.currentDrag.shouldBeNull()
-        s2.currentDragOriginalPositionInWindow.shouldBeNull()
     }
 }
