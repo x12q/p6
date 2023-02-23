@@ -45,7 +45,15 @@ interface LayoutCoorWrapper {
      */
     fun windowToLocal(window:Offset):Offset
     val isAttached:Boolean
+
+    /**
+     * If [layout] is attached, invoke the function [f]
+     */
     fun ifAttached(f:(lc: LayoutCoorWrapper)->Unit)
+
+    /**
+     * If [layout] is attached, invoke the composable [f]
+     */
     @Composable
     fun ifAttachedComposable(f:@Composable (lc: LayoutCoorWrapper)->Unit)
 

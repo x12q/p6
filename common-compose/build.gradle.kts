@@ -46,6 +46,7 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
+    testImplementation(project(":common-test"))
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 }
 

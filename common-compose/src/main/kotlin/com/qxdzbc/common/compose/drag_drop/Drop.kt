@@ -22,6 +22,7 @@ fun Drop(
         modifier = modifier
             .onGloballyPositioned {
                 internalStateMs.value = internalStateMs.value.addDropLayoutCoorWrapper(identifier(),it.wrap())
+
             }
     ) {
         content()

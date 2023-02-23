@@ -1,33 +1,149 @@
 package com.qxdzbc.common.compose.drag_drop
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import com.qxdzbc.common.compose.layout_coor_wrapper.DummyLayoutCoorWrapper
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.test_util.TestSplitter
 import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import kotlin.test.*
+import org.mockito.kotlin.whenever
+import kotlin.test.Test
 
-internal class DragAndDropHostStateImpTest{
+internal class DragAndDropHostStateImpTest : TestSplitter() {
 
     fun makeDraggingState(): DragAndDropHostStateImp {
         val s1 = DragAndDropHostStateImp(
-            isClicked = true,
+            isDragging = true,
             mousePositionInWindow = Offset.Zero,
             currentDrag = "Something",
         )
         return s1
     }
+    @Test
+    fun detectDrop_3() {
+        test("drag overlap 2 drop, mouse out side of both, but also casts shadow over d1") {
+            val mousePos: Offset = Offset(200f,18f)
+            val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(5f, 22f), Offset(20f, 33f))
+            )
+            val d1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(0f, 15f), Offset(25f, 25f))
+            )
+            val d2: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(0f, 30f), Offset(40f, 40f))
+            )
+            preCondition {
+                r1.boundInWindow!!.overlaps(d1.boundInWindow!!).shouldBeTrue()
+                r1.boundInWindow!!.overlaps(d2.boundInWindow!!).shouldBeTrue()
+                d1.boundInWindow!!.contains(mousePos).shouldBeFalse()
+                d2.boundInWindow!!.contains(mousePos).shouldBeFalse()
+            }
+            val s1 = makeDraggingState()
+                .copy(
+                    dropMap = mapOf(
+                        "d1" to d1,
+                        "d2" to d2,
+                    ),
+                    dragMap = mapOf(
+                        "r1" to r1,
+                        "r2" to mock(),
+                    ),
+                    mousePositionInWindow = mousePos
+                )
+            postCondition {
+                s1.detectDrop("r1") shouldBe "d1"
+            }
+        }
+    }
 
     @Test
-    fun setDragLayoutCoorWrapper_removeDragLayoutCoorWrapper(){
-        val key="key"
-        val layout:LayoutCoorWrapper = mock()
+    fun detectDrop_2() {
+        test("drag overlap 2 drop, mouse in d2, but also casts shadow over d1 (mouse x or y is in d1's ranges)") {
+            val mousePos: Offset = Offset(13f, 36f)
+            val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(5f, 22f), Offset(20f, 33f))
+            )
+            val d1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(0f, 15f), Offset(25f, 25f))
+            )
+            val d2: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(0f, 30f), Offset(40f, 40f))
+            )
+            preCondition {
+                r1.boundInWindow!!.overlaps(d1.boundInWindow!!).shouldBeTrue()
+                r1.boundInWindow!!.overlaps(d2.boundInWindow!!).shouldBeTrue()
+                d1.boundInWindow!!.contains(mousePos).shouldBeFalse()
+                d2.boundInWindow!!.contains(mousePos).shouldBeTrue()
+            }
+            val s1 = makeDraggingState()
+                .copy(
+                    dropMap = mapOf(
+                        "d1" to d1,
+                        "d2" to d2,
+                    ),
+                    dragMap = mapOf(
+                        "r1" to r1,
+                        "r2" to mock(),
+                    ),
+                    mousePositionInWindow = mousePos
+                )
+            postCondition {
+                s1.detectDrop("r1") shouldBe "d2"
+            }
+        }
+    }
+
+    @Test
+    fun detectDrop_1() {
+        test("drag overlap 1 drop") {
+            val mousePos: Offset = mock()
+            val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(10f, 10f), Offset(20f, 20f))
+            )
+            val d1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(0f, 15f), Offset(25f, 25f))
+            )
+            val d2: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+                boundInWindow = Rect(Offset(0f, 30f), Offset(40f, 40f))
+            )
+
+            preCondition {
+                r1.boundInWindow!!.overlaps(d1.boundInWindow!!).shouldBeTrue()
+                r1.boundInWindow!!.overlaps(d2.boundInWindow!!).shouldBeFalse()
+            }
+            val s1 = makeDraggingState()
+                .copy(
+                    dropMap = mapOf(
+                        "d1" to d1,
+                        "d2" to d2,
+                    ),
+                    dragMap = mapOf(
+                        "r1" to r1,
+                        "r2" to mock(),
+                    ),
+                    mousePositionInWindow = mousePos
+                )
+            postCondition {
+                s1.detectDrop("r1") shouldBe "d1"
+            }
+        }
+    }
+
+    @Test
+    fun setDragLayoutCoorWrapper_removeDragLayoutCoorWrapper() {
+        val key = "key"
+        val layout: LayoutCoorWrapper = mock()
 
         val s1 = makeDraggingState()
         s1.dragMap[key].shouldBeNull()
 
-        val s2 = s1.addDragLayoutCoorWrapper(key,layout)
+        val s2 = s1.addDragLayoutCoorWrapper(key, layout)
         s2.dragMap[key].shouldNotBeNull()
 
         val s3 = s2.removeDragLayoutCoorWrapper(key)
@@ -35,14 +151,14 @@ internal class DragAndDropHostStateImpTest{
     }
 
     @Test
-    fun setDropLayoutCoorWrapper_removeDropLayoutCoorWrapper(){
-        val key="key"
-        val layout:LayoutCoorWrapper = mock()
+    fun setDropLayoutCoorWrapper_removeDropLayoutCoorWrapper() {
+        val key = "key"
+        val layout: LayoutCoorWrapper = mock()
 
         val s1 = makeDraggingState()
         s1.dropMap[key].shouldBeNull()
 
-        val s2 = s1.addDropLayoutCoorWrapper(key,layout)
+        val s2 = s1.addDropLayoutCoorWrapper(key, layout)
         s2.dropMap[key].shouldNotBeNull()
 
         val s3 = s2.removeDropLayoutCoorWrapper(key)
@@ -50,10 +166,10 @@ internal class DragAndDropHostStateImpTest{
     }
 
     @Test
-    fun resetToNonDragState(){
+    fun resetToNonDragState() {
         val s1 = makeDraggingState()
         val s2 = s1.resetToNonDragState()
-        s2.isClicked.shouldBeFalse()
+        s2.isDragging.shouldBeFalse()
         s2.mousePositionInWindow.shouldBeNull()
         s2.currentDrag.shouldBeNull()
     }

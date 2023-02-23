@@ -25,22 +25,22 @@ fun DragDropHost(
     Surface(
         color = Color.Black,
         modifier = Modifier
-        .onPointerEvent(PointerEventType.Move) {
-            if (state.isClicked) {
-                it.changes.getOrNull(0)?.position?.also { mousePos ->
-                    state.hostCoorWrapper?.let { cp ->
-                        val mousePosInWindow = cp.localToWindow(mousePos)
-                        internalStateMs.value = state.setMousePositionWindow(mousePosInWindow)
+            .onPointerEvent(PointerEventType.Move) {
+                if (state.isDragging) {
+                    it.changes.getOrNull(0)?.position?.also { mousePos ->
+                        state.hostCoorWrapper?.let { cp ->
+                            val mousePosInWindow = cp.localToWindow(mousePos)
+                            internalStateMs.value = state.setMousePositionWindow(mousePosInWindow)
+                        }
                     }
                 }
             }
-        }
     ) {
         MBox(
             modifier = Modifier.onGloballyPositioned {
                 internalStateMs.value = state.setHostLayoutCoorWrapper(it.wrap())
             }
-        ){
+        ) {
             content(internalStateMs)
         }
     }

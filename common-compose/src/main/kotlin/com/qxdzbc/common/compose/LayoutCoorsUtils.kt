@@ -17,10 +17,4 @@ object LayoutCoorsUtils{
             return null
         }
     }
-    @Composable
-    fun LayoutCoordinates?.ifAttachedComposable(f:@Composable (lc:LayoutCoordinates) ->Unit) {
-        if (this != null && this.isAttached) {
-            f(this)
-        }
-    }
 }

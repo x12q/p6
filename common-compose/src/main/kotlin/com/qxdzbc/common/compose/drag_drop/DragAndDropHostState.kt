@@ -5,8 +5,8 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 
 interface DragAndDropHostState {
 
-    val isClicked:Boolean
-    fun setIsClicked(i:Boolean):DragAndDropHostState
+    val isDragging:Boolean
+    fun setIsDragging(i:Boolean):DragAndDropHostState
 
     val mousePositionInWindow: Offset?
     fun setMousePositionWindow(i: Offset?): DragAndDropHostState
@@ -33,5 +33,7 @@ interface DragAndDropHostState {
 
     val hostCoorWrapper: LayoutCoorWrapper?
     fun setHostLayoutCoorWrapper(i:LayoutCoorWrapper?):DragAndDropHostState
+
+    fun detectDrop(dragId:Any):Any?
 }
 
