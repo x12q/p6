@@ -26,7 +26,7 @@ import com.qxdzbc.common.compose.view.MBox
  */
 @Composable
 fun Drag(
-    internalStateMs: Ms<DragAndDropHostState>,
+    internalStateMs: Ms<DragAndDropHostInternalState>,
     identifier: Any,
     onDragStart: () -> Unit = {},
     onDragStop: () -> Unit = {},

@@ -13,7 +13,7 @@ import com.qxdzbc.common.compose.view.MBox
  */
 @Composable
 fun Drop(
-    internalStateMs: Ms<DragAndDropHostState>,
+    internalStateMs: Ms<DragAndDropHostInternalState>,
     identifier:()->Any,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,

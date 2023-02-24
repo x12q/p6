@@ -10,15 +10,13 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import kotlin.test.Test
 
 internal class DragAndDropHostStateImpTest : TestSplitter() {
 
-    fun makeDraggingState(): DragAndDropHostStateImp {
-        val s1 = DragAndDropHostStateImp(
+    fun makeDraggingState(): DragAndDropHostInternalStateImp {
+        val s1 = DragAndDropHostInternalStateImp(
             isDragging = true,
             mousePositionInWindow = Offset.Zero,
             currentDrag = "Something",
@@ -141,6 +139,7 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
         val layout: LayoutCoorWrapper = mock()
 
         val s1 = makeDraggingState()
+            .setAcceptableDragIds(setOf(key))
         s1.dragMap[key].shouldBeNull()
 
         val s2 = s1.addDragLayoutCoorWrapper(key, layout)
@@ -156,6 +155,7 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
         val layout: LayoutCoorWrapper = mock()
 
         val s1 = makeDraggingState()
+            .setAcceptableDropIds(setOf(key))
         s1.dropMap[key].shouldBeNull()
 
         val s2 = s1.addDropLayoutCoorWrapper(key, layout)

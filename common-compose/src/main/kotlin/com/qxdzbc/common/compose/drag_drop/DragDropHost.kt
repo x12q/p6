@@ -16,12 +16,22 @@ import com.qxdzbc.common.compose.view.MBox
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DragDropHost(
-    internalStateMs: Ms<DragAndDropHostState>,
+    internalStateMs: Ms<DragAndDropHostInternalState>,
+    dragIds:Set<Any>,
+    dropIds:Set<Any>,
     content: @Composable (
-        internalStateMs: Ms<DragAndDropHostState>
+        internalStateMs: Ms<DragAndDropHostInternalState>
     ) -> Unit,
 ) {
+
     val state by internalStateMs
+    if(dragIds!=state.acceptableDragIds){
+        internalStateMs.value = state.setAcceptableDragIds(dragIds)
+    }
+    if(dropIds!=state.acceptableDropIds){
+        internalStateMs.value = state.setAcceptableDropIds(dropIds)
+    }
+
     Surface(
         color = Color.Black,
         modifier = Modifier

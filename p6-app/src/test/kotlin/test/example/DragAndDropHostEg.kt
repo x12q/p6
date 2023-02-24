@@ -31,7 +31,7 @@ fun main() = application {
         val blue = "blue"
         val cyan = "cyan"
         // drag host
-        val stateMs: Ms<DragAndDropHostState> = rms(DragAndDropHostStateImp())
+        val stateMs: Ms<DragAndDropHostInternalState> = rms(DragAndDropHostInternalStateImp())
         val state by stateMs
 
         val isBlueOverlap = state.dragMap[blue]?.boundInWindow?.let { bb ->
@@ -46,6 +46,8 @@ fun main() = application {
         } ?: false
         DragDropHost(
             internalStateMs = stateMs,
+            dragIds = setOf(blue, green),
+            dropIds = setOf(red, cyan)
         ) {
             var dropEventText by rms("")
             Column(modifier = Modifier.padding(10.dp)) {
@@ -64,8 +66,8 @@ fun main() = application {
                         Drag(
                             internalStateMs = stateMs,
                             identifier = blue,
-                            onDrop = {dragId,dropId->
-                                dropEventText="drop ${dragId} on ${dropId}"
+                            onDrop = { dragId, dropId ->
+                                dropEventText = "drop ${dragId} on ${dropId}"
                             }
                         ) {
                             MBox(
@@ -77,8 +79,8 @@ fun main() = application {
                         Drag(
                             internalStateMs = stateMs,
                             identifier = green,
-                            onDrop = {dragId,dropId->
-                                dropEventText="drop ${dragId} on ${dropId}"
+                            onDrop = { dragId, dropId ->
+                                dropEventText = "drop ${dragId} on ${dropId}"
                             }
                         ) {
                             MBox(
@@ -88,7 +90,7 @@ fun main() = application {
                         }
                     }
 
-                    Row(modifier = Modifier.offset(0.dp, 100.dp)){
+                    Row(modifier = Modifier.offset(0.dp, 100.dp)) {
                         Drop(
                             internalStateMs = stateMs,
                             identifier = { red },
