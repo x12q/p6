@@ -2,12 +2,16 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
 
+/**
+ * An encapsulation containing [TextElement].
+ * The ferry property is for internal intermediate action inside parser visitors. End users should pay them no mind.
+ */
 data class TextElementResult(
     val cellRangeElements: List<CellRangeElement> = emptyList(),
     val others: List<BasicTextElement> = emptyList(),
-    val ferryBasicTextElement: BasicTextElement?=null,
-    val ferryWsNameElement: WsNameElement?=null,
-    val ferryWbElement: WbElement?=null,
+    val ferryBasicTextElement: BasicTextElement? = null,
+    val ferryWsNameElement: WsNameElement? = null,
+    val ferryWbElement: WbElement? = null,
 ) {
     companion object {
         fun from(i: CellRangeElement): TextElementResult {
@@ -17,15 +21,19 @@ data class TextElementResult(
         fun from(i: BasicTextElement): TextElementResult {
             return TextElementResult(others = listOf(i))
         }
-        fun ferry(i:BasicTextElement):TextElementResult{
+
+        fun ferry(i: BasicTextElement): TextElementResult {
             return TextElementResult(ferryBasicTextElement = i)
         }
-        fun ferry(i:WsNameElement):TextElementResult{
+
+        fun ferry(i: WsNameElement): TextElementResult {
             return TextElementResult(ferryWsNameElement = i)
         }
-        fun ferry(i:WbElement):TextElementResult{
+
+        fun ferry(i: WbElement): TextElementResult {
             return TextElementResult(ferryWbElement = i)
         }
+
         val empty = TextElementResult()
     }
 

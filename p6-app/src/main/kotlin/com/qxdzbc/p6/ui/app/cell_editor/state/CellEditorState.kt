@@ -70,13 +70,13 @@ interface CellEditorState {
 
     /**
      * Display text field is either:
-     *  - the [currentTextField] if cell editor is opened
-     *  - or [rangeSelectorTextField] if cell editor is not opened
+     *  - the [currentTextField] if cell editor is opened, but range selector is not running
+     *  - or [rangeSelectorTextField] if cell editor is opened & range selector is running
      */
     val displayTextField: TextFieldValue
     val displayText: String
     /**
-     * if this cell editor is active and allow range selector, update the [rangeSelectorTextField], otherwise update the [currentTextField]
+     * if this cell editor is active and is allowing range selector, update the [rangeSelectorTextField], otherwise update the [currentTextField]
      */
     fun setDisplayTextField(newTextField: TextFieldValue):CellEditorState
 
@@ -85,7 +85,7 @@ interface CellEditorState {
      *
      * [rangeSelectorTextField] = [currentTextField] + selected range address.
      *
-     * The content of [rangeSelectorTextField] will be copied into [currentTextField] when the range selector is done with its work, then it will be nullified. This is done by function [stopGettingRangeAddress]
+     * The content of [rangeSelectorTextField] will be copied into [currentTextField] when the range selector is done with its work, then [rangeSelectorTextField] will be nullified. This is done by function [stopGettingRangeAddress].
      */
     val rangeSelectorTextField: TextFieldValue?
     val rangeSelectorText: String?
@@ -94,8 +94,8 @@ interface CellEditorState {
     /**
      * current text holds the formula that will be copied to the target cell and run at the end.
      */
-    val currentText: String
     val currentTextField: TextFieldValue
+    val currentText: String
     fun setCurrentText(newText: String): CellEditorState
     fun setCurrentTextField(newTextField: TextFieldValue): CellEditorState
 

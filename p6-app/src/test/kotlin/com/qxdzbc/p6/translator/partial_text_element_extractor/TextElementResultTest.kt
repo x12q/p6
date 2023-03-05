@@ -11,8 +11,8 @@ internal class TextElementResultTest{
         val t= TextElementResult(
             cellRangeElements = listOf(CellRangeElement(
                 cellRangeLabel = "A1",
-                startTP = TokenPosition(0),
-                stopTP =  TokenPosition(1)
+                start = 0,
+                stop =  1
             )),
             others =  listOf(
                 BasicTextElement(

@@ -4,6 +4,9 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import java.nio.file.Path
 
+/**
+ * A [TextElement] representing a worksheet name
+ */
 data class WsNameElement(
     val label: String,
     val wsName: String, override val range: IntRange,
@@ -11,6 +14,9 @@ data class WsNameElement(
     override val text: String = label
 }
 
+/**
+ * A [TextElement] representing a workbook key
+ */
 data class WbElement(
     val label:String,
     val wbName:String,
@@ -23,6 +29,9 @@ data class WbElement(
     }
 }
 
+/**
+ * A [TextElement] containing a cell or range address
+ */
 data class CellRangeElement(
     val rangeAddress: BasicTextElement,
     val wsSuffix: WsNameElement? = null,
@@ -35,13 +44,13 @@ data class CellRangeElement(
     operator fun plus(wbElement: WbElement): CellRangeElement {
         return this.copy(wbSuffix=wbElement)
     }
-    @Deprecated("don't use, just here so that old code is not broken")
+
     constructor(
         cellRangeLabel: String,
-        startTP: TokenPosition,
-        stopTP: TokenPosition,
+        start: Int,
+        stop: Int,
     ) : this(
-        rangeAddress = BasicTextElement(cellRangeLabel, startTP.charIndex, stopTP.charIndex)
+        rangeAddress = BasicTextElement(cellRangeLabel, start, stop)
     )
 
     val cellRangeLabel: String get() = rangeAddress.text

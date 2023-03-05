@@ -8,6 +8,9 @@ import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import javax.inject.Inject
 
+/**
+ * Extract [TextElementResult] from a partially completed formula
+ */
 class PartialTextElementTranslator @Inject constructor(
     val visitor: TextElementVisitor,
     @PartialTreeExtractor

@@ -47,8 +47,8 @@ class CycleFormulaLockStateImp @Inject constructor(
         cellRangePosList: List<CellRangeElement>,
         cursorPos: Int
     ): String? {
-        val rt = cellRangePosList.let { lst ->
-            val cellRangePos: CellRangeElement? = lst
+        val rt = cellRangePosList.let {
+            val cellRangePos: CellRangeElement? = cellRangePosList
                 .firstOrNull { cursorPos in (it.startTP.charIndex..it.stopTP.charIndex + 1) }
             cellRangePos?.let {
                 val label = it.cellRangeLabel

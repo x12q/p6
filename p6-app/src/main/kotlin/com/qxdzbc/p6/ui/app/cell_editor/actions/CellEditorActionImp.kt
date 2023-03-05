@@ -23,6 +23,7 @@ import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
+import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.squareup.anvil.annotations.ContributesBinding
@@ -54,12 +55,6 @@ class CellEditorActionImp @Inject constructor(
     private val stateCont by stateContMs
     private val editorStateMs = stateCont.cellEditorStateMs
     private val editorState by editorStateMs
-
-//    private fun isFormula(formula: String): Boolean {
-//        val script: String = formula.trim()
-//        val isFormula: Boolean = script.startsWith("=")
-//        return isFormula
-//    }
 
     override fun focusOnCellEditor() {
         val fcsMs = editorState.targetWbKey?.let { stateCont.getFocusStateMsByWbKey(it) }
@@ -95,11 +90,10 @@ class CellEditorActionImp @Inject constructor(
     }
 
     /**
-     * This function is called when users type with their keyboards into the editor. It does the following:
+     * This function is called when users type (with their keyboards) into the editor. It does the following:
      *  - update the text field displayed by the cell editor
-     *  - point the new text to the correct location which could be either the current text, or the temp text, depending on the current state of the state editor. If the range selector is activated, the new text will be stored in the temp text, and only when the range selector is deactivated, the temp text is moved to the current text.
+     *  - point the new text to the correct location which could be either the current text, or the temp text, depending on the current state of the state editor. If the range selector is activated, the new text will be stored in the range selector text, and only when the range selector is deactivated, the range selector text is moved to the current text.
      *  - update the internal parse tree of cell editor
-     *
      */
     override fun changeTextField(newTextField: TextFieldValue) {
         val editorState by stateCont.cellEditorStateMs
@@ -111,18 +105,18 @@ class CellEditorActionImp @Inject constructor(
             val newEditorState = editorState
                 // x: because the new text is input by user, it is stored directly into current text
                 .setCurrentTextField(autoCompletedTf)
-                .let {
+                .let {ces:CellEditorState ->
                     /*
                     when the cell editor switches off allow-range-selector flag, if the range-selector cell cursor and target cell cursor are the same, reset the cell cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
                     */
                     val from_Allow_To_Disallow: Boolean =
-                        oldRSAState.isAllow() && it.rangeSelectorAllowState.isAllow().not()
+                        oldRSAState.isAllow() && ces.rangeSelectorAllowState.isAllow().not()
                     if (from_Allow_To_Disallow) {
-                        if (it.rangeSelectorIsSameAsTargetCursor) {
-                            it.targetCursorId?.let { cursorId ->
+                        if (ces.rangeSelectorIsSameAsTargetCursor) {
+                            ces.targetCursorId?.let { cursorId ->
                                 stateCont.getCursorStateMs(cursorId)
                             }?.let { targetCursorMs ->
-                                it.targetCell?.let { targetCell ->
+                                ces.targetCell?.let { targetCell ->
                                     targetCursorMs.value = targetCursorMs.value
                                         .removeAllExceptMainCell()
                                         .setMainCell(targetCell)
@@ -130,17 +124,20 @@ class CellEditorActionImp @Inject constructor(
                             }
                         }
                     }
-                    it
+                    ces
                 }
             stateCont.cellEditorStateMs.value = newEditorState
             colorFormulaAction.colorCurrentTextInCellEditor()
         }
     }
 
+    /**
+     * Can auto-complete 3 type of brackets: (),[],{} when [oldTf] transformed into [newTextField] due to user action (typing).
+     * If not possible, simply return [newTextField].
+     */
     fun autoCompleteBracesIfPossible(oldTf: TextFieldValue, newTextField: TextFieldValue): TextFieldValue {
-        val ntf = newTextField
-        if (oldTf == ntf) {
-            return ntf
+        if (oldTf == newTextField) {
+            return newTextField
         }
 
         val diffRs = textDiffer.extractTextAddition(oldTf, newTextField)
@@ -153,13 +150,16 @@ class CellEditorActionImp @Inject constructor(
             }
             val cursorPosition = tnr.range.end - 1
             val newText: String = braces?.let {
-                ntf.text.substring(0, cursorPosition) + it + ntf.text.substring(cursorPosition + 1, ntf.text.length)
-            } ?: ntf.text
+                newTextField.text.substring(0, cursorPosition) + it + newTextField.text.substring(
+                    cursorPosition + 1,
+                    newTextField.text.length
+                )
+            } ?: newTextField.text
             val newRange: TextRange = braces?.let {
-                ntf.selection
-            } ?: ntf.selection
-            ntf.copy(text = newText, selection = newRange)
-        } ?: ntf
+                newTextField.selection
+            } ?: newTextField.selection
+            newTextField.copy(text = newText, selection = newRange)
+        } ?: newTextField
         return rt
     }
 
@@ -234,11 +234,11 @@ class CellEditorActionImp @Inject constructor(
                                 return rt
                             } else {
                                 editorStateMs.value = editorState.stopGettingRangeAddress()
-                                // propagate the key event further
+                                // return false = propagate the key event further
                                 return false
                             }
                         } else {
-                            // propagate the key event further
+                            // return false = propagate the key event further
                             return false
                         }
                     }

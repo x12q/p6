@@ -54,6 +54,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 ) : HandleCursorKeyboardEventAction {
 
     private val sc by stateContSt
+    private val cellEditorAction:CellEditorAction get()=cellEditorActionLz.get()
 
     @OptIn(ExperimentalComposeUiApi::class)
     override fun handleKeyboardEvent(
@@ -151,7 +152,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     }
 
     private fun passKeyEventToCellEditor(keyEvent: P6KeyEvent): Boolean {
-        return cellEditorActionLz.get().handleKeyboardEvent(keyEvent)
+        return cellEditorAction.handleKeyboardEvent(keyEvent)
     }
 
     private fun handleKeyboardEventWithShiftDown(

@@ -6,7 +6,7 @@ import androidx.compose.ui.text.SpanStyle
 /**
  * Represent a string and its position in a larger string.
  *
- * @property range is the index range that this text reside inside its parent text. It is noted that this range is different from normal range used in substring, don't use it for substring, use [rangeForSubStr] instead.
+ *  [range] is the index range that this text reside inside its parent text. It is noted that this range is inclusive. That means both of its ends are index of the actual [text]. This range is different from normal range used in substring, don't use it for substring, use [rangeForSubStr] instead.
  */
 sealed interface TextElement{
     val text:String

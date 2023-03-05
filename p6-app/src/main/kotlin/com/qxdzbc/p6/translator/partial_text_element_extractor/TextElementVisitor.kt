@@ -12,10 +12,9 @@ import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
 /**
- * A visitor that extract cell,range into a list
+ * A visitor that extract cell,range into [TextElementResult]
  */
 class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementResult>() {
-
 
     companion object {
         fun <T> ParserRuleContext.ifNotErrorNode(f: () -> T): T? {
@@ -28,9 +27,12 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
     }
 
     private fun handleErrorChildren(children: List<ParseTree>?): TextElementResult {
-        val rt = children?.filter { it is ErrorNode }?.map {
-            visitErrorNode(it as ErrorNode)
-        }?.fold(TextElementResult.empty) { acc, e -> acc + e } ?: TextElementResult.empty
+        val rt = children
+            ?.filter { it is ErrorNode }
+            ?.map {
+                visitErrorNode(it as ErrorNode)
+            }
+            ?.fold(TextElementResult.empty) { acc, e -> acc + e } ?: TextElementResult.empty
         return rt
     }
 
@@ -159,12 +161,12 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         val rt = ctx?.let {
             ctx.noSpaceId()?.let {
                 BasicTextElement(it.text, ctx.start.startIndex, ctx.stop.stopIndex)
-            } ?: ctx.WITH_SPACE_ID()?.let{
+            } ?: ctx.WITH_SPACE_ID()?.let {
                 BasicTextElement(extractFromSingleQuote(it.text), ctx.start.startIndex, ctx.stop.stopIndex)
             }
-        }?.let{
+        }?.let {
             TextElementResult.ferry(it)
-        }?:TextElementResult.empty
+        } ?: TextElementResult.empty
         return rt
     }
 
@@ -173,26 +175,26 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
             ctx.WITH_SPACE_ID()?.let {
                 BasicTextElement(extractFromSingleQuote(it.text), ctx.start.startIndex, ctx.stop.stopIndex)
             }
-        }?.let{
+        }?.let {
             TextElementResult.ferry(it)
-        }?:TextElementResult.empty
+        } ?: TextElementResult.empty
         return rt
     }
 
     override fun visitWbPrefixNoPath(ctx: FormulaParser.WbPrefixNoPathContext?): TextElementResult {
-        return ctx?.let{
-            val visiWbRs=visitWbName(ctx.wbName())
+        return ctx?.let {
+            val visiWbRs = visitWbName(ctx.wbName())
             visiWbRs.ferryBasicTextElement?.let {
                 WbElement(
                     label = ctx.text,
                     wbName = it.text,
                     wbPath = null,
-                    range = ctx.start.startIndex .. ctx.stop.stopIndex
+                    range = ctx.start.startIndex..ctx.stop.stopIndex
                 )
             }
-        }?.let{
+        }?.let {
             TextElementResult.ferry(it)
-        }?: TextElementResult.empty
+        } ?: TextElementResult.empty
     }
 
     override fun visitWbPrefixWithPath(ctx: FormulaParser.WbPrefixWithPathContext?): TextElementResult {
@@ -204,24 +206,24 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                     label = ctx.text,
                     wbName = wbn.text,
                     wbPath = path?.text,
-                    range = ctx.start.startIndex .. ctx.stop.stopIndex
+                    range = ctx.start.startIndex..ctx.stop.stopIndex
                 )
             }
         }?.let {
             TextElementResult.ferry(it)
-        }?: TextElementResult.empty
+        } ?: TextElementResult.empty
         return rt
     }
 
     override fun visitWbPrefix(ctx: FormulaParser.WbPrefixContext?): TextElementResult {
         val r0 = ctx?.let {
             BasicTextElement(ctx.text, ctx.start.startIndex, ctx.stop.stopIndex)
-            val q=ctx.wbPrefixNoPath()?.let {
+            val q = ctx.wbPrefixNoPath()?.let {
                 visitWbPrefixNoPath(it)
-            }?: ctx.wbPrefixWithPath()?.let {
+            } ?: ctx.wbPrefixWithPath()?.let {
                 visitWbPrefixWithPath(it)
             }
-            val wbEle= q?.ferryWbElement
+            val wbEle = q?.ferryWbElement
             wbEle
         }?.let {
             TextElementResult.ferry(it)
@@ -235,9 +237,10 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         val l = ctx?.let { fullRangeContext ->
             val rangeAddressContext = fullRangeContext.rangeAddress()
             val rangeAddressResult: TextElementResult? = this.visit(rangeAddressContext)
-            rangeAddressResult?.let{
-                it.ferryBasicTextElement?.let { r->
-                    val wsSuffixResult: TextElementResult? = fullRangeContext.sheetPrefix()?.let { this.visitSheetPrefix(it) }
+            rangeAddressResult?.let {
+                it.ferryBasicTextElement?.let { r ->
+                    val wsSuffixResult: TextElementResult? =
+                        fullRangeContext.sheetPrefix()?.let { this.visitSheetPrefix(it) }
                     val wbSuffixResult: TextElementResult? = fullRangeContext.wbPrefix()?.let { this.visitWbPrefix(it) }
                     CellRangeElement(
                         rangeAddress = r,
@@ -417,11 +420,24 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         } ?: TextElementResult.empty
     }
 
+    private fun handleCellAddressNode(ctx: FormulaParser.CellAddressContext?):String{
+        val terminalNode = ctx?.CELL_LIKE_ADDRESS()
+        when(terminalNode){
+            is ErrorNode, null -> {
+                return ""
+            }
+            else -> {
+                return terminalNode.text
+            }
+        }
+    }
     override fun visitRangeAsPairCellAddress(ctx: FormulaParser.RangeAsPairCellAddressContext?): TextElementResult {
         val rt = ctx?.let {
-            val c1 = ctx.cellAddress(0)?.text ?: ""
+//            val c1 = ctx.cellAddress(0)?.text ?: ""
+            val c1 = handleCellAddressNode(ctx.cellAddress(0))
             val op = ctx.getChild(1)?.text ?: ""
-            val c2 = ctx.cellAddress(1)?.text ?: ""
+//            val c2 = ctx.cellAddress(1)?.text ?: ""
+            val c2 = handleCellAddressNode(ctx.cellAddress(1))
             val label = "${c1}${op}${c2}"
             TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
         } ?: TextElementResult.empty

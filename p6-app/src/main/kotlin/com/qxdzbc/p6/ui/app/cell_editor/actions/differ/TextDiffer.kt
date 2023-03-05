@@ -5,8 +5,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 
 interface TextDiffer {
     /**
-     * Extract text addition, return null if the interaction is not addition
+     * Extract text addition when [oldTextFieldValue] transforms into [newTextFieldValue].
+     * Return null if the transforming action is not addition.
      */
-    fun extractTextAddition(oldTextField:TextFieldValue, newTextFieldValue: TextFieldValue):TextAndRange?
+    fun extractTextAddition(oldTextFieldValue:TextFieldValue, newTextFieldValue: TextFieldValue):TextAndRange?
 }
 

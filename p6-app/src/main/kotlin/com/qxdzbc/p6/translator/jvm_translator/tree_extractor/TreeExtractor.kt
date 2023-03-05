@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Result
 import org.antlr.v4.runtime.tree.ParseTree
 
 /**
- * Extract a ParseTree from a string
+ * Extract a ParseTree from a formula string
  */
 interface TreeExtractor{
     fun extractTree(formula: String): Result<ParseTree,SingleErrorReport>

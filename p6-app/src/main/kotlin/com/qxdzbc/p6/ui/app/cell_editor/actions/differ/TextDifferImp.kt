@@ -11,15 +11,18 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class TextDifferImp @Inject constructor() : TextDiffer {
 
-    override fun extractTextAddition(oldTextField: TextFieldValue, newTextFieldValue: TextFieldValue): TextAndRange? {
+    override fun extractTextAddition(
+        oldTextFieldValue: TextFieldValue,
+        newTextFieldValue: TextFieldValue
+    ): TextAndRange? {
 
-        val comparator = StringsComparator(oldTextField.text, newTextFieldValue.text)
+        val comparator = StringsComparator(oldTextFieldValue.text, newTextFieldValue.text)
         val visitor = CharCommandsVisitor()
         comparator.script.visit(visitor)
 
-            return TextAndRange(
-                text = visitor.addition,
-                range = newTextFieldValue.selection
-            )
+        return TextAndRange(
+            text = visitor.addition,
+            range = newTextFieldValue.selection
+        )
     }
 }

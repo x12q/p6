@@ -6,12 +6,21 @@ import kotlin.test.Test
 
 
 class TestBench :TestSplitter(){
-    data class A(val x:Int)
+    @JvmInline
+    value class MyAny(val i:Any?)
+    data class Q(val i:Int, val s:String)
+    @JvmInline
+    value class Vl2(val i: Q)
+
     @Test
     fun t() {
-        val a1 = A(10)
-        val a2 = a1.copy(10)
-        println(a1 === a2)
+        val ma = MyAny(123)
+        val ma2 = MyAny(ma)
+        val q = Q(123,"abc")
+        val ma3 = MyAny(q)
+        println(ma)
+        println(ma2)
+        println(ma3)
     }
 }
 
