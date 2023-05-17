@@ -6,7 +6,9 @@ import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-
+/**
+ * An [ExUnit] representing a string
+ */
 data class StrUnit(val v: String) : ExUnit {
     companion object{
         fun String.toExUnit(): StrUnit {

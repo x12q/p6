@@ -11,6 +11,9 @@ import androidx.compose.ui.window.rememberWindowState
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 import com.qxdzbc.p6.ui.theme.P6LightColors2
 
+/**
+ * An empty window for testing running composables
+ */
 fun P6TestApp(size: DpSize = DpSize(1500.dp, 600.dp), content: @Composable ApplicationScope.() -> Unit) {
     application {
         val wState = rememberWindowState(size=size)

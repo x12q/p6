@@ -268,7 +268,7 @@ class ExUnitFormulaVisitor @AssistedInject constructor(
                     eLis.add(eRs)
                 }
             }
-            return FuncUnit(
+            return FunctionExUnitUnit(
                 funcName = functionName,
                 args = eLis,
                 functionMapSt = functionMapMs

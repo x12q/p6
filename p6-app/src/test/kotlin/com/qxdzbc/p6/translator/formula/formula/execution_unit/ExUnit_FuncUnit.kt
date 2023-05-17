@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.translator.formula.formula.execution_unit
 
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.translator.formula.execution_unit.FuncUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.FunctionExUnitUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.IntUnit.Companion.toExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.toExUnit
@@ -12,7 +12,7 @@ internal class ExUnit_FuncUnit {
 
     @Test
     fun toFormula() {
-        val u = FuncUnit(
+        val u = FunctionExUnitUnit(
             funcName = "qwe",
             args = listOf(
                 1.toExUnit(),

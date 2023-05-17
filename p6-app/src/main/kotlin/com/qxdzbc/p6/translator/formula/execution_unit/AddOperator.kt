@@ -12,11 +12,10 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
- * ExUnit for "+" operator
+ * [ExUnit] for "+" operator
  */
-data class AddOperator constructor(val u1: ExUnit, val u2: ExUnit,
-//val errX:ExUnitErrors.IncompatibleType = ExUnitErrors.IncompatibleType.instance
-) : ExUnit {
+data class AddOperator constructor(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+
     override fun getCellRangeExUnit(): List<ExUnit> {
         return u1.getCellRangeExUnit() + u2.getCellRangeExUnit()
     }

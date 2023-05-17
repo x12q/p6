@@ -7,6 +7,9 @@ import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
+/**
+ * An [ExUnit] representing a range address
+ */
 data class RangeAddressUnit(val rangeAddress: RangeAddress) : ExUnit {
     companion object{
         fun RangeAddress.toExUnit(): RangeAddressUnit {

@@ -4,8 +4,15 @@ import androidx.compose.ui.graphics.Color
 import java.util.*
 import javax.inject.Inject
 
-class RandomColorGenerator @Inject constructor() : ColorGenerator {
-    private val rand = Random(22L)
+/**
+ * Generate color randomly
+ */
+class RandomColorGenerator constructor(
+    private val rand:Random
+) : ColorGenerator {
+
+    @Inject constructor():this(Random(22L))
+
     override fun nextColor(): Color {
 //        val r: Float = rand.nextFloat() / 2f + 0.5f
 //        val g: Float = rand.nextFloat() / 2f + 0.5f

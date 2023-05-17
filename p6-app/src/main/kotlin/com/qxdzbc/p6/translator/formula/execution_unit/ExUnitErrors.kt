@@ -7,14 +7,14 @@ import com.qxdzbc.p6.app.document.cell.CellErrors
 object ExUnitErrors {
     val prefix = "ExUnitErrors "
 
+    private var _l:List<Any>? = null
+
     val all:List<Any> get(){
         if(_l==null){
             _l=listOf(IncompatibleType,IllegalReturnType,InvalidFunction)
         }
         return _l!!
     }
-    private var _l:List<Any>? = null
-
 
     fun coldInit(){
         val q = listOf(this)+ CellErrors.all

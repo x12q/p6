@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.translator.formula.execution_unit
+package com.qxdzbc.p6.ui.common.color_generator
 
 /**
  * A color key is a key for color mapping

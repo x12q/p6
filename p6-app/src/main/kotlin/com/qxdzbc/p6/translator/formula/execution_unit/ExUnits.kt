@@ -5,6 +5,9 @@ import com.qxdzbc.p6.app.common.utils.TypeUtils.checkStAndCast
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.range.Range
 
+/**
+ * This obj contains utils function for working with [ExUnit]
+ */
 object ExUnits {
     /**
      * extract value from a variable [r1], if it is a cell, return the value inside the cell, otherwise, return null

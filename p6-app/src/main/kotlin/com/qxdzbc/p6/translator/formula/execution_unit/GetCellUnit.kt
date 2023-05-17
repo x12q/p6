@@ -25,7 +25,7 @@ data class GetCellUnit(
     val wsNameUnit: WsNameStUnit,
     val wbKeyUnit: WbKeyStUnit,
     val functionMapSt: St<FunctionMap>,
-) : ExUnit, BaseFunc() {
+) : ExUnit, BaseFunctionExUnit() {
 
     override fun toString(): String {
         return "GetCellUnit(${cellAddressUnit.cellAddress.label}, ${wsNameUnit.nameSt.value}, ${wbKeyUnit.wbKeySt.value.name})"

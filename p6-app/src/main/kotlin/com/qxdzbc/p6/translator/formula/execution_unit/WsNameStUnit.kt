@@ -6,7 +6,10 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-
+import androidx.compose.runtime.State
+/**
+ * An [ExUnit] representing a [State] holding a worksheet name in string
+ */
 @JvmInline
 value class WsNameStUnit(val nameSt: St<String>) : ExUnit {
     override fun shift(

@@ -3,6 +3,7 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.CommonErrors
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.common.error.SingleErrorReport
 import kotlin.reflect.KFunction
 
@@ -15,6 +16,9 @@ interface FunctionExecutor {
      */
     fun execute(func: KFunction<Any>, args: Array<Any?>): Rse<Any>
 
+    /**
+     * A [FunctionExecutor] that treat the input arg array as a variant arguments
+     */
     object ArgsAsArray : FunctionExecutor {
         @Suppress("UNCHECKED_CAST")
         override fun execute(func: KFunction<Any>, args: Array<Any?>): Rse<Any> {
@@ -23,6 +27,10 @@ interface FunctionExecutor {
             }
         }
     }
+
+    /**
+     * A [FunctionExecutor] that treat the input arg array as a list
+     */
     @Suppress("UNCHECKED_CAST")
     object ArgsAsList : FunctionExecutor {
         override fun execute(func: KFunction<Any>, args: Array<Any?>): Rse<Any> {
@@ -33,6 +41,9 @@ interface FunctionExecutor {
     }
 
     companion object{
+        /**
+         * run a function, catch exceptions, and turn those exceptions into [ErrorReport]
+         */
         private fun runFunction(f:()->Rse<Any>):Rse<Any>{
             try {
                 return f()

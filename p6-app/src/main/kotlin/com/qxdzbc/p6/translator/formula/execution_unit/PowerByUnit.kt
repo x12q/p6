@@ -13,7 +13,7 @@ import kotlin.math.pow
 import com.qxdzbc.common.Rse
 
 /**
- * ExUnit for "^" operator
+ * An [ExUnit] representing the "^" operator
  */
 data class PowerByUnit(val u1: ExUnit, val u2: ExUnit) : ExUnit {
     override fun getRangeIds(): List<RangeId> {

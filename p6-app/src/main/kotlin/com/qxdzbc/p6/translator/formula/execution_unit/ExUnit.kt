@@ -11,6 +11,7 @@ import com.qxdzbc.p6.app.document.Shiftable
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.common.color_generator.ColorKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
@@ -39,7 +40,8 @@ interface ExUnit : Shiftable, ColorKey {
     }
 
     /**
-     * convert this ExUnit back into a formula string in which each range/cell address is colored.
+     * Create an [AnnotatedString] represented a colored formula text.
+     * A colored formula is a text in which cell, range, wb texts are highlighted in colors
      */
     fun toColorFormula(
         colorMap: ColorMap,
@@ -64,6 +66,7 @@ interface ExUnit : Shiftable, ColorKey {
 
     /**
      * Perform a shift on all shift-able elements (range, cell) in this ExUnit
+     * using the vector defined by [oldAnchorCell] and [newAnchorCell]
      */
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
@@ -71,7 +74,7 @@ interface ExUnit : Shiftable, ColorKey {
     ): ExUnit
 
     /**
-     * convert exUnit to a formula
+     * convert exUnit to a formula text
      */
     fun toFormula(): String?
 
@@ -84,7 +87,7 @@ interface ExUnit : Shiftable, ColorKey {
     ): String?
 
     /**
-     * returns something that can be stored in a cell.
+     * Run this [ExUnit] and returns something that can be stored in a cell.
      */
     fun runRs(): Rse<Any?>
     fun run(): Any? {

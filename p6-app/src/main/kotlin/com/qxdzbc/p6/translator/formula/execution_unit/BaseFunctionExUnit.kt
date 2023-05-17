@@ -11,7 +11,7 @@ import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
 import kotlin.reflect.KFunction
 
-abstract class BaseFunc : ExUnit {
+abstract class BaseFunctionExUnit : ExUnit {
     abstract val functionMap: FunctionMap
     abstract val args: List<ExUnit>
     abstract val funcName: String

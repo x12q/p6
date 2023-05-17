@@ -6,7 +6,10 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-
+import androidx.compose.runtime.State
+/**
+ * An [ExUnit] representing a [State] holding a [WorkbookKey]
+ */
 data class WbKeyStUnit(val wbKeySt: St<WorkbookKey>) : ExUnit {
     companion object{
         fun St<WorkbookKey>.toExUnit(): WbKeyStUnit {

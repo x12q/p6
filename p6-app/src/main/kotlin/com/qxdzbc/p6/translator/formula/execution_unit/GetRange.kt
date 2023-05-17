@@ -22,7 +22,7 @@ data class GetRange(
     val wsNameUnit: WsNameStUnit,
     val rangeAddressUnit: RangeAddressUnit,
     val functionMapSt: St<FunctionMap>,
-) : ExUnit, BaseFunc() {
+) : ExUnit, BaseFunctionExUnit() {
 
     override val functionMap by functionMapSt
     override val args: List<ExUnit>

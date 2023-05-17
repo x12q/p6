@@ -92,12 +92,12 @@ class ExUnitFormulaTranslatorTest {
     @Test
     fun `translate function call`() {
         val inputMap = mapOf(
-            "=F1(12,\"ax\",F2(A1),1+2.2)" to FuncUnit(
+            "=F1(12,\"ax\",F2(A1),1+2.2)" to FunctionExUnitUnit(
                 funcName = "F1",
                 args = listOf(
                     IntUnit(12),
                     StrUnit("ax"),
-                    FuncUnit(
+                    FunctionExUnitUnit(
                         funcName = "F2",
                         args = listOf(
                             GetCellUnit(

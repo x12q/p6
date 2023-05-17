@@ -7,8 +7,11 @@ import com.qxdzbc.p6.app.common.utils.Utils.toTF
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-@JvmInline
-value class BoolUnit(val v: Boolean) : ExUnit {
+/**
+ * An [ExUnit] representing a boolean.
+ */
+
+class BoolUnit(val v: Boolean) : ExUnit {
     companion object{
         val TRUE = BoolUnit(true)
         val FALSE = BoolUnit(false)

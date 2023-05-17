@@ -6,6 +6,9 @@ import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
+/**
+ * An [ExUnit] representing nothing
+ */
 object NothingUnit : ExUnit {
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,

@@ -15,7 +15,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
- * ExUnit for "/" operator
+ * An [ExUnit] representing the "/" operator
  */
 data class DivOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
     override fun getRangeIds(): List<RangeId> {

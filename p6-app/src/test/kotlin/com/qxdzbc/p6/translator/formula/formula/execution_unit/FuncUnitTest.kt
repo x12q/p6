@@ -54,7 +54,7 @@ internal class FuncUnitTest {
 
     @Test
     fun run() {
-        val u1 = FuncUnit(
+        val u1 = FunctionExUnitUnit(
             funcName = "toUpper",
             args = listOf(
                 StrUnit("abc")
@@ -65,7 +65,7 @@ internal class FuncUnitTest {
         assertEquals(Ok("ABC"), out)
         assertEquals("toUpper(\"abc\")", u1.toFormula())
 
-        val u2 = FuncUnit(
+        val u2 = FunctionExUnitUnit(
             funcName = "add",
             args = listOf(
                 IntUnit(3),
@@ -80,14 +80,14 @@ internal class FuncUnitTest {
     @Test
     fun run2() {
         // compute: add(3+2+2+5)
-        val u2 = FuncUnit(
+        val u2 = FunctionExUnitUnit(
             funcName = "add",
             args = listOf(
-                FuncUnit(
+                FunctionExUnitUnit(
                     funcName = "add",
                     args = listOf(
                         IntUnit(3),
-                        FuncUnit(
+                        FunctionExUnitUnit(
                             funcName = "add",
                             args = listOf(
                                 IntUnit(2),
@@ -108,7 +108,7 @@ internal class FuncUnitTest {
 
     @Test
     fun run3() {
-        val u2 = FuncUnit(
+        val u2 = FunctionExUnitUnit(
             funcName = "add",
             args = listOf(
                 NothingUnit,
@@ -122,7 +122,7 @@ internal class FuncUnitTest {
 
     @Test
     fun toFormula() {
-        val u = FuncUnit(
+        val u = FunctionExUnitUnit(
             funcName = "someFunction",
             args = listOf(
                 IntUnit(23),
@@ -134,7 +134,7 @@ internal class FuncUnitTest {
 
     @Test
     fun getRange(){
-        val u = FuncUnit(
+        val u = FunctionExUnitUnit(
             funcName = "Function",
             args = listOf(
                 MinusOperator(

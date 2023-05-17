@@ -12,7 +12,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
- * ExUnit for unary "-"
+ * An [ExUnit] representing the unary "-"
  */
 data class UnarySubtract(val u: ExUnit) : ExUnit {
     override fun getRangeIds(): List<RangeId> {
