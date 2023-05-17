@@ -2,7 +2,9 @@ package com.qxdzbc.common.error
 
 import com.github.michaelbull.result.Err
 
-
+/**
+ * Contain multiple [ErrorReport].
+ */
 data class MultiErrorReport (
     override val header: ErrorHeader,
     val singleErrorReportList: List<ErrorReport>

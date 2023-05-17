@@ -6,9 +6,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 
 @AssistedFactory
-interface JvmFormulaVisitorFactory {
+interface ExUnitFormulaVisitorFactory {
     fun create(
         @Assisted("1") wbKeySt: St<WorkbookKey>,
         @Assisted("2") wsNameSt: St<String>
-    ): JvmFormulaVisitor
+    ): ExUnitFormulaVisitor
 }

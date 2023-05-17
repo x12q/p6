@@ -2,6 +2,9 @@ package com.qxdzbc.common.error
 
 import com.github.michaelbull.result.Err
 
+/**
+ * container information about a single error.
+ */
 class SingleErrorReport(
     override val header: ErrorHeader,
     override val data: Any? = null,

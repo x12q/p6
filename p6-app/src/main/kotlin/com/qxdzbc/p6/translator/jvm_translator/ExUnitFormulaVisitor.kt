@@ -26,7 +26,7 @@ import dagger.assisted.AssistedInject
 import org.antlr.v4.runtime.tree.ParseTree
 import java.nio.file.Path
 
-class JvmFormulaVisitor @AssistedInject constructor(
+class ExUnitFormulaVisitor @AssistedInject constructor(
     @Assisted("1") private val wbKeySt: St<WorkbookKey>,
     @Assisted("2") private val wsNameSt: St<String>,
     private val functionMapMs: Ms<FunctionMap>,

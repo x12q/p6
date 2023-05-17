@@ -29,10 +29,10 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import test.TestSample
 import kotlin.test.*
 
-class JvmFormulaTranslator_Integration_Test {
+class ExUnitFormulaTranslator_Integration_Test {
     lateinit var ts: TestSample
     lateinit var functionMap: Ms<FunctionMap>
-    lateinit var translator: JvmFormulaTranslator
+    lateinit var translator: ExUnitFormulaTranslator
     val wbKey: WorkbookKey get() = ts.wbKey1
     val wsName get() = ts.wsn1
 
@@ -110,9 +110,9 @@ class JvmFormulaTranslator_Integration_Test {
         functionMap = FunctionMapImp(
             p6FunctDefs.functionMap
         ).toMs()
-        translator = JvmFormulaTranslator(
+        translator = ExUnitFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
-            visitor = JvmFormulaVisitor(
+            visitor = ExUnitFormulaVisitor(
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
                 functionMapMs = functionMap,

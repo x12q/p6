@@ -9,8 +9,8 @@ import com.qxdzbc.p6.di.state.app_state.InitSingleTranslatorMap
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMap
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
+import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaTranslatorFactory
+import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaVisitorFactory
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toSt
@@ -27,8 +27,8 @@ class TranslatorContainerImp @Inject constructor(
     val attachedTranslatorMapMs: Ms<TranslatorMap>,
     @InitSingleTranslatorMap
     private val independentTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,
-    private val translatorFactory: JvmFormulaTranslatorFactory,
-    private val visitorFactory: JvmFormulaVisitorFactory,
+    private val translatorFactory: ExUnitFormulaTranslatorFactory,
+    private val visitorFactory: ExUnitFormulaVisitorFactory,
 //    @StateContainerSt
 //    val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : TranslatorContainer {

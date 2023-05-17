@@ -23,9 +23,9 @@ import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toE
 import test.TestSample
 import kotlin.reflect.KFunction
 
-class JvmFormulaTranslatorTest {
+class ExUnitFormulaTranslatorTest {
     lateinit var functionMap: Ms<FunctionMap>
-    lateinit var translator: JvmFormulaTranslator
+    lateinit var translator: ExUnitFormulaTranslator
     lateinit var ts:TestSample
 
     val wbKeySt:St<WorkbookKey> get()=ts.wbKey1Ms
@@ -59,9 +59,9 @@ class JvmFormulaTranslatorTest {
             )
         ).toMs()
         wsNameSt = ts.appState.docCont.getWsNameSt(wbKeySt,ts.wsn1)!!
-        translator = JvmFormulaTranslator(
+        translator = ExUnitFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
-            visitor = JvmFormulaVisitor(
+            visitor = ExUnitFormulaVisitor(
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
                 functionMapMs = functionMap,

@@ -4,7 +4,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 
 /**
- * Represent a string and its position in a larger string.
+ * Represent a piece of string and its position in a larger string.
  *
  *  [range] is the index range that this text reside inside its parent text. It is noted that this range is inclusive. That means both of its ends are index of the actual [text]. This range is different from normal range used in substring, don't use it for substring, use [rangeForSubStr] instead.
  */

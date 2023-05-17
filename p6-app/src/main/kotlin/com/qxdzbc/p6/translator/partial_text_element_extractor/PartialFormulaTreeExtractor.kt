@@ -13,7 +13,8 @@ import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
 /**
- * A tree extractor that work on partially completed formula
+ * A tree extractor that work on partially completed formula.
+ * The purpose of this extractor is to extract a tree, and handle the errors caused by uncompleted formulas.
  */
 class PartialFormulaTreeExtractor @Inject constructor() : TreeExtractor {
     override fun extractTree(formula: String): Result<ParseTree, SingleErrorReport> {
@@ -71,7 +72,8 @@ class PartialFormulaTreeExtractor @Inject constructor() : TreeExtractor {
         })
 
         val tree: ParseTree = parser.formula()
-        if(parserErrorData!=null && formula.startsWith("=").not()){
+        val needToReportError = parserErrorData!=null && !formula.startsWith("=")
+        if(needToReportError){
             return Err(
                 SingleErrorReport(
                     header = TranslatorErrors.TranslatingErr.header,

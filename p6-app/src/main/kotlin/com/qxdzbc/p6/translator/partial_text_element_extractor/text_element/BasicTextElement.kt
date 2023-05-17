@@ -4,6 +4,9 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.Token
 
+/**
+ * A basic [TextElement], simply contains a [text] and a [range].
+ */
 data class BasicTextElement constructor(
     override val text:String,
     override val range:IntRange

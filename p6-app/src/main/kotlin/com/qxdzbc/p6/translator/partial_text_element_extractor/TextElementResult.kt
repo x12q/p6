@@ -4,7 +4,7 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
 
 /**
  * An encapsulation containing [TextElement].
- * The ferry property is for internal intermediate action inside parser visitors. End users should pay them no mind.
+ * The ferry properties ([ferryBasicTextElement], [ferryWsNameElement], [ferryWbElement]) is for internal intermediate actions inside parser visitors. End users should pay them no mind.
  */
 data class TextElementResult(
     val cellRangeElements: List<CellRangeElement> = emptyList(),

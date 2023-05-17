@@ -12,19 +12,9 @@ import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject
 
 /**
- * A visitor that extract cell,range into [TextElementResult]
+ * A visitor that extract element in a parse tree (created by parsing a text formula) into [TextElementResult]
  */
 class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementResult>() {
-
-    companion object {
-        fun <T> ParserRuleContext.ifNotErrorNode(f: () -> T): T? {
-            if (this !is ErrorNode) {
-                return f()
-            } else {
-                return null
-            }
-        }
-    }
 
     private fun handleErrorChildren(children: List<ParseTree>?): TextElementResult {
         val rt = children

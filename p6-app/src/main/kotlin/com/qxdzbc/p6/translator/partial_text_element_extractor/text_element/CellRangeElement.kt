@@ -1,36 +1,7 @@
 package com.qxdzbc.p6.translator.partial_text_element_extractor.text_element
 
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
-import java.nio.file.Path
-
 /**
- * A [TextElement] representing a worksheet name
- */
-data class WsNameElement(
-    val label: String,
-    val wsName: String, override val range: IntRange,
-) : TextElement {
-    override val text: String = label
-}
-
-/**
- * A [TextElement] representing a workbook key
- */
-data class WbElement(
-    val label:String,
-    val wbName:String,
-    val wbPath:String?,
-    override val range: IntRange
-):TextElement{
-    override val text: String get()=label
-    fun toWbKey():WorkbookKey{
-        return WorkbookKey(wbName, wbPath?.let{Path.of(it)})
-    }
-}
-
-/**
- * A [TextElement] containing a cell or range address
+ * A [TextElement] containing a cell or range address, including their workbook and worksheet suffixes
  */
 data class CellRangeElement(
     val rangeAddress: BasicTextElement,
@@ -85,6 +56,7 @@ data class CellRangeElement(
 
     override val text: String
         get() = cellRangeLabel + (this.cellRangeSuffix ?: "")
+
     override val range: IntRange
         get() = this.startTP.charIndex..this.stopTP.charIndex
 }

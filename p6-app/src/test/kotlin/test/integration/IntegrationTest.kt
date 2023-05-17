@@ -19,8 +19,8 @@ import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitionsImp
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslator
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitor
+import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaTranslator
+import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaVisitor
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import test.TestSample
 import kotlin.test.*
@@ -96,8 +96,8 @@ class IntegrationTest {
         var wbCont by ts.sc.wbContMs
         val wbKeySt = WorkbookKey("Wb1").toMs()
         val wsNameSt = "S1".toMs()
-        val translator = JvmFormulaTranslator(
-            visitor = JvmFormulaVisitor(
+        val translator = ExUnitFormulaTranslator(
+            visitor = ExUnitFormulaVisitor(
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
                 functionMapMs = FunctionMapImp(

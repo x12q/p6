@@ -15,7 +15,11 @@ class ColorMapImp(
             keySelector = { (i, c) -> colorKeys[i] },
             valueTransform = { (i, c) -> c }
         )
-    )
+    ){
+        require(colorKeys.size == colors.size){
+            "colorKeys list must have the same number of element as the colors list"
+        }
+    }
 
     override fun getColor(colorKey: ColorKey): Color? {
         return colorMap[colorKey]

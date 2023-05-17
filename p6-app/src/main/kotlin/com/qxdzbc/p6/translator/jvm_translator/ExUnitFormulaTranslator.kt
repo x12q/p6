@@ -12,8 +12,10 @@ import com.qxdzbc.common.Rse
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-
-class JvmFormulaTranslator @AssistedInject constructor(
+/**
+ * Translate a text formula into [ExUnit]
+ */
+class ExUnitFormulaTranslator @AssistedInject constructor(
     @Assisted private val visitor: FormulaBaseVisitor<ExUnit>,
     private val treeExtractor: TreeExtractor,
 ) : P6Translator<ExUnit> {

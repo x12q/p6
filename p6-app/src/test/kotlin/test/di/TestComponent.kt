@@ -38,8 +38,8 @@ import com.qxdzbc.p6.app.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.*
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaTranslatorFactory
-import com.qxdzbc.p6.translator.jvm_translator.JvmFormulaVisitorFactory
+import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaTranslatorFactory
+import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaVisitorFactory
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementTranslator
 import com.qxdzbc.p6.ui.app.cell_editor.actions.*
@@ -90,8 +90,8 @@ interface TestComponent : P6Component {
 
     @P6Singleton
     fun openCellEditorAction(): OpenCellEditorAction
-    fun translatorFactory(): JvmFormulaTranslatorFactory
-    fun visitorFactory2(): JvmFormulaVisitorFactory
+    fun translatorFactory(): ExUnitFormulaTranslatorFactory
+    fun visitorFactory2(): ExUnitFormulaVisitorFactory
 
     fun clickOnCellAction(): ClickOnCellAction
     fun mouseOnWsAction(): MouseOnWorksheetAction

@@ -6,6 +6,9 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.St
 
+/**
+ * A map for caching translator
+ */
 interface TranslatorMap {
     fun getTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>?
     fun getTranslator(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit>?

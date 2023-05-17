@@ -5,6 +5,6 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import dagger.assisted.AssistedFactory
 
 @AssistedFactory
-interface JvmFormulaTranslatorFactory{
-    fun create(visitor: FormulaBaseVisitor<ExUnit>): JvmFormulaTranslator
+interface ExUnitFormulaTranslatorFactory{
+    fun create(visitor: FormulaBaseVisitor<ExUnit>): ExUnitFormulaTranslator
 }
