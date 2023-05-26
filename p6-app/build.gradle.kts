@@ -9,6 +9,7 @@ plugins {
     id("maven-publish")
     idea
     id ("com.squareup.anvil") version "2.4.2"
+    id("com.qxdzbc.p6.gradle_plugin.test_plugin")
 }
 
 idea {
@@ -111,18 +112,18 @@ dependencies {
     implementation("io.grpc:grpc-netty-shaded:${grpcVersion}")
     testImplementation("io.grpc:grpc-testing:${grpcVersion}")
 
-    testImplementation("org.mockito:mockito-core:${mockitoVersion}")
-    testImplementation("org.mockito:mockito-inline:${mockitoVersion}")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
-    testImplementation("io.mockk:mockk:1.12.3")
-    testImplementation("org.jetbrains.compose.ui:ui-test-junit4:${composeTestVersion}")
-    testImplementation("org.jetbrains.compose.ui:ui-test-junit4-desktop:${composeTestVersion}")
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation(kotlin("test"))
-
-    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+//    testImplementation(libs.mockito.core)
+//    testImplementation(libs.mockito.inline)
+//    testImplementation(libs.mockito.kotlin)
+//
+//    testImplementation(libs.mockk)
+//    testImplementation(libs.compose.ui.test.junit4)
+//    testImplementation(libs.compose.ui.test.junit4.desktop)
+//
+//    testImplementation(libs.junit4)
+//    testImplementation(kotlin("test"))
+//    testImplementation(libs.kotest.assertions.core)
 
 }
 
