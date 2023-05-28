@@ -1,0 +1,76 @@
+[versions]
+
+p6Version = "1.0"
+
+protocolBufferVersion = "3.19.4"
+kotlinGRPCVersion = "1.2.1"
+grpcVersion = "1.41.0"
+dagger2Version = "2.43.1"
+composeTestVersion = "1.1.1"
+coroutineVersion = "1.6.1"
+mockitoVersion = "4.5.1"
+apacheCommonTextVersion = "1.10.0"
+apacheCommonCsvVersion = "1.9.0"
+apacheCommonIOVersion = "2.11.0"
+kotestVersion = "5.5.4"
+kotlinVersion = "1.7.20"
+junit4Version = "4.13.2"
+log4jVersion = "2.17.2"
+jacksonVersion = "2.13.2"
+
+[libraries]
+
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protocolBufferVersion" }
+protobuf-kotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protocolBufferVersion" }
+grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "kotlinGRPCVersion" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpcVersion" }
+grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpcVersion" }
+grpc-netty-shaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpcVersion" }
+grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpcVersion" }
+
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoVersion" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoVersion" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.0.0" }
+
+mockk = { module = "io.mockk:mockk", version = "1.12.3" }
+compose-ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "composeTestVersion" }
+compose-ui-test-junit4-desktop = { module = "org.jetbrains.compose.ui:ui-test-junit4-desktop", version.ref = "composeTestVersion" }
+
+junit4 = { module = "junit:junit", version.ref = "junit4Version" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
+
+slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4jVersion" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4jVersion" }
+log4j-slf4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4jVersion" }
+
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jacksonVersion" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonVersion" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jacksonVersion" }
+
+testng = { module = "org.testng:testng", version = "7.1.0" }
+
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger2Version" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger2Version" }
+
+godaddy-composeColorPickerJvm = { module = "com.godaddy.android.colorpicker:compose-color-picker-jvm", version = "0.5.1" }
+apache-commons-text = { module = "org.apache.commons:commons-text", version.ref = "apacheCommonTextVersion" }
+apache-commons-csv = { module = "org.apache.commons:commons-csv", version.ref = "apacheCommonCsvVersion" }
+apache-commons-io = { module = "commons-io:commons-io", version.ref = "apacheCommonIOVersion" }
+
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version = "1.6.10" }
+
+rsyntaxtextarea = { module = "com.fifesoft:rsyntaxtextarea", version = "3.2.0" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutineVersion" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutineVersion" }
+material-iconsExtendedDesktop = { module = "org.jetbrains.compose.material:material-icons-extended-desktop", version = "1.1.1" }
+michaelbull-kotlinResult = { module = "com.michael-bull.kotlin-result:kotlin-result-jvm", version = "1.1.12" }
+
+
+[bundles]
+
+
+[plugins]
+
+anvil = { id = "com.squareup.anvil", version = "2.4.2" }
