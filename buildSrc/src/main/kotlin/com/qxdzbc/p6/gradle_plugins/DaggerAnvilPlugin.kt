@@ -15,20 +15,7 @@ import org.gradle.kotlin.dsl.dependencies
 class DaggerAnvilPlugin :Plugin<Project>{
     override fun apply(target: Project) {
         val l = target.getVersionCatalog()
-//        with(target.plugins){
-//            val q = l.findPlugin("anvil").get().get()
-
-//            println(q)
-//            apply("${q.get().pluginId}:${q.get().version}")
-//            this.apply("com.squareup.anvil:gradle-plugin:2.4.2") // => not working
-//            this.apply("com.squareup.anvil") //not working
-
-//        }
-//        target.plugins {
-//            alias(l.plugin("anvil"))
-//            kotlin("kapt")
-//        }
-
+        // TODO apply dagger and anvil plugin here
         target.dependencies {
             implementation(l.dep("dagger"))
             kapt(l.dep("dagger-compiler"))

@@ -1,11 +1,11 @@
 plugins {
-    id("java")
+    java
     antlr
-    id("maven-publish")
+    `maven-publish`
 }
 val id = "p6-antlr"
-val xgroup = "com.qxdzbc.p6"
-group = xgroup
+val _group = "com.qxdzbc.p6"
+group = _group
 version = "1.0"
 
 repositories {
@@ -27,7 +27,7 @@ tasks{
     generateGrammarSource{
         this.outputDirectory = File("${buildDir.absolutePath}/generated-src/antlr4/com/qxdzbc/p6/formula/translator/antlr")
         this.arguments = this.arguments +
-                listOf("-package" ,"${xgroup}.formula.translator.antlr") +
+                listOf("-package" ,"${_group}.formula.translator.antlr") +
                 listOf("-visitor")
 
     }

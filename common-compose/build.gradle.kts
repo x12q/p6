@@ -1,12 +1,11 @@
 import org.jetbrains.compose.compose
 
 plugins {
-    java
-//    kotlin("jvm") version "1.6.10"
-
-    kotlin("jvm") version "1.7.20"
-    id("org.jetbrains.compose") version "1.2.1"
-    id("maven-publish")
+    val kv = libs.versions.kotlinVersion.get()
+    kotlin("jvm") version kv
+    alias(libs.plugins.jetbrain.compose)
+    `maven-publish`
+    id("com.qxdzbc.p6.gradle_plugins.common_project_plugin")
 }
 
 java {
@@ -36,18 +35,9 @@ val p6Version = "1.0"
 val kotestVersion="5.5.4"
 dependencies {
     implementation(compose.desktop.currentOs)
-//    implementation("com.qxdzbc:common:${p6Version}")
-//    implementation("com.qxdzbc:err:${p6Version}")
     implementation(project(":err"))
     implementation(project(":common"))
-    implementation("com.michael-bull.kotlin-result:kotlin-result-jvm:1.1.12")
-    testImplementation("org.mockito:mockito-core:${mockitoVersion}")
-    testImplementation("org.mockito:mockito-inline:${mockitoVersion}")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation(kotlin("test"))
     testImplementation(project(":common-test"))
-    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 }
 
 tasks.getByName<Test>("test") {

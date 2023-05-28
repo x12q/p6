@@ -1,8 +1,9 @@
 plugins {
-    java
-    kotlin("jvm") version "1.7.20"
-    kotlin("kapt") version "1.7.20"
-    id("maven-publish")
+    val kv = libs.versions.kotlinVersion.get()
+    kotlin("jvm") version kv
+    kotlin("kapt") version kv
+    `maven-publish`
+    id("com.qxdzbc.p6.gradle_plugins.common_project_plugin")
 }
 
 val id = "common-test"
@@ -14,13 +15,7 @@ repositories {
     google()
 }
 val kotestVersion="5.5.4"
-dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-    testImplementation(kotlin("test"))
-    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
-
-}
+dependencies {}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_15

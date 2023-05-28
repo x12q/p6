@@ -17,7 +17,7 @@ kotlinVersion = "1.7.20"
 junit4Version = "4.13.2"
 log4jVersion = "2.17.2"
 jacksonVersion = "2.13.2"
-
+junit5Version = "5.8.1"
 composePluginVersion = "1.2.1"
 
 [libraries]
@@ -40,6 +40,10 @@ compose-ui-test-junit4-desktop = { module = "org.jetbrains.compose.ui:ui-test-ju
 
 junit4 = { module = "junit:junit", version.ref = "junit4Version" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
+
+# at the moment junit 5 is not used.
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5Version" }
+junit5-jupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5Version" }
 
 slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4jVersion" }
@@ -72,8 +76,20 @@ michaelbull-kotlinResult = { module = "com.michael-bull.kotlin-result:kotlin-res
 
 [bundles]
 
+commonForAllProject = [
+    "michaelbull-kotlinResult"
+]
+
+commonForAllProjectTest=[
+    "kotest-assertions-core",
+    "mockito-core",
+    "mockito-inline",
+    "mockito-kotlin",
+    "mockk",
+    "junit4",
+]
 
 [plugins]
 
 anvil = { id = "com.squareup.anvil", version = "2.4.2" }
-jetbrain-compose = {id="org.jetbrains.compose",version.ref="composePluginVersion"}
+jetbrain-compose = { id = "org.jetbrains.compose", version.ref = "composePluginVersion" }

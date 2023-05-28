@@ -19,4 +19,5 @@ object Utils {
 
     fun VersionCatalog.dep(s: String) = findLibrary(s).get()
     fun VersionCatalog.plugin(s:String) = findPlugin(s).get()
+    fun VersionCatalog.bundle(s:String) = findBundle(s).get()
 }

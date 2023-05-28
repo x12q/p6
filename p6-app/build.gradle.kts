@@ -1,25 +1,16 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.gradle.internal.os.OperatingSystem
 plugins {
-    java
-    kotlin("jvm") version libs.versions.kotlinVersion.get()
-    kotlin("kapt") version libs.versions.kotlinVersion.get()
+    val kv = libs.versions.kotlinVersion.get()
+    kotlin("jvm") version kv
+    kotlin("kapt") version kv
     alias (libs.plugins.jetbrain.compose)
-//    alias()
-    id("maven-publish")
-    idea
+    `maven-publish`
     alias(libs.plugins.anvil)
-
-    id("com.qxdzbc.p6.gradle_plugins.test_plugin")
+    id("com.qxdzbc.p6.gradle_plugins.common_project_plugin")
     id("com.qxdzbc.p6.gradle_plugins.log_plugin")
     id("com.qxdzbc.p6.gradle_plugins.dagger_anvil_plugin")
     id("com.qxdzbc.p6.gradle_plugins.grpc_plugin")
-}
-
-idea {
-    this.module {
-        this.isDownloadSources = true
-    }
 }
 
 java {
@@ -60,7 +51,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.swing)
     implementation(libs.material.iconsExtendedDesktop)
-    implementation(libs.michaelbull.kotlinResult)
 
     implementation(compose.desktop.currentOs)
 
@@ -81,92 +71,7 @@ tasks.test {
     testLogging.showStandardStreams = true
 }
 
-
 val p6AppBuildDir = "p6App"
-fun getBinaryDir(): String? {
-    val linuxBuildDir = "${p6AppBuildDir}/main/app/p6/bin"
-    val windowBuildDir = p6AppBuildDir
-    var binDir: String? = null
-    if (os.isLinux) {
-        binDir = linuxBuildDir
-    }
-    if (os.isWindows) {
-        binDir = "${p6AppBuildDir}"
-    }
-    return binDir
-}
-
-fun getDistDir(): String? {
-    val linuxBuildDir = "${p6AppBuildDir}/main/app/p6/"
-    val windowBuildDir = p6AppBuildDir
-    var binDir: String? = null
-    if (os.isLinux) {
-        binDir = linuxBuildDir
-    }
-    if (os.isWindows) {
-        binDir = "${p6AppBuildDir}"
-    }
-    return binDir
-}
-
-val os = OperatingSystem.current();
-
-tasks.register<Copy>("copyP6PythonEnv") {
-    from(layout.projectDirectory.dir("p6Env"))
-    val binDir = getBinaryDir()
-    if (binDir != null) {
-        into(layout.buildDirectory.dir("${binDir}/p6Env"))
-    }
-}
-
-/**
- * zip the p6 distribution into a zip file, store the zip file in build/dist
- */
-tasks.register<Zip>("zipP6") {
-    archiveFileName.set("p6App.zip")
-    isZip64 = true // so that large folder can be zip
-    destinationDirectory.set(layout.buildDirectory.dir("dist"))
-    val distDir = getDistDir()
-    if (distDir != null) {
-        from(layout.buildDirectory.dir(distDir))
-    }
-}
-
-/**
- * copy the jp config file into the distribution dir, right next to the execution file
- */
-tasks.register<Copy>("copyJpConfig") {
-    from(layout.projectDirectory.file("p6PythonConfig.json"))
-    val binDir = getBinaryDir()
-    if (binDir != null) {
-        into(layout.buildDirectory.dir(binDir))
-    }
-}
-/**
- * build p6 and create a distribution with a ready-to-use python env then create a zip file from it.
- */
-tasks.register("buildP6WithPythonZip") {
-    dependsOn("buildP6WithPython")
-    finalizedBy("zipP6")
-}
-
-/**
- * build a standalone p6 without python then create a zip file from it.
- */
-tasks.register("buildP6Zip") {
-    dependsOn("createDistributable")
-    finalizedBy("zipP6")
-}
-
-
-/**
- * build p6 and create a distribution with a ready-to-use python env.
- * This distribution is extremely heavy, not recommended.
- */
-tasks.register("buildP6WithPython") {
-    dependsOn("createDistributable")
-    finalizedBy("copyJpConfig", "copyP6PythonEnv")
-}
 
 compose.desktop {
     application {

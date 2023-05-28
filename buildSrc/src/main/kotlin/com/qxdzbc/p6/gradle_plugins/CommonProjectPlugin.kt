@@ -1,27 +1,22 @@
 package com.qxdzbc.p6.gradle_plugins
 
+import com.qxdzbc.p6.gradle_plugins.Utils.dep
 import com.qxdzbc.p6.gradle_plugins.Utils.bundle
 import com.qxdzbc.p6.gradle_plugins.Utils.getVersionCatalog
+import com.qxdzbc.p6.gradle_plugins.Utils.implementation
 import com.qxdzbc.p6.gradle_plugins.Utils.testImplementation
-import com.qxdzbc.p6.gradle_plugins.Utils.dep
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 
 /**
- * Plugin for setting up dependencies for testing, including:
- * - junit 4
- * - kotlin test
- * - mockito
- * - mockk
- * - compose unit test 4
- * - compose desktop test junit 4
+ * Consist of the basic test library, assertion library, and result library
  */
-class TestPlugin : Plugin<Project> {
-
+class CommonProjectPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val libs = target.getVersionCatalog()
+        // TODO run TestPlugin inside this plugin
         target.dependencies {
             // TODO replace these with a bundle in toml
             testImplementation(libs.dep("kotest.assertions.core"))
@@ -33,6 +28,7 @@ class TestPlugin : Plugin<Project> {
             testImplementation(libs.dep("compose.ui.test.junit4"))
             testImplementation(libs.dep("compose.ui.test.junit4.desktop"))
             testImplementation(libs.dep("junit4"))
+            implementation(libs.dep("michaelbull.kotlinResult"))
         }
     }
 }

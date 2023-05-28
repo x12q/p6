@@ -9,7 +9,7 @@ repositories {
     mavenCentral()
 }
 
-dependencies{
+dependencies {
 }
 
 gradlePlugin {
@@ -23,13 +23,17 @@ gradlePlugin {
             implementationClass = "com.qxdzbc.p6.gradle_plugins.DaggerAnvilPlugin"
         }
 
-        create("LogPlugin"){
+        create("LogPlugin") {
             id = "com.qxdzbc.p6.gradle_plugins.log_plugin"
             implementationClass = "com.qxdzbc.p6.gradle_plugins.LogPlugin"
         }
-        create("GrpcPlugin"){
+        create("GrpcPlugin") {
             id = "com.qxdzbc.p6.gradle_plugins.grpc_plugin"
             implementationClass = "com.qxdzbc.p6.gradle_plugins.GrpcPlugin"
+        }
+        create("CommonProjectPlugin") {
+            id = "com.qxdzbc.p6.gradle_plugins.common_project_plugin"
+            implementationClass = "com.qxdzbc.p6.gradle_plugins.CommonProjectPlugin"
         }
     }
 }

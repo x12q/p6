@@ -15,16 +15,6 @@ class GrpcPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val libs = target.getVersionCatalog()
         target.dependencies {
-/*
-protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protocolBufferVersion" }
-protobuf-kotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protocolBufferVersion" }
-grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "kotlinGRPCVersion" }
-grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpcVersion" }
-grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpcVersion" }
-grpc-netty-shaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpcVersion" }
-grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpcVersion" }
-
- */
             implementation(libs.dep("protobuf.java"))
             implementation(libs.dep("protobuf.kotlin"))
             implementation(libs.dep("grpc.kotlin.stub"))
