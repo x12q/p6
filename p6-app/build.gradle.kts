@@ -2,9 +2,10 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.gradle.internal.os.OperatingSystem
 plugins {
     java
-    kotlin("jvm") version "1.7.20"
-    kotlin("kapt") version "1.7.20"
-    id("org.jetbrains.compose") version "1.2.1"
+    kotlin("jvm") version libs.versions.kotlinVersion.get()
+    kotlin("kapt") version libs.versions.kotlinVersion.get()
+    alias (libs.plugins.jetbrain.compose)
+//    alias()
     id("maven-publish")
     idea
     alias(libs.plugins.anvil)
@@ -50,24 +51,18 @@ repositories {
 
 val p6Version = libs.versions.p6Version.get()
 dependencies {
-
-
     implementation(libs.godaddy.composeColorPickerJvm)
-
     implementation(libs.apache.commons.text)
     implementation(libs.apache.commons.csv)
     implementation(libs.apache.commons.io)
-
     implementation(libs.kotlin.reflect)
-
     implementation(libs.rsyntaxtextarea)
-    implementation(compose.desktop.currentOs)
-
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.swing)
     implementation(libs.material.iconsExtendedDesktop)
-
     implementation(libs.michaelbull.kotlinResult)
+
+    implementation(compose.desktop.currentOs)
 
     implementation("com.qxdzbc.p6:p6-proto:${p6Version}")
     implementation("com.qxdzbc.p6:p6-antlr:${p6Version}")

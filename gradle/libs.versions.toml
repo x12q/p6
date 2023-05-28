@@ -18,6 +18,8 @@ junit4Version = "4.13.2"
 log4jVersion = "2.17.2"
 jacksonVersion = "2.13.2"
 
+composePluginVersion = "1.2.1"
+
 [libraries]
 
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protocolBufferVersion" }
@@ -74,3 +76,4 @@ michaelbull-kotlinResult = { module = "com.michael-bull.kotlin-result:kotlin-res
 [plugins]
 
 anvil = { id = "com.squareup.anvil", version = "2.4.2" }
+jetbrain-compose = {id="org.jetbrains.compose",version.ref="composePluginVersion"}
