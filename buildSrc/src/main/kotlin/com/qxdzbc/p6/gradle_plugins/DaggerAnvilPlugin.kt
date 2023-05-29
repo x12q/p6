@@ -10,16 +10,15 @@ import org.gradle.kotlin.dsl.dependencies
 
 /**
  * A plugin that add dagger and anvil dependencies and plugin to a project
- * TODO add plugin
  */
 class DaggerAnvilPlugin :Plugin<Project>{
     override fun apply(target: Project) {
-        val l = target.getVersionCatalog()
-        // TODO apply dagger and anvil plugin here
+        // TODO find a way to apply external anvil plugin here
+        val libs = target.getVersionCatalog()
         target.dependencies {
-            implementation(l.dep("dagger"))
-            kapt(l.dep("dagger-compiler"))
-            kaptTest(l.dep("dagger-compiler"))
+            implementation(libs.dep("dagger"))
+            kapt(libs.dep("dagger-compiler"))
+            kaptTest(libs.dep("dagger-compiler"))
         }
     }
 }

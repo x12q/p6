@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.gradle_plugins
 
-import com.qxdzbc.p6.gradle_plugins.Utils.bundle
 import com.qxdzbc.p6.gradle_plugins.Utils.getVersionCatalog
 import com.qxdzbc.p6.gradle_plugins.Utils.testImplementation
 import com.qxdzbc.p6.gradle_plugins.Utils.dep
@@ -15,23 +14,19 @@ import org.gradle.kotlin.dsl.kotlin
  * - kotlin test
  * - mockito
  * - mockk
- * - compose unit test 4
- * - compose desktop test junit 4
+ * - kotest assertion
  */
 class TestPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         val libs = target.getVersionCatalog()
         target.dependencies {
-            // TODO replace these with a bundle in toml
             testImplementation(libs.dep("kotest.assertions.core"))
             testImplementation(kotlin("test"))
             testImplementation(libs.dep("mockito.core"))
             testImplementation(libs.dep("mockito.inline"))
             testImplementation(libs.dep("mockito.kotlin"))
             testImplementation(libs.dep("mockk"))
-            testImplementation(libs.dep("compose.ui.test.junit4"))
-            testImplementation(libs.dep("compose.ui.test.junit4.desktop"))
             testImplementation(libs.dep("junit4"))
         }
     }

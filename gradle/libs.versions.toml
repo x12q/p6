@@ -74,6 +74,9 @@ material-iconsExtendedDesktop = { module = "org.jetbrains.compose.material:mater
 michaelbull-kotlinResult = { module = "com.michael-bull.kotlin-result:kotlin-result-jvm", version = "1.1.12" }
 
 
+
+anvil = { module = "com.squareup.anvil:gradle-plugin", version = "2.4.2" }
+
 [bundles]
 
 commonForAllProject = [

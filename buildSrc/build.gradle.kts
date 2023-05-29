@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly(libs.anvil)
 }
 
 gradlePlugin {
@@ -18,6 +19,12 @@ gradlePlugin {
             id = "com.qxdzbc.p6.gradle_plugins.test_plugin"
             implementationClass = "com.qxdzbc.p6.gradle_plugins.TestPlugin"
         }
+
+        create("ComposeTestPlugin") {
+            id = "com.qxdzbc.p6.gradle_plugins.compose_test_plugin"
+            implementationClass = "com.qxdzbc.p6.gradle_plugins.ComposeTestPlugin"
+        }
+
         create("DaggerAnvilPlugin") {
             id = "com.qxdzbc.p6.gradle_plugins.dagger_anvil_plugin"
             implementationClass = "com.qxdzbc.p6.gradle_plugins.DaggerAnvilPlugin"

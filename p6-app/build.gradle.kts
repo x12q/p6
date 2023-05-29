@@ -11,6 +11,7 @@ plugins {
     id("com.qxdzbc.p6.gradle_plugins.log_plugin")
     id("com.qxdzbc.p6.gradle_plugins.dagger_anvil_plugin")
     id("com.qxdzbc.p6.gradle_plugins.grpc_plugin")
+    id("com.qxdzbc.p6.gradle_plugins.compose_test_plugin")
 }
 
 java {

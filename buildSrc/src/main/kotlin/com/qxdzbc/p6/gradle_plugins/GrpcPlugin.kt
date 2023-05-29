@@ -9,7 +9,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 /**
- * A plugin that add grpc and protocol buffer dependencies
+ * Add grpc and protocol buffer dependencies
  */
 class GrpcPlugin : Plugin<Project> {
     override fun apply(target: Project) {
