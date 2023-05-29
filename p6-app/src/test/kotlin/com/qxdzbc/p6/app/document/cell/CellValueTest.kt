@@ -1,10 +1,12 @@
 package com.qxdzbc.p6.app.document.cell
 
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.common.error.SingleErrorReport
+import io.mockk.mockk
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -51,7 +53,7 @@ class CellValueTest {
         assertFalse { CellValue(bool = true).isEmpty() }
         assertFalse { CellValue(cellSt = mock()).isEmpty() }
         assertFalse { CellValue(range = mock()).isEmpty() }
-        assertFalse { CellValue(errorReport = mock()).isEmpty() }
+        assertFalse { CellValue(errorReport = SingleErrorReport.random()).isEmpty() }
     }
 
     @Test

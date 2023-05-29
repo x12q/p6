@@ -14,7 +14,7 @@ import com.qxdzbc.p6.proto.DocProtos.CellValueProto
 /**
  * A class that holds the value (value only, not including the formula) of a cell
  */
-data class CellValue constructor(
+data class CellValue (
     val number: Double? = null,
     val bool: Boolean? = null,
     val str: String? = null,

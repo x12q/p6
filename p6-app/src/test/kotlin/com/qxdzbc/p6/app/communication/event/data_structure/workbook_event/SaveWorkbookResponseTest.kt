@@ -28,16 +28,16 @@ class SaveWorkbookResponseTest{
 
     @Test
     fun `fromProtoBytes error case`(){
-        val ee = SingleErrorReport(header= ErrorHeader("S","M"))
+        val er = SingleErrorReport.random()
 
         val proto = AppProtos.SaveWorkbookResponseProto.newBuilder()
             .setWbKey(WorkbookKey("B").toProto())
-            .setErrorReport(ee.toProto())
+            .setErrorReport(er.toProto())
             .build()
 
         val o = SaveWorkbookResponse.fromProtoBytes(proto.toByteString())
         assertEquals(proto.wbKey.toModel(),o.wbKey)
         assertEquals(proto.path, o.path)
-        assertTrue { o.errorReport?.isType(ee.header) ?: false}
+        assertTrue { o.errorReport?.isType(er.header) ?: false}
     }
 }

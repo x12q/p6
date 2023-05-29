@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.command
 
 /**
- * A command is an encapsulation containing all the information/data needed to perform certain action, and undo that action.
+ * A command is an encapsulation containing all the information/data needed to perform and undo an action.
  */
 interface Command{
     /**

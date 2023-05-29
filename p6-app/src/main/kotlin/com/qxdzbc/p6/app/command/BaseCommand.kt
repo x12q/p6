@@ -1,5 +1,8 @@
 package com.qxdzbc.p6.app.command
 
+/**
+ * The base class of all [Command]
+ */
 abstract class BaseCommand : Command {
     override fun reverse(): Command {
         val r= this

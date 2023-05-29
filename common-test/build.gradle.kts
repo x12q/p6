@@ -14,19 +14,13 @@ repositories {
     mavenCentral()
     google()
 }
-val kotestVersion="5.5.4"
-dependencies {}
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
-    withSourcesJar()
-}
-tasks {
-    compileKotlin {
-        kotlinOptions { jvmTarget = "15" }
+kotlin{
+    java{
+        withSourcesJar()
     }
 }
+
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()

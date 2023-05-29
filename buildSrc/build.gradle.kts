@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.anvil)
+//    compileOnly(libs.anvil)
 }
 
 gradlePlugin {

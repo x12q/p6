@@ -8,10 +8,10 @@ plugins {
     id("com.qxdzbc.p6.gradle_plugins.common_project_plugin")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
-    withSourcesJar()
+kotlin{
+    java{
+        withSourcesJar()
+    }
 }
 
 val id="common-compose"
@@ -29,10 +29,6 @@ repositories {
     maven("https://plugins.gradle.org/m2/")
 
 }
-val coroutineVersion = "1.6.1"
-val mockitoVersion = "4.5.1"
-val p6Version = "1.0"
-val kotestVersion="5.5.4"
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(project(":err"))
@@ -42,13 +38,6 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
-}
-tasks {
-    val jvmVersion = "15"
-    compileKotlin {
-        kotlinOptions { jvmTarget = jvmVersion }
-//        sourceCompatibility = jvmVersion
-    }
 }
 
 tasks.test {

@@ -31,8 +31,13 @@ sealed interface ErrorReport {
     fun identicalTo(another: ErrorReport): Boolean
 
     /**
-     * Merge this [ErrorReport] with [another] [ErrorReport]
+     * Merge this [ErrorReport] with [another] [ErrorReport].
+     * This operator is identical to [mergeWith]
      */
     operator fun plus(another: ErrorReport): ErrorReport
+
+    /**
+     * Merge this [ErrorReport] with [another] [ErrorReport]
+     */
     fun mergeWith(another:ErrorReport):ErrorReport
 }

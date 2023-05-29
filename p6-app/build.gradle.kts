@@ -14,18 +14,6 @@ plugins {
     id("com.qxdzbc.p6.gradle_plugins.compose_test_plugin")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
-}
-
-tasks {
-    compileKotlin {
-        kotlinOptions { jvmTarget = "15" }
-    }
-}
-
-
 group = "com.qxdzbc.p6"
 version = "1.0"
 
@@ -42,6 +30,10 @@ repositories {
 }
 
 val p6Version = libs.versions.p6Version.get()
+
+kotlin{
+    jvmToolchain(17)
+}
 dependencies {
     implementation(libs.godaddy.composeColorPickerJvm)
     implementation(libs.apache.commons.text)

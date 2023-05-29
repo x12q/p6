@@ -14,7 +14,6 @@ repositories {
 
 dependencies {
     antlr ("org.antlr:antlr4:4.9.3")
-//    implementation ("org.antlr:antlr4-runtime:4.9.3")
 }
 
 //configurations {
@@ -49,10 +48,4 @@ publishing {
             from(components["java"])
         }
     }
-}
-
-java{
-    targetCompatibility = JavaVersion.VERSION_15
-    sourceCompatibility = JavaVersion.VERSION_15
-    withSourcesJar()
 }

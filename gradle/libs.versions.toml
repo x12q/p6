@@ -5,20 +5,19 @@ p6Version = "1.0"
 protocolBufferVersion = "3.19.4"
 kotlinGRPCVersion = "1.2.1"
 grpcVersion = "1.41.0"
-dagger2Version = "2.43.1"
+dagger2Version = "2.46.1"
 composeTestVersion = "1.1.1"
 coroutineVersion = "1.6.1"
-mockitoVersion = "4.5.1"
+mockitoVersion = "5.2.0"
 apacheCommonTextVersion = "1.10.0"
 apacheCommonCsvVersion = "1.9.0"
 apacheCommonIOVersion = "2.11.0"
 kotestVersion = "5.5.4"
-kotlinVersion = "1.7.20"
+kotlinVersion = "1.8.0"
 junit4Version = "4.13.2"
 log4jVersion = "2.17.2"
 jacksonVersion = "2.13.2"
 junit5Version = "5.8.1"
-composePluginVersion = "1.2.1"
 
 [libraries]
 
@@ -32,7 +31,7 @@ grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpcVersion" }
 
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoVersion" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoVersion" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.0.0" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.1.0" }
 
 mockk = { module = "io.mockk:mockk", version = "1.12.3" }
 compose-ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "composeTestVersion" }
@@ -75,7 +74,7 @@ michaelbull-kotlinResult = { module = "com.michael-bull.kotlin-result:kotlin-res
 
 
 
-anvil = { module = "com.squareup.anvil:gradle-plugin", version = "2.4.2" }
+#anvil = { module = "com.squareup.anvil:gradle-plugin", version = "2.4.2" }
 
 [bundles]
 
@@ -94,5 +93,5 @@ commonForAllProjectTest=[
 
 [plugins]
 
-anvil = { id = "com.squareup.anvil", version = "2.4.2" }
-jetbrain-compose = { id = "org.jetbrains.compose", version.ref = "composePluginVersion" }
+anvil = { id = "com.squareup.anvil", version = "2.4.4" }
+jetbrain-compose = { id = "org.jetbrains.compose", version = "1.4.0" }

@@ -65,9 +65,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     @Test
     fun `applyDeleteMulti error response`() {
         val appState = appStateMs
-        val e = SingleErrorReport(
-            header = ErrorHeader("z", "q")
-        )
+        val e = SingleErrorReport.random()
         val response = DeleteMultiResponse(
             WorkbookUpdateCommonResponse(
                 errorReport = e,

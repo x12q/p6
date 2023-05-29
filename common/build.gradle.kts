@@ -20,8 +20,6 @@ repositories {
     }
     maven("https://plugins.gradle.org/m2/")
 }
-val p6Version = "1.0"
-val kotestVersion="5.5.4"
 dependencies {
     implementation(project(":err"))
     implementation(project(":common-test"))
@@ -31,10 +29,10 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
-    withSourcesJar()
+kotlin{
+    java{
+        withSourcesJar()
+    }
 }
 
 publishing {

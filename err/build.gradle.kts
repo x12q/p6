@@ -21,19 +21,15 @@ repositories {
     }
     maven("https://plugins.gradle.org/m2/")
 }
-val kotestVersion="5.5.4"
-val mockitoVersion = "4.5.1"
-dependencies {
-}
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
-    withSourcesJar()
+kotlin{
+    java{
+        withSourcesJar()
+    }
 }
 
 dependencies{
