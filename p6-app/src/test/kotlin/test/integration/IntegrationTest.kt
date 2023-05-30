@@ -102,7 +102,6 @@ class IntegrationTest {
                 wsNameSt = wsNameSt,
                 functionMapMs = FunctionMapImp(
                     P6FunctionDefinitionsImp(
-                        appStateMs = appMs,
                         docContSt = appMs.value.docContMs,
                     ).functionMap
                 ).toMs(),

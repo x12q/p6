@@ -41,8 +41,8 @@ class ExUnitFormulaVisitor @AssistedInject constructor(
     @Assisted("2") private val wsNameSt: St<String>,
     private val functionMapMs: Ms<FunctionMap>,
     private val docContMs: St<@JvmSuppressWildcards DocumentContainer>,
-//    private val errX:ExUnitErrors.IncompatibleType = ExUnitErrors.IncompatibleType.instance,
 ) : FormulaBaseVisitor<ExUnit>() {
+
     private val docCont: DocumentContainer by docContMs
     private val wbKey: WorkbookKey by wbKeySt
     private val wsName: String by wsNameSt

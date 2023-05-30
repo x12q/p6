@@ -4,7 +4,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.function.FunctionExecutor
 import kotlin.reflect.KFunction
 
 /**
- * A formula function definition
+ * A class containing the definition of a function, and an executor that can run that function.
  */
 interface FunctionDef {
     val name: String

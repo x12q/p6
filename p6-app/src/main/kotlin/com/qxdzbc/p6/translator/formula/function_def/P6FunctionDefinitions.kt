@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.translator.formula.function_def
 
 /**
- * Contain the default function/formula definitions
+ * Contain the default and internal function/formula definitions in this app.
  */
 interface P6FunctionDefinitions {
 

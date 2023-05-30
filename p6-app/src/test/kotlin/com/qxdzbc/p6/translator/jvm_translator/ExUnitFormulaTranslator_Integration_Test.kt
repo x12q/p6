@@ -97,7 +97,7 @@ class ExUnitFormulaTranslator_Integration_Test {
 
         appStateMs = ts.sampleAppStateMs(wbCont)
         p6FunctDefs = P6FunctionDefinitionsImp(
-            appStateMs, ts.appState.docContMs,
+            ts.appState.docContMs,
         )
         fun add(n1: Int, n2: Int): Result<Int, SingleErrorReport> {
             return Ok(n1 + n2)

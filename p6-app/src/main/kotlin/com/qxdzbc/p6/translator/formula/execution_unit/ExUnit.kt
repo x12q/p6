@@ -15,7 +15,12 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
- * An ExUnit (execution unit) is an obj representing a formula, when it runs it will return something that can be stored by a Cell.
+ * An [ExUnit] (execution unit) is an obj representing a formula, when it runs it will return something that can be stored by a Cell. In this app, [ExUnit] is used for storing a cell formula function. Typically, each formula (as text) is translated into one [ExUnit] and stored in a cell.
+ * An [ExUnit] can be:
+ * - an operator: +, /, -, *, ^, unary subtract(-)
+ * - a primitive: Int, Double, String, Bool
+ * - object in this app: cell address, range address, workbook key, Worksheet name
+ * - a function
  */
 interface ExUnit : Shiftable, ColorKey {
     /**
