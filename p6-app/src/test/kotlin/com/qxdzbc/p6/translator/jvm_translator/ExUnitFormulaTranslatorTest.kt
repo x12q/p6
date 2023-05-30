@@ -16,10 +16,17 @@ import com.github.michaelbull.result.Result
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.translator.formula.execution_unit.*
-import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.function.FunctionExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.CellAddressUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.RangeAddressUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.function.GetCellUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.function.GetRange
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.WbKeyStUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.WsNameStUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.operator.AddOperator
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.DoubleUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.IntUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.StrUnit
 import test.TestSample
 import kotlin.reflect.KFunction
 
@@ -76,7 +83,7 @@ class ExUnitFormulaTranslatorTest {
             "=A1" to GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
                 cellAddressUnit= CellAddress("A1").toExUnit(),
-                wsNameUnit=WsNameStUnit(wsNameSt),
+                wsNameUnit= WsNameStUnit(wsNameSt),
                 wbKeyUnit=wbKeySt.toExUnit(),
                 functionMapSt = functionMap
             ),
@@ -92,18 +99,18 @@ class ExUnitFormulaTranslatorTest {
     @Test
     fun `translate function call`() {
         val inputMap = mapOf(
-            "=F1(12,\"ax\",F2(A1),1+2.2)" to FunctionExUnitUnit(
+            "=F1(12,\"ax\",F2(A1),1+2.2)" to FunctionExUnit(
                 funcName = "F1",
                 args = listOf(
                     IntUnit(12),
                     StrUnit("ax"),
-                    FunctionExUnitUnit(
+                    FunctionExUnit(
                         funcName = "F2",
                         args = listOf(
                             GetCellUnit(
                                 funcName = P6FunctionDefinitions.getCellRs,
                                 cellAddressUnit= CellAddress("A1").toExUnit(),
-                                wsNameUnit=WsNameStUnit(wsNameSt),
+                                wsNameUnit= WsNameStUnit(wsNameSt),
                                 wbKeyUnit=wbKeySt.toExUnit(),
                                 functionMapSt = functionMap
                             )
@@ -132,7 +139,7 @@ class ExUnitFormulaTranslatorTest {
             "=\$A\$1" to GetCellUnit(
                 funcName = P6FunctionDefinitions.getCellRs,
                 cellAddressUnit= CellAddress("\$A\$1").toExUnit(),
-                wsNameUnit=WsNameStUnit(wsNameSt),
+                wsNameUnit= WsNameStUnit(wsNameSt),
                 wbKeyUnit=wbKeySt.toExUnit(),
                 functionMapSt = functionMap
             ),

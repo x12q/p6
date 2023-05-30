@@ -3,7 +3,11 @@ package com.qxdzbc.p6.translator.formula.formula.execution_unit
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.translator.formula.execution_unit.*
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.CellAddressUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.operator.AddOperator
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.DoubleUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.IntUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.StrUnit
 import kotlin.test.*
 class AddOperatorTest : OperatorBaseTest(){
 
@@ -43,7 +47,7 @@ class AddOperatorTest : OperatorBaseTest(){
         assertEquals(Ok(123.0), u.runRs())
 
         val u2 = AddOperator(
-            getBlankCellUnit,IntUnit(222)
+            getBlankCellUnit, IntUnit(222)
         )
         assertEquals(Ok(222.0),u2.runRs())
     }

@@ -11,7 +11,13 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.FunctionMapImp
-import com.qxdzbc.p6.translator.formula.execution_unit.*
+import com.qxdzbc.p6.translator.formula.execution_unit.function.FunctionExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.CellAddressUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.RangeAddressUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.operator.MinusOperator
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.IntUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.NothingUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.StrUnit
 import com.qxdzbc.p6.translator.formula.function_def.AbstractFunctionDef
 import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
 import org.mockito.kotlin.mock
@@ -54,7 +60,7 @@ internal class FuncUnitTest {
 
     @Test
     fun run() {
-        val u1 = FunctionExUnitUnit(
+        val u1 = FunctionExUnit(
             funcName = "toUpper",
             args = listOf(
                 StrUnit("abc")
@@ -65,7 +71,7 @@ internal class FuncUnitTest {
         assertEquals(Ok("ABC"), out)
         assertEquals("toUpper(\"abc\")", u1.toFormula())
 
-        val u2 = FunctionExUnitUnit(
+        val u2 = FunctionExUnit(
             funcName = "add",
             args = listOf(
                 IntUnit(3),
@@ -80,14 +86,14 @@ internal class FuncUnitTest {
     @Test
     fun run2() {
         // compute: add(3+2+2+5)
-        val u2 = FunctionExUnitUnit(
+        val u2 = FunctionExUnit(
             funcName = "add",
             args = listOf(
-                FunctionExUnitUnit(
+                FunctionExUnit(
                     funcName = "add",
                     args = listOf(
                         IntUnit(3),
-                        FunctionExUnitUnit(
+                        FunctionExUnit(
                             funcName = "add",
                             args = listOf(
                                 IntUnit(2),
@@ -108,7 +114,7 @@ internal class FuncUnitTest {
 
     @Test
     fun run3() {
-        val u2 = FunctionExUnitUnit(
+        val u2 = FunctionExUnit(
             funcName = "add",
             args = listOf(
                 NothingUnit,
@@ -122,7 +128,7 @@ internal class FuncUnitTest {
 
     @Test
     fun toFormula() {
-        val u = FunctionExUnitUnit(
+        val u = FunctionExUnit(
             funcName = "someFunction",
             args = listOf(
                 IntUnit(23),
@@ -134,7 +140,7 @@ internal class FuncUnitTest {
 
     @Test
     fun getRange(){
-        val u = FunctionExUnitUnit(
+        val u = FunctionExUnit(
             funcName = "Function",
             args = listOf(
                 MinusOperator(

@@ -28,68 +28,37 @@ grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpcVersion" }
 grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpcVersion" }
 grpc-netty-shaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpcVersion" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpcVersion" }
-
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoVersion" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoVersion" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.1.0" }
-
 mockk = { module = "io.mockk:mockk", version = "1.12.3" }
 compose-ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "composeTestVersion" }
 compose-ui-test-junit4-desktop = { module = "org.jetbrains.compose.ui:ui-test-junit4-desktop", version.ref = "composeTestVersion" }
-
 junit4 = { module = "junit:junit", version.ref = "junit4Version" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
-
 # at the moment junit 5 is not used.
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5Version" }
 junit5-jupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5Version" }
-
 slf4j-api = { module = "org.slf4j:slf4j-api", version = "1.7.36" }
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4jVersion" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4jVersion" }
 log4j-slf4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4jVersion" }
-
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jacksonVersion" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonVersion" }
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jacksonVersion" }
-
 testng = { module = "org.testng:testng", version = "7.1.0" }
-
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger2Version" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger2Version" }
-
 godaddy-composeColorPickerJvm = { module = "com.godaddy.android.colorpicker:compose-color-picker-jvm", version = "0.5.1" }
 apache-commons-text = { module = "org.apache.commons:commons-text", version.ref = "apacheCommonTextVersion" }
 apache-commons-csv = { module = "org.apache.commons:commons-csv", version.ref = "apacheCommonCsvVersion" }
 apache-commons-io = { module = "commons-io:commons-io", version.ref = "apacheCommonIOVersion" }
-
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version = "1.6.10" }
-
 rsyntaxtextarea = { module = "com.fifesoft:rsyntaxtextarea", version = "3.2.0" }
-
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutineVersion" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutineVersion" }
 material-iconsExtendedDesktop = { module = "org.jetbrains.compose.material:material-icons-extended-desktop", version = "1.1.1" }
 michaelbull-kotlinResult = { module = "com.michael-bull.kotlin-result:kotlin-result-jvm", version = "1.1.12" }
-
-
-
-#anvil = { module = "com.squareup.anvil:gradle-plugin", version = "2.4.2" }
-
-[bundles]
-
-commonForAllProject = [
-    "michaelbull-kotlinResult"
-]
-
-commonForAllProjectTest=[
-    "kotest-assertions-core",
-    "mockito-core",
-    "mockito-inline",
-    "mockito-kotlin",
-    "mockk",
-    "junit4",
-]
 
 [plugins]
 

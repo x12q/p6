@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.range.Range
 
 /**
- * This obj contains utils function for working with [ExUnit]
+ * This obj contains utils function for working with [ExUnit].
  */
 object ExUnits {
     /**

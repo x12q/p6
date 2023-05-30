@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.IntUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.IntUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**

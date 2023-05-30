@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.translator.formula.execution_unit
+package com.qxdzbc.p6.translator.formula.execution_unit.function
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.AnnotatedString
@@ -9,9 +9,13 @@ import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.FunctionMap
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
-data class FunctionExUnitUnit(
+/**
+ * An [ExUnit] representing a function
+ */
+data class FunctionExUnit(
     override val funcName: String,
     override val args: List<ExUnit>,
     val functionMapSt: St<FunctionMap>,

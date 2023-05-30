@@ -28,7 +28,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.qxdzbc.p6.ColdInit
-import com.qxdzbc.p6.translator.formula.execution_unit.BoolUnit.Companion.TRUE
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.BoolUnit.Companion.TRUE
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope

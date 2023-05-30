@@ -14,7 +14,7 @@ import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
-import com.qxdzbc.p6.translator.formula.execution_unit.FunctionExecutor
+import com.qxdzbc.p6.translator.formula.execution_unit.function.FunctionExecutor
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import javax.inject.Inject

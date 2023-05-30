@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.translator.formula.execution_unit
+package com.qxdzbc.p6.translator.formula.execution_unit.function
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -8,9 +8,13 @@ import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.translator.formula.FunctionMap
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.formula.function_def.FunctionDef
 import kotlin.reflect.KFunction
 
+/**
+ * An [ExUnit] representing a function. All function [ExUnit] must derive from this class.
+ */
 abstract class BaseFunctionExUnit : ExUnit {
     abstract val functionMap: FunctionMap
     abstract val args: List<ExUnit>

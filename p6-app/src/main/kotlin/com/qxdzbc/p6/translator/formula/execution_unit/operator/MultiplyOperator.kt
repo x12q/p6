@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.translator.formula.execution_unit
+package com.qxdzbc.p6.translator.formula.execution_unit.operator
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
@@ -9,12 +9,15 @@ import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnits
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
- * An [ExUnit] representing the "-" operator
+ * An [ExUnit] representing "*" operator
  */
-data class MinusOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
+data class MultiplyOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
     override fun getRangeIds(): List<RangeId> {
         return u1.getRangeIds() + u2.getRangeIds()
     }
@@ -36,7 +39,7 @@ data class MinusOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         if (f1 != null && f2 != null) {
             return buildAnnotatedString {
                 append(f1)
-                append("-")
+                append("*")
                 append(f2)
             }
         } else {
@@ -58,7 +61,7 @@ data class MinusOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         val f1 = u1.toFormula()
         val f2 = u2.toFormula()
         if (f1 != null && f2 != null) {
-            return "${f1} - ${f2}"
+            return "${f1} * ${f2}"
         } else {
             return null
         }
@@ -68,7 +71,7 @@ data class MinusOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         val f1 = u1.toShortFormula(wbKey, wsName)
         val f2 = u2.toShortFormula(wbKey, wsName)
         if (f1 != null && f2 != null) {
-            return "${f1} - ${f2}"
+            return "${f1} * ${f2}"
         } else {
             return null
         }
@@ -79,10 +82,12 @@ data class MinusOperator(val u1: ExUnit, val u2: ExUnit) : ExUnit {
         val rt = r1Rs.andThen { r1 ->
             val r2Rs = u2.runRs()
             r2Rs.andThen { r2 ->
-                val trueR1 = r1?.let{ExUnits.extractFromCellOrNull(r1)}?:0
-                val trueR2 = r2?.let{ExUnits.extractFromCellOrNull(r2)}?:0
+//                val trueR1 = ExUnits.extractFromCellOrNull(r1)?:0
+//                val trueR2 = ExUnits.extractFromCellOrNull(r2)?:0
+                val trueR1 = r1?.let{ ExUnits.extractFromCellOrNull(r1) }?:0
+                val trueR2 = r2?.let{ ExUnits.extractFromCellOrNull(r2) }?:0
                 if (trueR1 is Number && trueR2 is Number) {
-                    Ok(trueR1.toDouble() - (trueR2.toDouble()))
+                    Ok(trueR1.toDouble() * (trueR2.toDouble()))
                 } else {
                     ExUnitErrors.IncompatibleType.report(
                         "Expect two numbers, but got ${trueR1::class.simpleName} and ${trueR2::class.simpleName}"

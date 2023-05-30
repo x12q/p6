@@ -1,24 +1,28 @@
-package com.qxdzbc.p6.translator.formula.execution_unit
+package com.qxdzbc.p6.translator.formula.execution_unit.primitive
 
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.qxdzbc.common.error.SingleErrorReport
-import com.qxdzbc.p6.app.common.utils.Utils.toTF
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
 /**
- * An [ExUnit] representing a boolean.
+ * An [ExUnit] representing a double
  */
-
-class BoolUnit(val v: Boolean) : ExUnit {
+data class DoubleUnit(val v: Double): ExUnit {
     companion object{
-        val TRUE = BoolUnit(true)
-        val FALSE = BoolUnit(false)
-        fun Boolean.toExUnit(): BoolUnit {
-            return BoolUnit(this)
+        fun Double.toExUnit(): DoubleUnit {
+            return DoubleUnit(this)
+        }
+        fun Float.toExUnit(): DoubleUnit {
+            return DoubleUnit(this.toDouble())
         }
     }
+    override fun runRs(): Result<Double, SingleErrorReport> {
+        return Ok(v)
+    }
+
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
@@ -27,15 +31,11 @@ class BoolUnit(val v: Boolean) : ExUnit {
     }
 
     override fun toFormula(): String {
-        return v.toTF()
+        return v.toString()
     }
 
     override fun toShortFormula(wbKey: WorkbookKey?, wsName: String?): String {
-        return v.toTF()
-    }
-
-    override fun runRs(): Result<Boolean, SingleErrorReport> {
-        return Ok(v)
+        return v.toString()
     }
 }
 

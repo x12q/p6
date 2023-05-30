@@ -90,6 +90,10 @@ interface ExUnit : Shiftable, ColorKey {
      * Run this [ExUnit] and returns something that can be stored in a cell.
      */
     fun runRs(): Rse<Any?>
+
+    /**
+     * Run this [ExUnit]. Throw an exception if encounter an error.
+     */
     fun run(): Any? {
         return runRs().component1()
     }

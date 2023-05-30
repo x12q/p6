@@ -3,10 +3,10 @@ package com.qxdzbc.p6.translator.formula.formula.execution_unit
 import com.qxdzbc.common.compose.StateUtils.toSt
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.translator.formula.execution_unit.GetRange
-import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.WsNameStUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.function.GetRange
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.RangeAddressUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.WbKeyStUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.WsNameStUnit
 import org.mockito.kotlin.mock
 import test.TestSample
 import kotlin.test.*
@@ -23,8 +23,8 @@ internal class ExUnit_GetRange {
         val u = GetRange(
             funcName = "qwe",
                 wbKeyUnit=WorkbookKey("Wb1",null).toSt().toExUnit(),
-                wsNameUnit=WsNameStUnit("Sheet1".toSt()),
-                rangeAddressUnit =RangeAddressUnit(RangeAddress("B2:K9")),
+                wsNameUnit= WsNameStUnit("Sheet1".toSt()),
+                rangeAddressUnit = RangeAddressUnit(RangeAddress("B2:K9")),
             functionMapSt = mock()
         )
         assertEquals("B2:K9@'Sheet1'@'Wb1'",u.toFormula())

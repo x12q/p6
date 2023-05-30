@@ -3,10 +3,10 @@ package com.qxdzbc.p6.translator.formula.formula.execution_unit
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.IntUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.MinusOperator
-import com.qxdzbc.p6.translator.formula.execution_unit.MultiplyOperator
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.CellAddressUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.IntUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.operator.MinusOperator
+import com.qxdzbc.p6.translator.formula.execution_unit.operator.MultiplyOperator
 import kotlin.test.*
 
 class MultiplyOperatorTest:OperatorBaseTest(){

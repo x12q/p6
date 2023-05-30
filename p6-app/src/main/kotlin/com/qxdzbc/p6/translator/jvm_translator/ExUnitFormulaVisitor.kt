@@ -15,10 +15,20 @@ import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.formula.FunctionMap
 import com.qxdzbc.p6.translator.formula.execution_unit.*
-import com.qxdzbc.p6.translator.formula.execution_unit.CellAddressUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.RangeAddressUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.StrUnit.Companion.toExUnit
-import com.qxdzbc.p6.translator.formula.execution_unit.WbKeyStUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.function.FunctionExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.CellAddressUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.RangeAddressUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.function.GetCellUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.function.GetRange
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.WbKeyStUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.StrUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.WbKeyStUnit.Companion.toExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.WsNameStUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.operator.*
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.BoolUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.DoubleUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.IntUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.StrUnit
 import com.qxdzbc.p6.translator.formula.function_def.P6FunctionDefinitions
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import dagger.assisted.Assisted
@@ -268,7 +278,7 @@ class ExUnitFormulaVisitor @AssistedInject constructor(
                     eLis.add(eRs)
                 }
             }
-            return FunctionExUnitUnit(
+            return FunctionExUnit(
                 funcName = functionName,
                 args = eLis,
                 functionMapSt = functionMapMs

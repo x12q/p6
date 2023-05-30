@@ -5,7 +5,7 @@ import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.document.cell.CellErrors
 
 object ExUnitErrors {
-    val prefix = "ExUnitErrors "
+    const val prefix = "ExUnitErrors "
 
     private var _l:List<Any>? = null
 
