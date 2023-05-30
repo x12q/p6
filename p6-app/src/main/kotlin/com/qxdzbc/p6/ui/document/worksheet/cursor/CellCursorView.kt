@@ -36,9 +36,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
 /**
  * Cursor view consist of:
  *  - an invisible view that handle user keyboard input
- *  - views depicting selected, copied, referred cells, ranges
- *  cell layout map is originally part of a worksheet. But cursor view and thumb view need that map to position themselves. But the map itself should not be part of the cursor state by nature sense.
- *  Putting the map into the cursor state will simplify the CursorView signature
+ *  - views depicting selected, copied, referred cells, ranges.
  */
 @Composable
 fun CursorView(
@@ -71,11 +69,11 @@ fun CursorView(
         .onGloballyPositioned {
             boundLayoutCoorsWrapper = it.wrap()
         }) {
-        val blc = boundLayoutCoorsWrapper
-        val mainCellOffset: IntOffset = if (blc != null && blc.isAttached) {
+        val layout = boundLayoutCoorsWrapper
+        val mainCellOffset: IntOffset = if (layout != null && layout.isAttached) {
             val mainCellPosition: Offset? = cellLayoutCoorsMap[mainCell]?.posInWindowOrZero
             if (mainCellPosition != null) {
-                blc.windowToLocal(mainCellPosition).toIntOffset()
+                layout.windowToLocal(mainCellPosition).toIntOffset()
             } else {
                 IntOffset(0, 0)
             }
@@ -84,10 +82,10 @@ fun CursorView(
         }
         val editorState: CellEditorState = state.cellEditorState
         val editTarget: CellAddress? = editorState.targetCell
-        val editorOffset = if (blc != null && blc.isAttached) {
+        val editorOffset = if (layout != null && layout.isAttached) {
             val editTargetOffset = editTarget?.let { cellLayoutCoorsMap[it]?.posInWindowOrZero }
             editTargetOffset?.let {
-                blc.windowToLocal(it).toIntOffset()
+                layout.windowToLocal(it).toIntOffset()
             } ?: IntOffset(0, 0)
         } else {
             IntOffset(0, 0)
@@ -136,7 +134,7 @@ fun CursorView(
             }
         }
         val refRangeAndColorMap: Map<RangeAddress, Color> = action.getFormulaRangeAndColor(state)
-        if (blc != null && blc.isAttached) {
+        if (layout != null && layout.isAttached) {
             //x: draw boxes over selected/copied/referred cells
             Canvas(modifier = Modifier.fillMaxSize()) {
                 // x: draw boxes around referred range
@@ -149,11 +147,11 @@ fun CursorView(
                         val botRightCoor = cellLayoutCoorsMap[r.botRight]
                         if (topLeftCoor != null && botRightCoor != null) {
                             if (topLeftCoor.isAttached && botRightCoor.isAttached) {
-                                val offset = blc.windowToLocal(topLeftCoor.posInWindowOrZero)
+                                val offset = layout.windowToLocal(topLeftCoor.posInWindowOrZero)
                                 val size = if(r.isCell()){
                                     topLeftCoor.sizeOrZero.toSize()
                                 }else{
-                                    val botRightOffset = blc.windowToLocal(botRightCoor.posInWindowOrZero)
+                                    val botRightOffset = layout.windowToLocal(botRightCoor.posInWindowOrZero)
                                     Size(botRightOffset.x - offset.x + botRightCoor.sizeOrZero.width.value, botRightOffset.y - offset.y+botRightCoor.sizeOrZero.height.value)
                                 }
                                 // x: dash line
@@ -178,8 +176,8 @@ fun CursorView(
                     if (cellAddress != mainCell) {
                         //x: draw selection box over currently selected cell/range
                         if (state.isPointingTo(cellAddress)) {
-                            if (blc.isAttached) {
-                                val offset: Offset = blc.windowToLocal(cellLayout.posInWindowOrZero)
+                            if (layout.isAttached) {
+                                val offset: Offset = layout.windowToLocal(cellLayout.posInWindowOrZero)
                                 drawRect(
                                     color = Color.Blue.copy(alpha = 0.2F),
                                     topLeft = offset,
@@ -191,8 +189,8 @@ fun CursorView(
 
                     // x: draw copied range
                     if (state.containInClipboard(cellAddress)) {
-                        if (blc.isAttached) {
-                            val offset = blc.windowToLocal(cellLayout.posInWindowOrZero)
+                        if (layout.isAttached) {
+                            val offset = layout.windowToLocal(cellLayout.posInWindowOrZero)
                             drawRect(
                                 color = Color.Magenta,
                                 topLeft = offset,
@@ -204,10 +202,10 @@ fun CursorView(
                 }
                 val thumbState = state.thumbState
                 if(thumbState.isShowingSelectedRange){
-                    if(blc.isAttached){
+                    if(layout.isAttached){
                         drawRect(
                             color = Color.Red.copy(alpha =0.4F),
-                            topLeft = blc.windowToLocal(thumbState.selectedRangeWindowOffsetOrZero),
+                            topLeft = layout.windowToLocal(thumbState.selectedRangeWindowOffsetOrZero),
                             size = thumbState.selectedRangeSizeOrZero.toSize(),
                         )
                     }

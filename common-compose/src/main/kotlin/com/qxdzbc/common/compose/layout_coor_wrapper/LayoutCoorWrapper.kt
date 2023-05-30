@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
 
 /**
@@ -15,6 +16,8 @@ interface LayoutCoorWrapper {
 
     val sizeOrZero:DpSize
     val size:DpSize?
+
+    fun dbSize(density:Density):DpSize?
 
     /**
      * return zero Rect if the current bound is not available

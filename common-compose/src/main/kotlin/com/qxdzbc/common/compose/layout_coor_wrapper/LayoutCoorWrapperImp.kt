@@ -7,6 +7,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
@@ -18,10 +19,17 @@ data class LayoutCoorWrapperImp(
 
     override val sizeOrZero: DpSize get() = size?: DpSize.Zero
 
+    @Deprecated("wrong logic, can't convert to dp size without Density")
     override val size: DpSize?
         get() = layout.ifAttached {lc->
             lc.size.toDpSize()
         }
+
+    override fun dbSize(density: Density): DpSize? {
+        return layout.ifAttached {lc->
+            lc.size.toDpSize(density)
+        }
+    }
 
     override val boundInWindowOrZero: Rect get() = boundInWindow ?: Rect(Offset.Zero, Size.Zero)
 
