@@ -14,6 +14,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -49,6 +50,7 @@ fun CursorView(
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> = state.cellLayoutCoorsMap
     val mainCell: CellAddress = state.mainCell
     var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
+    val density = LocalDensity.current
 
     LaunchedEffect(Unit) {
         action.focusOnCursor(state.id)
@@ -92,7 +94,7 @@ fun CursorView(
         }
 
         MBox(modifier = Modifier.offset { editorOffset }) {
-            val editorSize = state.cellEditorState.targetCell?.let { cellLayoutCoorsMap[it] }?.sizeOrZero ?: DpSize(0.dp,0.dp)
+            val editorSize = state.cellEditorState.targetCell?.let { cellLayoutCoorsMap[it] }?.dbSizeOrZero(density) ?: DpSize(0.dp,0.dp)
             CellEditorView(
                 state = state.cellEditorState,
                 action = action.cellEditorAction,
@@ -103,7 +105,7 @@ fun CursorView(
 
         // x: this is the main cell
         if (state.cellEditorState.isNotOpen || state.cellEditorState.rangeSelectorCursorId == state.id) {
-            val mainCellSize = cellLayoutCoorsMap[mainCell]?.sizeOrZero ?: DpSize(0.dp, 0.dp)
+            val mainCellSize = cellLayoutCoorsMap[mainCell]?.dbSizeOrZero(density) ?: DpSize(0.dp, 0.dp)
             MBox(
                 modifier = modifier
                     .focusRequester(focusState.cursorFocusRequester.focusRequester)
@@ -149,10 +151,12 @@ fun CursorView(
                             if (topLeftCoor.isAttached && botRightCoor.isAttached) {
                                 val offset = layout.windowToLocal(topLeftCoor.posInWindowOrZero)
                                 val size = if(r.isCell()){
-                                    topLeftCoor.sizeOrZero.toSize()
+                                    topLeftCoor.dbSizeOrZero(density).toSize()
                                 }else{
                                     val botRightOffset = layout.windowToLocal(botRightCoor.posInWindowOrZero)
-                                    Size(botRightOffset.x - offset.x + botRightCoor.sizeOrZero.width.value, botRightOffset.y - offset.y+botRightCoor.sizeOrZero.height.value)
+                                    Size(
+                                        width = botRightOffset.x - offset.x + botRightCoor.dbSizeOrZero(density).width.value,
+                                        height = botRightOffset.y - offset.y+botRightCoor.dbSizeOrZero(density).height.value)
                                 }
                                 // x: dash line
                                 drawRect(
@@ -181,7 +185,7 @@ fun CursorView(
                                 drawRect(
                                     color = Color.Blue.copy(alpha = 0.2F),
                                     topLeft = offset,
-                                    size = cellLayout.sizeOrZero.toSize(),
+                                    size = cellLayout.dbSizeOrZero(density).toSize(),
                                 )
                             }
                         }
@@ -194,7 +198,7 @@ fun CursorView(
                             drawRect(
                                 color = Color.Magenta,
                                 topLeft = offset,
-                                size = cellLayout.sizeOrZero.toSize(),
+                                size = cellLayout.dbSizeOrZero(density).toSize(),
                                 style = P6R.canvas.stroke.dashLine
                             )
                         }

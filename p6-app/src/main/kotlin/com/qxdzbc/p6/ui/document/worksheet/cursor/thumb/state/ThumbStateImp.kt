@@ -2,7 +2,9 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
@@ -58,7 +60,7 @@ data class ThumbStateImp @AssistedInject constructor(
                     val c1 = cellAddress.colIndex == mainCell.colIndex
                     val c2 = cellAddress.rowIndex <= mainCell.rowIndex
                     val c3 = cellLayout.posInWindow?.y?.let{y->
-                        y + cellLayout.sizeOrZero.height.value >= selectRectState.movingPoint.y
+                        y + cellLayout.pixelSizeOrZero.height >= selectRectState.movingPoint.y
                     } ?: false
                     c1 && c2 && c3
                 }
@@ -67,7 +69,7 @@ data class ThumbStateImp @AssistedInject constructor(
                     val c1 = cellAddress.rowIndex == mainCell.rowIndex
                     val c2 = cellAddress.colIndex <= mainCell.colIndex
                     val c3 = cellLayout.posInWindow?.x?.let{ x->
-                        x + cellLayout.sizeOrZero.width.value >= selectRectState.movingPoint.x
+                        x + cellLayout.pixelSizeOrZero.width >= selectRectState.movingPoint.x
                     } ?: false
                     c1 && c2 && c3
                 }
@@ -116,9 +118,9 @@ data class ThumbStateImp @AssistedInject constructor(
             }
         }
 
-    override val selectedRangeSizeOrZero: DpSize get() = selectedRangeSize ?: DpSize.Zero
+    override val selectedRangeSizeOrZero: Size get() = selectedRangeSize ?: Size.Zero
 
-    override val selectedRangeSize: DpSize?
+    override val selectedRangeSize: Size?
         get() {
             val tb = getTopBotCells()
             if (tb != null) {
@@ -129,9 +131,9 @@ data class ThumbStateImp @AssistedInject constructor(
                     if (topCellLayout.isAttached && botCellLayout.isAttached) {
                         val topOffset = topCellLayout.boundInWindowOrZero.topLeft
                         val botOffset = botCellLayout.boundInWindowOrZero.bottomRight
-                        val rt = DpSize(
-                            width = (maxOf(botOffset.x - topOffset.x, 0f)).dp,
-                            height = (maxOf(botOffset.y - topOffset.y, 0f)).dp
+                        val rt = Size(
+                            width = maxOf(botOffset.x - topOffset.x, 0f),
+                            height = maxOf(botOffset.y - topOffset.y, 0f),
                         )
                         return rt
                     } else {
@@ -153,8 +155,8 @@ data class ThumbStateImp @AssistedInject constructor(
             if (tb != null) {
                 val (topCell, botCell) = tb
                 val topCellLayout = cellLayoutCoorMap[topCell]
-                if (topCellLayout != null && topCellLayout.isAttached ?: false) {
-                    return topCellLayout.posInWindowOrZero ?: Offset.Zero
+                if (topCellLayout != null && topCellLayout.isAttached) {
+                    return topCellLayout.posInWindowOrZero
                 } else {
                     return null
                 }
