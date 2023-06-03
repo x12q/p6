@@ -19,12 +19,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
+import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
@@ -46,7 +45,7 @@ fun main() {
                 modifier = Modifier.size(10.dp).offset {
                     val l = lc
                     if (l != null && l.isAttached) {
-                        l.windowToLocal(currentMousePos ?: Offset(0F, 0F)).toIntOffset()
+                        l.windowToLocal(currentMousePos ?: Offset(0F, 0F)).rawConvertToIntOffset()
                     } else {
                         IntOffset(0, 0)
                     }

@@ -19,7 +19,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
+import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.view.MBox
@@ -51,7 +51,7 @@ fun main() = application {
                 if (isClicked) {
                     it.changes.getOrNull(0)?.position?.also { mousePos ->
                         dragHostCoorWrapper?.let { cp ->
-                            pos = cp.localToWindow(mousePos).toIntOffset()
+                            pos = cp.localToWindow(mousePos).rawConvertToIntOffset()
                         }
                     }
                 }

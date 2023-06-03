@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.compute_slider_size
 
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.toSize
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
@@ -21,13 +22,13 @@ class ComputeSliderSizeActionImp @Inject constructor(
 ): ComputeSliderSizeAction {
 
     private val stateCont by stateContMs
-    override fun computeSliderSize(wsLoc: WbWsSt) {
+    override fun computeSliderSize(wsLoc: WbWsSt,density: Density) {
         stateCont.getWsState(wsLoc)?.also { wsState ->
             val currentSlider = wsState.slider
             val sizeConstraint = wsState.cellGridLayoutCoorWrapper?.pixelSizeOrZero
             val newSlider = if (sizeConstraint != null) {
                 computeSliderSize(
-                    currentSlider, sizeConstraint.toDpSize(), wsState.slider.topLeftCell,
+                    currentSlider, sizeConstraint.toDpSize(density), wsState.slider.topLeftCell,
                     wsState::getColumnWidthOrDefault,
                     wsState::getRowHeightOrDefault,
                 )

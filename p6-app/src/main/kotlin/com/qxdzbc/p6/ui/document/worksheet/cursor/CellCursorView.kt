@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
-import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
+import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.view.MBox
@@ -37,7 +37,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
 /**
  * Cursor view consist of:
  *  - an invisible view that handle user keyboard input
- *  - views depicting selected, copied, referred cells, ranges.
+ *  - views highlighting selected, copied, referred cells, ranges.
  */
 @Composable
 fun CursorView(
@@ -75,7 +75,7 @@ fun CursorView(
         val mainCellOffset: IntOffset = if (layout != null && layout.isAttached) {
             val mainCellPosition: Offset? = cellLayoutCoorsMap[mainCell]?.posInWindowOrZero
             if (mainCellPosition != null) {
-                layout.windowToLocal(mainCellPosition).toIntOffset()
+                layout.windowToLocal(mainCellPosition).rawConvertToIntOffset()
             } else {
                 IntOffset(0, 0)
             }
@@ -87,7 +87,7 @@ fun CursorView(
         val editorOffset = if (layout != null && layout.isAttached) {
             val editTargetOffset = editTarget?.let { cellLayoutCoorsMap[it]?.posInWindowOrZero }
             editTargetOffset?.let {
-                layout.windowToLocal(it).toIntOffset()
+                layout.windowToLocal(it).rawConvertToIntOffset()
             } ?: IntOffset(0, 0)
         } else {
             IntOffset(0, 0)

@@ -100,7 +100,6 @@ fun WorksheetView(
                                     wsActions.scroll(x, y, wsState)
                                 }
                                 .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
-                            enableTestTag = enableTestTag
                         )
                         MBox {
                             val cursorAction = worksheetActionTable.cursorAction
