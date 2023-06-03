@@ -12,7 +12,7 @@ interface ComputeSliderSizeAction {
     fun computeSliderSize(wsLoc: WbWsSt)
     fun computeSliderSize(
         oldGridSlider: GridSlider,
-        availableSize: DpSize,
+        sizeConstraint: DpSize,
         anchorCell: CellAddress,
         colWidthGetter: (colIndex: Int) -> Int,
         rowHeightGetter: (rowIndex: Int) -> Int

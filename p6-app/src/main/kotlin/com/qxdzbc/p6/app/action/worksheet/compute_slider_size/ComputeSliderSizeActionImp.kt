@@ -2,6 +2,8 @@ package com.qxdzbc.p6.app.action.worksheet.compute_slider_size
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.toSize
+import com.qxdzbc.common.compose.SizeUtils.toDpSize
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -22,10 +24,10 @@ class ComputeSliderSizeActionImp @Inject constructor(
     override fun computeSliderSize(wsLoc: WbWsSt) {
         stateCont.getWsState(wsLoc)?.also { wsState ->
             val currentSlider = wsState.slider
-            val availableSize = wsState.cellGridLayoutCoorWrapper?.pixelSizeOrZero
-            val newSlider = if (availableSize != null) {
+            val sizeConstraint = wsState.cellGridLayoutCoorWrapper?.pixelSizeOrZero
+            val newSlider = if (sizeConstraint != null) {
                 computeSliderSize(
-                    currentSlider, availableSize, wsState.slider.topLeftCell,
+                    currentSlider, sizeConstraint.toDpSize(), wsState.slider.topLeftCell,
                     wsState::getColumnWidthOrDefault,
                     wsState::getRowHeightOrDefault,
                 )
@@ -38,15 +40,18 @@ class ComputeSliderSizeActionImp @Inject constructor(
         }
     }
 
+    /**
+     * Compute grid slide size by looping through displayed cells,
+     */
     override fun computeSliderSize(
         oldGridSlider: GridSlider,
-        availableSize: DpSize,
+        sizeConstraint: DpSize,
         anchorCell: CellAddress,
         colWidthGetter: (colIndex: Int) -> Int,
         rowHeightGetter: (rowIndex: Int) -> Int,
     ): GridSlider {
-        val limitWidth = availableSize.width.value
-        val limitHeight = availableSize.height.value
+        val limitWidth = sizeConstraint.width.value
+        val limitHeight = sizeConstraint.height.value
 
         val fromCol = anchorCell.colIndex
         var toCol = fromCol

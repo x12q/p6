@@ -3,6 +3,7 @@ package test.example
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -14,6 +15,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -50,9 +52,10 @@ fun main() {
                     }
                 }.background(Color.Blue)
             )
+            val density = LocalDensity.current
 
             Column {
-                BasicText("Anchor mouse: ${anchorMousePos ?: ""}")
+                Text("Anchor mouse: ${anchorMousePos ?: ""}")
                 BasicText("current mouse: ${currentMousePos ?: ""}")
                 BasicText("anchor width :${anchorWidth}")
                 BasicText("width :${width}")
@@ -85,7 +88,9 @@ fun main() {
                                     val a = anchorMousePos
                                     val c = currentMousePos
                                     if (a != null && c != null) {
-                                        width = anchorWidth + (c.x - a.x).roundToInt().dp
+                                        width  = with(density){
+                                            anchorWidth + (c.x - a.x).toDp()
+                                        }
                                     }
                                 }
 

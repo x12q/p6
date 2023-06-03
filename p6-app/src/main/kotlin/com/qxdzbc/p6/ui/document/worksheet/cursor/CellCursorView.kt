@@ -121,11 +121,12 @@ fun CursorView(
                     }
             )
             val thumbState = state.thumbState
+            val density = LocalDensity.current
             MBox(
                 modifier = Modifier
                     .offset(
-                        x=mainCellOffset.x.dp + mainCellSize.width - thumbState.offsetNegate.width,
-                        y=mainCellOffset.y.dp + mainCellSize.height - thumbState.offsetNegate.height,
+                        x=with(density){mainCellOffset.x.toDp()} + mainCellSize.width - thumbState.offsetNegate.width,
+                        y=with(density){mainCellOffset.y.toDp()} + mainCellSize.height - thumbState.offsetNegate.height,
                     )
                     .border(1.dp,Color.White)
             ){
@@ -210,7 +211,7 @@ fun CursorView(
                         drawRect(
                             color = Color.Red.copy(alpha =0.4F),
                             topLeft = layout.windowToLocal(thumbState.selectedRangeWindowOffsetOrZero),
-                            size = thumbState.selectedRangeSizeOrZero.toSize(),
+                            size = thumbState.selectedRangeSizeOrZero,
                         )
                     }
                 }
