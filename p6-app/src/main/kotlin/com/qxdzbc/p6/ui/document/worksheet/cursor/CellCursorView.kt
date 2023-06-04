@@ -121,7 +121,6 @@ fun CursorView(
                     }
             )
             val thumbState = state.thumbState
-            val density = LocalDensity.current
             MBox(
                 modifier = Modifier
                     .offset(
@@ -151,14 +150,16 @@ fun CursorView(
                         if (topLeftCoor != null && botRightCoor != null) {
                             if (topLeftCoor.isAttached && botRightCoor.isAttached) {
                                 val offset = layout.windowToLocal(topLeftCoor.posInWindowOrZero)
+
                                 val size = if(r.isCell()){
                                     topLeftCoor.dbSizeOrZero(density).toSize()
                                 }else{
                                     val botRightOffset = layout.windowToLocal(botRightCoor.posInWindowOrZero)
                                     Size(
-                                        width = botRightOffset.x - offset.x + botRightCoor.dbSizeOrZero(density).width.value,
-                                        height = botRightOffset.y - offset.y+botRightCoor.dbSizeOrZero(density).height.value)
+                                        width = botRightOffset.x - offset.x + botRightCoor.pixelSizeOrZero.width,
+                                        height = botRightOffset.y - offset.y+botRightCoor.pixelSizeOrZero.height)
                                 }
+
                                 // x: dash line
                                 drawRect(
                                     color = c,
