@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.document.worksheet.ruler
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.unit.Dp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.*
@@ -17,11 +18,11 @@ data class RulerStateImp constructor(
     override val wsIdSt:St<WorksheetId>,
     override val type: RulerType,
     override val sliderMs: Ms<GridSlider>,
-    override val defaultItemSize: Int = if (type == RulerType.Col) P6R.size.value.defaultColumnWidth else P6R.size.value.defaultRowHeight,
+    override val defaultItemSize: Dp = if (type == RulerType.Col) P6R.size.value.defaultColumnWidth else P6R.size.value.defaultRowHeight,
     private val itemLayoutMapMs: Ms<Map<Int, LayoutCoorWrapper>> = ms(emptyMap()),
     override val itemSelectRectMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
     private val rulerLayoutMs: Ms<LayoutCoorWrapper?> = ms(null),
-    private val itemSizeMapMs: Ms<Map<Int, Int>> = ms(emptyMap()),
+    private val itemSizeMapMs: Ms<Map<Int, Dp>> = ms(emptyMap()),
     override val resizerLayoutMap: Map<Int, LayoutCoordinates> = emptyMap(),
 ) : RulerState {
     override val wsId: WorksheetId
@@ -70,33 +71,33 @@ data class RulerStateImp constructor(
         return this
     }
 
-    override val itemSizeMap: Map<Int, Int> by this.itemSizeMapMs
+    override val itemSizeMap: Map<Int, Dp> by this.itemSizeMapMs
 
-    override fun changeItemSize(itemIndex: Int, diff: Float): RulerState {
-        val sd = diff.toInt()
-        if (sd != 0) {
-            val oldSize = this.getItemSizeOrDefault(itemIndex)
-            val newSize = oldSize + sd
-            if (newSize == this.defaultItemSize) {
-                return this.removeItemSize(itemIndex)
-            } else {
-                this.itemSizeMapMs.value = this.itemSizeMap + (itemIndex to newSize)
-            }
-        }
-        return this
-    }
+//    override fun changeItemSize(itemIndex: Int, diff: Float): RulerState {
+//        val sd = diff.toInt()
+//        if (sd != 0) {
+//            val oldSize = this.getItemSizeOrDefault(itemIndex)
+//            val newSize = oldSize + sd
+//            if (newSize == this.defaultItemSize) {
+//                return this.removeItemSize(itemIndex)
+//            } else {
+//                this.itemSizeMapMs.value = this.itemSizeMap + (itemIndex to newSize)
+//            }
+//        }
+//        return this
+//    }
 
-    override fun setItemSize(itemIndex: Int, size: Int): RulerState {
+    override fun setItemSize(itemIndex: Int, size: Dp): RulerState {
         this.itemSizeMapMs.value = this.itemSizeMap + (itemIndex to size)
         return this
     }
 
-    override fun setMultiItemSize(itemMap: Map<Int, Int>): RulerState {
+    override fun setMultiItemSize(itemMap: Map<Int, Dp>): RulerState {
         this.itemSizeMapMs.value = this.itemSizeMap + itemMap
         return this
     }
 
-    override fun getItemSizeOrDefault(itemIndex: Int): Int {
+    override fun getItemSizeOrDefault(itemIndex: Int): Dp {
         return itemSizeMap[itemIndex] ?: this.defaultItemSize
     }
 

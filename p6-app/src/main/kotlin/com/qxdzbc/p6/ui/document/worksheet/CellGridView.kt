@@ -127,7 +127,7 @@ fun CellGridView(
                             borderColor = Color.LightGray,
                             padContent = false,
                             modifier = Modifier
-                                .size(colWidth.dp, rowHeight.dp)
+                                .size(colWidth, rowHeight)
                                 .onGloballyPositioned {
                                     wsActions.addCellLayoutCoor(cellAddress, it, wsState)
                                 }

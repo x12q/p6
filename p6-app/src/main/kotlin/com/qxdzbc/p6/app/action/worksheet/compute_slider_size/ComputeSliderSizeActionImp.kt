@@ -1,9 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.compute_slider_size
 
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.toSize
+import androidx.compose.ui.unit.*
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -48,15 +46,15 @@ class ComputeSliderSizeActionImp @Inject constructor(
         oldGridSlider: GridSlider,
         sizeConstraint: DpSize,
         anchorCell: CellAddress,
-        colWidthGetter: (colIndex: Int) -> Int,
-        rowHeightGetter: (rowIndex: Int) -> Int,
+        colWidthGetter: (colIndex: Int) -> Dp,
+        rowHeightGetter: (rowIndex: Int) -> Dp,
     ): GridSlider {
-        val limitWidth = sizeConstraint.width.value
-        val limitHeight = sizeConstraint.height.value
+        val limitWidth = sizeConstraint.width
+        val limitHeight = sizeConstraint.height
 
         val fromCol = anchorCell.colIndex
         var toCol = fromCol
-        var accumWidth = 0F
+        var accumWidth = 0.dp
         while (accumWidth < limitWidth) {
             accumWidth += colWidthGetter(toCol)
             toCol += 1
@@ -64,7 +62,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
 
         val fromRow = anchorCell.rowIndex
         var toRow = fromRow
-        var accumHeight = 0F
+        var accumHeight = 0.dp
         while (accumHeight < limitHeight) {
             accumHeight += rowHeightGetter(toRow)
             toRow += 1

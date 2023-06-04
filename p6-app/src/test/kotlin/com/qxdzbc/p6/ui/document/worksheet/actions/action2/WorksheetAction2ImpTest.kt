@@ -55,12 +55,12 @@ internal class WorksheetAction2ImpTest {
                 for (c in 1..20) {
                     val rect = Rect(
                         topLeft = Offset(
-                            (c - 1) * wsStateMs.value.defaultColWidth.toFloat(),
-                            (r - 1) * wsStateMs.value.defaultRowHeight.toFloat()
+                            (c - 1) * wsStateMs.value.defaultColWidth.value,
+                            (r - 1) * wsStateMs.value.defaultRowHeight.value,
                         ),
                         bottomRight = Offset(
-                            c * wsStateMs.value.defaultColWidth.toFloat(),
-                            r * wsStateMs.value.defaultRowHeight.toFloat()
+                            c * wsStateMs.value.defaultColWidth.value,
+                            r * wsStateMs.value.defaultRowHeight.value
                         )
                     )
                     val cellAddress = CellAddress(c, r)
@@ -89,8 +89,8 @@ internal class WorksheetAction2ImpTest {
         val n: GridSlider = actions.computeSliderSize(
             o, DpSize(width = 100.dp, height = 200.dp),
             anchorCell = CellAddress(3, 2),
-            colWidthGetter = { 30 },
-            rowHeightGetter = { 20 }
+            colWidthGetter = { 30.dp },
+            rowHeightGetter = { 20.dp }
         )
         assertEquals(3 .. 6, n.visibleColRange)
         assertEquals(2 .. 11, n.visibleRowRange)
@@ -100,8 +100,8 @@ internal class WorksheetAction2ImpTest {
         val n2: GridSlider = actions.computeSliderSize(
             o, DpSize(width = 100.dp, height = 200.dp),
             anchorCell = CellAddress(3, 2),
-            colWidthGetter = { 30 },
-            rowHeightGetter = { 30 }
+            colWidthGetter = { 30.dp },
+            rowHeightGetter = { 30.dp }
         )
         assertEquals(3 .. 6, n2.visibleColRange)
         assertEquals(2 .. 8, n2.visibleRowRange)

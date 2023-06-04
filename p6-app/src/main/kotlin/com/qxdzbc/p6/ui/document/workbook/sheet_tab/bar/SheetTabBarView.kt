@@ -34,8 +34,8 @@ fun SheetTabBarView(
                     itemContent={tabState->
                         MBox(modifier = Modifier
                             .align(Alignment.Bottom)
-                            .requiredWidthIn(P6R.size.value.minTabWidth.dp, P6R.size.value.maxTabWidth.dp)
-                            .height(P6R.size.value.tabHeight.dp)
+                            .requiredWidthIn(P6R.size.value.minTabWidth, P6R.size.value.maxTabWidth)
+                            .height(P6R.size.value.tabHeight)
                         ) {
                             SheetTabView(state=tabState, onClick = onItemClick,
                                 onRename = onRename, onDelete = onDelete,

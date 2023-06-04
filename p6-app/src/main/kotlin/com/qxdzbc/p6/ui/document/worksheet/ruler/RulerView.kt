@@ -11,14 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.build.DebugFunctions.debug
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
+import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
@@ -30,7 +32,7 @@ import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 fun RulerView(
     state: RulerState,
     rulerAction: RulerAction,
-    size: Int,
+    size: Dp,
     rulerModifier: Modifier = Modifier,
 ) {
     val dimen = state.type
@@ -39,6 +41,7 @@ fun RulerView(
 //    Loggers.renderLogger.debug("render ruler")
     val firstIndex: Int = itemIndexRange.first
     val lastIndex: Int = itemIndexRange.last
+    val density = LocalDensity.current
     Surface(color = MaterialTheme.colors.primaryVariant,
         modifier = Modifier
             .onGloballyPositioned {
@@ -70,8 +73,8 @@ fun RulerView(
                     for (itemIndex in firstIndex..lastIndex) {
                         val bs = if (itemIndex != lastIndex) BorderStyle.BOT_RIGHT else BorderStyle.RIGHT
                         val itemSize = DpSize(
-                            width = size.dp,
-                            height = state.getItemSizeOrDefault(itemIndex).dp
+                            width = size,
+                            height = state.getItemSizeOrDefault(itemIndex)
                         )
                         BorderBox(
                             style = bs,
@@ -101,7 +104,7 @@ fun RulerView(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .height(P6R.size.value.resizerThickness.dp)
+                                .height(P6R.size.value.resizerThickness)
                                 .fillMaxWidth()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomStart)
@@ -133,7 +136,7 @@ fun RulerView(
                                 }
                                 .onPointerEvent(PointerEventType.Release) {
                                     it.executeOnReleaseThenConsumed {
-                                        rulerAction.finishRowResizing(itemIndex,state)
+                                        rulerAction.finishRowResizing(itemIndex,state, FloatToDpConverter(density))
                                     }
                                 }
                             )
@@ -152,8 +155,8 @@ fun RulerView(
                     for (itemIndex in firstIndex..lastIndex) {
                         val bs = if (itemIndex != lastIndex) BorderStyle.BOT_RIGHT else BorderStyle.BOT
                         val itemSize = DpSize(
-                            width = state.getItemSizeOrDefault(itemIndex).dp,
-                            height = size.dp
+                            width = state.getItemSizeOrDefault(itemIndex),
+                            height = size,
                         )
                         BorderBox(
                             style = bs,
@@ -182,7 +185,7 @@ fun RulerView(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .width(P6R.size.value.resizerThickness.dp)
+                                .width(P6R.size.value.resizerThickness)
                                 .fillMaxHeight()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomEnd)
@@ -211,7 +214,7 @@ fun RulerView(
                                     }
                                 }
                                 .onPointerEvent(PointerEventType.Release) {
-                                    rulerAction.finishColResizing(itemIndex,state)
+                                    rulerAction.finishColResizing(itemIndex,state, FloatToDpConverter(density))
                                 }
                             )
                         }

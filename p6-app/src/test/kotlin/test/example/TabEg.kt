@@ -50,7 +50,7 @@ fun main() {
                     modifier = Modifier
                         .background(
                             Color.White
-                        ).requiredWidthIn(P6R.size.value.minTabWidth.dp, P6R.size.value.maxTabWidth.dp),
+                        ).requiredWidthIn(P6R.size.value.minTabWidth, P6R.size.value.maxTabWidth),
                     selected = selected,
                     onClick = { selectedIndex = index },
                 ) {

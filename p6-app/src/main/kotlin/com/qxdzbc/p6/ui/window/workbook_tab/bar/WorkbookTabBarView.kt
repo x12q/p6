@@ -32,10 +32,10 @@ fun WorkbookTabBarView(
                         MBox(
                             modifier = Modifier
                                 .requiredWidthIn(
-                                    P6R.size.value.minWorkbookTabWidth.dp,
-                                    P6R.size.value.maxWorkbookTabWidth.dp
+                                    P6R.size.value.minWorkbookTabWidth,
+                                    P6R.size.value.maxWorkbookTabWidth
                                 )
-                                .height(P6R.size.value.tabHeight.dp)
+                                .height(P6R.size.value.tabHeight)
                         ) {
                             WorkbookTabView(
                                 tabState,
@@ -58,8 +58,8 @@ fun WorkbookTabBarView(
             BorderBox(
                 style = BorderStyle.LEFT_RIGHT,
                 modifier = Modifier
-                    .width(P6R.size.value.tabHeight.dp)
-                    .height(P6R.size.value.tabHeight.dp)
+                    .width(P6R.size.value.tabHeight)
+                    .height(P6R.size.value.tabHeight)
                     .align(Alignment.Bottom)
                     .clickable { action.createNewWb(state.windowId) }
             ) {

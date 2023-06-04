@@ -46,7 +46,7 @@ object Tabs {
                     text = text,
                     modifier = Modifier
                         .padding(end = 5.dp)
-                        .requiredWidthIn(P6R.size.value.minTabWidth2.dp - 43.dp, P6R.size.value.maxTabWidth.dp - 43.dp),
+                        .requiredWidthIn(P6R.size.value.minTabWidth2 - 43.dp, P6R.size.value.maxTabWidth - 43.dp),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -118,7 +118,7 @@ object Tabs {
                 boolValue = isSelected,
                 modifier = modifier
                     .fillMaxHeight()
-                    .requiredWidthIn(P6R.size.value.minTabWidth2.dp, P6R.size.value.maxTabWidth.dp)
+                    .requiredWidthIn(P6R.size.value.minTabWidth2, P6R.size.value.maxTabWidth)
                     .selectable(
                         selected = isSelected,
                         onClick = onClick
@@ -128,7 +128,7 @@ object Tabs {
                     style = BorderStyle.RIGHT,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .requiredWidthIn(P6R.size.value.minTabWidth2.dp, P6R.size.value.maxTabWidth.dp)
+                        .requiredWidthIn(P6R.size.value.minTabWidth2, P6R.size.value.maxTabWidth)
                 ) {
                     content(this@BorderBox)
                 }

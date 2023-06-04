@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.ruler
 
 import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -32,17 +33,18 @@ interface RulerState: WbWsSt,RulerSig {
     fun addItemLayout(itemIndex: Int, layoutCoordinates: LayoutCoorWrapper): RulerState
     fun clearItemLayoutCoorsMap(): RulerState
 
-    val defaultItemSize:Int
+    val defaultItemSize: Dp
 
     /**
      * Width or height of items in this ruler state.
      * If this ruler state server a column ruler, this map contains the items' height.
      * If this ruler state server a row ruler, this map contains the items' width.
      */
-    val itemSizeMap:Map<Int,Int>
-    fun changeItemSize(itemIndex: Int, diff:Float): RulerState
-    fun setItemSize(itemIndex: Int, size:Int):RulerState
-    fun setMultiItemSize(itemMap:Map<Int,Int>):RulerState
-    fun getItemSizeOrDefault(itemIndex: Int):Int
+    val itemSizeMap: Map<Int, Dp>
+//    fun changeItemSize(itemIndex: Int, diff:Float): RulerState
+    fun getItemSizeOrDefault(itemIndex: Int): Dp
     fun removeItemSize(itemIndex: Int):RulerState
+
+    fun setMultiItemSize(itemMap: Map<Int, Dp>): RulerState
+    fun setItemSize(itemIndex: Int, size: Dp): RulerState
 }
