@@ -26,7 +26,14 @@ class DummyLayoutCoorWrapper(
     override val pixelSize: IntSize? = _size
 
     override fun dbSize(density: Density): DpSize? {
-        return _size?.toDpSize()
+        return with(density){
+            _size?.let{
+                DpSize(
+                    it.width.toDp(),
+                    it.height.toDp()
+                )
+            }
+        }
     }
 
     override fun dbSizeOrZero(density: Density): DpSize {

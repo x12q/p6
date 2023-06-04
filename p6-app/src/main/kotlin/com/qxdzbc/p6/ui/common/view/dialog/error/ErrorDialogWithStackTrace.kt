@@ -55,7 +55,7 @@ fun ErrorDialogWithStackTrace(
                     style = BorderStyle.NONE.debugAll(),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(state.messageMaxHeight.dp)
+                        .height(state.messageMaxHeight)
                 ) {
                     val ss = rememberScrollState(0)
                     Text(
@@ -93,7 +93,7 @@ fun ErrorDialogWithStackTrace(
                     BorderBox(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(state.stackTraceMaxHeight.dp)
+                            .height(state.stackTraceMaxHeight)
                     ) {
                         Column(modifier = Modifier.padding(5.dp)) {
                             MBox(modifier = Modifier.fillMaxWidth()) {
