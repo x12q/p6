@@ -6,24 +6,40 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.view.MBox
 
+/**
+ * A rectangular drawn
+ */
 @Composable
 fun SelectRect(
     state: SelectRectState,
     position:Offset
 ) {
     val selectionRect = state.rect
+    val density = LocalDensity.current
     if (state.isShow) {
         MBox(
             modifier = Modifier
                 .size(
-                    height = selectionRect.height.dp,
-                    width = selectionRect.width.dp
+                    height = with(density){
+                        selectionRect.height.toDp()
+                    },
+                    width=with(density){
+                        selectionRect.width.toDp()
+                    }
                 )
-                .offset(x = position.x.dp, y = position.y.dp)
+                .offset(
+                    x= with(density){
+                        position.x.toDp()
+                    },
+                    y=with(density){
+                        position.y.toDp()
+                    }
+                )
                 .border(3.dp, P6R.color.dBlack)
         )
     }
