@@ -13,7 +13,7 @@ interface P6KeyEvent : MKeyEvent {
         }
     }
     /**
-     * A key is accepted by a range selector when it is either a range selector nav key or a range selector non-nav key.
+     * A key is accepted by a range selector when it is either a range selector nav key or a range selector non-reactive key.
      */
     fun isAcceptedByRangeSelector():Boolean
 
@@ -34,7 +34,7 @@ interface P6KeyEvent : MKeyEvent {
      *  - shift
      *  - alt
      */
-    fun isRangeSelectorNonNavKey():Boolean
+    fun isRangeSelectorNonReactiveKey():Boolean
 
     /**
      * is this key event a textual key event. A textual key event denotes:

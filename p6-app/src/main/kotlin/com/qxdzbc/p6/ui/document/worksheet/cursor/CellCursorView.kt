@@ -26,7 +26,7 @@ import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.app.cell_editor.CellEditorView
+import com.qxdzbc.p6.ui.app.cell_editor.CellEditor
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
@@ -95,7 +95,7 @@ fun CursorView(
 
         MBox(modifier = Modifier.offset { editorOffset }) {
             val editorSize = state.cellEditorState.targetCell?.let { cellLayoutCoorsMap[it] }?.dbSizeOrZero(density) ?: DpSize(0.dp,0.dp)
-            CellEditorView(
+            CellEditor(
                 state = state.cellEditorState,
                 action = action.cellEditorAction,
                 focusState = focusState,

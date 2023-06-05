@@ -11,7 +11,7 @@ import com.qxdzbc.common.compose.key_event.AbsMKeyEvent
 
 abstract class AbsP6KeyEvent : AbsMKeyEvent(), P6KeyEvent {
     override fun isAcceptedByRangeSelector(): Boolean {
-        return this.isRangeSelectorNonNavKey() || this.isRangeSelectorNavKey()
+        return this.isRangeSelectorNonReactiveKey() || this.isRangeSelectorNavKey()
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
@@ -28,7 +28,7 @@ abstract class AbsP6KeyEvent : AbsMKeyEvent(), P6KeyEvent {
         return false
     }
 
-    override fun isRangeSelectorNonNavKey(): Boolean {
+    override fun isRangeSelectorNonReactiveKey(): Boolean {
         if (this.key.isSingleModifier()) {
             return true
         }

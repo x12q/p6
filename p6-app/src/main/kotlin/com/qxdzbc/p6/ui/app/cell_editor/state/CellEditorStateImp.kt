@@ -131,7 +131,7 @@ data class CellEditorStateImp constructor(
 
     override val allowRangeSelector: Boolean
         get() {
-            return this.rangeSelectorAllowState.isAllow()
+            return this.rangeSelectorAllowState.isAllowed()
         }
 
     override val isOpen: Boolean by isOpenMs
@@ -199,7 +199,7 @@ data class CellEditorStateImp constructor(
         val isTextCursorChanged =
             oldTf.text == newTextField.text && oldTf.selection != newTextField.selection
         val newRSAState = if (isTextCursorChanged) {
-            this.rangeSelectorAllowState.transitWithMovingCursor(
+            this.rangeSelectorAllowState.transitWithMovingCellCursor(
                 text = newTextField.text,
                 selection = newTextField.selection,
             )
@@ -213,7 +213,7 @@ data class CellEditorStateImp constructor(
             )
         }
 
-        val ces1 = if (newRSAState.isAllow()) {
+        val ces1 = if (newRSAState.isAllowed()) {
             this.setRangeSelectorTextField(newTextField)
         } else {
             this
@@ -256,7 +256,7 @@ data class CellEditorStateImp constructor(
             RangeSelectorAllowState.START
         }
 
-        val rt = if (rsaState.isAllow()) {
+        val rt = if (rsaState.isAllowed()) {
             //x: set range selector text base on the new rsa state
             //x: this happens when the formula is errors and has a trailing activation char
             this.setRangeSelectorTextField(this.currentTextField)

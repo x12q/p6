@@ -47,7 +47,7 @@ class ClickOnCellActionImp @Inject constructor(
                 .removeMainRange()
                 .removeAllSelectedFragRange()
                 .removeAllFragmentedCells()
-            val rangeSelectorIsActivated:Boolean = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllow()
+            val rangeSelectorIsActivated:Boolean = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllowed()
             if (rangeSelectorIsActivated) {
                 editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
                 updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()

@@ -51,8 +51,8 @@ data class MockP6KeyEvent @OptIn(ExperimentalComposeUiApi::class) constructor(
         return isRangeSelectorNavKey ?: super.isRangeSelectorNavKey()
     }
 
-    override fun isRangeSelectorNonNavKey(): Boolean {
-        return isRangeSelectorNonNavKey ?: super.isRangeSelectorNonNavKey()
+    override fun isRangeSelectorNonReactiveKey(): Boolean {
+        return isRangeSelectorNonNavKey ?: super.isRangeSelectorNonReactiveKey()
     }
 
     override val isLeftParentheses: Boolean
