@@ -234,10 +234,10 @@ class CellEditorActionImp @Inject constructor(
      */
     fun handleOtherKey(keyEvent: P6KeyEvent):Boolean{
         if (editorState.rangeSelectorAllowState == RangeSelectorAllowState.ALLOW) {
-            if (keyEvent.isAcceptedByRangeSelector()) {
+            if (keyEvent.canBeConsumedByRangeSelector()) {
                 val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorCursorId)
-                if (keyEvent.isRangeSelectorNavKey()) {
-                    // x: generate range selector text
+                if (keyEvent.canMoveRangeSelector()) {
+                    // x: range selector was moved, so generate a new range selector text
                     val rsText = makeDisplayText
                         .makeRangeSelectorText(stateCont.cellEditorState)
                     // x: update range selector text
@@ -248,7 +248,7 @@ class CellEditorActionImp @Inject constructor(
                 }
                 return rt
             } else {
-                editorStateMs.value = editorState.stopGettingRangeAddress()
+                editorStateMs.value = editorState.completeGettingRangeAddress()
                 return false
             }
         } else {

@@ -10,12 +10,12 @@ import com.qxdzbc.common.compose.KeyUtils.isSingleModifier
 import com.qxdzbc.common.compose.key_event.AbsMKeyEvent
 
 abstract class AbsP6KeyEvent : AbsMKeyEvent(), P6KeyEvent {
-    override fun isAcceptedByRangeSelector(): Boolean {
-        return this.isRangeSelectorNonReactiveKey() || this.isRangeSelectorNavKey()
+    override fun canBeConsumedByRangeSelector(): Boolean {
+        return this.isRangeSelectorNonReactiveKey() || this.canMoveRangeSelector()
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    override fun isRangeSelectorNavKey(): Boolean {
+    override fun canMoveRangeSelector(): Boolean {
         if (this.key.isArrowKey()) {
             return true
         }

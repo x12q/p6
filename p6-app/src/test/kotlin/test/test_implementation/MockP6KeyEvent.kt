@@ -43,12 +43,12 @@ data class MockP6KeyEvent @OptIn(ExperimentalComposeUiApi::class) constructor(
 
     override val keyEvent: KeyEvent get() = throw UnsupportedOperationException("mock key event does support getting the real key event")
 
-    override fun isAcceptedByRangeSelector(): Boolean {
-        return isAcceptedByRangeSelector ?: super.isAcceptedByRangeSelector()
+    override fun canBeConsumedByRangeSelector(): Boolean {
+        return isAcceptedByRangeSelector ?: super.canBeConsumedByRangeSelector()
     }
 
-    override fun isRangeSelectorNavKey(): Boolean {
-        return isRangeSelectorNavKey ?: super.isRangeSelectorNavKey()
+    override fun canMoveRangeSelector(): Boolean {
+        return isRangeSelectorNavKey ?: super.canMoveRangeSelector()
     }
 
     override fun isRangeSelectorNonReactiveKey(): Boolean {

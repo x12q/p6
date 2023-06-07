@@ -13,9 +13,9 @@ interface P6KeyEvent : MKeyEvent {
         }
     }
     /**
-     * A key is accepted by a range selector when it is either a range selector nav key or a range selector non-reactive key.
+     * A key can be consumed by a range selector when it is either a range selector nav key or a range selector non-reactive key.
      */
-    fun isAcceptedByRangeSelector():Boolean
+    fun canBeConsumedByRangeSelector():Boolean
 
     /**
      * if a key is a navigation key that can change the position of a range selector. Including:
@@ -26,7 +26,7 @@ interface P6KeyEvent : MKeyEvent {
      *  - home key
      *  - end key
      */
-    fun isRangeSelectorNavKey():Boolean
+    fun canMoveRangeSelector():Boolean
 
     /**
      * is a key a non-navigation key that does not change a range selector activation status. That means I can press these keys as much as I want and the range selector will not react. Including:
