@@ -20,7 +20,7 @@ interface CellEditorAction : MakeCellEditorTextAction, OpenCellEditorAction, Cyc
 
     /**
      * **For testing only.**
-     * Be careful when using this function. It directly updates the text content and may erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [changeText] in the app.
+     * Be careful when using this function. It directly updates the text content and may erase all the text formats. Should be used for testing only. Even so, be extra careful when use this in tests. Use [changeText] in the app.
      */
     fun changeText(newText: String)
 

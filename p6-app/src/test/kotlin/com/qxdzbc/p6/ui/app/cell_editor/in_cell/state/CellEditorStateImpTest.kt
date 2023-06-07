@@ -50,7 +50,7 @@ class CellEditorStateImpTest {
         assertEquals("=", s2.currentText)
         assertEquals("=A1", s2.rangeSelectorTextField?.text)
 
-        val s3 = s2.stopGettingRangeAddress()
+        val s3 = s2.completeGettingRangeAddress()
         assertFalse(s3.allowRangeSelector)
         assertEquals("=A1", s3.currentText)
         assertNull(s3.rangeSelectorTextField)

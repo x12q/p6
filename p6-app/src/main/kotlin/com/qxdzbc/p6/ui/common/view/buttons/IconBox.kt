@@ -9,18 +9,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 
 @Composable
 fun IconBox(
     icon: ImageVector,
-    iconSize: Int = 20,
+    iconSize: Dp = 20.dp,
     tint: Color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
     modifier: Modifier = Modifier,
     ) {
     MBox(
-        modifier = modifier.size(iconSize.dp)
+        modifier = modifier.size(iconSize)
     ) {
         Icon(
             imageVector = icon,

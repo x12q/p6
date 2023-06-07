@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -24,8 +25,8 @@ interface ThumbState {
 
     val isShowingSelectedRange:Boolean
 
-    val selectedRangeSizeOrZero:DpSize
-    val selectedRangeSize:DpSize?
+    val selectedRangeSizeOrZero:Size
+    val selectedRangeSize:Size?
     val selectedRangeWindowOffsetOrZero:Offset
     val selectedRangeWindowOffset:Offset?
 

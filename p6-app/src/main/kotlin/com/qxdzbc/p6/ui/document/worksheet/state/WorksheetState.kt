@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.state
 
 import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -139,35 +140,35 @@ interface WorksheetState : WbWsSt {
     val firstRow: Int get() = rowRange.first
     val lastRow: Int get() = rowRange.last
 
-    val defaultColWidth: Int
+    val defaultColWidth: Dp
 
 
-    val columnWidthMap:Map<Int,Int>
+    val columnWidthMap: Map<Int, Dp>
 
     /**
      * @return column width or null if it is not available
      */
-    fun getColumnWidth(colIndex: Int): Int?
+    fun getColumnWidth(colIndex: Int): Dp?
 
     /**
      * @return column width if it is available, otherwise return a default value.
      */
-    fun getColumnWidthOrDefault(colIndex: Int): Int
-    fun addColumnWidth(colIndex: Int, colWidth: Int): WorksheetState
+    fun getColumnWidthOrDefault(colIndex: Int): Dp
+    fun addColumnWidth(colIndex: Int, colWidth: Dp): WorksheetState
     fun restoreColumnWidthToDefault(colIndex: Int): WorksheetState
-    fun changeColWidth(colIndex: Int, sizeDiff: Int): WorksheetState
+    fun changeColWidth(colIndex: Int, sizeDiff: Dp): WorksheetState
 
-    val rowHeightMap:Map<Int,Int>
-    val defaultRowHeight: Int
-    fun getRowHeight(rowIndex: Int): Int?
-    fun getRowHeightOrDefault(rowIndex: Int): Int
-    fun addRowHeight(rowIndex: Int, rowHeight: Int): WorksheetState
+    val rowHeightMap: Map<Int, Dp>
+    val defaultRowHeight: Dp
+    fun getRowHeight(rowIndex: Int): Dp?
+    fun getRowHeightOrDefault(rowIndex: Int): Dp
+    fun addRowHeight(rowIndex: Int, rowHeight: Dp): WorksheetState
     fun restoreRowHeightToDefault(rowIndex: Int): WorksheetState
 
     /**
      * change size of the row at [rowIndex] by adding [sizeDiff] to the current size
      */
-    fun changeRowHeight(rowIndex: Int, sizeDiff: Int): WorksheetState
+    fun changeRowHeight(rowIndex: Int, sizeDiff: Dp): WorksheetState
 
     val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>
     val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> get() = cellLayoutCoorMapMs.value

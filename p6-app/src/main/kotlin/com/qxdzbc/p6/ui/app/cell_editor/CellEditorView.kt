@@ -6,7 +6,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
@@ -24,16 +23,16 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
  * Note: the editor should be white, has a border identical to cursor border
  */
 @Composable
-fun CellEditorView(
+fun CellEditor(
     state: CellEditorState,
     action: CellEditorAction,
     focusState:CursorFocusState,
     size: DpSize = DpSize(400.dp,50.dp),
     modifier: Modifier = Modifier
 ) {
-    LaunchedEffect(Unit){
-        action.focusOnCellEditor()
-    }
+//    LaunchedEffect(Unit){
+//        action.focusOnCellEditor()
+//    }
     LaunchedEffect(focusState.isEditorFocused) {
         if(focusState.isEditorFocused){
             action.focusOnCellEditor()

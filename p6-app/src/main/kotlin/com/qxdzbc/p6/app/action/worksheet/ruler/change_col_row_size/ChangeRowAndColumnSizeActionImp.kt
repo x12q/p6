@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size
 
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.BaseCommand
@@ -19,7 +20,7 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
 
     private val sc by stateContSt
 
-    fun makeCommandToChageColWidth(colIndex: Int, sizeDiff: Int, wbwsSt: WbWsSt): Command {
+    fun makeCommandToChageColWidth(colIndex: Int, sizeDiff: Dp, wbwsSt: WbWsSt): Command {
         val command = object : BaseCommand() {
             val _wbwsSt = wbwsSt
             val _sizeDiff = sizeDiff
@@ -45,7 +46,7 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
         return command
     }
 
-    override fun changeColWidth(colIndex: Int, sizeDiff: Int, wbwsSt: WbWsSt, undoable: Boolean) {
+    override fun changeColWidth(colIndex: Int, sizeDiff: Dp, wbwsSt: WbWsSt, undoable: Boolean) {
         if(undoable){
             sc.getUndoStackMs(wbwsSt)?.also {
                 val command = makeCommandToChageColWidth(colIndex, sizeDiff, wbwsSt)
@@ -57,7 +58,7 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
         }
     }
 
-    fun makeCommandToChangeRowHeight(rowIndex: Int, sizeDiff: Int, wbwsSt: WbWsSt): Command {
+    fun makeCommandToChangeRowHeight(rowIndex: Int, sizeDiff: Dp, wbwsSt: WbWsSt): Command {
         val command = object : BaseCommand() {
             val _wbwsSt = wbwsSt
             val _sizeDiff = sizeDiff
@@ -83,7 +84,7 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
         return command
     }
 
-    override fun changeRowHeight(rowIndex: Int, sizeDiff: Int, wbwsSt: WbWsSt, undoable: Boolean) {
+    override fun changeRowHeight(rowIndex: Int, sizeDiff: Dp, wbwsSt: WbWsSt, undoable: Boolean) {
         if(undoable){
             sc.getUndoStackMs(wbwsSt)?.also {
                 val command = makeCommandToChangeRowHeight(rowIndex, sizeDiff, wbwsSt)

@@ -1,11 +1,12 @@
 package com.qxdzbc.p6.ui.document.worksheet.resize_bar
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.Dp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 
 interface ResizeBarState {
-    val size:Int
-    val selectableAreaWidth:Int
+    val size: Dp
+    val selectableAreaWidth: Dp
     val isShowThumb:Boolean
     fun showThumb():ResizeBarState
     fun hideThumb():ResizeBarState
@@ -19,9 +20,9 @@ interface ResizeBarState {
     fun activate():ResizeBarState
     fun deactivate():ResizeBarState
 
-    val anchorPoint:Offset
-    val thickness: Int
-    val position:Offset
+    val anchorPointOffset:Offset
+    val thickness: Dp
+    val offset:Offset
     val dimen:RulerType
     fun changePosition(newPosition:Offset):ResizeBarState
 

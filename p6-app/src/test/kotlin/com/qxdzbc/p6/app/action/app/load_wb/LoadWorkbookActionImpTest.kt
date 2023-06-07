@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.action.app.load_wb
 
+import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.path.PPath
@@ -78,8 +79,13 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
             }
             ts.sc.getWindowStateByWbKey(wb.key)!!.activeWbPointer.isPointingTo(wb).shouldBeTrue()
 
-            ts.sc.getWsState(wb.key, wb.getWs(0)!!.name)!!.columnWidthMap.shouldContainExactly(colWidthMapByWsName.values.first())
-            ts.sc.getWsState(wb.key, wb.getWs(0)!!.name)!!.rowHeightMap.shouldContainExactly(rowHeightMapByWsName.values.first())
+
+            ts.sc.getWsState(wb.key, wb.getWs(0)!!.name)!!.columnWidthMap shouldContainExactly colWidthMapByWsName.values.first().mapValues {
+                it.value.dp
+            }
+            ts.sc.getWsState(wb.key, wb.getWs(0)!!.name)!!.rowHeightMap shouldContainExactly rowHeightMapByWsName.values.first().mapValues {
+                it.value.dp
+            }
         }
     }
 

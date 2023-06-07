@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.view.MBox
@@ -38,15 +39,15 @@ fun CellGridView(
     wsState: WorksheetState,
     wsActions: WorksheetAction,
     modifier: Modifier = Modifier,
-    enableTestTag: Boolean = false,
 ) {
     val slider by wsState.sliderMs
+   val density = LocalDensity.current
     MBox(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned {
                 wsActions.updateCellGridLayoutCoors(it, wsState)
-                wsActions.computeSliderSize(wsState)
+                wsActions.computeSliderSize(wsState,density)
             }
             .onPointerEvent(PointerEventType.Press) {
                 if (it.buttons.isPrimaryPressed && it.keyboardModifiers.isNonePressed) {
@@ -126,7 +127,7 @@ fun CellGridView(
                             borderColor = Color.LightGray,
                             padContent = false,
                             modifier = Modifier
-                                .size(colWidth.dp, rowHeight.dp)
+                                .size(colWidth, rowHeight)
                                 .onGloballyPositioned {
                                     wsActions.addCellLayoutCoor(cellAddress, it, wsState)
                                 }

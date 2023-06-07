@@ -3,6 +3,7 @@ package test.example
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -14,15 +15,15 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
+import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
@@ -44,15 +45,16 @@ fun main() {
                 modifier = Modifier.size(10.dp).offset {
                     val l = lc
                     if (l != null && l.isAttached) {
-                        l.windowToLocal(currentMousePos ?: Offset(0F, 0F)).toIntOffset()
+                        l.windowToLocal(currentMousePos ?: Offset(0F, 0F)).rawConvertToIntOffset()
                     } else {
                         IntOffset(0, 0)
                     }
                 }.background(Color.Blue)
             )
+            val density = LocalDensity.current
 
             Column {
-                BasicText("Anchor mouse: ${anchorMousePos ?: ""}")
+                Text("Anchor mouse: ${anchorMousePos ?: ""}")
                 BasicText("current mouse: ${currentMousePos ?: ""}")
                 BasicText("anchor width :${anchorWidth}")
                 BasicText("width :${width}")
@@ -85,7 +87,9 @@ fun main() {
                                     val a = anchorMousePos
                                     val c = currentMousePos
                                     if (a != null && c != null) {
-                                        width = anchorWidth + (c.x - a.x).roundToInt().dp
+                                        width  = with(density){
+                                            anchorWidth + (c.x - a.x).toDp()
+                                        }
                                     }
                                 }
 

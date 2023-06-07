@@ -8,6 +8,8 @@ interface HandleKeyboardEventOnCellEditorAction{
      *  - Enter key = run the formula instead of inserting new lines
      *  - Alt+Enter = insert new line
      *  - Escape key = close the cell editor
+     *  - F4 = cycle formula lock state
+     *  - handle text input to turn the range selector on/off
      *  - pass key event to range selector if possible
      */
     fun handleKeyboardEvent(keyEvent: P6KeyEvent): Boolean

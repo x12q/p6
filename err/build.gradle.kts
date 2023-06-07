@@ -33,7 +33,6 @@ kotlin{
 }
 
 dependencies{
-    implementation("com.michael-bull.kotlin-result:kotlin-result-jvm:1.1.12")
 }
 publishing {
     publications {

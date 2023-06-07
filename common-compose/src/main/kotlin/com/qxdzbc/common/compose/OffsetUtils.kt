@@ -6,7 +6,7 @@ object OffsetUtils{
     fun Offset.negate(): Offset {
         return Offset(-this.x,-this.y)
     }
-    fun Offset.toIntOffset(): IntOffset {
+    fun Offset.rawConvertToIntOffset(): IntOffset {
         return IntOffset(this.x.toInt(), this.y.toInt())
     }
 

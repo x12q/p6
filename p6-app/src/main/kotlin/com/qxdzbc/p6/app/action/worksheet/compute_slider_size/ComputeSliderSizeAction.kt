@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.compute_slider_size
 
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -9,12 +11,12 @@ interface ComputeSliderSizeAction {
     /**
      * Compute the slider from the currently available space
      */
-    fun computeSliderSize(wsLoc: WbWsSt)
+    fun computeSliderSize(wsLoc: WbWsSt,density:Density)
     fun computeSliderSize(
         oldGridSlider: GridSlider,
-        availableSize: DpSize,
+        sizeConstraint: DpSize,
         anchorCell: CellAddress,
-        colWidthGetter: (colIndex: Int) -> Int,
-        rowHeightGetter: (rowIndex: Int) -> Int
+        colWidthGetter: (colIndex: Int) -> Dp,
+        rowHeightGetter: (rowIndex: Int) -> Dp
     ): GridSlider
 }

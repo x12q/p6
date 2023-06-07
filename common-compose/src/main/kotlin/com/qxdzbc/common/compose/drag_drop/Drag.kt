@@ -12,7 +12,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.OffsetUtils.toIntOffset
+import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
 
@@ -42,7 +42,7 @@ fun Drag(
                 if (state.isDragging && identifier == state.currentDrag) {
                     IntOffset(offsetX.toInt(), offsetY.toInt())
                 } else {
-                    Offset.Zero.toIntOffset()
+                    Offset.Zero.rawConvertToIntOffset()
                 }
             }
             .pointerInput(Unit) {

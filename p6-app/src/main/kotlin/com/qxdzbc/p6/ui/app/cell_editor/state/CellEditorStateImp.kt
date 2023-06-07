@@ -35,7 +35,7 @@ data class CellEditorStateImp constructor(
     val rangeSelectorParseTreeMs: Ms<ParseTree?> = ms(null),
     val treeExtractor: TreeExtractor,
     override val currentTextElementResult: TextElementResult? = null,
-    override val rangeSelectorTextElementResult: TextElementResult? =null,
+    override val rangeSelectorTextElementResult: TextElementResult? = null,
     val visitor: FormulaBaseVisitor<TextElementResult>,
 ) : CellEditorState {
 
@@ -64,13 +64,14 @@ data class CellEditorStateImp constructor(
         }
     }
 
-    override val displayTextElementResult: TextElementResult? get(){
-        if(this.isOpen && this.allowRangeSelector){
-            return this.rangeSelectorTextElementResult
-        }else{
-            return this.currentTextElementResult
+    override val displayTextElementResult: TextElementResult?
+        get() {
+            if (this.isOpen && this.allowRangeSelector) {
+                return this.rangeSelectorTextElementResult
+            } else {
+                return this.currentTextElementResult
+            }
         }
-    }
 
     override val currentParseTree: ParseTree? get() = currentParseTreeMs.value
     private fun setCurrentParseTree(i: ParseTree?): CellEditorStateImp {
@@ -116,7 +117,8 @@ data class CellEditorStateImp constructor(
             .setCurrentParseTree(null)
             .setRangeSelectorParseTree(null)
     }
-    override fun stopGettingRangeAddress(): CellEditorStateImp {
+
+    override fun completeGettingRangeAddress(): CellEditorStateImp {
         val rt = this.moveTextFromRangeSelectorTextToCurrentText()
         return rt
     }
@@ -131,7 +133,7 @@ data class CellEditorStateImp constructor(
 
     override val allowRangeSelector: Boolean
         get() {
-            return this.rangeSelectorAllowState.isAllow()
+            return this.rangeSelectorAllowState.isAllowed()
         }
 
     override val isOpen: Boolean by isOpenMs
@@ -171,16 +173,16 @@ data class CellEditorStateImp constructor(
 
     override fun setRangeSelectorTextField(newTextField: TextFieldValue?): CellEditorStateImp {
         val ces1 = this.copy(rangeSelectorTextField = newTextField)
-        val rt = if(newTextField?.text.isNullOrEmpty()){
+        val rt = if (newTextField?.text.isNullOrEmpty()) {
             ces1.setRangeSelectorParseTree(null).setRangeSelectorTextElementResult(null)
-        }else{
+        } else {
             newTextField?.text?.let {
                 treeExtractor.extractTree(it)
             }?.map {
-                val ces2=ces1.setRangeSelectorParseTree(it)
-                val ces3=visitor.visit(it)?.let {
+                val ces2 = ces1.setRangeSelectorParseTree(it)
+                val ces3 = visitor.visit(it)?.let {
                     ces2.setRangeSelectorTextElementResult(it)
-                }?:ces2
+                } ?: ces2
                 ces3
             }?.component1() ?: ces1
         }
@@ -196,10 +198,14 @@ data class CellEditorStateImp constructor(
 
     override fun setCurrentTextField(newTextField: TextFieldValue): CellEditorStateImp {
         val oldTf = this.currentTextField
-        val isTextCursorChanged =
+
+        // same text, just the text cursor has changed
+        val textCursorHasChanged =
             oldTf.text == newTextField.text && oldTf.selection != newTextField.selection
-        val newRSAState = if (isTextCursorChanged) {
-            this.rangeSelectorAllowState.transitWithMovingCursor(
+
+        // compute new range selector state
+        val newRangeSelectorState: RangeSelectorAllowState = if (textCursorHasChanged) {
+            this.rangeSelectorAllowState.transitByMovingTextCursor(
                 text = newTextField.text,
                 selection = newTextField.selection,
             )
@@ -213,19 +219,20 @@ data class CellEditorStateImp constructor(
             )
         }
 
-        val ces1 = if (newRSAState.isAllow()) {
+        val ces1 = if (newRangeSelectorState.isAllowed()) {
             this.setRangeSelectorTextField(newTextField)
+                .copy(currentTextField = newTextField, rangeSelectorAllowState = newRangeSelectorState)
         } else {
-            this
-        }.copy(currentTextField = newTextField, rangeSelectorAllowState = newRSAState)
-        val rt = if(newTextField.text.isEmpty()){
+            this.copy(currentTextField = newTextField, rangeSelectorAllowState = newRangeSelectorState)
+        }
+        val rt = if (newTextField.text.isEmpty()) {
             ces1.setCurrentParseTree(null).setCurrentTextElementResult(null)
-        }else{
+        } else {
             treeExtractor.extractTree(newTextField.text).map {
-                val ces2=ces1.setCurrentParseTree(it)
-                val ces3 = visitor.visit(it)?.let{
+                val ces2 = ces1.setCurrentParseTree(it)
+                val ces3 = visitor.visit(it)?.let {
                     ces2.setCurrentTextElementResult(it)
-                }?:ces2
+                } ?: ces2
                 ces3
             }.component1() ?: ces1
         }
@@ -256,7 +263,7 @@ data class CellEditorStateImp constructor(
             RangeSelectorAllowState.START
         }
 
-        val rt = if (rsaState.isAllow()) {
+        val rt = if (rsaState.isAllowed()) {
             //x: set range selector text base on the new rsa state
             //x: this happens when the formula is errors and has a trailing activation char
             this.setRangeSelectorTextField(this.currentTextField)
@@ -272,12 +279,13 @@ data class CellEditorStateImp constructor(
 
     override fun close(): CellEditorStateImp {
         isOpenMs.value = false
-        return this.copy(
-            targetCursorIdSt = null,
-            targetCell = null,
-            rangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
-        )
-            .stopGettingRangeAddress()
+        return this
+            .copy(
+                targetCursorIdSt = null,
+                targetCell = null,
+                rangeSelectorAllowState = RangeSelectorAllowState.NOT_AVAILABLE,
+            )
+            .completeGettingRangeAddress()
             .clearAll()
     }
 }

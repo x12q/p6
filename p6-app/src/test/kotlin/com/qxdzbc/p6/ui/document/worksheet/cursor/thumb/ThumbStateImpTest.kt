@@ -3,9 +3,8 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.thumb
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.SizeUtils.toDpSize
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.toSize
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -36,8 +35,8 @@ internal class ThumbStateImpTest {
                         x = w * (c - 1),
                         y = h * (r - 1),
                     )
-                    val size = Size(width = w, height = h)
-                    whenever(it.sizeOrZero) doReturn size.toDpSize()
+                    val intSize = IntSize(width = w.toInt(), height = h.toInt())
+                    whenever(it.pixelSizeOrZero) doReturn intSize
                     /*
                     only cell within col[1->20], row[1->20] are attached and have a valid size and offset
                      */
@@ -46,12 +45,12 @@ internal class ThumbStateImpTest {
                         whenever(it.posInWindowOrZero) doReturn offset
                         whenever(it.boundInWindowOrZero) doReturn Rect(
                             offset = offset,
-                            size = size
+                            size = intSize.toSize()
                         )
                         whenever(it.posInWindow) doReturn offset
                         whenever(it.boundInWindow) doReturn Rect(
                             offset = offset,
-                            size = size
+                            size = intSize.toSize()
                         )
 
                     }else{
@@ -100,8 +99,8 @@ internal class ThumbStateImpTest {
 
         assertEquals(celllayoutMap[c5]?.posInWindowOrZero, s1.selectedRangeWindowOffsetOrZero)
 
-        val height = relCellMap.map { (c, l) -> l.sizeOrZero.height.value }.sum()
-        val expectedSize = DpSize(relCellMap[c5]!!.sizeOrZero.width, height.dp)
+        val height = relCellMap.map { (c, l) -> l.pixelSizeOrZero.height }.sum()
+        val expectedSize = Size(relCellMap[c5]!!.pixelSizeOrZero.width.toFloat(), height.toFloat())
         assertEquals(expectedSize, s1.selectedRangeSizeOrZero)
     }
 
@@ -126,8 +125,8 @@ internal class ThumbStateImpTest {
 
         assertEquals(celllayoutMap[cellC1]?.posInWindowOrZero, s2.selectedRangeWindowOffsetOrZero)
 
-        val height = relCellMap.map { (c, l) -> l.sizeOrZero.height.value }.sum()
-        val expectedSize = DpSize(relCellMap[c5]!!.sizeOrZero.width, height.dp)
+        val height = relCellMap.map { (c, l) -> l.pixelSizeOrZero.height }.sum()
+        val expectedSize = Size(relCellMap[c5]!!.pixelSizeOrZero.width.toFloat(), height.toFloat())
         assertEquals(expectedSize, s2.selectedRangeSizeOrZero)
     }
 
@@ -150,8 +149,8 @@ internal class ThumbStateImpTest {
         assertEquals(cellE5, botCell)
 
         assertEquals(celllayoutMap[c5]?.posInWindowOrZero, s3.selectedRangeWindowOffsetOrZero)
-        val width = relCellMap.map { (c, l) -> l.sizeOrZero.width.value }.sum()
-        val expectedSize = DpSize(width.dp, relCellMap[c5]!!.sizeOrZero.height)
+        val width = relCellMap.map { (c, l) -> l.pixelSizeOrZero.width }.sum()
+        val expectedSize = Size(width.toFloat(), relCellMap[c5]!!.pixelSizeOrZero.height.toFloat())
         assertEquals(expectedSize, s3.selectedRangeSizeOrZero)
 
     }
@@ -176,8 +175,8 @@ internal class ThumbStateImpTest {
         assertEquals(c5, botCell)
 
         assertEquals(celllayoutMap[cellA5]?.posInWindowOrZero, s3.selectedRangeWindowOffsetOrZero)
-        val width = relCellMap.map { (c, l) -> l.sizeOrZero.width.value }.sum()
-        val expectedSize = DpSize(width.dp, relCellMap[c5]!!.sizeOrZero.height)
+        val width = relCellMap.map { (c, l) -> l.pixelSizeOrZero.width }.sum()
+        val expectedSize = Size(width.toFloat(), relCellMap[c5]!!.pixelSizeOrZero.height.toFloat())
         assertEquals(expectedSize, s3.selectedRangeSizeOrZero)
     }
 }

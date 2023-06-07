@@ -68,18 +68,18 @@ object P6R {
         }
 
         object value {
-            val defaultColumnWidth = 90
-            val defaultRowHeight = 26
-            val rowRulerWidth = 50
-            val minTabWidth = 30
-            val minTabWidth2 = 90
-            val maxTabWidth = 150
+            val defaultColumnWidth = 90.dp
+            val defaultRowHeight = 26.dp
+            val rowRulerWidth = 50.dp
+            val minTabWidth = 30.dp
+            val minTabWidth2 = 90.dp
+            val maxTabWidth = 150.dp
 
-            val minWorkbookTabWidth = 30
-            val maxWorkbookTabWidth = 150
-            val tabHeight = 30
-            val defaultCellSize = DpSize(defaultColumnWidth.dp, defaultRowHeight.dp)
-            val defaultResizeCursorThickness = 1
+            val minWorkbookTabWidth = 30.dp
+            val maxWorkbookTabWidth = 150.dp
+            val tabHeight = 30.dp
+            val defaultCellSize = DpSize(defaultColumnWidth, defaultRowHeight)
+            val defaultResizeCursorThickness = 1.dp
             val defaultResizeCursorThumbThickness = defaultResizeCursorThickness * 5
             val resizerThickness = defaultResizeCursorThumbThickness * 2
         }

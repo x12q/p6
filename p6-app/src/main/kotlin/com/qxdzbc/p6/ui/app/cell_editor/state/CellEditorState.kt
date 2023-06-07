@@ -34,10 +34,12 @@ interface CellEditorState {
     /**
      * move [rangeSelectorTextField]'s content to [currentTextField], then nullify [rangeSelectorTextField]
      */
-    fun stopGettingRangeAddress(): CellEditorState
+    fun completeGettingRangeAddress(): CellEditorState
 
     /**
-     * A cell editor allows range selector to be used when the last character of the formula is one of the characters in [com.qxdzbc.p6.ui.app.cell_editor.CellEditorUtils.activationChars]
+     * A cell editor allows range selector to be used when:
+     * - the last character is one of the formula is one of the characters in [RangeSelectorAllowState.rangeSelectorActivationChars]
+     * - such character is input by the user.
      */
     val allowRangeSelector: Boolean
 
@@ -69,7 +71,7 @@ interface CellEditorState {
     val targetWsName: String? get() = targetCursorId?.wsName
 
     /**
-     * Display text field is either:
+     * Display text field is a derivative property, it is either:
      *  - the [currentTextField] if cell editor is opened, but range selector is not running
      *  - or [rangeSelectorTextField] if cell editor is opened & range selector is running
      */
@@ -81,11 +83,11 @@ interface CellEditorState {
     fun setDisplayTextField(newTextField: TextFieldValue):CellEditorState
 
     /**
-     * A temporary text field that stores a temporary text when users are using the cursor at [rangeSelectorCursorId] to select a cell/range. During this selection time, [rangeSelectorTextField] is displayed on the view instead of [currentTextField].
+     * A temporary text field that stores a temporary text when users are using the cursor at [rangeSelectorCursorId] to select a cell/range. During the activation of range selector, [rangeSelectorTextField] is displayed on the view instead of [currentTextField].
      *
      * [rangeSelectorTextField] = [currentTextField] + selected range address.
      *
-     * The content of [rangeSelectorTextField] will be copied into [currentTextField] when the range selector is done with its work, then [rangeSelectorTextField] will be nullified. This is done by function [stopGettingRangeAddress].
+     * The content of [rangeSelectorTextField] will be copied into [currentTextField] when the range selector finishes, then [rangeSelectorTextField] will be nullified. This is done by function [completeGettingRangeAddress].
      */
     val rangeSelectorTextField: TextFieldValue?
     val rangeSelectorText: String?

@@ -6,6 +6,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntSize
 
 /**
  * The purpose of this interface is to provide an easily mock-able abstraction layer,
@@ -14,10 +15,11 @@ import androidx.compose.ui.unit.DpSize
 interface LayoutCoorWrapper {
     val layout: LayoutCoordinates
 
-    val sizeOrZero:DpSize
-    val size:DpSize?
+    val pixelSizeOrZero:IntSize
+    val pixelSize:IntSize?
 
     fun dbSize(density:Density):DpSize?
+    fun dbSizeOrZero(density:Density):DpSize
 
     /**
      * return zero Rect if the current bound is not available

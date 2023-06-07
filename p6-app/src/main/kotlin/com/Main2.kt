@@ -43,7 +43,7 @@ fun main() {
     runBlocking {
         val cs = this
         var p6Comp2: P6Component? = null
-        val coldInit = ColdInit()
+        ColdInit()
         application {
             val appScope = this
             var starting by rms(true)

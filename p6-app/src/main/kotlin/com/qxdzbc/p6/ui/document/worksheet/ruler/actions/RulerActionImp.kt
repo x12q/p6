@@ -6,6 +6,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInWindow
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -116,7 +117,7 @@ class RulerActionImp @Inject constructor(
             val colResizeBar by wsState.colResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
-                val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.position.y)
+                val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.offset.y)
                 wsState.colResizeBarStateMs.value = colResizeBar
                     .changePosition(p)
                     .setAnchor(p)
@@ -132,19 +133,19 @@ class RulerActionImp @Inject constructor(
             if (colResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
                 if (wsLayout != null && wsLayout.isAttached) {
-                    val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.position.y)
+                    val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.offset.y)
                     wsState.colResizeBarStateMs.value = colResizeBar.changePosition(p).showThumb().show()
                 }
             }
         }
     }
 
-    override fun finishColResizing(colIndex: Int, wbwsSt: WbWsSt) {
+    override fun finishColResizing(colIndex: Int, wbwsSt: WbWsSt,converter: FloatToDpConverter) {
         sc.getWsState(wbwsSt)?.also { wsState ->
             val colResizeBar by wsState.colResizeBarStateMs
             if (colResizeBar.isShow) {
-                val sizeDiff = colResizeBar.position.x - colResizeBar.anchorPoint.x
-                this.changeColWidth(colIndex, sizeDiff.toInt(), wbwsSt,true)
+                val sizeDiff = converter.toDp(colResizeBar.offset.x - colResizeBar.anchorPointOffset.x)
+                this.changeColWidth(colIndex, sizeDiff, wbwsSt,true)
                 wsState.colResizeBarStateMs.value = colResizeBar.deactivate().hideThumb().hide()
             }
         }
@@ -180,7 +181,7 @@ class RulerActionImp @Inject constructor(
             val rowResizeBar by wsState.rowResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
-                val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.position.x)
+                val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.offset.x)
                 wsState.rowResizeBarStateMs.value = rowResizeBar
                     .changePosition(p)
                     .setAnchor(p)
@@ -196,19 +197,19 @@ class RulerActionImp @Inject constructor(
             if (rowResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
                 if (wsLayout != null && wsLayout.isAttached) {
-                    val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.position.x)
+                    val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.offset.x)
                     wsState.rowResizeBarStateMs.value = rowResizeBar.changePosition(p).showThumb().show()
                 }
             }
         }
     }
 
-    override fun finishRowResizing(rowIndex: Int, wbwsSt: WbWsSt) {
+    override fun finishRowResizing(rowIndex: Int, wbwsSt: WbWsSt,converter: FloatToDpConverter) {
         sc.getWsState(wbwsSt)?.also { wsState ->
             val rowResizeBar by wsState.rowResizeBarStateMs
             if (rowResizeBar.isShow) {
-                val sizeDiff = rowResizeBar.position.y - rowResizeBar.anchorPoint.y
-                this.changeRowHeight(rowIndex, sizeDiff.toInt(), wbwsSt,true)
+                val sizeDiff = converter.toDp(rowResizeBar.offset.y - rowResizeBar.anchorPointOffset.y)
+                this.changeRowHeight(rowIndex, sizeDiff, wbwsSt,true)
                 wsState.rowResizeBarStateMs.value = rowResizeBar.hide().hideThumb().deactivate()
             }
         }

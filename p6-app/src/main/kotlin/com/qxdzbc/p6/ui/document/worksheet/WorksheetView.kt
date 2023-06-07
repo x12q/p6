@@ -49,7 +49,6 @@ fun WorksheetView(
     Surface(modifier = Modifier.onGloballyPositioned {
         wsActions.updateWsLayoutCoors(it, wsState)
     }) {
-        Loggers.renderLogger.debug("render worksheet view surface")
         MBox {
             Column {
                 Row {
@@ -57,8 +56,8 @@ fun WorksheetView(
                         style = BorderStyle.BOT_RIGHT,
                         modifier = Modifier.size(
                             DpSize(
-                                P6R.size.value.rowRulerWidth.dp,
-                                P6R.size.value.defaultRowHeight.dp
+                                P6R.size.value.rowRulerWidth,
+                                P6R.size.value.defaultRowHeight,
                             )
                         )
                     ) {
@@ -100,7 +99,6 @@ fun WorksheetView(
                                     wsActions.scroll(x, y, wsState)
                                 }
                                 .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
-                            enableTestTag = enableTestTag
                         )
                         MBox {
                             val cursorAction = worksheetActionTable.cursorAction

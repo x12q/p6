@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
@@ -18,27 +19,29 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 fun ResizeBar(
     state: ResizeBarState
 ) {
+    val density = LocalDensity.current
     val barMod = when (state.dimen) {
-        RulerType.Col -> Modifier.width(state.thickness.dp).fillMaxHeight()
-        RulerType.Row -> Modifier.height(state.thickness.dp).fillMaxWidth()
+        RulerType.Col -> Modifier.width(state.thickness).fillMaxHeight()
+        RulerType.Row -> Modifier.height(state.thickness).fillMaxWidth()
     }
         .background(Color.Black)
 
-    val thumbThickness = P6R.size.value.defaultResizeCursorThumbThickness.dp
+    val thumbThickness = P6R.size.value.defaultResizeCursorThumbThickness
 
     val thumbMod = when (state.dimen) {
         RulerType.Col -> {
             Modifier
                 .width(thumbThickness)
                 .height(
-                    state.size.dp
+                    state.size
                 )
         }
+
         RulerType.Row -> {
             Modifier
                 .height(thumbThickness)
                 .width(
-                    state.size.dp
+                    state.size
                 )
 
         }
@@ -56,9 +59,12 @@ fun ResizeBar(
     }
 
     val boxMod = when (state.dimen) {
-        RulerType.Col -> Modifier.width(state.selectableAreaWidth.dp)
-        RulerType.Row -> Modifier.height(state.selectableAreaWidth.dp)
-    }.offset(state.position.x.dp, state.position.y.dp)
+        RulerType.Col -> Modifier.width(state.selectableAreaWidth)
+        RulerType.Row -> Modifier.height(state.selectableAreaWidth)
+    }.offset(
+        with(density) { state.offset.x.toDp() },
+        with(density) { state.offset.y.toDp() }
+    )
 
 
     MBox(modifier = boxMod) {
@@ -79,10 +85,10 @@ fun main() {
             ResizeBar(
                 ResizeBarStateImp(
                     dimen = RulerType.Row,
-                    position = Offset(20F, 20F),
+                    offset = Offset(20F, 20F),
                     isShow = true,
                     isShowThumb = true,
-                    size = 20
+                    size = 20.dp
                 )
             )
         }

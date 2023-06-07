@@ -110,7 +110,7 @@ class CellEditorActionImp @Inject constructor(
                     when the cell editor switches off allow-range-selector flag, if the range-selector cell cursor and target cell cursor are the same, reset the cell cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
                     */
                     val from_Allow_To_Disallow: Boolean =
-                        oldRSAState.isAllow() && ces.rangeSelectorAllowState.isAllow().not()
+                        oldRSAState.isAllowed() && ces.rangeSelectorAllowState.isAllowed().not()
                     if (from_Allow_To_Disallow) {
                         if (ces.rangeSelectorIsSameAsTargetCursor) {
                             ces.targetCursorId?.let { cursorId ->
@@ -173,77 +173,110 @@ class CellEditorActionImp @Inject constructor(
         return rt
     }
 
+    /**
+     * Return false to propagate the key event further.
+     *
+     * Return true to consume the event and prevent further propagation.
+     */
+    fun handleF4():Boolean{
+        cycleFormulaLockState()
+        return true
+    }
+
+    /**
+     * Return false to propagate the key event further.
+     *
+     * Return true to consume the event and prevent further propagation.
+     */
+    fun handleEnter(keyEvent: P6KeyEvent):Boolean{
+        val targetCursorId = editorState.targetCursorId
+        if (keyEvent.isAltPressedAlone) {
+            val newText = editorState.currentTextField
+                .let { ctf ->
+                    ctf.copy(
+                        text = ctf.text + "\n",
+                        selection = TextRange(ctf.selection.end + 1)
+                    )
+                }
+            changeTextField(newText)
+        } else {
+            runFormulaOrSaveValueToCell(true)
+        }
+        // x: move the target cursor 1 row down
+        targetCursorId?.also {
+            stateCont.getCursorStateMs(it)?.also { csMs ->
+                csMs.value = csMs.value.removeAllExceptMainCell().let{cs->
+                    if(keyEvent.isShiftPressedInCombination){
+                        cs.up()
+                    }else{
+                        cs.down()
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    /**
+     * Return false to propagate the key event further.
+     *
+     * Return true to consume the event and prevent further propagation.
+     */
+    fun handleEscape():Boolean{
+        closeEditor()
+        return true
+    }
+
+    /**
+     * Return false to propagate the key event further.
+     *
+     * Return true to consume the event and prevent further propagation.
+     */
+    fun handleOtherKey(keyEvent: P6KeyEvent):Boolean{
+        if (editorState.rangeSelectorAllowState == RangeSelectorAllowState.ALLOW) {
+            if (keyEvent.canBeConsumedByRangeSelector()) {
+                val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorCursorId)
+                if (keyEvent.canMoveRangeSelector()) {
+                    // x: range selector was moved, so generate a new range selector text
+                    val rsText = makeDisplayText
+                        .makeRangeSelectorText(stateCont.cellEditorState)
+                    // x: update range selector text
+                    editorStateMs.value =
+                        colorFormulaAction.colorDisplayTextInCellEditor(
+                            editorState.setRangeSelectorTextField(rsText)
+                        )
+                }
+                return rt
+            } else {
+                editorStateMs.value = editorState.completeGettingRangeAddress()
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+
     @OptIn(ExperimentalComposeUiApi::class)
     override fun handleKeyboardEvent(keyEvent: P6KeyEvent): Boolean {
         if (editorState.isOpen) {
             if (keyEvent.type == KeyEventType.KeyDown) {
                 when (keyEvent.key) {
                     Key.F4 -> {
-                        cycleFormulaLockState()
-                        return true
+                        return handleF4()
                     }
 
                     Key.Enter -> {
-                        val targetCursorId = editorState.targetCursorId
-                        if (keyEvent.isAltPressedAlone) {
-                            val newText = editorState.currentTextField
-                                .let { ctf ->
-                                    ctf.copy(
-                                        text = ctf.text + "\n",
-                                        selection = TextRange(ctf.selection.end + 1)
-                                    )
-                                }
-                            changeTextField(newText)
-                        } else {
-                            runFormulaOrSaveValueToCell(true)
-                        }
-                        // x: move the target cursor 1 row down
-                        targetCursorId?.also {
-                            stateCont.getCursorStateMs(it)?.also { csMs ->
-                                csMs.value = csMs.value.removeAllExceptMainCell().let{cs->
-                                    if(keyEvent.isShiftPressedInCombination){
-                                        cs.up()
-                                    }else{
-                                        cs.down()
-                                    }
-                                }
-                            }
-                        }
-                        return true
+                        return handleEnter(keyEvent)
                     }
 
                     Key.Escape -> {
-                        closeEditor()
-                        return true
+                       return handleEscape()
                     }
 
                     else -> {
-                        if (editorState.rangeSelectorAllowState == RangeSelectorAllowState.ALLOW) {
-                            if (keyEvent.isAcceptedByRangeSelector()) {
-                                val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorCursorId)
-                                if (keyEvent.isRangeSelectorNavKey()) {
-                                    // x: generate range selector text
-                                    val rsText = makeDisplayText
-                                        .makeRangeSelectorText(stateCont.cellEditorState)
-                                    // x: update range selector text
-                                    editorStateMs.value =
-                                        colorFormulaAction.colorDisplayTextInCellEditor(
-                                            editorState.setRangeSelectorTextField(rsText)
-                                        )
-                                }
-                                return rt
-                            } else {
-                                editorStateMs.value = editorState.stopGettingRangeAddress()
-                                // return false = propagate the key event further
-                                return false
-                            }
-                        } else {
-                            // return false = propagate the key event further
-                            return false
-                        }
+                        return handleOtherKey(keyEvent)
                     }
                 }
-
             } else {
                 return false
             }

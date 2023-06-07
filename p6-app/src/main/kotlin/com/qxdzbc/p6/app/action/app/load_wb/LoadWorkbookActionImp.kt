@@ -2,6 +2,7 @@ package com.qxdzbc.p6.app.action.app.load_wb
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.dp
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.compose.Ms
@@ -178,14 +179,14 @@ data class LoadWorkbookActionImp @Inject constructor(
             colWidthMapByWsName?.forEach { (wsName, colWidthMap) ->
                 val wbws = WbWs(workbook.key,wsName)
                 sc.getRulerStateMs(wbws, RulerType.Col)?.also {
-                    it.value =it.value.setMultiItemSize(colWidthMap)
+                    it.value =it.value.setMultiItemSize(colWidthMap.mapValues { it.value.dp })
                 }
             }
 
             rowHeightByWsName?.forEach{(wsName,rowHeightMap)->
                 val wbws = WbWs(workbook.key,wsName)
                 sc.getRulerStateMs(wbws,RulerType.Row)?.also{
-                    it.value = it.value.setMultiItemSize(rowHeightMap)
+                    it.value = it.value.setMultiItemSize(rowHeightMap.mapValues { it.value.dp })
                 }
             }
         }
