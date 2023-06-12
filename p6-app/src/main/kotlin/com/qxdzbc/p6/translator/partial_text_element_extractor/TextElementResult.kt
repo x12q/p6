@@ -52,7 +52,9 @@ data class TextElementResult(
     }
 
     /**
-     * scan the sorted list of element, detect elements that are not continuous (stop index of prev element != start index of the next element + 1)
+     * scan the sorted list of element, detect elements that are not continuous
+     * (stop index of prev element != start index of the next element + 1),
+     * and add TextElement for the padding between those elements.
      */
     fun allSortedWithPadding(): List<TextElement> {
         val all = allSorted()
@@ -75,6 +77,14 @@ data class TextElementResult(
 
             }
         }
+        return rt
+    }
+
+    /**
+     * Generate text from all valid elements. This produces the original text from which this obj was created.
+     */
+    fun makeText():String{
+        val rt= allSortedWithPadding().map{it.text}.joinToString("")
         return rt
     }
 

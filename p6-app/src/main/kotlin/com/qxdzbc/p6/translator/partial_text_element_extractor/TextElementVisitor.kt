@@ -3,6 +3,7 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
+import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.TerminalNode
@@ -26,8 +27,13 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         return rt
     }
 
+    private fun handleErrorChild(children: ErrorNode): TextElementResult {
+        val rt = visitErrorNode(children)
+        return rt
+    }
+
     override fun visitZFormula(ctx: FormulaParser.ZFormulaContext?): TextElementResult {
-        val equalSign = this.visitStartFormulaSymbol(ctx?.startFormulaSymbol())
+        val equalSign = visitStartFormulaSymbol(ctx?.startFormulaSymbol())
         val errorResult = handleErrorChildren(ctx?.children)
         val rt = equalSign + (this.visit(ctx?.expr()) ?: TextElementResult.empty) + errorResult
         return rt
@@ -349,50 +355,64 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         return rt
     }
 
-    override fun visitOpenParen(ctx: FormulaParser.OpenParenContext?): TextElementResult {
-//        val errorResult = handleErrorChildren(ctx?.children)
-//        if(errorResult.errs.isNotEmpty()){
-//            return errorResult
-//        }else{
-//            val textElementResult = ctx?.let {
-//                TextElementResult.from(BasicTextElement.from(ctx))
-//            } ?: TextElementResult.empty
-//            return textElementResult
-//        }
-        var rt = TextElementResult.empty
-        ctx?.children?.forEach {
-            this.visit(it)?.also{
-                rt+=it
-            }
-        }
+    override fun visitTerminal(node: TerminalNode?): TextElementResult {
+        val rt = node?.symbol?.let {
+            BasicTextElement.from(it).toResult()
+        } ?: TextElementResult.empty
         return rt
     }
 
-    override fun visitTerminal(node: TerminalNode?): TextElementResult {
-        val rt = node?.symbol?.let{
-            BasicTextElement.from(it).toResult()
-        }?: TextElementResult.empty
+    override fun visitInvokeExpr(ctx: FormulaParser.InvokeExprContext?): TextElementResult {
+        val rt = this.visitInvokation(ctx?.invokation())
         return rt
     }
+
+    override fun visitInvokation(ctx: FormulaParser.InvokationContext?): TextElementResult {
+        val t1 = visitFullRangeAddress(ctx?.fullRangeAddress())
+        val t2 = visitFunctionCall(ctx?.functionCall())
+        val rt = t1 + t2
+        return rt
+    }
+
+    override fun visitCellAddress(ctx: FormulaParser.CellAddressContext?): TextElementResult {
+        return visitTerminal(ctx?.CELL_LIKE_ADDRESS())
+    }
+
+    override fun visitNoSpaceId(ctx: FormulaParser.NoSpaceIdContext?): TextElementResult {
+        val t1 = visitTerminal(ctx?.CELL_LIKE_ADDRESS())
+        val t2 = visitTerminal(ctx?.NO_SPACE_ID())
+        val rt = t1 + t2
+        return rt
+    }
+
+    override fun visitOpenParen(ctx: FormulaParser.OpenParenContext?): TextElementResult {
+        return handleSingleCharNode(ctx)
+    }
+
 
     override fun visitCloseParen(ctx: FormulaParser.CloseParenContext?): TextElementResult {
-        val textElementResult = ctx?.let {
-            TextElementResult.from(BasicTextElement.from(ctx))
-        } ?: TextElementResult.empty
-        val errorResult = handleErrorChildren(ctx?.children)
-        val rt = textElementResult + errorResult
-        return rt
+        return handleSingleCharNode(ctx)
     }
 
-
-
     override fun visitStartFormulaSymbol(ctx: FormulaParser.StartFormulaSymbolContext?): TextElementResult {
-        val textElementResult = ctx?.let {
-            TextElementResult.from(BasicTextElement.from(ctx))
-        } ?: TextElementResult.empty
-        val errorResult = handleErrorChildren(ctx?.children)
-        val rt = textElementResult + errorResult
-        return rt
+        return handleSingleCharNode(ctx)
+    }
+
+    private fun handleSingleCharNode(ctx: ParserRuleContext?): TextElementResult {
+        val exception = ctx?.exception
+        if (exception != null) {
+            val rt = ErrTextElement.fromException(exception).toResult()
+            return rt
+        } else {
+            val onlyChild: ParseTree? = ctx?.getChild(0)
+            val textRs = when (onlyChild) {
+                is ErrorNode -> visitErrorNode(onlyChild)
+                is TerminalNode -> visitTerminal(onlyChild)
+                else -> TextElementResult.empty
+            }
+            val rt = textRs
+            return rt
+        }
     }
 
     override fun visitComma(ctx: FormulaParser.CommaContext?): TextElementResult {
@@ -513,7 +533,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
             TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
         } ?: TextElementResult.empty
         val errorResult = handleErrorChildren(ctx?.children)
-        val rt= textElementResult + errorResult
+        val rt = textElementResult + errorResult
         return rt
     }
 
@@ -526,7 +546,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
             TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
         } ?: TextElementResult.empty
         val errorResult = handleErrorChildren(ctx?.children)
-        val rt= textElementResult + errorResult
+        val rt = textElementResult + errorResult
         return rt
     }
 
@@ -536,12 +556,12 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         val raRs = this.visit(ctx?.rangeAddress()) ?: TextElementResult.empty
         rt += raRs
         val errorResult = handleErrorChildren(ctx?.children)
-        rt +=errorResult
+        rt += errorResult
         return rt
     }
 
     override fun visitLit(ctx: FormulaParser.LitContext?): TextElementResult {
-        val textElementResult= ctx?.let {
+        val textElementResult = ctx?.let {
             TextElementResult.from(BasicTextElement.from(it))
         } ?: TextElementResult.empty
         val errorResult = handleErrorChildren(ctx?.children)

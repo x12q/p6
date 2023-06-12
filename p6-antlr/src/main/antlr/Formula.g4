@@ -60,7 +60,10 @@ startFormulaSymbol:'=';
 // Boolean must be prioritized over id so that it can be parsed correctly
 BOOLEAN: 'TRUE' | 'FALSE';
 
-// eg: A1, $A1, A$1, $A$1
+/**
+Id without any space character inside.
+eg: A1, $A1, A$1, $A$1
+**/
 noSpaceId:CELL_LIKE_ADDRESS|NO_SPACE_ID;
 CELL_LIKE_ADDRESS:'$'?ID_LETTERS '$'?INT;
 NO_SPACE_ID:ID_LETTERS(INT|ID_LETTERS)*;
