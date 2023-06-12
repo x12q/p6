@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.Token
 /**
  * A basic [TextElement], simply contains a [text] and a [range].
  */
-data class BasicTextElement constructor(
+data class BasicTextElement (
     override val text:String,
     override val range:IntRange
 ): TextElement{
@@ -31,7 +31,7 @@ data class BasicTextElement constructor(
 
     fun toResult():TextElementResult{
         return TextElementResult(
-            others = listOf(this)
+            basicTexts = listOf(this)
         )
     }
 }

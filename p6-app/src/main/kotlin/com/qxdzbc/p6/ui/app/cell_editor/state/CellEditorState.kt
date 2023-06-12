@@ -43,15 +43,16 @@ interface CellEditorState {
      */
     val allowRangeSelector: Boolean
 
-    val rangeSelectorCursorIdSt: St<CursorId>?
-    val rangeSelectorCursorId: CursorId?
-    fun setRangeSelectorCursorId(i: St<CursorId>?): CellEditorState
+    /**
+     * Range selector id is a [CursorId] of the cursor that is being used to select range for this cell editor. When users switch worksheet during formula editing, this range selector id will be switched to that sheet's cursor id.
+     */
+    val rangeSelectorId: CursorId?
+    val rangeSelectorIdSt: St<CursorId>?
+    fun setRangeSelectorId(i: St<CursorId>?): CellEditorState
 
     val rangeSelectorIsSameAsTargetCursor: Boolean
-        get() = rangeSelectorCursorId?.let { rs ->
-            targetCursorId?.let {
-                it.isSameWbWs(rs)
-            }
+        get() = rangeSelectorId?.let { rs ->
+            targetCursorId?.isSameWbWs(rs)
         } ?: false
 
     /**
@@ -83,7 +84,7 @@ interface CellEditorState {
     fun setDisplayTextField(newTextField: TextFieldValue):CellEditorState
 
     /**
-     * A temporary text field that stores a temporary text when users are using the cursor at [rangeSelectorCursorId] to select a cell/range. During the activation of range selector, [rangeSelectorTextField] is displayed on the view instead of [currentTextField].
+     * A temporary text field that stores a temporary text when users are using the cursor at [rangeSelectorId] to select a cell/range. During the activation of range selector, [rangeSelectorTextField] is displayed on the view instead of [currentTextField].
      *
      * [rangeSelectorTextField] = [currentTextField] + selected range address.
      *

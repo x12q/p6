@@ -1,6 +1,9 @@
 package com.qxdzbc.p6.app.common.utils
 
 object TextUtils {
+    /**
+     * Check if a text is a formula or not.
+     */
     fun isFormula(formula: String): Boolean {
         val script: String = formula.trim()
         val isFormula: Boolean = script.startsWith("=")

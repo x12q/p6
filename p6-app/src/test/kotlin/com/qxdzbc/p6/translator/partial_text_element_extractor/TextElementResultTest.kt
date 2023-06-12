@@ -2,7 +2,6 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.BasicTextElement
-import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TokenPosition
 import kotlin.test.*
 
 internal class TextElementResultTest{
@@ -14,7 +13,7 @@ internal class TextElementResultTest{
                 start = 0,
                 stop =  1
             )),
-            others =  listOf(
+            basicTexts =  listOf(
                 BasicTextElement(
                     "123",5 .. 8
                 )
@@ -23,7 +22,7 @@ internal class TextElementResultTest{
         val all = t.allSortedWithPadding()
         val expect = t.cellRangeElements + listOf(
             BasicTextElement(" ".repeat(3),2 .. 4)
-        ) + t.others
+        ) + t.basicTexts
         assertEquals(
             expect,all
         )

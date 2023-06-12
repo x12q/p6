@@ -4,11 +4,14 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
 
 /**
  * An encapsulation containing [TextElement].
- * The ferry properties ([ferryBasicTextElement], [ferryWsNameElement], [ferryWbElement]) is for internal intermediate actions inside parser visitors. End users should pay them no mind.
+ * The ferry properties ([ferryBasicTextElement], [ferryWsNameElement], [ferryWbElement]) are for internal intermediate actions inside parser visitors. End users should pay them no mind.
+ *
+ * [TextElementResult] is for generating colored formula both inside cell editor, and for previewing cell's formula.
  */
 data class TextElementResult(
     val cellRangeElements: List<CellRangeElement> = emptyList(),
-    val others: List<BasicTextElement> = emptyList(),
+    val basicTexts: List<BasicTextElement> = emptyList(),
+    val errs:List<ErrTextElement> = emptyList(),
     val ferryBasicTextElement: BasicTextElement? = null,
     val ferryWsNameElement: WsNameElement? = null,
     val ferryWbElement: WbElement? = null,
@@ -19,7 +22,7 @@ data class TextElementResult(
         }
 
         fun from(i: BasicTextElement): TextElementResult {
-            return TextElementResult(others = listOf(i))
+            return TextElementResult(basicTexts = listOf(i))
         }
 
         fun ferry(i: BasicTextElement): TextElementResult {
@@ -37,10 +40,15 @@ data class TextElementResult(
         val empty = TextElementResult()
     }
 
-    val all: List<TextElement> get() = cellRangeElements + others
+    val all: List<TextElement> get() = cellRangeElements + basicTexts
+    val allWithErr: List<TextElement> get() = cellRangeElements + basicTexts +errs
 
     fun allSorted(): List<TextElement> {
         return all.sortedBy { it.start }
+    }
+
+    val allWithErrSorted: List<TextElement> get(){
+        return allWithErr.sortedBy { it.start }
     }
 
     /**
@@ -74,7 +82,8 @@ data class TextElementResult(
     fun mergeWith(other: TextElementResult): TextElementResult {
         return this.copy(
             cellRangeElements = cellRangeElements + other.cellRangeElements,
-            others = others + other.others,
+            basicTexts = basicTexts + other.basicTexts,
+            errs = errs + other.errs
         )
     }
 
@@ -90,7 +99,7 @@ data class TextElementResult(
 
     operator fun plus(i: BasicTextElement): TextElementResult {
         return this.copy(
-            others = others + i
+            basicTexts = basicTexts + i
         )
     }
 }

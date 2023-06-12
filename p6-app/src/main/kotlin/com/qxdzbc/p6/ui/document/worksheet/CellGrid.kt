@@ -35,7 +35,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun CellGridView(
+fun CellGrid(
     wsState: WorksheetState,
     wsActions: WorksheetAction,
     modifier: Modifier = Modifier,

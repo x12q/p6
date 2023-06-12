@@ -12,8 +12,6 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.common.P6R
@@ -22,7 +20,7 @@ import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
-import com.qxdzbc.p6.ui.document.worksheet.cursor.CursorView
+import com.qxdzbc.p6.ui.document.worksheet.cursor.CellCursor
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBar
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerView
@@ -89,7 +87,7 @@ fun WorksheetView(
                         modifier = Modifier
                             .fillMaxSize()
                     ) {
-                        CellGridView(
+                        CellGrid(
                             wsState = wsState,
                             wsActions = wsActions,
                             modifier = Modifier
@@ -102,7 +100,7 @@ fun WorksheetView(
                         )
                         MBox {
                             val cursorAction = worksheetActionTable.cursorAction
-                            CursorView(
+                            CellCursor(
                                 state = wsState.cursorState,
                                 currentDisplayedRange= wsState.slider.currentDisplayedRange,
                                 action = cursorAction,

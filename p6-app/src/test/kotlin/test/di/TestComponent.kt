@@ -28,7 +28,7 @@ import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
 import com.qxdzbc.p6.app.action.worksheet.remove_all_cell.RemoveAllCellAction
@@ -86,7 +86,7 @@ interface TestComponent : P6Component {
     fun cellViewAction(): UpdateCellAction
 
     @P6Singleton
-    fun makeDisplayText(): MakeCellEditorTextAction
+    fun makeDisplayText(): GenerateCellEditorTextAction
 
     @P6Singleton
     fun openCellEditorAction(): OpenCellEditorAction

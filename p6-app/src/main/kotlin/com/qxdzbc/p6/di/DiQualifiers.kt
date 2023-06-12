@@ -2,6 +2,12 @@ package com.qxdzbc.p6.di
 
 import javax.inject.Qualifier
 
+/**
+ * To annotate that certain action should be injected with a "DoNothing" version
+ */
+@Qualifier
+annotation class Dont
+
 @Qualifier
 @Retention
 annotation class PartialTreeExtractor

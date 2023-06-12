@@ -30,9 +30,6 @@ fun CellEditor(
     size: DpSize = DpSize(400.dp,50.dp),
     modifier: Modifier = Modifier
 ) {
-//    LaunchedEffect(Unit){
-//        action.focusOnCellEditor()
-//    }
     LaunchedEffect(focusState.isEditorFocused) {
         if(focusState.isEditorFocused){
             action.focusOnCellEditor()
@@ -76,7 +73,6 @@ fun CellEditor(
                     .onFocusChanged {
                         action.setCellEditorFocus(it.isFocused)
                     }
-
             )
         }
     }

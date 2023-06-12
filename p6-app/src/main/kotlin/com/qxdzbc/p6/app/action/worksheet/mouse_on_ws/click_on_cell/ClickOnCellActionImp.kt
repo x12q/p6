@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
+import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.RefreshRangeSelectorText
 import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 
@@ -27,7 +27,7 @@ class ClickOnCellActionImp @Inject constructor(
     private val appStateMs: Ms<AppState>,
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
-    private val updateRangeSelectorText: UpdateRangeSelectorText,
+    private val refreshRangeSelectorText: RefreshRangeSelectorText,
     private val runFormulaAction: RunFormulaOrSaveValueToCellAction,
     private val commonReactionOnCursorChanged: CommonReactionOnCursorChanged,
 ) : ClickOnCellAction {
@@ -47,10 +47,10 @@ class ClickOnCellActionImp @Inject constructor(
                 .removeMainRange()
                 .removeAllSelectedFragRange()
                 .removeAllFragmentedCells()
-            val rangeSelectorIsActivated:Boolean = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllowed()
+            val rangeSelectorIsActivated:Boolean = cellEditorState.isOpen && cellEditorState.rangeSelectorAllowState.isAllowedOrAllowMouse()
             if (rangeSelectorIsActivated) {
-                editorStateMs.value = editorState.setRangeSelectorCursorId(cursorState.idMs)
-                updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
+                editorStateMs.value = editorState.setRangeSelectorId(cursorState.idMs)
+                refreshRangeSelectorText.refreshRangeSelectorTextInCurrentCellEditor()
             }else{
                 runFormulaAction.runFormulaOrSaveValueToCell(true)
                 editorStateMs.value=editorState.close()

@@ -63,12 +63,12 @@ internal class CellEditorActionImpTest : BaseAppStateTest() {
     @Test
     fun updateTextField(){
         assertNull(sc.cellEditorState.currentParseTree)
-        act.changeText("")
+        act.changeRawText("")
         assertNull(sc.cellEditorState.currentParseTree)
-        act.changeText("=")
+        act.changeRawText("=")
         val pt1 = sc.cellEditorState.currentParseTree
         assertNotNull(pt1)
-        act.changeText("=F1(A1)")
+        act.changeRawText("=F1(A1)")
         val pt2 = sc.cellEditorState.currentParseTree
         assertNotNull(pt2)
         assertNotEquals(pt1,pt2)
@@ -77,7 +77,7 @@ internal class CellEditorActionImpTest : BaseAppStateTest() {
     @Test
     fun closeEditor(){
         // x: pre conditions
-        act.changeText("=F1(A1)")
+        act.changeRawText("=F1(A1)")
         assertNotNull(sc.cellEditorState.currentParseTree)
         assertTrue(sc.cellEditorState.currentText.isNotEmpty())
         assertTrue(sc.cellEditorState.displayText.isNotEmpty())

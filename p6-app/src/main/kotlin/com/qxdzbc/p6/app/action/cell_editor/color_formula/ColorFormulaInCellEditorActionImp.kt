@@ -3,15 +3,12 @@ package com.qxdzbc.p6.app.action.cell_editor.color_formula
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common.BuildAnnotatedTextAction
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
-import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.CellRangeElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TextElement
@@ -35,6 +32,9 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
         sc.cellEditorStateMs.value = colorCurrentTextInCellEditor(sc.cellEditorStateMs.value)
     }
 
+    /**
+     * TODO This one is generating malformed formula while the underlying formula is correct.
+     */
     override fun colorCurrentTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
         val ces = cellEditorState
         if (ces.isOpen) {
@@ -42,7 +42,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
             val allElements = teRs?.all
             if(allElements?.isNotEmpty() == true&& creList?.isNotEmpty()==true){
-                val trailingSpace: String = computeTrailingSpace(ces.currentText)
+                val trailingSpace: String = extractTrailingSpace(ces.currentText)
                 val newTextField=makeAnnotatedString(trailingSpace,allElements, creList)
                 val newTf = ces.displayTextField.copy(annotatedString = newTextField)
                 return ces.setDisplayTextField(newTf)
@@ -57,14 +57,11 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
     override fun colorDisplayTextInCellEditor(cellEditorState: CellEditorState): CellEditorState {
         val ces = cellEditorState
         if (ces.isOpen) {
-//            val teRs: TextElementResult? = ces.displayParseTree?.let {
-//                visitor.visit(it)
-//            }
             val teRs: TextElementResult? = ces.displayTextElementResult
             val creList: List<CellRangeElement>? = teRs?.cellRangeElements?.toSet()?.toList()
             val allElements = teRs?.all
             if(allElements?.isNotEmpty()==true && creList?.isNotEmpty()==true){
-                val trailingSpace: String = computeTrailingSpace(ces.displayText)
+                val trailingSpace: String = extractTrailingSpace(ces.displayText)
                 val newText=makeAnnotatedString(trailingSpace,allElements, creList)
                 val newTf = ces.displayTextField.copy(annotatedString = newText)
                 return ces.setDisplayTextField(newTf)
@@ -76,7 +73,11 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
         }
     }
 
-    private fun computeTrailingSpace(text: String): String {
+
+    /**
+     * extract the trailing space of a [text] if it has any.
+     */
+    fun extractTrailingSpace(text: String): String {
         val trailTrimmed = text.trimEnd()
         val diff = text.length - trailTrimmed.length
         if (diff > 0) {
@@ -86,7 +87,7 @@ class ColorFormulaInCellEditorActionImp @Inject constructor(
         }
     }
 
-    private fun makeAnnotatedString(
+    fun makeAnnotatedString(
         trailingSpace: String,
         allElements: List<TextElement>,
         creList: List<CellRangeElement>
