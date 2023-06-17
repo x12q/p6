@@ -2,6 +2,8 @@
 
 p6Version = "1.0"
 
+javaVersion = "17"
+
 protocolBufferVersion = "3.19.4"
 kotlinGRPCVersion = "1.2.1"
 grpcVersion = "1.41.0"

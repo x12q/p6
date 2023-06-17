@@ -5,7 +5,7 @@ formula: startFormulaSymbol expr EOF #zFormula ;
 
 // an expression always returns something
 expr: invokation #invokeExpr
-    | openParen expr closeParen #parenExpr
+    | openParen expr closeParen #parenExpr  // x12q here
     | lit #literal
     | op=SUB expr #unSubExpr
     | op=NOT expr #notExpr

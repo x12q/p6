@@ -12,6 +12,7 @@ data class TextElementResult(
     val cellRangeElements: List<CellRangeElement> = emptyList(),
     val basicTexts: List<BasicTextElement> = emptyList(),
     val errs:List<ErrTextElement> = emptyList(),
+    val eof:EOFTextElement = EOFTextElement,
     val ferryBasicTextElement: BasicTextElement? = null,
     val ferryWsNameElement: WsNameElement? = null,
     val ferryWbElement: WbElement? = null,
@@ -97,8 +98,14 @@ data class TextElementResult(
         )
     }
 
-    operator fun plus(other: TextElementResult): TextElementResult {
-        return this.mergeWith(other)
+//    operator fun plus(other: TextElementResult): TextElementResult {
+//        return this.mergeWith(other)
+//    }
+
+    operator fun plus(other: TextElementResult?): TextElementResult {
+        return other?.let{
+            this.mergeWith(it)
+        }?: this
     }
 
     operator fun plus(i: CellRangeElement): TextElementResult {
