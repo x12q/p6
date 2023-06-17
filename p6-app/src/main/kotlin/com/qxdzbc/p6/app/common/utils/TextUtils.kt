@@ -30,4 +30,7 @@ object TextUtils {
         val z = str.substring(1,str.length-1)
         return z
     }
+    fun extractFromSingleQuote(str: String): String {
+        return str.substring(1, str.length - 1)
+    }
 }

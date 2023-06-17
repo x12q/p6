@@ -52,10 +52,10 @@ cellAddress: CELL_LIKE_ADDRESS;
 wbPath:WITH_SPACE_ID;
 lit: (FLOAT_NUMBER | BOOLEAN | STRING | INT );
 
-openParen:'(';
-closeParen:')';
-comma:',';
-startFormulaSymbol:'=';
+openParen:op='(';
+closeParen:op=')';
+comma:op=',';
+startFormulaSymbol:op='=';
 
 // Boolean must be prioritized over id so that it can be parsed correctly
 BOOLEAN: 'TRUE' | 'FALSE';

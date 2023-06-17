@@ -7,35 +7,72 @@ import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import kotlin.test.*
 
-internal class TextElementVisitorTest :TestSplitter(){
+internal class TextElementVisitorTest : TestSplitter() {
     val visitor = TextElementVisitor()
     val treeExtractor = PartialFormulaTreeExtractor()
+
     @Test
-    fun `parse formula with multiple space between elements`(){
-        val formula="=A1  +  B1"
+    fun `parse formula with multiple space between elements`() {
+        val formula = "=A1  +  B1"
         val parseTree = treeExtractor.extractTree(formula)
-        val e=visitor.visit(parseTree.component1())
+        val e = visitor.visit(parseTree.component1())
         e.makeText() shouldBe formula
     }
 
     @Test
-    fun parErrFormula(){
-        test("Parse erroneous formula, test that the original text is preserved"){
-            val inputs = listOf(
-                "=B1+SUM(D)",
-                "=B+1",
-                "=SUM(B,A2)",
-                "=B1/D",
-                "=!B",
-                "=,,,," // => check visitInvokeExpr
+    fun parErrFormula() {
+        test("Parse erroneous formula, test that the original text is preserved") {
+            val illegalOperatorUse = listOf(
+                "=",
+                "=1+-",
+                "=++1",
+                "=1^-",
             )
-            inputs.forEach {formula->
+            val inputs = illegalOperatorUse + generateOperator2CombinationFormula() +listOf(
+                "=", // illegal use of formula starting symbol
+                "=B1+SUM(D)", //illegal range address inside function
+                "=B+1", // illegal range address
+                "=1+B", // illegal range address
+                "=SUM(B,A2)", // illegal range address inside function, before legal range address
+                "=B1/D", // illegal range address after div operator
+                "=!B", // illegal symbol after ! operator
+            )
+            inputs.forEach { formula ->
                 val parseTree = treeExtractor.extractTree(formula)
-                val e=visitor.visit(parseTree.component1())
-//                e.errs.shouldNotBeEmpty()
+                val e = visitor.visit(parseTree.component1())
                 e.makeText() shouldBe formula
             }
         }
+    }
+
+    fun generateOperator2CombinationFormula(): List<String> {
+        val operator = listOf(
+            "+", "-", "*", "/", "^", "&&",
+            "||", "%", "==", "!=", ">",
+            ">=", "<", "<=",","
+        )
+        val rs = mutableListOf<String>()
+        for (o1 in operator) {
+            for (o2 in operator) {
+                rs.add("=$o1$o2")
+            }
+        }
+        return rs
+    }
+
+    fun generateOperator2CombinationFormulaWithNumber(): List<String> {
+        val operator = listOf(
+            "+", "-", "*", "/", "^", "&&",
+            "||", "%", "==", "!=", ">",
+            ">=", "<", "<=",","
+        ) + (0 .. 9).toList()
+        val rs = mutableListOf<String>()
+        for (o1 in operator) {
+            for (o2 in operator) {
+                rs.add("=$o1$o2")
+            }
+        }
+        return rs
     }
 
 }
