@@ -4,6 +4,7 @@ import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
 import org.antlr.v4.runtime.ParserRuleContext
+import org.antlr.v4.runtime.Token
 import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.RuleNode
@@ -328,7 +329,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
      */
     override fun visitErrorNode(node: ErrorNode?): TextElementResult {
         val token = node?.symbol
-        if(token!=null){
+        if(token!=null && token.hasValidRange()){
             return BasicTextElement.from(token).toResult()
         }else{
             val rt = node?.text?.let {
@@ -535,5 +536,11 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
         val errorResult = handleErrorChildren(ctx?.children)
         val rt = textElementResult + errorResult
         return rt
+    }
+
+    companion object{
+        private fun Token.hasValidRange():Boolean{
+            return this.startIndex >=0 && this.stopIndex>=0
+        }
     }
 }

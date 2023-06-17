@@ -22,11 +22,11 @@ internal class TextElementVisitorTest :TestSplitter(){
     fun parErrFormula(){
         test("Parse erroneous formula, test that the original text is preserved"){
             val inputs = listOf(
-//                "=B1+SUM(D)",
-//                "=B+1",
-//                "=SUM(B,A2)",
-//                "=B1/D",
-//                "=!B",
+                "=B1+SUM(D)",
+                "=B+1",
+                "=SUM(B,A2)",
+                "=B1/D",
+                "=!B",
                 "=,,,," // => check visitInvokeExpr
             )
             inputs.forEach {formula->
