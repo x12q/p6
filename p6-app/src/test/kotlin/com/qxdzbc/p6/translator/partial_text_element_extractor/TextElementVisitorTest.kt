@@ -1,11 +1,10 @@
 package com.qxdzbc.p6.translator.partial_text_element_extractor
 
+import com.qxdzbc.common.CollectionUtils.generateCombinations
 import com.qxdzbc.common.test_util.TestSplitter
-import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.ErrTextElement
-import io.kotest.matchers.collections.shouldContain
-import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import kotlin.test.*
+
 
 internal class TextElementVisitorTest : TestSplitter() {
     val visitor = TextElementVisitor()
@@ -20,23 +19,25 @@ internal class TextElementVisitorTest : TestSplitter() {
     }
 
     @Test
-    fun parErrFormula() {
-        test("Parse erroneous formula, test that the original text is preserved") {
-            val illegalOperatorUse = listOf(
-                "=",
-                "=1+-",
-                "=++1",
-                "=1^-",
+    fun `parErrFormula`() {
+        test("") {
+            val inputs = listOf(
+                "=+-*B1:C12A1@'Ws1'@'Wb1'"
             )
-            val inputs = illegalOperatorUse + generateOperator2CombinationFormula() +listOf(
-                "=", // illegal use of formula starting symbol
-                "=B1+SUM(D)", //illegal range address inside function
-                "=B+1", // illegal range address
-                "=1+B", // illegal range address
-                "=SUM(B,A2)", // illegal range address inside function, before legal range address
-                "=B1/D", // illegal range address after div operator
-                "=!B", // illegal symbol after ! operator
-            )
+            inputs.forEach { formula ->
+                println(formula)
+                val parseTree = treeExtractor.extractTree(formula)
+                val e = visitor.visit(parseTree.component1())
+                e.makeText() shouldBe formula
+            }
+        }
+    }
+
+
+    @Test
+    fun `parErrFormula mixed formula`() {
+        test("Parse erroneous formula that contains a mix of operator, functions, range addresses") {
+            val inputs = generateErrorFormulaWithRangeAddress(5)
             inputs.forEach { formula ->
                 val parseTree = treeExtractor.extractTree(formula)
                 val e = visitor.visit(parseTree.component1())
@@ -45,34 +46,71 @@ internal class TextElementVisitorTest : TestSplitter() {
         }
     }
 
-    fun generateOperator2CombinationFormula(): List<String> {
-        val operator = listOf(
-            "+", "-", "*", "/", "^", "&&",
-            "||", "%", "==", "!=", ">",
-            ">=", "<", "<=",","
-        )
-        val rs = mutableListOf<String>()
-        for (o1 in operator) {
-            for (o2 in operator) {
-                rs.add("=$o1$o2")
+    @Test
+    fun `parErrFormula error formulas with only operators`() {
+        test("Parse erroneous formula that contain only operators") {
+            val inputs = generateErrorOperatorFormulas()
+            inputs.forEach { formula ->
+                val parseTree = treeExtractor.extractTree(formula)
+                val e = visitor.visit(parseTree.component1())
+                e.makeText() shouldBe formula
             }
         }
-        return rs
     }
 
-    fun generateOperator2CombinationFormulaWithNumber(): List<String> {
-        val operator = listOf(
-            "+", "-", "*", "/", "^", "&&",
-            "||", "%", "==", "!=", ">",
-            ">=", "<", "<=",","
-        ) + (0 .. 9).toList()
-        val rs = mutableListOf<String>()
-        for (o1 in operator) {
-            for (o2 in operator) {
-                rs.add("=$o1$o2")
-            }
+    val operator = listOf(
+        "+", "-", "*", "/", "^", "&&",
+        "||", "%", "==", "!=", ">",
+        ">=", "<", "<=", ","
+    )
+
+    /**
+     * [combinationSize] < 0 means generate exhaustively.
+     */
+    fun generateErrorFormulaWithRangeAddress(combinationSize: Int = -1): List<String> {
+        val candidates = operator + listOf(
+            "A1",
+            "B1:C12",
+            "1",
+            "\"abc\"",
+            "A1@'Ws1'@'Wb1'",
+            "SUM(D)",
+            "SUM(1,2,3)",
+            "F(A1:A2,\"\")"
+        )
+        if (combinationSize < 0) {
+            val rt = candidates.indices.map {
+                generateErrorFormulas(candidates, it)
+            }.flatten()
+            return rt
+        } else {
+            return generateErrorFormulas(candidates, combinationSize)
         }
-        return rs
+    }
+
+
+    /**
+     * Generate erroneous formulas consist of only operators
+     */
+    fun generateErrorOperatorFormulas(combinationSize: Int = -1): List<String> {
+        if (combinationSize < 0) {
+            val rt = operator.indices.map {
+                generateErrorFormulas(operator, it)
+            }.flatten()
+            return rt
+        } else {
+            return generateErrorFormulas(operator, combinationSize)
+        }
+    }
+
+    /**
+     * Generate erroneous formulas by generating combinations with size = [combinationSize] from a list of [candidates].
+     */
+    fun generateErrorFormulas(candidates: List<String>, combinationSize: Int = 2): List<String> {
+        val rt = candidates.generateCombinations(combinationSize).map {
+            "=" + it.joinToString("")
+        }
+        return rt
     }
 
 }

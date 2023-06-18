@@ -1,5 +1,6 @@
 package com.qxdzbc.common
 
+import org.apache.commons.math3.util.CombinatoricsUtils
 import java.util.AbstractMap
 
 object CollectionUtils {
@@ -54,5 +55,24 @@ object CollectionUtils {
         val c1 = l1.size == l2.size
         val c2 = l1.containsAll(l2) && l2.containsAll(l1)
         return c1 && c2
+    }
+
+    /**
+     * Generate a list of combination with size = [combinationSize].
+     * TODO this function is not performant enough. Lazy evaluation can speed it up.
+     */
+    fun <T> List<T>.generateCombinations(combinationSize:Int): List<List<T>> {
+        val candidates = this
+        val iterator = CombinatoricsUtils.combinationsIterator(candidates.size, combinationSize)
+        val rt = mutableListOf<List<T>>()
+        while(iterator.hasNext()){
+            val combinationIndices = iterator.next()
+            val combination = combinationIndices.map {
+                candidates[it]
+            }
+            rt.add(combination)
+        }
+
+        return rt
     }
 }

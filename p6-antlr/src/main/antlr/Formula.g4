@@ -31,7 +31,7 @@ sheetPrefix:'@' sheetNameWithSpace
 sheetNameWithSpace:WITH_SPACE_ID;
 sheetName:noSpaceId;
 
-rangeAddress:cellAddress ':' cellAddress  #rangeAsPairCellAddress
+rangeAddress:cellAddress op=':' cellAddress  #rangeAsPairCellAddress
             | cellAddress  #rangeAsOneCellAddress
             | ID_LETTERS ':' ID_LETTERS  #rangeAsColAddress
             | INT':'INT #rangeAsRowAddress

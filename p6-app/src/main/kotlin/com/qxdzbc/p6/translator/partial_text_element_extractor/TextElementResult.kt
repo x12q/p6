@@ -3,6 +3,7 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
 
 /**
+ * // TODO reconsider the ferry properties. They can be replaced with the three main containers
  * An encapsulation containing [TextElement].
  * The ferry properties ([ferryBasicTextElement], [ferryWsNameElement], [ferryWbElement]) are for internal intermediate actions inside parser visitors. End users should pay them no mind.
  *
@@ -17,28 +18,16 @@ data class TextElementResult(
     val ferryWsNameElement: WsNameElement? = null,
     val ferryWbElement: WbElement? = null,
 ) {
-    companion object {
-        fun from(i: CellRangeElement): TextElementResult {
-            return TextElementResult(cellRangeElements = listOf(i))
-        }
+    val minIndex:Int? get(){
+        return allSorted().minOfOrNull { it.start }
+    }
 
-        fun from(i: BasicTextElement): TextElementResult {
-            return TextElementResult(basicTexts = listOf(i))
-        }
+    val maxIndex:Int? get(){
+        return allSorted().maxOfOrNull { it.stop }
+    }
 
-        fun ferry(i: BasicTextElement): TextElementResult {
-            return TextElementResult(ferryBasicTextElement = i)
-        }
-
-        fun ferry(i: WsNameElement): TextElementResult {
-            return TextElementResult(ferryWsNameElement = i)
-        }
-
-        fun ferry(i: WbElement): TextElementResult {
-            return TextElementResult(ferryWbElement = i)
-        }
-
-        val empty = TextElementResult()
+    val maxIndexForSubStr:Int get(){
+        return allSorted().maxOf { it.stopForSubStr }
     }
 
     val all: List<TextElement> get() = cellRangeElements + basicTexts
@@ -98,10 +87,6 @@ data class TextElementResult(
         )
     }
 
-//    operator fun plus(other: TextElementResult): TextElementResult {
-//        return this.mergeWith(other)
-//    }
-
     operator fun plus(other: TextElementResult?): TextElementResult {
         return other?.let{
             this.mergeWith(it)
@@ -119,4 +104,29 @@ data class TextElementResult(
             basicTexts = basicTexts + i
         )
     }
+
+    companion object {
+        fun from(i: CellRangeElement): TextElementResult {
+            return TextElementResult(cellRangeElements = listOf(i))
+        }
+
+        fun from(i: BasicTextElement): TextElementResult {
+            return TextElementResult(basicTexts = listOf(i))
+        }
+
+        fun ferry(i: BasicTextElement): TextElementResult {
+            return TextElementResult(ferryBasicTextElement = i)
+        }
+
+        fun ferry(i: WsNameElement): TextElementResult {
+            return TextElementResult(ferryWsNameElement = i)
+        }
+
+        fun ferry(i: WbElement): TextElementResult {
+            return TextElementResult(ferryWbElement = i)
+        }
+
+        val empty = TextElementResult()
+    }
+
 }

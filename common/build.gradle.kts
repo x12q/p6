@@ -23,6 +23,7 @@ repositories {
 dependencies {
     implementation(project(":err"))
     implementation(project(":common-test"))
+    implementation(libs.apache.commons.math3)
 }
 
 tasks.getByName<Test>("test") {

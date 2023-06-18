@@ -18,13 +18,18 @@ data class BasicTextElement (
     companion object{
         val empty = BasicTextElement("",-1 .. -1)
         fun from(ruleContext: ParserRuleContext): BasicTextElement {
-            val c = ruleContext
+            if(ruleContext.start.startIndex < 0 || ruleContext.stop.stopIndex < 0){
+                throw IllegalStateException("Can't create BasicTextElement from ctx that have negative index")
+            }
             return BasicTextElement(
-                text =  c.text ?: "",
-                range = c.start.startIndex .. c.stop.stopIndex
+                text = ruleContext.text ?: "",
+                range = ruleContext.start.startIndex..ruleContext.stop.stopIndex
             )
         }
         fun from(token:Token):BasicTextElement{
+            if(token.startIndex <0 || token.stopIndex<0){
+                throw IllegalStateException("Can't create BasicTextElement from tokens that have negative index")
+            }
             return BasicTextElement(text = token.text, range = token.startIndex..token.stopIndex)
         }
     }
