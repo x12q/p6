@@ -33,8 +33,8 @@ sheetName:noSpaceId;
 
 rangeAddress:cellAddress op=':' cellAddress  #rangeAsPairCellAddress
             | cellAddress  #rangeAsOneCellAddress
-            | ID_LETTERS ':' ID_LETTERS  #rangeAsColAddress
-            | INT':'INT #rangeAsRowAddress
+            | colAddress  #rangeAsColAddress
+            | rowAddress #rangeAsRowAddress
             |openParen rangeAddress closeParen #rangeInparens
             ;
 
@@ -47,6 +47,8 @@ wbName: noSpaceId | WITH_SPACE_ID ;
 
 // A1,A123, ABC123, $A1, A$1, $A$1
 cellAddress: CELL_LIKE_ADDRESS;
+colAddress:ID_LETTERS ':' ID_LETTERS;
+rowAddress:INT':'INT;
 
 // wbPath is encased in single quotes: 'path/to/wb.abc'
 wbPath:WITH_SPACE_ID;

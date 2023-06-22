@@ -5,7 +5,7 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 object EOFTextElement : TextElement {
     override val text: String
         get() = "<EOF>"
-    override val range: IntRange
+    override val textRange: IntRange
         get() = IntRange(-1,-1)
 
     fun toResult():TextElementResult{

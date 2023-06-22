@@ -4,7 +4,6 @@ import com.qxdzbc.p6.app.common.utils.TextUtils
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.*
-import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.ErrTextElement.Companion.toResult
 import org.antlr.v4.runtime.Token
 import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
@@ -230,18 +229,28 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
      * This one produces a temporary result obj ferrying temporary text elements to the next parsing function. ([visitWbPrefixNoPath])
      */
     override fun visitWbName(ctx: FormulaParser.WbNameContext?): TextElementResult {
-        val textElementResult = ctx?.let {
-            ctx.noSpaceId()?.let {
-                BasicTextElement(it.text, ctx.start.startIndex, ctx.stop.stopIndex)
-            } ?: ctx.WITH_SPACE_ID()?.let {
-                BasicTextElement(TextUtils.extractFromSingleQuote(it.text), ctx.start.startIndex, ctx.stop.stopIndex)
-            }
-        }?.let {
-            TextElementResult.ferry(it)
-        } ?: TextElementResult.empty
-        val errorResult = handleErrorChildren(ctx?.children)
-        val rt = textElementResult + errorResult
+        val r1 = visitNoSpaceId(ctx?.noSpaceId())
+        val r2 = visitTerminal(ctx?.WITH_SPACE_ID())
+        val r3 = (r1+r2).flattenToBasicTextOrThis()
+        val rt = if(r3.hasNoErr() && r3.hasExactlyOneBasicText()){
+            TextElementResult.ferry(r3.basicTexts[0])
+        }else{
+            r3
+        }
         return rt
+
+//        val textElementResult = ctx?.let {
+//            ctx.noSpaceId()?.let {
+//                BasicTextElement(it.text, ctx.start.startIndex, ctx.stop.stopIndex)
+//            } ?: ctx.WITH_SPACE_ID()?.let {
+//                BasicTextElement(TextUtils.extractFromSingleQuote(it.text), ctx.start.startIndex, ctx.stop.stopIndex)
+//            }
+//        }?.let {
+//            TextElementResult.ferry(it)
+//        } ?: TextElementResult.empty
+//        val errorResult = handleErrorChildren(ctx?.children)
+//        val rt = textElementResult + errorResult
+//        return rt
     }
 
     override fun visitWbPath(ctx: FormulaParser.WbPathContext?): TextElementResult {
@@ -268,7 +277,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                     label = ctx.text,
                     wbName = it.text,
                     wbPath = null,
-                    range = ctx.start.startIndex..ctx.stop.stopIndex
+                    textRange = ctx.start.startIndex..ctx.stop.stopIndex
                 )
             }
         }?.let {
@@ -288,7 +297,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
                     label = ctx.text,
                     wbName = wbn.text,
                     wbPath = path?.text,
-                    range = ctx.start.startIndex..ctx.stop.stopIndex
+                    textRange = ctx.start.startIndex..ctx.stop.stopIndex
                 )
             }
         }?.let {
@@ -325,11 +334,11 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
 
             val rangeAddressResult: TextElementResult = this.visit(ctx.rangeAddress()) ?: TextElementResult.empty
 
-            rangeAddressResult.ferryBasicTextElement?.let { r ->
+            rangeAddressResult.ferryBasicTextElement?.let { rangeAddressElement ->
                 val wsSuffixResult: TextElementResult? = ctx.sheetPrefix()?.let { this.visitSheetPrefix(it) }
                 val wbSuffixResult: TextElementResult? = ctx.wbPrefix()?.let { this.visitWbPrefix(it) }
                 CellRangeElement(
-                    rangeAddress = r,
+                    rangeAddress = rangeAddressElement,
                     wsSuffix = wsSuffixResult?.ferryWsNameElement,
                     wbSuffix = wbSuffixResult?.ferryWbElement
                 )
@@ -351,12 +360,12 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
     override fun visitErrorNode(node: ErrorNode?): TextElementResult {
         val token = node?.symbol
         if (token != null && token.hasValidRange()) {
-            return BasicTextElement.from(token).toResult()
+            return BasicTextElement.from(token).toErrResult()
         } else {
             val rt = node?.text?.let {
                 ErrTextElement(
                     text = it,
-                    range = node.symbol.startIndex..node.symbol.stopIndex
+                    textRange = node.symbol.startIndex..node.symbol.stopIndex
                 ).toResult()
             } ?: TextElementResult.empty
             return rt
@@ -514,30 +523,21 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
      */
     override fun visitRangeAsPairCellAddress(ctx: FormulaParser.RangeAsPairCellAddressContext?): TextElementResult {
         val textElementResult = ctx?.let {
-//            val c1 = handleCellAddressNode(ctx.cellAddress(0))
-//            val op = ctx.getChild(1)?.text ?: ""
-//            val c2 = handleCellAddressNode(ctx.cellAddress(1))
-
-//            val label = "${c1}${op}${c2}"
-//            TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
-
             val c1 = visitCellAddress(ctx.cellAddress(0))
-            val op = this.visit(ctx.getChild(1))
+            val op = visit(ctx.getChild(1))
             val c2 = visitCellAddress(ctx.cellAddress(1))
-
-            val combinedResult = c1 + op + c2
-            val minIndex = combinedResult.minIndex
-            val maxIndex = combinedResult.maxIndex
-            val text = combinedResult.makeText()
-
-
-            val rangeAsPairOfCellResult = if (minIndex != null && maxIndex != null) {
-                BasicTextElement(text = text, from = minIndex, to = maxIndex).toResult()
+            val q = if (c1.hasNoErr() && op.hasNoErr() && c2.hasNoErr()) {
+                if (c1.hasExactlyOneBasicText() && op.hasExactlyOneBasicText() && c2.hasExactlyOneBasicText()) {
+                    // ideal condition
+                    val label = "${c1.basicTexts[0].text}${op.basicTexts[0].text}${c2.basicTexts[0].text}"
+                    TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
+                } else {
+                    c1 + op + c2
+                }
             } else {
-                ErrTextElement(text = text, from = -1, to = -1).toResult()
+                c1 + op + c2
             }
-            val allErrResult = (c1.errs + op.errs + c2.errs).toResult()
-            rangeAsPairOfCellResult + allErrResult
+            q
         } ?: TextElementResult.empty
         val errorResult = handleErrorChildren(ctx?.children)
         val rt = textElementResult + errorResult
@@ -548,12 +548,40 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
      * This one produce a temporary result obj ferrying temporary text elements to the next parsing function. ([visitFullRangeAddress])
      */
     override fun visitRangeAsOneCellAddress(ctx: FormulaParser.RangeAsOneCellAddressContext?): TextElementResult {
-        val rs1 = ctx?.let {
-            val c1 = ctx.cellAddress()?.text ?: ""
-            TextElementResult.ferry(BasicTextElement(c1, ctx.start.startIndex..ctx.stop.stopIndex))
+        val rs1 = ctx?.cellAddress()?.let {
+            val r1 = visitCellAddress(it)
+            if (r1.hasNoErr() && r1.hasExactlyOneBasicText()) {
+                TextElementResult.ferry(r1.basicTexts[0])
+            } else {
+                r1
+            }
         } ?: TextElementResult.empty
         val errorResult = handleErrorChildren(ctx?.children)
         val rt = rs1 + errorResult
+        return rt
+
+//        val rs1 = ctx?.let {
+//            val c1 = ctx.cellAddress()?.text ?: ""
+//            TextElementResult.ferry(BasicTextElement(c1, ctx.start.startIndex..ctx.stop.stopIndex))
+//        } ?: TextElementResult.empty
+//        val errorResult = handleErrorChildren(ctx?.children)
+//        val rt = rs1 + errorResult
+//        return rt
+    }
+
+    override fun visitColAddress(ctx: FormulaParser.ColAddressContext?): TextElementResult {
+        val c1 = visitTerminal(ctx?.ID_LETTERS(0))
+        val o = visit(ctx?.getChild(1))
+        val c2 = visitTerminal(ctx?.ID_LETTERS(1))
+        val rt = (c1 + o + c2).flattenToBasicTextOrEmpty()
+        return rt
+    }
+
+    override fun visitRowAddress(ctx: FormulaParser.RowAddressContext?): TextElementResult {
+        val c1 = visitTerminal(ctx?.INT(0))
+        val o = visit(ctx?.getChild(1))
+        val c2 = visitTerminal(ctx?.INT(1))
+        val rt = (c1 + o + c2).flattenToBasicTextOrThis()
         return rt
     }
 
@@ -561,32 +589,47 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
      * This one produce a temporary result obj ferrying temporary text elements to the next parsing function. ([visitFullRangeAddress])
      */
     override fun visitRangeAsColAddress(ctx: FormulaParser.RangeAsColAddressContext?): TextElementResult {
-        val textElementResult = ctx?.let {
-            val c1 = ctx.ID_LETTERS(0)?.text ?: ""
-            val op = ctx.getChild(1)?.text ?: ""
-            val c2 = ctx.ID_LETTERS(1)?.text ?: ""
-            val label = "${c1}${op}${c2}"
-            TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
-        } ?: TextElementResult.empty
-        val errorResult = handleErrorChildren(ctx?.children)
-        val rt = textElementResult + errorResult
+        val r1 = visitColAddress(ctx?.colAddress())
+        val rt = if (r1.hasNoErr() && r1.hasExactlyOneBasicText()) {
+            TextElementResult.ferry(r1.basicTexts[0])
+        }else{
+            r1
+        }
         return rt
+
+//        val textElementResult = ctx?.let {
+//            val c1 = ctx.ID_LETTERS(0)?.text ?: ""
+//            val op = ctx.getChild(1)?.text ?: ""
+//            val c2 = ctx.ID_LETTERS(1)?.text ?: ""
+//            val label = "${c1}${op}${c2}"
+//            TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
+//        } ?: TextElementResult.empty
+//        val errorResult = handleErrorChildren(ctx?.children)
+//        val rt = textElementResult + errorResult
+//        return rt
     }
 
     /**
      * This one produce a temporary result obj ferrying temporary text elements to the next parsing function. ([visitFullRangeAddress])
      */
     override fun visitRangeAsRowAddress(ctx: FormulaParser.RangeAsRowAddressContext?): TextElementResult {
-        val textElementResult = ctx?.let {
-            val c1 = ctx.INT(0)?.text ?: ""
-            val op = ctx.getChild(1)?.text ?: ""
-            val c2 = ctx.INT(1)?.text ?: ""
-            val label = "${c1}${op}${c2}"
-            TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
-        } ?: TextElementResult.empty
-        val errorResult = handleErrorChildren(ctx?.children)
-        val rt = textElementResult + errorResult
+        val r1 = visitRowAddress(ctx?.rowAddress())
+        val rt = if (r1.hasNoErr() && r1.hasExactlyOneBasicText()) {
+            TextElementResult.ferry(r1.basicTexts[0])
+        }else{
+            r1
+        }
         return rt
+//        val textElementResult = ctx?.let {
+//            val c1 = ctx.INT(0)?.text ?: ""
+//            val op = ctx.getChild(1)?.text ?: ""
+//            val c2 = ctx.INT(1)?.text ?: ""
+//            val label = "${c1}${op}${c2}"
+//            TextElementResult.ferry(BasicTextElement(label, ctx.start.startIndex..ctx.stop.stopIndex))
+//        } ?: TextElementResult.empty
+//        val errorResult = handleErrorChildren(ctx?.children)
+//        val rt = textElementResult + errorResult
+//        return rt
     }
 
     override fun visitRangeInparens(ctx: FormulaParser.RangeInparensContext?): TextElementResult {

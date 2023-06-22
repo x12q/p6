@@ -5,13 +5,13 @@ import org.antlr.v4.runtime.Token
 
 data class ErrTextElement(
     override val text: String,
-    override val range: IntRange,
+    override val textRange: IntRange,
     val exception: Exception? = null,
 ) : TextElement {
 
     constructor(text: String, from: Int, to: Int) : this(
         text = text,
-        range = from..to,
+        textRange = from..to,
         exception = null,
     )
 
@@ -25,7 +25,7 @@ data class ErrTextElement(
         fun fromException(exception: Exception): ErrTextElement {
             return ErrTextElement(
                 text = "",
-                range = IntRange(-1, -1),
+                textRange = IntRange(-1, -1),
                 exception = exception,
             )
         }
@@ -33,7 +33,7 @@ data class ErrTextElement(
         fun from(token: Token): ErrTextElement {
             return ErrTextElement(
                 text = token.text,
-                range = token.startIndex..token.stopIndex,
+                textRange = token.startIndex..token.stopIndex,
                 exception = null,
             )
         }

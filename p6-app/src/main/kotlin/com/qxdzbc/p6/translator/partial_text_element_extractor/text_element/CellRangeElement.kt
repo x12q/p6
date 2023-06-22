@@ -51,12 +51,12 @@ data class CellRangeElement(
     }
 
     fun iRange(): IntRange {
-        return range
+        return textRange
     }
 
     override val text: String
         get() = cellRangeLabel + (this.cellRangeSuffix ?: "")
 
-    override val range: IntRange
+    override val textRange: IntRange
         get() = this.startTP.charIndex..this.stopTP.charIndex
 }

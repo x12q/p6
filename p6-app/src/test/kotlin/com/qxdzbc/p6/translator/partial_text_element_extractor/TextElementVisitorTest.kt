@@ -37,11 +37,13 @@ internal class TextElementVisitorTest : TestSplitter() {
     @Test
     fun `parErrFormula mixed formula`() {
         test("Parse erroneous formula that contains a mix of operator, functions, range addresses") {
-            val inputs = generateErrorFormulaWithRangeAddress(5)
-            inputs.forEach { formula ->
-                val parseTree = treeExtractor.extractTree(formula)
-                val e = visitor.visit(parseTree.component1())
-                e.makeText() shouldBe formula
+            generateErrorFormulaWithRangeAddress(-1){formulaList->
+                formulaList.forEach { formula->
+                    val parseTree = treeExtractor.extractTree(formula)
+                    val e = visitor.visit(parseTree.component1())
+                    e.makeText() shouldBe formula
+                    println(formula)
+                }
             }
         }
     }
@@ -49,7 +51,7 @@ internal class TextElementVisitorTest : TestSplitter() {
     @Test
     fun `parErrFormula error formulas with only operators`() {
         test("Parse erroneous formula that contain only operators") {
-            val inputs = generateErrorOperatorFormulas()
+            val inputs = generateErrorOperatorFormulas(-1)
             inputs.forEach { formula ->
                 val parseTree = treeExtractor.extractTree(formula)
                 val e = visitor.visit(parseTree.component1())
@@ -67,7 +69,7 @@ internal class TextElementVisitorTest : TestSplitter() {
     /**
      * [combinationSize] < 0 means generate exhaustively.
      */
-    fun generateErrorFormulaWithRangeAddress(combinationSize: Int = -1): List<String> {
+    fun generateErrorFormulaWithRangeAddress(combinationSize: Int, onEach:(List<String>)->Unit) {
         val candidates = operator + listOf(
             "A1",
             "B1:C12",
@@ -79,12 +81,11 @@ internal class TextElementVisitorTest : TestSplitter() {
             "F(A1:A2,\"\")"
         )
         if (combinationSize < 0) {
-            val rt = candidates.indices.map {
-                generateErrorFormulas(candidates, it)
-            }.flatten()
-            return rt
+            candidates.indices.map {
+                onEach(generateErrorFormulas(candidates, it))
+            }
         } else {
-            return generateErrorFormulas(candidates, combinationSize)
+            onEach(generateErrorFormulas(candidates, combinationSize))
         }
     }
 
@@ -92,7 +93,7 @@ internal class TextElementVisitorTest : TestSplitter() {
     /**
      * Generate erroneous formulas consist of only operators
      */
-    fun generateErrorOperatorFormulas(combinationSize: Int = -1): List<String> {
+    fun generateErrorOperatorFormulas(combinationSize: Int): List<String> {
         if (combinationSize < 0) {
             val rt = operator.indices.map {
                 generateErrorFormulas(operator, it)
