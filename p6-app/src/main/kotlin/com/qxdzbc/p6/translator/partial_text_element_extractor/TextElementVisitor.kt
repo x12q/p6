@@ -442,7 +442,7 @@ class TextElementVisitor @Inject constructor() : FormulaBaseVisitor<TextElementR
      */
     override fun visitErrorNode(node: ErrorNode?): TextElementResult {
         val token = node?.symbol
-        if (token != null && token.hasValidRange()) {
+        if (token != null && token.hasValidRange() && token.type != FormulaParser.EOF) {
             return BasicTextElement.from(token).toErrResult()
         } else {
             val rt = node?.text?.let {

@@ -3,6 +3,8 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 import com.qxdzbc.common.CollectionUtils.generateCombinations
 import com.qxdzbc.common.test_util.TestSplitter
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.test.*
 
 
@@ -38,15 +40,18 @@ internal class TextElementVisitorTest : TestSplitter() {
 
     @Test
     fun `parErrFormula mixed formula`() {
+
         test("Parse erroneous formula that contains a mix of operator, functions, range addresses") {
-            generateErrorFormulaWithRangeAddress(-1){formulaList->
-                formulaList.forEach { formula->
+            generateErrorFormulaWithRangeAddress(-1) { formulaList ->
+                formulaList.forEach { formula ->
                     val parseTree = treeExtractor.extractTree(formula)
                     val e = visitor.visit(parseTree.component1())
                     e.makeText() shouldBe formula
+                    println(formula)
                 }
             }
         }
+
     }
 
     @Test
@@ -70,7 +75,7 @@ internal class TextElementVisitorTest : TestSplitter() {
     /**
      * [combinationSize] < 0 means generate exhaustively.
      */
-    fun generateErrorFormulaWithRangeAddress(combinationSize: Int, onEach:(List<String>)->Unit) {
+    fun generateErrorFormulaWithRangeAddress(combinationSize: Int, onEach: (List<String>) -> Unit) {
         val candidates = operator + listOf(
             "A1",
             "B1:C12",
