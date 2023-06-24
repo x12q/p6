@@ -22,7 +22,9 @@ internal class TextElementVisitorTest : TestSplitter() {
     fun `parErrFormula`() {
         test("") {
             val inputs = listOf(
-                "=+-*B1:C12A1@'Ws1'@'Wb1'"
+                "=A1@'Ws1'@'Wb1'",
+                "=B1:C12F(A1:A2,\"\")",
+                "=A1B1:C12A1@'Ws1'@'Wb1'",
             )
             inputs.forEach { formula ->
                 println(formula)
@@ -42,7 +44,6 @@ internal class TextElementVisitorTest : TestSplitter() {
                     val parseTree = treeExtractor.extractTree(formula)
                     val e = visitor.visit(parseTree.component1())
                     e.makeText() shouldBe formula
-                    println(formula)
                 }
             }
         }
