@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.DeleteMultiResponse
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
@@ -20,8 +19,7 @@ import kotlin.test.*
 
 internal class WorkbookUpdateCommonApplierImpTest {
     lateinit var ts:TestSample
-    lateinit var appStateMs: Ms<AppState>
-    val appState get() = appStateMs.value
+    lateinit var appState: AppState
     val workbook: Workbook get() = ts.sc.wbCont.getWb(TestSample.wbk1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
     lateinit var windowStateMs: Ms<WindowState>
@@ -32,7 +30,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     @BeforeTest
     fun beforeTest() {
         ts = TestSample()
-        appStateMs = ts.sampleAppStateMs()
+        appState = ts.sampleAppState()
         s2 = workbook.getWs(1)!!
         s1 = workbook.getWs(0)!!
 
@@ -49,22 +47,22 @@ internal class WorkbookUpdateCommonApplierImpTest {
     @Test
     fun `applyDeleteMulti ok msg`() {
         val key1 = TestSample.wbk1
-        val q = appStateMs.value.queryStateByWorkbookKey(key1)
+        val q = appState.queryStateByWorkbookKey(key1)
         val newWb = WorkbookImp(keyMs = key1.toMs())
         val r = WorkbookUpdateCommonResponse(
             wbKey = key1,
             newWorkbook = newWb
         )
         assertTrue { q.errorContainerMs.value.isEmpty() }
-        assertTrue { appStateMs.value.errorContainer.isEmpty() }
+        assertTrue { appState.errorContainer.isEmpty() }
         applier.apply(r)
         assertTrue { q.errorContainerMs.value.isEmpty() }
-        assertTrue { appStateMs.value.errorContainer.isEmpty() }
+        assertTrue { appState.errorContainer.isEmpty() }
     }
 
     @Test
     fun `applyDeleteMulti error response`() {
-        val appState = appStateMs
+        val appState = appState
         val e = SingleErrorReport.random()
         val response = DeleteMultiResponse(
             WorkbookUpdateCommonResponse(

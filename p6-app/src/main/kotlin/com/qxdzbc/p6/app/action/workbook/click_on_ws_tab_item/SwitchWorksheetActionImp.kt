@@ -20,11 +20,12 @@ import javax.inject.Inject
 class SwitchWorksheetActionImp @Inject constructor(
     val setActiveWorksheetAction: SetActiveWorksheetAction,
     val restoreWindowFocusAction: RestoreWindowFocusState,
-    private val appStateMs: Ms<AppState>,
+    val appState:AppState,
     val stateContMs: Ms<SubAppStateContainer>,
 ) : SwitchWorksheetAction {
-    var appState by appStateMs
+
     private var sc by stateContMs
+
     override fun switchToWorksheet(request: SetActiveWorksheetRequest): RseNav<SetActiveWorksheetResponse2> {
         restoreWindowFocusAction.setFocusStateConsideringRangeSelector(request.wbKey)
         var cellEditorState by appState.cellEditorStateMs

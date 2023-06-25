@@ -10,10 +10,8 @@ import javax.inject.Inject
 
 class AppActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
-    private val appStateMs: Ms<AppState>,
 ) : AppAction {
 
-    private var appState by appStateMs
 
     override fun exitApp() {
         appScope?.exitApplication()

@@ -19,10 +19,9 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWorkbookActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    private val appStateMs: Ms<AppState>,
+    val appState:AppState,
 ) : SetActiveWorkbookAction {
 
-    private var appState: AppState by appStateMs
     val stateCont by stateContSt
 
     override fun setActiveWb(wbk: WorkbookKey): Rse<Unit> {

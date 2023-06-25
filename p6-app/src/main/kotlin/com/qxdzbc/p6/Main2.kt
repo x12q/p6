@@ -56,9 +56,8 @@ fun main() {
                     .applicationScope(appScope)
                     .build()
 
-                val appStateMs = p6Comp.appStateMs()
-                var appState by appStateMs
-                appState = run {
+                val appState = p6Comp.appState()
+                run {
                     val wb1: Workbook = WorkbookImp(
                         keyMs = WorkbookKey("Book1", null).toMs(),
                     ).let {
@@ -110,7 +109,6 @@ fun main() {
                         acc.addOuterWindowState(e)
                     }
                     appState.subAppStateCont = zz
-                    appState
                 }
 
                 p6Comp2 = p6Comp
@@ -141,9 +139,8 @@ fun main() {
                 if (!starting) {
                     val p6Comp3 = p6Comp2
                     if (p6Comp3 != null) {
-                        val appStateMs2 = remember { p6Comp3.appStateMs() }
-                        P6GlobalAccessPoint.setAppStateMs(appStateMs2)
-                        val appState = appStateMs2.value
+                        val appState = remember { p6Comp3.appState() }
+                        P6GlobalAccessPoint.setAppState(appState)
 
                         for (windowStateMs in appState.subAppStateCont.outerWindowStateMsList) {
                             val windowState = windowStateMs.value

@@ -26,7 +26,7 @@ class CloseWorkbookActionImp @Inject constructor(
 ) : CloseWorkbookAction {
 
     private val sc by scMs
-    private val appState by scMs.value.appStateMs
+    private val appState = scMs.value.appState
 
     override fun closeWb(request: CloseWorkbookRequest): CloseWorkbookResponse {
         val response = requestCloseWb(request)
@@ -37,7 +37,7 @@ class CloseWorkbookActionImp @Inject constructor(
     override fun closeWb(wbKeySt: St<WorkbookKey>) {
 
         val wbKey = wbKeySt.value
-        val appState by sc.appStateMs
+        val appState = sc.appState
 
         val inputState = CloseWbState(
             wbCont = sc.wbCont,

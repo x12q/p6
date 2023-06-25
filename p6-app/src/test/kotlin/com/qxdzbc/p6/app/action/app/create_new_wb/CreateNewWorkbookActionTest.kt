@@ -140,13 +140,4 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
         testApplyOnApp(res)
         scMs.value.windowStateMsList.size shouldBe wdsCount + 1
     }
-
-//    @Test
-//    fun `apply ok with invalid window id on single window`() {
-//        appStateMs.value = TestSample.sampleAppStateMs().value
-//        val res:CreateNewWorkbookResponse = okRes.copy(windowId = "invalid window id")
-//        val wdsCount = appStateMs.value.windowStateMsList.size
-//        testApplyOnApp(res)
-//        assertEquals(wdsCount,appStateMs.value.windowStateMsList.size)
-//    }
 }

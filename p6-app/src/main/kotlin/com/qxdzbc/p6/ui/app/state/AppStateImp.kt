@@ -17,14 +17,15 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrapError
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
+@ContributesBinding(P6AnvilScope::class)
 data class AppStateImp @Inject constructor(
     @AppErrorContMs
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     override val activeWindowPointerMs: Ms<ActiveWindowPointer> = ms(ActiveWindowPointerImp(null)),
-    val windowStateFactory: WindowStateFactory,
-    private val wbStateFactory: WorkbookStateFactory,
     override val subAppStateContMs: Ms<SubAppStateContainer>,
     override val docContMs: Ms<DocumentContainer>,
     override val translatorContMs: Ms<TranslatorContainer>,
@@ -44,6 +45,7 @@ data class AppStateImp @Inject constructor(
     override val activeWindowState: WindowState?
         get() = activeWindowStateMs?.value
 
+    @Deprecated("dont use, pending to be deleted")
     override fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult {
         val windowStateMsRs = this.subAppStateCont.getWindowStateMsByWbKeyRs(workbookKey)
         if (windowStateMsRs is Ok) {

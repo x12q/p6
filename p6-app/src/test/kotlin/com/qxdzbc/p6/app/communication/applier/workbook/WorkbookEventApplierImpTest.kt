@@ -8,13 +8,13 @@ import kotlin.test.*
 
 class WorkbookEventApplyLogicImpTest {
 
-    lateinit var appStateMs:Ms<AppState>
+
     lateinit var ts:TestSample
-    val appState get()=appStateMs.value
+    lateinit var appState:AppState
     @BeforeTest
     fun b(){
         ts = TestSample()
-        appStateMs = ts.appStateMs
+        appState = ts.appState
     }
 
 //    @Test

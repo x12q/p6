@@ -4,22 +4,20 @@ import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.app.state.AppState
 import test.TestSample
 import kotlin.test.*
 
 internal class NewWorksheetActionImpTest {
-    lateinit var appStateMs: Ms<AppState>
+    lateinit var appStateMs:AppState
     lateinit var ts: TestSample
-    val appState get() = appStateMs.value
     lateinit var act: NewWorksheetAction
     val wbk = TestSample.wbk1
 
     @BeforeTest
     fun b() {
         ts = TestSample()
-        appStateMs = ts.appStateMs
+        appStateMs = ts.appState
         act = ts.comp.newWorksheetAction()
     }
 

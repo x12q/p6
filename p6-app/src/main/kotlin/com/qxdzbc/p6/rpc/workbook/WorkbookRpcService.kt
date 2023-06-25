@@ -47,8 +47,6 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType= WorkbookServiceGrpc.WorkbookServiceImplBase::class)
 class WorkbookRpcService @Inject constructor(
-//    @AppStateMs
-//    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
     private val rpcActions: WorkbookRpcActions,
     private val documentContMs: Ms<DocumentContainer>,

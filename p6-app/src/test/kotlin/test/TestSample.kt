@@ -2,7 +2,6 @@ package test
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
@@ -163,9 +162,8 @@ class TestSample: TestAppScope {
         return ms(comp.outerWindowStateFactory().create(inner))
     }
 
-    val appStateMs = comp.appStateMs()
     override val ts: TestSample=this
-    override var appState by appStateMs
+    override var appState = comp.appState()
     override val sc: StateContainer
         get() = this.stateCont
     override val scMs: Ms<StateContainer>
@@ -195,10 +193,10 @@ class TestSample: TestAppScope {
         val ci = ColdInit()
     }
 
-    fun sampleAppStateMs() = appStateMs
-    fun sampleAppStateMs(wbCont: WorkbookContainer): Ms<AppState> {
+    fun sampleAppState() = appState
+    fun sampleAppState(wbCont: WorkbookContainer): AppState {
         sc.wbCont = wbCont
-        return appStateMs
+        return appState
     }
 
     fun stateContMs(): MutableState<StateContainer> {

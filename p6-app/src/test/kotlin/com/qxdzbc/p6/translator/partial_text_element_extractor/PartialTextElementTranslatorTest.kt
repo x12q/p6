@@ -27,7 +27,7 @@ internal class PartialTextElementTranslatorTest : BaseAppStateTest() {
         val all = qRs.component1()!!.allSorted()
         all shouldBe listOf(
             BasicTextElement("=", 0, 0),
-            CellRangeElement("B1:", start = 1, stop = 3)
+            BasicTextElement("B1:", 1, 3),
         )
     }
 

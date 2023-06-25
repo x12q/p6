@@ -27,11 +27,10 @@ import javax.inject.Inject
 class OpenCellEditorImp @Inject constructor(
     val stateContMs: St<@JvmSuppressWildcards StateContainer>,
     val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
-    private val appStateMs: Ms<AppState>,
+    val appState:AppState,
     val errorRouter: ErrorRouter,
 ) : OpenCellEditorAction {
 
-    val appState by appStateMs
     val docCont by docContSt
     val sc by stateContMs
 

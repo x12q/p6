@@ -26,14 +26,13 @@ import javax.inject.Inject
 data class RenameWorksheetActionImp @Inject constructor(
     val stateContMs: Ms<SubAppStateContainer>,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged,
-    val appStateMs: Ms<AppState>,
+    val appState:AppState,
     val docContMs: Ms<DocumentContainer>,
     val errorRouter: ErrorRouter,
 ) : RenameWorksheetAction {
 
     private val sc by stateContMs
     private val dc by docContMs
-    val appState by appStateMs
 
     override fun renameWorksheetRs(request: RenameWorksheetRequest, undoable: Boolean): Rse<Unit> {
 

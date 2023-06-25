@@ -11,19 +11,22 @@ import test.TestSample
 
 import kotlin.test.BeforeTest
 
+/**
+ * TODO test this
+ */
 internal class RangeToClipboardActionImpTest {
 
     lateinit var action: RangeToClipboardActionImp
     lateinit var wsRequestMaker: WorksheetRM
     lateinit var cellRM: CellRM
-    lateinit var appStateMs: Ms<AppState>
+    lateinit var appStateMs: AppState
     lateinit var wsStateMs: Ms<WorksheetState>
     lateinit var testSample: TestSample
     @BeforeTest
     fun beforeTest() {
         testSample = TestSample()
-        appStateMs = testSample.sampleAppStateMs()
-        wsStateMs = appStateMs.value.queryStateByWorkbookKey(TestSample.wbk1).workbookStateMs.value.getWsStateMs("Sheet1")!!
+        appStateMs = testSample.sampleAppState()
+        wsStateMs = appStateMs.queryStateByWorkbookKey(TestSample.wbk1).workbookStateMs.value.getWsStateMs("Sheet1")!!
         wsRequestMaker = mock()
         cellRM = mock()
     }

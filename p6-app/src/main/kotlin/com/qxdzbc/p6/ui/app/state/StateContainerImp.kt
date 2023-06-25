@@ -44,13 +44,12 @@ import java.nio.file.Path
 import javax.inject.Inject
 
 class StateContainerImp @Inject constructor(
-    override val appStateMs: Ms<AppState>,
+    override val appState:AppState,
     val docContMs: Ms<DocumentContainer>,
     val subAppStateContMs: Ms<SubAppStateContainer>,
 ) : StateContainer, AbsSubAppStateContainer() {
 
     private var subAppStateCont by subAppStateContMs
-    override var appState by appStateMs
 
     override fun getActiveWorkbook(): Workbook? {
         return appState.activeWindowState?.activeWbState?.wb

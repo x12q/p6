@@ -23,18 +23,14 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class RenameWorksheetInternalApplierImp
 @Inject constructor(
-    private val appStateMs: Ms<AppState>,
+    val appState:AppState,
     val docContMs:Ms<DocumentContainer>,
     private val errorRouter: ErrorRouter,
 ) : RenameWorksheetInternalApplier {
 
     private var dc by docContMs
-    var appState by appStateMs
-    val translatorContainerMs: Ms<TranslatorContainer> = appState.translatorContMs
-    var translatorCont by translatorContainerMs
 
     override fun apply(wbKey: WorkbookKey, oldName: String, newName: String) {
-        val appState = appStateMs.value
         appState.queryStateByWorkbookKey(wbKey).ifOk {
             val wbState by it.workbookStateMs
             val wb = wbState.wb

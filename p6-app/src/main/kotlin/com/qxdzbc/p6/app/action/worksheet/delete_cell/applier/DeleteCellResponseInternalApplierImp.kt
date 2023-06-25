@@ -18,10 +18,10 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class DeleteCellResponseInternalApplierImp
 @Inject constructor(
-    private val appStateMs: Ms<AppState>,
+    val appState:AppState,
     val docContMs:Ms<DocumentContainer>,
 ) : DeleteCellResponseInternalApplier {
-    var appState by appStateMs
+
     private var dc by docContMs
 
     override fun apply(
@@ -30,7 +30,7 @@ class DeleteCellResponseInternalApplierImp
         cellAddress: CellAddress,
         newWorkbook: Workbook?
     ) {
-        val queryRs: QueryByWorkbookKeyResult = appStateMs.value.queryStateByWorkbookKey(workbookKey)
+        val queryRs: QueryByWorkbookKeyResult = appState.queryStateByWorkbookKey(workbookKey)
         queryRs.ifOk {
             val newWb = newWorkbook
             if (newWb != null) {

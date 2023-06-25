@@ -18,8 +18,7 @@ interface StateContainer : SubAppStateContainer, DocumentContainer {
 
     val cellEditorStateMs:Ms<CellEditorState>
     var cellEditorState: CellEditorState
-    val appStateMs:Ms<AppState>
-    var appState:AppState
+    val appState:AppState
 
     fun getActiveWorkbook(): Workbook?
     fun getActiveWorkbookRs(): Rse<Workbook>

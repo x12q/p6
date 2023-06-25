@@ -23,13 +23,13 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class NewWorksheetActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    val appStateMs: Ms<AppState>,
+    val appState:AppState,
     private val scMs: Ms<StateContainer>,
     private val dcMs: Ms<DocumentContainer>,
 ) : NewWorksheetAction {
+
     var sc by scMs
     var dc by dcMs
-    var appState by appStateMs
 
     override fun createNewWorksheetRs(
         request: CreateNewWorksheetRequest,

@@ -36,7 +36,6 @@ import dagger.Provides
 @dagger.Module
 interface AppStateModule {
 
-
     @Binds
     @P6Singleton
     fun WorkbookStateContSt(
@@ -119,12 +118,6 @@ interface AppStateModule {
         @P6Singleton
         fun InitActiveWindowPointer(): Ms<ActiveWindowPointer> {
             return ms(ActiveWindowPointerImp(null))
-        }
-
-        @Provides
-        @P6Singleton
-        fun appStateMs(i: AppStateImp): Ms<AppState> {
-            return ms(i)
         }
 
         @Provides

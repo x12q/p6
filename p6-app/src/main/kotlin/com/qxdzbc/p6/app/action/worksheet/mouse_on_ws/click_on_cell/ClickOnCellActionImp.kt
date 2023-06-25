@@ -24,7 +24,7 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ClickOnCellActionImp @Inject constructor(
-    private val appStateMs: Ms<AppState>,
+    val appState:AppState,
     private val stateContSt: St<@JvmSuppressWildcards SubAppStateContainer>,
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val refreshRangeSelectorText: RefreshRangeSelectorText,
@@ -33,7 +33,6 @@ class ClickOnCellActionImp @Inject constructor(
 ) : ClickOnCellAction {
 
     private val stateCont by stateContSt
-    private var appState by appStateMs
 
     fun clickOnCell(cellAddress: CellAddress, cursorStateMs:Ms<CursorState>?) {
         cursorStateMs?.also {

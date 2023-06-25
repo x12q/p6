@@ -47,6 +47,9 @@ import kotlinx.coroutines.CoroutineScope
 interface P6Component {
 
     @P6Singleton
+    fun appState():AppState
+
+    @P6Singleton
     fun moveToWbAction(): MoveToWbAction
 
     @P6Singleton
@@ -100,9 +103,9 @@ interface P6Component {
 
     @P6Singleton
     fun wsAction(): WorksheetAction
-
-    @P6Singleton
-    fun appStateMs(): Ms<AppState>
+//
+//    @P6Singleton
+//    fun appStateMs(): Ms<AppState>
 
     @P6Singleton
     fun wbContainerMs(): Ms<WorkbookContainer>
@@ -110,33 +113,11 @@ interface P6Component {
     @P6Singleton
     fun appContext(): AppContext
 
-//    @P6Singleton
-//    fun msgApiComponent(): MessageApiComponent
-
-//    @P6Singleton
-//    fun zContext(): ZContext
-
-//    @P6Singleton
-//    fun kernelContext(): KernelContext
-
-//    @P6Singleton
-//    fun codeRunner(): CodeRunner
-
-//    @P6Singleton
-//    fun backEndCommander(): PythonCommander
-
     @P6Singleton
     fun cellRequestMaker(): CellRM
 
     @P6Singleton
     fun appRequestMaker(): AppRM
-
-//    @P6Singleton
-//    fun kernelServiceManager(): KernelServiceManager
-
-//    @P6Singleton
-//    @EventServerSocket
-//    fun eventServerSocket(): ZMQ.Socket
 
     @EventServerPort
     fun eventServerPort(): Int
@@ -144,9 +125,6 @@ interface P6Component {
     @Component.Builder
     interface Builder {
         fun build(): P6Component
-
-//        @BindsInstance
-//        fun messageApiComponent(@P6Singleton component: MessageApiComponent): Builder
 
         @BindsInstance
         fun username(@Username u: String): Builder

@@ -33,7 +33,7 @@ class SaveWorkbookActionImp @Inject constructor(
 
     private val sc by stateContSt
     private var wbCont by sc.wbContMs
-    private var appState by sc.appStateMs
+    private var appState = sc.appState
 
     override fun saveWorkbookForRpc(
         wbKey: WorkbookKey,

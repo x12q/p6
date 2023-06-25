@@ -39,7 +39,7 @@ import dagger.Provides
         RMModule::class,
         ApplierModule::class,
         ActionTableModule::class,
-        AppStateModule::class,
+//        AppStateModule::class,
         DocumentModule::class,
         TranslatorModule::class,
         StatusBarModule::class,
