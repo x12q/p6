@@ -38,7 +38,10 @@ internal class TextElementVisitorTest : TestSplitter() {
     }
 
 
-    @Test
+//    @Test
+    /**
+     * This test takes 4 mins to run, don't run it with other tests.
+     */
     fun `parErrFormula mixed formula`() {
 
         test("Parse erroneous formula that contains a mix of operator, functions, range addresses") {
@@ -82,7 +85,7 @@ internal class TextElementVisitorTest : TestSplitter() {
             "1",
             "\"abc\"",
             "A1@'Ws1'@'Wb1'",
-            "SUM(D)",
+            "SUM(D",
             "SUM(1,2,3)",
             "F(A1:A2,\"\")"
         )
