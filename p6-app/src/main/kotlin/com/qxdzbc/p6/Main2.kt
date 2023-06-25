@@ -1,4 +1,4 @@
-package  com
+package  com.qxdzbc.p6
 
 import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
@@ -19,7 +19,6 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.app.app_context.P6GlobalAccessPoint
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp

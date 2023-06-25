@@ -8,7 +8,7 @@ import androidx.compose.ui.layout.positionInWindow
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
+import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.RefreshRangeSelectorText
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -28,7 +28,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class,boundType=RulerAction::class)
 class RulerActionImp @Inject constructor(
     private val stateContMs: Ms<StateContainer>,
-    val updateCellEditorText: UpdateRangeSelectorText,
+    val updateCellEditorText: RefreshRangeSelectorText,
     val changColRowSizeAction: ChangeRowAndColumnSizeAction
 ) : RulerAction , ChangeRowAndColumnSizeAction by changColRowSizeAction{
 
@@ -55,7 +55,7 @@ class RulerActionImp @Inject constructor(
      * Update cell editor text if range selector is allowed. Otherwise, close cell editor
      */
     private fun updateCellEditorTextIfNeed(){
-        updateCellEditorText.updateRangeSelectorTextInCurrentCellEditor()
+        updateCellEditorText.refreshRangeSelectorTextInCurrentCellEditor()
         if (sc.cellEditorState.isOpen) {
             if (!sc.cellEditorState.allowRangeSelector) {
                 sc.cellEditorState = sc.cellEditorState.close()

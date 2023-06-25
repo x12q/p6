@@ -1,69 +1,208 @@
 package com.qxdzbc.p6.ui.app.cell_editor
 
+import com.qxdzbc.common.test_util.TestSplitter
 import kotlin.test.*
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState.*
-internal class RangeSelectorAllowStateTest {
+import io.kotest.matchers.shouldBe
+
+internal class RangeSelectorAllowStateTest : TestSplitter() {
 
     @Test
-    fun transit() {
-        val S = START
-        // x: input act char "+" at the end
-        val s1 = S.transit("=abc+",'+',3,null,false,false)
-        assertEquals(ALLOW,s1)
-        // x: input act char "/" at the end
-        val s2 = s1.transit("=abc+/",'/',4,null,false,false)
-        assertEquals(ALLOW,s2)
-        // x: input non-act char "q" at the end
-        val s3 = s2.transit("=abc+/q",'q',5,null,false,false)
-        assertEquals(RangeSelectorAllowState.DISALLOW,s3)
+    fun `test delete from end to act char, should be allow mouse`(){
+        val state = START
+        state.transit(
+            text = "=A1+B2+",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 7, // text cursor at the end of the line
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe ALLOW_MOUSE
+    }
+
+
+    @Test
+    fun `test START`() {
+        val start = START
+        // x: input activation char "+" at the end
+        val s1 = start.transit(
+            text = "=abc+",
+            inputChar = '+',
+            inputIndex = 3,
+            textCursorIndex = null,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        )
+        s1 shouldBe ALLOW
+
+        // Input activation char "/" at the end
+        val s2 = s1.transit(
+            text = "=abc+/",
+            inputChar = '/',
+            inputIndex = 4,
+            textCursorIndex = null,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        )
+        s2 shouldBe ALLOW
+        // Input non-activation char "q" at the end
+        s2.transit(
+            text = "=abc+/q",
+            inputChar = 'q',
+            inputIndex = 5,
+            textCursorIndex = null,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe DISALLOW
     }
 
     @Test
-    fun `test ALLOW_MOUSE`(){
-        val am = ALLOW_MOUSE
-        // x: input act char at the end
-        assertEquals(ALLOW,am.transit("=abc+",'+',4))
-        // x: input act char in the middle
-        assertEquals(ALLOW_MOUSE,am.transit("=ab+c",'+',3))
-        // x: input act char at the end
-        assertEquals(DISALLOW,am.transit("=abc+q",'q',5))
-        // x: move cursor to act char
-        assertEquals(ALLOW_MOUSE,am.transit("=abc+q",null,null,5,true))
-        assertEquals(ALLOW_MOUSE,am.transit("=abc+q",null,null,5,false,true))
+    fun `test ALLOW_MOUSE`() {
+        val allowMouse = ALLOW_MOUSE
 
-        // x: move cursor to non-act char
-        assertEquals(DISALLOW,am.transit("=abc+q",null,null,3,false,true))
-        assertEquals(DISALLOW,am.transit("=abc+q",null,null,3,true,false))
+        // Input activation char at the end
+        allowMouse.transit(
+            text = "=abc+",
+            inputChar = '+',
+            inputIndex = 4,
+            textCursorIndex = null,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe ALLOW
+
+        // Input activation char in the middle
+        allowMouse.transit(
+            text = "=ab+c",
+            inputChar = '+',
+            inputIndex = 3,
+            textCursorIndex = 4,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe ALLOW_MOUSE
+
+        // Input non-activation char at the end
+        allowMouse.transit(
+            text = "=abc+q",
+            inputChar = 'q',
+            inputIndex = 5,
+            textCursorIndex = null,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe DISALLOW
+
+        // Move cursor to activation char
+
+        allowMouse.transit(
+            text = "=abc+q",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 5,
+            moveTextCursorWithMouse = true,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe ALLOW_MOUSE
+
+        allowMouse.transit(
+            text = "=abc+q",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 5,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = true
+        ) shouldBe ALLOW_MOUSE
+
+
+        // Move cursor to non-activation char
+        allowMouse.transit(
+            text = "=abc+q",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 3,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = true
+        ) shouldBe DISALLOW
+
+        allowMouse.transit(
+            text = "=abc+q",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 3,
+            moveTextCursorWithMouse = true,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe DISALLOW
     }
 
     @Test
-    fun `test ALLOW`(){
-        val A = ALLOW
+    fun `test ALLOW`() {
+        val allow = ALLOW
 
-        // x: input act char at the end
-        val s1 = A.transit("=abc+",'+',3)
-        assertEquals(ALLOW,s1)
+        // input activation char at the end
+        allow.transit(
+            text = "=abc+",
+            inputChar = '+',
+            inputIndex = 3,
+            textCursorIndex = null,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe ALLOW
 
-        // x: input act char in the middle
-        val s2 = A.transit("=ab+c",'+',2,3)
-        assertEquals(ALLOW,s2)
+        // input activation char in the middle
+        allow.transit(
+            text = "=ab+c",
+            inputChar = '+',
+            inputIndex = 2,
+            textCursorIndex = 3,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe ALLOW
 
-        // x: move cursor to next to an act char with mouse
-        val s3 = A.transit("=abc+/q",null,null,5,true,false)
-        assertEquals(ALLOW_MOUSE, s3)
+        // move cursor to next to an activation char with mouse
+        allow.transit(
+            text = "=abc+/q",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 5,
+            moveTextCursorWithMouse = true,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe ALLOW_MOUSE
 
-        // x: move cursor to next to a non-act char with mouse
-        val s4 = A.transit("=abc+",null,null,2,true,false)
-        assertEquals(DISALLOW,s4)
+        // x: move cursor to next to a non-activation char with mouse
+        allow.transit(
+            text = "=abc+",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 2,
+            moveTextCursorWithMouse = true,
+            moveTextCursorWithKeyboard = false
+        ) shouldBe DISALLOW
 
 
-        // x: move cursor to next to an act char with mouse
-        val s5 = A.transit("=abc+/q",null,null,5,false,true)
-        assertEquals(ALLOW_MOUSE, s5)
+        // Move cursor to next to an activation char with mouse
+        allow.transit(
+            text = "=abc+/q",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 5,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = true
+        ) shouldBe ALLOW_MOUSE
 
-        // x: move cursor to next to a non-act char with mouse
-        val s6 = A.transit("=abc+",null,null,3,false,true)
-        assertEquals(DISALLOW,s6)
+        // Move cursor to next to a non-activation char with mouse
+        allow.transit(
+            text = "=abc+",
+            inputChar = null,
+            inputIndex = null,
+            textCursorIndex = 3,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = true
+        ) shouldBe DISALLOW
 
+        allow.transit(
+            text = "=A1-+B1",
+            inputChar = '-',
+            inputIndex = 3,
+            textCursorIndex = 4,
+            moveTextCursorWithMouse = false,
+            moveTextCursorWithKeyboard = false,
+        ) shouldBe ALLOW
     }
 }

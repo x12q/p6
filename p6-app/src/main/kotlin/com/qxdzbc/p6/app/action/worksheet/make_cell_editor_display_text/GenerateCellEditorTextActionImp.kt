@@ -18,18 +18,18 @@ import javax.inject.Inject
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
-class MakeCellEditorTextActionImp @Inject constructor(
+class GenerateCellEditorTextActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     val formatter: RangeAddressFormatter,
-) : MakeCellEditorTextAction {
+) : GenerateCellEditorTextAction {
 
     private val stateCont by stateContSt
 
-    override fun makeRangeSelectorText(editorState: CellEditorState): TextFieldValue {
+    override fun generateRangeSelectorText(editorState: CellEditorState): TextFieldValue {
         if (editorState.allowRangeSelector) {
-            return makeRangeSelectorText(
+            return generateRangeSelectorText(
                 editorState.currentTextField,
-                editorState.rangeSelectorCursorId,
+                editorState.rangeSelectorId,
                 editorState.targetCursorId
             )
         } else {
@@ -37,7 +37,7 @@ class MakeCellEditorTextActionImp @Inject constructor(
         }
     }
 
-    override fun makeRangeSelectorText(
+    override fun generateRangeSelectorText(
         currentTextField: TextFieldValue,
         selectorId: CursorId?,
         cursorId: CursorId?
@@ -48,6 +48,8 @@ class MakeCellEditorTextActionImp @Inject constructor(
         val rsWbKey: WorkbookKey? = selectorId?.wbKey
 
         if (rsWsName != null && rsRange != null && rsWbKey != null) {
+            // range selector exists
+
             val rangeStr: String = if (rsRange.isCell()) {
                 rsRange.topLeft.label
             } else {
@@ -80,7 +82,7 @@ class MakeCellEditorTextActionImp @Inject constructor(
     }
 
 
-    private fun getSelectedRange(cursorState: CursorState): RangeAddress {
+    fun getSelectedRange(cursorState: CursorState): RangeAddress {
         val mainRange = cursorState.mainRange
         if (mainRange != null) {
             return mainRange

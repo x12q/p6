@@ -5,7 +5,7 @@ formula: startFormulaSymbol expr EOF #zFormula ;
 
 // an expression always returns something
 expr: invokation #invokeExpr
-    | openParen expr closeParen #parenExpr
+    | openParen expr closeParen #parenExpr  // x12q here
     | lit #literal
     | op=SUB expr #unSubExpr
     | op=NOT expr #notExpr
@@ -31,10 +31,10 @@ sheetPrefix:'@' sheetNameWithSpace
 sheetNameWithSpace:WITH_SPACE_ID;
 sheetName:noSpaceId;
 
-rangeAddress:cellAddress ':' cellAddress  #rangeAsPairCellAddress
+rangeAddress:cellAddress op=':' cellAddress  #rangeAsPairCellAddress
             | cellAddress  #rangeAsOneCellAddress
-            | ID_LETTERS ':' ID_LETTERS  #rangeAsColAddress
-            | INT':'INT #rangeAsRowAddress
+            | colAddress  #rangeAsColAddress
+            | rowAddress #rangeAsRowAddress
             |openParen rangeAddress closeParen #rangeInparens
             ;
 
@@ -47,20 +47,25 @@ wbName: noSpaceId | WITH_SPACE_ID ;
 
 // A1,A123, ABC123, $A1, A$1, $A$1
 cellAddress: CELL_LIKE_ADDRESS;
+colAddress:ID_LETTERS ':' ID_LETTERS;
+rowAddress:INT':'INT;
 
 // wbPath is encased in single quotes: 'path/to/wb.abc'
 wbPath:WITH_SPACE_ID;
 lit: (FLOAT_NUMBER | BOOLEAN | STRING | INT );
 
-openParen:'(';
-closeParen:')';
-comma:',';
-startFormulaSymbol:'=';
+openParen:op='(';
+closeParen:op=')';
+comma:op=',';
+startFormulaSymbol:op='=';
 
 // Boolean must be prioritized over id so that it can be parsed correctly
 BOOLEAN: 'TRUE' | 'FALSE';
 
-// eg: A1, $A1, A$1, $A$1
+/**
+Id without any space character inside.
+eg: A1, $A1, A$1, $A$1
+**/
 noSpaceId:CELL_LIKE_ADDRESS|NO_SPACE_ID;
 CELL_LIKE_ADDRESS:'$'?ID_LETTERS '$'?INT;
 NO_SPACE_ID:ID_LETTERS(INT|ID_LETTERS)*;

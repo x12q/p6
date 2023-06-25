@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.apache.commons.text)
     implementation(libs.apache.commons.csv)
     implementation(libs.apache.commons.io)
+    implementation(libs.apache.commons.math3)
     implementation(libs.kotlin.reflect)
     implementation(libs.rsyntaxtextarea)
     implementation(libs.kotlinx.coroutines.core)
@@ -54,6 +55,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":common-compose"))
     implementation(project(":common-test"))
+
 }
 
 tasks.test {

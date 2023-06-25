@@ -31,7 +31,7 @@ class MoveToWbActionImp @Inject constructor(
         if(ces.isOpen && ces.allowRangeSelector){
             val newRangeCursorMs = sc.getActiveCursorMs(wbKey)
             if(newRangeCursorMs!=null){
-                ces = ces.setRangeSelectorCursorId(newRangeCursorMs.value.idMs)
+                ces = ces.setRangeSelectorId(newRangeCursorMs.value.idMs)
             }else{
                 // x: this happens when the target workbook is empty
                 ces = ces.clearAllText().close()

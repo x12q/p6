@@ -5,11 +5,11 @@ import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.Token
 
 /**
- * A basic [TextElement], simply contains a [text] and a [range].
+ * A basic [TextElement], simply contains a [text] and a [textRange].
  */
-data class BasicTextElement constructor(
+data class BasicTextElement (
     override val text:String,
-    override val range:IntRange
+    override val textRange:IntRange
 ): TextElement{
 
     constructor(text:String,i:Int):this(text,i .. i)
@@ -18,20 +18,30 @@ data class BasicTextElement constructor(
     companion object{
         val empty = BasicTextElement("",-1 .. -1)
         fun from(ruleContext: ParserRuleContext): BasicTextElement {
-            val c = ruleContext
+            if(ruleContext.start.startIndex < 0 || ruleContext.stop.stopIndex < 0){
+                throw IllegalStateException("Can't create BasicTextElement from ctx that have negative index")
+            }
             return BasicTextElement(
-                text =  c.text ?: "",
-                range = c.start.startIndex .. c.stop.stopIndex
+                text = ruleContext.text ?: "",
+                textRange = ruleContext.start.startIndex..ruleContext.stop.stopIndex
             )
         }
         fun from(token:Token):BasicTextElement{
-            return BasicTextElement(text = token.text, range = token.startIndex..token.stopIndex)
+            if(token.startIndex <0 || token.stopIndex<0){
+                throw IllegalStateException("Can't create BasicTextElement from tokens that have negative index")
+            }
+            return BasicTextElement(text = token.text, textRange = token.startIndex..token.stopIndex)
         }
     }
 
     fun toResult():TextElementResult{
         return TextElementResult(
-            others = listOf(this)
+            basicTexts = listOf(this)
+        )
+    }
+    fun toErrResult():TextElementResult{
+        return TextElementResult(
+            inclusiveErrs = listOf(this)
         )
     }
 }

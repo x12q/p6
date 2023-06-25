@@ -35,12 +35,16 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
 
 /**
- * Cursor view consist of:
+ * Cell cursor view consist of:
  *  - an invisible view that handle user keyboard input
  *  - views highlighting selected, copied, referred cells, ranges.
+ *
+ *  Cell cursor plays 2 roles:
+ *  - as cell cursor
+ *  - and as range selector
  */
 @Composable
-fun CursorView(
+fun CellCursor(
     state: CursorState,
     currentDisplayedRange: RangeAddress,
     action: CursorAction,
@@ -103,8 +107,8 @@ fun CursorView(
             )
         }
 
-        // x: this is the main cell
-        if (state.cellEditorState.isNotOpen || state.cellEditorState.rangeSelectorCursorId == state.id) {
+        // x: this is the main cell cursor
+        if (state.cellEditorState.isNotOpen || state.cellEditorState.rangeSelectorId == state.id) {
             val mainCellSize = cellLayoutCoorsMap[mainCell]?.dbSizeOrZero(density) ?: DpSize(0.dp, 0.dp)
             MBox(
                 modifier = modifier
@@ -143,15 +147,15 @@ fun CursorView(
                 val visibleRefRangeAndColor: Map<RangeAddress?, Color> = refRangeAndColorMap.mapKeys { (range, _) ->
                     range.intersect(currentDisplayedRange)
                 }
-                for ((r, c) in visibleRefRangeAndColor) {
-                    r?.also {
-                        val topLeftCoor = cellLayoutCoorsMap[r.topLeft]
-                        val botRightCoor = cellLayoutCoorsMap[r.botRight]
+                for ((rangeAddress, color) in visibleRefRangeAndColor) {
+                    rangeAddress?.also {
+                        val topLeftCoor = cellLayoutCoorsMap[rangeAddress.topLeft]
+                        val botRightCoor = cellLayoutCoorsMap[rangeAddress.botRight]
                         if (topLeftCoor != null && botRightCoor != null) {
                             if (topLeftCoor.isAttached && botRightCoor.isAttached) {
                                 val offset = layout.windowToLocal(topLeftCoor.posInWindowOrZero)
 
-                                val size = if(r.isCell()){
+                                val size = if(rangeAddress.isCell()){
                                     topLeftCoor.dbSizeOrZero(density).toSize()
                                 }else{
                                     val botRightOffset = layout.windowToLocal(botRightCoor.posInWindowOrZero)
@@ -162,14 +166,14 @@ fun CursorView(
 
                                 // x: dash line
                                 drawRect(
-                                    color = c,
+                                    color = color,
                                     topLeft = offset,
                                     size = size,
                                     style = P6R.canvas.stroke.dashLine
                                 )
                                 // x: filled rect
                                 drawRect(
-                                    color = c.copy(alpha=0.3f),
+                                    color = color.copy(alpha=0.3f),
                                     topLeft = offset,
                                     size = size,
                                 )

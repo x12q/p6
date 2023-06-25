@@ -30,7 +30,7 @@ class SwitchWorksheetActionImp @Inject constructor(
         var cellEditorState by appState.cellEditorStateMs
         if(cellEditorState.isOpen && cellEditorState.allowRangeSelector){
             sc.getCursorStateMs(request)?.also {
-                cellEditorState = cellEditorState.setRangeSelectorCursorId(it.value.idMs)
+                cellEditorState = cellEditorState.setRangeSelectorId(it.value.idMs)
             }
         }else{
             cellEditorState = cellEditorState.close()

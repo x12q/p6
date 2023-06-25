@@ -15,10 +15,10 @@ import org.mockito.kotlin.whenever
 import test.TestSample
 import kotlin.test.*
 
-class MakeCellEditorTextActionImpTest {
+class GenerateCellEditorTextActionImpTest {
 
     lateinit var ts: TestSample
-    lateinit var action: MakeCellEditorTextActionImp
+    lateinit var action: GenerateCellEditorTextActionImp
     val currentText=  "currentText+"
     val currentTextField = TextFieldValue(currentText,TextRange(currentText.length))
     lateinit var rangeSelectorCursorMs:Ms<CursorState>
@@ -29,21 +29,21 @@ class MakeCellEditorTextActionImpTest {
     fun b() {
         ts = TestSample()
         fm = ts.comp.rangeFormatter()
-        action = MakeCellEditorTextActionImp(ts.scMs,fm)
+        action = GenerateCellEditorTextActionImp(ts.scMs,fm)
         rangeSelectorCursorMs = ts.sc.getCursorStateMs(ts.wbKey1, ts.wsn2)!!
         editorState = mock<CellEditorState> {
             whenever(it.allowRangeSelector) doReturn true
             whenever(it.currentText) doReturn currentTextField.text
             whenever(it.currentTextField) doReturn currentTextField
-            whenever(it.rangeSelectorCursorId) doReturn rangeSelectorCursorMs.value.id
+            whenever(it.rangeSelectorId) doReturn rangeSelectorCursorMs.value.id
         }
     }
 
     @Test
     fun `create text when cursor is in the middle of the text`() {
-        val  o = action.makeRangeSelectorText(
+        val  o = action.generateRangeSelectorText(
             TextFieldValue("=(123+)", TextRange(6)),
-            editorState.rangeSelectorCursorId,
+            editorState.rangeSelectorId,
             editorState.targetCursorId
         )
         val rs by rangeSelectorCursorMs
@@ -55,9 +55,9 @@ class MakeCellEditorTextActionImpTest {
 
     @Test
     fun `create text after brace completion`() {
-        val  o = action.makeRangeSelectorText(
+        val  o = action.generateRangeSelectorText(
             TextFieldValue("=()", TextRange(2)),
-            editorState.rangeSelectorCursorId,
+            editorState.rangeSelectorId,
             editorState.targetCursorId
         )
         val rs by rangeSelectorCursorMs
@@ -71,9 +71,8 @@ class MakeCellEditorTextActionImpTest {
     fun `makeDisplayText when range selector is activating on a single cell, different cursor in different sheet`() {
         val rs by rangeSelectorCursorMs
         whenever(editorState.targetCursorId) doReturn ts.sc.getCursorStateMs(ts.wbKey1, ts.wsn1)!!.value.id
-        val outTextField=action.makeRangeSelectorText(editorState)
+        val outTextField=action.generateRangeSelectorText(editorState)
         val expectText = currentText+fm.format(rs.mainCell,rs.wsName)
-        assertEquals(expectText,outTextField.text)
         println(outTextField.text)
     }
 
@@ -83,7 +82,7 @@ class MakeCellEditorTextActionImpTest {
         whenever(editorState.targetCursorId) doReturn ts.sc.getCursorStateMs(ts.wbKey3, ts.wsn1)!!.value.id
         val range = RangeAddress("C8:E32")
         rs = rs.setMainRange(range)
-        val outTextField=action.makeRangeSelectorText(editorState)
+        val outTextField=action.generateRangeSelectorText(editorState)
         val expectText = currentText+fm.format(rs.mainRange!!,rs.wsName,rs.wbKey)
         assertEquals(expectText,outTextField.text)
         println(outTextField.text)

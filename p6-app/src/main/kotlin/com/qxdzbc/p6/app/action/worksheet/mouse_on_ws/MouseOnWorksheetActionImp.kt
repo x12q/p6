@@ -3,9 +3,9 @@ package com.qxdzbc.p6.app.action.worksheet.mouse_on_ws
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
-import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.UpdateRangeSelectorText
+import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.RefreshRangeSelectorText
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddresses
@@ -26,8 +26,8 @@ import javax.inject.Inject
 class MouseOnWorksheetActionImp @Inject constructor(
     private val scMs: Ms<StateContainer>,
     private val clickOnCell: ClickOnCellAction,
-    private val makeDisplayText: MakeCellEditorTextAction,
-    private val updateRangeSelectorText: UpdateRangeSelectorText,
+    private val makeDisplayText: GenerateCellEditorTextAction,
+    private val refreshRangeSelectorText: RefreshRangeSelectorText,
     private val cellEditorStateMs:Ms<CellEditorState>,
 ) : MouseOnWorksheetAction, ClickOnCellAction by clickOnCell {
 
@@ -39,7 +39,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
             if (cellAddress != cursorState.mainCell) {
                 cursorState = cursorState.setMainRange(RangeAddresses.from2Cells(cellAddress, cursorState.mainCell))
             }
-            updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
+            refreshRangeSelectorText.refreshRangeSelectorTextInCurrentCellEditor()
         }
     }
 
@@ -115,7 +115,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
             val newRange = RangeAddresses.fromManyCells(listOf(currentCellMouseOn, cursorState.mainCell))
             val newCursorState = cursorState.setMainRange(newRange)
             it.value = newCursorState
-            updateRangeSelectorText.updateRangeSelectorTextInCurrentCellEditor()
+            refreshRangeSelectorText.refreshRangeSelectorTextInCurrentCellEditor()
         }
     }
 

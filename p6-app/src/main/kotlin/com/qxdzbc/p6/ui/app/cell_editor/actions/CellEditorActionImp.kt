@@ -14,7 +14,7 @@ import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormul
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
 import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.MakeCellEditorTextAction
+import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
@@ -35,13 +35,14 @@ class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
     private val handleCursorKeyboardEventAct: HandleCursorKeyboardEventAction,
-    private val makeDisplayText: MakeCellEditorTextAction,
+    private val makeDisplayText: GenerateCellEditorTextAction,
     private val openCellEditor: OpenCellEditorAction,
     private val stateContMs: Ms<StateContainer>,
     private val textDiffer: TextDiffer,
     val cycleLockStateAct: CycleFormulaLockStateAction,
     @PartialTreeExtractor
     val treeExtractor: TreeExtractor,
+//    @Dont
     val colorFormulaAction: ColorFormulaInCellEditorAction,
     val closeCellEditorAction: CloseCellEditorAction,
     val runFormulaOrSaveValueToCellAction: RunFormulaOrSaveValueToCellAction,
@@ -49,7 +50,7 @@ class CellEditorActionImp @Inject constructor(
     RunFormulaOrSaveValueToCellAction by runFormulaOrSaveValueToCellAction,
     CloseCellEditorAction by closeCellEditorAction,
     CycleFormulaLockStateAction by cycleLockStateAct,
-    MakeCellEditorTextAction by makeDisplayText,
+    GenerateCellEditorTextAction by makeDisplayText,
     OpenCellEditorAction by openCellEditor {
 
     private val stateCont by stateContMs
@@ -79,9 +80,9 @@ class CellEditorActionImp @Inject constructor(
 
     /**
      * **For testing only.**
-     * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be use for testing only. Even so, be extra careful when use this in tests. Use [changeText] in the app instead.
+     * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be used for testing only. Even so, be extra careful when use this in tests. Use [changeRawText] in the app instead.
      */
-    override fun changeText(newText: String) {
+    override fun changeRawText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
         if (editorState.isOpen) {
             val newTextField = TextFieldValue(text = newText, selection = TextRange(newText.length))
@@ -110,7 +111,7 @@ class CellEditorActionImp @Inject constructor(
                     when the cell editor switches off allow-range-selector flag, if the range-selector cell cursor and target cell cursor are the same, reset the cell cursor state and point it to the currently edited cell so that on the UI it moves back to the currently edited cell. This does not change the content of the cell editor state.
                     */
                     val from_Allow_To_Disallow: Boolean =
-                        oldRSAState.isAllowed() && ces.rangeSelectorAllowState.isAllowed().not()
+                        oldRSAState.isAllowedOrAllowMouse() && ces.rangeSelectorAllowState.isAllowedOrAllowMouse().not()
                     if (from_Allow_To_Disallow) {
                         if (ces.rangeSelectorIsSameAsTargetCursor) {
                             ces.targetCursorId?.let { cursorId ->
@@ -168,7 +169,7 @@ class CellEditorActionImp @Inject constructor(
      */
     private fun passKeyEventToRangeSelector(keyEvent: P6KeyEvent, rangeSelectorId: CursorId?): Boolean {
         val rt: Boolean = rangeSelectorId?.let {
-            handleCursorKeyboardEventAct.handleKeyboardEvent(keyEvent, it)
+            handleCursorKeyboardEventAct.handleKeyboardEvent(keyEvent, rangeSelectorId)
         } ?: false
         return rt
     }
@@ -235,11 +236,11 @@ class CellEditorActionImp @Inject constructor(
     fun handleOtherKey(keyEvent: P6KeyEvent):Boolean{
         if (editorState.rangeSelectorAllowState == RangeSelectorAllowState.ALLOW) {
             if (keyEvent.canBeConsumedByRangeSelector()) {
-                val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorCursorId)
+                val rt = this.passKeyEventToRangeSelector(keyEvent, editorState.rangeSelectorId)
                 if (keyEvent.canMoveRangeSelector()) {
                     // x: range selector was moved, so generate a new range selector text
                     val rsText = makeDisplayText
-                        .makeRangeSelectorText(stateCont.cellEditorState)
+                        .generateRangeSelectorText(stateCont.cellEditorState)
                     // x: update range selector text
                     editorStateMs.value =
                         colorFormulaAction.colorDisplayTextInCellEditor(
