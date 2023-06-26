@@ -102,10 +102,10 @@ class IntegrationTest {
                 wsNameSt = wsNameSt,
                 functionMapMs = FunctionMapImp(
                     P6FunctionDefinitionsImp(
-                        docContSt = appState.docContMs,
+                        docContSt = appState.documentContainerMs,
                     ).functionMap
                 ).toMs(),
-                appState.docContMs
+                appState.documentContainerMs
             ),
             treeExtractor = TreeExtractorImp()
         )

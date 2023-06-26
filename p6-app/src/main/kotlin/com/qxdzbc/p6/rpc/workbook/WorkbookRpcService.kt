@@ -50,7 +50,7 @@ class WorkbookRpcService @Inject constructor(
     private val translatorContainer: TranslatorContainer,
     private val rpcActions: WorkbookRpcActions,
     private val documentContMs: Ms<DocumentContainer>,
-    private val stateContMs: Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
     @AppCoroutineScope
     val crtScope: CoroutineScope,
     @ActionDispatcherDefault
@@ -59,7 +59,7 @@ class WorkbookRpcService @Inject constructor(
 
     //    private var appState by appStateMs
     private var dc by documentContMs
-    private var sc by stateContMs
+    private var sc = subAppStateContainer
 
     override fun removeAllWorksheet(
         request: DocProtos.WorkbookKeyProto?,

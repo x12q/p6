@@ -5,16 +5,13 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.oddity.ErrorContainer
 import com.qxdzbc.p6.app.oddity.ErrorContainerImp
-import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.state.app_state.*
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.ActiveWindowPointerImp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.window.state.WindowState
-import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.unwrapError
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -26,14 +23,14 @@ data class AppStateImp @Inject constructor(
     @AppErrorContMs
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     override val activeWindowPointerMs: Ms<ActiveWindowPointer> = ms(ActiveWindowPointerImp(null)),
-    override val subAppStateContMs: Ms<SubAppStateContainer>,
-    override val docContMs: Ms<DocumentContainer>,
+    override var subAppStateCont:SubAppStateContainer,
+    override val documentContainerMs: Ms<DocumentContainer>,
     override val translatorContMs: Ms<TranslatorContainer>,
     override val cellEditorStateMs: Ms<CellEditorState>,
 ) : AppState {
 
-    override var docCont by docContMs
-    override var subAppStateCont by subAppStateContMs
+    override var documentContainer by documentContainerMs
+
     override var translatorContainer: TranslatorContainer by translatorContMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
     override var errorContainer: ErrorContainer by errorContainerMs

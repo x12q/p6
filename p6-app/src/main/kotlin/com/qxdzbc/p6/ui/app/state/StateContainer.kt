@@ -6,7 +6,6 @@ import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 /**
@@ -23,12 +22,10 @@ interface StateContainer : SubAppStateContainer, DocumentContainer {
     fun getActiveWorkbook(): Workbook?
     fun getActiveWorkbookRs(): Rse<Workbook>
 
-    override fun createNewWindowStateMs(): Pair<StateContainer, Ms<OuterWindowState>>
-    override fun createNewWindowStateMs(windowId: String): Pair<StateContainer, Ms<OuterWindowState>>
-    override fun addWbStateFor(wb: Workbook): StateContainer
-    override fun removeWindowState(windowState: Ms<WindowState>): StateContainer
-    override fun removeWindowState(windowId: String): StateContainer
-    override fun addWindowState(windowState: Ms<WindowState>): StateContainer
+    override fun removeWindowState(windowState: Ms<WindowState>)
+    override fun removeWindowState(windowId: String)
+    override fun addWindowState(windowState: Ms<WindowState>)
+
     /**
      * get window state respective to [windowId],
      * if [windowId] is null, get the active window, or the first, or create a new window

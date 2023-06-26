@@ -104,11 +104,9 @@ fun main() {
                                 )
                             ) as OuterWindowState
                         )
-                    ).fold(appState.subAppStateCont)
-                    { acc, e ->
-                        acc.addOuterWindowState(e)
+                    ).forEach{
+                        appState.subAppStateCont.addOuterWindowState(it)
                     }
-                    appState.subAppStateCont = zz
                 }
 
                 p6Comp2 = p6Comp

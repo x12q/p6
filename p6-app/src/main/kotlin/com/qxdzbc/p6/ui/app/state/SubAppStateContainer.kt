@@ -32,7 +32,7 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelecto
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 /**
- * This interface provide functions for looking up view states that is enclosed inside [AppState]
+ * This interface providing functions for looking up view states that is contained inside [AppState]
  */
 interface SubAppStateContainer {
 
@@ -97,13 +97,13 @@ interface SubAppStateContainer {
     /**
      * create and add a new wb state for [wb] if it yet to have a state of its own
      */
-    fun addWbStateFor(wb: Workbook): SubAppStateContainer
+    fun addWbStateFor(wb: Workbook)
 
-    fun removeWindowState(windowState: Ms<WindowState>): SubAppStateContainer
-    fun removeWindowState(windowId: String): SubAppStateContainer
-    fun addWindowState(windowState: Ms<WindowState>): SubAppStateContainer
-    fun createNewWindowStateMs(): Pair<SubAppStateContainer, Ms<OuterWindowState>>
-    fun createNewWindowStateMs(windowId: String): Pair<SubAppStateContainer, Ms<OuterWindowState>>
+    fun removeWindowState(windowState: Ms<WindowState>)
+    fun removeWindowState(windowId: String)
+    fun addWindowState(windowState: Ms<WindowState>)
+    fun createNewWindowStateMs(): Ms<OuterWindowState>
+    fun createNewWindowStateMs(windowId: String): Ms<OuterWindowState>
 
     fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>>
     fun getWbStateMs(wbKeySt: St<WorkbookKey>): Ms<WorkbookState>?
@@ -165,8 +165,8 @@ interface SubAppStateContainer {
      */
     fun getActiveCursorMs(wbKeyMs: Ms<WorkbookKey>): Ms<CursorState>?
 
-    fun addOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer
-    fun removeOuterWindowState(windowState: Ms<OuterWindowState>): SubAppStateContainer
+    fun addOuterWindowState(windowState: Ms<OuterWindowState>)
+    fun removeOuterWindowState(windowState: Ms<OuterWindowState>)
 
     fun getRulerStateMsRs(wbws: WbWs, type: RulerType): Rse<Ms<RulerState>>
     fun getRulerStateMsRs(wbwsSt: WbWsSt, type: RulerType): Rse<Ms<RulerState>>

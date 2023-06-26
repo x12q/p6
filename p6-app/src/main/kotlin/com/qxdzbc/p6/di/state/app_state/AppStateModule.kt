@@ -46,11 +46,6 @@ interface AppStateModule {
     @P6Singleton
     fun DocumentContainerSt(i:Ms<DocumentContainer>):St<DocumentContainer>
 
-    @Binds
-    @P6Singleton
-    fun StateContainerSt(i:Ms<SubAppStateContainer>):St<SubAppStateContainer>
-
-
     companion object {
 
         @Provides
@@ -80,12 +75,6 @@ interface AppStateModule {
         @Provides
         @P6Singleton
         fun DocumentContainerMs(i:DocumentContainer):Ms<DocumentContainer>{
-            return ms(i)
-        }
-
-        @Provides
-        @P6Singleton
-        fun SubAppStateContainerMs(i:SubAppStateContainer):Ms<SubAppStateContainer>{
             return ms(i)
         }
 

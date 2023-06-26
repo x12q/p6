@@ -21,7 +21,6 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class CopyRangeToClipboardRMImp @Inject constructor(
     private val copier: RangeCopier,
-    val stateContMs: Ms<SubAppStateContainer>,
     val docContMs:Ms<DocumentContainer>,
 ) : CopyRangeToClipboardRM {
 

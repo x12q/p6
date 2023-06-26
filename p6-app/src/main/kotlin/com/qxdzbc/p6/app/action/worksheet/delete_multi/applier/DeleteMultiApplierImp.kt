@@ -6,7 +6,6 @@ import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellResponse
 import com.qxdzbc.p6.app.common.utils.RseNav
 
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.onSuccess
@@ -19,12 +18,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteMultiApplierImp @Inject constructor(
-    private val appStateMs: Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
     private val errorRouter: ErrorRouter,
     private val wbContMs:Ms<WorkbookContainer>,
 ) : DeleteMultiApplier {
 
-    private var appState by appStateMs
+    private var subAppStateCont = subAppStateContainer
     private var wbCont by wbContMs
 
     override fun apply(res: RseNav<RemoveMultiCellResponse>): RseNav<RemoveMultiCellResponse> {
@@ -36,7 +35,7 @@ class DeleteMultiApplierImp @Inject constructor(
             wbCont = wbCont.overwriteWB(r.newWb)
             // x: remove cell state from ws state
             r.newWsState?.also {wss->
-               val wsms=appState.getWsStateMs(k,wss.name)
+               val wsms=subAppStateCont.getWsStateMs(k,wss.name)
                 if(wsms!=null){
                     wsms.value = wss
                 }

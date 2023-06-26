@@ -21,11 +21,9 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWorksheetApplierImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    private val appStateMs: Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
     private val activeWindowPointerMs:Ms<ActiveWindowPointer>,
 ) : SetActiveWorksheetApplier {
-
-    private var appState by appStateMs
     private var activeWindowPointer by activeWindowPointerMs
 
     override fun apply(res: RseNav<SetActiveWorksheetResponse2>): RseNav<SetActiveWorksheetResponse2> {
@@ -36,23 +34,16 @@ class SetActiveWorksheetApplierImp @Inject constructor(
             }
 
             rs.newActiveWbPointer?.also {
-                val wdStateMs = appState.getWindowStateMsByWbKey(k)
+                val wdStateMs = subAppStateContainer.getWindowStateMsByWbKey(k)
                 if(wdStateMs!=null){
                     wdStateMs.value.activeWbPointerMs.value = it
                 }
             }
 
             rs.newWbState?.also {
-                val wbStateMs = appState.getWbStateMs(k)
+                val wbStateMs = subAppStateContainer.getWbStateMs(k)
                 if(wbStateMs!=null){
                     wbStateMs.value = it
-
-//                    wbStateMs.value.getWorksheetState(rs.request.wsName)?.also {
-//                        it.cursorStateMs.value = it.cursorState.focus()
-//                    }
-//                    appState.getFocusStateMsByWbKey(rs.newWbState.wbKey)?.also {
-//                        it.value = it.value.focusOnCursor()
-//                    }
                 }
             }
 

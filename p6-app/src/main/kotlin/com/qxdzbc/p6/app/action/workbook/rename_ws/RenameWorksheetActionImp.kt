@@ -24,14 +24,14 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 data class RenameWorksheetActionImp @Inject constructor(
-    val stateContMs: Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged,
     val appState:AppState,
     val docContMs: Ms<DocumentContainer>,
     val errorRouter: ErrorRouter,
 ) : RenameWorksheetAction {
 
-    private val sc by stateContMs
+    private val sc = subAppStateContainer
     private val dc by docContMs
 
     override fun renameWorksheetRs(request: RenameWorksheetRequest, undoable: Boolean): Rse<Unit> {

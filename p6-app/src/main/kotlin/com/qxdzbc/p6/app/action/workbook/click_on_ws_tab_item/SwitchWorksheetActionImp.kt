@@ -21,10 +21,10 @@ class SwitchWorksheetActionImp @Inject constructor(
     val setActiveWorksheetAction: SetActiveWorksheetAction,
     val restoreWindowFocusAction: RestoreWindowFocusState,
     val appState:AppState,
-    val stateContMs: Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
 ) : SwitchWorksheetAction {
 
-    private var sc by stateContMs
+    private var sc = subAppStateContainer
 
     override fun switchToWorksheet(request: SetActiveWorksheetRequest): RseNav<SetActiveWorksheetResponse2> {
         restoreWindowFocusAction.setFocusStateConsideringRangeSelector(request.wbKey)

@@ -20,7 +20,7 @@ import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 
 /**
- * A utility interface providing functions for querying documents' content
+ * A utility interface providing various functions for querying workbooks, worksheets, and cells
  */
 interface DocumentContainer : WorkbookGetter {
 

@@ -37,7 +37,7 @@ class ExUnitFormulaTranslator_Integration_Test {
     val wsName get() = ts.wsn1
 
     val wbKeySt get() = ts.wbKey1Ms
-    val wsNameSt get() = ts.appState.docCont.getWsNameSt(wbKeySt, wsName)!!
+    val wsNameSt get() = ts.appState.documentContainer.getWsNameSt(wbKeySt, wsName)!!
 
     lateinit var appStateMs: AppState
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
@@ -97,7 +97,7 @@ class ExUnitFormulaTranslator_Integration_Test {
 
         appStateMs = ts.sampleAppState(wbCont)
         p6FunctDefs = P6FunctionDefinitionsImp(
-            ts.appState.docContMs,
+            ts.appState.documentContainerMs,
         )
         fun add(n1: Int, n2: Int): Result<Int, SingleErrorReport> {
             return Ok(n1 + n2)
@@ -116,7 +116,7 @@ class ExUnitFormulaTranslator_Integration_Test {
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
                 functionMapMs = functionMap,
-                docContMs = ts.appState.docContMs
+                docContMs = ts.appState.documentContainerMs
             )
         )
     }

@@ -1,8 +1,6 @@
 package com.qxdzbc.p6.app.action.window
 
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ApplicationScope
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.path.PPaths
@@ -34,7 +32,7 @@ import javax.inject.Inject
 class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
     private val closeWbAction: CloseWorkbookAction,
-    private val stateContMs: Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
     private val newWbAct: CreateNewWorkbookAction,
     private val saveWbAction: SaveWorkbookAction,
     private val loadWbAction: LoadWorkbookAction,
@@ -50,8 +48,6 @@ class WindowActionImp @Inject constructor(
     SaveWorkbookAction by saveWbAction,
     OpenCloseSaveDialogOnWindowAction by openCloseSaveDialog {
 
-    private var sc by stateContMs
-
     override fun openCommonFileBrowserAndUpdatePath(tMs: Ms<String>, executionScope: CoroutineScope, windowId: String) {
         executionScope.launch {
             val d = CompletableDeferred<Path?>()
@@ -64,45 +60,45 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun showCommonFileDialog(job: CompletableDeferred<Path?>, windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             it.value = it.value.setCommonFileDialogJob(job)
         }
 
     }
 
     override fun closeCommonFileDialog(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             it.value = it.value.removeCommonFileDialogJob()
         }
 
     }
 
     override fun setCommonFileDialogResult(path: Path?, windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             it.value.commonFileDialogJob?.complete(path)
         }
     }
 
     override fun openDialogToStartKernel(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             it.value.showStartKernelDialogState = it.value.showStartKernelDialogState.show()
         }
     }
 
     override fun closeDialogToStartKernel(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             it.value.showStartKernelDialogState = it.value.showStartKernelDialogState.hide()
         }
     }
 
     override fun openDialogToConnectToKernel(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             it.value.showConnectToKernelDialogState = it.value.showConnectToKernelDialogState.show()
         }
     }
 
     override fun closeDialogToConnectToKernel(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             it.value.showConnectToKernelDialogState = it.value.showConnectToKernelDialogState.hide()
         }
     }
@@ -112,7 +108,7 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun saveActiveWorkbook(path: Path?, windowId: String) {
-        sc.getWindowStateById(windowId)?.also { wbState ->
+        subAppStateContainer.getWindowStateById(windowId)?.also { wbState ->
             if (path != null) {
                 wbState.activeWbKey?.also { wbKey ->
                     this.saveWorkbook(wbKey, path, windowId)
@@ -129,14 +125,14 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun openLoadFileDialog(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             val windowState = it.value
             windowState.loadDialogState = windowState.loadDialogState.setOpen(true)
         }
     }
 
     override fun closeLoadFileDialog(windowId: String) {
-        sc.getWindowStateMsById(windowId)?.also {
+        subAppStateContainer.getWindowStateMsById(windowId)?.also {
             val windowState = it.value
             windowState.loadDialogState = windowState.loadDialogState.setOpen(false)
         }
@@ -148,7 +144,7 @@ class WindowActionImp @Inject constructor(
     }
 
     override fun closeWorkbook(workbookKey: WorkbookKey, windowId: String) {
-        sc.getWbState(workbookKey)?.also { wbState ->
+        subAppStateContainer.getWbState(workbookKey)?.also { wbState ->
             val req = CloseWorkbookRequest(
                 wbKey = workbookKey,
                 windowId = windowId

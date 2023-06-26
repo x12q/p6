@@ -9,14 +9,13 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 /**
- * A fixed point in the app, holding all the state
+ * A fixed point in the app, holding all the state.
  */
 interface AppState {
     val cellEditorStateMs:Ms<CellEditorState>
     var cellEditorState: CellEditorState
 
-    val subAppStateContMs: Ms<SubAppStateContainer>
-    var subAppStateCont: SubAppStateContainer
+    val subAppStateCont: SubAppStateContainer
 
     val activeWindowPointerMs: Ms<ActiveWindowPointer>
     var activeWindowPointer: ActiveWindowPointer
@@ -32,8 +31,10 @@ interface AppState {
      */
     @Deprecated("dont use, pending to be deleted")
     fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult
-    val docContMs: Ms<DocumentContainer>
-    var docCont: DocumentContainer
+
+    val documentContainerMs: Ms<DocumentContainer>
+    var documentContainer: DocumentContainer
+
     var translatorContainer: TranslatorContainer
     val translatorContMs: Ms<TranslatorContainer>
 }

@@ -19,17 +19,16 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CreateNewWorksheetApplierImp @Inject constructor(
-    private val stateContMs:Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
     private val wbContMs:Ms<WorkbookContainer>,
 ) : CreateNewWorksheetApplier {
 
-    private var stateCont by stateContMs
     private var wbCont by wbContMs
 
     override fun applyRs(res: RseNav<AddWorksheetResponse>): RseNav<AddWorksheetResponse> {
         val rt = res.andThen { addRs ->
             wbCont =wbCont.overwriteWB(addRs.newWb)
-            val wbMs=stateCont.getWbStateMs(addRs.newWb.key)
+            val wbMs=subAppStateContainer.getWbStateMs(addRs.newWb.key)
             if(wbMs!=null){
                 wbMs.value = wbMs.value.refreshWsState()
             }

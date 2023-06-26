@@ -16,17 +16,17 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class CloseWindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
-    private val stateContMs:Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
 ) : CloseWindowAction {
 
-    private var stateCont by stateContMs
+    private var stateCont = subAppStateContainer
 
     override fun closeWindow(windowId: String):Rse<Unit> {
         val rs = stateCont.getWindowStateByIdRs(windowId = windowId).map{windowStateMs->
             if (stateCont.windowStateMsList.size == 1) {
                 appScope?.exitApplication()
             } else {
-                stateCont = stateCont.removeWindowState(windowId)
+                stateCont.removeWindowState(windowId)
             }
             Unit
         }

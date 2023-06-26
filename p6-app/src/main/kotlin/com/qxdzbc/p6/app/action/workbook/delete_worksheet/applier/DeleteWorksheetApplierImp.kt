@@ -20,12 +20,11 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetApplierImp @Inject constructor(
     private val docContMs: Ms<DocumentContainer>,
-    val stateContMs: Ms<SubAppStateContainer>,
+    private val subAppStateContainer:SubAppStateContainer,
     val transContMs:Ms<TranslatorContainer>,
 ) : DeleteWorksheetApplier {
 
     private var appState by docContMs
-    private var sc by stateContMs
     private var tc by transContMs
 
     override fun applyResRs(deletedWsName:String,rs: Rse<Workbook>): Rse<Unit> {
@@ -34,7 +33,7 @@ class DeleteWorksheetApplierImp @Inject constructor(
             appState = appState.replaceWb(newWB)
             // x: update wb state
             val wbKey = newWB.key
-            val wbStateMs = sc.getWbStateMs(wbKey)
+            val wbStateMs = subAppStateContainer.getWbStateMs(wbKey)
             if(wbStateMs!=null){
                 val newWbState=wbStateMs.value.refresh().setNeedSave(true)
                 wbStateMs.value = newWbState

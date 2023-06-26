@@ -183,9 +183,10 @@ class TestSample: TestAppScope {
         sc.wbStateContMs.value = makeSampleWbStateContMs()
         val windowState1 = makeSampleWindowStateMs1()
         val windowState2= makeSampleWindowStateMs2()
-        appState.subAppStateContMs.value = appState.subAppStateContMs.value
-            .addOuterWindowState(windowState1)
-            .addOuterWindowState(windowState2)
+        appState.subAppStateCont.apply {
+            addOuterWindowState(windowState1)
+            addOuterWindowState(windowState2)
+        }
         appState.activeWindowPointer = appState.activeWindowPointer.pointTo(
             windowState1.value.windowId
         )
