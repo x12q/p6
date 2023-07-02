@@ -21,7 +21,7 @@ import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MoveSliderActi
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
@@ -702,7 +702,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val mainCell = cursorState.mainCell
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorStateMs.value = cursorState.removeAllFragmentedCells()
-                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.upOneRow()))
+                .setMainRange(RangeAddressUtils.rangeFor2Cells(mainCell, theOtherCell.upOneRow()))
             val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
             moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
             commonReactionOnCursorChanged.onCursorChanged(cursorStateMs.value)
@@ -724,7 +724,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val mainCell = cursorState.mainCell
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorState = cursorState.removeAllFragmentedCells()
-                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.downOneRow()))
+                .setMainRange(RangeAddressUtils.rangeFor2Cells(mainCell, theOtherCell.downOneRow()))
             val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
             moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
             commonReactionOnCursorChanged.onCursorChanged(cursorStateMs.value)
@@ -745,7 +745,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val mainCell = cursorState.mainCell
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorState = cursorState.removeAllFragmentedCells()
-                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.leftOneCol()))
+                .setMainRange(RangeAddressUtils.rangeFor2Cells(mainCell, theOtherCell.leftOneCol()))
             val followTarget = cursorState.mainRange?.topLeft ?: cursorState.mainCell
             moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
             commonReactionOnCursorChanged.onCursorChanged(cursorStateMs.value)
@@ -767,7 +767,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
             val mainCell = cursorState.mainCell
             val theOtherCell = cursorState.mainRange?.takeCrossCell(mainCell) ?: mainCell
             cursorState = cursorState.removeAllFragmentedCells()
-                .setMainRange(RangeAddresses.from2Cells(mainCell, theOtherCell.rightOneCol()))
+                .setMainRange(RangeAddressUtils.rangeFor2Cells(mainCell, theOtherCell.rightOneCol()))
             val followTarget = cursorState.mainRange?.botRight ?: cursorState.mainCell
             moveSliderAction.makeSliderFollowCell(cursorState, followTarget)
             commonReactionOnCursorChanged.onCursorChanged(cursorStateMs.value)

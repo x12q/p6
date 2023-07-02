@@ -3,9 +3,8 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.state
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses.exhaustiveMergeRanges
-import org.antlr.v4.runtime.tree.ParseTree
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils.exhaustiveMergeRanges
 
 /**
  * This contains default function implementation for all CursorState implementation.
@@ -117,12 +116,12 @@ abstract class BaseCursorState : CursorState {
     }
 
     override fun selectWholeCol(colIndex: Int): CursorState {
-        val col = RangeAddresses.wholeCol(colIndex)
+        val col = RangeAddressUtils.rangeForWholeCol(colIndex)
         return this.setMainRange(col)
     }
 
     override fun selectWholeRow(rowIndex: Int): CursorState {
-        val col = RangeAddresses.wholeRow(rowIndex)
+        val col = RangeAddressUtils.rangeForWholeRow(rowIndex)
         return this.setMainRange(col)
     }
 

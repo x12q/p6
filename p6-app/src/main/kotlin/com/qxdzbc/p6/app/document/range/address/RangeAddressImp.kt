@@ -225,7 +225,7 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     }
 
     override fun mergeWith(anotherRangeAddress: RangeAddress): RangeAddress {
-        return RangeAddresses.fromManyCells(
+        return RangeAddressUtils.rangeForMultiCells(
             listOf(
                 this.topLeft,
                 this.botRight,
@@ -236,7 +236,7 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     }
 
     override fun expand(cellAddress: CellAddress): RangeAddress {
-        return RangeAddresses.fromManyCells(listOf(this.topLeft, this.botRight, cellAddress))
+        return RangeAddressUtils.rangeForMultiCells(listOf(this.topLeft, this.botRight, cellAddress))
     }
 
     override fun strictMerge(cellAddress: CellAddress): RangeAddress? {

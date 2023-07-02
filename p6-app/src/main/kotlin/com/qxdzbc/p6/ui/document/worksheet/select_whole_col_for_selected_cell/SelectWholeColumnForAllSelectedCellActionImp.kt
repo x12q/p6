@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
@@ -34,7 +34,7 @@ class SelectWholeColumnForAllSelectedCellActionImp @Inject constructor(
             var newCursorState: CursorState = cursorState
             newCursorState = newCursorState.addFragRanges(
                 selectCols.map { col ->
-                    RangeAddresses.wholeCol(col)
+                    RangeAddressUtils.rangeForWholeCol(col)
                 }
             ).addFragRanges(
                 colFromRange.map { colRange ->

@@ -7,19 +7,40 @@ import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressSetProto
 
+/**
+ * Contains a set of non-repeat range address, support:
+ * - functions to add, remove and check for existence of ranges and cells.
+ * - cross-checking with other [RangeAddressSet].
+ *
+ */
 interface RangeAddressSet: WithSize,Shiftable {
     val ranges: Set<RangeAddress>
 
+    /**
+     * Shift all the address in this set by a vector defined by [oldAnchorCell] and [newAnchorCell].
+     * @return a new set, the old set is kept intact.
+     */
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
     ): RangeAddressSet
 
+    /**
+     * Add multiple [RangeAddress] to this set. Produce a new set.
+     */
     fun addRanges(rangeAddresses: Collection<RangeAddress>): RangeAddressSet
+    /**
+     * Add multiple [RangeAddress] to this set. Produce a new set.
+     */
     fun addRanges(vararg rangeAddresses: RangeAddress): RangeAddressSet
+
+    /**
+     * Add a cell address to this set. Produce a new set.
+     */
     fun addCell(cellAddress: CellAddress): RangeAddressSet
 
     fun contains(cellAddress: CellAddress): Boolean
+
     fun contains(rangeAddress: RangeAddress): Boolean
 
     fun hasIntersectionWith(rangeAddress: RangeAddress): Boolean

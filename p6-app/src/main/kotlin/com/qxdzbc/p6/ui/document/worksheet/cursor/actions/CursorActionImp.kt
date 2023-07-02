@@ -12,7 +12,7 @@ import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
@@ -97,7 +97,7 @@ class CursorActionImp @Inject constructor(
                         c2 && c1
                     } ?: emptyList()
                 }.mapNotNull {(i,item)->
-                    RangeAddresses.fromLabelRs(item.cellRangeLabel).component1()?.let{
+                    RangeAddressUtils.rangeFromLabelRs(item.cellRangeLabel).component1()?.let{
                         i to it
                     }
                 }.toMap()

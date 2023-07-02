@@ -11,7 +11,7 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
@@ -47,7 +47,7 @@ data class CursorStateImp @AssistedInject constructor(
     @DefaultRangeConstraint
     override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
     @DefaultClipBoardRange
-    override val clipboardRange: RangeAddress = RangeAddresses.InvalidRange,
+    override val clipboardRange: RangeAddress = RangeAddressUtils.InvalidRange,
 
     ) : BaseCursorState() {
 
@@ -117,7 +117,7 @@ data class CursorStateImp @AssistedInject constructor(
     }
 
     override fun removeClipboardRange(): CursorState {
-        return this.copy(clipboardRange = RangeAddresses.InvalidRange)
+        return this.copy(clipboardRange = RangeAddressUtils.InvalidRange)
     }
 
     override fun containInClipboard(cellAddress: CellAddress): Boolean {

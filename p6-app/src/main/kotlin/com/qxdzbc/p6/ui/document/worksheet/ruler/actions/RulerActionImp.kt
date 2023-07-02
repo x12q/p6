@@ -14,7 +14,7 @@ import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAnd
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
@@ -46,8 +46,8 @@ class RulerActionImp @Inject constructor(
 
     private fun makeWholeColOrRowAddress(ii: Int, type:RulerType): RangeAddress {
         return when (type) {
-            RulerType.Col -> RangeAddresses.wholeCol(ii)
-            RulerType.Row -> RangeAddresses.wholeRow(ii)
+            RulerType.Col -> RangeAddressUtils.rangeForWholeCol(ii)
+            RulerType.Row -> RangeAddressUtils.rangeForWholeRow(ii)
         }
     }
 
@@ -301,11 +301,11 @@ class RulerActionImp @Inject constructor(
             val newRange = when (rulerSig.type) {
                 RulerType.Col -> {
                     val currentCol = cursorState.mainCell.colIndex
-                    RangeAddresses.wholeMultiCol(currentCol, itemIndex)
+                    RangeAddressUtils.rangeForWholeMultiCol(currentCol, itemIndex)
                 }
                 RulerType.Row -> {
                     val currentRow = cursorState.mainCell.rowIndex
-                    RangeAddresses.wholeMultiRow(currentRow, itemIndex)
+                    RangeAddressUtils.rangeForWholeMultiRow(currentRow, itemIndex)
                 }
             }
             wsState.cursorStateMs.value = cursorState
@@ -320,10 +320,10 @@ class RulerActionImp @Inject constructor(
             var cursorState by wsState.cursorStateMs
             val newRange = when (rulerSig.type) {
                 RulerType.Col -> {
-                    RangeAddresses.wholeCol(itemIndex)
+                    RangeAddressUtils.rangeForWholeCol(itemIndex)
                 }
                 RulerType.Row -> {
-                    RangeAddresses.wholeRow(itemIndex)
+                    RangeAddressUtils.rangeForWholeRow(itemIndex)
                 }
             }
             val newCursorState = if (newRange in cursorState.fragmentedRanges) {

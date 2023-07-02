@@ -2,7 +2,7 @@ package com.qxdzbc.p6.di.state.ws
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
@@ -23,7 +23,6 @@ import com.qxdzbc.p6.ui.document.worksheet.state.CellStateContainers
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import dagger.Binds
 import dagger.Provides
-import org.antlr.v4.runtime.tree.ParseTree
 
 @dagger.Module
 interface WorksheetStateModule {
@@ -109,7 +108,7 @@ interface WorksheetStateModule {
         @Provides
         @DefaultClipBoardRange
         fun clipboardRange(): RangeAddress {
-            return RangeAddresses.InvalidRange
+            return RangeAddressUtils.InvalidRange
         }
 
         @Provides

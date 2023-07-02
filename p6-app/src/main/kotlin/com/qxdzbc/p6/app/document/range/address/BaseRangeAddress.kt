@@ -139,7 +139,7 @@ abstract class BaseRangeAddress : RangeAddress {
                     if (commonCheck(s8)) {
                         rt.add(s8)
                     }
-                    return RangeAddresses.exhaustiveMergeRanges(rt)
+                    return RangeAddressUtils.exhaustiveMergeRanges(rt)
                 }
             } else {
                 return listOf(this)

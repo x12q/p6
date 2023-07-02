@@ -8,7 +8,7 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -37,7 +37,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
         wsState?.also {
             var cursorState by wsState.cursorStateMs
             if (cellAddress != cursorState.mainCell) {
-                cursorState = cursorState.setMainRange(RangeAddresses.from2Cells(cellAddress, cursorState.mainCell))
+                cursorState = cursorState.setMainRange(RangeAddressUtils.rangeFor2Cells(cellAddress, cursorState.mainCell))
             }
             refreshRangeSelectorText.refreshRangeSelectorTextInCurrentCellEditor()
         }
@@ -112,7 +112,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
     ) {
         cursorStateMs?.also {
             val cursorState by it
-            val newRange = RangeAddresses.fromManyCells(listOf(currentCellMouseOn, cursorState.mainCell))
+            val newRange = RangeAddressUtils.rangeForMultiCells(listOf(currentCellMouseOn, cursorState.mainCell))
             val newCursorState = cursorState.setMainRange(newRange)
             it.value = newCursorState
             refreshRangeSelectorText.refreshRangeSelectorTextInCurrentCellEditor()

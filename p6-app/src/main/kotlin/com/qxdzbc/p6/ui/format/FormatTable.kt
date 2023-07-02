@@ -18,6 +18,7 @@ import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalProto
 import com.qxdzbc.p6.ui.format.RangeAddressSetImp.Companion.toModel
 
 /**
+ * A flyweight container of format value of type [T] with key being [RangeAddressSet]
  * TODO add a boolean option to include/exclude invalid entry in FormatEntrySet return by retriever functions
  */
 interface FormatTable<T> {

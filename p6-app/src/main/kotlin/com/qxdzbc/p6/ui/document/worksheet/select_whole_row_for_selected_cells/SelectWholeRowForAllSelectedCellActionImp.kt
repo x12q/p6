@@ -1,14 +1,13 @@
 package com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
@@ -38,7 +37,7 @@ class SelectWholeRowForAllSelectedCellActionImp @Inject constructor(
 
             newCursor = newCursor.addFragRanges(
                 selectRows.map { row ->
-                    RangeAddresses.wholeRow(row)
+                    RangeAddressUtils.rangeForWholeRow(row)
                 }
             ).addFragRanges(
                 rowFromRange.map { rowRange ->

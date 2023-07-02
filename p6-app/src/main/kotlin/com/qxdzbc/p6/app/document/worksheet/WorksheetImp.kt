@@ -19,7 +19,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.OneOffRange
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
@@ -179,7 +179,7 @@ data class WorksheetImp(
             maxCol = 0
             minRow = 0
             maxRow = 0
-            usedRange = RangeAddresses.InvalidRange
+            usedRange = RangeAddressUtils.InvalidRange
         }
     }
 

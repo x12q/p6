@@ -9,7 +9,7 @@ import com.qxdzbc.common.compose.StateUtils.toSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.formula.translator.antlr.FormulaParser
@@ -253,7 +253,7 @@ class ExUnitFormulaVisitor @AssistedInject constructor(
                 )
             }
 
-            val rangeAddressRs: Rse<RangeAddress> = RangeAddresses.fromLabelRs(rangeAddress)
+            val rangeAddressRs: Rse<RangeAddress> = RangeAddressUtils.rangeFromLabelRs(rangeAddress)
             if (rangeAddressRs is Ok) {
                 val raUnit = rangeAddressRs.value.toExUnit()
                 return GetRange(

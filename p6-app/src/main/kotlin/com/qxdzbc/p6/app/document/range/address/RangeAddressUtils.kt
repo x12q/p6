@@ -13,7 +13,7 @@ import com.qxdzbc.p6.proto.DocProtos.RangeAddressProto
 import com.qxdzbc.p6.ui.common.P6R
 
 
-object RangeAddresses {
+object RangeAddressUtils {
 
     val InvalidRange = RangeAddressImp(CellAddresses.InvalidCell, CellAddresses.InvalidCell)
 
@@ -26,7 +26,7 @@ object RangeAddresses {
     val singleWholeColAddressPattern = Regex("[$]?[a-zA-Z]+")
     val singleWholeRowAddressPattern = Regex("[$]?[1-9][0-9]*")
 
-    fun fromLabelRs(label: String): Rse<RangeAddress> {
+    fun rangeFromLabelRs(label: String): Rse<RangeAddress> {
         val rt = CellAddresses.fromLabelRs(label).mapBoth(
             success = {
                 Ok(RangeAddress(it))
@@ -93,15 +93,15 @@ object RangeAddresses {
     /**
      * Create a [RangeAddress] from a label, such as "A1:B3", "22:33", "F:Z"
      */
-    fun fromLabel(label: String): RangeAddress {
-        val z = this.fromLabelRs(label)
+    fun rangeFromLabel(label: String): RangeAddress {
+        val z = this.rangeFromLabelRs(label)
         when (z) {
             is Ok -> return z.value
             else -> throw IllegalArgumentException("Illegal range address format: ${label}")
         }
     }
 
-    fun fromManyCells(cells: List<CellAddress>): RangeAddress {
+    fun rangeForMultiCells(cells: List<CellAddress>): RangeAddress {
         if (cells.isEmpty()) {
             throw IllegalArgumentException("Can't construct range address from 0 cell address")
         } else {
@@ -124,7 +124,7 @@ object RangeAddresses {
         }
     }
 
-    fun from2Cells(address1: CellAddress, address2: CellAddress): RangeAddress {
+    fun rangeFor2Cells(address1: CellAddress, address2: CellAddress): RangeAddress {
         val firstAddress = CellAddresses.fromCR(
             colCR = CellAddresses.minOf(address1.colCR, address2.colCR),
             rowCR = CellAddresses.minOf(address1.rowCR, address2.rowCR)
@@ -136,46 +136,46 @@ object RangeAddresses {
         return RangeAddressImp(firstAddress, lastAddress)
     }
 
-    fun singleCell(cellAddress: CellAddress): RangeAddress {
+    fun rangeFromSingleCell(cellAddress: CellAddress): RangeAddress {
         return RangeAddressImp(cellAddress, cellAddress)
     }
 
-    fun wholeCol(colIndex: Int): RangeAddress {
-        return from2Cells(
+    fun rangeForWholeCol(colIndex: Int): RangeAddress {
+        return rangeFor2Cells(
             address1 = CellAddresses.fromIndices(colIndex, 1),
             address2 = CellAddresses.fromIndices(colIndex, P6R.worksheetValue.rowLimit),
         )
     }
 
-    fun wholeRow(rowIndex: Int): RangeAddress {
-        return from2Cells(
+    fun rangeForWholeRow(rowIndex: Int): RangeAddress {
+        return rangeFor2Cells(
             address1 = CellAddresses.fromIndices(1, rowIndex),
             address2 = CellAddresses.fromIndices(P6R.worksheetValue.colLimit, rowIndex),
         )
     }
 
-    fun wholeMultiRow(row1: Int, row2: Int): RangeAddress {
+    fun rangeForWholeMultiRow(row1: Int, row2: Int): RangeAddress {
         val fromRow = minOf(row1, row2)
         val toRow = maxOf(row1, row2)
-        var rt = wholeRow(fromRow)
+        var rt = rangeForWholeRow(fromRow)
         for (x in fromRow + 1..toRow) {
-            rt = rt.mergeWith(wholeRow(x))
+            rt = rt.mergeWith(rangeForWholeRow(x))
         }
         return rt
     }
 
-    fun wholeMultiCol(col1: Int, col2: Int): RangeAddress {
+    fun rangeForWholeMultiCol(col1: Int, col2: Int): RangeAddress {
         val fromCol = minOf(col1, col2)
         val toCol = maxOf(col1, col2)
-        var rt = wholeCol(fromCol)
+        var rt = rangeForWholeCol(fromCol)
         for (x in fromCol + 1..toCol) {
-            rt = rt.mergeWith(wholeCol(x))
+            rt = rt.mergeWith(rangeForWholeCol(x))
         }
         return rt
     }
 
     fun RangeAddressProto.toModel(): RangeAddress {
-        return from2Cells(
+        return rangeFor2Cells(
             address1 = this.topLeft.toModel(),
             address2 = this.botRight.toModel()
         )
@@ -248,7 +248,7 @@ object RangeAddresses {
 
     /**
      * attempt to merge a cell into a list of range.
-     * If the cell is merged into a range in the list, proceed to exhaustively merge all the range if possible.
+     * If the cell is merged into one of the range in the list, proceed to exhaustively merge all the range if possible.
      * @return a list of ranges that cannot be further merged
      */
     internal fun exhaustiveMergeRanges(
@@ -280,16 +280,16 @@ object RangeAddresses {
      * @return a list of ranges that cannot be further merged
      */
     fun exhaustiveMergeRanges(rangeList: Collection<RangeAddress>): List<RangeAddress> {
-        var l = rangeList
+        var rt = rangeList
         while (true) {
-            val newL = exhaustiveMergeRange_OneIteration2(l)
-            if (l.size == newL.size) {
+            val newL = exhaustiveMergeRange_OneIteration2(rt)
+            if (rt.size == newL.size) {
                 break
             } else {
-                l = newL
+                rt = newL
             }
         }
-        return l.toList()
+        return rt.toList()
     }
 
     /**
@@ -332,37 +332,37 @@ object RangeAddresses {
             return rangeList.toList()
         } else {
             val used = mutableSetOf<RangeAddress>()
-            val oRangeList = rangeList.toMutableList()
+            val rt = rangeList.toMutableList()
             var startIndex = 0
             var keepGoing = true
             while (keepGoing) {
-                for (x in startIndex until oRangeList.size) {
-                    val r1 = oRangeList[x]
+                for (x in startIndex until rt.size) {
+                    val r1 = rt[x]
                     var redo = false
                     if (r1 !in used) {
-                        for (y in x + 1 until oRangeList.size) {
-                            val r2 = oRangeList[y]
+                        for (y in x + 1 until rt.size) {
+                            val r2 = rt[y]
                             if (r2 !in used) {
                                 val r = r1.strictMerge(r2)
                                 if (r != null) {
                                     used.add(r1)
                                     used.add(r2)
                                     startIndex = x
-                                    oRangeList[x] = r
-                                    oRangeList.removeAt(y)
+                                    rt[x] = r
+                                    rt.removeAt(y)
                                     redo = true
                                     break
                                 }
                             }
                         }
-                        keepGoing = x != (oRangeList.size - 1)
+                        keepGoing = x != (rt.size - 1)
                         if (redo) {
                             break
                         }
                     }
                 }
             }
-            return oRangeList
+            return rt
         }
     }
 

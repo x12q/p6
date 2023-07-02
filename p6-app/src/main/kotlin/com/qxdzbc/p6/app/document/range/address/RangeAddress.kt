@@ -113,21 +113,21 @@ interface RangeAddress : RangeConstraint, Shiftable {
  * Factory method to create a [RangeAddress] from a list of [CellAddress]
  */
 fun RangeAddress(cells: List<CellAddress>): RangeAddress {
-    return RangeAddresses.fromManyCells(cells)
+    return RangeAddressUtils.rangeForMultiCells(cells)
 }
 
 /**
  * Factory method to create a [RangeAddress] from 2 [CellAddress]
  */
 fun RangeAddress(address1: CellAddress, address2: CellAddress): RangeAddress {
-    return RangeAddresses.from2Cells(address1, address2)
+    return RangeAddressUtils.rangeFor2Cells(address1, address2)
 }
 
 /**
  * Factory method to create a [RangeAddress] from a single [CellAddress]
  */
 fun RangeAddress(cellAddress: CellAddress): RangeAddress {
-    return RangeAddresses.singleCell(cellAddress)
+    return RangeAddressUtils.rangeFromSingleCell(cellAddress)
 }
 
 fun RangeAddress(colRange: IntRange, rowRange: IntRange): RangeAddress {
@@ -138,5 +138,5 @@ fun RangeAddress(colRange: IntRange, rowRange: IntRange): RangeAddress {
 }
 
 fun RangeAddress(label: String): RangeAddress {
-    return RangeAddresses.fromLabel(label)
+    return RangeAddressUtils.rangeFromLabel(label)
 }
