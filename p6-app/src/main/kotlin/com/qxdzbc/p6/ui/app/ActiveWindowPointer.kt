@@ -5,8 +5,8 @@ package com.qxdzbc.p6.ui.app
  */
 interface ActiveWindowPointer {
     val windowId:String?
-    fun pointTo(windowId:String?):ActiveWindowPointer
-    fun nullify():ActiveWindowPointer
+    fun pointTo(windowId:String?)
+    fun nullify()
 }
 
 

@@ -187,7 +187,7 @@ class TestSample: TestAppScope {
             addOuterWindowState(windowState1)
             addOuterWindowState(windowState2)
         }
-        appState.activeWindowPointer = appState.activeWindowPointer.pointTo(
+        appState.activeWindowPointer.pointTo(
             windowState1.value.windowId
         )
 

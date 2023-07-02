@@ -22,7 +22,7 @@ import javax.inject.Inject
 data class AppStateImp @Inject constructor(
     @AppErrorContMs
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
-    override val activeWindowPointerMs: Ms<ActiveWindowPointer> = ms(ActiveWindowPointerImp(null)),
+    override val activeWindowPointer: ActiveWindowPointer = ActiveWindowPointerImp(),
     override var subAppStateCont:SubAppStateContainer,
     override val documentContainerMs: Ms<DocumentContainer>,
     override val translatorContMs: Ms<TranslatorContainer>,
@@ -34,7 +34,7 @@ data class AppStateImp @Inject constructor(
     override var translatorContainer: TranslatorContainer by translatorContMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
     override var errorContainer: ErrorContainer by errorContainerMs
-    override var activeWindowPointer: ActiveWindowPointer by activeWindowPointerMs
+
     override val activeWindowStateMs: Ms<WindowState>?
         get() = activeWindowPointer.windowId?.let{
             this.subAppStateCont.getWindowStateMsById(it)

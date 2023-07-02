@@ -23,7 +23,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWorksheetRMImp @Inject constructor(
     private val subAppStateContainer:SubAppStateContainer,
-    private val activeWindowPointerMs:Ms<ActiveWindowPointer>,
+    private val activeWindowPointer:ActiveWindowPointer,
     private val docContMs:Ms<DocumentContainer>,
 ) : SetActiveWorksheetRM {
     
@@ -36,7 +36,7 @@ class SetActiveWorksheetRMImp @Inject constructor(
             .getWbStateMs(wbk)?.value
             ?.setActiveSheet(request.wsName)
         val wdState = subAppStateCont.getWindowStateMsByWbKey(wbk)
-        val newWindowPointer = activeWindowPointerMs.value
+        activeWindowPointer
             .pointTo(wdState?.value?.id)
         val newActiveWbPointer = wdState?.value
             ?.activeWbPointer
@@ -45,7 +45,7 @@ class SetActiveWorksheetRMImp @Inject constructor(
             SetActiveWorksheetResponse2(
                 request = request,
                 newWbState = wbStateMs,
-                newActiveWindowPointer = newWindowPointer,
+                newActiveWindowPointer = activeWindowPointer,
                 newActiveWbPointer = newActiveWbPointer,
             )
         )

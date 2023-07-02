@@ -17,16 +17,16 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWindowActionImp @Inject constructor(
-    val activeWdPointerMs: Ms<ActiveWindowPointer>,
+    val activeWdPointer: ActiveWindowPointer,
     val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : SetActiveWindowAction {
     val sc by stateContSt
-    var wdp by activeWdPointerMs
+    var wdp = activeWdPointer
     override fun setActiveWindow(windowId: String): Rse<Unit> {
         val wdStateRs = sc.getWindowStateByIdRs(windowId)
         val rt = wdStateRs
             .onSuccess {
-                wdp = wdp.pointTo(windowId)
+                wdp.pointTo(windowId)
             }.map { Unit }
         return rt
     }

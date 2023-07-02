@@ -10,6 +10,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
@@ -19,7 +20,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWorkbookActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    val appState:AppState,
+    val activeWindowPointer:ActiveWindowPointer,
 ) : SetActiveWorkbookAction {
 
     val stateCont by stateContSt
@@ -28,7 +29,7 @@ class SetActiveWorkbookActionImp @Inject constructor(
         val windowStateRs = stateCont.getWindowStateByWbKeyRs(wbk)
         val rt= windowStateRs.map {owds->
             val wds = owds
-            appState.activeWindowPointer = appState.activeWindowPointer.pointTo(wds.id)
+            activeWindowPointer.pointTo(wds.id)
             stateCont.getWbKeyMs(wbk)?.also {
                 wds.activeWbPointerMs.value = wds.activeWbPointer.pointTo(it)
             }

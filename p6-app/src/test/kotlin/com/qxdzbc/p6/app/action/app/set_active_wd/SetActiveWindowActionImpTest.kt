@@ -18,7 +18,7 @@ class SetActiveWindowActionImpTest {
 
     @Test
     fun setActiveWd(){
-        val pointer by ts.appState.activeWindowPointerMs
+        val pointer = ts.appState.activeWindowPointer
         val wid = ts.window2Id
         assertTrue(pointer.windowId != wid)
         action.setActiveWindow(wid)

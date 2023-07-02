@@ -22,16 +22,11 @@ import javax.inject.Inject
 class SetActiveWorksheetApplierImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     private val subAppStateContainer:SubAppStateContainer,
-    private val activeWindowPointerMs:Ms<ActiveWindowPointer>,
 ) : SetActiveWorksheetApplier {
-    private var activeWindowPointer by activeWindowPointerMs
 
     override fun apply(res: RseNav<SetActiveWorksheetResponse2>): RseNav<SetActiveWorksheetResponse2> {
         res.onSuccess {rs:SetActiveWorksheetResponse2->
             val k = rs.request.wbKey
-            rs.newActiveWindowPointer?.also {
-                activeWindowPointer = it
-            }
 
             rs.newActiveWbPointer?.also {
                 val wdStateMs = subAppStateContainer.getWindowStateMsByWbKey(k)

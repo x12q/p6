@@ -104,12 +104,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        fun InitActiveWindowPointer(): Ms<ActiveWindowPointer> {
-            return ms(ActiveWindowPointerImp(null))
-        }
-
-        @Provides
-        @P6Singleton
         fun TranslatorMapMs(): Ms<TranslatorMap> {
             return ms(TranslatorMapImp())
         }

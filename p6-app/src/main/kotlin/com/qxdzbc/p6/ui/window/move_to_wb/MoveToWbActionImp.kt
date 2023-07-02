@@ -19,11 +19,10 @@ import javax.inject.Inject
 class MoveToWbActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
-    private val activeWindowPointerMs:Ms<ActiveWindowPointer>,
+    private val activeWindowPointer:ActiveWindowPointer,
 ) : MoveToWbAction {
 
     private val sc by stateContSt
-    private var activeWindowPointer by activeWindowPointerMs
 
     override fun moveToWorkbook(wbKey: WorkbookKey) {
         restoreWindowFocusState.setFocusStateConsideringRangeSelector(wbKey)
@@ -47,7 +46,7 @@ class MoveToWbActionImp @Inject constructor(
     override fun setActiveWb(wbKey: WorkbookKey) {
         val windowState = sc.getWindowStateByWbKey(wbKey)
         windowState?.also {wds->
-            activeWindowPointerMs.value = activeWindowPointerMs.value.pointTo(wds.id)
+            activeWindowPointer.pointTo(wds.id)
             val wbkMs = sc.getWbKeyMs(wbKey)
             wbkMs?.also {
                 wds.activeWbPointerMs.value = wds.activeWbPointer.pointTo(it)

@@ -18,15 +18,15 @@ interface AppState {
     val subAppStateCont: SubAppStateContainer
 
     /**
-     * Ms is justified here.
+     * Ms is justified here. But is it easy to use?
+     * So any one who use this pointer will need to obtain a Ms, not the pointer itself.
      */
-    val activeWindowPointerMs: Ms<ActiveWindowPointer>
-    var activeWindowPointer: ActiveWindowPointer
+    val activeWindowPointer: ActiveWindowPointer
 
     val activeWindowStateMs: Ms<WindowState>?
     val activeWindowState: WindowState?
 
-    val errorContainerMs: MutableState<ErrorContainer>
+    val errorContainerMs: Ms<ErrorContainer>
     var errorContainer: ErrorContainer
 
     /**
