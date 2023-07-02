@@ -5,6 +5,7 @@ import com.qxdzbc.p6.app.action.worksheet.WorksheetRM
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardActionImp
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import org.mockito.kotlin.mock
 import test.TestSample
@@ -19,14 +20,16 @@ internal class RangeToClipboardActionImpTest {
     lateinit var action: RangeToClipboardActionImp
     lateinit var wsRequestMaker: WorksheetRM
     lateinit var cellRM: CellRM
-    lateinit var appStateMs: AppState
+    lateinit var appState: AppState
+    lateinit var stateCont:StateContainer
     lateinit var wsStateMs: Ms<WorksheetState>
     lateinit var testSample: TestSample
     @BeforeTest
     fun beforeTest() {
         testSample = TestSample()
-        appStateMs = testSample.sampleAppState()
-        wsStateMs = appStateMs.queryStateByWorkbookKey(TestSample.wbk1).workbookStateMs.value.getWsStateMs("Sheet1")!!
+        appState = testSample.sampleAppState()
+        stateCont = testSample.stateCont
+        wsStateMs = stateCont.getStateByWorkbookKey(TestSample.wbk1)!!.workbookStateMs!!.value.getWsStateMs("Sheet1")!!
         wsRequestMaker = mock()
         cellRM = mock()
     }

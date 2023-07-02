@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.communication.applier
 
+import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.p6.app.action.applier.WorkbookUpdateCommonApplierImp
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponse
 import com.qxdzbc.p6.app.action.worksheet.update_multi_cell.DeleteMultiResponse
@@ -34,9 +35,9 @@ internal class WorkbookUpdateCommonApplierImpTest {
         s2 = workbook.getWs(1)!!
         s1 = workbook.getWs(0)!!
 
-        appState.queryStateByWorkbookKey(TestSample.wbk1).ifOk {
-            workbookStateMs = it.workbookStateMs
-            windowStateMs = it.windowStateMs
+        appState.subAppStateCont.getStateByWorkbookKeyRs(TestSample.wbk1).onSuccess {
+            workbookStateMs = it.workbookStateMs!!
+            windowStateMs = it.windowStateMs!!
         }
         applier = WorkbookUpdateCommonApplierImp(
             stateContMs = ts.stateContMs(),
@@ -47,22 +48,21 @@ internal class WorkbookUpdateCommonApplierImpTest {
     @Test
     fun `applyDeleteMulti ok msg`() {
         val key1 = TestSample.wbk1
-        val q = appState.queryStateByWorkbookKey(key1)
+        val q = appState.subAppStateCont.getStateByWorkbookKey(key1)!!
         val newWb = WorkbookImp(keyMs = key1.toMs())
         val r = WorkbookUpdateCommonResponse(
             wbKey = key1,
             newWorkbook = newWb
         )
-        assertTrue { q.errorContainerMs.value.isEmpty() }
+        assertTrue { q.windowStateMs!!.value.errorContainer.isEmpty() }
         assertTrue { appState.errorContainer.isEmpty() }
         applier.apply(r)
-        assertTrue { q.errorContainerMs.value.isEmpty() }
+        assertTrue { q.windowStateMs!!.value.errorContainer.isEmpty() }
         assertTrue { appState.errorContainer.isEmpty() }
     }
 
     @Test
     fun `applyDeleteMulti error response`() {
-        val appState = appState
         val e = SingleErrorReport.random()
         val response = DeleteMultiResponse(
             WorkbookUpdateCommonResponse(

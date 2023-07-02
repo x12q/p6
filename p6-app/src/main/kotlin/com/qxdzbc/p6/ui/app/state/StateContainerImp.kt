@@ -83,6 +83,10 @@ class StateContainerImp @Inject constructor(
         return subAppStateContainer.getStateByWorkbookKeyRs(workbookKey)
     }
 
+    override fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult2? {
+        return subAppStateContainer.getStateByWorkbookKey(workbookKey)
+    }
+
     override fun addWbStateFor(wb: Workbook) {
         subAppStateContainer.addWbStateFor(wb)
     }

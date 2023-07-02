@@ -43,7 +43,7 @@ import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
  * - undo app-level undo, redo stack for each worksheet
  * - cell format table for each worksheet
  * - toolbar state for each window
- *
+ * This is lower level than [StateContainer]
  */
 interface SubAppStateContainer {
 
@@ -103,7 +103,17 @@ interface SubAppStateContainer {
     val wbStateContMs: Ms<WorkbookStateContainer>
     var wbStateCont: WorkbookStateContainer
 
+    /**
+     * Get a set of state related to a [workbookKey].
+     * @return an Error if no state object can be found, the Error contain information about why there are not any State obj for [workbookKey]
+     */
     fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2>
+
+    /**
+     * Get a set of state related to a [workbookKey].
+     * @return an null if no state object can be found
+     */
+    fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult2?
 
     /**
      * create and add a new wb state for [wb] if it yet to have a state of its own

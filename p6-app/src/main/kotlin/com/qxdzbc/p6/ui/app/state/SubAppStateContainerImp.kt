@@ -73,6 +73,10 @@ data class SubAppStateContainerImp @Inject constructor(
         return rt
     }
 
+    override fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult2? {
+        return getStateByWorkbookKeyRs(workbookKey).component1()
+    }
+
     override fun addWbStateFor(wb: Workbook) {
         if (!this.hasStateFor(wb.key)) {
             val newState = wbStateFactory.create(ms(wb))

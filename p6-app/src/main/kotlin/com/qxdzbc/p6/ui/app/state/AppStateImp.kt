@@ -39,31 +39,4 @@ data class AppStateImp @Inject constructor(
         }
     override val activeWindowState: WindowState?
         get() = activeWindowStateMs?.value
-
-    @Deprecated("dont use, pending to be deleted")
-    override fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult {
-        val windowStateMsRs = this.subAppStateCont.getWindowStateMsByWbKeyRs(workbookKey)
-        if (windowStateMsRs is Ok) {
-            val oWindowstateMs = windowStateMsRs.value
-            val workbookStateMsRs = subAppStateCont.getWbStateMsRs(workbookKey)
-            val windowstateMs = oWindowstateMs
-            if (workbookStateMsRs is Ok) {
-                return QueryByWorkbookKeyResult(
-                    windowStateOrNull = windowstateMs,
-                    workbookStateMsOrNull = workbookStateMsRs.value,
-                    errorContainerMs = windowstateMs.value.errorContainerMs
-                )
-            } else {
-                return QueryByWorkbookKeyResult(
-                    _errorReport = workbookStateMsRs.unwrapError(),
-                    errorContainerMs = windowstateMs.value.errorContainerMs
-                )
-            }
-        } else {
-            return QueryByWorkbookKeyResult(
-                _errorReport = windowStateMsRs.unwrapError(),
-                errorContainerMs = this.errorContainerMs
-            )
-        }
-    }
 }

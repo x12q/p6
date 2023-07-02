@@ -8,10 +8,9 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.window.state.WindowState
 
 class QueryByWorkbookKeyResult2(
-    val windowStateMs: Ms<WindowState>,
-    val workbookStateMs: Ms<WorkbookState>,
-) {
-}
+    val windowStateMs: Ms<WindowState>?,
+    val workbookStateMs: Ms<WorkbookState>?,
+)
 
 /**
  * This class is an encapsulation that contains information related to a workbook key.
