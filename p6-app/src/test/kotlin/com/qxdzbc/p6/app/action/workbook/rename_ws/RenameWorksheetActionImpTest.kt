@@ -35,7 +35,7 @@ internal class RenameWorksheetActionImpTest : BaseAppStateTest() {
         ws1 = workbook.getWs(0)!!
         workbookStateMs = ts.sc.getWbStateMs(ts.wbKey1)!!
         windowStateMs = ts.sc.getWindowStateMsByWbKey(ts.wbKey1)!!
-        errorRouter = ErrorRouterImp(ts.sc, ts.appState.errorContainerMs)
+        errorRouter = ErrorRouterImp(ts.sc, ts.appState.appErrorContainerMs)
         action = ts.comp.renameWorksheetActionImp()
     }
 
@@ -142,7 +142,7 @@ internal class RenameWorksheetActionImpTest : BaseAppStateTest() {
         wbState?.wb?.getWs(oldSheetName).shouldBeNull()
 
         ts.sc.getWindowStateByWbKey(workbook.key)?.errorContainer?.isEmpty()!!.shouldBeTrue()
-        ts.appState.errorContainer.isEmpty().shouldBeTrue()
+        ts.appState.appErrorContainer.isEmpty().shouldBeTrue()
     }
 
     @Test
@@ -161,9 +161,9 @@ internal class RenameWorksheetActionImpTest : BaseAppStateTest() {
             oldName = oldSheetName,
             newName = newName,
         )
-        ts.appState.errorContainer.isNotEmpty() shouldBe false
+        ts.appState.appErrorContainer.isNotEmpty() shouldBe false
         action.apply(res.wbKey, res.oldName, res.newName)
-        ts.appState.errorContainer.isNotEmpty() shouldBe true
+        ts.appState.appErrorContainer.isNotEmpty() shouldBe true
     }
 
 }

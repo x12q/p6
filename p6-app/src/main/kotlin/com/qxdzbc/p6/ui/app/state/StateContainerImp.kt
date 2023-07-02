@@ -61,7 +61,7 @@ class StateContainerImp @Inject constructor(
     private val windowStateFactory: WindowStateFactory,
     private val outerWindowStateFactory: OuterWindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
-    val activeWindowPointer: ActiveWindowPointer,
+    override val activeWindowPointer: ActiveWindowPointer,
     override val cellEditorStateMs: Ms<CellEditorState>,
 ) : AbsStateContainer(),DocumentContainer by docCont {
 

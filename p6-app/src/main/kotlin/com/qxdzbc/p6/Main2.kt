@@ -151,7 +151,7 @@ fun main() {
                             )
                         }
 
-                        var appErrorContainer: ErrorContainer by appState.errorContainerMs
+                        var appErrorContainer: ErrorContainer by appState.appErrorContainerMs
                         if (appErrorContainer.isNotEmpty()) {
                             for (bugMsg in appErrorContainer.errList) {
                                 Window(

@@ -55,10 +55,10 @@ internal class WorkbookUpdateCommonApplierImpTest {
             newWorkbook = newWb
         )
         assertTrue { q.windowStateMs!!.value.errorContainer.isEmpty() }
-        assertTrue { appState.errorContainer.isEmpty() }
+        assertTrue { appState.appErrorContainer.isEmpty() }
         applier.apply(r)
         assertTrue { q.windowStateMs!!.value.errorContainer.isEmpty() }
-        assertTrue { appState.errorContainer.isEmpty() }
+        assertTrue { appState.appErrorContainer.isEmpty() }
     }
 
     @Test
@@ -85,7 +85,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
         assertEquals(s1.name, workbookStateMs.value.activeSheetPointer.wsName)
         assertNotNull(workbook.getWs(s1.name))
         assertNotNull(workbook.getWs(s2.name))
-        assertTrue { appState.errorContainer.isEmpty() }
+        assertTrue { appState.appErrorContainer.isEmpty() }
         assertTrue { ts.sc.windowStateMsList.first().value.errorContainer.isEmpty() }
     }
 

@@ -24,6 +24,7 @@ class SingleCellPaster @Inject constructor(
 ) : BaseRangePaster() {
 
 
+    @Deprecated("don't use, kept just in case")
     override fun paste(target: RangeId): PasteResponse {
         var sourceRangeId:RangeId?=null
         val rs = try {

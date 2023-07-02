@@ -14,6 +14,7 @@ import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
@@ -36,8 +37,8 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelecto
  * top-level state container, can access all state + document in the app
  */
 interface StateContainer : DocumentContainer {
-//    val activeWindowStateMs: Ms<WindowState>?
-//    val activeWindowState: WindowState?
+
+    val activeWindowPointer: ActiveWindowPointer
 
     fun getActiveWindowStateMs():Ms<WindowState>?
     fun getActiveWindowState():WindowState?

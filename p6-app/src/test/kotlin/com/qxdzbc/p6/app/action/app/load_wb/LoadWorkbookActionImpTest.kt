@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.app.load_wb
 
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.path.PPath
 import com.qxdzbc.common.path.PPaths
@@ -36,7 +35,7 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
     fun b() {
         action = ts.comp.loadWorkbookActionImp()
         scMs = ts.sc
-        errorRouter = ErrorRouterImp(scMs,ts.appState.errorContainerMs)
+        errorRouter = ErrorRouterImp(scMs,ts.appState.appErrorContainerMs)
     }
 
     @Test

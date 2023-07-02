@@ -51,6 +51,7 @@ import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionIm
 import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetActionImp
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeActionImp
+import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.TextColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorActionImp
@@ -70,6 +71,7 @@ import kotlinx.coroutines.CoroutineScope
 @P6Singleton
 interface TestComponent : P6Component {
 
+    val activeWindowPointer: ActiveWindowPointer
     val stateContainer:StateContainer
 
     @AppCoroutineScope

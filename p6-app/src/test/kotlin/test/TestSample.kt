@@ -35,6 +35,8 @@ import test.di.DaggerTestComponent
 
 
 class TestSample: TestAppScope {
+    val activeWindowPointer get()=comp.activeWindowPointer
+
     val wb1Ws1St get()=this.sc.getWbWsSt(wbKey1,wsn1)!!
     val wb2Ws1St get()=this.sc.getWbWsSt(wbKey2,wsn1)!!
 
@@ -184,7 +186,7 @@ class TestSample: TestAppScope {
             addOuterWindowState(windowState1)
             addOuterWindowState(windowState2)
         }
-        appState.activeWindowPointer.pointTo(
+        ts.activeWindowPointer.pointTo(
             windowState1.value.windowId
         )
 
