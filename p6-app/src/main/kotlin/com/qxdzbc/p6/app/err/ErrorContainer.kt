@@ -1,8 +1,7 @@
-package com.qxdzbc.p6.app.oddity
+package com.qxdzbc.p6.app.err
 
 import com.qxdzbc.common.WithSize
 import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
 
 interface ErrorContainer : WithSize {

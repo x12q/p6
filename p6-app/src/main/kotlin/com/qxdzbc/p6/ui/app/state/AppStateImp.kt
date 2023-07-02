@@ -3,8 +3,8 @@ package com.qxdzbc.p6.ui.app.state
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.app.oddity.ErrorContainerImp
+import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.app.err.ErrorContainerImp
 import com.qxdzbc.p6.di.state.app_state.*
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.ActiveWindowPointerImp

@@ -6,8 +6,8 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.app.oddity.ErrorContainerImp
+import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.app.err.ErrorContainerImp
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMap
@@ -25,7 +25,6 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainerImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.format.*
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import dagger.Binds
 import dagger.Provides

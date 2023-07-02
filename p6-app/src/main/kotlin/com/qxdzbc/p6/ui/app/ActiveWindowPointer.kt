@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.app
 
 /**
- * Point to the currently on top window
+ * Point to the window that is currently on top.
  */
 interface ActiveWindowPointer {
     val windowId:String?

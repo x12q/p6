@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.oddity
+package com.qxdzbc.p6.app.err
 
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.SingleErrorReport

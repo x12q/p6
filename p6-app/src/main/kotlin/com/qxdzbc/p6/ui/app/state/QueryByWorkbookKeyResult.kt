@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.err.ErrorContainer
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport

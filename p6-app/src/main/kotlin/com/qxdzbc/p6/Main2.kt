@@ -23,8 +23,8 @@ import com.qxdzbc.p6.app.app_context.P6GlobalAccessPoint
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.app.oddity.ErrorType
+import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.app.err.ErrorType
 import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace

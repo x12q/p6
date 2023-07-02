@@ -5,7 +5,7 @@ import com.qxdzbc.common.WithSize
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.ErrorContainer
+import com.qxdzbc.p6.app.err.ErrorContainer
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St

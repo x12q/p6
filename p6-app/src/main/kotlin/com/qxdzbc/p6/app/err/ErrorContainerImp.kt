@@ -1,13 +1,10 @@
-package com.qxdzbc.p6.app.oddity
+package com.qxdzbc.p6.app.err
 
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
 
-fun SingleErrorReport.oddMsg():String{
-    return this.toString()
-}
 
 data class ErrorContainerImp constructor (override val errList: List<ErrMsg> = emptyList()) : ErrorContainer {
     override fun add(msg:ErrMsg):ErrorContainerImp{
