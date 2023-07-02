@@ -16,10 +16,10 @@ import javax.inject.Inject
 class RangePasterImp @Inject constructor(
     val singleCellPaster: SingleCellPaster,
     val rangeRangePasterImp: RangeRangePasterImp,
-    private val stateContainerMs: Ms<StateContainer>,
+    private val stateContainerMs:StateContainer,
     override val transCont: TranslatorContainer,
 ) : BaseRangePaster() {
-    override val stateCont: StateContainer by stateContainerMs
+    override val stateCont: StateContainer = stateContainerMs
     override fun paste(target: RangeId): PasteResponse {
         if(target.rangeAddress.isCell()){
             return singleCellPaster.paste(target)

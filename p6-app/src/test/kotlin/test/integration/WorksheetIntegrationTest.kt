@@ -14,7 +14,7 @@ import kotlin.test.assertNotNull
 
 class WorksheetIntegrationTest {
     lateinit var ts: TestSample
-    val sc get() = ts.stateContMs().value
+    val sc get() = ts.sc
     lateinit var updateCellAction: UpdateCellAction
 
     @BeforeTest

@@ -20,12 +20,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class EndThumbDragActionImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
     private val copyCellAct: CopyCellAction,
     private val multiCellUpdateAct: UpdateMultiCellAction,
 ) : EndThumbDragAction {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     override fun invokeSuitableAction(wbws: WbWsSt, startCell: CellAddress, endCell: CellAddress, isCtrPressed: Boolean) {
         if(startCell!=endCell){

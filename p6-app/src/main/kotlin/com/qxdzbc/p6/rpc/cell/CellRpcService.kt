@@ -32,13 +32,13 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType= CellServiceGrpc.CellServiceImplBase::class)
 class CellRpcService @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     val acts: CellRpcActions,
     @ActionDispatcherDefault
     val actionDispatcherDefault: CoroutineDispatcher
 ) : CellServiceGrpc.CellServiceImplBase() {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     override fun updateCellContent(
         request: CellProtos.CellUpdateRequestProto?,

@@ -16,9 +16,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class LoadWorkbookInternalApplierImp @Inject constructor(
-    val stateContMs:Ms<StateContainer>,
+    val stateCont:StateContainer,
 ) : LoadWorkbookInternalApplier {
-    private var stateCont by stateContMs
+   
     private var globalWbCont by stateCont.wbContMs
     private var globalWbStateCont by stateCont.wbStateContMs
 

@@ -14,9 +14,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class RemoveAllWorksheetActionImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
 ): RemoveAllWorksheetAction {
-    val sc by stateContSt
+    val sc  = stateCont
     override fun removeAllWsRs(wbKey: WorkbookKey): Rse<Unit> {
         val wbStateMsRs = sc.getWbStateMsRs(wbKey)
         val rt = wbStateMsRs.map {wbStateMs->

@@ -19,11 +19,11 @@ import javax.inject.Inject
 class CreateNewWorkbookActionImp @Inject constructor(
     private val pickDefaultActiveWb: PickDefaultActiveWbAction,
     private val errorRouter: ErrorRouter,
-    private val stateContMs: Ms<StateContainer>,
+    private val stateCont:StateContainer,
     private val wbf: WorkbookFactory,
 ) : CreateNewWorkbookAction {
 
-    private val stateCont by stateContMs
+   
     private val globalWbCont by stateCont.wbContMs
     private val globalWbStateCont by stateCont.wbStateContMs
 

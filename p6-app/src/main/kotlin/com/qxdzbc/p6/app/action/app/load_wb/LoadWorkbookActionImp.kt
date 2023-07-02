@@ -29,13 +29,13 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 data class LoadWorkbookActionImp @Inject constructor(
-    val stateContMs: Ms<StateContainer>,
+    val stateCont:StateContainer,
     val errorRouter: ErrorRouter,
     private val loader: P6FileLoader,
     val translatorContainer: TranslatorContainer,
 ) : LoadWorkbookAction {
 
-    private var sc by stateContMs
+    private val sc = stateCont
     private val tc = translatorContainer
     private var wbCont by sc.wbContMs
     private var wbStateCont by sc.wbStateContMs

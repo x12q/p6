@@ -3,14 +3,15 @@ package com.qxdzbc.p6.ui.app.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.*
+import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.ResultUtils.toRs
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -24,11 +25,16 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
+import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
@@ -37,186 +43,57 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
+import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowState
+import com.qxdzbc.p6.ui.window.state.WindowStateFactory
+import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
+import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
 
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class, boundType = StateContainer::class)
 class StateContainerImp @Inject constructor(
-    override val appState: AppState,
     private val docCont: DocumentContainer,
-    private val subAppStateContainer:SubAppStateContainer,
-) : StateContainer, AbsSubAppStateContainer() {
-    
+    override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>,
+    override val wbStateContMs: Ms<WorkbookStateContainer>,
+    private val windowStateFactory: WindowStateFactory,
+    private val outerWindowStateFactory: OuterWindowStateFactory,
+    private val wbStateFactory: WorkbookStateFactory,
+    val activeWindowPointer: ActiveWindowPointer,
+    override val cellEditorStateMs: Ms<CellEditorState>,
+) : AbsStateContainer(),DocumentContainer by docCont {
+
     override fun getActiveWorkbook(): Workbook? {
-        return appState.activeWindowState?.activeWbState?.wb
+        return getActiveWindowState()?.activeWbState?.wb
     }
 
     override fun getActiveWorkbookRs(): Rse<Workbook> {
-        val wbk: Workbook? = appState.activeWindowState?.activeWbState?.wb
+        val wbk: Workbook? = getActiveWindowState()?.activeWbState?.wb
         return wbk.toRs(AppStateErrors.NoActiveWorkbook.report())
     }
 
-    override val wbContMs: Ms<WorkbookContainer>
-        get() = docCont.wbContMs
     override var wbCont: WorkbookContainer by wbContMs
+
     override fun getActiveWindowStateMs(): Ms<WindowState>? {
-        return appState.activeWindowStateMs
+        return activeWindowPointer.windowId?.let {
+            getWindowStateMsById(it)
+        }
     }
 
     override fun getActiveWindowState(): WindowState? {
-        return appState.activeWindowState
+        return getActiveWindowStateMs()?.value
     }
 
-    override val cellEditorStateMs: Ms<CellEditorState>
-        get() = appState.cellEditorStateMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
-
-    override val windowStateMsList: List<Ms<WindowState>> get() = subAppStateContainer.windowStateMsList
-
-    override val wbStateContMs: Ms<WorkbookStateContainer>
-        get() = subAppStateContainer.wbStateContMs
-    override var wbStateCont: WorkbookStateContainer by wbStateContMs
-
-    override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2> {
-        return subAppStateContainer.getStateByWorkbookKeyRs(workbookKey)
-    }
-
-    override fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult2? {
-        return subAppStateContainer.getStateByWorkbookKey(workbookKey)
-    }
-
-    override fun addWbStateFor(wb: Workbook) {
-        subAppStateContainer.addWbStateFor(wb)
-    }
-
-    override fun removeWindowState(windowState: Ms<WindowState>) {
-        subAppStateContainer.removeWindowState(windowState)
-    }
-
-    override fun removeWindowState(windowId: String) {
-        subAppStateContainer.removeWindowState(windowId)
-    }
-
-    override fun addWindowState(windowState: Ms<WindowState>) {
-        subAppStateContainer.addWindowState(windowState)
-    }
-
-    override fun createNewWindowStateMs(): Ms<OuterWindowState> {
-        return subAppStateContainer.createNewWindowStateMs()
-    }
-
-    override fun createNewWindowStateMs(windowId: String): Ms<OuterWindowState> {
-        return subAppStateContainer.createNewWindowStateMs(windowId)
-    }
-
-    override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {
-        return subAppStateContainer.getWbStateMsRs(wbKeySt)
-    }
-
-    override fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
-        return subAppStateContainer.getWbStateMsRs(wbKey)
-    }
-
-    override fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>> {
-        return subAppStateContainer.getWsStateMsRs(wbKey, wsName)
-    }
-
-    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, SingleErrorReport> {
-        return subAppStateContainer.getWindowStateMsByWbKeyRs(wbKey)
-    }
-
-    override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, SingleErrorReport> {
-        return subAppStateContainer.getFocusStateMsByWbKeyRs(wbKey)
-    }
-
-    override fun getCellStateMsRs(wbwsSt: WbWsSt, cellAddress: CellAddress): Rse<Ms<CellState>> {
-        return subAppStateContainer.getCellStateMsRs(wbwsSt, cellAddress)
-    }
-
-    override fun getCellStateMsRs(cellId: CellId): Rse<Ms<CellState>> {
-        return subAppStateContainer.getCellStateMsRs(cellId)
-    }
-
-    override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
-
-    override val outerWindowStateMsList: List<Ms<OuterWindowState>>
-        get() = subAppStateContainer.outerWindowStateMsList
-
-    override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>
-        get() = this.subAppStateContainer.windowStateMapMs
-
-    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, SingleErrorReport> {
-        return subAppStateContainer.getWindowStateMsByIdRs(windowId)
-    }
-
-    override fun addOuterWindowState(windowState: Ms<OuterWindowState>) {
-        subAppStateContainer.addOuterWindowState(windowState)
-    }
-
-    override fun removeOuterWindowState(windowState: Ms<OuterWindowState>) {
-        subAppStateContainer.removeOuterWindowState(windowState)
-    }
-
-    override fun getRulerStateMsRs(wbws: WbWs, type: RulerType): Rse<Ms<RulerState>> {
-        return subAppStateContainer.getRulerStateMsRs(wbws, type)
-    }
-
-    override fun getRulerStateMsRs(wbwsSt: WbWsSt, type: RulerType): Rse<Ms<RulerState>> {
-        return subAppStateContainer.getRulerStateMsRs(wbwsSt, type)
-    }
-
-    override fun getRulerStateMsRs(rulerSig: RulerSig): Rse<Ms<RulerState>> {
-        return subAppStateContainer.getRulerStateMsRs(rulerSig)
-    }
-
-    override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
-        return subAppStateContainer.getRulerStateMs(wbws, type)
-    }
-
-    override fun getRulerStateMs(wbwsSt: WbWsSt, type: RulerType): Ms<RulerState>? {
-        return subAppStateContainer.getRulerStateMs(wbwsSt, type)
-    }
-
-    override fun getRulerStateMs(rulerSig: RulerSig): Ms<RulerState>? {
-        return subAppStateContainer.getRulerStateMs(rulerSig)
-    }
-
-    override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
-        return subAppStateContainer.getRulerState(wbws, type)
-    }
-
-    override fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState? {
-        return subAppStateContainer.getRulerState(wbwsSt, type)
-    }
-
-    override fun getRulerState(rulerSig: RulerSig): RulerState? {
-        return subAppStateContainer.getRulerState(rulerSig)
-    }
-
-    override fun getSliderMsRs(wbwsSt: WbWsSt): Rse<Ms<GridSlider>> {
-        return subAppStateContainer.getSliderMsRs(wbwsSt)
-    }
-
-    override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
-        return subAppStateContainer.getSliderMs(wbwsSt)
-    }
-
-    override fun getThumbStateMsRs(wbwsSt: WbWsSt): Rse<Ms<ThumbState>> {
-        return subAppStateContainer.getThumbStateMsRs(wbwsSt)
-    }
-
-    override fun getThumbStateMs(wbwsSt: WbWsSt): Ms<ThumbState>? {
-        return subAppStateContainer.getThumbStateMs(wbwsSt)
-    }
 
     override fun getWindowStateMsDefaultRs(windowId: String?): Rse<Ms<WindowState>> {
         val windowMsRs: Rse<Ms<WindowState>> = if (windowId != null) {
             val q: Rse<Ms<WindowState>> = getWindowStateMsByIdRs(windowId)
             q
         } else {
-            val activeWid = appState.activeWindowStateMs
+            val activeWid = getActiveWindowStateMs()
             if (activeWid != null) {
                 val q = Ok(activeWid)
                 q
@@ -234,8 +111,8 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getActiveCursorStateMs(): Ms<CursorState>? {
-        val rt = this.appState.activeWindowState?.activeWbPointer?.wbKeyMs?.let {
-            this.getActiveCursorMs(it)
+        val rt = getActiveWindowState()?.activeWbPointer?.wbKeyMs?.let {
+            getActiveCursorMs(it)
         }
         return rt
     }
@@ -245,311 +122,208 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getActiveWbStateMs(): Ms<WorkbookState>? {
-        return appState.activeWindowState?.activeWbStateMs
+        return getActiveWindowState()?.activeWbStateMs
     }
 
     override fun getActiveWbState(): WorkbookState? {
-        return appState.activeWindowState?.activeWbStateMs?.value
+        return getActiveWindowState()?.activeWbStateMs?.value
     }
 
-    override fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>? {
-        return subAppStateContainer.getCursorStateMs(wbKey, wsName)
-    }
-
-    override fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt? {
-        return docCont.getWbWsSt(wbKey, wsName)
-    }
-
-    override fun getWbWsSt(wbWs: WbWs): WbWsSt? {
-        return docCont.getWbWsSt(wbWs)
-    }
-
-    override fun getWbKeySt(wbKey: WorkbookKey): St<WorkbookKey>? {
-        return docCont.getWbKeySt(wbKey)
-    }
-
-    override fun getWbKeyStRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>> {
-        return docCont.getWbKeyStRs(wbKey)
-    }
-
-    override fun getWbKeyMs(wbKey: WorkbookKey): Ms<WorkbookKey>? {
-        return docCont.getWbKeyMs(wbKey)
-    }
-
-    override fun getWbKeyMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookKey>> {
-        return docCont.getWbKeyMsRs(wbKey)
-    }
-
-    override fun getWsNameSt(wbKey: WorkbookKey, wsName: String): St<String>? {
-        return docCont.getWsNameSt(wbKey, wsName)
-    }
-
-    override fun getWsNameSt(wbws: WbWs): St<String>? {
-        return docCont.getWsNameSt(wbws)
-    }
-
-    override fun getWsNameSt(wbKeySt: St<WorkbookKey>, wsName: String): St<String>? {
-        return docCont.getWsNameSt(wbKeySt, wsName)
-    }
-
-    override fun getWsNameStRs(wbws: WbWs): Rse<St<String>> {
-        return docCont.getWsNameStRs(wbws)
-    }
-
-    override fun getWsNameMs(wbKey: WorkbookKey, wsName: String): Ms<String>? {
-        return docCont.getWsNameMs(wbKey, wsName)
-    }
-
-    override fun getWsNameMs(wbKeySt: St<WorkbookKey>, wsName: String): Ms<String>? {
-        return docCont.getWsNameMs(wbKeySt, wsName)
-    }
-
-    override fun getWbWsStRs(wbWs: WbWs): Rse<WbWsSt> {
-        return docCont.getWbWsStRs(wbWs)
-    }
-
-    override fun getWbRs(wbKey: WorkbookKey): Rse<Workbook> {
-        return docCont.getWbRs(wbKey)
-    }
-
-    override fun getWbRs(path: Path): Rse<Workbook> {
-        return docCont.getWbRs(path)
-    }
-
-    override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<Workbook>> {
-        return docCont.getWbMsRs(wbKeySt)
-    }
-
-    override fun getWbMsRs(wbKey: WorkbookKey): Rse<Ms<Workbook>> {
-        return docCont.getWbMsRs(wbKey)
-    }
-
-    override fun getWbMsRs(path: Path): Rse<Ms<Workbook>> {
-        return docCont.getWbMsRs(path)
-    }
-
-    override fun getWb(wbKey: WorkbookKey): Workbook? {
-        return docCont.getWb(wbKey)
-    }
-
-    override fun getWb(path: Path): Workbook? {
-        return docCont.getWb(path)
-    }
-
-    override fun getWbMs(wbKeySt: St<WorkbookKey>): Ms<Workbook>? {
-        return docCont.getWbMs(wbKeySt)
-    }
-
-    override fun getWbMs(wbKey: WorkbookKey): Ms<Workbook>? {
-        return docCont.getWbMs(wbKey)
-    }
-
-    override fun getWbRs(wbKeySt: St<WorkbookKey>): Rse<Workbook> {
-        return docCont.getWbRs(wbKeySt)
-    }
-
-    override fun getWsRs(wbKey: WorkbookKey, wsName: String): Rse<Worksheet> {
-        return docCont.getWsRs(wbKey, wsName)
-    }
-
-    override fun getWsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Worksheet> {
-        return docCont.getWsRs(wbKeySt, wsNameSt)
-    }
-
-    override fun getWsRs(wbwsSt: WbWsSt): Rse<Worksheet> {
-        return docCont.getWsRs(wbwsSt)
-    }
-
-    override fun getWsRs(wbws: WbWs): Rse<Worksheet> {
-        return docCont.getWsRs(wbws)
-    }
-
-    override fun getWs(wbKey: WorkbookKey, wsName: String): Worksheet? {
-        return docCont.getWs(wbKey, wsName)
-    }
-
-    override fun getWs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Worksheet? {
-        return docCont.getWs(wbKeySt, wsNameSt)
-    }
-
-    override fun getWs(wbws: WbWs): Worksheet? {
-        return docCont.getWs(wbws)
-    }
-
-    override fun getWs(wbwsSt: WbWsSt): Worksheet? {
-        return docCont.getWs(wbwsSt)
-    }
+    override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
+    override val outerWindowStateMsList: List<Ms<OuterWindowState>>
+        get() = windowStateMap.values.toList()
+    override var wbStateCont: WorkbookStateContainer by wbStateContMs
 
-    override fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet? {
-        return docCont.getWs(wsId)
-    }
-
-    override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<Worksheet>> {
-        return docCont.getWsMsRs(wbKey, wsName)
-    }
-
-    override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<Worksheet>> {
-        return docCont.getWsMsRs(wbKeySt, wsNameSt)
-    }
+    override val windowStateMsList: List<Ms<WindowState>> get() = outerWindowStateMsList.map { it.value.innerWindowStateMs }
 
-    override fun getWsMsRs(wbwsSt: WbWsSt): Rse<Ms<Worksheet>> {
-        return docCont.getWsMsRs(wbwsSt)
+    private fun hasStateFor(wbKey: WorkbookKey): Boolean {
+        return this.getWbState(wbKey) != null
     }
 
-    override fun getWsMsRs(wbws: WbWs): Rse<Ms<Worksheet>> {
-        return docCont.getWsMsRs(wbws)
+    /**
+     * Get a set of states related to a workbook key
+     */
+    override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2> {
+        val windowStateMsRs = this.getWindowStateMsByWbKeyRs(workbookKey)
+        val rt = windowStateMsRs.flatMap { windowstateMs ->
+            getWbStateMsRs(workbookKey).flatMap {
+                QueryByWorkbookKeyResult2(
+                    windowStateMs = windowstateMs,
+                    workbookStateMs = it
+                ).toOk()
+            }
+        }
+        return rt
     }
 
-    override fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>? {
-        return docCont.getWsMs(wbKey, wsName)
+    override fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult2? {
+        return getStateByWorkbookKeyRs(workbookKey).component1()
     }
 
-    override fun getWsMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<Worksheet>? {
-        return docCont.getWsMs(wbKeySt, wsNameSt)
+    override fun addWbStateFor(wb: Workbook) {
+        if (!this.hasStateFor(wb.key)) {
+            val newState = wbStateFactory.create(StateUtils.ms(wb))
+            wbStateCont = wbStateCont.addOrOverwriteWbState(StateUtils.ms(newState))
+        }
     }
 
-    override fun getWsMs(wbws: WbWs): Ms<Worksheet>? {
-        return docCont.getWsMs(wbws)
+    override fun createNewWindowStateMs(): Ms<OuterWindowState> {
+        val newWindowState: Ms<WindowState> = StateUtils.ms(
+            windowStateFactory.createDefault()
+        )
+        val o: Ms<OuterWindowState> = outerWindowStateFactory.create(newWindowState).toMs()
+        this.addOuterWindowState(o)
+        return o
     }
 
-    override fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>? {
-        return docCont.getWsMs(wbwsSt)
+    override fun createNewWindowStateMs(windowId: String): Ms<OuterWindowState> {
+        val newWindowState: Ms<WindowState> = StateUtils.ms(
+            windowStateFactory.createDefault(id = windowId)
+        )
+        val o: Ms<OuterWindowState> = outerWindowStateFactory.create(newWindowState).toMs()
+        this.addOuterWindowState(o)
+        return o
     }
 
-    override fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rse<Range> {
-        return docCont.getRangeRs(wbKey, wsName, rangeAddress)
+    override fun removeWindowState(windowState: Ms<WindowState>) {
+        windowStateMap = windowStateMap.filter { (id, oStateMs) ->
+            oStateMs.value.innerWindowStateMs != windowState
+        }
     }
 
-    override fun getRangeRs(rangeId: RangeId): Rse<Range> {
-        return docCont.getRangeRs(rangeId)
+    override fun removeOuterWindowState(windowState: Ms<OuterWindowState>) {
+        windowStateMap = windowStateMap.filter { (id, oStateMs) ->
+            oStateMs != windowState
+        }
     }
 
-    override fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range? {
-        return docCont.getRange(wbKey, wsName, rangeAddress)
+    private fun getRulerStateZZ(wsState: WorksheetState, rulerType: RulerType): Ms<RulerState> {
+        return when (rulerType) {
+            RulerType.Row -> wsState.rowRulerStateMs
+            RulerType.Col -> wsState.colRulerStateMs
+        }
     }
 
-    override fun getLazyRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range? {
-        return docCont.getLazyRange(wbKey, wsName, rangeAddress)
+    override fun getRulerStateMsRs(wbws: WbWs, type: RulerType): Rse<Ms<RulerState>> {
+        return this.getWsStateRs(wbws).map {
+            getRulerStateZZ(it, type)
+        }
     }
 
-    override fun getLazyRangeRs(
-        wbKey: WorkbookKey,
-        wsName: String,
-        rangeAddress: RangeAddress
-    ): Rse<Range> {
-        return docCont.getLazyRangeRs(wbKey, wsName, rangeAddress)
+    override fun getRulerStateMsRs(wbwsSt: WbWsSt, type: RulerType): Rse<Ms<RulerState>> {
+        return this.getWsStateRs(wbwsSt).map {
+            getRulerStateZZ(it, type)
+        }
     }
 
-    override fun getLazyRangeRs(
-        wbKeySt: St<WorkbookKey>,
-        wsNameSt: St<String>,
-        rangeAddress: RangeAddress
-    ): Rse<Range> {
-        return docCont.getLazyRangeRs(wbKeySt, wsNameSt, rangeAddress)
+    override fun getRulerStateMsRs(rulerSig: RulerSig): Rse<Ms<RulerState>> {
+        return this.getRulerStateMsRs(rulerSig, rulerSig.type)
     }
 
-    override fun getCellRsOrDefault(
-        wbKey: WorkbookKey,
-        wsName: String,
-        cellAddress: CellAddress
-    ): Rse<Cell> {
-        return docCont.getCellRsOrDefault(wbKey, wsName, cellAddress)
+    override fun getRulerStateMs(wbws: WbWs, type: RulerType): Ms<RulerState>? {
+        return getRulerStateMsRs(wbws, type).component1()
     }
 
-    override fun getCellRsOrDefault(
-        wbKeySt: St<WorkbookKey>,
-        wsNameSt: St<String>,
-        cellAddress: CellAddress
-    ): Rse<Cell> {
-        return docCont.getCellRsOrDefault(wbKeySt, wsNameSt, cellAddress)
+    override fun getRulerStateMs(wbwsSt: WbWsSt, type: RulerType): Ms<RulerState>? {
+        return getRulerStateMsRs(wbwsSt, type).component1()
     }
 
-    override fun getCellRsOrDefault(cellId: CellIdDM): Rse<Cell> {
-        return docCont.getCellRsOrDefault(cellId)
+    override fun getRulerStateMs(rulerSig: RulerSig): Ms<RulerState>? {
+        return this.getRulerStateMs(rulerSig, rulerSig.type)
     }
 
-    override fun getCellRsOrDefault(cellId: CellId): Rse<Cell> {
-        return docCont.getCellRsOrDefault(cellId)
+    override fun getRulerState(wbws: WbWs, type: RulerType): RulerState? {
+        return this.getRulerStateMs(wbws, type)?.value
     }
 
-    override fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
-        return docCont.getCellOrDefault(wbKey, wsName, cellAddress)
+    override fun getRulerState(wbwsSt: WbWsSt, type: RulerType): RulerState? {
+        return this.getRulerStateMs(wbwsSt, type)?.value
     }
 
-    override fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): Cell? {
-        return docCont.getCellOrDefault(wbws, cellAddress)
+    override fun getRulerState(rulerSig: RulerSig): RulerState? {
+        return this.getRulerState(rulerSig, rulerSig.type)
     }
 
-    override fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
-        return docCont.getCellOrDefault(wbKeySt, wsNameSt, cellAddress)
+    override fun getSliderMsRs(wbwsSt: WbWsSt): Rse<Ms<GridSlider>> {
+        return this.getWsStateRs(wbwsSt).map { it.sliderMs }
     }
 
-    override fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
-        return docCont.getCellOrDefault(wbwsSt, cellAddress)
+    override fun getSliderMs(wbwsSt: WbWsSt): Ms<GridSlider>? {
+        return this.getWsStateRs(wbwsSt).component1()?.sliderMs
     }
 
-    override fun getCellOrDefault(cellId: CellIdDM): Cell? {
-        return docCont.getCellOrDefault(cellId)
+    override fun getThumbStateMsRs(wbwsSt: WbWsSt): Rse<Ms<ThumbState>> {
+        return this.getWsStateMsRs(wbwsSt).flatMap {
+            Ok(it.value.cursorStateMs.value.thumbStateMs)
+        }
     }
 
-    override fun getCellOrDefault(cellId: CellId): Cell? {
-        return docCont.getCellOrDefault(cellId)
+    override fun getThumbStateMs(wbwsSt: WbWsSt): Ms<ThumbState>? {
+        return getThumbStateMsRs(wbwsSt).component1()
     }
 
-    override fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Ms<Cell>> {
-        return docCont.getCellMsRs(wbKey, wsName, cellAddress)
+    override fun removeWindowState(windowId: String) {
+        windowStateMap = windowStateMap.filter { (id, oStateMs) ->
+            id != windowId
+        }
     }
 
-    override fun getCellMsRs(
-        wbKeySt: St<WorkbookKey>,
-        wsNameSt: St<String>,
-        cellAddress: CellAddress
-    ): Rse<Ms<Cell>> {
-        return docCont.getCellMsRs(wbKeySt, wsNameSt, cellAddress)
+    override fun addWindowState(windowState: Ms<WindowState>) {
+        windowStateMap = windowStateMap + (windowState.value.id to StateUtils.ms(
+            this.outerWindowStateFactory.create(
+                windowState
+            )
+        ))
     }
 
-    override fun getCellMsRs(cellId: CellIdDM): Rse<Ms<Cell>> {
-        return docCont.getCellMsRs(cellId)
+    override fun addOuterWindowState(windowState: Ms<OuterWindowState>) {
+        windowStateMap = windowStateMap + (windowState.value.windowId to windowState)
     }
 
-    override fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>? {
-        return docCont.getCellMs(wbKey, wsName, cellAddress)
+    override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
+        return windowStateMap[windowId]?.value?.innerWindowStateMs
     }
 
-    override fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>? {
-        return docCont.getCellMs(cellIdDM)
+    override fun getCellStateMsRs(wbwsSt: WbWsSt, cellAddress: CellAddress): Rse<Ms<CellState>> {
+        val rt = getWsStateRs(wbwsSt).flatMap {
+            it.getCellStateMs(cellAddress)?.let { csMs ->
+                Ok(csMs)
+            } ?: WorksheetErrors.InvalidCell
+                .report("can't get state for cell $cellAddress in $wbwsSt")
+                .toErr()
+        }
+        return rt
     }
 
-    override fun getCellMs(cellId: CellId): Ms<Cell>? {
-        return docCont.getCellMs(cellId)
+    override fun getCellStateMsRs(cellId: CellId): Rse<Ms<CellState>> {
+        return getCellStateMsRs(cellId,cellId.address)
     }
 
-    override fun getCell(cellIdDM: CellIdDM): Cell? {
-        return docCont.getCell(cellIdDM)
+    override fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>> {
+        return this.wbStateCont.getWbStateMsRs(wbKeySt)
     }
 
-    override fun getCell(cellId: CellId): Cell? {
-        return docCont.getCell(cellId)
+    override fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>> {
+        return this.wbStateCont.getWbStateMsRs(wbKey)
     }
 
-    override fun getCellIdRs(cellIdDM: CellIdDM): Rse<CellId> {
-        return docCont.getCellIdRs(cellIdDM)
+    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, SingleErrorReport> {
+        val w = windowStateMap.values.firstOrNull { owds ->
+            owds.value.innerWindowState.containWbKey(wbKey)
+        }?.value?.innerWindowStateMs
+        if (w != null) {
+            return Ok(w)
+        } else {
+            return Err(AppStateErrors.InvalidWindowState.report1(wbKey))
+        }
     }
-
-    override fun getCellId(cellIdDM: CellIdDM): CellId? {
-        return docCont.getCellId(cellIdDM)
-    }
-
-    override fun replaceWb(newWb: Workbook) {
-        docCont.replaceWb(newWb)
-    }
-
-    override val allWbs: List<Workbook>
-        get() = docCont.allWbs
-    override val allWbMs: List<Ms<Workbook>>
-        get() = docCont.allWbMs
 
-    override fun getWb(wbKeySt: St<WorkbookKey>): Workbook? {
-        return docCont.getWb(wbKeySt)
+    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, SingleErrorReport> {
+        val w = windowStateMap[windowId]?.value?.innerWindowStateMs
+        if (w != null) {
+            return w.toOk()
+        } else {
+            return Err(AppStateErrors.InvalidWindowState.report2(windowId))
+        }
     }
 }

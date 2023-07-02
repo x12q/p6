@@ -21,7 +21,7 @@ class RestoreWindowFocusStateImpTest {
     fun b(){
         ts = TestSample()
         appState = ts.appState
-        action = RestoreWindowFocusStateImp(ts.scMs,ts.sc.cellEditorStateMs)
+        action = RestoreWindowFocusStateImp(ts.sc,ts.sc.cellEditorStateMs)
         sc.windowStateMsList.withIndex().forEach { (i,wds)->
             wds.value.focusState = wds.value.focusState.focusOnEditor()
             if(i==0){

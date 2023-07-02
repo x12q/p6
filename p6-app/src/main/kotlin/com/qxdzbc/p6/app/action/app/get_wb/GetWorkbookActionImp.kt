@@ -16,10 +16,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class GetWorkbookActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>
+    val stateCont: StateContainer
 ) : GetWorkbookAction {
 
-    val sc by stateContSt
+    val sc = stateCont
 
     override fun getWbRs(request: GetWorkbookRequest): Rse<Workbook> {
         when{

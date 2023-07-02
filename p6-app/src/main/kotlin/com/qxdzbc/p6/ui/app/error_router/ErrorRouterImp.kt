@@ -16,17 +16,13 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 
 class ErrorRouterImp @Inject constructor(
-    private val scMs: Ms<StateContainer>,
+    private val sc:StateContainer,
     @AppErrorContMs
     val errorContainerMs: Ms<ErrorContainer>,
 ) : ErrorRouter {
-    private var sc by scMs
 
     override fun publishToApp(errorReport: ErrorReport?) {
         errorContainerMs.value = errorContainerMs.value.addErrorReport(errorReport)
-    }
-
-    override fun publishToScriptWindow(errorReport: ErrorReport?) {
     }
 
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?) {

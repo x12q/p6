@@ -23,10 +23,8 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteMultiRMImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
 ) : DeleteMultiRM {
-
-    val stateCont by stateContSt
 
     override fun deleteMultiCellAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         val rangeCells = stateCont.getWsStateRs(request.wbKey, request.wsName).map { wsState ->

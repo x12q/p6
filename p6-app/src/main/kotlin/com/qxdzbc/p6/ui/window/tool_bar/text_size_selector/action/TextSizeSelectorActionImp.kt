@@ -16,12 +16,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class TextSizeSelectorActionImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt: StateContainer,
     val returnFocusToCellCursor: ReturnFocusToCellCursor,
     val updateCellFormatAction: UpdateCellFormatAction,
 ) : TextSizeSelectorAction {
 
-    private val sc by stateContainerSt
+    private val sc = stateContainerSt
 
     override fun submitManualEdit(windowId: String, value: String) {
         val num = value.toFloatOrNull()

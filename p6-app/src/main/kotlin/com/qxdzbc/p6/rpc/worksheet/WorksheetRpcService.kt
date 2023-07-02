@@ -40,13 +40,13 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=WorksheetServiceGrpc.WorksheetServiceImplBase::class)
 class WorksheetRpcService @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
     private val rpcActs: WorksheetRpcAction,
     @ActionDispatcherDefault
     val actionDispatcherDefault: CoroutineDispatcher
 ) : WorksheetServiceGrpc.WorksheetServiceImplBase() {
 
-    private val sc: StateContainer by stateContSt
+    private val sc: StateContainer  = stateCont
 
     override fun updateMultiCellContent(
         request: WorksheetProtos.MultiCellUpdateRequestProto?,

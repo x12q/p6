@@ -11,7 +11,7 @@ internal class CellEditorActionImpTest : BaseAppStateTest() {
 
     lateinit var act: CellEditorAction
     lateinit var wbws: WbWsSt
-    val editorStateMs get() = ts.stateCont.cellEditorStateMs
+    val editorStateMs get() = ts.sc.cellEditorStateMs
     val editorState get() = editorStateMs.value
 
     @BeforeTest
@@ -25,7 +25,7 @@ internal class CellEditorActionImpTest : BaseAppStateTest() {
     @AfterTest
     fun afterTes() {
         act.closeEditor()
-        ts.stateCont.cellEditorStateMs.value = editorState.clearAllText()
+        ts.sc.cellEditorStateMs.value = editorState.clearAllText()
     }
 
     fun testBrace(b1:String, b2:String) {

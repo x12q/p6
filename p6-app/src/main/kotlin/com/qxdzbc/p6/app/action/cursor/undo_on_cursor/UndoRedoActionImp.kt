@@ -14,9 +14,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class UndoRedoActionImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
 ) : UndoRedoAction {
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     override fun undoOnWorksheet(wbwsSt: WbWsSt) {
         val undoStackMs = sc.getUndoStackMs(wbwsSt)

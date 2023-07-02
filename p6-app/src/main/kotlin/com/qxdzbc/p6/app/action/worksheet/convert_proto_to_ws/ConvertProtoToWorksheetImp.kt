@@ -22,11 +22,11 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ConvertProtoToWorksheetImp @Inject constructor(
-    val stateContMs: Ms<StateContainer>,
+    val stateCont:StateContainer,
     val translatorContainer: TranslatorContainer,
 ) : ConvertProtoToWorksheet {
 
-    private var sc by stateContMs
+    private val sc = stateCont
     val tc = translatorContainer
 
     override fun convertProtoToWs(proto: DocProtos.WorksheetProto): Worksheet {

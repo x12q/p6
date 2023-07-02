@@ -16,11 +16,11 @@ import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class ReplaceWorkbookKeyActionImp @Inject constructor(
-    val stateContMs:Ms<StateContainer>,
+    val stateCont:StateContainer,
     val errorRouter: ErrorRouter,
 ) : ReplaceWorkbookKeyAction {
 
-    private var stateCont by stateContMs
+   
 
     override fun replaceWbKey(req: SetWbKeyRequest) : Rse<Unit> {
         val oldKey = req.wbKey

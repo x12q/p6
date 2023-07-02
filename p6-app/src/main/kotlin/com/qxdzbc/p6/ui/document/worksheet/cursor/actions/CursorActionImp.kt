@@ -30,7 +30,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class, boundType = CursorAction::class)
 class CursorActionImp @Inject constructor(
     private val wsAction: WorksheetAction,
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont: StateContainer,
     private val formulaColorGenerator: FormulaColorGenerator,
     private val pasteRangeToCursor: PasteRangeToCursor,
     private val selectWholeCol: SelectWholeColumnForAllSelectedCellAction,
@@ -47,7 +47,8 @@ class CursorActionImp @Inject constructor(
     PasteRangeToCursor by pasteRangeToCursor,
     CopyCursorRangeToClipboardAction by copyCursorRangeToClipboardAction,
     UndoRedoAction by undoOnCursorAct {
-    private val sc by stateContSt
+
+    private val sc = stateCont
 
     /**
      * Get a map of [RangeAddress] and color from the cell which the cell cursor is currently at
@@ -74,30 +75,30 @@ class CursorActionImp @Inject constructor(
 
             //highlight those that have identity == identity of the rangeselector | target cursor
             // wbws == current wbws showing on the screen
-            val colors = formulaColorGenerator.getColors(ces.displayTextElementResult?.cellRangeElements?.size?:0)
+            val colors = formulaColorGenerator.getColors(ces.displayTextElementResult?.cellRangeElements?.size ?: 0)
 
             if (ces.targetCursorId != null) {
-                var ranges = mapOf<Int,RangeAddress>()
+                var ranges = mapOf<Int, RangeAddress>()
                 ranges = if (ces.targetCursorId?.wbKey == wbws.wbKey) {
-                    if(ces.targetCursorId?.wsName == wbws.wsName){
+                    if (ces.targetCursorId?.wsName == wbws.wsName) {
                         ces.displayTextElementResult?.cellRangeElements?.withIndex()
-                            ?.filter {(i,item)->
+                            ?.filter { (i, item) ->
                                 item.wbSuffix == null && item.wsSuffix == null
                             } ?: emptyList()
-                    }else{
-                        ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter {(i,item)->
+                    } else {
+                        ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter { (i, item) ->
                             val c2 = item.wsSuffix?.wsName == wbws.wsName
                             c2
                         } ?: emptyList()
                     }
                 } else {
-                    ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter {(i,item)->
+                    ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter { (i, item) ->
                         val c2 = item.wsSuffix?.wsName == wbws.wsName
                         val c1 = item.wbSuffix?.toWbKey() == wbws.wbKey
                         c2 && c1
                     } ?: emptyList()
-                }.mapNotNull {(i,item)->
-                    RangeAddressUtils.rangeFromLabelRs(item.cellRangeLabel).component1()?.let{
+                }.mapNotNull { (i, item) ->
+                    RangeAddressUtils.rangeFromLabelRs(item.cellRangeLabel).component1()?.let {
                         i to it
                     }
                 }.toMap()

@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.delete_multi
 
-import androidx.compose.runtime.getValue
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
@@ -14,9 +12,8 @@ import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -28,7 +25,7 @@ class DeleteMultiCellActionImp @Inject constructor(
     val applier: DeleteMultiApplier,
     private val docCont: DocumentContainer,
     private val multiCellUpdateAct: UpdateMultiCellAction,
-    private val subAppStateContainer: SubAppStateContainer,
+    private val subAppStateContainer: StateContainer,
 ) : DeleteMultiCellAction {
 
     private val sc = subAppStateContainer

@@ -19,10 +19,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class SelectWholeRowForAllSelectedCellActionImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
 ) : SelectWholeRowForAllSelectedCellAction {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
      fun selectWholeRowForAllSelectedCells(wsStateMs:Ms<WorksheetState>?) {
         wsStateMs?.also {

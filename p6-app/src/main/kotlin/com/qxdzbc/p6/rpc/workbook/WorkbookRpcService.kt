@@ -1,14 +1,11 @@
 package com.qxdzbc.p6.rpc.workbook
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
 import com.google.protobuf.Int64Value
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
 import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetRequest.Companion.toModel
@@ -38,7 +35,7 @@ import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
 import com.qxdzbc.p6.rpc.workbook.msg.WorksheetWithErrorReportMsg
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
@@ -50,7 +47,7 @@ class WorkbookRpcService @Inject constructor(
     private val translatorContainer: TranslatorContainer,
     private val rpcActions: WorkbookRpcActions,
     private val docCont: DocumentContainer,
-    private val subAppStateContainer:SubAppStateContainer,
+    private val subAppStateContainer: StateContainer,
     @AppCoroutineScope
     val crtScope: CoroutineScope,
     @ActionDispatcherDefault

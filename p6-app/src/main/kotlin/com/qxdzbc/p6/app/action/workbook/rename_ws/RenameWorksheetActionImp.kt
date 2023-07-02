@@ -4,7 +4,6 @@ package com.qxdzbc.p6.app.action.workbook.rename_ws
 import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChanged
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
@@ -17,14 +16,14 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 data class RenameWorksheetActionImp @Inject constructor(
-    private val subAppStateContainer:SubAppStateContainer,
+    private val subAppStateContainer: StateContainer,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged,
     val appState:AppState,
     private val docCont: DocumentContainer,

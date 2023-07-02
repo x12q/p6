@@ -20,11 +20,11 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class MoveSliderActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     val errorRouter: ErrorRouter,
 ) : MoveSliderAction {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     override fun makeSliderFollowCell(wbws: WbWs, cell: CellAddress, publishErr: Boolean): Rse<Unit> {
         return sc.getWbWsStRs(wbws).map {

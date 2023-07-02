@@ -27,11 +27,11 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(scope = P6AnvilScope::class)
 class UpdateCellFormatActionImp @Inject constructor(
-    private val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateContainerSt:StateContainer,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged,
 ) : UpdateCellFormatAction {
 
-    private val sc by stateContainerSt
+    private val sc  = stateContainerSt
 
     private fun <T> runSetFormat(
         formatValue: T?,

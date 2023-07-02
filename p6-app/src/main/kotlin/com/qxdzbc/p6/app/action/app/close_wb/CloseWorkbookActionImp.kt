@@ -20,13 +20,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CloseWorkbookActionImp @Inject constructor(
-    private val scMs: Ms<StateContainer>,
+    private val scMs:StateContainer,
     private val pickDefaultActiveWb: PickDefaultActiveWbAction,
     private val errorRouter: ErrorRouter,
 ) : CloseWorkbookAction {
 
-    private val sc by scMs
-    private val appState = scMs.value.appState
+    private val sc = scMs
 
     override fun closeWb(request: CloseWorkbookRequest): CloseWorkbookResponse {
         val response = requestCloseWb(request)
@@ -37,7 +36,6 @@ class CloseWorkbookActionImp @Inject constructor(
     override fun closeWb(wbKeySt: St<WorkbookKey>) {
 
         val wbKey = wbKeySt.value
-        val appState = sc.appState
 
         val inputState = CloseWbState(
             wbCont = sc.wbCont,

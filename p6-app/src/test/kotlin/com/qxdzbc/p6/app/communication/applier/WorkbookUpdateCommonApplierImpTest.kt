@@ -35,12 +35,12 @@ internal class WorkbookUpdateCommonApplierImpTest {
         s2 = workbook.getWs(1)!!
         s1 = workbook.getWs(0)!!
 
-        appState.subAppStateCont.getStateByWorkbookKeyRs(TestSample.wbk1).onSuccess {
+        appState.stateCont.getStateByWorkbookKeyRs(TestSample.wbk1).onSuccess {
             workbookStateMs = it.workbookStateMs!!
             windowStateMs = it.windowStateMs!!
         }
         applier = WorkbookUpdateCommonApplierImp(
-            stateContMs = ts.stateContMs(),
+            stateCont = ts.sc,
             errorRouter = ts.errorRouter
         )
     }
@@ -48,7 +48,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     @Test
     fun `applyDeleteMulti ok msg`() {
         val key1 = TestSample.wbk1
-        val q = appState.subAppStateCont.getStateByWorkbookKey(key1)!!
+        val q = appState.stateCont.getStateByWorkbookKey(key1)!!
         val newWb = WorkbookImp(keyMs = key1.toMs())
         val r = WorkbookUpdateCommonResponse(
             wbKey = key1,

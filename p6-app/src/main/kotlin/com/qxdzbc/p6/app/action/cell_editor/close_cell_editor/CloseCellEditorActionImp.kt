@@ -13,12 +13,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CloseCellEditorActionImp @Inject constructor(
-    private val stateContMs: Ms<StateContainer>,
+    private val stateCont:StateContainer,
     @PartialTreeExtractor
     val treeExtractor: TreeExtractor,
 ) : CloseCellEditorAction {
 
-    private val stateCont by stateContMs
+   
     private val editorStateMs = stateCont.cellEditorStateMs
     private val editorState by editorStateMs
 

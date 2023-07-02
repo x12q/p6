@@ -22,10 +22,10 @@ import javax.inject.Inject
 class CopyCursorRangeToClipboardActionImp @Inject constructor(
     private val wsAction: WorksheetAction,
     private val errorRouter: ErrorRouter,
-    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
 ) : CopyCursorRangeToClipboardAction {
 
-    private val sc by stateContSt
+    private val sc = stateCont
 
     override fun copyCursorRangeToClipboard(wbws: WbWs) {
         val cursorState: CursorState? = sc.getCursorState(wbws)

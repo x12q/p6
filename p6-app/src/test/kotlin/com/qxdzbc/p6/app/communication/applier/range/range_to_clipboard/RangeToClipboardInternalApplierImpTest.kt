@@ -6,8 +6,6 @@ import com.qxdzbc.p6.app.action.range.RangeIdDM
 import com.qxdzbc.p6.app.action.range.range_to_clipboard.RangeToClipboardResponse
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import org.junit.Assert.assertEquals
@@ -19,8 +17,8 @@ import kotlin.test.BeforeTest
 
 class RangeToClipboardInternalApplierImpTest {
 
-    lateinit var appStateMs: Ms<StateContainer>
-    private val appState:StateContainer get() = appStateMs.value
+    lateinit var stateCont:StateContainer
+    private val appState:StateContainer get() = stateCont
     lateinit var applier: RangeToClipboardInternalApplierImp
     private val cursorState: CursorState
         get()= appState
@@ -32,10 +30,10 @@ class RangeToClipboardInternalApplierImpTest {
     @BeforeTest
     fun b() {
         testSample = TestSample()
-        appStateMs = testSample.scMs
+        stateCont = testSample.sc
         errorRouter = mock()
         applier = RangeToClipboardInternalApplierImp(
-            stateContMs = appStateMs
+            stateCont = stateCont
         )
     }
 

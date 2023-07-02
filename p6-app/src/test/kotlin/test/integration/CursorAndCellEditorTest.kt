@@ -166,7 +166,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         cellEditorAction.runFormulaOrSaveValueToCell(true)
         cellEditorAction.openCellEditor(cursor1Ms.value)
         val formulaBar: FormulaBarState? =
-            ts.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
+            ts.sc.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
         assertEquals("=SUM(B2:C4)", cellEditorState.currentText)
     }
 
@@ -791,7 +791,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             handleCursorKeyboardEventAct = spyCursorAction,
             makeDisplayText = comp.makeDisplayText(),
             openCellEditor = comp.openCellEditorAction(),
-            stateContMs = ts.stateContMs(),
+            stateCont = ts.sc,
             textDiffer = comp.textDiffer(),
             cycleLockStateAct = comp.cycleFormulaLockStateAct(),
             treeExtractor = comp.partialFormulaTreeExtractor(),

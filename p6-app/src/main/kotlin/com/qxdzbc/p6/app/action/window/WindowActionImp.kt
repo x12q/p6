@@ -18,7 +18,7 @@ import com.qxdzbc.p6.app.action.window.open_close_save_dialog.OpenCloseSaveDialo
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.CompletableDeferred
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,
     private val closeWbAction: CloseWorkbookAction,
-    private val subAppStateContainer:SubAppStateContainer,
+    private val subAppStateContainer: StateContainer,
     private val newWbAct: CreateNewWorkbookAction,
     private val saveWbAction: SaveWorkbookAction,
     private val loadWbAction: LoadWorkbookAction,

@@ -39,7 +39,7 @@ internal class UpdateMultiCellActionImpTest {
                 )
             )
         )
-        val sc by ts.stateContMs
+        val sc = ts.sc
         val wsStateMs = sc.getWsStateMs(request)
         assertNotNull(wsStateMs)
         val wsState by wsStateMs

@@ -16,12 +16,12 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 @CellBackgroundColorSelectorActionQ
 class CellBackgroundColorSelectorAction @Inject constructor(
-    private val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateContainerSt:StateContainer,
     val updateCellFormatAction: UpdateCellFormatAction,
     val returnFocusToCellCursor: ReturnFocusToCellCursor,
 ) : ColorSelectorAction {
 
-    private val sc by stateContainerSt
+    private val sc  = stateContainerSt
 
     override fun clearColor(windowId: String) {
         this.pickColor(windowId,null)

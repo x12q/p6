@@ -9,6 +9,5 @@ interface TestAppScope{
     val ts: TestSample
     val appState: AppState
     val sc: StateContainer
-    val scMs:Ms<StateContainer>
     val comp: TestComponent
 }

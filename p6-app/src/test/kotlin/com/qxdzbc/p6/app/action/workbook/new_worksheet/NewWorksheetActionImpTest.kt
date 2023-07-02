@@ -25,11 +25,11 @@ internal class NewWorksheetActionImpTest {
     fun `new worksheet with a specified name`() {
         val wsName = "NewSheet"
         val req = CreateNewWorksheetRequest(ts.wbKey1, wsName)
-        assertNull(ts.stateCont.getWsState(req))
+        assertNull(ts.sc.getWsState(req))
         val o: Rse<CreateNewWorksheetResponse> = act.createNewWorksheetRs(req)
         assertTrue(o is Ok)
         val res = o.value
-        val wsState = ts.stateCont.getWsState(res)
+        val wsState = ts.sc.getWsState(res)
         assertNotNull(wsState)
     }
 
@@ -39,14 +39,14 @@ internal class NewWorksheetActionImpTest {
         val o: Rse<CreateNewWorksheetResponse> = act.createNewWorksheetRs(req)
         assertTrue(o is Ok)
         val res = o.value
-        val wsState = ts.stateCont.getWsState(res)
+        val wsState = ts.sc.getWsState(res)
         assertNotNull(wsState)
     }
 
     @Test
     fun `error case`() {
         val req = CreateNewWorksheetRequest(ts.wbKey1, ts.wsn1)
-        val windowState = ts.stateCont.getWindowStateByWbKey(req.wbKey)
+        val windowState = ts.sc.getWindowStateByWbKey(req.wbKey)
         assertNotNull(windowState)
         val errorContainer by windowState.errorContainerMs
 

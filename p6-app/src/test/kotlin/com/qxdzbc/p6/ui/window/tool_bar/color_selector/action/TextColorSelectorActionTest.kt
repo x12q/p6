@@ -19,7 +19,7 @@ internal class TextColorSelectorActionTest : BaseAppStateTest(){
     @BeforeTest
     fun b2(){
         action = TextColorSelectorAction(
-            ts.stateContMs,
+            ts.sc,
             mock(),
             mock()
         )
@@ -28,10 +28,10 @@ internal class TextColorSelectorActionTest : BaseAppStateTest(){
     @Test
     fun clearColor() {
         val e = ColorSelectorStateImp(null)
-        ts.stateCont.getTextColorSelectorStateMs(ts.window1Id)!!.value = ColorSelectorStateImp(color)
-        ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldNotBe e
+        ts.sc.getTextColorSelectorStateMs(ts.window1Id)!!.value = ColorSelectorStateImp(color)
+        ts.sc.getTextColorSelectorState(ts.window1Id) shouldNotBe e
         action.clearColor(ts.window1Id)
-        ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldBe e
+        ts.sc.getTextColorSelectorState(ts.window1Id) shouldBe e
     }
 
     @Test
@@ -44,9 +44,9 @@ internal class TextColorSelectorActionTest : BaseAppStateTest(){
             """.trimIndent()
         ){
             val e = ColorSelectorStateImp(color)
-            ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldNotBe e
+            ts.sc.getTextColorSelectorState(ts.window1Id) shouldNotBe e
             action.pickColor(ts.window1Id,color)
-            ts.stateCont.getTextColorSelectorState(ts.window1Id) shouldBe e
+            ts.sc.getTextColorSelectorState(ts.window1Id) shouldBe e
             verify(action.updateCellFormatAction,times(1)).setTextColorOnSelectedCells(color,undoable=true)
         }
     }

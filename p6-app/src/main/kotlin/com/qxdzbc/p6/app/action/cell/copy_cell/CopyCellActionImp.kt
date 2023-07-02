@@ -32,13 +32,13 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CopyCellActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     val updateCellFormatAction: UpdateCellFormatAction,
     val updateCellAction: UpdateCellAction,
     val errorRouter: ErrorRouter,
 ) : CopyCellAction {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     override fun copyCellWithoutClipboard(request: CopyCellRequest,publishError:Boolean): Rse<Unit> {
 

@@ -24,14 +24,14 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=MouseOnWorksheetAction::class)
 class MouseOnWorksheetActionImp @Inject constructor(
-    private val scMs: Ms<StateContainer>,
+    private val scMs:StateContainer,
     private val clickOnCell: ClickOnCellAction,
     private val makeDisplayText: GenerateCellEditorTextAction,
     private val refreshRangeSelectorText: RefreshRangeSelectorText,
     private val cellEditorStateMs:Ms<CellEditorState>,
 ) : MouseOnWorksheetAction, ClickOnCellAction by clickOnCell {
 
-    private val sc by scMs
+    private val sc = scMs
 
     fun shiftClickSelectRange(cellAddress: CellAddress, wsState: WorksheetState?) {
         wsState?.also {

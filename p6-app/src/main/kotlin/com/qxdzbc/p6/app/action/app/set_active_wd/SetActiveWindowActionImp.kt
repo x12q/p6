@@ -18,9 +18,9 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class SetActiveWindowActionImp @Inject constructor(
     val activeWdPointer: ActiveWindowPointer,
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>
+    val stateCont:StateContainer
 ) : SetActiveWindowAction {
-    val sc by stateContSt
+    val sc  = stateCont
     var wdp = activeWdPointer
     override fun setActiveWindow(windowId: String): Rse<Unit> {
         val wdStateRs = sc.getWindowStateByIdRs(windowId)

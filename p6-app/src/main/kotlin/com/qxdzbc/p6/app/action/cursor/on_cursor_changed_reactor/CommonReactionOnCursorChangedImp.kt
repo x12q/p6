@@ -17,12 +17,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class, boundType=CommonReactionOnCursorChanged::class)
 class CommonReactionOnCursorChangedImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
     private val makeSliderFollowCellAct: MoveSliderAction,
     val updateFormatIndicator: UpdateFormatIndicator,
 ) : CommonReactionOnCursorChanged {
 
-    private val sc by stateContainerSt
+    private val sc  = stateContainerSt
 
     /**
      * This function will do:

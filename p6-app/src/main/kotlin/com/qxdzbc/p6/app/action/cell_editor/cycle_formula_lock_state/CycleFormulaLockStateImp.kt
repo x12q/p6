@@ -18,12 +18,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CycleFormulaLockStateImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     @PartialCellRangeExtractorQ
     val partialTextElementExtractor: P6Translator<TextElementResult>,
 ) : CycleFormulaLockStateAction {
 
-    val sc by stateContSt
+    val sc  = stateCont
 
     override fun cycleFormulaLockState() {
         val ces by sc.cellEditorStateMs

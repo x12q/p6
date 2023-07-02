@@ -165,10 +165,7 @@ class TestSample: TestAppScope {
     override val ts: TestSample=this
     override var appState = comp.appState()
     override val sc: StateContainer
-        get() = this.stateCont
-    override val scMs: Ms<StateContainer>
-        get() = this.stateContMs
-
+        get() = comp.stateContainer
 
     val sampleWindowStateMs get() = sc.windowStateMsList.get(0)
 
@@ -183,7 +180,7 @@ class TestSample: TestAppScope {
         sc.wbStateContMs.value = makeSampleWbStateContMs()
         val windowState1 = makeSampleWindowStateMs1()
         val windowState2= makeSampleWindowStateMs2()
-        appState.subAppStateCont.apply {
+        appState.stateCont.apply {
             addOuterWindowState(windowState1)
             addOuterWindowState(windowState2)
         }
@@ -199,11 +196,5 @@ class TestSample: TestAppScope {
         sc.wbCont = wbCont
         return appState
     }
-
-    fun stateContMs(): MutableState<StateContainer> {
-        return comp.stateContMs()
-    }
-    val stateContMs get() = stateContMs()
-    val stateCont get()=stateContMs().value
 }
 

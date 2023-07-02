@@ -32,14 +32,14 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class PasteRangeActionImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
     val updateCellFormatAction: UpdateCellFormatAction,
     val updateMultiCellAction: UpdateMultiCellAction,
     val deleteMultiCellAction: DeleteMultiCellAction,
     val clipboardReader: ClipboardReader,
 ) : PasteRangeAction {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     override fun pasteRange(targetWbWsSt: WbWsSt, targetRangeAddress: RangeAddress, undoable: Boolean): Rse<Unit> {
         val targetRangeId = RangeIdImp(

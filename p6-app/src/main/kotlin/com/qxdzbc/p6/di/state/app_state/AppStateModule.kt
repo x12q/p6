@@ -43,17 +43,17 @@ interface AppStateModule {
 
     companion object {
 
-        @Provides
-        @P6Singleton
-        fun StateContainerMs(i:StateContainerImp):Ms<StateContainer>{
-            return ms(i)
-        }
-
-        @Provides
-        @P6Singleton
-        fun StateContainerSt(i:Ms<StateContainer>):St<StateContainer>{
-            return i
-        }
+//        @Provides
+//        @P6Singleton
+//        fun StateContainerMs(i:StateContainerImp):StateContainer{
+//            return ms(i)
+//        }
+//
+//        @Provides
+//        @P6Singleton
+//        fun StateContainerSt(i:StateContainer):St<StateContainer>{
+//            return i
+//        }
 
         @Provides
         @P6Singleton

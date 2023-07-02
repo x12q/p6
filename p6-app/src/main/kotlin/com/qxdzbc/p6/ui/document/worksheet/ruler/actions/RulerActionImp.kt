@@ -27,12 +27,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=RulerAction::class)
 class RulerActionImp @Inject constructor(
-    private val stateContMs: Ms<StateContainer>,
+    private val stateCont:StateContainer,
     val updateCellEditorText: RefreshRangeSelectorText,
     val changColRowSizeAction: ChangeRowAndColumnSizeAction
 ) : RulerAction , ChangeRowAndColumnSizeAction by changColRowSizeAction{
 
-    private var sc by stateContMs
+    private val sc = stateCont
 
     private fun resizerIsNotActivate(wbwsSt: WbWsSt): Boolean {
         val wsStateMs = sc.getWsStateMs(wbwsSt)

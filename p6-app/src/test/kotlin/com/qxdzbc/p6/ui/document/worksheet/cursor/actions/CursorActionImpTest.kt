@@ -32,7 +32,7 @@ class CursorActionImpTest {
         ts = TestSample()
         cursorAction = ts.comp.cursorAction()
         cellEditorAction = ts.comp.cellEditorAction()
-        val w = ts.stateCont.getWsStateMs(WbWs(ts.wbKey1,ts.wsn1))
+        val w = ts.sc.getWsStateMs(WbWs(ts.wbKey1,ts.wsn1))
         assertNotNull(w)
         wsStateMs = w
         sliderMs = wsStateMs.value.sliderMs

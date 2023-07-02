@@ -25,15 +25,13 @@ import kotlin.io.path.isRegularFile
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class SaveWorkbookActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont: StateContainer,
     val errorRouter: ErrorRouter,
     val saver: P6Saver,
     private val replaceWbKeyAct: ReplaceWorkbookKeyAction,
 ) : SaveWorkbookAction {
 
-    private val sc by stateContSt
-    private var wbCont by sc.wbContMs
-    private var appState = sc.appState
+    private val sc = stateCont
 
     override fun saveWorkbookForRpc(
         wbKey: WorkbookKey,

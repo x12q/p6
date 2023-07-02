@@ -70,6 +70,8 @@ import kotlinx.coroutines.CoroutineScope
 @P6Singleton
 interface TestComponent : P6Component {
 
+    val stateContainer:StateContainer
+
     @AppCoroutineScope
     fun executionScope(): CoroutineScope
 
@@ -95,7 +97,6 @@ interface TestComponent : P6Component {
 
     fun clickOnCellAction(): ClickOnCellAction
     fun mouseOnWsAction(): MouseOnWorksheetAction
-    fun stateContMs(): MutableState<StateContainer>
     fun workbookFactory(): WorkbookFactory
     fun createNewWbActionImp(): CreateNewWorkbookActionImp
     fun setActiveWorkbookAction(): SetActiveWorkbookAction

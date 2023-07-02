@@ -18,11 +18,9 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class MoveToWbActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
-    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    private val sc: StateContainer,
     private val activeWindowPointer:ActiveWindowPointer,
 ) : MoveToWbAction {
-
-    private val sc by stateContSt
 
     override fun moveToWorkbook(wbKey: WorkbookKey) {
         restoreWindowFocusState.setFocusStateConsideringRangeSelector(wbKey)

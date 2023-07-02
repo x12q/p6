@@ -11,7 +11,7 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class PickDefaultActiveWbActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>
+    val stateCont:StateContainer
 ) : PickDefaultActiveWbAction {
     override fun pickAndUpdateActiveWbPointer(windowState: WindowState) {
         val ws = windowState
@@ -24,7 +24,7 @@ class PickDefaultActiveWbActionImp @Inject constructor(
     }
 
     override fun pickAndUpdateActiveWbPointer(windowId: String?) {
-        windowId?.let { stateContSt.value.getWindowStateById(it) }
+        windowId?.let { stateCont.getWindowStateById(it) }
             ?.also { windowState ->
                 pickAndUpdateActiveWbPointer(windowState)
             }

@@ -46,14 +46,13 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=AppServiceGrpc.AppServiceImplBase::class)
 class AppRpcService @Inject constructor(
-    val appState:AppState,
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     val rpcActions: AppRpcAction,
     @ActionDispatcherDefault
     val actionDispatcherDefault: CoroutineDispatcher
 ) : AppServiceGrpc.AppServiceImplBase() {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     override fun getWorkbook(
         request: AppProtos.GetWorkbookRequestProto,
@@ -125,7 +124,7 @@ class AppRpcService @Inject constructor(
         responseObserver: StreamObserver<WorksheetProtos.GetWorksheetResponseProto>?
     ) {
         if (request != null && responseObserver != null) {
-            val ws = appState.activeWindowState?.activeWbState?.activeSheetState?.worksheet
+            val ws = sc.getActiveWindowState()?.activeWbState?.activeSheetState?.worksheet
             responseObserver.onNextAndComplete(GetWorksheetResponse(wsId = ws?.id).toProto())
         }
     }

@@ -13,10 +13,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CheckNeedSaveUIActionImp @Inject constructor(
-    val stateContainerSt:St<@JvmSuppressWildcards StateContainer>
+    val stateContainerSt:StateContainer
 ): CheckNeedSaveUIAction {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     override fun checkNeedSave(wbKeySt: St<WorkbookKey>): Boolean {
         val rt = sc.getWbState(wbKeySt)?.let{

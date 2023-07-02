@@ -23,12 +23,12 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class,boundType=WorksheetAction2::class)
 class WorksheetAction2Imp @Inject constructor(
     private val mouseOnWsAction: MouseOnWorksheetAction,
-    val stateContMs: Ms<StateContainer>,
+    val stateCont:StateContainer,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
     private val makeSliderFollowCellAct: MoveSliderAction,
 ) : WorksheetAction2, MouseOnWorksheetAction by mouseOnWsAction, ComputeSliderSizeAction by computeSliderSizeAction {
 
-    private var sc by stateContMs
+    private val sc = stateCont
 
     override fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWsSt) {
         makeSliderFollowCellAct.makeSliderFollowCell(wsLoc,newCursor.mainCell)

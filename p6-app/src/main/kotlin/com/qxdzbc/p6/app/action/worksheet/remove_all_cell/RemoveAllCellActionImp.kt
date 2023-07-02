@@ -18,10 +18,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class RemoveAllCellActionImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
 ) : RemoveAllCellAction {
 
-    val sc by stateContSt
+    val sc  = stateCont
 
     fun removeAllCell(wsStateMs: Ms<WorksheetState>) {
         val wsMs = wsStateMs.value.wsMs

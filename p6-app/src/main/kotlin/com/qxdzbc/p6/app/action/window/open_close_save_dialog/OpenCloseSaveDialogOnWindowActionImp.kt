@@ -11,10 +11,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class OpenCloseSaveDialogOnWindowActionImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
 ) : OpenCloseSaveDialogOnWindowAction {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     override fun openSaveFileDialog(windowId: String) {
         sc.getWindowStateMsById(windowId)?.also {

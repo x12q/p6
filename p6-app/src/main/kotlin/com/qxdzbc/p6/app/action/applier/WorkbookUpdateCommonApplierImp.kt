@@ -14,10 +14,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class WorkbookUpdateCommonApplierImp @Inject constructor(
-    val stateContMs:Ms<StateContainer>,
+    val stateCont:StateContainer,
     private val errorRouter: ErrorRouter,
 ) : WorkbookUpdateCommonApplier {
-    private var stateCont by stateContMs
+   
 
     private var wbCont by stateCont.wbContMs
     private var globalWbStateCont by stateCont.wbStateContMs

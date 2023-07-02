@@ -24,11 +24,10 @@ import javax.inject.Inject
 class NewWorksheetActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     val appState:AppState,
-    private val scMs: Ms<StateContainer>,
+    private val sc: StateContainer,
     private val docCont: DocumentContainer,
 ) : NewWorksheetAction {
 
-    var sc by scMs
     val dc = docCont
 
     override fun createNewWorksheetRs(

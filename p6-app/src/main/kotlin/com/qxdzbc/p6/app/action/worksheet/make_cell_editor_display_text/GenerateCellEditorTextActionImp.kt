@@ -19,11 +19,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class GenerateCellEditorTextActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     val formatter: RangeAddressFormatter,
 ) : GenerateCellEditorTextAction {
-
-    private val stateCont by stateContSt
 
     override fun generateRangeSelectorText(editorState: CellEditorState): TextFieldValue {
         if (editorState.allowRangeSelector) {

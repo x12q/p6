@@ -28,13 +28,13 @@ import javax.inject.Inject
 class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
-    private val stateContMs: Ms<StateContainer>,
+    private val stateCont:StateContainer,
     @PartialTreeExtractor
     val treeExtractor: TreeExtractor,
     val closeCellEditorAction: CloseCellEditorAction,
 ) : RunFormulaOrSaveValueToCellAction {
 
-    private val stateCont by stateContMs
+   
     private val editorStateMs = stateCont.cellEditorStateMs
     private val editorState by editorStateMs
 

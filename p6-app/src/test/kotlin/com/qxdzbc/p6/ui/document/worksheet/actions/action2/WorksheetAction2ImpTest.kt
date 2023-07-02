@@ -46,7 +46,7 @@ internal class WorksheetAction2ImpTest {
         val testSample = TestSample()
         wb = testSample.wbContMs.value.getWb(testSample.wbKey1)!!
         ws = wb.worksheets[0]
-        wsStateMs = testSample.stateContMs().value.getWsStateMs(ws)!!
+        wsStateMs = testSample.sc.getWsStateMs(ws)!!
 
         layoutMap = mutableMapOf()
         // x: create fake cell positions as Rect

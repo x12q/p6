@@ -26,7 +26,7 @@ class SaveWorkbookActionImpTest {
         ts.wbKey1.name shouldBe path.fileName.toString()
         ts.wbKey1.path?.toAbsolutePath() shouldBe path.toAbsolutePath()
 
-        val wb = ts.stateContMs().value.getWb(ts.wbKey1)
+        val wb = ts.sc.getWb(ts.wbKey1)
         wb shouldNotBe null
         if(path.exists()){
             Files.delete(path)

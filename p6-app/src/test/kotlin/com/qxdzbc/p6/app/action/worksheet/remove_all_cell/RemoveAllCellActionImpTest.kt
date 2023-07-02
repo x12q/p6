@@ -22,7 +22,7 @@ internal class RemoveAllCellActionImpTest {
     fun removeAllCell() {
         val wbk = ts.wbKey1
         val wsn = ts.wsn1
-        val sc by ts.stateContMs
+        val sc = ts.sc
         val wsStateMs = sc.getWsStateMs(wbk,wsn)
         assertNotNull(wsStateMs)
         val wsMs = wsStateMs.value.wsMs

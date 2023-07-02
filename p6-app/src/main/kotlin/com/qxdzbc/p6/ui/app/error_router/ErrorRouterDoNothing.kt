@@ -11,10 +11,6 @@ class ErrorRouterDoNothing : ErrorRouter {
         println("do nothing")
     }
 
-    override fun publishToScriptWindow(errorReport: ErrorReport?) {
-        println("do nothing")
-    }
-
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?) {
         println("do nothing")
     }

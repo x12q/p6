@@ -24,11 +24,10 @@ import javax.inject.Inject
  * Paste a range with clipboard source being a range. This is used inside [RangePasterImp]
  */
 class RangeRangePasterImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    override val stateCont:StateContainer,
     override val transCont: TranslatorContainer
 ) : BaseRangePaster() {
 
-    override val stateCont by stateContSt
 
     companion object {
         fun pasteRs(source: RangeCopy, target: RangeId, wb: Workbook): Rse<Workbook> {
@@ -74,7 +73,7 @@ class RangeRangePasterImp @Inject constructor(
     }
 
     private fun paste(rangeCopy: RangeCopy?, target: RangeId): Rse<Workbook> {
-        val rt: Rse<Workbook> = stateContSt.value.getWbRs(target.wbKey).flatMap { wb ->
+        val rt: Rse<Workbook> = stateCont.getWbRs(target.wbKey).flatMap { wb ->
             if (rangeCopy != null) {
                 pasteRs(rangeCopy, target, wb)
             } else {

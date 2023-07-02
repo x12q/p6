@@ -16,12 +16,6 @@ interface ErrorRouter {
     fun publishToApp(errorReport: ErrorReport?)
 
     /**
-     * route an error report to script editor window
-     * TODO delete this
-     */
-    fun publishToScriptWindow(errorReport: ErrorReport?)
-
-    /**
      * attempt to move an error to window, if no window is available, publish the err to app
      */
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?)

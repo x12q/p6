@@ -37,12 +37,11 @@ class CellEditorActionImp @Inject constructor(
     private val handleCursorKeyboardEventAct: HandleCursorKeyboardEventAction,
     private val makeDisplayText: GenerateCellEditorTextAction,
     private val openCellEditor: OpenCellEditorAction,
-    private val stateContMs: Ms<StateContainer>,
+    private val stateCont:StateContainer,
     private val textDiffer: TextDiffer,
     val cycleLockStateAct: CycleFormulaLockStateAction,
     @PartialTreeExtractor
     val treeExtractor: TreeExtractor,
-//    @Dont
     val colorFormulaAction: ColorFormulaInCellEditorAction,
     val closeCellEditorAction: CloseCellEditorAction,
     val runFormulaOrSaveValueToCellAction: RunFormulaOrSaveValueToCellAction,
@@ -53,7 +52,6 @@ class CellEditorActionImp @Inject constructor(
     GenerateCellEditorTextAction by makeDisplayText,
     OpenCellEditorAction by openCellEditor {
 
-    private val stateCont by stateContMs
     private val editorStateMs = stateCont.cellEditorStateMs
     private val editorState by editorStateMs
 

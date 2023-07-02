@@ -19,11 +19,11 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=CommonReactionWhenAppStatesChanged::class)
 class CommonReactionWhenAppStatesChangedImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
     val commonReactionWhenCursorChanged:CommonReactionOnCursorChanged,
 ) : CommonReactionWhenAppStatesChanged, CommonReactionOnCursorChanged by commonReactionWhenCursorChanged {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     override fun onWbChange(wbKey:WorkbookKey){
         sc.getWbStateMs(wbKey)?.also {

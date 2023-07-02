@@ -32,7 +32,7 @@ internal class FileMenuActionImpTest {
         }
         action = FileMenuActionImp(
             windowAction = windowAction,
-            stateContMs = ts.scMs,
+            stateCont = ts.sc,
             closeWbAct = ts.comp.closeWbAct()
         )
     }

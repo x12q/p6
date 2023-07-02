@@ -15,11 +15,11 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class FileMenuActionImp @Inject constructor(
     private val windowAction: WindowAction,
-    private val stateContMs:Ms<StateContainer>,
+    private val stateCont:StateContainer,
     private val closeWbAct:CloseWorkbookAction,
 ) : FileMenuAction {
 
-    private var sc by stateContMs
+    private val sc = stateCont
 
     override fun save(windowId:String) {
         sc.getWindowStateMsById(windowId)?.value?.also { windowState->

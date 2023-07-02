@@ -20,7 +20,7 @@ abstract class BaseAppStateTest : TestSplitter() {
             }
         }
     val appState: AppState get() = ts.appState
-    val sc: StateContainer get() = ts.stateCont
+    val sc: StateContainer get() = ts.sc
     val comp get() = ts.comp
 
     @BeforeTest

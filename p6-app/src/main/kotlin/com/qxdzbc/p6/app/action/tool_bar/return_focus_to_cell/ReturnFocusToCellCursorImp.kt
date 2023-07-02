@@ -11,10 +11,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ReturnFocusToCellCursorImp @Inject constructor(
-    val stateContainerSt:St<@JvmSuppressWildcards StateContainer>
+    val stateContainerSt:StateContainer
 ) : ReturnFocusToCellCursor {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     override fun returnFocusToCurrentCellCursor() {
         sc.getActiveWindowState()?.focusStateMs?.also {

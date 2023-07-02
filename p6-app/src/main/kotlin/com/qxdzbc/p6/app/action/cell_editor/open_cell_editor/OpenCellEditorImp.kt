@@ -25,13 +25,13 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class OpenCellEditorImp @Inject constructor(
-    val stateContMs: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     private val docCont: DocumentContainer,
     val appState:AppState,
     val errorRouter: ErrorRouter,
 ) : OpenCellEditorAction {
 
-    val sc by stateContMs
+    val sc  = stateCont
 
     override fun openCellEditor(wbws: WbWs) {
         val ws = docCont.getWs(wbws)
@@ -50,7 +50,7 @@ class OpenCellEditorImp @Inject constructor(
     }
 
     override fun openCellEditorOnActiveWs() {
-        val activeSheetState = sc.appState.activeWindowState?.activeWbState?.activeSheetState
+        val activeSheetState = sc.getActiveWindowState()?.activeWbState?.activeSheetState
         activeSheetState?.also {
             openCellEditor(it)
         }

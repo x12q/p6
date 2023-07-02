@@ -29,7 +29,7 @@ class IntegrationTest {
 
     lateinit var ts: TestSample
     val appState get() = ts.appState
-    val sc get() = ts.stateCont
+    val sc get() = ts.sc
 
     @BeforeTest
     fun b() {

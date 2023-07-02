@@ -25,12 +25,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class LoadDataActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     private val errorRouter: ErrorRouter,
     val translatorCont: TranslatorContainer
 ) : LoadDataAction {
 
-    val sc by stateContSt
+    val sc  = stateCont
     val tc = translatorCont
 
     override fun loadDataRs(request: LoadDataRequest, publishErrorToUI: Boolean): Rse<Unit> {

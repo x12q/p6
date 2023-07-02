@@ -29,7 +29,7 @@ class GenerateCellEditorTextActionImpTest {
     fun b() {
         ts = TestSample()
         fm = ts.comp.rangeFormatter()
-        action = GenerateCellEditorTextActionImp(ts.scMs,fm)
+        action = GenerateCellEditorTextActionImp(ts.sc,fm)
         rangeSelectorCursorMs = ts.sc.getCursorStateMs(ts.wbKey1, ts.wsn2)!!
         editorState = mock<CellEditorState> {
             whenever(it.allowRangeSelector) doReturn true

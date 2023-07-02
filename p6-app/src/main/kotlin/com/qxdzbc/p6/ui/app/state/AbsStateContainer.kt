@@ -24,7 +24,7 @@ import com.qxdzbc.p6.ui.window.tool_bar.color_selector.state.ColorSelectorState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelectorState
 
-abstract class AbsSubAppStateContainer : SubAppStateContainer {
+abstract class AbsStateContainer : StateContainer {
 
     override fun getCellFormatTableMsRs(wbwsSt: WbWsSt): Rse<Ms<CellFormatTable>> {
         return this.getWsStateRs(wbwsSt).map {

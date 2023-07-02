@@ -21,12 +21,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ColorFormulaInCellEditorActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
     private val formulaColorGenerator: FormulaColorGenerator,
     private val buildAnnotatedTextAction: BuildAnnotatedTextAction,
 ) : ColorFormulaInCellEditorAction {
 
-    val sc by stateContSt
+    val sc  = stateCont
 
     override fun colorCurrentTextInCellEditor() {
         sc.cellEditorStateMs.value = colorCurrentTextInCellEditor(sc.cellEditorStateMs.value)

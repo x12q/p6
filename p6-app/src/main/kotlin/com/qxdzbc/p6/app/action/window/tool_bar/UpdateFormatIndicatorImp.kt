@@ -13,10 +13,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class UpdateFormatIndicatorImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
 ): UpdateFormatIndicator {
 
-    private val sc by stateContainerSt
+    private val sc  = stateContainerSt
 
     override fun updateFormatIndicator(wbWsSt:WbWsSt){
         sc.getCursorState(wbWsSt)?.also {cursorState->

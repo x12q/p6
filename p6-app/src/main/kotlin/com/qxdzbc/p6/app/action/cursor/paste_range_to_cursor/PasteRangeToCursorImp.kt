@@ -15,11 +15,11 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class PasteRangeToCursorImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
     private val pasteRangeAction: PasteRangeAction,
 ) : PasteRangeToCursor {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     override fun pasteRange(wbws: WbWs) {
         val cursorState = sc.getCursorState(wbws)

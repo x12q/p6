@@ -16,10 +16,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ComputeSliderSizeActionImp @Inject constructor(
-    val stateContMs: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont:StateContainer,
 ): ComputeSliderSizeAction {
 
-    private val stateCont by stateContMs
+   
     override fun computeSliderSize(wsLoc: WbWsSt,density: Density) {
         stateCont.getWsState(wsLoc)?.also { wsState ->
             val currentSlider = wsState.slider

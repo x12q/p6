@@ -18,7 +18,7 @@ internal class RemoveAllWorksheetActionImpTest {
     @Test
     fun removeAllWs() {
         val wbk = ts.wbKey1
-        val wbStateMs = ts.stateCont.getWbStateMs(wbk)
+        val wbStateMs = ts.sc.getWbStateMs(wbk)
         assertNotNull(wbStateMs)
         val wbState by wbStateMs
 

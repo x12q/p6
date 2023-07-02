@@ -19,13 +19,13 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DragThumbActionImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
 //    private val copyCellAct: CopyCellAction,
 //    private val multiCellUpdateAct:MultiCellUpdateAction,
     private val endThumbDragAction: EndThumbDragAction,
 ) : DragThumbAction {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     private fun forTest(wbws: WbWsSt, cellAddress: CellAddress, f: (cellLayoutCoor: LayoutCoorWrapper) -> Unit) {
         sc.getThumbStateMsRs(wbws)

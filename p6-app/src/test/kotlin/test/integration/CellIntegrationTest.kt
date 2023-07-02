@@ -20,7 +20,7 @@ class CellIntegrationTest {
 
     @Test
     fun `circular reference`() {
-        val stateCont by ts.comp.stateContMs()
+        val stateCont = ts.sc
         val cellViewAction = ts.comp.cellViewAction()
         cellViewAction.updateCellDM(
             CellUpdateRequestDM(

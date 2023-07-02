@@ -20,10 +20,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ClipboardReaderImp @Inject constructor(
-    val stateContMs: Ms<StateContainer>,
+    val stateCont:StateContainer,
     val transCont: TranslatorContainer
 ) : ClipboardReader {
-    val stateCont: StateContainer by stateContMs
+
     override fun readDataFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
         return readDataFromClipboardRs(wbKey, wsName).component1()
     }

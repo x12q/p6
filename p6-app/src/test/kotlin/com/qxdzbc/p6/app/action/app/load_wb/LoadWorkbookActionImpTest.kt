@@ -29,19 +29,19 @@ import kotlin.test.*
 
 class LoadWorkbookActionImpTest : BaseAppStateTest(){
     lateinit var action: LoadWorkbookActionImp
-    lateinit var scMs: Ms<StateContainer>
+    lateinit var scMs:StateContainer
     lateinit var errorRouter: ErrorRouter
 
     @BeforeTest
     fun b() {
         action = ts.comp.loadWorkbookActionImp()
-        scMs = ts.scMs
+        scMs = ts.sc
         errorRouter = ErrorRouterImp(scMs,ts.appState.errorContainerMs)
     }
 
     @Test
     fun `applyLoadWorkbook std case`() {
-        val windowId = scMs.value.windowStateMsList[0].value.id
+        val windowId = scMs.windowStateMsList[0].value.id
         val wb = Workbook.random()
         val cellFormatTableMap = wb.worksheets.associate{
             it.name to CellFormatTable.random()
@@ -93,7 +93,7 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
     fun `apply Load Workbook into invalid window`() {
         val windowId = "invalid wd id"
         val wb = WorkbookImp(WorkbookKey("Book33").toMs())
-        ts.stateContMs().value.wbCont = ts.stateContMs().value.wbCont.addWb(wb)
+        ts.sc.wbCont = ts.sc.wbCont.addWb(wb)
         action.apply(windowId, wb,null,null,null)
         val wds = ts.sc.getWindowStateMsById(windowId)
         assertNotNull(wds)

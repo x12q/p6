@@ -40,7 +40,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 
     private val wsAction: WorksheetAction,
     private val openCellEditor: OpenCellEditorAction,
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
     private val pasteRangeToCursorAction: PasteRangeToCursor,
     private val selectWholeCol: SelectWholeColumnForAllSelectedCellAction,
     private val selectWholeRow: SelectWholeRowForAllSelectedCellAction,
@@ -53,7 +53,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
 
 ) : HandleCursorKeyboardEventAction {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
     private val cellEditorAction:CellEditorAction get()=cellEditorActionLz.get()
 
     @OptIn(ExperimentalComposeUiApi::class)

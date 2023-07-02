@@ -19,11 +19,10 @@ import javax.inject.Inject
  * Paste a range with target being a single cell. This is used inside [RangePasterImp]
  */
 class SingleCellPaster @Inject constructor(
-    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
+    override val stateCont:StateContainer,
     override val transCont: TranslatorContainer,
 ) : BaseRangePaster() {
 
-    override val stateCont by stateContSt
 
     override fun paste(target: RangeId): PasteResponse {
         var sourceRangeId:RangeId?=null

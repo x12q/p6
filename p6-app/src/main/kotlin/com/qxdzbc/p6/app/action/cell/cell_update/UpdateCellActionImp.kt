@@ -24,12 +24,12 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class UpdateCellActionImp @Inject constructor(
     private val cellRM: CellRM,
-    val scSt: St<@JvmSuppressWildcards StateContainer>,
+    val scSt:StateContainer,
     val translatorContainerMs: TranslatorContainer,
     val errorRouter: ErrorRouter,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged
 ) : UpdateCellAction {
-    val sc by scSt
+    val sc = scSt
     val translatorCont = translatorContainerMs
 
     override fun updateCellDM(request: CellUpdateRequestDM, publishError: Boolean): Rse<Unit> {
