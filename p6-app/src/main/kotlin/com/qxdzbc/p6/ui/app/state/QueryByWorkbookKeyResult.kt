@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.app.state
 
 import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.app.oddity.addError
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.error.ErrorReport
@@ -39,7 +38,7 @@ class QueryByWorkbookKeyResult(
      */
     fun publishError() {
         if (!this.isOk) {
-            this.errorContainerMs.addError(this.errorReport)
+            this.errorContainerMs.value = this.errorContainerMs.value.addErrorReport(this.errorReport)
         }
     }
 
