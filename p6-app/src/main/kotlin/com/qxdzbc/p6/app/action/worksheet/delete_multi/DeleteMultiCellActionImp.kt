@@ -26,13 +26,13 @@ import javax.inject.Inject
 class DeleteMultiCellActionImp @Inject constructor(
     val rm: DeleteMultiRM,
     val applier: DeleteMultiApplier,
-    private val docContMs: Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
     private val multiCellUpdateAct: UpdateMultiCellAction,
     private val subAppStateContainer: SubAppStateContainer,
 ) : DeleteMultiCellAction {
 
     private val sc = subAppStateContainer
-    private val dc by docContMs
+    private val dc = docCont
 
     override fun deleteDataOfMultiCellAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         createCommandAtCursor(request)

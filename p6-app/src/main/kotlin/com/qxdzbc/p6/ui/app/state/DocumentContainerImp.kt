@@ -21,6 +21,7 @@ import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
@@ -28,6 +29,7 @@ import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
 
+@P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DocumentContainerImp @Inject constructor(
     override val wbContMs: Ms<WorkbookContainer>,
@@ -367,9 +369,8 @@ class DocumentContainerImp @Inject constructor(
         return getCellIdRs(cellIdDM).component1()
     }
 
-    override fun replaceWb(newWb: Workbook): DocumentContainer {
+    override fun replaceWb(newWb: Workbook) {
         wbCont = wbCont.overwriteWB(newWb)
-        return this
     }
 
     override val allWbs: List<Workbook>

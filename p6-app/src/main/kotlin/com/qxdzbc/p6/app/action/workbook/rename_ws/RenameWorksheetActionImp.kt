@@ -27,12 +27,12 @@ data class RenameWorksheetActionImp @Inject constructor(
     private val subAppStateContainer:SubAppStateContainer,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged,
     val appState:AppState,
-    val docContMs: Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
     val errorRouter: ErrorRouter,
 ) : RenameWorksheetAction {
 
     private val sc = subAppStateContainer
-    private val dc by docContMs
+    private val dc = docCont
 
     override fun renameWorksheetRs(request: RenameWorksheetRequest, undoable: Boolean): Rse<Unit> {
 
@@ -119,7 +119,7 @@ data class RenameWorksheetActionImp @Inject constructor(
                 // x: rename the sheet in wb
                 val renameRs = wb.renameWsRs(oldName, newName)
                 renameRs.onSuccess { newWb ->
-                    docContMs.value = dc.replaceWb(newWb)
+                    dc.replaceWb(newWb)
                     commonReactionWhenAppStatesChanged.onWsChanged(WbWs(wbKey,newName))
                 }.onFailure {
                     errorRouter.publishToWindow(renameRs.unwrapError(), wbStateMs.value.wbKey)

@@ -21,11 +21,8 @@ import javax.inject.Inject
 import kotlin.reflect.KFunction
 
 class P6FunctionDefinitionsImp @Inject constructor(
-//    private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
-    private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
+    private val docCont: DocumentContainer,
 ) : P6FunctionDefinitions {
-
-    private val docCont by docContSt
 
     /**
      * A list of internal function for getting wb, ws, range, cell

@@ -112,6 +112,6 @@ interface DocumentContainer : WorkbookGetter {
     /**
      * replace a workbook with a new workbook with the same workbook key
      */
-    fun replaceWb(newWb: Workbook): DocumentContainer
+    fun replaceWb(newWb: Workbook)
 }
 

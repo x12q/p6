@@ -24,11 +24,11 @@ import javax.inject.Inject
 class RenameWorksheetInternalApplierImp
 @Inject constructor(
     val appState:AppState,
-    val docContMs:Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
     private val errorRouter: ErrorRouter,
 ) : RenameWorksheetInternalApplier {
 
-    private var dc by docContMs
+    private val dc = docCont
 
     override fun apply(wbKey: WorkbookKey, oldName: String, newName: String) {
         appState.queryStateByWorkbookKey(wbKey).ifOk {
@@ -48,7 +48,7 @@ class RenameWorksheetInternalApplierImp
                     }
                     var newWbState: WorkbookState = wbState
                     // x: preserve active sheet pointer if it was pointing to the old name
-                    dc = dc.replaceWb(newWb)
+                    dc.replaceWb(newWb)
                     if (newWbState.activeSheetPointer.isPointingTo(oldName)) {
                         newWbState = newWbState.setActiveSheet(newName).setNeedSave(true)
                     }

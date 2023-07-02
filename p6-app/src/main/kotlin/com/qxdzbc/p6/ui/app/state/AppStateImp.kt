@@ -23,20 +23,18 @@ data class AppStateImp @Inject constructor(
     @AppErrorContMs
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
     override val activeWindowPointer: ActiveWindowPointer = ActiveWindowPointerImp(),
-    override var subAppStateCont:SubAppStateContainer,
-    override val documentContainerMs: Ms<DocumentContainer>,
+    override var subAppStateCont: SubAppStateContainer,
+    override var documentContainer: DocumentContainer,
     override val translatorContMs: Ms<TranslatorContainer>,
     override val cellEditorStateMs: Ms<CellEditorState>,
 ) : AppState {
-
-    override var documentContainer by documentContainerMs
 
     override var translatorContainer: TranslatorContainer by translatorContMs
     override var cellEditorState: CellEditorState by cellEditorStateMs
     override var errorContainer: ErrorContainer by errorContainerMs
 
     override val activeWindowStateMs: Ms<WindowState>?
-        get() = activeWindowPointer.windowId?.let{
+        get() = activeWindowPointer.windowId?.let {
             this.subAppStateCont.getWindowStateMsById(it)
         }
     override val activeWindowState: WindowState?

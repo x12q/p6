@@ -72,7 +72,7 @@ class ExUnitFormulaTranslatorTest {
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
                 functionMapMs = functionMap,
-                docContMs = ts.appState.documentContainerMs,
+                docCont = ts.appState.documentContainer,
             )
         )
     }

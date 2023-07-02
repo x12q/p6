@@ -23,10 +23,10 @@ import javax.inject.Inject
 class DeleteWorksheetActionImp @Inject constructor(
     val rm:DeleteWorksheetRM,
     val applier:DeleteWorksheetApplier,
-    private val docContMs:Ms<DocumentContainer>
+    private val docCont: DocumentContainer,
 ) : DeleteWorksheetAction {
 
-    private var dc by docContMs
+    private val dc =docCont
 
     override fun deleteWorksheetRs(request: WorksheetIdWithIndexPrt): Rse<Unit> {
         if (request.wsName != null || request.wsIndex != null) {

@@ -35,8 +35,7 @@ interface AppState {
     @Deprecated("dont use, pending to be deleted")
     fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult
 
-    val documentContainerMs: Ms<DocumentContainer>
-    var documentContainer: DocumentContainer
+    val documentContainer: DocumentContainer
 
     var translatorContainer: TranslatorContainer
     val translatorContMs: Ms<TranslatorContainer>

@@ -19,9 +19,10 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetRMImp @Inject constructor(
-    val docContMs: Ms<DocumentContainer>
+    private val docCont: DocumentContainer,
 ) : DeleteWorksheetRM {
-    var dc by docContMs
+
+    private val dc = docCont
 
     override fun makeRequest(request: WorksheetIdWithIndexPrt): Rse<Workbook> {
         val wbKey = request.wbKey

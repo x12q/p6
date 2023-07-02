@@ -19,10 +19,10 @@ import javax.inject.Inject
 class DeleteCellResponseInternalApplierImp
 @Inject constructor(
     val appState:AppState,
-    val docContMs:Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
 ) : DeleteCellResponseInternalApplier {
 
-    private var dc by docContMs
+    private val dc = docCont
 
     override fun apply(
         workbookKey: WorkbookKey,
@@ -36,7 +36,7 @@ class DeleteCellResponseInternalApplierImp
             if (newWb != null) {
                 it.workbookStateMs.value =
                     it.workbookStateMs.value.setWorkbookKeyAndRefreshState(newWb.key).setNeedSave(true)
-                dc = dc.replaceWb(newWb)
+                dc.replaceWb(newWb)
             }
         }
     }

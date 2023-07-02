@@ -19,18 +19,17 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetApplierImp @Inject constructor(
-    private val docContMs: Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
     private val subAppStateContainer:SubAppStateContainer,
     val transContMs:Ms<TranslatorContainer>,
 ) : DeleteWorksheetApplier {
 
-    private var appState by docContMs
     private var tc by transContMs
 
     override fun applyResRs(deletedWsName:String,rs: Rse<Workbook>): Rse<Unit> {
         return rs.flatMap { newWB->
             // x: update wb
-            appState = appState.replaceWb(newWB)
+            docCont.replaceWb(newWB)
             // x: update wb state
             val wbKey = newWB.key
             val wbStateMs = subAppStateContainer.getWbStateMs(wbKey)

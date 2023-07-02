@@ -27,12 +27,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class UpdateMultiCellRMImp @Inject constructor(
-    private val docContMs: Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
     val translatorContainerMs: Ms<TranslatorContainer>
 ) : UpdateMultiCellRM {
 
     var translatorCont by translatorContainerMs
-    private var dc by docContMs
+    private val dc = docCont
 
     override fun cellMultiUpdate(request: UpdateMultiCellRequest): MultiCellUpdateResponse? {
         val req = request

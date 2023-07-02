@@ -26,12 +26,11 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class OpenCellEditorImp @Inject constructor(
     val stateContMs: St<@JvmSuppressWildcards StateContainer>,
-    val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
+    private val docCont: DocumentContainer,
     val appState:AppState,
     val errorRouter: ErrorRouter,
 ) : OpenCellEditorAction {
 
-    val docCont by docContSt
     val sc by stateContMs
 
     override fun openCellEditor(wbws: WbWs) {

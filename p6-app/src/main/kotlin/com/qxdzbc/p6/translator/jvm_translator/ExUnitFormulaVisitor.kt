@@ -40,10 +40,9 @@ class ExUnitFormulaVisitor @AssistedInject constructor(
     @Assisted("1") private val wbKeySt: St<WorkbookKey>,
     @Assisted("2") private val wsNameSt: St<String>,
     private val functionMapMs: Ms<FunctionMap>,
-    private val docContMs: St<@JvmSuppressWildcards DocumentContainer>,
+    private val docCont: DocumentContainer,
 ) : FormulaBaseVisitor<ExUnit>() {
 
-    private val docCont: DocumentContainer by docContMs
     private val wbKey: WorkbookKey by wbKeySt
     private val wsName: String by wsNameSt
 

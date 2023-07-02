@@ -25,11 +25,11 @@ class NewWorksheetActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
     val appState:AppState,
     private val scMs: Ms<StateContainer>,
-    private val dcMs: Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
 ) : NewWorksheetAction {
 
     var sc by scMs
-    var dc by dcMs
+    val dc = docCont
 
     override fun createNewWorksheetRs(
         request: CreateNewWorksheetRequest,
@@ -60,7 +60,7 @@ class NewWorksheetActionImp @Inject constructor(
         )
         rt.map {
             val newWb = it.newWb
-            dcMs.value = dc.replaceWb(newWb)
+            dc.replaceWb(newWb)
             sc.getWbStateMsRs(newWb.key)
                 .onSuccess { wbStateMs ->
                     wbStateMs.value = wbStateMs.value.refreshWsState().setNeedSave(true)

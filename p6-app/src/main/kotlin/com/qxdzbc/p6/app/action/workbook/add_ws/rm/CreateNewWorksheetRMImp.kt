@@ -18,12 +18,12 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CreateNewWorksheetRMImp @Inject constructor(
-    val docContMs:Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
 ) : CreateNewWorksheetRM {
-    private var dc by docContMs
+
     override fun makeRequest(req: AddWorksheetRequest): RseNav<AddWorksheetResponse> {
         val wbk = req.wbKey
-        val rs = dc.getWbRs(wbk).flatMap { wb ->
+        val rs = docCont.getWbRs(wbk).flatMap { wb ->
             wb.addWsRs(req.worksheet).flatMap {
                 Ok(AddWorksheetResponse(it.reRun()))
             }

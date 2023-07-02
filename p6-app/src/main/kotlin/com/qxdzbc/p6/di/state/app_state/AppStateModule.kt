@@ -41,10 +41,6 @@ interface AppStateModule {
         i: Ms<WorkbookStateContainer>
     ): St<WorkbookStateContainer>
 
-    @Binds
-    @P6Singleton
-    fun DocumentContainerSt(i:Ms<DocumentContainer>):St<DocumentContainer>
-
     companion object {
 
         @Provides
@@ -69,12 +65,6 @@ interface AppStateModule {
         @P6Singleton
         fun TranslatorContainerSt(i:Ms<TranslatorContainer>):St<TranslatorContainer>{
             return i
-        }
-
-        @Provides
-        @P6Singleton
-        fun DocumentContainerMs(i:DocumentContainer):Ms<DocumentContainer>{
-            return ms(i)
         }
 
         @Provides

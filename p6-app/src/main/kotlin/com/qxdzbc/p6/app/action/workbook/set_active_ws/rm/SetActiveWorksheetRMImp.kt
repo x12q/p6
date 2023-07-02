@@ -24,10 +24,10 @@ import javax.inject.Inject
 class SetActiveWorksheetRMImp @Inject constructor(
     private val subAppStateContainer:SubAppStateContainer,
     private val activeWindowPointer:ActiveWindowPointer,
-    private val docContMs:Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
 ) : SetActiveWorksheetRM {
-    
-    private var dc by docContMs
+
+    private val dc = docCont
     private var subAppStateCont = subAppStateContainer
 
     override fun setActiveWs(request: SetActiveWorksheetRequest): RseNav<SetActiveWorksheetResponse2> {
