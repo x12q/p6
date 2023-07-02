@@ -25,7 +25,7 @@ import javax.inject.Inject
  */
 class RangeRangePasterImp @Inject constructor(
     private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    override val transContMs: Ms<TranslatorContainer>
+    override val transCont: TranslatorContainer
 ) : BaseRangePaster() {
 
     override val stateCont by stateContSt

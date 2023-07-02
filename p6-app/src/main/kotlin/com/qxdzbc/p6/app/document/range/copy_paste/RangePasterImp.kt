@@ -17,7 +17,7 @@ class RangePasterImp @Inject constructor(
     val singleCellPaster: SingleCellPaster,
     val rangeRangePasterImp: RangeRangePasterImp,
     private val stateContainerMs: Ms<StateContainer>,
-    override val transContMs: Ms<TranslatorContainer>,
+    override val transCont: TranslatorContainer,
 ) : BaseRangePaster() {
     override val stateCont: StateContainer by stateContainerMs
     override fun paste(target: RangeId): PasteResponse {

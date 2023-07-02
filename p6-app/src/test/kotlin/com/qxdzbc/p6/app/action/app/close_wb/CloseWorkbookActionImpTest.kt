@@ -91,7 +91,6 @@ class CloseWorkbookActionImpTest : BaseAppStateTest() {
         test("state obj after removing wb") {
             val input = CloseWbState(
                 wbCont = ts.sc.wbCont,
-                translatorContainer = ts.appState.translatorContainer,
                 respectiveWindowState = ts.sc.getWindowStateByWbKey(wbk)
             )
             preCondition {

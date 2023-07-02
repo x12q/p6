@@ -25,11 +25,11 @@ data class AppStateImp @Inject constructor(
     override val activeWindowPointer: ActiveWindowPointer = ActiveWindowPointerImp(),
     override var subAppStateCont: SubAppStateContainer,
     override var documentContainer: DocumentContainer,
-    override val translatorContMs: Ms<TranslatorContainer>,
     override val cellEditorStateMs: Ms<CellEditorState>,
+    override var translatorContainer: TranslatorContainer,
 ) : AppState {
 
-    override var translatorContainer: TranslatorContainer by translatorContMs
+
     override var cellEditorState: CellEditorState by cellEditorStateMs
     override var errorContainer: ErrorContainer by errorContainerMs
 

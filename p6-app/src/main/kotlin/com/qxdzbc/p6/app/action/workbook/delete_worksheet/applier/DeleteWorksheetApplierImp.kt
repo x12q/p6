@@ -21,10 +21,10 @@ import javax.inject.Inject
 class DeleteWorksheetApplierImp @Inject constructor(
     private val docCont: DocumentContainer,
     private val subAppStateContainer:SubAppStateContainer,
-    val transContMs:Ms<TranslatorContainer>,
+    val transContMs:TranslatorContainer,
 ) : DeleteWorksheetApplier {
 
-    private var tc by transContMs
+    private var tc = transContMs
 
     override fun applyResRs(deletedWsName:String,rs: Rse<Workbook>): Rse<Unit> {
         return rs.flatMap { newWB->
@@ -38,7 +38,7 @@ class DeleteWorksheetApplierImp @Inject constructor(
                 wbStateMs.value = newWbState
             }
             //update translator map
-            tc = tc.removeTranslator(wbKey,deletedWsName)
+            tc.removeTranslator(wbKey,deletedWsName)
             Unit.toOk()
         }
     }

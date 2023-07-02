@@ -27,11 +27,11 @@ import javax.inject.Inject
 class LoadDataActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
     private val errorRouter: ErrorRouter,
-    val translatorContSt: St<@JvmSuppressWildcards TranslatorContainer>
+    val translatorCont: TranslatorContainer
 ) : LoadDataAction {
 
     val sc by stateContSt
-    val tc by translatorContSt
+    val tc = translatorCont
 
     override fun loadDataRs(request: LoadDataRequest, publishErrorToUI: Boolean): Rse<Unit> {
         val getWsMsRs = sc.getWsStateMsRs(request)

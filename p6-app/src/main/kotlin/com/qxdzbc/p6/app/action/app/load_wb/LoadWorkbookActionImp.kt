@@ -32,11 +32,11 @@ data class LoadWorkbookActionImp @Inject constructor(
     val stateContMs: Ms<StateContainer>,
     val errorRouter: ErrorRouter,
     private val loader: P6FileLoader,
-    val translatorContainerMs: Ms<TranslatorContainer>,
+    val translatorContainer: TranslatorContainer,
 ) : LoadWorkbookAction {
 
     private var sc by stateContMs
-    private val tc by translatorContainerMs
+    private val tc = translatorContainer
     private var wbCont by sc.wbContMs
     private var wbStateCont by sc.wbStateContMs
 

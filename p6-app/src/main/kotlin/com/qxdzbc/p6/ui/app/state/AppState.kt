@@ -36,9 +36,7 @@ interface AppState {
     fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult
 
     val documentContainer: DocumentContainer
-
-    var translatorContainer: TranslatorContainer
-    val translatorContMs: Ms<TranslatorContainer>
+    val translatorContainer: TranslatorContainer
 }
 
 

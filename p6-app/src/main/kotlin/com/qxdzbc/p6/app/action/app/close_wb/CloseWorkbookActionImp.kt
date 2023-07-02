@@ -41,14 +41,13 @@ class CloseWorkbookActionImp @Inject constructor(
 
         val inputState = CloseWbState(
             wbCont = sc.wbCont,
-            translatorContainer = appState.translatorContainer,
+
             respectiveWindowState = sc.getWindowStateByWbKey(wbKey)
         )
 
         val outputState = closeWb(wbKeySt, inputState)
 
         sc.wbCont = outputState.wbCont
-        appState.translatorContainer = outputState.translatorContainer
         outputState.respectiveWindowState?.also { newWdState ->
             sc.getWindowStateMsById(newWdState.id)?.also {
                 it.value = newWdState
@@ -59,7 +58,6 @@ class CloseWorkbookActionImp @Inject constructor(
     fun closeWb(wbKeySt: St<WorkbookKey>, inputState: CloseWbState): CloseWbState {
         val wbKey = wbKeySt.value
         val newWbCont = inputState.wbCont.removeWb(wbKey)
-        val newTranslatorContainer = inputState.translatorContainer.removeTranslator(wbKey)
         val newWindowState = inputState.respectiveWindowState?.let {
             val newWindowState = it.removeWbState(wbKeySt)
             pickDefaultActiveWb.pickAndUpdateActiveWbPointer(it)
@@ -67,7 +65,6 @@ class CloseWorkbookActionImp @Inject constructor(
         }
         return CloseWbState(
             wbCont = newWbCont,
-            translatorContainer = newTranslatorContainer,
             respectiveWindowState = newWindowState
         )
     }
@@ -89,7 +86,6 @@ class CloseWorkbookActionImp @Inject constructor(
 
         if (wbKey != null) {
             sc.wbContMs.value = sc.wbCont.removeWb(wbKey)
-            appState.translatorContainer = appState.translatorContainer.removeTranslator(workbookKey)
             val windowStateMs: Ms<WindowState>? =
                 (windowId?.let { sc.getWindowStateMsById(it) }
                     ?: sc.getWindowStateMsByWbKey(wbKey))

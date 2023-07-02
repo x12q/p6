@@ -28,7 +28,7 @@ class P6Loader_SaverTest {
     @Test
     fun save_load() {
         val saver = P6SaverImp()
-        val loader = P6FileLoaderImp(testSample.appState.translatorContMs)
+        val loader = P6FileLoaderImp(testSample.appState.translatorContainer)
         val wbkSt =  WorkbookKey("wb1").toMs()
         val wsnSt = "S1".toMs()
         val cell = CellImp(

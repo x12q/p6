@@ -3,7 +3,6 @@ package com.qxdzbc.p6.app.action.worksheet.convert_proto_to_ws
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -24,11 +23,11 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class ConvertProtoToWorksheetImp @Inject constructor(
     val stateContMs: Ms<StateContainer>,
-    val translatorContainerSt: St<@JvmSuppressWildcards TranslatorContainer>,
+    val translatorContainer: TranslatorContainer,
 ) : ConvertProtoToWorksheet {
 
     private var sc by stateContMs
-    val tc by translatorContainerSt
+    val tc = translatorContainer
 
     override fun convertProtoToWs(proto: DocProtos.WorksheetProto): Worksheet {
         val wbKey = proto.wbKey.toModel()

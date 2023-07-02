@@ -13,7 +13,6 @@ import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
@@ -28,10 +27,10 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class UpdateMultiCellRMImp @Inject constructor(
     private val docCont: DocumentContainer,
-    val translatorContainerMs: Ms<TranslatorContainer>
+    val translatorContainer: TranslatorContainer
 ) : UpdateMultiCellRM {
 
-    var translatorCont by translatorContainerMs
+    var translatorCont = translatorContainer
     private val dc = docCont
 
     override fun cellMultiUpdate(request: UpdateMultiCellRequest): MultiCellUpdateResponse? {

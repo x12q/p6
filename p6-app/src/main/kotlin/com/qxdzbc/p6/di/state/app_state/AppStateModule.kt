@@ -57,18 +57,6 @@ interface AppStateModule {
 
         @Provides
         @P6Singleton
-        fun TranslatorContainerMs(i:TranslatorContainer):Ms<TranslatorContainer>{
-            return ms(i)
-        }
-
-        @Provides
-        @P6Singleton
-        fun TranslatorContainerSt(i:Ms<TranslatorContainer>):St<TranslatorContainer>{
-            return i
-        }
-
-        @Provides
-        @P6Singleton
         fun WorkbookStateContMs(wbStateFactory: WorkbookStateFactory): Ms<WorkbookStateContainer> {
             return ms(WorkbookStateContainerImp(wbStateFactory=wbStateFactory))
         }

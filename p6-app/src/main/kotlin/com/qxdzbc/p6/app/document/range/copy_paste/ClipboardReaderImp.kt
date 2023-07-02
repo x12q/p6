@@ -21,7 +21,7 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class ClipboardReaderImp @Inject constructor(
     val stateContMs: Ms<StateContainer>,
-    val transContMs: Ms<TranslatorContainer>
+    val transCont: TranslatorContainer
 ) : ClipboardReader {
     val stateCont: StateContainer by stateContMs
     override fun readDataFromClipboard(wbKey: WorkbookKey, wsName: String): RangeCopy? {
@@ -33,7 +33,7 @@ class ClipboardReaderImp @Inject constructor(
         val wbwsSt: WbWsSt? = stateCont.getWbWsSt(wbKey, wsName)
         if (wbwsSt != null) {
             try {
-                val translator = transContMs.value.getTranslatorOrCreate(wbwsSt)
+                val translator = transCont  .getTranslatorOrCreate(wbwsSt)
                 val bytes = clipboard.getData(BinaryTransferable.binFlavor) as ByteArray
                 val rangeCopy = RangeCopy.fromProtoBytes(bytes, translator)
                 return rangeCopy.toOk()

@@ -36,40 +36,43 @@ internal class TranslatorContainerImpTest {
         assertNull(tc.getTranslator(ts.wbKey1, ts.wsn1))
         assertNull(tc.getTranslator(ts.wbKey1Ms, wsn1Ms))
 
-        tc = tc.addTranslator(wbKeySt = ts.wbKey1Ms, wsNameSt = wsn1Ms, translator = t1)
+        tc.addTranslator(wbKeySt = ts.wbKey1Ms, wsNameSt = wsn1Ms, translator = t1)
 
         assertNotNull(tc.getTranslator(ts.wbKey1, ts.wsn1))
         assertNotNull(tc.getTranslator(ts.wbKey1Ms, wsn1Ms))
         assertNull(tc.getTranslator(ts.wbKey1Ms, ts.wsn1.toMs()))
 
-        tc = tc.addTranslator(wbKeySt = ts.wbKey1Ms, wsNameSt = wsn2Ms, translator = t2)
-            .addTranslator(ts.wbKey2Ms, wsn1Ms, t3)
-            .addTranslator(ts.wbKey2Ms, wsn2Ms, t4)
-            .addTranslator(ts.wbKey3Ms, wsn1Ms, t4)
-            .addTranslator(ts.wbKey3Ms, wsn2Ms, t2)
-            .addTranslator(WbWsSt(ts.wbKey4Ms, wsn1Ms),t2)
-            .addTranslator(WbWsSt(ts.wbKey4Ms, wsn2Ms),t2)
+        with(tc){
+            addTranslator(wbKeySt = ts.wbKey1Ms, wsNameSt = wsn2Ms, translator = t2)
+            addTranslator(ts.wbKey2Ms, wsn1Ms, t3)
+            addTranslator(ts.wbKey2Ms, wsn2Ms, t4)
+            addTranslator(ts.wbKey3Ms, wsn1Ms, t4)
+            addTranslator(ts.wbKey3Ms, wsn2Ms, t2)
+            addTranslator(WbWsSt(ts.wbKey4Ms, wsn1Ms),t2)
+            addTranslator(WbWsSt(ts.wbKey4Ms, wsn2Ms),t2)
+
+        }
 
         assertNotNull(tc.getTranslator(ts.wbKey1, wsn2Ms.value))
-        tc = tc.removeTranslator(ts.wbKey1, wsn2Ms.value)
+        tc.removeTranslator(ts.wbKey1, wsn2Ms.value)
         assertNull(tc.getTranslator(ts.wbKey1, wsn2Ms.value))
 
         assertNotNull(tc.getTranslator(ts.wbKey1Ms, wsn1Ms))
-        tc = tc.removeTranslator(ts.wbKey1Ms, wsn1Ms)
+        tc.removeTranslator(ts.wbKey1Ms, wsn1Ms)
         assertNull(tc.getTranslator(ts.wbKey1Ms, wsn1Ms))
 
         assertNotNull(tc.getTranslator(ts.wbKey2Ms, wsn1Ms))
         assertNotNull(tc.getTranslator(ts.wbKey2Ms, wsn2Ms))
-        tc = tc.removeTranslator(ts.wbKey2)
+        tc.removeTranslator(ts.wbKey2)
         assertNull(tc.getTranslator(ts.wbKey2Ms, wsn1Ms))
         assertNull(tc.getTranslator(ts.wbKey2Ms, wsn2Ms))
 
         assertNotNull(tc.getTranslator(ts.wbKey3Ms, wsn1Ms))
-        tc = tc.removeTranslator(WbWsSt(ts.wbKey3Ms, wsn1Ms))
+        tc.removeTranslator(WbWsSt(ts.wbKey3Ms, wsn1Ms))
         assertNull(tc.getTranslator(ts.wbKey3Ms, wsn1Ms))
 
         assertNotNull(tc.getTranslator(ts.wbKey4Ms, wsn1Ms))
-        tc = tc.removeTranslator(WbWs(ts.wbKey4, wsn1Ms.value))
+        tc.removeTranslator(WbWs(ts.wbKey4, wsn1Ms.value))
         assertNull(tc.getTranslator(ts.wbKey4Ms, wsn1Ms))
     }
 

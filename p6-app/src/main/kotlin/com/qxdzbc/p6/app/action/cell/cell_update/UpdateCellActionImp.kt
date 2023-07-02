@@ -25,12 +25,12 @@ import javax.inject.Inject
 class UpdateCellActionImp @Inject constructor(
     private val cellRM: CellRM,
     val scSt: St<@JvmSuppressWildcards StateContainer>,
-    val translatorContainerMs: St<@JvmSuppressWildcards TranslatorContainer>,
+    val translatorContainerMs: TranslatorContainer,
     val errorRouter: ErrorRouter,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged
 ) : UpdateCellAction {
     val sc by scSt
-    val translatorCont by translatorContainerMs
+    val translatorCont = translatorContainerMs
 
     override fun updateCellDM(request: CellUpdateRequestDM, publishError: Boolean): Rse<Unit> {
         return updateCellDM(request.cellId,request.cellContent,publishError)

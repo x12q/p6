@@ -23,15 +23,12 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class UpdateMultiCellActionImp @Inject constructor(
     val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    val tcSt: St<@JvmSuppressWildcards TranslatorContainer>,
+    val tc: TranslatorContainer,
     val errorRouter: ErrorRouter,
-    @AppCoroutineScope
-    val crtScope: CoroutineScope,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged
 ) : UpdateMultiCellAction {
 
     val sc by stateContSt
-    val tc by tcSt
 
     override fun updateMultiCellDM(request: UpdateMultiCellRequestDM, publishErr: Boolean): Rse<Unit> {
         val wsStateMsRs = sc.getWsStateMsRs(request)
