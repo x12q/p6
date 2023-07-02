@@ -32,7 +32,18 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelecto
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 
 /**
- * This interface providing functions for looking up view states that is contained inside [AppState]
+ * This interface providing functions for looking up, adding, removing states. Including:
+ * - cell state
+ * - worksheet state
+ * - workbook state
+ * - cell cursor state
+ * - worksheet ruler state
+ * - cell cursor thumb state
+ * - window state
+ * - undo app-level undo, redo stack for each worksheet
+ * - cell format table for each worksheet
+ * - toolbar state for each window
+ *
  */
 interface SubAppStateContainer {
 

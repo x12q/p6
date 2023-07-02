@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 /**
- * An interface for getting, creating new, adding, removing [Workbook]
+ * An interface for getting, creating new, adding, removing [Workbook] only.
  */
 interface WorkbookContainer : WorkbookGetter, WithSize {
 
