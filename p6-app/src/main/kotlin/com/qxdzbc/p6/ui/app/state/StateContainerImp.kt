@@ -88,7 +88,7 @@ class StateContainerImp @Inject constructor(
 
     override var cellEditorState: CellEditorState by cellEditorStateMs
 
-    override fun getWindowStateMsDefaultRs(windowId: String?): Rse<Ms<WindowState>> {
+    override fun getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId: String?): Rse<Ms<WindowState>> {
         val windowMsRs: Rse<Ms<WindowState>> = if (windowId != null) {
             val q: Rse<Ms<WindowState>> = getWindowStateMsByIdRs(windowId)
             q
@@ -130,8 +130,10 @@ class StateContainerImp @Inject constructor(
     }
 
     override var windowStateMap: Map<String, Ms<OuterWindowState>> by windowStateMapMs
+
     override val outerWindowStateMsList: List<Ms<OuterWindowState>>
         get() = windowStateMap.values.toList()
+
     override var wbStateCont: WorkbookStateContainer by wbStateContMs
 
     override val windowStateMsList: List<Ms<WindowState>> get() = outerWindowStateMsList.map { it.value.innerWindowStateMs }

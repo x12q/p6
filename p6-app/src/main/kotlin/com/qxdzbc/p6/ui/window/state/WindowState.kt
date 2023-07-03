@@ -26,12 +26,12 @@ interface WindowState : WithSize {
 
     val id:String
 
-//    val dialogHostStateMs: Ms<WindowDialogGroupState>
-//    val dialogHostState: WindowDialogGroupState
-
     val toolBarStateMs:Ms<ToolBarState>
     val toolBarState:ToolBarState
 
+    /**
+     * This is a reference to the common color generator shared by all windows.
+     */
     val formulaColorGenerator: FormulaColorGenerator
 
     val focusStateMs:Ms<WindowFocusState>
@@ -52,15 +52,23 @@ interface WindowState : WithSize {
     var showStartKernelDialogState: ShowDialogState
 
     val wbStateContMs: Ms<WorkbookStateContainer>
+
     val formulaBarState:FormulaBarState
+
+    /**
+     * A set of all workbook key in this window
+     */
     val wbKeyMsSet:Set<Ms<WorkbookKey>>
     val wbKeySet:Set<WorkbookKey>
+
+    /**
+     * Check if this window contain workbook having [wbKey]
+     */
     fun containWbKey(wbKey: WorkbookKey):Boolean
 
     /**
      * This is the globally shared workbook container in the app, not the sole container of this window state
      */
-    val wbContMs:Ms<WorkbookContainer>
     val wbStateMsList: List<Ms<WorkbookState>>
     val wbStateList: List<WorkbookState>
     val wbList: List<Workbook>
@@ -70,19 +78,20 @@ interface WindowState : WithSize {
     fun addWbKey(wbKey: Ms<WorkbookKey>):WindowState
     fun addWbKeyRs(wbKey: Ms<WorkbookKey>): Rse<WindowState>
 
-
     fun setWbKeySet(wbKeySet: Set<Ms<WorkbookKey>>): WindowState
 
     val activeWbPointerMs: Ms<ActiveWorkbookPointer>
-    val activeWbPointer: ActiveWorkbookPointer
+    var activeWbPointer: ActiveWorkbookPointer
     val activeWbState: WorkbookState?
     val activeWbStateMs: Ms<WorkbookState>?
     val activeWbKey:WorkbookKey? get() = activeWbPointer.wbKey
 
     val errorContainerMs: Ms<ErrorContainer>
     var errorContainer: ErrorContainer
-    fun publishError(errorReport: SingleErrorReport):WindowState
 
+    /**
+     * TODO reconsider this
+     */
     val wbTabBarState: WorkbookTabBarState
 
     val saveDialogStateMs: Ms<FileDialogState>
@@ -91,5 +100,8 @@ interface WindowState : WithSize {
     val loadDialogStateMs: Ms<FileDialogState>
     var loadDialogState:FileDialogState
 
+    /**
+     * Window title is derived from the current active workbook name.
+     */
     val windowTitle:String
 }

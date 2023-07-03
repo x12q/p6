@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -23,7 +22,7 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
     private var globalWbStateCont by stateCont.wbStateContMs
 
     override fun apply(windowId: String?, workbook: Workbook?) {
-        val windowStateMsRs =  stateCont.getWindowStateMsDefaultRs(windowId)
+        val windowStateMsRs =  stateCont.getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId)
 
         workbook?.also { wb ->
             globalWbCont = globalWbCont.addOrOverWriteWb(wb)

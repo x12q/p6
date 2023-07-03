@@ -25,26 +25,10 @@ abstract class BaseWindowState : WindowState {
             return l.joinToString(" - ")
         }
     override val openCommonFileDialog: Boolean get() = this.commonFileDialogJob != null
-    override val size: Int get() = wbStateMsList.size
-    override val wbList: List<Workbook>
-        get() = wbKeySet.mapNotNull {
-            this.wbContMs.value.getWb(it)
-        }
 
-    override fun publishError(errorReport: SingleErrorReport): WindowState {
-        this.errorContainer = this.errorContainer.addErrorReport(errorReport)
-        return this
-    }
+    override val size: Int get() = wbStateMsList.size
 
     override val wbStateList: List<WorkbookState>
         get() = this.wbStateMsList.map { it.value }
 
-//    override fun getWorkbookStateMsRs(workbookKey: WorkbookKey, onOk: (Ms<WorkbookState>) -> Unit) {
-//        val rs = this.getWorkbookStateMsRs(workbookKey)
-//        rs.onSuccess {
-//            onOk(it)
-//        }.onFailure {
-//            this.publishError(it)
-//        }
-//    }
 }

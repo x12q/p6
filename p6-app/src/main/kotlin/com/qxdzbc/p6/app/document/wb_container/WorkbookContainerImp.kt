@@ -30,7 +30,9 @@ data class WorkbookContainerImp @Inject constructor(
 ) : AbsWorkbookContainer() {
 
     private var wbStateCont: WorkbookStateContainer by wbStateContMs
+
     override val allWbs: List<Workbook> get() = wbStateCont.allStates.map { it.wb }
+
     override val allWbMs: List<Ms<Workbook>>
         get() = wbStateCont.allStates.map{it.wbMs}
 

@@ -53,7 +53,7 @@ interface StateContainer : DocumentContainer {
      * get window state respective to [windowId],
      * if [windowId] is null, get the active window, or the first, or create a new window
      */
-    fun getWindowStateMsDefaultRs(windowId: String?):Rse<Ms<WindowState>>
+    fun getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId: String?):Rse<Ms<WindowState>>
 
     /**
      * get cursor state ms of the active worksheet inside the active workbook

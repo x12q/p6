@@ -5,7 +5,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.path.PPath
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -43,7 +42,7 @@ data class LoadWorkbookActionImp @Inject constructor(
     override fun loadWorkbook(request: LoadWorkbookRequest): LoadWorkbookResponse {
         val path: PPath = request.path
         val windowId: String? = request.windowId
-        val windowStateMs = sc.getWindowStateMsDefaultRs(windowId)
+        val windowStateMsRs = sc.getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId)
         if (path.exists() && path.isRegularFile()) {
             if (path.isReadable()) {
                 val res = loadWb(request)
@@ -51,11 +50,7 @@ data class LoadWorkbookActionImp @Inject constructor(
                 return res.first
             } else {
                 val e = P6FileLoaderErrors.notReadableFile(path)
-                if (windowStateMs is Ok) {
-                    windowStateMs.value.value.publishError(e)
-                } else {
-                    errorRouter.publishToApp(e)
-                }
+                errorRouter.publishToWindow(e,windowStateMsRs.component1()?.value?.id)
                 return LoadWorkbookResponse(
                     errorReport = e,
                     windowId = request.windowId,
@@ -64,11 +59,7 @@ data class LoadWorkbookActionImp @Inject constructor(
             }
         } else {
             val e = P6FileLoaderErrors.notAFile(path)
-            if (windowStateMs is Ok) {
-                windowStateMs.value.value.publishError(e)
-            } else {
-                errorRouter.publishToApp(e)
-            }
+            errorRouter.publishToWindow(e,windowStateMsRs.component1()?.value?.id)
             return LoadWorkbookResponse(
                 errorReport = e,
                 windowId = request.windowId,
@@ -139,7 +130,7 @@ data class LoadWorkbookActionImp @Inject constructor(
         rowHeightByWsName:Map<String,Map<Int,Int>>?,
     ) {
 
-        val windowStateMsRs = sc.getWindowStateMsDefaultRs(windowId)
+        val windowStateMsRs = sc.getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId)
         workbook?.also {
             wbCont = wbCont.addOrOverWriteWb(workbook)
             when (windowStateMsRs) {

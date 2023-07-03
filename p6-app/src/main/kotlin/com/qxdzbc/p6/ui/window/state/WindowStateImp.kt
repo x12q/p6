@@ -28,6 +28,7 @@ import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import dagger.assisted.Assisted
@@ -58,7 +59,7 @@ data class WindowStateImp @AssistedInject constructor(
 //    @Assisted override val dialogHostStateMs: Ms<WindowDialogGroupState>,
     // ===========================================================================
 
-    override val wbContMs: Ms<WorkbookContainer>,
+    private val wbContMs: Ms<WorkbookContainer>,
     override val wbStateContMs: Ms<WorkbookStateContainer>,
     @StatusBarStateQualifier
     override val statusBarStateMs: Ms<StatusBarState>,
@@ -68,7 +69,9 @@ data class WindowStateImp @AssistedInject constructor(
     override val formulaColorGenerator: FormulaColorGenerator,
 
     ) : BaseWindowState() {
+
     override val wbKeySet: Set<WorkbookKey> get()= wbKeyMsSet.map{it.value}.toSet()
+
     override var showStartKernelDialogState: ShowDialogState by showStartKernelDialogStateMs
 
     override val wbStateMsList: List<Ms<WorkbookState>>
@@ -82,15 +85,23 @@ data class WindowStateImp @AssistedInject constructor(
      * special note: FormulaBarState is a fully derivative state, therefore it does not have a Ms<>
      */
     override val formulaBarState: FormulaBarState get()= FormulaBarStateImp(this)
+
     override fun containWbKey(wbKey: WorkbookKey): Boolean {
         return this.wbKeySet.contains(wbKey)
     }
 
     override var loadDialogState: FileDialogState by loadDialogStateMs
-    override val activeWbPointer: ActiveWorkbookPointer by activeWbPointerMs
+
+    override var activeWbPointer: ActiveWorkbookPointer by activeWbPointerMs
+
     override val saveDialogState: FileDialogState by saveDialogStateMs
 
     private var wbStateCont by wbStateContMs
+
+    override val wbList: List<Workbook>
+        get() = wbKeySet.mapNotNull {
+            this.wbContMs.value.getWb(it)
+        }
 
     override val activeWbState: WorkbookState?
         get() {
