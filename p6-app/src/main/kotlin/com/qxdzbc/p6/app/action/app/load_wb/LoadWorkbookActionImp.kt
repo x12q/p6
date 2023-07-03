@@ -135,14 +135,14 @@ data class LoadWorkbookActionImp @Inject constructor(
             wbCont = wbCont.addOrOverWriteWb(workbook)
             when (windowStateMsRs) {
                 is Ok -> {
-                    val windowStateMs = windowStateMsRs.value
+                    val windowState = windowStateMsRs.value
                     val wbk = workbook.key
                     val wbkMs = workbook.keyMs
                     wbStateCont.getWbStateMs(wbk)?.also {
                         it.value = it.value.setWindowId(windowId).setNeedSave(false)
                     }
-                    windowStateMs.addWbKey(wbkMs)
-                    windowStateMs.activeWbPointerMs.value  = windowStateMs.activeWbPointerMs.value.pointTo(wbkMs)
+                    windowState.addWbKey(wbkMs)
+                    windowState.activeWbPointerMs.value  = windowState.activeWbPointerMs.value.pointTo(wbkMs)
                 }
 
                 is Err -> {

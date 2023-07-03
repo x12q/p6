@@ -19,7 +19,7 @@ class CloseWindowActionImp @Inject constructor(
     private var stateCont = subAppStateContainer
 
     override fun closeWindow(windowId: String):Rse<Unit> {
-        val rs = stateCont.getWindowStateByIdRs(windowId = windowId).map{windowStateMs->
+        val rs = stateCont.getWindowStateByIdRs(windowId = windowId).map{windowState->
             if (stateCont.windowStateMsList.size == 1) {
                 appScope?.exitApplication()
             } else {

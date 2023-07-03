@@ -28,13 +28,13 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
             globalWbCont = globalWbCont.addOrOverWriteWb(wb)
             when (windowStateMsRs) {
                 is Ok -> {
-                    val windowStateMs = windowStateMsRs.value
+                    val windowState = windowStateMsRs.value
                     val wbk = wb.key
                     val wbkMs = wb.keyMs
                     globalWbStateCont.getWbStateMs(wbk)?.also {
                         it.value = it.value.setWindowId(windowId).setNeedSave(false)
                     }
-                    windowStateMs.addWbKey(wbkMs)
+                    windowState.addWbKey(wbkMs)
                 }
 
                 is Err -> {

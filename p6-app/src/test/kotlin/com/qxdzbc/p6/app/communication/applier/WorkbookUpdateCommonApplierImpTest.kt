@@ -23,7 +23,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     lateinit var appState: AppState
     val workbook: Workbook get() = ts.sc.wbCont.getWb(TestSample.wbk1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
-    lateinit var windowStateMs: WindowState
+    lateinit var windowState: WindowState
     lateinit var s1: Worksheet
     lateinit var s2: Worksheet
     lateinit var applier: WorkbookUpdateCommonApplierImp
@@ -37,7 +37,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
 
         appState.stateCont.getStateByWorkbookKeyRs(TestSample.wbk1).onSuccess {
             workbookStateMs = it.workbookStateMs!!
-            windowStateMs = it.windowState!!
+            windowState = it.windowState!!
         }
         applier = WorkbookUpdateCommonApplierImp(
             stateCont = ts.sc,

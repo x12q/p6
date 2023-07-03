@@ -68,10 +68,10 @@ class CloseWorkbookActionImpTest : BaseAppStateTest() {
     @Test
     fun `close 1 wb`() {
         val wbk = ts.wbKey1
-        val windowStateMs = sc.getWindowStateMsById(ts.window1Id)
+        val windowState = sc.getWindowStateMsById(ts.window1Id)
 
-        assertNotNull(windowStateMs)
-        assertTrue(wbk in windowStateMs.wbKeySet)
+        assertNotNull(windowState)
+        assertTrue(wbk in windowState.wbKeySet)
         assertNotNull(sc.getWb(wbk))
 
         closeWbAct.closeWb(
@@ -81,7 +81,7 @@ class CloseWorkbookActionImpTest : BaseAppStateTest() {
             )
         )
 
-        assertTrue(wbk !in windowStateMs.wbKeySet)
+        assertTrue(wbk !in windowState.wbKeySet)
         assertNull(sc.getWb(wbk))
     }
 
@@ -110,18 +110,18 @@ class CloseWorkbookActionImpTest : BaseAppStateTest() {
     @Test
     fun `test state assignment after closeWb`() {
         val wbk = ts.wbKey1
-        val windowStateMs = ts.sc.getWindowStateMsByWbKey(wbk)
+        val windowState = ts.sc.getWindowStateMsByWbKey(wbk)
         test("state obj after removing wb") {
             preCondition {
                 ts.sc.wbCont.containWb(wbk) shouldBe true
                 ts.sc.wbCont.getWb(wbk) shouldNotBe null
-                wbk shouldBeIn windowStateMs?.wbKeySet!!
+                wbk shouldBeIn windowState?.wbKeySet!!
             }
             closeWbAct.closeWb(ts.wbKey1Ms)
             postCondition {
                 ts.sc.wbCont.containWb(wbk) shouldBe false
                 ts.sc.wbCont.getWb(wbk) shouldBe null
-                wbk shouldNotBeIn windowStateMs?.wbKeySet!!
+                wbk shouldNotBeIn windowState?.wbKeySet!!
             }
         }
     }

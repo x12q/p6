@@ -30,7 +30,7 @@ class WorkbookUpdateCommonApplierImp @Inject constructor(
             }else{
                 val wbKey = res.wbKey
                 if (wbKey != null) {
-                    stateCont.getWindowStateMsByWbKey(wbKey)?.also { windowStateMs ->
+                    stateCont.getWindowStateMsByWbKey(wbKey)?.also { windowState ->
                         val newColdWb = res.newWorkbook
                         if (newColdWb != null) {
                             val computedBook = newColdWb.reRun()

@@ -27,13 +27,13 @@ class ErrorRouterImp @Inject constructor(
 
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?) {
         if (windowId != null) {
-            val windowStateMs = sc.getWindowStateMsById(windowId)
-            if (windowStateMs != null) {
+            val windowState = sc.getWindowStateMsById(windowId)
+            if (windowState != null) {
 //            val stackTrace = errorReport?.toException()?.stackTraceToString()?:""
                 val er2 = errorReport
 
-                windowStateMs.errorContainer =
-                    windowStateMs.errorContainer.addErrorReport(er2)
+                windowState.errorContainer =
+                    windowState.errorContainer.addErrorReport(er2)
             } else {
                 publishToApp(errorReport)
             }
@@ -45,13 +45,13 @@ class ErrorRouterImp @Inject constructor(
 
     override fun publishToWindow(errorReport: ErrorReport?, workbookKey: WorkbookKey?) {
         if (workbookKey != null) {
-            val windowStateMs = sc.getWindowStateMsByWbKey(workbookKey)
-            if (windowStateMs != null) {
+            val windowState = sc.getWindowStateMsByWbKey(workbookKey)
+            if (windowState != null) {
 //                val ne = errorReport?.toException()?.stackTrace.toString()
 
 
-                windowStateMs.errorContainer =
-                    windowStateMs.errorContainer.addErrorReport(errorReport)
+                windowState.errorContainer =
+                    windowState.errorContainer.addErrorReport(errorReport)
             } else {
                 publishToApp(errorReport)
             }
@@ -61,11 +61,11 @@ class ErrorRouterImp @Inject constructor(
     }
 
     override fun publishToWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?) {
-        val windowStateMs = windowId?.let { sc.getWindowStateMsById(it) }
+        val windowState = windowId?.let { sc.getWindowStateMsById(it) }
             ?: workbookKey?.let { sc.getWindowStateMsByWbKey(it) }
-        if (windowStateMs != null) {
-            windowStateMs.errorContainer =
-                windowStateMs.errorContainer.addErrorReport(errorReport)
+        if (windowState != null) {
+            windowState.errorContainer =
+                windowState.errorContainer.addErrorReport(errorReport)
         } else {
             publishToApp(errorReport)
         }

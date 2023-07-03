@@ -27,7 +27,7 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
 
     lateinit var scMs:StateContainer
     lateinit var errRouter: ErrorRouter
-    lateinit var windowStateMs: WindowState
+    lateinit var windowState: WindowState
     val newWB = WorkbookImp(WorkbookKey("newWb").toMs())
     lateinit var okRes: CreateNewWorkbookResponse
     lateinit var errRes: CreateNewWorkbookResponse
@@ -39,16 +39,16 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
         action = ts.comp.createNewWbActionImp()
         closeWbAct = ts.comp.closeWbAct()
         scMs = ts.comp.stateContainer
-        windowStateMs = scMs.windowStateMsList[0]
+        windowState = scMs.windowStateMsList[0]
         okRes = CreateNewWorkbookResponse(
             errorReport = null,
             wb = newWB,
-            windowId = windowStateMs.id
+            windowId = windowState.id
         )
         errRes = CreateNewWorkbookResponse(
             errorReport = CommonErrors.Unknown.header.toErrorReport(),
             wb = null,
-            windowId = windowStateMs.id
+            windowId = windowState.id
         )
     }
 

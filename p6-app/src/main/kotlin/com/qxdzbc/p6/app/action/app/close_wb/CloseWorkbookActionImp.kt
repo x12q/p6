@@ -79,12 +79,12 @@ class CloseWorkbookActionImp @Inject constructor(
 
         if (wbKey != null) {
             sc.wbContMs.value = sc.wbCont.removeWb(wbKey)
-            val windowStateMs: WindowState? =
+            val windowState: WindowState? =
                 (windowId?.let { sc.getWindowStateMsById(it) }
                     ?: sc.getWindowStateMsByWbKey(wbKey))
-            if (windowStateMs != null) {
-                windowStateMs.removeWbState(wbKeyMs)
-                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs)
+            if (windowState != null) {
+                windowState.removeWbState(wbKeyMs)
+                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowState)
             }
         }
     }
@@ -92,12 +92,12 @@ class CloseWorkbookActionImp @Inject constructor(
     private var globalWbStateCont by sc.wbStateContMs
 
     fun requestCloseWb(request: CloseWorkbookRequest): CloseWorkbookResponse {
-        val windowStateMs: WindowState? = if (request.windowId != null) {
+        val windowState: WindowState? = if (request.windowId != null) {
             sc.getWindowStateMsById(request.windowId)
         } else {
             sc.getWindowStateMsByWbKey(request.wbKey)
         }
-        if (windowStateMs != null) {
+        if (windowState != null) {
             val getWbRs = globalWbStateCont.getWbStateMsRs(request.wbKey)
             when (getWbRs) {
                 is Ok -> {

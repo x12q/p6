@@ -61,9 +61,9 @@ class OpenCellEditorImp @Inject constructor(
         var cellEditorState by appState.cellEditorStateMs
         if (!cellEditorState.isOpen) {
             val cursorMainCell: Rse<Cell> = ws.getCellOrDefaultRs(cursorState.mainCell)
-            val windowStateMs = sc.getWindowStateMsByWbKey(ws.wbKey)
-            val windowId = windowStateMs?.id
-            val fcsMs = windowStateMs?.focusStateMs
+            val windowState = sc.getWindowStateMsByWbKey(ws.wbKey)
+            val windowId = windowState?.id
+            val fcsMs = windowState?.focusStateMs
             cursorMainCell
                 .onSuccess { cell ->
                     if (cell.isEditable) {

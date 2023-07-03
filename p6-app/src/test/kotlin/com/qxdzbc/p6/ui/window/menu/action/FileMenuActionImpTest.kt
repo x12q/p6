@@ -15,7 +15,7 @@ import kotlin.test.assertNull
 
 internal class FileMenuActionImpTest {
     lateinit var action: FileMenuActionImp
-    lateinit var windowStateMs: WindowState
+    lateinit var windowState: WindowState
     lateinit var windowAction: WindowAction
     lateinit var ts:TestSample
     lateinit var wbContMs:Ms<WorkbookContainer>
@@ -25,7 +25,7 @@ internal class FileMenuActionImpTest {
         ts = TestSample()
         wbContMs = ts.wbContMs
         wbStateContMs = ts.sc.wbStateContMs
-        windowStateMs = ts.sampleWindowStateMs
+        windowState = ts.sampleWindowStateMs
         windowAction = mock<WindowAction>() {
             doNothing().whenever(it).saveActiveWorkbook(any(), any())
             doNothing().whenever(it).openSaveFileDialog(any())
@@ -36,8 +36,6 @@ internal class FileMenuActionImpTest {
             closeWbAct = ts.comp.closeWbAct()
         )
     }
-
-    val windowState get() = windowStateMs
 
     @Test
     fun `saveWorkbook when path is null`() {
