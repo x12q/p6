@@ -40,7 +40,7 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
 
     @Test
     fun `applyLoadWorkbook std case`() {
-        val windowId = scMs.windowStateMsList[0].value.id
+        val windowId = scMs.windowStateMsList[0].id
         val wb = Workbook.random()
         val cellFormatTableMap = wb.worksheets.associate{
             it.name to CellFormatTable.random()
@@ -96,8 +96,8 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
         action.apply(windowId, wb,null,null,null)
         val wds = ts.sc.getWindowStateMsById(windowId)
         assertNotNull(wds)
-        assertEquals(listOf(wb), wds.value.wbList)
-        assertEquals(listOf(wb.key), wds.value.wbStateList.map { it.wbKey })
+        assertEquals(listOf(wb), wds.wbList)
+        assertEquals(listOf(wb.key), wds.wbStateList.map { it.wbKey })
     }
 
     @Test

@@ -29,12 +29,12 @@ interface WindowStateFactory {
         @Assisted("loadDialogStateMs")
         loadDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
         id: String = UUID.randomUUID().toString(),
-        wbKeyMsSet: Set<Ms<WorkbookKey>> = emptySet(),
+        wbKeyMsSetMs: Ms<Set<Ms<WorkbookKey>>> = ms(emptySet()),
         @Assisted("showStartKernelDialogStateMs")
         showStartKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
         @Assisted("showConnectToKernelDialogStateMs")
         showConnectToKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
-        commonFileDialogJob: CompletableDeferred<Path?>? = null,
+        commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
 //        dialogHostStateMs: Ms<WindowDialogGroupState> = ms(WindowDialogGroupStateImp())
     ): WindowStateImp
 
@@ -50,7 +50,7 @@ interface WindowStateFactory {
             return create(
                 activeWorkbookPointerMs = activeWbPointerMs,
                 id=id,
-                wbKeyMsSet = wbKeys.toSet()
+                wbKeyMsSetMs = ms(wbKeys.toSet())
             )
         }
     }

@@ -83,8 +83,8 @@ class TestSample: TestAppScope {
         }
     }
 
-    val window1Id:String get() = sc.windowStateMsList[0].value.id
-    val window2Id:String get() = sc.windowStateMsList[1].value.id
+    val window1Id:String get() = sc.windowStateMsList[0].id
+    val window2Id:String get() = sc.windowStateMsList[1].id
 
     val kernelCoroutineScope: CoroutineScope = GlobalScope
 
@@ -146,21 +146,19 @@ class TestSample: TestAppScope {
     }
 
     private fun makeSampleWindowStateMs1(): Ms<OuterWindowState> {
-        val inner:Ms<WindowState> = ms(
-            comp.windowStateFactory().createDefault(
+        val inner:WindowState = comp.windowStateFactory().createDefault(
                 listOf(wbKey1Ms, wbKey2Ms).toSet()
-            ),
-        )
+            )
+
         return ms(comp.outerWindowStateFactory().create(inner))
     }
 
     private fun makeSampleWindowStateMs2(): Ms<OuterWindowState> {
 
-        val inner :Ms<WindowState> = ms(
-            comp.windowStateFactory().createDefault(
+        val inner :WindowState = comp.windowStateFactory().createDefault(
                 listOf(wbKey3Ms, wbKey4Ms).toSet()
-            ),
-        )
+            )
+
         return ms(comp.outerWindowStateFactory().create(inner))
     }
 

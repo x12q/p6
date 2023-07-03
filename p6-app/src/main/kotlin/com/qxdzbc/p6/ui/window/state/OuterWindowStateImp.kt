@@ -11,9 +11,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 data class OuterWindowStateImp @AssistedInject constructor(
-    @Assisted override val innerWindowStateMs: Ms<WindowState>
+    @Assisted override var innerWindowState: WindowState
 ) : OuterWindowState {
-    override var innerWindowState: WindowState by innerWindowStateMs
+
     override val windowId: String get() = innerWindowState.id
     override var focusState: WindowFocusState by innerWindowState.focusStateMs
     override val errorContainer: ErrorContainer by innerWindowState.errorContainerMs

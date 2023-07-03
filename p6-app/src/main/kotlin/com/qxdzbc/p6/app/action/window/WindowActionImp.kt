@@ -61,45 +61,45 @@ class WindowActionImp @Inject constructor(
 
     override fun showCommonFileDialog(job: CompletableDeferred<Path?>, windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.value = it.value.setCommonFileDialogJob(job)
+            it.setCommonFileDialogJob(job)
         }
 
     }
 
     override fun closeCommonFileDialog(windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.value = it.value.removeCommonFileDialogJob()
+            it.removeCommonFileDialogJob()
         }
 
     }
 
     override fun setCommonFileDialogResult(path: Path?, windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.value.commonFileDialogJob?.complete(path)
+            it.commonFileDialogJob?.complete(path)
         }
     }
 
     override fun openDialogToStartKernel(windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.value.showStartKernelDialogState = it.value.showStartKernelDialogState.show()
+            it.showStartKernelDialogState = it.showStartKernelDialogState.show()
         }
     }
 
     override fun closeDialogToStartKernel(windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.value.showStartKernelDialogState = it.value.showStartKernelDialogState.hide()
+            it.showStartKernelDialogState = it.showStartKernelDialogState.hide()
         }
     }
 
     override fun openDialogToConnectToKernel(windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.value.showConnectToKernelDialogState = it.value.showConnectToKernelDialogState.show()
+            it.showConnectToKernelDialogState = it.showConnectToKernelDialogState.show()
         }
     }
 
     override fun closeDialogToConnectToKernel(windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.value.showConnectToKernelDialogState = it.value.showConnectToKernelDialogState.hide()
+            it.showConnectToKernelDialogState = it.showConnectToKernelDialogState.hide()
         }
     }
 
@@ -126,14 +126,14 @@ class WindowActionImp @Inject constructor(
 
     override fun openLoadFileDialog(windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            val windowState = it.value
+            val windowState = it
             windowState.loadDialogState = windowState.loadDialogState.setOpen(true)
         }
     }
 
     override fun closeLoadFileDialog(windowId: String) {
         subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            val windowState = it.value
+            val windowState = it
             windowState.loadDialogState = windowState.loadDialogState.setOpen(false)
         }
     }

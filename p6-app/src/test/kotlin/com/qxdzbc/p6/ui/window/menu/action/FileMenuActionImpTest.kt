@@ -15,7 +15,7 @@ import kotlin.test.assertNull
 
 internal class FileMenuActionImpTest {
     lateinit var action: FileMenuActionImp
-    lateinit var windowStateMs: Ms<WindowState>
+    lateinit var windowStateMs: WindowState
     lateinit var windowAction: WindowAction
     lateinit var ts:TestSample
     lateinit var wbContMs:Ms<WorkbookContainer>
@@ -37,7 +37,7 @@ internal class FileMenuActionImpTest {
         )
     }
 
-    val windowState get() = windowStateMs.value
+    val windowState get() = windowStateMs
 
     @Test
     fun `saveWorkbook when path is null`() {

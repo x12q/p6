@@ -50,7 +50,7 @@ data class LoadWorkbookActionImp @Inject constructor(
                 return res.first
             } else {
                 val e = P6FileLoaderErrors.notReadableFile(path)
-                errorRouter.publishToWindow(e,windowStateMsRs.component1()?.value?.id)
+                errorRouter.publishToWindow(e,windowStateMsRs.component1()?.id)
                 return LoadWorkbookResponse(
                     errorReport = e,
                     windowId = request.windowId,
@@ -59,7 +59,7 @@ data class LoadWorkbookActionImp @Inject constructor(
             }
         } else {
             val e = P6FileLoaderErrors.notAFile(path)
-            errorRouter.publishToWindow(e,windowStateMsRs.component1()?.value?.id)
+            errorRouter.publishToWindow(e,windowStateMsRs.component1()?.id)
             return LoadWorkbookResponse(
                 errorReport = e,
                 windowId = request.windowId,
@@ -141,22 +141,21 @@ data class LoadWorkbookActionImp @Inject constructor(
                     wbStateCont.getWbStateMs(wbk)?.also {
                         it.value = it.value.setWindowId(windowId).setNeedSave(false)
                     }
-                    windowStateMs.value = windowStateMs.value.addWbKey(wbkMs)
-                    windowStateMs.value.activeWbPointerMs.value  = windowStateMs.value.activeWbPointerMs.value.pointTo(wbkMs)
+                    windowStateMs.addWbKey(wbkMs)
+                    windowStateMs.activeWbPointerMs.value  = windowStateMs.activeWbPointerMs.value.pointTo(wbkMs)
                 }
 
                 is Err -> {
                     // x: designated window does not exist and can't get a default window state => create a new window for the loaded workbook with the provided window id or a new random window id
                     val newWindowId = windowId ?: UUID.randomUUID().toString()
                     val newOuterWindowStateMs = sc.createNewWindowStateMs(newWindowId)
-                    val newWindowStateMs = newOuterWindowStateMs.value.innerWindowStateMs
+                    val newWindowStateMs = newOuterWindowStateMs.value.innerWindowState
                     wbStateCont.getWbStateMs(workbook.key)?.also {
                         it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
-                        newWindowStateMs.value.activeWbPointerMs.value =
-                            newWindowStateMs.value.activeWbPointer.pointTo(it.value.wbKeyMs)
+                        newWindowStateMs.activeWbPointerMs.value =
+                            newWindowStateMs.activeWbPointer.pointTo(it.value.wbKeyMs)
                     }
-                    val s2 = newWindowStateMs.value.addWbKey(workbook.keyMs)
-                    newWindowStateMs.value = s2
+                    newWindowStateMs.addWbKey(workbook.keyMs)
                 }
             }
 

@@ -89,22 +89,20 @@ fun main() {
                     val zz = listOf(
                         ms(
                             p6Comp.outerWindowStateFactory().create(
-                                ms(
-                                    p6Comp.windowStateFactory().create(
-                                        wbKeyMsSet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet(),
-                                        activeWorkbookPointerMs = ms(
-                                            ActiveWorkbookPointerImp(
-                                                listOf(
-                                                    wbStateMs1,
-                                                    wbStateMs2
-                                                ).map { it.value.wb.keyMs }.toSet().firstOrNull()
-                                            )
+                                p6Comp.windowStateFactory().create(
+                                    wbKeyMsSetMs = ms(listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet()),
+                                    activeWorkbookPointerMs = ms(
+                                        ActiveWorkbookPointerImp(
+                                            listOf(
+                                                wbStateMs1,
+                                                wbStateMs2
+                                            ).map { it.value.wb.keyMs }.toSet().firstOrNull()
                                         )
-                                    ) as WindowState
-                                )
+                                    )
+                                ) as WindowState
                             ) as OuterWindowState
                         )
-                    ).forEach{
+                    ).forEach {
                         appState.stateCont.addOuterWindowState(it)
                     }
                 }
@@ -140,8 +138,8 @@ fun main() {
                         val appState = remember { p6Comp3.appState() }
                         P6GlobalAccessPoint.setAppState(appState)
 
-                        for (windowStateMs in appState.stateCont.outerWindowStateMsList) {
-                            val windowState = windowStateMs.value
+                        for (WindowState in appState.stateCont.outerWindowStateMsList) {
+                            val windowState = WindowState.value
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
                             WindowView(
@@ -167,6 +165,7 @@ fun main() {
                                                     // x: Kill app when encounter fatal error
                                                     p6Comp3.appAction().exitApp()
                                                 }
+
                                                 else -> appErrorContainer = appErrorContainer.remove(bugMsg)
                                             }
                                         },

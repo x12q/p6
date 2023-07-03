@@ -166,7 +166,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         cellEditorAction.runFormulaOrSaveValueToCell(true)
         cellEditorAction.openCellEditor(cursor1Ms.value)
         val formulaBar: FormulaBarState? =
-            ts.sc.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
+            ts.sc.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.formulaBarState
         assertEquals("=SUM(B2:C4)", cellEditorState.currentText)
     }
 
@@ -991,8 +991,8 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             cellEditorMs.value.isOpen shouldBe false
             cellEditorMs.value.currentText.shouldBeEmpty()
 
-            wds.value.focusState.isEditorFocused shouldBe false
-            wds.value.focusState.isCursorFocused shouldBe true
+            wds.focusState.isEditorFocused shouldBe false
+            wds.focusState.isCursorFocused shouldBe true
         }
     }
 

@@ -18,14 +18,14 @@ class OpenCloseSaveDialogOnWindowActionImp @Inject constructor(
 
     override fun openSaveFileDialog(windowId: String) {
         sc.getWindowStateMsById(windowId)?.also {
-            val windowState = it.value
+            val windowState = it
             windowState.saveDialogStateMs.value = windowState.saveDialogState.setOpen(true)
         }
     }
 
     override fun closeSaveFileDialog(windowId: String) {
         sc.getWindowStateMsById(windowId)?.also {
-            val windowState = it.value
+            val windowState = it
             windowState.saveDialogStateMs.value = windowState.saveDialogState.setOpen(false)
         }
     }

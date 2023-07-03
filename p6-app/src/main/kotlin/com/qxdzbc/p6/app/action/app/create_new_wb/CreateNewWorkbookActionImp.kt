@@ -57,12 +57,12 @@ class CreateNewWorkbookActionImp @Inject constructor(
                 val newWindowId = windowId ?: UUID.randomUUID().toString()
                 val newWindowState = stateCont.createNewWindowStateMs(newWindowId)
                 useNewWindow = true
-                newWindowState.value.innerWindowStateMs
+                newWindowState.value.innerWindowState
             }
-            val windowWasEmptyBeforeAdding = windowStateMs.value.isEmpty()
-            windowStateMs.value = windowStateMs.value.addWbKey(wb.keyMs)
+            val windowWasEmptyBeforeAdding = windowStateMs.isEmpty()
+            windowStateMs.addWbKey(wb.keyMs)
             if (useNewWindow || windowWasEmptyBeforeAdding) {
-                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs.value)
+                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs)
             }
         }
     }

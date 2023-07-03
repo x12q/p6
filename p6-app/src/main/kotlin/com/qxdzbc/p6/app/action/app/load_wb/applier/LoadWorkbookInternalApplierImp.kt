@@ -15,38 +15,39 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class LoadWorkbookInternalApplierImp @Inject constructor(
-    val stateCont:StateContainer,
+    val stateCont: StateContainer,
 ) : LoadWorkbookInternalApplier {
-   
+
     private var globalWbCont by stateCont.wbContMs
     private var globalWbStateCont by stateCont.wbStateContMs
 
     override fun apply(windowId: String?, workbook: Workbook?) {
-        val windowStateMsRs =  stateCont.getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId)
+        val windowStateMsRs = stateCont.getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId)
 
         workbook?.also { wb ->
             globalWbCont = globalWbCont.addOrOverWriteWb(wb)
-            when(windowStateMsRs){
-                is Ok ->{
+            when (windowStateMsRs) {
+                is Ok -> {
                     val windowStateMs = windowStateMsRs.value
                     val wbk = wb.key
                     val wbkMs = wb.keyMs
                     globalWbStateCont.getWbStateMs(wbk)?.also {
                         it.value = it.value.setWindowId(windowId).setNeedSave(false)
                     }
-                    windowStateMs.value = windowStateMs.value.addWbKey(wbkMs)
+                    windowStateMs.addWbKey(wbkMs)
                 }
-                is Err ->{
+
+                is Err -> {
                     // x: designated window does not exist and can't get a default window state => create a new window for the loaded workbook with the provided window id
                     val newWindowId = windowId ?: UUID.randomUUID().toString()
-                    val  newOuterWindowStateMs = stateCont.createNewWindowStateMs(newWindowId)
-                    val newWindowStateMs = newOuterWindowStateMs.value.innerWindowStateMs
+                    val newOuterWindowStateMs = stateCont.createNewWindowStateMs(newWindowId)
+                    val newWindowStateMs = newOuterWindowStateMs.value.innerWindowState
                     globalWbStateCont.getWbStateMs(wb.key)?.also {
                         it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
-                        newWindowStateMs.value.activeWbPointerMs.value = newWindowStateMs.value.activeWbPointer.pointTo(it.value.wbKeyMs)
+                        newWindowStateMs.activeWbPointerMs.value =
+                            newWindowStateMs.activeWbPointer.pointTo(it.value.wbKeyMs)
                     }
-                    val s2 = newWindowStateMs.value.addWbKey(wb.keyMs)
-                    newWindowStateMs.value = s2
+                    newWindowStateMs.addWbKey(wb.keyMs)
                 }
             }
         }

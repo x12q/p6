@@ -27,7 +27,7 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
 
     lateinit var scMs:StateContainer
     lateinit var errRouter: ErrorRouter
-    lateinit var windowStateMs: Ms<WindowState>
+    lateinit var windowStateMs: WindowState
     val newWB = WorkbookImp(WorkbookKey("newWb").toMs())
     lateinit var okRes: CreateNewWorkbookResponse
     lateinit var errRes: CreateNewWorkbookResponse
@@ -43,12 +43,12 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
         okRes = CreateNewWorkbookResponse(
             errorReport = null,
             wb = newWB,
-            windowId = windowStateMs.value.id
+            windowId = windowStateMs.id
         )
         errRes = CreateNewWorkbookResponse(
             errorReport = CommonErrors.Unknown.header.toErrorReport(),
             wb = null,
-            windowId = windowStateMs.value.id
+            windowId = windowStateMs.id
         )
     }
 
@@ -57,7 +57,7 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
 
         val windowState=sc.getWindowStateMsById(ts.window1Id)
         assertNotNull(windowState)
-        val ws by windowState
+        val ws = windowState
         val wbKeySet=ws.wbKeySet
         for(k in wbKeySet){
             closeWbAct.closeWb(CloseWorkbookRequest(
@@ -99,7 +99,6 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
 
     @Test
     fun `apply ok on window`() {
-        val wds by windowStateMs
         scMs.wbCont.getWb(newWB.key).shouldBeNull()
         scMs.getWindowStateMsByWbKey(newWB.key).shouldBeNull()
         /**/

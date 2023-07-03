@@ -46,24 +46,19 @@ class CloseWorkbookActionImp @Inject constructor(
         val outputState = closeWb(wbKeySt, inputState)
 
         sc.wbCont = outputState.wbCont
-        outputState.respectiveWindowState?.also { newWdState ->
-            sc.getWindowStateMsById(newWdState.id)?.also {
-                it.value = newWdState
-            }
-        }
+
     }
 
     fun closeWb(wbKeySt: St<WorkbookKey>, inputState: CloseWbState): CloseWbState {
         val wbKey = wbKeySt.value
         val newWbCont = inputState.wbCont.removeWb(wbKey)
-        val newWindowState = inputState.respectiveWindowState?.let {
-            val newWindowState = it.removeWbState(wbKeySt)
+        inputState.respectiveWindowState?.let {
+            it.removeWbState(wbKeySt)
             pickDefaultActiveWb.pickAndUpdateActiveWbPointer(it)
-            newWindowState
         }
         return CloseWbState(
             wbCont = newWbCont,
-            respectiveWindowState = newWindowState
+            respectiveWindowState = inputState.respectiveWindowState
         )
     }
 
@@ -84,12 +79,12 @@ class CloseWorkbookActionImp @Inject constructor(
 
         if (wbKey != null) {
             sc.wbContMs.value = sc.wbCont.removeWb(wbKey)
-            val windowStateMs: Ms<WindowState>? =
+            val windowStateMs: WindowState? =
                 (windowId?.let { sc.getWindowStateMsById(it) }
                     ?: sc.getWindowStateMsByWbKey(wbKey))
             if (windowStateMs != null) {
-                windowStateMs.value = windowStateMs.value.removeWbState(wbKeyMs)
-                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs.value)
+                windowStateMs.removeWbState(wbKeyMs)
+                pickDefaultActiveWb.pickAndUpdateActiveWbPointer(windowStateMs)
             }
         }
     }
@@ -97,7 +92,7 @@ class CloseWorkbookActionImp @Inject constructor(
     private var globalWbStateCont by sc.wbStateContMs
 
     fun requestCloseWb(request: CloseWorkbookRequest): CloseWorkbookResponse {
-        val windowStateMs: Ms<WindowState>? = if (request.windowId != null) {
+        val windowStateMs: WindowState? = if (request.windowId != null) {
             sc.getWindowStateMsById(request.windowId)
         } else {
             sc.getWindowStateMsByWbKey(request.wbKey)

@@ -23,7 +23,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     lateinit var appState: AppState
     val workbook: Workbook get() = ts.sc.wbCont.getWb(TestSample.wbk1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
-    lateinit var windowStateMs: Ms<WindowState>
+    lateinit var windowStateMs: WindowState
     lateinit var s1: Worksheet
     lateinit var s2: Worksheet
     lateinit var applier: WorkbookUpdateCommonApplierImp
@@ -37,7 +37,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
 
         appState.stateCont.getStateByWorkbookKeyRs(TestSample.wbk1).onSuccess {
             workbookStateMs = it.workbookStateMs!!
-            windowStateMs = it.windowStateMs!!
+            windowStateMs = it.windowState!!
         }
         applier = WorkbookUpdateCommonApplierImp(
             stateCont = ts.sc,
@@ -54,10 +54,10 @@ internal class WorkbookUpdateCommonApplierImpTest {
             wbKey = key1,
             newWorkbook = newWb
         )
-        assertTrue { q.windowStateMs!!.value.errorContainer.isEmpty() }
+        assertTrue { q.windowState!!.errorContainer.isEmpty() }
         assertTrue { appState.appErrorContainer.isEmpty() }
         applier.apply(r)
-        assertTrue { q.windowStateMs!!.value.errorContainer.isEmpty() }
+        assertTrue { q.windowState!!.errorContainer.isEmpty() }
         assertTrue { appState.appErrorContainer.isEmpty() }
     }
 
@@ -70,11 +70,11 @@ internal class WorkbookUpdateCommonApplierImpTest {
                 wbKey = TestSample.wbk1
             )
         )
-        assertTrue { ts.sc.windowStateMsList.first().value.errorContainer.isEmpty() }
+        assertTrue { ts.sc.windowStateMsList.first().errorContainer.isEmpty() }
         applier.apply(response)
         assertTrue {
             // oddity container of the window is not empty
-            ts.sc.windowStateMsList.first().value.errorContainer.isNotEmpty()
+            ts.sc.windowStateMsList.first().errorContainer.isNotEmpty()
         }
     }
 
@@ -86,7 +86,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
         assertNotNull(workbook.getWs(s1.name))
         assertNotNull(workbook.getWs(s2.name))
         assertTrue { appState.appErrorContainer.isEmpty() }
-        assertTrue { ts.sc.windowStateMsList.first().value.errorContainer.isEmpty() }
+        assertTrue { ts.sc.windowStateMsList.first().errorContainer.isEmpty() }
     }
 
 }

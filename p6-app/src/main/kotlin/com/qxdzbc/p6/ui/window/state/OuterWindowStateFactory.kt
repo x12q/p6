@@ -5,5 +5,5 @@ import dagger.assisted.AssistedFactory
 
 @AssistedFactory
 interface OuterWindowStateFactory{
-    fun create(innerWindowStateMs: Ms<WindowState>): OuterWindowStateImp
+    fun create(innerWindowStateMs: WindowState): OuterWindowStateImp
 }

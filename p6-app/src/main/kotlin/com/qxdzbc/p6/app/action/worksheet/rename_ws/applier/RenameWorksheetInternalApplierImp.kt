@@ -31,7 +31,7 @@ class RenameWorksheetInternalApplierImp
     override fun apply(wbKey: WorkbookKey, oldName: String, newName: String) {
         stateContainer.getStateByWorkbookKeyRs(wbKey).map {
             it.workbookStateMs?.let{workbookStateMs->
-                it.windowStateMs?.let{windowStateMs->
+                it.windowState?.let{windowStateMs->
                     val wbState by workbookStateMs
                     val wb = wbState.wb
                     if (oldName != newName) {
@@ -54,7 +54,7 @@ class RenameWorksheetInternalApplierImp
                             }
                             it.workbookStateMs.value = newWbState
                         } else {
-                            errorRouter.publishToWindow(renameRs.unwrapError(), windowStateMs.value.id)
+                            errorRouter.publishToWindow(renameRs.unwrapError(), windowStateMs.id)
                         }
                     }
                 }

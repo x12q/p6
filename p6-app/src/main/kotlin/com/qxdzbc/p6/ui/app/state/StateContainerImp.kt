@@ -15,21 +15,14 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.document.cell.state.CellState
@@ -49,7 +42,6 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.squareup.anvil.annotations.ContributesBinding
-import java.nio.file.Path
 import javax.inject.Inject
 
 @P6Singleton
@@ -76,21 +68,21 @@ class StateContainerImp @Inject constructor(
 
     override var wbCont: WorkbookContainer by wbContMs
 
-    override fun getActiveWindowStateMs(): Ms<WindowState>? {
+    override fun getActiveWindowStateMs(): WindowState? {
         return activeWindowPointer.windowId?.let {
             getWindowStateMsById(it)
         }
     }
 
     override fun getActiveWindowState(): WindowState? {
-        return getActiveWindowStateMs()?.value
+        return getActiveWindowStateMs()
     }
 
     override var cellEditorState: CellEditorState by cellEditorStateMs
 
-    override fun getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId: String?): Rse<Ms<WindowState>> {
-        val windowMsRs: Rse<Ms<WindowState>> = if (windowId != null) {
-            val q: Rse<Ms<WindowState>> = getWindowStateMsByIdRs(windowId)
+    override fun getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId: String?): Rse<WindowState> {
+        val windowMsRs: Rse<WindowState> = if (windowId != null) {
+            val q: Rse<WindowState> = getWindowStateMsByIdRs(windowId)
             q
         } else {
             val activeWid = getActiveWindowStateMs()
@@ -136,7 +128,9 @@ class StateContainerImp @Inject constructor(
 
     override var wbStateCont: WorkbookStateContainer by wbStateContMs
 
-    override val windowStateMsList: List<Ms<WindowState>> get() = outerWindowStateMsList.map { it.value.innerWindowStateMs }
+    override val windowStateMsList: List<WindowState> get() = outerWindowStateMsList.map{
+        it.value.innerWindowState
+    }
 
     private fun hasStateFor(wbKey: WorkbookKey): Boolean {
         return this.getWbState(wbKey) != null
@@ -145,12 +139,12 @@ class StateContainerImp @Inject constructor(
     /**
      * Get a set of states related to a workbook key
      */
-    override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2> {
+    override fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult> {
         val windowStateMsRs = this.getWindowStateMsByWbKeyRs(workbookKey)
         val rt = windowStateMsRs.flatMap { windowstateMs ->
             getWbStateMsRs(workbookKey).flatMap {
-                QueryByWorkbookKeyResult2(
-                    windowStateMs = windowstateMs,
+                QueryByWorkbookKeyResult(
+                    windowState = windowstateMs,
                     workbookStateMs = it
                 ).toOk()
             }
@@ -158,7 +152,7 @@ class StateContainerImp @Inject constructor(
         return rt
     }
 
-    override fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult2? {
+    override fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult? {
         return getStateByWorkbookKeyRs(workbookKey).component1()
     }
 
@@ -170,26 +164,23 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun createNewWindowStateMs(): Ms<OuterWindowState> {
-        val newWindowState: Ms<WindowState> = StateUtils.ms(
-            windowStateFactory.createDefault()
-        )
+        val newWindowState: WindowState = windowStateFactory.createDefault()
         val o: Ms<OuterWindowState> = outerWindowStateFactory.create(newWindowState).toMs()
         this.addOuterWindowState(o)
         return o
     }
 
     override fun createNewWindowStateMs(windowId: String): Ms<OuterWindowState> {
-        val newWindowState: Ms<WindowState> = StateUtils.ms(
-            windowStateFactory.createDefault(id = windowId)
-        )
+        val newWindowState: WindowState = windowStateFactory.createDefault(id = windowId)
+
         val o: Ms<OuterWindowState> = outerWindowStateFactory.create(newWindowState).toMs()
         this.addOuterWindowState(o)
         return o
     }
 
-    override fun removeWindowState(windowState: Ms<WindowState>) {
+    override fun removeWindowState(windowState: WindowState) {
         windowStateMap = windowStateMap.filter { (id, oStateMs) ->
-            oStateMs.value.innerWindowStateMs != windowState
+            oStateMs.value.innerWindowState != windowState
         }
     }
 
@@ -270,8 +261,8 @@ class StateContainerImp @Inject constructor(
         }
     }
 
-    override fun addWindowState(windowState: Ms<WindowState>) {
-        windowStateMap = windowStateMap + (windowState.value.id to StateUtils.ms(
+    override fun addWindowState(windowState: WindowState) {
+        windowStateMap = windowStateMap + (windowState.id to StateUtils.ms(
             this.outerWindowStateFactory.create(
                 windowState
             )
@@ -282,8 +273,8 @@ class StateContainerImp @Inject constructor(
         windowStateMap = windowStateMap + (windowState.value.windowId to windowState)
     }
 
-    override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
-        return windowStateMap[windowId]?.value?.innerWindowStateMs
+    override fun getWindowStateMsById(windowId: String): WindowState? {
+        return windowStateMap[windowId]?.value?.innerWindowState
     }
 
     override fun getCellStateMsRs(wbwsSt: WbWsSt, cellAddress: CellAddress): Rse<Ms<CellState>> {
@@ -309,10 +300,10 @@ class StateContainerImp @Inject constructor(
         return this.wbStateCont.getWbStateMsRs(wbKey)
     }
 
-    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, SingleErrorReport> {
+    override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<WindowState, SingleErrorReport> {
         val w = windowStateMap.values.firstOrNull { owds ->
             owds.value.innerWindowState.containWbKey(wbKey)
-        }?.value?.innerWindowStateMs
+        }?.value?.innerWindowState
         if (w != null) {
             return Ok(w)
         } else {
@@ -320,8 +311,8 @@ class StateContainerImp @Inject constructor(
         }
     }
 
-    override fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, SingleErrorReport> {
-        val w = windowStateMap[windowId]?.value?.innerWindowStateMs
+    override fun getWindowStateMsByIdRs(windowId: String): Rs<WindowState, SingleErrorReport> {
+        val w = windowStateMap[windowId]?.value?.innerWindowState
         if (w != null) {
             return w.toOk()
         } else {

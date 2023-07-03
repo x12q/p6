@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -40,7 +39,7 @@ interface StateContainer : DocumentContainer {
 
     val activeWindowPointer: ActiveWindowPointer
 
-    fun getActiveWindowStateMs():Ms<WindowState>?
+    fun getActiveWindowStateMs():WindowState?
     fun getActiveWindowState():WindowState?
 
     val cellEditorStateMs:Ms<CellEditorState>
@@ -53,7 +52,7 @@ interface StateContainer : DocumentContainer {
      * get window state respective to [windowId],
      * if [windowId] is null, get the active window, or the first, or create a new window
      */
-    fun getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId: String?):Rse<Ms<WindowState>>
+    fun getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId: String?):Rse<WindowState>
 
     /**
      * get cursor state ms of the active worksheet inside the active workbook
@@ -115,7 +114,7 @@ interface StateContainer : DocumentContainer {
     var windowStateMap: Map<String, Ms<OuterWindowState>>
 
     val outerWindowStateMsList: List<Ms<OuterWindowState>>
-    val windowStateMsList: List<Ms<WindowState>>
+    val windowStateMsList: List<WindowState>
 
     val wbStateContMs: Ms<WorkbookStateContainer>
     var wbStateCont: WorkbookStateContainer
@@ -124,22 +123,22 @@ interface StateContainer : DocumentContainer {
      * Get a set of state related to a [workbookKey].
      * @return an Error if no state object can be found, the Error contain information about why there are not any State obj for [workbookKey]
      */
-    fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult2>
+    fun getStateByWorkbookKeyRs(workbookKey: WorkbookKey): Rse<QueryByWorkbookKeyResult>
 
     /**
      * Get a set of state related to a [workbookKey].
      * @return an null if no state object can be found
      */
-    fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult2?
+    fun getStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult?
 
     /**
      * create and add a new wb state for [wb] if it yet to have a state of its own
      */
     fun addWbStateFor(wb: Workbook)
 
-    fun removeWindowState(windowState: Ms<WindowState>)
+    fun removeWindowState(windowState: WindowState)
     fun removeWindowState(windowId: String)
-    fun addWindowState(windowState: Ms<WindowState>)
+    fun addWindowState(windowState: WindowState)
     fun createNewWindowStateMs(): Ms<OuterWindowState>
     fun createNewWindowStateMs(windowId: String): Ms<OuterWindowState>
 
@@ -173,8 +172,8 @@ interface StateContainer : DocumentContainer {
     fun getWsStateMs(wbws: WbWs): Ms<WorksheetState>?
     fun getWsState(wbws: WbWs): WorksheetState?
 
-    fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<Ms<WindowState>, SingleErrorReport>
-    fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>?
+    fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<WindowState, SingleErrorReport>
+    fun getWindowStateMsByWbKey(wbKey: WorkbookKey): WindowState?
 
     fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, SingleErrorReport>
     fun getFocusStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowFocusState>?
@@ -184,8 +183,8 @@ interface StateContainer : DocumentContainer {
     fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState>
     fun getWindowStateByWbKey(wbKey: WorkbookKey): WindowState?
 
-    fun getWindowStateMsByIdRs(windowId: String): Rs<Ms<WindowState>, SingleErrorReport>
-    fun getWindowStateMsById(windowId: String): Ms<WindowState>?
+    fun getWindowStateMsByIdRs(windowId: String): Rs<WindowState, SingleErrorReport>
+    fun getWindowStateMsById(windowId: String): WindowState?
 
     fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>?
     fun getCursorState(wbKey: WorkbookKey, wsName: String): CursorState?

@@ -32,8 +32,8 @@ class ErrorRouterImp @Inject constructor(
 //            val stackTrace = errorReport?.toException()?.stackTraceToString()?:""
                 val er2 = errorReport
 
-                windowStateMs.value.errorContainer =
-                    windowStateMs.value.errorContainer.addErrorReport(er2)
+                windowStateMs.errorContainer =
+                    windowStateMs.errorContainer.addErrorReport(er2)
             } else {
                 publishToApp(errorReport)
             }
@@ -50,8 +50,8 @@ class ErrorRouterImp @Inject constructor(
 //                val ne = errorReport?.toException()?.stackTrace.toString()
 
 
-                windowStateMs.value.errorContainer =
-                    windowStateMs.value.errorContainer.addErrorReport(errorReport)
+                windowStateMs.errorContainer =
+                    windowStateMs.errorContainer.addErrorReport(errorReport)
             } else {
                 publishToApp(errorReport)
             }
@@ -64,8 +64,8 @@ class ErrorRouterImp @Inject constructor(
         val windowStateMs = windowId?.let { sc.getWindowStateMsById(it) }
             ?: workbookKey?.let { sc.getWindowStateMsByWbKey(it) }
         if (windowStateMs != null) {
-            windowStateMs.value.errorContainer =
-                windowStateMs.value.errorContainer.addErrorReport(errorReport)
+            windowStateMs.errorContainer =
+                windowStateMs.errorContainer.addErrorReport(errorReport)
         } else {
             publishToApp(errorReport)
         }

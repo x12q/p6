@@ -22,7 +22,7 @@ class FileMenuActionImp @Inject constructor(
     private val sc = stateCont
 
     override fun save(windowId:String) {
-        sc.getWindowStateMsById(windowId)?.value?.also { windowState->
+        sc.getWindowStateMsById(windowId)?.also { windowState->
             val activeWBState = windowState.activeWbState
             if(activeWBState!=null){
                 // if path is already present, sve it
@@ -38,7 +38,7 @@ class FileMenuActionImp @Inject constructor(
     }
 
     override fun saveAs(windowId:String) {
-        sc.getWindowStateMsById(windowId)?.value?.also { windowState->
+        sc.getWindowStateMsById(windowId)?.also { windowState->
             val activeWBState = windowState.activeWbState
             if(activeWBState!=null){
                 windowAction.openSaveFileDialog(windowState.id)

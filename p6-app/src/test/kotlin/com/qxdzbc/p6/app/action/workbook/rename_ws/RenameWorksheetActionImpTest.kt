@@ -22,7 +22,7 @@ import kotlin.test.*
 internal class RenameWorksheetActionImpTest : BaseAppStateTest() {
     val workbook: Workbook get() = sc.wbCont.getWb(ts.wbKey1)!!
     lateinit var workbookStateMs: Ms<WorkbookState>
-    lateinit var windowStateMs: Ms<WindowState>
+    lateinit var windowStateMs: WindowState
     lateinit var ws1: Worksheet
     lateinit var ws2: Worksheet
 
@@ -95,7 +95,7 @@ internal class RenameWorksheetActionImpTest : BaseAppStateTest() {
 
         workbookStateMs.value.activeSheetPointer.wsName shouldBe ws1.name
         workbook.getWs(ws2.name).shouldNotBeNull()
-        windowStateMs.value.errorContainer.isNotEmpty().shouldBeTrue()
+        windowStateMs.errorContainer.isNotEmpty().shouldBeTrue()
     }
 
     @Test

@@ -159,22 +159,22 @@ abstract class AbsStateContainer : StateContainer {
     }
 
     override fun getWindowStateByIdRs(windowId: String): Rse<WindowState> {
-        return getWindowStateMsByIdRs(windowId).map { it.value }
+        return getWindowStateMsByIdRs(windowId)
     }
 
     override fun getWindowStateById(windowId: String): WindowState? {
-        return getWindowStateMsById(windowId)?.value
+        return getWindowStateMsById(windowId)
     }
 
     override fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState> {
-        return getWindowStateMsByWbKeyRs(wbKey).map { it.value }
+        return getWindowStateMsByWbKeyRs(wbKey)
     }
 
     override fun getWindowStateByWbKey(wbKey: WorkbookKey): WindowState? {
-        return getWindowStateMsByWbKey(wbKey)?.value
+        return getWindowStateMsByWbKey(wbKey)
     }
 
-    override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
+    override fun getWindowStateMsById(windowId: String): WindowState? {
         return getWindowStateMsByIdRs(windowId).component1()
     }
 
@@ -182,7 +182,7 @@ abstract class AbsStateContainer : StateContainer {
         return getFocusStateMsByWbKeyRs(wbKey).component1()
     }
 
-    override fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>? {
+    override fun getWindowStateMsByWbKey(wbKey: WorkbookKey): WindowState? {
         return this.getWindowStateMsByWbKeyRs(wbKey).component1()
     }
 
@@ -226,7 +226,7 @@ abstract class AbsStateContainer : StateContainer {
 
     override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, SingleErrorReport> {
         return this.getWindowStateMsByWbKeyRs(wbKey).map {
-            it.value.focusStateMs
+            it.focusStateMs
         }
     }
 

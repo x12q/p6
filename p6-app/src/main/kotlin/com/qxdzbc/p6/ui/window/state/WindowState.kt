@@ -42,8 +42,8 @@ interface WindowState : WithSize {
 
     val openCommonFileDialog:Boolean
     val commonFileDialogJob: CompletableDeferred<Path?>?
-    fun setCommonFileDialogJob(job:CompletableDeferred<Path?>?):WindowState
-    fun removeCommonFileDialogJob():WindowState
+    fun setCommonFileDialogJob(job:CompletableDeferred<Path?>?)
+    fun removeCommonFileDialogJob()
 
     val showConnectToKernelDialogStateMs:Ms<ShowDialogState>
     var showConnectToKernelDialogState:ShowDialogState
@@ -55,11 +55,7 @@ interface WindowState : WithSize {
 
     val formulaBarState:FormulaBarState
 
-    /**
-     * A set of all workbook key in this window
-     */
-    val wbKeyMsSet:Set<Ms<WorkbookKey>>
-    val wbKeySet:Set<WorkbookKey>
+
 
     /**
      * Check if this window contain workbook having [wbKey]
@@ -73,12 +69,19 @@ interface WindowState : WithSize {
     val wbStateList: List<WorkbookState>
     val wbList: List<Workbook>
 
-    fun removeWbState(wbKeyMs: St<WorkbookKey>):WindowState
 
-    fun addWbKey(wbKey: Ms<WorkbookKey>):WindowState
-    fun addWbKeyRs(wbKey: Ms<WorkbookKey>): Rse<WindowState>
+    fun removeWbState(wbKeyMs: St<WorkbookKey>)
 
-    fun setWbKeySet(wbKeySet: Set<Ms<WorkbookKey>>): WindowState
+    /**
+     * A set of all workbook key in this window
+     */
+    val wbKeyMsSet:Set<Ms<WorkbookKey>>
+    val wbKeySet:Set<WorkbookKey>
+
+    fun addWbKey(wbKey: Ms<WorkbookKey>)
+    fun addWbKeyRs(wbKey: Ms<WorkbookKey>): Rse<Unit>
+
+    fun setWbKeySet(wbKeySet: Set<Ms<WorkbookKey>>)
 
     val activeWbPointerMs: Ms<ActiveWorkbookPointer>
     var activeWbPointer: ActiveWorkbookPointer
