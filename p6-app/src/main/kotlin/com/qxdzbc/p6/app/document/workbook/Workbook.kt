@@ -18,7 +18,7 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
     fun refreshDisplayText():Workbook
 
     /**
-     * A savable copy is a workbook with an empty workbook key (with empty name and null path) that is completely detached from the app state.
+     * A savable copy is a workbook with an empty workbook key (with empty name and null path), that is completely detached from the app state.
      */
     fun makeSavableCopy(): Workbook
 

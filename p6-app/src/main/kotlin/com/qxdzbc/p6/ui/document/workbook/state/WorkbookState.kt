@@ -11,36 +11,47 @@ import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 
 /**
- * State of a workbook view
+ * State of a workbook
  */
-interface WorkbookState :CanConvertToWorkbookProto{
+interface WorkbookState : CanConvertToWorkbookProto{
     /**
-     * the id in which a workbook belong to
+     * the window id in which a workbook belong to. Why does a workbook need to know its parent window?
      */
     val windowId:String?
     fun setWindowId(windowId:String?):WorkbookState
+    // aq
     val wsStateMap: Map<St<String>, MutableState<WorksheetState>>
 
     fun overWriteWb(newWb:Workbook):WorkbookState
     fun overWriteWbRs(newWb:Workbook): Rse<WorkbookState>
 
+    /**
+     * Some child state objects (Ws pointer and Ws state) contain a pseudo state variable to force refreshing.
+     * This function invokes all the refresh functions of such objects.
+     */
     fun refresh():WorkbookState
 
     /**
      * whether this workbook holds unsaved content or not
      */
     val needSave:Boolean
+
+    // TODO replace with setter
     fun setNeedSave(i:Boolean):WorkbookState
 
     /**
-     * The data obj of shown on the workbook view
+     * The data obj shown on the workbook view
      */
+    // need to expose the MS, because State container relies on this
     val wbMs: Ms<Workbook>
     val wb: Workbook
+
+    // need to expose the MS, because State container relies on this
     val wbKey:WorkbookKey
     val wbKeyMs:Ms<WorkbookKey>
     /**
-     * point this wb state to a new workbook by setting its workbook key and refresh this state and all child state to reflect this changes if necessary
+     * point this workbook state to a new workbook by setting its workbook key and refresh this state and all child state to reflect this changes if necessary.
+     * TODO reconsider this function. Workbook state may not need to hold a ref to a wbKeyMs
      */
     fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey): WorkbookState
 
@@ -56,7 +67,7 @@ interface WorkbookState :CanConvertToWorkbookProto{
     val worksheetStateList: List<WorksheetState> get() = this.worksheetStateListMs.map { it.value }
 
     /**
-     * state of sheet tab bar
+     * produce a derived state for sheet tab bar
      */
     val sheetTabBarState: SheetTabBarState
 
