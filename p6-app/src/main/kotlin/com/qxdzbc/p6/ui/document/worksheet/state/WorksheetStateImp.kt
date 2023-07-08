@@ -98,20 +98,6 @@ data class WorksheetStateImp constructor(
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
         val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
         val newLayout = oldLayout.replaceWith(layoutCoor) ?: layoutCoor
-        // TODO: keep the below commented code just in case the new code has bug.
-//        val newLayout: LayoutCoorWrapper = if (oldLayout == null) {
-//            layoutCoor
-//        } else {
-//            if (oldLayout.layout != layoutCoor.layout) {
-//                layoutCoor
-//            } else {
-//                /*
-//                Force refresh cell layout wrapper to force the app to redraw cell when col/row is resize. This is to fix the bug that cell cursor is not resized when col/row is resized
-//                TODO this might be optimized further to reduce redrawing.
-//                 */
-//                layoutCoor.forceRefresh(!oldLayout.refreshVar)
-//            }
-//        }
         val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
         this.cellLayoutCoorMapMs.value = newMap
         return this
@@ -164,8 +150,6 @@ data class WorksheetStateImp constructor(
             val cellState = cellStateMs.value
             val addr = cellState.address
             if (addr !in existingCellAddresses) {
-//                cellStateMs.value = cellState.removeDataCell()
-//                newCellMsCont = newCellMsCont.set(addr, cellStateMs)
                 newCellMsCont = newCellMsCont.remove(addr)
             }
         }
@@ -176,6 +160,7 @@ data class WorksheetStateImp constructor(
 
     override val wbKeySt: St<WorkbookKey>
         get() = this.id.wbKeySt
+
     override val wsNameSt: St<String>
         get() {
             return this.id.wsNameSt

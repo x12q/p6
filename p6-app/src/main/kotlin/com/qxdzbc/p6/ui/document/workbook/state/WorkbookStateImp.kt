@@ -48,7 +48,6 @@ data class WorkbookStateImp @AssistedInject constructor(
     override val wsStateMap: Map<St<@JvmSuppressWildcards String>, @JvmSuppressWildcards MutableState<WorksheetState>>,
     @DefaultActiveWorksheetPointer
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
-    @True private val refreshVar: Boolean,
     @FalseMs private val needSaveMs: Ms<Boolean>,
     private val wsStateFactory: WorksheetStateFactory,
     private val gridSliderFactory: LimitedGridSliderFactory,
@@ -167,22 +166,18 @@ data class WorkbookStateImp @AssistedInject constructor(
             } else {
                 val activeSheetName = wb.getWs(0)?.nameMs
                 this.activeSheetPointer = this.activeSheetPointer.pointTo(activeSheetName)
-                return this.forceRefresh()
+                return this
             }
         } else {
             val activeSheetName = wb.getWs(0)?.nameMs
             this.activeSheetPointer = this.activeSheetPointer.pointTo(activeSheetName)
-            return this.forceRefresh()
+            return this
         }
     }
 
     override fun setWbKey(newWbKey: WorkbookKey): WorkbookState {
         this.wb = this.wb.setKey(newWbKey)
-        return this.forceRefresh()
-    }
-
-    private fun forceRefresh(): WorkbookState {
-        return this.copy(refreshVar = !refreshVar)
+        return this
     }
 
     /**
@@ -306,7 +301,6 @@ data class WorkbookStateImp @AssistedInject constructor(
                 thumbStateFactory = thumbStateFactory,
                 windowId = null,
                 needSaveMs = ms(false),
-                refreshVar = true
             )
         }
     }
