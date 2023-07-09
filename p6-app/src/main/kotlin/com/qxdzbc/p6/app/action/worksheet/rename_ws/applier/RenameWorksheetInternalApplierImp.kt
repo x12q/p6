@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.rename_ws.applier
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -32,28 +31,26 @@ class RenameWorksheetInternalApplierImp
         stateContainer.getStateByWorkbookKeyRs(wbKey).map {
             it.workbookStateMs?.let{workbookStateMs->
                 it.windowState?.let{windowState->
-                    val wbState by workbookStateMs
-                    val wb = wbState.wb
+                    val wb = workbookStateMs.wb
                     if (oldName != newName) {
                         // x: rename the sheet in wb
                         val renameRs = wb.renameWsRs(oldName, newName)
                         if (renameRs is Ok) {
                             val newWb: Workbook = renameRs.value
                             // x: rename ws state
-                            val sheetStateMs: Ms<WorksheetState>? = wbState.getWsStateMs(oldName)
+                            val sheetStateMs: Ms<WorksheetState>? = workbookStateMs.getWsStateMs(oldName)
                             if (sheetStateMs != null) {
-                                newWb.getWsMsRs(newName).onSuccess { newWs->
+                                newWb.getWsMsRs(newName).onSuccess { newWs ->
                                     sheetStateMs.value = sheetStateMs.value.setWsMs(newWs)
                                 }
                             }
-                            val newWbState: WorkbookState = wbState
+                            val newWbState: WorkbookState = workbookStateMs
                             // x: preserve active sheet pointer if it was pointing to the old name
                             dc.replaceWb(newWb)
                             if (newWbState.activeSheetPointer.isPointingTo(oldName)) {
                                 newWbState.setActiveSheet(newName)
                                 newWbState.needSave = true
                             }
-                            it.workbookStateMs.value = newWbState
                         } else {
                             errorRouter.publishToWindow(renameRs.unwrapError(), windowState.id)
                         }

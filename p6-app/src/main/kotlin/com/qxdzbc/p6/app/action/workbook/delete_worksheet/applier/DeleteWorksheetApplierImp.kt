@@ -29,9 +29,9 @@ class DeleteWorksheetApplierImp @Inject constructor(
             docCont.replaceWb(newWB)
             // x: update wb state
             val wbKey = newWB.key
-            val wbStateMs = subAppStateContainer.getWbStateMs(wbKey)
-            wbStateMs?.value?.refresh()
-            wbStateMs?.value?.needSave = true
+            val wbStateMs = subAppStateContainer.getWbState(wbKey)
+            wbStateMs?.refresh()
+            wbStateMs?.needSave = true
             //update translator map
             tc.removeTranslator(wbKey,deletedWsName)
             Unit.toOk()

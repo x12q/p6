@@ -78,9 +78,9 @@ data class WindowStateImp @AssistedInject constructor(
 
     override var showStartKernelDialogState: ShowDialogState by showStartKernelDialogStateMs
 
-    override val wbStateMsList: List<Ms<WorkbookState>>
+    override val wbStateMsList: List<WorkbookState>
         get() = wbKeySet.mapNotNull {
-            wbStateContMs.value.getWbStateMs(
+            wbStateContMs.value.getWbState(
                 it
             )
         }
@@ -115,17 +115,17 @@ data class WindowStateImp @AssistedInject constructor(
             }
             return null
         }
-    override val activeWbStateMs: Ms<WorkbookState>?
+    override val activeWbStateMs: WorkbookState?
         get() {
             return this.activeWbPointer.wbKey?.let{this.getWorkbookStateMs(it)}
         }
 
-    private fun getWorkbookStateMs(workbookKey: WorkbookKey): Ms<WorkbookState>? {
-        return wbStateCont.getWbStateMs(workbookKey)
+    private fun getWorkbookStateMs(workbookKey: WorkbookKey): WorkbookState? {
+        return wbStateCont.getWbState(workbookKey)
     }
 
-    private fun getWorkbookStateMsRs(workbookKey: WorkbookKey): Rse<Ms<WorkbookState>> {
-        val wbsMs = wbStateCont.getWbStateMsRs(workbookKey)
+    private fun getWorkbookStateMsRs(workbookKey: WorkbookKey): Rse<WorkbookState> {
+        val wbsMs = wbStateCont.getWbStateRs(workbookKey)
         return wbsMs
     }
 
@@ -148,8 +148,8 @@ data class WindowStateImp @AssistedInject constructor(
             if (this.activeWbPointer.isPointingTo(wbKeyMs)) {
                 this.activeWbPointerMs.value = this.activeWbPointer.nullify()
             }
-            val wbStateMs = this.wbStateCont.getWbStateMs(wbKeyMs)
-            wbStateMs?.value?.windowId = null
+            val wbStateMs = this.wbStateCont.getWbState(wbKeyMs)
+            wbStateMs?.windowId = null
 
             wbKeyMsSetMs.value = wbKeyMsSet.filter{it!=wbKeyMs}.toSet()
         }
@@ -163,11 +163,11 @@ data class WindowStateImp @AssistedInject constructor(
         if (wbKey in this.wbKeyMsSet) {
             return Ok(Unit)
         } else {
-            val wbStateMsRs = this.wbStateCont.getWbStateMsRs(wbKey)
+            val wbStateMsRs = this.wbStateCont.getWbStateRs(wbKey)
             val rt = wbStateMsRs.map {wbStateMs->
-                val wbk = wbStateMs.value.wbKeyMs
+                val wbk = wbStateMs.wbKeyMs
                 val newWbKeySet = this.wbKeyMsSet + wbk
-                wbStateMs.value.windowId = this.id
+                wbStateMs.windowId = this.id
                 wbKeyMsSetMs.value = newWbKeySet
             }
             return rt
@@ -187,7 +187,7 @@ data class WindowStateImp @AssistedInject constructor(
         }
         // x: update window id of each wb state
         for (wbk in newWbKeySet) {
-            wbStateCont.getWbStateMs(wbk)?.value?.windowId = this.id
+            wbStateCont.getWbState(wbk)?.windowId = this.id
         }
         wbKeyMsSetMs.value = newWbKeySet
     }

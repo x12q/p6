@@ -25,8 +25,8 @@ class CommonReactionWhenAppStatesChangedImp @Inject constructor(
     val sc  = stateContainerSt
 
     override fun onWbChange(wbKey:WorkbookKey){
-        sc.getWbStateMs(wbKey)?.also {
-            it.value.needSave = true
+        sc.getWbState(wbKey)?.also {
+            it.needSave = true
         }
     }
 
@@ -77,6 +77,6 @@ class CommonReactionWhenAppStatesChangedImp @Inject constructor(
     }
 
     override fun onWbChange(wbKeySt: St<WorkbookKey>) {
-        sc.getWbStateMs(wbKeySt)?.value?.needSave = true
+        sc.getWbState(wbKeySt)?.needSave = true
     }
 }

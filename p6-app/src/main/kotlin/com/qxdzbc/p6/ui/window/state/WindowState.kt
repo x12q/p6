@@ -65,7 +65,7 @@ interface WindowState : WithSize {
     /**
      * This is the globally shared workbook container in the app, not the sole container of this window state
      */
-    val wbStateMsList: List<Ms<WorkbookState>>
+    val wbStateMsList: List<WorkbookState>
     val wbStateList: List<WorkbookState>
     val wbList: List<Workbook>
 
@@ -86,7 +86,7 @@ interface WindowState : WithSize {
     val activeWbPointerMs: Ms<ActiveWorkbookPointer>
     var activeWbPointer: ActiveWorkbookPointer
     val activeWbState: WorkbookState?
-    val activeWbStateMs: Ms<WorkbookState>?
+    val activeWbStateMs: WorkbookState?
     val activeWbKey:WorkbookKey? get() = activeWbPointer.wbKey
 
     val errorContainerMs: Ms<ErrorContainer>

@@ -31,8 +31,8 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
                     val windowState = windowStateMsRs.value
                     val wbk = wb.key
                     val wbkMs = wb.keyMs
-                    globalWbStateCont.getWbStateMs(wbk)?.also {
-                        it.value.let{
+                    globalWbStateCont.getWbState(wbk)?.also {
+                        it.let{
                             it.windowId = windowId
                             it.needSave = false
                         }
@@ -45,13 +45,13 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
                     val newWindowId = windowId ?: UUID.randomUUID().toString()
                     val newOuterWindowStateMs = stateCont.createNewWindowStateMs(newWindowId)
                     val newWindowStateMs = newOuterWindowStateMs.value.innerWindowState
-                    globalWbStateCont.getWbStateMs(wb.key)?.also {
-                        it.value.let {
+                    globalWbStateCont.getWbState(wb.key)?.also {
+                        it.let {
                             it.windowId = newWindowId
                             it.needSave = false
                         }
                         newWindowStateMs.activeWbPointerMs.value =
-                            newWindowStateMs.activeWbPointer.pointTo(it.value.wbKeyMs)
+                            newWindowStateMs.activeWbPointer.pointTo(it.wbKeyMs)
                     }
                     newWindowStateMs.addWbKey(wb.keyMs)
                 }

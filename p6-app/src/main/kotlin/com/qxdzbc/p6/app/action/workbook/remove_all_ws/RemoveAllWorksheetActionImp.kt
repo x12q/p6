@@ -16,11 +16,11 @@ class RemoveAllWorksheetActionImp @Inject constructor(
 ): RemoveAllWorksheetAction {
     val sc  = stateCont
     override fun removeAllWsRs(wbKey: WorkbookKey): Rse<Unit> {
-        val wbStateMsRs = sc.getWbStateMsRs(wbKey)
+        val wbStateMsRs = sc.getWbStateRs(wbKey)
         val rt = wbStateMsRs.map {wbStateMs->
-            val wbMs = wbStateMs.value.wbMs
+            val wbMs = wbStateMs.wbMs
             wbMs.value = wbMs.value.removeAllWs()
-            wbStateMs.value.refresh()
+            wbStateMs.refresh()
         }
         return rt
     }

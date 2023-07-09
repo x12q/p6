@@ -72,16 +72,13 @@ fun main() {
                             acc.createNewWs(name) as WorkbookImp
                         }
                     }
-                    val wbStateMs1: Ms<WorkbookState> = ms(
-                        p6Comp.workbookStateFactory().createAndRefresh(
+                    val wbStateMs1: WorkbookState = p6Comp.workbookStateFactory().createAndRefresh(
                             wbMs = ms(wb1)
                         )
-                    )
-                    val wbStateMs2: Ms<WorkbookState> = ms(
-                        p6Comp.workbookStateFactory().createAndRefresh(
+
+                    val wbStateMs2: WorkbookState = p6Comp.workbookStateFactory().createAndRefresh(
                             wbMs = ms(wb2)
                         )
-                    )
 
                     appState.stateCont.wbStateContMs.apply {
                         this.value = this.value.addOrOverwriteWbState(wbStateMs1).addOrOverwriteWbState(wbStateMs2)
@@ -90,13 +87,13 @@ fun main() {
                         ms(
                             p6Comp.outerWindowStateFactory().create(
                                 p6Comp.windowStateFactory().create(
-                                    wbKeyMsSetMs = ms(listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet()),
+                                    wbKeyMsSetMs = ms(listOf(wbStateMs1, wbStateMs2).map { it.wbKeyMs }.toSet()),
                                     activeWorkbookPointerMs = ms(
                                         ActiveWorkbookPointerImp(
                                             listOf(
                                                 wbStateMs1,
                                                 wbStateMs2
-                                            ).map { it.value.wb.keyMs }.toSet().firstOrNull()
+                                            ).map { it.wb.keyMs }.toSet().firstOrNull()
                                         )
                                     )
                                 ) as WindowState

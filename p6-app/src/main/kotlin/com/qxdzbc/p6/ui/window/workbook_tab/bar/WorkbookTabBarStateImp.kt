@@ -13,9 +13,9 @@ class WorkbookTabBarStateImp(
         get() {
             return windowState.wbStateMsList.map {
                 WorkbookTabStateImp(
-                    wbKey =it.value.wbKey,
-                    isSelected =it.value.wbKey == windowState.activeWbPointer.wbKey,
-                    needSave = it.value.needSave
+                    wbKey =it.wbKey,
+                    isSelected =it.wbKey == windowState.activeWbPointer.wbKey,
+                    needSave = it.needSave
                 )
             }
         }

@@ -27,39 +27,39 @@ class CloseWorkbookActionImpTest : BaseAppStateTest() {
 
     @org.junit.Test
     fun internalApply_1() {
-        assertNotNull(sc.getWbStateMs(TestSample.wbk1))
+        assertNotNull(sc.getWbState(TestSample.wbk1))
         assertNotNull(sc.wbCont.getWb(TestSample.wbk1))
         closeWbAct.internalApply(res.wbKey, res.windowId)
-        assertNull(sc.getWbStateMs(TestSample.wbk1))
+        assertNull(sc.getWbState(TestSample.wbk1))
         assertNull(sc.wbCont.getWb(TestSample.wbk1))
     }
 
     @org.junit.Test
     fun `apply null window id`() {
         val res = this.res.copy(windowId = null)
-        assertNotNull(sc.getWbStateMs(TestSample.wbk1))
+        assertNotNull(sc.getWbState(TestSample.wbk1))
         assertNotNull(sc.wbCont.getWb(TestSample.wbk1))
 
         closeWbAct.internalApply(res.wbKey, null)
 
-        assertNull(sc.getWbStateMs(TestSample.wbk1))
+        assertNull(sc.getWbState(TestSample.wbk1))
         assertNull(sc.wbCont.getWb(TestSample.wbk1))
-        assertNull(sc.wbStateCont.getWbStateMs(TestSample.wbk1))
+        assertNull(sc.wbStateCont.getWbState(TestSample.wbk1))
     }
 
     @org.junit.Test
     fun `apply null window id invalid workbook key`() {
         val res = this.res.copy(windowId = null, wbKey = WorkbookKey("invalid"))
 
-        assertNotNull(sc.getWbStateMs(TestSample.wbk1))
-        assertNotNull(sc.getWbStateMs(TestSample.wbk2))
+        assertNotNull(sc.getWbState(TestSample.wbk1))
+        assertNotNull(sc.getWbState(TestSample.wbk2))
         assertNotNull(sc.wbCont.getWb(TestSample.wbk1))
         assertNotNull(sc.wbCont.getWb(TestSample.wbk2))
 
         closeWbAct.internalApply(res.wbKey, null)
 
-        assertNotNull(sc.getWbStateMs(TestSample.wbk1))
-        assertNotNull(sc.getWbStateMs(TestSample.wbk2))
+        assertNotNull(sc.getWbState(TestSample.wbk1))
+        assertNotNull(sc.getWbState(TestSample.wbk2))
         assertNotNull(sc.wbCont.getWb(TestSample.wbk1))
         assertNotNull(sc.wbCont.getWb(TestSample.wbk2))
     }

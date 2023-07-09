@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -98,7 +97,7 @@ class CloseWorkbookActionImp @Inject constructor(
             sc.getWindowStateMsByWbKey(request.wbKey)
         }
         if (windowState != null) {
-            val getWbRs = globalWbStateCont.getWbStateMsRs(request.wbKey)
+            val getWbRs = globalWbStateCont.getWbStateRs(request.wbKey)
             when (getWbRs) {
                 is Ok -> {
                     return CloseWorkbookResponse(

@@ -30,15 +30,6 @@ class SetActiveWorksheetApplierImp @Inject constructor(
                 }
             }
 
-            rs.newWbState?.also {
-                val wbStateMs = subAppStateContainer.getWbStateMs(k)
-                if(wbStateMs!=null){
-                    wbStateMs.value = it
-                }
-            }
-
-
-
         }.onFailure {
             errorRouter.publish(it)
         }

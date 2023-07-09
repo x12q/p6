@@ -10,7 +10,6 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
@@ -31,10 +30,10 @@ data class WorkbookContainerImp @Inject constructor(
 
     private var wbStateCont: WorkbookStateContainer by wbStateContMs
 
-    override val allWbs: List<Workbook> get() = wbStateCont.allStates.map { it.wb }
+    override val allWbs: List<Workbook> get() = wbStateCont.allWbStates.map { it.wb }
 
     override val allWbMs: List<Ms<Workbook>>
-        get() = wbStateCont.allStates.map{it.wbMs}
+        get() = wbStateCont.allWbStates.map{it.wbMs}
 
     override fun getWbMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<Workbook>> {
         return wbStateCont.getWbStateRs(wbKeySt).map { it.wbMs }
@@ -45,7 +44,7 @@ data class WorkbookContainerImp @Inject constructor(
     }
 
     override fun getWbMsRs(path: Path): Result<Ms<Workbook>, SingleErrorReport> {
-        val rt:Ms<Workbook>? = this.wbStateCont.allStates.firstOrNull { it.wbKey.path?.absolute() == path.absolute() }?.wbMs
+        val rt:Ms<Workbook>? = this.wbStateCont.allWbStates.firstOrNull { it.wbKey.path?.absolute() == path.absolute() }?.wbMs
         if (rt != null) {
             return Ok(rt)
         } else {
@@ -59,7 +58,7 @@ data class WorkbookContainerImp @Inject constructor(
         } else {
             val wbMs = ms(wb)
             val wbState: WorkbookState = wbStateFactory.createAndRefresh(wbMs)
-            this.wbStateCont = this.wbStateCont.addOrOverwriteWbState(wbState.toMs())
+            this.wbStateCont = this.wbStateCont.addOrOverwriteWbState(wbState)
             return Ok(this)
         }
     }
@@ -69,9 +68,9 @@ data class WorkbookContainerImp @Inject constructor(
     }
 
     override fun overwriteWBRs(wb: Workbook): Rse<WorkbookContainer> {
-        val wbStateMs: Ms<WorkbookState>? = this.wbStateCont.getWbStateMs(wb.key)
+        val wbStateMs: WorkbookState? = this.wbStateCont.getWbState(wb.key)
         if (wbStateMs != null) {
-            val rs: Rse<Unit> = wbStateMs.value.overWriteWbRs(wb)
+            val rs: Rse<Unit> = wbStateMs.overWriteWbRs(wb)
             return rs.map { this }
         } else {
             return WorkbookContainerErrors.InvalidWorkbook.report("Workbook at ${wb.key} does not exist, therefore, can't not be overwritten")

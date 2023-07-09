@@ -82,7 +82,7 @@ class SaveWorkbookActionImp @Inject constructor(
             is Ok -> {
                 if (wbKey.path != savedPath) {
                     // x: wb was saved to a new path, need to update its path
-                    sc.getWbStateMsRs(wbKey)
+                    sc.getWbStateRs(wbKey)
                         .onFailure {
                             if (publishError) {
                                 errorRouter.publishToWindow(it, wbKey)
@@ -97,12 +97,12 @@ class SaveWorkbookActionImp @Inject constructor(
                                     .publishErrToWindowIfNeed(errorRouter, windowId)
                             }
 
-                            wbStateMs.value.needSave = false
+                            wbStateMs.needSave = false
                         }
                 } else {
                     // x: same path, no need to update wb path
-                    sc.getWbStateMs(wbKey)?.also {
-                        it.value.needSave = false
+                    sc.getWbState(wbKey)?.also {
+                        it.needSave = false
                     }
                 }
             }

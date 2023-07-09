@@ -29,7 +29,7 @@ internal class RangeToClipboardActionImpTest {
         testSample = TestSample()
         appState = testSample.sampleAppState()
         stateCont = testSample.sc
-        wsStateMs = stateCont.getStateByWorkbookKey(TestSample.wbk1)!!.workbookStateMs!!.value.getWsStateMs("Sheet1")!!
+        wsStateMs = stateCont.getStateByWorkbookKey(TestSample.wbk1)!!.workbookStateMs!!.getWsStateMs("Sheet1")!!
         wsRequestMaker = mock()
         cellRM = mock()
     }

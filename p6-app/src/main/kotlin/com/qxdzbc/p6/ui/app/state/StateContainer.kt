@@ -17,6 +17,7 @@ import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateGetter
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
@@ -35,7 +36,7 @@ import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.state.TextSizeSelecto
 /**
  * top-level state container, can access all state + document in the app
  */
-interface StateContainer : DocumentContainer {
+interface StateContainer : DocumentContainer, WorkbookStateGetter {
 
     val activeWindowPointer: ActiveWindowPointer
 
@@ -60,7 +61,6 @@ interface StateContainer : DocumentContainer {
     fun getActiveCursorStateMs(): Ms<CursorState>?
     fun getActiveCursorState(): CursorState?
 
-    fun getActiveWbStateMs(): Ms<WorkbookState>?
     fun getActiveWbState(): WorkbookState?
 
     fun getUndoStackMs(wbwsSt: WbWsSt):Ms<CommandStack>?
@@ -141,16 +141,6 @@ interface StateContainer : DocumentContainer {
     fun addWindowState(windowState: WindowState)
     fun createNewWindowStateMs(): Ms<OuterWindowState>
     fun createNewWindowStateMs(windowId: String): Ms<OuterWindowState>
-
-    fun getWbStateMsRs(wbKeySt: St<WorkbookKey>): Rse<Ms<WorkbookState>>
-    fun getWbStateMs(wbKeySt: St<WorkbookKey>): Ms<WorkbookState>?
-    fun getWbStateRs(wbKeySt: St<WorkbookKey>): Rse<WorkbookState>
-    fun getWbState(wbKeySt: St<WorkbookKey>): WorkbookState?
-
-    fun getWbStateMsRs(wbKey: WorkbookKey): Rse<Ms<WorkbookState>>
-    fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState>
-    fun getWbStateMs(wbKey: WorkbookKey): Ms<WorkbookState>?
-    fun getWbState(wbKey: WorkbookKey): WorkbookState?
 
     fun getWsStateMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<WorksheetState>>
     fun getWsStateRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<WorksheetState>

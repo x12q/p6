@@ -138,8 +138,8 @@ data class LoadWorkbookActionImp @Inject constructor(
                     val windowState = windowStateMsRs.value
                     val wbk = workbook.key
                     val wbkMs = workbook.keyMs
-                    wbStateCont.getWbStateMs(wbk)?.also {
-                        it.value.let{
+                    wbStateCont.getWbState(wbk)?.also {
+                        it.let{
                             it.windowId = windowId
                             it.needSave = false
                         }
@@ -153,13 +153,13 @@ data class LoadWorkbookActionImp @Inject constructor(
                     val newWindowId = windowId ?: UUID.randomUUID().toString()
                     val newOuterWindowStateMs = sc.createNewWindowStateMs(newWindowId)
                     val newWindowStateMs = newOuterWindowStateMs.value.innerWindowState
-                    wbStateCont.getWbStateMs(workbook.key)?.also {
-                        it.value.let{
+                    wbStateCont.getWbState(workbook.key)?.also {
+                        it.let{
                             it.windowId = newWindowId
                             it.needSave = false
                         }
                         newWindowStateMs.activeWbPointerMs.value =
-                            newWindowStateMs.activeWbPointer.pointTo(it.value.wbKeyMs)
+                            newWindowStateMs.activeWbPointer.pointTo(it.wbKeyMs)
                     }
                     newWindowStateMs.addWbKey(workbook.keyMs)
                 }

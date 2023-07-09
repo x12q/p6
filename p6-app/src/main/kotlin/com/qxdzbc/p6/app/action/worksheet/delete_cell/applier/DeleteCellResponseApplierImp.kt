@@ -32,7 +32,7 @@ class DeleteCellResponseApplierImp @Inject constructor(
         newWb: Workbook?
     ) {
         newWb?.key?.also { newWbKey ->
-            stateCont.getWbStateMs(wbKey)?.value?.also {
+            stateCont.getWbState(wbKey)?.also {
                 it.setWorkbookKeyAndRefreshState(newWbKey)
                 it.needSave = true
             }

@@ -33,11 +33,11 @@ import kotlinx.coroutines.GlobalScope
 import test.di.DaggerTestComponent
 
 
-class TestSample: TestAppScope {
-    val activeWindowPointer get()=comp.activeWindowPointer
+class TestSample : TestAppScope {
+    val activeWindowPointer get() = comp.activeWindowPointer
 
-    val wb1Ws1St get()=this.sc.getWbWsSt(wbKey1,wsn1)!!
-    val wb2Ws1St get()=this.sc.getWbWsSt(wbKey2,wsn1)!!
+    val wb1Ws1St get() = this.sc.getWbWsSt(wbKey1, wsn1)!!
+    val wb2Ws1St get() = this.sc.getWbWsSt(wbKey2, wsn1)!!
 
     val wsn1 = TestSample.wsn1
     val wsn2 = TestSample.wsn2
@@ -74,16 +74,18 @@ class TestSample: TestAppScope {
         fun mockTranslatorGetter(wbKey: WorkbookKey, wsName: String): P6Translator<ExUnit> {
             return mockTranslator
         }
+
         fun mockTranslatorGetter2(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit> {
             return mockTranslator
         }
-        fun mockTranslatorGetter3(wbwsSt:WbWsSt): P6Translator<ExUnit> {
+
+        fun mockTranslatorGetter3(wbwsSt: WbWsSt): P6Translator<ExUnit> {
             return mockTranslator
         }
     }
 
-    val window1Id:String get() = sc.windowStateMsList[0].id
-    val window2Id:String get() = sc.windowStateMsList[1].id
+    val window1Id: String get() = sc.windowStateMsList[0].id
+    val window2Id: String get() = sc.windowStateMsList[1].id
 
     val kernelCoroutineScope: CoroutineScope = GlobalScope
 
@@ -102,34 +104,30 @@ class TestSample: TestAppScope {
     }
 
 
-    private fun makeSampleWbState1(): Ms<WorkbookState> {
-        return ms(
-            comp.workbookStateFactory().createAndRefresh(
-                wbMs = ms(
-                    WorkbookImp(
-                        keyMs = wbKey1Ms,
-                    ).addMultiSheetOrOverwrite(
-                        listOf(
-                            WorksheetImp(wsn1.toMs(), wbKeySt = wbKey1Ms),
-                            WorksheetImp(wsn2.toMs(), wbKey1Ms)
-                        )
+    private fun makeSampleWbState1(): WorkbookState {
+        return comp.workbookStateFactory().createAndRefresh(
+            wbMs = ms(
+                WorkbookImp(
+                    keyMs = wbKey1Ms,
+                ).addMultiSheetOrOverwrite(
+                    listOf(
+                        WorksheetImp(wsn1.toMs(), wbKeySt = wbKey1Ms),
+                        WorksheetImp(wsn2.toMs(), wbKey1Ms)
                     )
                 )
             )
         )
     }
 
-    private fun makeSampleWBState(wbKeyMs: Ms<WorkbookKey>): Ms<WorkbookState> {
-        return ms(
-            comp.workbookStateFactory().createAndRefresh(
-                wbMs = ms(
-                    WorkbookImp(
-                        keyMs = wbKeyMs,
-                    ).addMultiSheetOrOverwrite(
-                        listOf<Worksheet>(
-                            WorksheetImp(wsn1.toMs(), wbKey2Ms),
-                            WorksheetImp(wsn2.toMs(), wbKey2Ms)
-                        )
+    private fun makeSampleWBState(wbKeyMs: Ms<WorkbookKey>): WorkbookState {
+        return comp.workbookStateFactory().createAndRefresh(
+            wbMs = ms(
+                WorkbookImp(
+                    keyMs = wbKeyMs,
+                ).addMultiSheetOrOverwrite(
+                    listOf<Worksheet>(
+                        WorksheetImp(wsn1.toMs(), wbKey2Ms),
+                        WorksheetImp(wsn2.toMs(), wbKey2Ms)
                     )
                 )
             )
@@ -145,23 +143,23 @@ class TestSample: TestAppScope {
     }
 
     private fun makeSampleWindowStateMs1(): Ms<OuterWindowState> {
-        val inner:WindowState = comp.windowStateFactory().createDefault(
-                listOf(wbKey1Ms, wbKey2Ms).toSet()
-            )
+        val inner: WindowState = comp.windowStateFactory().createDefault(
+            listOf(wbKey1Ms, wbKey2Ms).toSet()
+        )
 
         return ms(comp.outerWindowStateFactory().create(inner))
     }
 
     private fun makeSampleWindowStateMs2(): Ms<OuterWindowState> {
 
-        val inner :WindowState = comp.windowStateFactory().createDefault(
-                listOf(wbKey3Ms, wbKey4Ms).toSet()
-            )
+        val inner: WindowState = comp.windowStateFactory().createDefault(
+            listOf(wbKey3Ms, wbKey4Ms).toSet()
+        )
 
         return ms(comp.outerWindowStateFactory().create(inner))
     }
 
-    override val ts: TestSample=this
+    override val ts: TestSample = this
     override var appState = comp.appState()
     override val sc: StateContainer
         get() = comp.stateContainer
@@ -170,15 +168,15 @@ class TestSample: TestAppScope {
 
     val wbContMs = sc.wbContMs
 
-    val wb1Ms get()= this.wbContMs.value.getWbMs(wbKey1Ms)!!
-    val wb1 get() =wb1Ms.value
-    val wb2Ms get()= this.wbContMs.value.getWbMs(wbKey2Ms)!!
-    val wb2 get()= wb2Ms.value
+    val wb1Ms get() = this.wbContMs.value.getWbMs(wbKey1Ms)!!
+    val wb1 get() = wb1Ms.value
+    val wb2Ms get() = this.wbContMs.value.getWbMs(wbKey2Ms)!!
+    val wb2 get() = wb2Ms.value
 
     init {
         sc.wbStateContMs.value = makeSampleWbStateContMs()
         val windowState1 = makeSampleWindowStateMs1()
-        val windowState2= makeSampleWindowStateMs2()
+        val windowState2 = makeSampleWindowStateMs2()
         appState.stateCont.apply {
             addOuterWindowState(windowState1)
             addOuterWindowState(windowState2)

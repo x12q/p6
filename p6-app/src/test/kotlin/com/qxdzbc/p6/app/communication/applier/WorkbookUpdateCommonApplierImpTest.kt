@@ -22,7 +22,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     lateinit var ts:TestSample
     lateinit var appState: AppState
     val workbook: Workbook get() = ts.sc.wbCont.getWb(TestSample.wbk1)!!
-    lateinit var workbookStateMs: Ms<WorkbookState>
+    lateinit var workbookStateMs: WorkbookState
     lateinit var windowState: WindowState
     lateinit var s1: Worksheet
     lateinit var s2: Worksheet
@@ -82,7 +82,7 @@ internal class WorkbookUpdateCommonApplierImpTest {
     private fun stateIsUnchanged() {
         assertEquals(s2.name, workbook.getWs(1)?.name)
         assertEquals(s1.name, workbook.getWs(0)?.name)
-        assertEquals(s1.name, workbookStateMs.value.activeSheetPointer.wsName)
+        assertEquals(s1.name, workbookStateMs.activeSheetPointer.wsName)
         assertNotNull(workbook.getWs(s1.name))
         assertNotNull(workbook.getWs(s2.name))
         assertTrue { appState.appErrorContainer.isEmpty() }

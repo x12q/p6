@@ -57,10 +57,10 @@ class NewWorksheetActionImp @Inject constructor(
         rt.map {
             val newWb = it.newWb
             dc.replaceWb(newWb)
-            sc.getWbStateMsRs(newWb.key)
+            sc.getWbStateRs(newWb.key)
                 .onSuccess { wbStateMs ->
-                    wbStateMs.value.refreshWsState()
-                    wbStateMs.value.needSave = true
+                    wbStateMs.refreshWsState()
+                    wbStateMs.needSave = true
                 }
         }
         if (publishError) {
