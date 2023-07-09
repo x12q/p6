@@ -19,7 +19,6 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.FalseMs
-import com.qxdzbc.p6.di.state.wb.DefaultWsStateMap
 import com.qxdzbc.p6.di.state.ws.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
@@ -38,20 +37,43 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-data class WorkbookStateImp @AssistedInject constructor(
-    @Assisted("1") override val wbMs: Ms<Workbook>,
-    @Assisted("2") val windowIdMs: Ms<String?>,
-    // ======================================= //
-    @DefaultWsStateMap
-    override val wsStateMap: Map<St<@JvmSuppressWildcards String>, @JvmSuppressWildcards MutableState<WorksheetState>>,
-    @DefaultActiveWorksheetPointer
+data class WorkbookStateImp (
+    override val wbMs: Ms<Workbook>,
+    val windowIdMs: Ms<String?>,
+    private val wsStateMapMs: Ms<Map<St<String>, MutableState<WorksheetState>>>,
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
-    @FalseMs private val needSaveMs: Ms<Boolean>,
+    private val needSaveMs: Ms<Boolean>,
     private val wsStateFactory: WorksheetStateFactory,
     private val gridSliderFactory: LimitedGridSliderFactory,
     private val cursorStateFactory: CursorStateFactory,
     private val thumbStateFactory: ThumbStateFactory,
 ) : BaseWorkbookState() {
+
+    @AssistedInject
+    constructor(
+        @Assisted("1") wbMs: Ms<Workbook>,
+        @Assisted("2") windowIdMs: Ms<String?>,
+        // ======================================= //
+        @DefaultActiveWorksheetPointer
+        activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
+        @FalseMs needSaveMs: Ms<Boolean>,
+        wsStateFactory: WorksheetStateFactory,
+        gridSliderFactory: LimitedGridSliderFactory,
+        cursorStateFactory: CursorStateFactory,
+        thumbStateFactory: ThumbStateFactory,
+    ) : this(
+        wbMs = wbMs,
+        windowIdMs = windowIdMs,
+        wsStateMapMs = ms(emptyMap()),
+        activeSheetPointerMs = activeSheetPointerMs,
+        needSaveMs = needSaveMs,
+        wsStateFactory = wsStateFactory,
+        gridSliderFactory = gridSliderFactory,
+        cursorStateFactory = cursorStateFactory,
+        thumbStateFactory = thumbStateFactory
+    )
+
+    override val wsStateMap: Map<St<String>, MutableState<WorksheetState>> by wsStateMapMs
 
     override var windowId: String? by windowIdMs
 
@@ -149,7 +171,8 @@ data class WorkbookStateImp @AssistedInject constructor(
                 newStateMap = newStateMap + (newState.value.wsNameSt to newState)
             }
         }
-        return this.copy(wsStateMap = newStateMap)
+        wsStateMapMs.value = newStateMap
+        return this
     }
 
     override fun refreshWsPointer(): WorkbookState {
@@ -224,7 +247,7 @@ data class WorkbookStateImp @AssistedInject constructor(
     }
 
     companion object {
-        fun default(
+        fun forTesting(
             wbMs: Ms<Workbook>,
             wsStateFactory: WorksheetStateFactory,
             gridSliderFactory: LimitedGridSliderFactory,
@@ -232,7 +255,7 @@ data class WorkbookStateImp @AssistedInject constructor(
             thumbStateFactory: ThumbStateFactory,
         ): WorkbookStateImp {
             val activeSheetName = wbMs.value.getWs(0)?.nameMs
-            return default(
+            return forTesting(
                 wbMs = wbMs,
                 activeSheetPointerMs = ms(ActiveWorksheetPointerImp(activeSheetName)),
                 wsStateFactory = wsStateFactory,
@@ -242,7 +265,7 @@ data class WorkbookStateImp @AssistedInject constructor(
             )
         }
 
-        fun default(
+        fun forTesting(
             wbMs: Ms<Workbook>,
             activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
             wsStateFactory: WorksheetStateFactory,
@@ -285,7 +308,7 @@ data class WorkbookStateImp @AssistedInject constructor(
             return WorkbookStateImp(
                 wbMs = wbMs,
                 activeSheetPointerMs = activeSheetPointerMs,
-                wsStateMap = wsStateMap,
+                wsStateMapMs = ms(wsStateMap),
                 wsStateFactory = wsStateFactory,
                 gridSliderFactory = gridSliderFactory,
                 cursorStateFactory = cursorStateFactory,
