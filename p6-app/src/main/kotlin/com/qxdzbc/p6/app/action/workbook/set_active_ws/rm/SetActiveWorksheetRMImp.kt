@@ -29,19 +29,18 @@ class SetActiveWorksheetRMImp @Inject constructor(
 
     override fun setActiveWs(request: SetActiveWorksheetRequest): RseNav<SetActiveWorksheetResponse2> {
         val wbk = request.wbKey
-        val wbStateMs = subAppStateCont
-            .getWbStateMs(wbk)?.value
-            ?.setActiveSheet(request.wsName)
+        val wbState = subAppStateCont.getWbState(wbk)
+        wbState?.setActiveSheet(request.wsName)
         val wdState = subAppStateCont.getWindowStateMsByWbKey(wbk)
         activeWindowPointer
             .pointTo(wdState?.id)
         val newActiveWbPointer = wdState
             ?.activeWbPointer
-            ?.pointTo(wbStateMs?.wbKeyMs)
+            ?.pointTo(wbState?.wbKeyMs)
         val rt = Ok(
             SetActiveWorksheetResponse2(
                 request = request,
-                newWbState = wbStateMs,
+                newWbState = wbState,
                 newActiveWindowPointer = activeWindowPointer,
                 newActiveWbPointer = newActiveWbPointer,
             )

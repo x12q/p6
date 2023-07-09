@@ -1,13 +1,10 @@
 package com.qxdzbc.p6.app.action.cell.multi_cell_update
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChanged
-import com.qxdzbc.p6.di.AppCoroutineScope
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
@@ -16,7 +13,6 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 @P6Singleton
@@ -86,7 +82,7 @@ class UpdateMultiCellActionImp @Inject constructor(
                 }
                 sc.wbStateCont.allStatesMs.forEach {
                     it.value.wbMs.value = it.value.wb.reRunAndRefreshDisplayText()
-                    it.value = it.value.refresh()
+                    it.value.refresh()
                 }
             }
             err ?: Ok(Unit)

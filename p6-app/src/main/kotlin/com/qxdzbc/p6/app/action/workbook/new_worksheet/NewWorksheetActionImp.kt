@@ -59,7 +59,8 @@ class NewWorksheetActionImp @Inject constructor(
             dc.replaceWb(newWb)
             sc.getWbStateMsRs(newWb.key)
                 .onSuccess { wbStateMs ->
-                    wbStateMs.value.refreshWsState().needSave = (true)
+                    wbStateMs.value.refreshWsState()
+                    wbStateMs.value.needSave = true
                 }
         }
         if (publishError) {

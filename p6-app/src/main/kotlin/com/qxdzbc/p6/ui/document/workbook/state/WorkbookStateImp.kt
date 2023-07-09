@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.ErrorUtils.getOrThrow
-import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -122,16 +121,16 @@ data class WorkbookStateImp (
             ?: Err(WorkbookStateErrors.WorksheetStateNotExist.report("Worksheet state for \"${wsNameSt.value}\" does not exist"))
     }
 
-    override fun setActiveSheet(sheetName: String): WorkbookState {
+    override fun setActiveSheet(sheetName: String) {
         val ws = this.wb.getWs(sheetName)
         if (ws != null) {
             this.activeSheetPointer = this.activeSheetPointer.pointTo(ws.nameMs)
         }
-        return this
     }
 
-    override fun refresh(): WorkbookState {
-        return this.refreshWsPointer().refreshWsState()
+    override fun refresh() {
+        this.refreshWsPointer()
+        this.refreshWsState()
     }
 
     override var wb: Workbook by wbMs
@@ -145,17 +144,16 @@ data class WorkbookStateImp (
     /**
      * point the workbook inside this state to a new workbook key, then refresh the state.
      */
-    override fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey): WorkbookState {
+    override fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey) {
         val newWb = wb.setKey(newWbKey)
         this.wb = newWb
         // Assign new active sheet name if need
         val newActiveSheetName = this.pickActiveSheet(newWb)
         activeSheetPointer = activeSheetPointer.pointTo(newActiveSheetName)
-        val rt = this.refreshWsState()
-        return rt
+        this.refreshWsState()
     }
 
-    override fun refreshWsState(): WorkbookState {
+    override fun refreshWsState() {
         var newStateMap: Map<St<String>, MutableState<WorksheetState>> = mutableMapOf()
         val sheetList: List<Ms<Worksheet>> = this.wb.worksheetMsList
         for (wsMs: Ms<Worksheet> in sheetList) {
@@ -172,30 +170,25 @@ data class WorkbookStateImp (
             }
         }
         wsStateMapMs.value = newStateMap
-        return this
     }
 
-    override fun refreshWsPointer(): WorkbookState {
+    override fun refreshWsPointer() {
         val wb = this.wb
         val currentActiveSheetName = this.activeSheetPointer.wsName
         if (currentActiveSheetName != null) {
             if (wb.containSheet(currentActiveSheetName)) {
-                return this
             } else {
                 val activeSheetName = wb.getWs(0)?.nameMs
                 this.activeSheetPointer = this.activeSheetPointer.pointTo(activeSheetName)
-                return this
             }
         } else {
             val activeSheetName = wb.getWs(0)?.nameMs
             this.activeSheetPointer = this.activeSheetPointer.pointTo(activeSheetName)
-            return this
         }
     }
 
-    override fun setWbKey(newWbKey: WorkbookKey): WorkbookState {
+    override fun setWbKey(newWbKey: WorkbookKey) {
         this.wb = this.wb.setKey(newWbKey)
-        return this
     }
 
     /**
@@ -228,18 +221,16 @@ data class WorkbookStateImp (
         return ms(wsState.refreshCellState())
     }
 
-    /**
-     * TODO reconsider throwing exception here, it will crash the app?
-     */
     @Throws(Exception::class)
-    override fun overWriteWb(newWb: Workbook): WorkbookState {
+    override fun overWriteWb(newWb: Workbook) {
         return this.overWriteWbRs(newWb).getOrThrow()
     }
 
-    override fun overWriteWbRs(newWb: Workbook): Rse<WorkbookState> {
+    override fun overWriteWbRs(newWb: Workbook): Rse<Unit> {
         if (newWb.key == this.wb.key) {
             this.wb = newWb
-            return this.refresh().toOk()
+            this.refresh()
+            return Ok(Unit)
         } else {
             return WorkbookStateErrors.CantOverWriteWorkbook.report("Can't overwrite workbook of this state (${this.wb.key}) because the workbook keys do not match")
                 .toErr()

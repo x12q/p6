@@ -9,11 +9,12 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteCellResponseApplierImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    private val stateCont:StateContainer,
+    private val stateCont: StateContainer,
 ) : DeleteCellResponseApplier {
     override fun applyRes(res: DeleteCellResponse?) {
         if (res != null) {
@@ -30,9 +31,10 @@ class DeleteCellResponseApplierImp @Inject constructor(
         wbKey: WorkbookKey,
         newWb: Workbook?
     ) {
-        newWb?.key?.also{ newWbKey->
-            stateCont.getWbStateMs(wbKey)?.also{
-                it.value.setWorkbookKeyAndRefreshState(newWbKey).needSave = true
+        newWb?.key?.also { newWbKey ->
+            stateCont.getWbStateMs(wbKey)?.value?.also {
+                it.setWorkbookKeyAndRefreshState(newWbKey)
+                it.needSave = true
             }
         }
     }

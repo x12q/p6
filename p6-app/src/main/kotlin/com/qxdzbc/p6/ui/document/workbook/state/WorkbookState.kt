@@ -21,14 +21,15 @@ interface WorkbookState : CanConvertToWorkbookProto{
 
     val wsStateMap: Map<St<String>, MutableState<WorksheetState>>
 
-    fun overWriteWb(newWb:Workbook):WorkbookState
-    fun overWriteWbRs(newWb:Workbook): Rse<WorkbookState>
+    fun overWriteWb(newWb:Workbook)
+
+    fun overWriteWbRs(newWb:Workbook): Rse<Unit>
 
     /**
      * Some child state objects (Ws pointer and Ws state) contain a pseudo state variable to force refreshing.
      * This function invokes all the refresh functions of such objects.
      */
-    fun refresh():WorkbookState
+    fun refresh()
 
     /**
      * whether this workbook holds unsaved content or not
@@ -48,12 +49,12 @@ interface WorkbookState : CanConvertToWorkbookProto{
     /**
      * Find the workbook having key == [newWbKey], and tied this state to that [Workbook]
      */
-    fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey): WorkbookState
+    fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey)
 
     /**
      * refresh all child states so that the view state reflect the underlying data.
      */
-    fun refreshWsState():WorkbookState
+    fun refreshWsState()
 
     /**
      * A list of all worksheet state
@@ -95,11 +96,11 @@ interface WorkbookState : CanConvertToWorkbookProto{
     /**
      * set active worksheet by name
      */
-    fun setActiveSheet(sheetName: String): WorkbookState
+    fun setActiveSheet(sheetName: String)
 
     /**
      * set workbook key, effectively point this state to another workbook
      */
-    fun setWbKey(newWbKey: WorkbookKey): WorkbookState
-    fun refreshWsPointer(): WorkbookState
+    fun setWbKey(newWbKey: WorkbookKey)
+    fun refreshWsPointer()
 }

@@ -71,14 +71,8 @@ data class WorkbookContainerImp @Inject constructor(
     override fun overwriteWBRs(wb: Workbook): Rse<WorkbookContainer> {
         val wbStateMs: Ms<WorkbookState>? = this.wbStateCont.getWbStateMs(wb.key)
         if (wbStateMs != null) {
-            val rs: Rse<WorkbookState> = wbStateMs.value.overWriteWbRs(wb)
-            when (rs) {
-                is Ok -> {
-                    wbStateMs.value = rs.value
-                    return Ok(this)
-                }
-                is Err -> return rs
-            }
+            val rs: Rse<Unit> = wbStateMs.value.overWriteWbRs(wb)
+            return rs.map { this }
         } else {
             return WorkbookContainerErrors.InvalidWorkbook.report("Workbook at ${wb.key} does not exist, therefore, can't not be overwritten")
                 .toErr()

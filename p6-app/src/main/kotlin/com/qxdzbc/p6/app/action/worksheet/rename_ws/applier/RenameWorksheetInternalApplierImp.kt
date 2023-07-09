@@ -50,7 +50,8 @@ class RenameWorksheetInternalApplierImp
                             // x: preserve active sheet pointer if it was pointing to the old name
                             dc.replaceWb(newWb)
                             if (newWbState.activeSheetPointer.isPointingTo(oldName)) {
-                                newWbState.setActiveSheet(newName).needSave = true
+                                newWbState.setActiveSheet(newName)
+                                newWbState.needSave = true
                             }
                             it.workbookStateMs.value = newWbState
                         } else {

@@ -3,7 +3,6 @@ package com.qxdzbc.p6.ui.document.workbook.state.cont
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.map
-import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -79,7 +78,7 @@ data class WorkbookStateContainerImp constructor(
 
     override fun replaceKeyRs(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): Rse<WorkbookStateContainer> {
         val rt = this.getWbStateMsRs(oldWbKey).map { wbStateMs ->
-            wbStateMs.value = wbStateMs.value.setWbKey(newWbKey)
+            wbStateMs.value.setWbKey(newWbKey)
             this.removeWbState(oldWbKey).addOrOverwriteWbState(wbStateMs)
         }
         return rt

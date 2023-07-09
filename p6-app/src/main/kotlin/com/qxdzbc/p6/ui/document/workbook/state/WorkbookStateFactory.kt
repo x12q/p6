@@ -24,7 +24,9 @@ interface WorkbookStateFactory {
             return this.create(
                 wbMs,
                 ms(null),
-            ).refresh()
+            ).apply {
+                refresh()
+            }
         }
     }
 }
