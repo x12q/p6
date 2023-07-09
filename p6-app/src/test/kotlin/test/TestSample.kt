@@ -135,11 +135,13 @@ class TestSample : TestAppScope {
     }
 
     private fun setupSampleWbStateContMs(): WorkbookStateContainer {
-        return sc.wbStateCont.removeAll()
-            .addOrOverwriteWbState(makeSampleWbState1())
-            .addOrOverwriteWbState(makeSampleWBState(wbKey2Ms))
-            .addOrOverwriteWbState(makeSampleWBState(wbKey3Ms))
-            .addOrOverwriteWbState(makeSampleWBState(wbKey4Ms))
+        return sc.wbStateCont.apply{
+            removeAll()
+            addOrOverwriteWbState(makeSampleWbState1())
+            addOrOverwriteWbState(makeSampleWBState(wbKey2Ms))
+            addOrOverwriteWbState(makeSampleWBState(wbKey3Ms))
+            addOrOverwriteWbState(makeSampleWBState(wbKey4Ms))
+        }
     }
 
     private fun makeSampleWindowStateMs1(): Ms<OuterWindowState> {

@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.document.wb_container
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.ErrorUtils.getOrThrow
 import com.qxdzbc.common.ResultUtils.toOk
@@ -58,7 +56,7 @@ data class WorkbookContainerImp @Inject constructor(
         } else {
             val wbMs = ms(wb)
             val wbState: WorkbookState = wbStateFactory.createAndRefresh(wbMs)
-            this.wbStateCont = this.wbStateCont.addOrOverwriteWbState(wbState)
+            this.wbStateCont.addOrOverwriteWbState(wbState)
             return Ok(this)
         }
     }
@@ -98,12 +96,12 @@ data class WorkbookContainerImp @Inject constructor(
     }
 
     override fun removeWbRs(wbKey: WorkbookKey): Rse<WorkbookContainer> {
-        this.wbStateCont = this.wbStateCont.removeWbState(wbKey)
+        this.wbStateCont.removeWbState(wbKey)
         return Ok(this)
     }
 
     override fun removeAll(): WorkbookContainer {
-        this.wbStateCont = this.wbStateCont.removeAll()
+        this.wbStateCont.removeAll()
         return this
     }
 
@@ -116,7 +114,6 @@ data class WorkbookContainerImp @Inject constructor(
     }
 
     override fun replaceKeyRs(oldKey: WorkbookKey, newKey: WorkbookKey): Rse<WorkbookContainer> {
-        this.wbStateCont = this.wbStateCont.replaceKey(oldKey, newKey)
-        return this.toOk()
+        return this.wbStateCont.replaceKeyRs(oldKey,newKey).map{this}
     }
 }

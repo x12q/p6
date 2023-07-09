@@ -23,7 +23,12 @@ class WorkbookContainerImpTest{
         val workbookList = listOf(wb1, wb2, wb3)
         wbList=workbookList
         val wbsContMs=testSample.sc.wbStateCont
-        wbsContMs.removeAll().createNewWbState(wb1).createNewWbState(wb2).createNewWbState(wb3)
+        wbsContMs.apply{
+            removeAll()
+            createNewWbState(wb1)
+            createNewWbState(wb2)
+            createNewWbState(wb3)
+        }
 
         cont = WorkbookContainerImp(testSample.sc.wbStateCont,testSample.comp.workbookStateFactory())
     }

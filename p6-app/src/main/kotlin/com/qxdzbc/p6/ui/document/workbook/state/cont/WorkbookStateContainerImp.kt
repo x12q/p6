@@ -16,11 +16,10 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class, boundType = WorkbookStateContainer::class)
-data class WorkbookStateContainerImp (
+data class WorkbookStateContainerImp(
     private val wbStateFactory: WorkbookStateFactory,
     val mapMs: Ms<Map<St<WorkbookKey>, WorkbookState>>,
     private val pseudoVar: Boolean,
@@ -29,7 +28,7 @@ data class WorkbookStateContainerImp (
     @Inject
     constructor(
         wbStateFactory: WorkbookStateFactory
-    ):this(wbStateFactory,ms(emptyMap()),false)
+    ) : this(wbStateFactory, ms(emptyMap()), false)
 
     val map: Map<St<WorkbookKey>, WorkbookState> by mapMs
 
@@ -59,51 +58,40 @@ data class WorkbookStateContainerImp (
         )
     }
 
-    override fun addOrOverwriteWbState(wbStateMs: WorkbookState): WorkbookStateContainer {
+    override fun addOrOverwriteWbState(wbStateMs: WorkbookState) {
         val newMap = this.map + (wbStateMs.wb.keyMs to wbStateMs)
         mapMs.value = newMap
-        return this
     }
 
-    override fun removeWbState(wbKey: WorkbookKey): WorkbookStateContainer {
+    override fun removeWbState(wbKey: WorkbookKey) {
         mapMs.value = map.filter { it.key.value != wbKey }
-        return this
     }
 
-    /**
-     * Create a pseudo copy
-     */
-    private fun forceRefresh(): WorkbookStateContainer {
-        return this
-    }
-
-    override fun updateWbState(newWbState: WorkbookState): WorkbookStateContainer {
+    override fun updateWbState(newWbState: WorkbookState) {
         val sms = this.getWbState(newWbState.wbKey)
-        if (sms != null) {
-            return forceRefresh()
-        } else {
-            return this.addOrOverwriteWbState(newWbState)
+        if (sms == null) {
+            this.addOrOverwriteWbState(newWbState)
         }
     }
 
-    override fun removeAll(): WorkbookStateContainer {
+    override fun removeAll() {
         mapMs.value = emptyMap()
-        return this
     }
 
-    override fun replaceKeyRs(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): Rse<WorkbookStateContainer> {
+    override fun replaceKeyRs(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): Rse<Unit> {
         val rt = this.getWbStateRs(oldWbKey).map { wbStateMs ->
             wbStateMs.setWbKey(newWbKey)
-            this.removeWbState(oldWbKey).addOrOverwriteWbState(wbStateMs)
+            this.removeWbState(oldWbKey)
+            this.addOrOverwriteWbState(wbStateMs)
         }
         return rt
     }
 
-    override fun replaceKey(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): WorkbookStateContainer {
-        return replaceKeyRs(oldWbKey, newWbKey).component1() ?: this
+    override fun replaceKey(oldWbKey: WorkbookKey, newWbKey: WorkbookKey) {
+        replaceKeyRs(oldWbKey, newWbKey)
     }
 
-    override fun createNewWbStateRs(wb: Workbook): Rse<WorkbookStateContainer> {
+    override fun createNewWbStateRs(wb: Workbook): Rse<Unit> {
         if (this.containWbKey(wb.key)) {
             return WorkbookStateContainerErrors.WorkbookStateAlreadyExist.report("Can't create new workbook state for ${wb.key} because a state for such key already exist")
                 .toErr()

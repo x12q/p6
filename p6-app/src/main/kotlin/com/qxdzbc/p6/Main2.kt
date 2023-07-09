@@ -79,9 +79,11 @@ fun main() {
                             wbMs = ms(wb2)
                         )
 
-                    appState.stateCont.wbStateCont
-                        .addOrOverwriteWbState(wbStateMs1)
-                        .addOrOverwriteWbState(wbStateMs2)
+                    appState.stateCont.wbStateCont.apply{
+                        addOrOverwriteWbState(wbStateMs1)
+                        addOrOverwriteWbState(wbStateMs2)
+                    }
+
                     val zz = listOf(
                         ms(
                             p6Comp.outerWindowStateFactory().create(

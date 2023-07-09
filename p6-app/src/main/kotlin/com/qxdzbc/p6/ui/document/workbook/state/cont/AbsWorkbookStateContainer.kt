@@ -10,7 +10,7 @@ import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 abstract class AbsWorkbookStateContainer : WorkbookStateContainer {
 
     @Throws(Exception::class)
-    override fun createNewWbState(wb: Workbook): WorkbookStateContainer {
+    override fun createNewWbState(wb: Workbook) {
         return this.createNewWbStateRs(wb).getOrThrow()
     }
 
