@@ -144,14 +144,14 @@ class IntegrationTest {
                 )
             ).map { ms(it) }
         )
-        wbCont = wbCont.addWb(wb)
+        wbCont.addWb(wb)
 
         val wb2 = wb.reRun()
         assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.value)
 
         val newWs = wb2.getWs(wsNameSt)!!.removeCell(CellAddress("A2"))
         val wb3 = wb2.addSheetOrOverwrite(newWs).reRun()
-        wbCont = wbCont.overwriteWB(wb3)
+        wbCont.overwriteWB(wb3)
         val wb4 = wb3.reRun()
 
         assertEquals(4.0, wb4.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.value)

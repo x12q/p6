@@ -89,10 +89,10 @@ class ExUnitFormulaTranslator_Integration_Test {
         )
 
         ts.appState
-        var wbc: WorkbookContainer by ts.sc.wbContMs
-        wbc = wbc.removeAll()
-        wbc = wbl.fold(wbc) { acc, wb ->
-            acc.addWb(wb)
+        val wbc: WorkbookContainer by ts.sc.wbContMs
+        wbc.removeAll()
+        wbl.forEach { wb ->
+            wbc.addWb(wb)
         }
 
         appStateMs = ts.sampleAppState(wbCont)

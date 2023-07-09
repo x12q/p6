@@ -370,7 +370,7 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun replaceWb(newWb: Workbook) {
-        wbCont = wbCont.overwriteWB(newWb)
+        wbCont.overwriteWB(newWb)
     }
 
     override val allWbs: List<Workbook>

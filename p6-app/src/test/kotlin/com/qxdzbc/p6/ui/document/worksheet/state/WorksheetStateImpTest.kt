@@ -30,7 +30,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WorksheetStateImpTest :BaseAppStateTest(){
+class WorksheetStateImpTest : BaseAppStateTest() {
     lateinit var wsStateForWb0Sheet1: WorksheetStateImp
     lateinit var wb0: Workbook
     lateinit var wb1: Workbook
@@ -95,7 +95,10 @@ class WorksheetStateImpTest :BaseAppStateTest(){
 
         val p6Comp = ts.comp
         val wsStateFactory = ts.comp.worksheetStateFactory()
-        ts.wbContMs.value = ts.wbContMs.value.addOrOverWriteWb(wb0).addOrOverWriteWb(wb1)
+        ts.wbContMs.value.apply {
+            addOrOverWriteWb(wb0)
+            addOrOverWriteWb(wb1)
+        }
         val wssIdMs: Ms<WorksheetId> = ms(
             WorksheetIdImp(
                 wsNameMs = "Sheet1".toMs(),
@@ -103,7 +106,7 @@ class WorksheetStateImpTest :BaseAppStateTest(){
             )
         )
         val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
-        val cursorIdMs:Ms<CursorId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
+        val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
         val mainCellMs = ms(CellAddresses.A1)
         wsStateForWb0Sheet1 = wsStateFactory.createThenRefresh(
             wsMs = wb0.getWsMs(0)!!,
@@ -116,7 +119,7 @@ class WorksheetStateImpTest :BaseAppStateTest(){
                     mainCellMs = mainCellMs,
                     thumbStateMs = ms(
                         ThumbStateImp(
-                            cursorIdSt =  cursorIdMs,
+                            cursorIdSt = cursorIdMs,
                             mainCellSt = mainCellMs,
                             cellLayoutCoorMapSt = cellLayoutCoorMapMs
                         )
@@ -130,16 +133,18 @@ class WorksheetStateImpTest :BaseAppStateTest(){
     }
 
     @Test
-    fun refreshCellState(){
-        test("""
+    fun refreshCellState() {
+        test(
+            """
             refresh a worksheet state in which:
             - cell A1 point to valid cell => should be kept
             - cell M10 points to no where => should be removed
             - cell K12 points to no where => should be removed
-        """.trimIndent()){
+        """.trimIndent()
+        ) {
             val labelA1 = "A1"
-            val labelK12="K12"
-            val labelM10="M10"
+            val labelK12 = "K12"
+            val labelM10 = "M10"
             val wsState2 = wsStateForWb0Sheet1
                 .addBlankCellState(CellAddress(labelM10))
                 .addBlankCellState(CellAddress(labelK12))
@@ -150,7 +155,7 @@ class WorksheetStateImpTest :BaseAppStateTest(){
                 cellState.cell.shouldBeNull()
             }
 
-            val wsState3=wsState2.refreshCellState()
+            val wsState3 = wsState2.refreshCellState()
 
             postCondition {
                 wsState3.cellStateCont.allElements.size shouldBe 1

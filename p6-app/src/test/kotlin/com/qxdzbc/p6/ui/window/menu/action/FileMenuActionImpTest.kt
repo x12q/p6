@@ -51,7 +51,7 @@ internal class FileMenuActionImpTest {
         val validPathKey = TestSample.wbk1.setPath(Path.of("sample/path"))
         assertNotNull(windowState.activeWbStateMs)
 
-        wbContMs.value = wbContMs.value.replaceKey(TestSample.wbk1, validPathKey)
+        wbContMs.value.replaceKey(TestSample.wbk1, validPathKey)
         wbStateContMs.replaceKey(TestSample.wbk1, validPathKey)
 
         assertNotNull(windowState.activeWbState?.wbKey?.path)

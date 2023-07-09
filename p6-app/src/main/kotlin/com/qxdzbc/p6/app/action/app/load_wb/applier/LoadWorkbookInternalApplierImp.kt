@@ -25,7 +25,7 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
         val windowStateMsRs = stateCont.getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId)
 
         workbook?.also { wb ->
-            globalWbCont = globalWbCont.addOrOverWriteWb(wb)
+            globalWbCont.addOrOverWriteWb(wb)
             when (windowStateMsRs) {
                 is Ok -> {
                     val windowState = windowStateMsRs.value

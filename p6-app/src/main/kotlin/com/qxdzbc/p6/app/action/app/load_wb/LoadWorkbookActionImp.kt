@@ -132,7 +132,7 @@ data class LoadWorkbookActionImp @Inject constructor(
 
         val windowStateMsRs = sc.getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId)
         workbook?.also {
-            wbCont = wbCont.addOrOverWriteWb(workbook)
+            wbCont.addOrOverWriteWb(workbook)
             when (windowStateMsRs) {
                 is Ok -> {
                     val windowState = windowStateMsRs.value

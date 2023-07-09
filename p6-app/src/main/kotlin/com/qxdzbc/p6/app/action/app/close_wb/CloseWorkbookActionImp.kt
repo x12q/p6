@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.action.app.close_wb
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.compose.St
@@ -50,13 +48,13 @@ class CloseWorkbookActionImp @Inject constructor(
 
     fun closeWb(wbKeySt: St<WorkbookKey>, inputState: CloseWbState): CloseWbState {
         val wbKey = wbKeySt.value
-        val newWbCont = inputState.wbCont.removeWb(wbKey)
+        inputState.wbCont.removeWb(wbKey)
         inputState.respectiveWindowState?.let {
             it.removeWbState(wbKeySt)
             pickDefaultActiveWb.pickAndUpdateActiveWbPointer(it)
         }
         return CloseWbState(
-            wbCont = newWbCont,
+            wbCont = inputState.wbCont,
             respectiveWindowState = inputState.respectiveWindowState
         )
     }
@@ -77,7 +75,7 @@ class CloseWorkbookActionImp @Inject constructor(
         val wbKey = wbKeyMs?.value
 
         if (wbKey != null) {
-            sc.wbContMs.value = sc.wbCont.removeWb(wbKey)
+            sc.wbCont.removeWb(wbKey)
             val windowState: WindowState? =
                 (windowId?.let { sc.getWindowStateMsById(it) }
                     ?: sc.getWindowStateMsByWbKey(wbKey))

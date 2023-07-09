@@ -26,7 +26,7 @@ abstract class AbsWorkbookContainer : WorkbookContainer {
         return getWbMsRs(wbKeySt).component1()
     }
     @Throws(Exception::class)
-    override fun addWb(wb: Workbook): WorkbookContainer {
+    override fun addWb(wb: Workbook) {
         return this.addWbRs(wb).getOrThrow()
     }
 

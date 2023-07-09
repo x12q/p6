@@ -19,9 +19,9 @@ class AutoNameWbFactoryTest {
         val testSample = TestSample()
 
         val contMs: Ms<WorkbookContainer> = testSample.wbContMs
-        contMs.value = contMs.value.removeAll()
-        contMs.value = wbl.fold(contMs.value){acc,wb->
-            acc.addWb(wb)
+        contMs.value.removeAll()
+        wbl.forEach{wb->
+            contMs.value.addWb(wb)
         }
         val f = AutoNameWbFactory(wbContMs = contMs, wsNameGenerator = WsNameGeneratorImp() )
         assertEquals("Book2", f.createWbRs().component1()!!.key.name)

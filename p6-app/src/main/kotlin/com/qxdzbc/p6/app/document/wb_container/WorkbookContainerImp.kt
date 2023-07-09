@@ -2,7 +2,6 @@ package com.qxdzbc.p6.app.document.wb_container
 
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.ErrorUtils.getOrThrow
-import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.error.SingleErrorReport
@@ -21,6 +20,9 @@ import java.nio.file.Path
 import javax.inject.Inject
 import kotlin.io.path.absolute
 
+/**
+ * implementation of [WorkbookContainer] that stands on top of a [WorkbookStateContainer], and provides a more limited set of function to query and update workbook. Workbook state is update a long side workbook operations.
+ */
 data class WorkbookContainerImp @Inject constructor(
     private val wbStateContMs: WorkbookStateContainer,
     private val wbStateFactory: WorkbookStateFactory,
@@ -50,22 +52,22 @@ data class WorkbookContainerImp @Inject constructor(
         }
     }
 
-    override fun addWbRs(wb: Workbook): Rse<WorkbookContainer> {
+    override fun addWbRs(wb: Workbook): Rse<Unit> {
         if (this.wbStateCont.containWbKey(wb.key)) {
             return WorkbookContainerErrors.WorkbookAlreadyExist.report2("Can't add workbook because workbook at ${wb.key} already exist").toErr()
         } else {
             val wbMs = ms(wb)
             val wbState: WorkbookState = wbStateFactory.createAndRefresh(wbMs)
             this.wbStateCont.addOrOverwriteWbState(wbState)
-            return Ok(this)
+            return Ok(Unit)
         }
     }
     @kotlin.jvm.Throws(Exception::class)
-    override fun overwriteWB(wb: Workbook): WorkbookContainer {
+    override fun overwriteWB(wb: Workbook) {
         return this.overwriteWBRs(wb).getOrThrow()
     }
 
-    override fun overwriteWBRs(wb: Workbook): Rse<WorkbookContainer> {
+    override fun overwriteWBRs(wb: Workbook): Rse<Unit> {
         val wbStateMs: WorkbookState? = this.wbStateCont.getWbState(wb.key)
         if (wbStateMs != null) {
             val rs: Rse<Unit> = wbStateMs.overWriteWbRs(wb)
@@ -76,7 +78,7 @@ data class WorkbookContainerImp @Inject constructor(
         }
     }
 
-    override fun addOrOverWriteWbRs(wb: Workbook): Rse<WorkbookContainer> {
+    override fun addOrOverWriteWbRs(wb: Workbook): Rse<Unit> {
         val addRs = this.addWbRs(wb)
         when (addRs) {
             is Ok -> return addRs
@@ -87,33 +89,32 @@ data class WorkbookContainerImp @Inject constructor(
         }
     }
     @kotlin.jvm.Throws(Exception::class)
-    override fun addOrOverWriteWb(wb: Workbook): WorkbookContainer {
+    override fun addOrOverWriteWb(wb: Workbook) {
         return addOrOverWriteWbRs(wb).getOrThrow()
     }
     @kotlin.jvm.Throws(Exception::class)
-    override fun removeWb(wbKey: WorkbookKey): WorkbookContainer {
+    override fun removeWb(wbKey: WorkbookKey) {
         return this.removeWbRs(wbKey).getOrThrow()
     }
 
-    override fun removeWbRs(wbKey: WorkbookKey): Rse<WorkbookContainer> {
+    override fun removeWbRs(wbKey: WorkbookKey): Rse<Unit> {
         this.wbStateCont.removeWbState(wbKey)
-        return Ok(this)
+        return Ok(Unit)
     }
 
-    override fun removeAll(): WorkbookContainer {
+    override fun removeAll() {
         this.wbStateCont.removeAll()
-        return this
     }
 
     override fun containWb(wbKey: WorkbookKey): Boolean {
         return this.wbStateCont.containWbKey(wbKey)
     }
     @kotlin.jvm.Throws(Exception::class)
-    override fun replaceKey(oldKey: WorkbookKey, newKey: WorkbookKey): WorkbookContainer {
+    override fun replaceKey(oldKey: WorkbookKey, newKey: WorkbookKey) {
         return replaceKeyRs(oldKey, newKey).getOrThrow()
     }
 
-    override fun replaceKeyRs(oldKey: WorkbookKey, newKey: WorkbookKey): Rse<WorkbookContainer> {
-        return this.wbStateCont.replaceKeyRs(oldKey,newKey).map{this}
+    override fun replaceKeyRs(oldKey: WorkbookKey, newKey: WorkbookKey): Rse<Unit> {
+        return this.wbStateCont.replaceKeyRs(oldKey,newKey)
     }
 }
