@@ -35,8 +35,6 @@ interface WorkbookState : CanConvertToWorkbookProto{
      */
     var needSave:Boolean
 
-    fun setNeedSaveXX(i:Boolean)
-
     /**
      * The data obj shown on the workbook view
      */

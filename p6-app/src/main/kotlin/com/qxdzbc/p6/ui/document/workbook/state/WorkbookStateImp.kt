@@ -112,10 +112,6 @@ data class WorkbookStateImp @AssistedInject constructor(
         return this.refreshWsPointer().refreshWsState()
     }
 
-    override fun setNeedSaveXX(i: Boolean) {
-        needSaveMs.value = i
-    }
-
     override var wb: Workbook by wbMs
 
     override val wbKey: WorkbookKey
