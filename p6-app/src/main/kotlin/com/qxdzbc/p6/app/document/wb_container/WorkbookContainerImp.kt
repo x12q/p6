@@ -14,7 +14,7 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
+import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createAndRefresh
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -58,7 +58,7 @@ data class WorkbookContainerImp @Inject constructor(
             return WorkbookContainerErrors.WorkbookAlreadyExist.report2("Can't add workbook because workbook at ${wb.key} already exist").toErr()
         } else {
             val wbMs = ms(wb)
-            val wbState: WorkbookState = wbStateFactory.createRefresh(wbMs)
+            val wbState: WorkbookState = wbStateFactory.createAndRefresh(wbMs)
             this.wbStateCont = this.wbStateCont.addOrOverwriteWbState(wbState.toMs())
             return Ok(this)
         }

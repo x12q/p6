@@ -18,7 +18,7 @@ interface WorkbookState : CanConvertToWorkbookProto{
      * the window id in which a workbook belong to. Why does a workbook need to know its parent window?
      */
     val windowId:String?
-    fun setWindowId(windowId:String?):WorkbookState
+    fun setWindowId(i:String?):WorkbookState
     // aq
     val wsStateMap: Map<St<String>, MutableState<WorksheetState>>
 

@@ -11,6 +11,7 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
@@ -158,8 +159,8 @@ class StateContainerImp @Inject constructor(
 
     override fun addWbStateFor(wb: Workbook) {
         if (!this.hasStateFor(wb.key)) {
-            val newState = wbStateFactory.create(StateUtils.ms(wb))
-            wbStateCont = wbStateCont.addOrOverwriteWbState(StateUtils.ms(newState))
+            val newState = wbStateFactory.create(ms(wb))
+            wbStateCont = wbStateCont.addOrOverwriteWbState(ms(newState))
         }
     }
 

@@ -1,6 +1,5 @@
 package test
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.ResultUtils.toOk
@@ -22,7 +21,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
+import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createAndRefresh
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
@@ -105,7 +104,7 @@ class TestSample: TestAppScope {
 
     private fun makeSampleWbState1(): Ms<WorkbookState> {
         return ms(
-            comp.workbookStateFactory().createRefresh(
+            comp.workbookStateFactory().createAndRefresh(
                 wbMs = ms(
                     WorkbookImp(
                         keyMs = wbKey1Ms,
@@ -122,7 +121,7 @@ class TestSample: TestAppScope {
 
     private fun makeSampleWBState(wbKeyMs: Ms<WorkbookKey>): Ms<WorkbookState> {
         return ms(
-            comp.workbookStateFactory().createRefresh(
+            comp.workbookStateFactory().createAndRefresh(
                 wbMs = ms(
                     WorkbookImp(
                         keyMs = wbKeyMs,

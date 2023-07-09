@@ -29,7 +29,7 @@ import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
+import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createAndRefresh
 import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
 import com.qxdzbc.p6.ui.theme.P6LightColors2
 import com.qxdzbc.p6.ui.window.WindowView
@@ -73,12 +73,12 @@ fun main() {
                         }
                     }
                     val wbStateMs1: Ms<WorkbookState> = ms(
-                        p6Comp.workbookStateFactory().createRefresh(
+                        p6Comp.workbookStateFactory().createAndRefresh(
                             wbMs = ms(wb1)
                         )
                     )
                     val wbStateMs2: Ms<WorkbookState> = ms(
-                        p6Comp.workbookStateFactory().createRefresh(
+                        p6Comp.workbookStateFactory().createAndRefresh(
                             wbMs = ms(wb2)
                         )
                     )

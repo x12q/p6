@@ -18,9 +18,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.False
 import com.qxdzbc.p6.di.FalseMs
-import com.qxdzbc.p6.di.True
 import com.qxdzbc.p6.di.state.wb.DefaultWsStateMap
 import com.qxdzbc.p6.di.state.ws.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
@@ -42,7 +40,7 @@ import dagger.assisted.AssistedInject
 
 data class WorkbookStateImp @AssistedInject constructor(
     @Assisted("1") override val wbMs: Ms<Workbook>,
-    @Assisted("2") override val windowId: String?,
+    @Assisted("2") val windowIdMs: Ms<String?>,
     // ======================================= //
     @DefaultWsStateMap
     override val wsStateMap: Map<St<@JvmSuppressWildcards String>, @JvmSuppressWildcards MutableState<WorksheetState>>,
@@ -55,6 +53,8 @@ data class WorkbookStateImp @AssistedInject constructor(
     private val thumbStateFactory: ThumbStateFactory,
 ) : BaseWorkbookState() {
 
+    override val windowId: String? by windowIdMs
+
     override val needSave: Boolean by needSaveMs
 
     override val worksheetStateListMs: List<Ms<WorksheetState>> get() = wsStateMap.values.toList()
@@ -64,7 +64,6 @@ data class WorkbookStateImp @AssistedInject constructor(
             activeSheetPointerMs = activeSheetPointerMs,
             wbMs = wbMs
         )
-
 
     override var activeSheetPointer: ActiveWorksheetPointer by activeSheetPointerMs
 
@@ -210,8 +209,9 @@ data class WorkbookStateImp @AssistedInject constructor(
         return ms(wsState.refreshCellState())
     }
 
-    override fun setWindowId(windowId: String?): WorkbookState {
-        return this.copy(windowId = windowId)
+    override fun setWindowId(i: String?): WorkbookState {
+        windowIdMs.value = i
+        return this
     }
 
     /**
@@ -299,7 +299,7 @@ data class WorkbookStateImp @AssistedInject constructor(
                 gridSliderFactory = gridSliderFactory,
                 cursorStateFactory = cursorStateFactory,
                 thumbStateFactory = thumbStateFactory,
-                windowId = null,
+                windowIdMs = ms(null),
                 needSaveMs = ms(false),
             )
         }
