@@ -11,15 +11,20 @@ interface WorkbookStateContainer : Map<St<WorkbookKey>,WorkbookState>, WorkbookS
     val allWbStates:List<WorkbookState>
 
     fun addOrOverwriteWbState(wbStateMs:WorkbookState): WorkbookStateContainer
+
     fun removeWbState(wbKey: WorkbookKey): WorkbookStateContainer
+
     fun updateWbState(newWbState:WorkbookState):WorkbookStateContainer
+
     fun removeAll():WorkbookStateContainer
 
     fun replaceKeyRs(oldWbKey:WorkbookKey, newWbKey:WorkbookKey):Rse<WorkbookStateContainer>
+
     fun replaceKey(oldWbKey:WorkbookKey, newWbKey:WorkbookKey):WorkbookStateContainer
 
     fun containWbKey(wbKey: WorkbookKey):Boolean
 
     fun createNewWbStateRs(wb:Workbook): Rse<WorkbookStateContainer>
+
     fun createNewWbState(wb:Workbook):WorkbookStateContainer
 }
