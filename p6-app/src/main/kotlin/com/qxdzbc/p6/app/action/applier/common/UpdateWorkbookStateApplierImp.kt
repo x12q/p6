@@ -14,7 +14,7 @@ class UpdateWorkbookStateApplierImp @Inject constructor(
    
     override fun updateWbState(newWbState: WorkbookState?) {
         if(newWbState!=null){
-            stateCont.wbStateCont = stateCont.wbStateCont.updateWbState(newWbState)
+            stateCont.wbStateCont.updateWbState(newWbState)
         }
     }
 }

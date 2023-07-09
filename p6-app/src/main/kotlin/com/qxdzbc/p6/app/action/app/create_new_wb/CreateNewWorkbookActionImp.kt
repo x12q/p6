@@ -24,7 +24,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
 
    
     private val globalWbCont by stateCont.wbContMs
-    private val globalWbStateCont by stateCont.wbStateContMs
+    private val globalWbStateCont = stateCont.wbStateCont
 
     override fun createNewWb(request: CreateNewWorkbookRequest): CreateNewWorkbookResponse {
         val rt = wbf.createWbRs(request.wbName)

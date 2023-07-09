@@ -88,7 +88,7 @@ class CloseWorkbookActionImp @Inject constructor(
         }
     }
 
-    private var globalWbStateCont by sc.wbStateContMs
+    private val globalWbStateCont = sc.wbStateCont
 
     fun requestCloseWb(request: CloseWorkbookRequest): CloseWorkbookResponse {
         val windowState: WindowState? = if (request.windowId != null) {

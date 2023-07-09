@@ -35,31 +35,7 @@ import dagger.Provides
 @dagger.Module
 interface AppStateModule {
 
-    @Binds
-    @P6Singleton
-    fun WorkbookStateContSt(
-        i: Ms<WorkbookStateContainer>
-    ): St<WorkbookStateContainer>
-
     companion object {
-
-//        @Provides
-//        @P6Singleton
-//        fun StateContainerMs(i:StateContainerImp):StateContainer{
-//            return ms(i)
-//        }
-//
-//        @Provides
-//        @P6Singleton
-//        fun StateContainerSt(i:StateContainer):St<StateContainer>{
-//            return i
-//        }
-
-        @Provides
-        @P6Singleton
-        fun WorkbookStateContMs(wbStateFactory: WorkbookStateFactory): Ms<WorkbookStateContainer> {
-            return ms(WorkbookStateContainerImp(wbStateFactory=wbStateFactory))
-        }
 
         @Provides
         @P6Singleton

@@ -1,21 +1,37 @@
 package com.qxdzbc.p6.ui.document.workbook.state.cont
 
+import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
+import com.squareup.anvil.annotations.ContributesBinding
+import javax.inject.Inject
+import javax.inject.Singleton
 
+@P6Singleton
+@ContributesBinding(P6AnvilScope::class, boundType = WorkbookStateContainer::class)
 data class WorkbookStateContainerImp (
     private val wbStateFactory: WorkbookStateFactory,
-    val map: Map<St<WorkbookKey>, WorkbookState> = emptyMap(),
-    private val pseudoVar: Boolean = false,
-) : AbsWorkbookStateContainer(), Map<St<WorkbookKey>, WorkbookState> by map {
+    val mapMs: Ms<Map<St<WorkbookKey>, WorkbookState>>,
+    private val pseudoVar: Boolean,
+) : AbsWorkbookStateContainer() {
+
+    @Inject
+    constructor(
+        wbStateFactory: WorkbookStateFactory
+    ):this(wbStateFactory,ms(emptyMap()),false)
+
+    val map: Map<St<WorkbookKey>, WorkbookState> by mapMs
 
     override fun getWbState(wbKey: WorkbookKey): WorkbookState? {
         return this.map.values.firstOrNull { it.wbKey == wbKey }
@@ -45,11 +61,13 @@ data class WorkbookStateContainerImp (
 
     override fun addOrOverwriteWbState(wbStateMs: WorkbookState): WorkbookStateContainer {
         val newMap = this.map + (wbStateMs.wb.keyMs to wbStateMs)
-        return this.copy(map = newMap)
+        mapMs.value = newMap
+        return this
     }
 
     override fun removeWbState(wbKey: WorkbookKey): WorkbookStateContainer {
-        return this.copy(map = map.filter { it.key.value != wbKey })
+        mapMs.value = map.filter { it.key.value != wbKey }
+        return this
     }
 
     /**
@@ -69,7 +87,8 @@ data class WorkbookStateContainerImp (
     }
 
     override fun removeAll(): WorkbookStateContainer {
-        return this.copy(map = emptyMap())
+        mapMs.value = emptyMap()
+        return this
     }
 
     override fun replaceKeyRs(oldWbKey: WorkbookKey, newWbKey: WorkbookKey): Rse<WorkbookStateContainer> {

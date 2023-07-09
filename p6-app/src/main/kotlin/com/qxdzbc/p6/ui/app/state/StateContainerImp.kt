@@ -30,6 +30,7 @@ import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateGetter
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
@@ -50,13 +51,13 @@ import javax.inject.Inject
 class StateContainerImp @Inject constructor(
     private val docCont: DocumentContainer,
     override val windowStateMapMs: Ms<Map<String, Ms<OuterWindowState>>>,
-    override val wbStateContMs: Ms<WorkbookStateContainer>,
+    override val wbStateCont: WorkbookStateContainer,
     private val windowStateFactory: WindowStateFactory,
     private val outerWindowStateFactory: OuterWindowStateFactory,
     private val wbStateFactory: WorkbookStateFactory,
     override val activeWindowPointer: ActiveWindowPointer,
     override val cellEditorStateMs: Ms<CellEditorState>,
-) : AbsStateContainer(),DocumentContainer by docCont {
+) : AbsStateContainer(), DocumentContainer by docCont, WorkbookStateGetter by wbStateCont {
 
     override fun getActiveWorkbook(): Workbook? {
         return getActiveWindowState()?.activeWbState?.wb
@@ -123,8 +124,6 @@ class StateContainerImp @Inject constructor(
     override val outerWindowStateMsList: List<Ms<OuterWindowState>>
         get() = windowStateMap.values.toList()
 
-    override var wbStateCont: WorkbookStateContainer by wbStateContMs
-
     override val windowStateMsList: List<WindowState> get() = outerWindowStateMsList.map{
         it.value.innerWindowState
     }
@@ -156,7 +155,7 @@ class StateContainerImp @Inject constructor(
     override fun addWbStateFor(wb: Workbook) {
         if (!this.hasStateFor(wb.key)) {
             val newState = wbStateFactory.create(ms(wb))
-            wbStateCont = wbStateCont.addOrOverwriteWbState(newState)
+            wbStateCont.addOrOverwriteWbState(newState)
         }
     }
 
@@ -287,14 +286,6 @@ class StateContainerImp @Inject constructor(
 
     override fun getCellStateMsRs(cellId: CellId): Rse<Ms<CellState>> {
         return getCellStateMsRs(cellId,cellId.address)
-    }
-
-    override fun getWbStateRs(wbKeySt: St<WorkbookKey>): Rse<WorkbookState> {
-        return this.wbStateCont.getWbStateRs(wbKeySt)
-    }
-
-    override fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
-        return this.wbStateCont.getWbStateRs(wbKey)
     }
 
     override fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Result<WindowState, SingleErrorReport> {

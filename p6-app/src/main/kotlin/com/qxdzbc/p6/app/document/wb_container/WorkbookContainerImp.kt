@@ -24,11 +24,11 @@ import javax.inject.Inject
 import kotlin.io.path.absolute
 
 data class WorkbookContainerImp @Inject constructor(
-    private val wbStateContMs: Ms<WorkbookStateContainer>,
+    private val wbStateContMs: WorkbookStateContainer,
     private val wbStateFactory: WorkbookStateFactory,
 ) : AbsWorkbookContainer() {
 
-    private var wbStateCont: WorkbookStateContainer by wbStateContMs
+    private var wbStateCont: WorkbookStateContainer = wbStateContMs
 
     override val allWbs: List<Workbook> get() = wbStateCont.allWbStates.map { it.wb }
 

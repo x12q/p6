@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -80,9 +79,9 @@ fun main() {
                             wbMs = ms(wb2)
                         )
 
-                    appState.stateCont.wbStateContMs.apply {
-                        this.value = this.value.addOrOverwriteWbState(wbStateMs1).addOrOverwriteWbState(wbStateMs2)
-                    }
+                    appState.stateCont.wbStateCont
+                        .addOrOverwriteWbState(wbStateMs1)
+                        .addOrOverwriteWbState(wbStateMs2)
                     val zz = listOf(
                         ms(
                             p6Comp.outerWindowStateFactory().create(

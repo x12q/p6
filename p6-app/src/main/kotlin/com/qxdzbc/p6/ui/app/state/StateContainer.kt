@@ -116,8 +116,7 @@ interface StateContainer : DocumentContainer, WorkbookStateGetter {
     val outerWindowStateMsList: List<Ms<OuterWindowState>>
     val windowStateMsList: List<WindowState>
 
-    val wbStateContMs: Ms<WorkbookStateContainer>
-    var wbStateCont: WorkbookStateContainer
+    val wbStateCont: WorkbookStateContainer
 
     /**
      * Get a set of state related to a [workbookKey].

@@ -234,22 +234,6 @@ abstract class AbsStateContainer : StateContainer {
         return this.getWbStateRs(wbKey).flatMap { it.getWsStateMsRs(wsName) }
     }
 
-    override fun getWbState(wbKeySt: St<WorkbookKey>): WorkbookState? {
-        return this.getWbStateRs(wbKeySt).component1()
-    }
-
-    override fun getWbStateRs(wbKeySt: St<WorkbookKey>): Rse<WorkbookState> {
-        return getWbStateRs(wbKeySt)
-    }
-
-    override fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
-        return getWbStateRs(wbKey)
-    }
-
-    override fun getWbState(wbKey: WorkbookKey): WorkbookState? {
-        return getWbStateRs(wbKey).component1()
-    }
-
     override fun getWsStateRs(wbKey: WorkbookKey, wsName: String): Rse<WorksheetState> {
         return getWsStateMsRs(wbKey, wsName).map { it.value }
     }

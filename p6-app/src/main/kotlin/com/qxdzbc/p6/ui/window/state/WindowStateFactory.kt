@@ -35,7 +35,6 @@ interface WindowStateFactory {
         @Assisted("showConnectToKernelDialogStateMs")
         showConnectToKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
         commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
-//        dialogHostStateMs: Ms<WindowDialogGroupState> = ms(WindowDialogGroupStateImp())
     ): WindowStateImp
 
     companion object {

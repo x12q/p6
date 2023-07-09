@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 
-interface WorkbookStateContainer : Map<St<WorkbookKey>,WorkbookState>, WorkbookStateGetter{
+interface WorkbookStateContainer : WorkbookStateGetter{
 
     val allWbStates:List<WorkbookState>
 

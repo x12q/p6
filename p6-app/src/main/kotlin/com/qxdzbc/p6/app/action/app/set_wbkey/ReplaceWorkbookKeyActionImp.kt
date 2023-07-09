@@ -27,9 +27,6 @@ class ReplaceWorkbookKeyActionImp @Inject constructor(
         val newKey = req.newWbKey
         val rs = stateCont.getWbRs(oldKey).flatMap { oldWb->
             val qRs = stateCont.wbStateCont.replaceKeyRs(oldKey,newKey)
-            qRs.onSuccess {
-                stateCont.wbStateCont = it
-            }
             qRs
         }
         rs.publishErrIfNeedSt(errorRouter,)

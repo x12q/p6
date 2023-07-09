@@ -134,7 +134,7 @@ class TestSample : TestAppScope {
         )
     }
 
-    private fun makeSampleWbStateContMs(): WorkbookStateContainer {
+    private fun setupSampleWbStateContMs(): WorkbookStateContainer {
         return sc.wbStateCont.removeAll()
             .addOrOverwriteWbState(makeSampleWbState1())
             .addOrOverwriteWbState(makeSampleWBState(wbKey2Ms))
@@ -174,7 +174,7 @@ class TestSample : TestAppScope {
     val wb2 get() = wb2Ms.value
 
     init {
-        sc.wbStateContMs.value = makeSampleWbStateContMs()
+        setupSampleWbStateContMs()
         val windowState1 = makeSampleWindowStateMs1()
         val windowState2 = makeSampleWindowStateMs2()
         appState.stateCont.apply {

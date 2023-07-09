@@ -60,7 +60,7 @@ data class WindowStateImp @AssistedInject constructor(
     // ===========================================================================
 
     private val wbContMs: Ms<WorkbookContainer>,
-    override val wbStateContMs: Ms<WorkbookStateContainer>,
+    override val wbStateContMs: WorkbookStateContainer,
     @StatusBarStateQualifier
     override val statusBarStateMs: Ms<StatusBarState>,
     private val wbStateFactory: WorkbookStateFactory,
@@ -80,7 +80,7 @@ data class WindowStateImp @AssistedInject constructor(
 
     override val wbStateMsList: List<WorkbookState>
         get() = wbKeySet.mapNotNull {
-            wbStateContMs.value.getWbState(
+            wbStateContMs.getWbState(
                 it
             )
         }
@@ -100,7 +100,7 @@ data class WindowStateImp @AssistedInject constructor(
 
     override val saveDialogState: FileDialogState by saveDialogStateMs
 
-    private var wbStateCont by wbStateContMs
+    private var wbStateCont = wbStateContMs
 
     override val wbList: List<Workbook>
         get() = wbKeySet.mapNotNull {

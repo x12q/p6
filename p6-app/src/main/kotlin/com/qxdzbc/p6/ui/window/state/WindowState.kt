@@ -51,7 +51,7 @@ interface WindowState : WithSize {
     val showStartKernelDialogStateMs:Ms<ShowDialogState>
     var showStartKernelDialogState: ShowDialogState
 
-    val wbStateContMs: Ms<WorkbookStateContainer>
+    val wbStateContMs: WorkbookStateContainer
 
     val formulaBarState:FormulaBarState
 
