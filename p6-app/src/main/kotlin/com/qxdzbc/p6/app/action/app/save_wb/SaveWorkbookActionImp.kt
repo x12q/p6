@@ -1,10 +1,7 @@
 package com.qxdzbc.p6.app.action.app.save_wb
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -100,12 +97,12 @@ class SaveWorkbookActionImp @Inject constructor(
                                     .publishErrToWindowIfNeed(errorRouter, windowId)
                             }
 
-                            wbStateMs.value = wbStateMs.value.setNeedSave(false)
+                            wbStateMs.value.needSave = false
                         }
                 } else {
                     // x: same path, no need to update wb path
                     sc.getWbStateMs(wbKey)?.also {
-                        it.value = it.value.setNeedSave(false)
+                        it.value.needSave = false
                     }
                 }
             }

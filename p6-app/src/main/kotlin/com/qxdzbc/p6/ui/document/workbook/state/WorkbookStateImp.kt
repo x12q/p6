@@ -53,9 +53,9 @@ data class WorkbookStateImp @AssistedInject constructor(
     private val thumbStateFactory: ThumbStateFactory,
 ) : BaseWorkbookState() {
 
-    override val windowId: String? by windowIdMs
+    override var windowId: String? by windowIdMs
 
-    override val needSave: Boolean by needSaveMs
+    override var needSave: Boolean by needSaveMs
 
     override val worksheetStateListMs: List<Ms<WorksheetState>> get() = wsStateMap.values.toList()
 
@@ -112,15 +112,15 @@ data class WorkbookStateImp @AssistedInject constructor(
         return this.refreshWsPointer().refreshWsState()
     }
 
-    override fun setNeedSave(i: Boolean): WorkbookState {
+    override fun setNeedSaveXX(i: Boolean) {
         needSaveMs.value = i
-        return this
     }
 
     override var wb: Workbook by wbMs
 
     override val wbKey: WorkbookKey
         get() = wb.key
+
     override val wbKeyMs: Ms<WorkbookKey>
         get() = wb.keyMs
 
@@ -209,15 +209,10 @@ data class WorkbookStateImp @AssistedInject constructor(
         return ms(wsState.refreshCellState())
     }
 
-    override fun setWindowId(i: String?): WorkbookState {
-        windowIdMs.value = i
-        return this
-    }
-
     /**
      * TODO reconsider throwing exception here, it will crash the app?
      */
-    @kotlin.jvm.Throws(Exception::class)
+    @Throws(Exception::class)
     override fun overWriteWb(newWb: Workbook): WorkbookState {
         return this.overWriteWbRs(newWb).getOrThrow()
     }

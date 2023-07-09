@@ -15,11 +15,10 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
  */
 interface WorkbookState : CanConvertToWorkbookProto{
     /**
-     * the window id in which a workbook belong to. Why does a workbook need to know its parent window?
+     * the window id in which a workbook belong to. This shows which window this workbook state belong to.
      */
-    val windowId:String?
-    fun setWindowId(i:String?):WorkbookState
-    // aq
+    var windowId:String?
+
     val wsStateMap: Map<St<String>, MutableState<WorksheetState>>
 
     fun overWriteWb(newWb:Workbook):WorkbookState
@@ -34,24 +33,22 @@ interface WorkbookState : CanConvertToWorkbookProto{
     /**
      * whether this workbook holds unsaved content or not
      */
-    val needSave:Boolean
+    var needSave:Boolean
 
-    // TODO replace with setter
-    fun setNeedSave(i:Boolean):WorkbookState
+    fun setNeedSaveXX(i:Boolean)
 
     /**
      * The data obj shown on the workbook view
      */
-    // need to expose the MS, because State container relies on this
     val wbMs: Ms<Workbook>
     val wb: Workbook
 
     // need to expose the MS, because State container relies on this
     val wbKey:WorkbookKey
     val wbKeyMs:Ms<WorkbookKey>
+
     /**
-     * point this workbook state to a new workbook by setting its workbook key and refresh this state and all child state to reflect this changes if necessary.
-     * TODO reconsider this function. Workbook state may not need to hold a ref to a wbKeyMs
+     * Find the workbook having key == [newWbKey], and tied this state to that [Workbook]
      */
     fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey): WorkbookState
 

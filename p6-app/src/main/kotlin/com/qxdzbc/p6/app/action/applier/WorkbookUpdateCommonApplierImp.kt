@@ -5,7 +5,6 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.action.common_data_structure.WorkbookUpdateCommonResponseInterface
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
@@ -37,8 +36,7 @@ class WorkbookUpdateCommonApplierImp @Inject constructor(
                             wbCont = wbCont.overwriteWB(computedBook)
                             globalWbStateCont.getWbStateMs(wbKey)?.also {
                                 val wbStateMs = it
-                                wbStateMs.value =
-                                    wbStateMs.value.setWorkbookKeyAndRefreshState(newColdWb.key).setNeedSave(true)
+                                wbStateMs.value.setWorkbookKeyAndRefreshState(newColdWb.key).needSave = true
                             }
                         }
                     }

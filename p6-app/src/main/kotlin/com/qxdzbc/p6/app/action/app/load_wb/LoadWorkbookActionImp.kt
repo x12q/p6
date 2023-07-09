@@ -139,7 +139,10 @@ data class LoadWorkbookActionImp @Inject constructor(
                     val wbk = workbook.key
                     val wbkMs = workbook.keyMs
                     wbStateCont.getWbStateMs(wbk)?.also {
-                        it.value = it.value.setWindowId(windowId).setNeedSave(false)
+                        it.value.let{
+                            it.windowId = windowId
+                            it.needSave = false
+                        }
                     }
                     windowState.addWbKey(wbkMs)
                     windowState.activeWbPointerMs.value  = windowState.activeWbPointerMs.value.pointTo(wbkMs)
@@ -151,7 +154,10 @@ data class LoadWorkbookActionImp @Inject constructor(
                     val newOuterWindowStateMs = sc.createNewWindowStateMs(newWindowId)
                     val newWindowStateMs = newOuterWindowStateMs.value.innerWindowState
                     wbStateCont.getWbStateMs(workbook.key)?.also {
-                        it.value = it.value.setWindowId(newWindowId).setNeedSave(false)
+                        it.value.let{
+                            it.windowId = newWindowId
+                            it.needSave = false
+                        }
                         newWindowStateMs.activeWbPointerMs.value =
                             newWindowStateMs.activeWbPointer.pointTo(it.value.wbKeyMs)
                     }

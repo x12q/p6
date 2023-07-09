@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.cell.cell_update
 
-import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequestDM
@@ -27,7 +26,7 @@ class CommonReactionWhenAppStatesChangedImp @Inject constructor(
 
     override fun onWbChange(wbKey:WorkbookKey){
         sc.getWbStateMs(wbKey)?.also {
-            it.value = it.value.setNeedSave(true)
+            it.value.needSave = true
         }
     }
 
@@ -78,8 +77,6 @@ class CommonReactionWhenAppStatesChangedImp @Inject constructor(
     }
 
     override fun onWbChange(wbKeySt: St<WorkbookKey>) {
-        sc.getWbStateMs(wbKeySt)?.also {
-            it.value = it.value.setNeedSave(true)
-        }
+        sc.getWbStateMs(wbKeySt)?.value?.needSave = true
     }
 }

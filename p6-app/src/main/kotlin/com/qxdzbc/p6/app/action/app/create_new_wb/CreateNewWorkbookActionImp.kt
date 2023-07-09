@@ -44,9 +44,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
     fun iapply(wb: Workbook?, windowId: String?) {
         if (wb != null) {
             stateCont.wbContMs.value = globalWbCont.addOrOverWriteWb(wb)
-            globalWbStateCont.getWbStateMs(wb.key)?.also {
-                it.value = it.value.setWindowId(windowId)
-            }
+            globalWbStateCont.getWbStateMs(wb.key)?.value?.windowId = windowId
             var useNewWindow = false
             /*
              * If the request contains a non-existing window id, a new window will be created with that id to hold the newly create wb.

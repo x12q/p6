@@ -1,10 +1,7 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.toErr
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfos.noNav
@@ -62,7 +59,7 @@ class NewWorksheetActionImp @Inject constructor(
             dc.replaceWb(newWb)
             sc.getWbStateMsRs(newWb.key)
                 .onSuccess { wbStateMs ->
-                    wbStateMs.value = wbStateMs.value.refreshWsState().setNeedSave(true)
+                    wbStateMs.value.refreshWsState().needSave = (true)
                 }
         }
         if (publishError) {

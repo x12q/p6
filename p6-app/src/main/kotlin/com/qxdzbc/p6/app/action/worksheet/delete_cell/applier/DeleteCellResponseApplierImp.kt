@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.worksheet.delete_cell.applier
 
 import com.qxdzbc.p6.app.action.worksheet.delete_cell.DeleteCellResponse
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.P6Singleton
@@ -33,7 +32,7 @@ class DeleteCellResponseApplierImp @Inject constructor(
     ) {
         newWb?.key?.also{ newWbKey->
             stateCont.getWbStateMs(wbKey)?.also{
-                it.value = it.value.setWorkbookKeyAndRefreshState(newWbKey).setNeedSave(true)
+                it.value.setWorkbookKeyAndRefreshState(newWbKey).needSave = true
             }
         }
     }
