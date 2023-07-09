@@ -28,12 +28,19 @@ import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import dagger.Binds
 import dagger.Provides
+import dagger.Module
 
 /**
  * provide objects related to the app state
  */
-@dagger.Module
+@Module
 interface AppStateModule {
+
+    @Binds
+    @P6Singleton
+    fun WbContainer(wb:WorkbookContainerImp): WorkbookContainer
+
+
 
     companion object {
 
@@ -48,12 +55,6 @@ interface AppStateModule {
         @AppErrorContMs
         fun AppOddityContainerMs(): Ms<ErrorContainer> {
             return ms(ErrorContainerImp())
-        }
-
-        @Provides
-        @P6Singleton
-        fun WbContainer(wb:WorkbookContainerImp): Ms<WorkbookContainer> {
-            return ms(wb)
         }
 
         @Provides

@@ -23,7 +23,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
 ) : CreateNewWorkbookAction {
 
    
-    private val globalWbCont by stateCont.wbContMs
+    private val globalWbCont = stateCont.wbCont
     private val globalWbStateCont = stateCont.wbStateCont
 
     override fun createNewWb(request: CreateNewWorkbookRequest): CreateNewWorkbookResponse {

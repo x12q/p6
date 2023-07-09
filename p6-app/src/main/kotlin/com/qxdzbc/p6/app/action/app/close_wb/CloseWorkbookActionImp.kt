@@ -42,7 +42,7 @@ class CloseWorkbookActionImp @Inject constructor(
 
         val outputState = closeWb(wbKeySt, inputState)
 
-        sc.wbCont = outputState.wbCont
+        outputState.wbCont
 
     }
 

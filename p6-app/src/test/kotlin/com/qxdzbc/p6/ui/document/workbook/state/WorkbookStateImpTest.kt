@@ -61,14 +61,14 @@ class WorkbookStateImpTest {
                 }
             )
         )
-        val wbContMs = ts.wbContMs
-        wbContMs.value.apply {
+        val wbCont = ts.wbCont
+        wbCont.apply {
             overwriteWB(wb0)
             overwriteWB(wb1)
         }
 
         wbState = WorkbookStateImp.forTesting(
-            wbMs = wbContMs.value.getWbMs(wb0.key)!!,
+            wbMs = wbCont.getWbMs(wb0.key)!!,
             wsStateFactory = ts.comp.worksheetStateFactory(),
             gridSliderFactory = ts.comp.gridSliderFactory(),
             cursorStateFactory = ts.comp.cursorStateFactory(),

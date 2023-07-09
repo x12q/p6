@@ -32,11 +32,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DocumentContainerImp @Inject constructor(
-    override val wbContMs: Ms<WorkbookContainer>,
+    override val wbCont: WorkbookContainer,
     private val lazyRangeFactory: LazyRangeFactory,
 ) : DocumentContainer {
-
-    override var wbCont: WorkbookContainer by wbContMs
 
     override fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt? {
         return this.getWs(wbKey, wsName)?.id

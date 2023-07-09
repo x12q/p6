@@ -44,7 +44,7 @@ internal class WorksheetAction2ImpTest {
     @BeforeTest
     fun before() {
         val testSample = TestSample()
-        wb = testSample.wbContMs.value.getWb(testSample.wbKey1)!!
+        wb = testSample.wbCont.getWb(testSample.wbKey1)!!
         ws = wb.worksheets[0]
         wsStateMs = testSample.sc.getWsStateMs(ws)!!
 

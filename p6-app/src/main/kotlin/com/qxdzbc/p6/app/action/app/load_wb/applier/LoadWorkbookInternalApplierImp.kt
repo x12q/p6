@@ -18,7 +18,7 @@ class LoadWorkbookInternalApplierImp @Inject constructor(
     val stateCont: StateContainer,
 ) : LoadWorkbookInternalApplier {
 
-    private var globalWbCont by stateCont.wbContMs
+    private var globalWbCont = stateCont.wbCont
     private val globalWbStateCont = stateCont.wbStateCont
 
     override fun apply(windowId: String?, workbook: Workbook?) {

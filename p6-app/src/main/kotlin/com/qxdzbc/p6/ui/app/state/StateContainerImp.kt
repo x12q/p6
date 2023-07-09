@@ -67,8 +67,6 @@ class StateContainerImp @Inject constructor(
         return wbk.toRs(AppStateErrors.NoActiveWorkbook.report())
     }
 
-    override var wbCont: WorkbookContainer by wbContMs
-
     override fun getActiveWindowStateMs(): WindowState? {
         return activeWindowPointer.windowId?.let {
             getWindowStateMsById(it)

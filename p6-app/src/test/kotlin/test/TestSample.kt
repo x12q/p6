@@ -5,7 +5,6 @@ import com.qxdzbc.common.Rs
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.p6.app.action.common_data_structure.ErrorIndicator
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
@@ -14,7 +13,6 @@ import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -168,11 +166,11 @@ class TestSample : TestAppScope {
 
     val sampleWindowStateMs get() = sc.windowStateMsList.get(0)
 
-    val wbContMs = sc.wbContMs
+    val wbCont = sc.wbCont
 
-    val wb1Ms get() = this.wbContMs.value.getWbMs(wbKey1Ms)!!
+    val wb1Ms get() = this.wbCont.getWbMs(wbKey1Ms)!!
     val wb1 get() = wb1Ms.value
-    val wb2Ms get() = this.wbContMs.value.getWbMs(wbKey2Ms)!!
+    val wb2Ms get() = this.wbCont.getWbMs(wbKey2Ms)!!
     val wb2 get() = wb2Ms.value
 
     init {
@@ -191,9 +189,5 @@ class TestSample : TestAppScope {
     }
 
     fun sampleAppState() = appState
-    fun sampleAppState(wbCont: WorkbookContainer): AppState {
-        sc.wbCont = wbCont
-        return appState
-    }
 }
 

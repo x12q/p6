@@ -1,12 +1,9 @@
 package com.qxdzbc.p6.app.action.workbook.add_ws.applier
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.app.common.utils.RseNav
 
 
 import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
-import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
@@ -19,10 +16,8 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class CreateNewWorksheetApplierImp @Inject constructor(
     private val subAppStateContainer: StateContainer,
-    private val wbContMs:Ms<WorkbookContainer>,
+    private val wbCont:WorkbookContainer,
 ) : CreateNewWorksheetApplier {
-
-    private var wbCont by wbContMs
 
     override fun applyRs(res: RseNav<AddWorksheetResponse>): RseNav<AddWorksheetResponse> {
         val rt = res.andThen { addRs ->

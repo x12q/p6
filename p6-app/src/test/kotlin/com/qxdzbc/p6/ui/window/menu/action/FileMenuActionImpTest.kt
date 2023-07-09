@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.window.menu.action
 
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -18,12 +17,12 @@ internal class FileMenuActionImpTest {
     lateinit var windowState: WindowState
     lateinit var windowAction: WindowAction
     lateinit var ts:TestSample
-    lateinit var wbContMs:Ms<WorkbookContainer>
+    lateinit var wbCont:WorkbookContainer
     lateinit var wbStateContMs:WorkbookStateContainer
     @BeforeTest
     fun b() {
         ts = TestSample()
-        wbContMs = ts.wbContMs
+        wbCont = ts.wbCont
         wbStateContMs = ts.sc.wbStateCont
         windowState = ts.sampleWindowStateMs
         windowAction = mock<WindowAction>() {
@@ -51,7 +50,7 @@ internal class FileMenuActionImpTest {
         val validPathKey = TestSample.wbk1.setPath(Path.of("sample/path"))
         assertNotNull(windowState.activeWbStateMs)
 
-        wbContMs.value.replaceKey(TestSample.wbk1, validPathKey)
+        wbCont.replaceKey(TestSample.wbk1, validPathKey)
         wbStateContMs.replaceKey(TestSample.wbk1, validPathKey)
 
         assertNotNull(windowState.activeWbState?.wbKey?.path)

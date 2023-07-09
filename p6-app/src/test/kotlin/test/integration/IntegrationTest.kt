@@ -93,7 +93,7 @@ class IntegrationTest {
     @Test
     fun `test cell value update after removing dependent cell`() {
         val appState = ts.sampleAppState()
-        var wbCont by ts.sc.wbContMs
+        val wbCont = ts.sc.wbCont
         val wbKeySt = WorkbookKey("Wb1").toMs()
         val wsNameSt = "S1".toMs()
         val translator = ExUnitFormulaTranslator(

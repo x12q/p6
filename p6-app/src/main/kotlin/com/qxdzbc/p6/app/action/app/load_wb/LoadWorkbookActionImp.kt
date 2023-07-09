@@ -36,7 +36,7 @@ data class LoadWorkbookActionImp @Inject constructor(
 
     private val sc = stateCont
     private val tc = translatorContainer
-    private var wbCont by sc.wbContMs
+    private var wbCont = sc.wbCont
     private val wbStateCont = sc.wbStateCont
 
     override fun loadWorkbook(request: LoadWorkbookRequest): LoadWorkbookResponse {

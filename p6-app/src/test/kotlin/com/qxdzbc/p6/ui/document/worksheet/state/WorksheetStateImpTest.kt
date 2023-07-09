@@ -95,7 +95,7 @@ class WorksheetStateImpTest : BaseAppStateTest() {
 
         val p6Comp = ts.comp
         val wsStateFactory = ts.comp.worksheetStateFactory()
-        ts.wbContMs.value.apply {
+        ts.wbCont.apply {
             addOrOverWriteWb(wb0)
             addOrOverWriteWb(wb1)
         }

@@ -20,11 +20,10 @@ import javax.inject.Inject
 class DeleteMultiApplierImp @Inject constructor(
     private val subAppStateContainer: StateContainer,
     private val errorRouter: ErrorRouter,
-    private val wbContMs:Ms<WorkbookContainer>,
+    private val wbCont:WorkbookContainer,
 ) : DeleteMultiApplier {
 
     private var subAppStateCont = subAppStateContainer
-    private var wbCont by wbContMs
 
     override fun apply(res: RseNav<RemoveMultiCellResponse>): RseNav<RemoveMultiCellResponse> {
         res.onFailure {

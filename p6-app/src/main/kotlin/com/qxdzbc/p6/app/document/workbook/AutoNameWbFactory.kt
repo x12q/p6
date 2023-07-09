@@ -21,10 +21,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class AutoNameWbFactory @Inject constructor(
-    val wbContMs: Ms<WorkbookContainer>,
+    val wbCont: WorkbookContainer,
     val wsNameGenerator: WsNameGenerator,
 ) : WorkbookFactory {
-    private var wbCont by wbContMs
 
     companion object {
         private val namePattern = Pattern.compile("Book[1-9][0-9]*")
@@ -35,7 +34,7 @@ class AutoNameWbFactory @Inject constructor(
         // Eg:{ "Book1", "Book2" }-> {1,2}
 
         val newWbName = wbName?: run{
-            val wbIndices = wbContMs.value.allWbs
+            val wbIndices = wbCont.allWbs
                 .map { it.key.name }
                 .filter {
                     namePattern.matcher(it).matches()

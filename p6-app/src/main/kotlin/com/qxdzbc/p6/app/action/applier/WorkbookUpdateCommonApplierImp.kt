@@ -18,7 +18,7 @@ class WorkbookUpdateCommonApplierImp @Inject constructor(
 ) : WorkbookUpdateCommonApplier {
    
 
-    private var wbCont by stateCont.wbContMs
+    private var wbCont = stateCont.wbCont
     private val globalWbStateCont = stateCont.wbStateCont
 
     override fun apply(res: WorkbookUpdateCommonResponseInterface?) {

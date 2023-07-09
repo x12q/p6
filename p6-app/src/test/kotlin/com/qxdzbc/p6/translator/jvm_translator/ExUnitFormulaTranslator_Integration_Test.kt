@@ -41,7 +41,7 @@ class ExUnitFormulaTranslator_Integration_Test {
 
     lateinit var appStateMs: AppState
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
-    val wbCont: WorkbookContainer get() = ts.sc.wbContMs.value
+    val wbCont: WorkbookContainer get() = ts.sc.wbCont
     val sc get()=ts.sc
     @BeforeTest
     fun b() {
@@ -89,13 +89,13 @@ class ExUnitFormulaTranslator_Integration_Test {
         )
 
         ts.appState
-        val wbc: WorkbookContainer by ts.sc.wbContMs
+        val wbc: WorkbookContainer = ts.sc.wbCont
         wbc.removeAll()
         wbl.forEach { wb ->
             wbc.addWb(wb)
         }
 
-        appStateMs = ts.sampleAppState(wbCont)
+        appStateMs = ts.sampleAppState()
         p6FunctDefs = P6FunctionDefinitionsImp(
             ts.appState.documentContainer,
         )
