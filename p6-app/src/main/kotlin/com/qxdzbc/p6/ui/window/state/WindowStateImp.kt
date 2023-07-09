@@ -56,11 +56,10 @@ data class WindowStateImp @AssistedInject constructor(
         ShowDialogStateImp()
     ),
     @Assisted val commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
-//    @Assisted override val dialogHostStateMs: Ms<WindowDialogGroupState>,
     // ===========================================================================
 
     private val wbCont: WorkbookContainer,
-    override val wbStateContMs: WorkbookStateContainer,
+    override val wbStateCont: WorkbookStateContainer,
     @StatusBarStateQualifier
     override val statusBarStateMs: Ms<StatusBarState>,
     private val wbStateFactory: WorkbookStateFactory,
@@ -80,7 +79,7 @@ data class WindowStateImp @AssistedInject constructor(
 
     override val wbStateMsList: List<WorkbookState>
         get() = wbKeySet.mapNotNull {
-            wbStateContMs.getWbState(
+            wbStateCont.getWbState(
                 it
             )
         }
@@ -99,8 +98,6 @@ data class WindowStateImp @AssistedInject constructor(
     override var activeWbPointer: ActiveWorkbookPointer by activeWbPointerMs
 
     override val saveDialogState: FileDialogState by saveDialogStateMs
-
-    private var wbStateCont = wbStateContMs
 
     override val wbList: List<Workbook>
         get() = wbKeySet.mapNotNull {

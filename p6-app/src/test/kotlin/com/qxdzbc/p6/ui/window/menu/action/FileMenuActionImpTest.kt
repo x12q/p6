@@ -18,12 +18,12 @@ internal class FileMenuActionImpTest {
     lateinit var windowAction: WindowAction
     lateinit var ts:TestSample
     lateinit var wbCont:WorkbookContainer
-    lateinit var wbStateContMs:WorkbookStateContainer
+    lateinit var wbStateCont:WorkbookStateContainer
     @BeforeTest
     fun b() {
         ts = TestSample()
         wbCont = ts.wbCont
-        wbStateContMs = ts.sc.wbStateCont
+        wbStateCont = ts.sc.wbStateCont
         windowState = ts.sampleWindowStateMs
         windowAction = mock<WindowAction>() {
             doNothing().whenever(it).saveActiveWorkbook(any(), any())
@@ -51,7 +51,7 @@ internal class FileMenuActionImpTest {
         assertNotNull(windowState.activeWbStateMs)
 
         wbCont.replaceKey(TestSample.wbk1, validPathKey)
-        wbStateContMs.replaceKey(TestSample.wbk1, validPathKey)
+        wbStateCont.replaceKey(TestSample.wbk1, validPathKey)
 
         assertNotNull(windowState.activeWbState?.wbKey?.path)
         action.save(windowState.id)

@@ -21,14 +21,12 @@ import javax.inject.Inject
 import kotlin.io.path.absolute
 
 /**
- * implementation of [WorkbookContainer] that stands on top of a [WorkbookStateContainer], and provides a more limited set of function to query and update workbook. Workbook state is update a long side workbook operations.
+ * implementation of [WorkbookContainer] that stands on top of a [WorkbookStateContainer], and provides a more limited set of function to query and update workbook. Workbook state is update along workbook operations.
  */
 data class WorkbookContainerImp @Inject constructor(
-    private val wbStateContMs: WorkbookStateContainer,
+    private val wbStateCont: WorkbookStateContainer,
     private val wbStateFactory: WorkbookStateFactory,
 ) : AbsWorkbookContainer() {
-
-    private var wbStateCont: WorkbookStateContainer = wbStateContMs
 
     override val allWbs: List<Workbook> get() = wbStateCont.allWbStates.map { it.wb }
 
@@ -62,7 +60,7 @@ data class WorkbookContainerImp @Inject constructor(
             return Ok(Unit)
         }
     }
-    @kotlin.jvm.Throws(Exception::class)
+    @Throws(Exception::class)
     override fun overwriteWB(wb: Workbook) {
         return this.overwriteWBRs(wb).getOrThrow()
     }
@@ -88,11 +86,11 @@ data class WorkbookContainerImp @Inject constructor(
             }
         }
     }
-    @kotlin.jvm.Throws(Exception::class)
+    @Throws(Exception::class)
     override fun addOrOverWriteWb(wb: Workbook) {
         return addOrOverWriteWbRs(wb).getOrThrow()
     }
-    @kotlin.jvm.Throws(Exception::class)
+    @Throws(Exception::class)
     override fun removeWb(wbKey: WorkbookKey) {
         return this.removeWbRs(wbKey).getOrThrow()
     }
@@ -109,7 +107,7 @@ data class WorkbookContainerImp @Inject constructor(
     override fun containWb(wbKey: WorkbookKey): Boolean {
         return this.wbStateCont.containWbKey(wbKey)
     }
-    @kotlin.jvm.Throws(Exception::class)
+    @Throws(Exception::class)
     override fun replaceKey(oldKey: WorkbookKey, newKey: WorkbookKey) {
         return replaceKeyRs(oldKey, newKey).getOrThrow()
     }

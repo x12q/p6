@@ -2,11 +2,9 @@ package com.qxdzbc.p6.ui.window.state
 
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.err.ErrorContainer
-import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
@@ -51,7 +49,7 @@ interface WindowState : WithSize {
     val showStartKernelDialogStateMs:Ms<ShowDialogState>
     var showStartKernelDialogState: ShowDialogState
 
-    val wbStateContMs: WorkbookStateContainer
+    val wbStateCont: WorkbookStateContainer
 
     val formulaBarState:FormulaBarState
 
