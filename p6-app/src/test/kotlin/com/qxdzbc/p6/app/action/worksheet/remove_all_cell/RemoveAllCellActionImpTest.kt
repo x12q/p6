@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.remove_all_cell
 
-import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellContentImp
@@ -35,7 +34,7 @@ internal class RemoveAllCellActionImpTest {
             )
         )
         )
-        wsStateMs.value = wsStateMs.value.refreshCellState()
+        wsStateMs.value.refreshCellState()
         assertTrue(wsStateMs.value.worksheet.isNotEmpty())
         assertTrue(wsStateMs.value.cellStateCont.isNotEmpty())
         act.removeAllCell(wsStateMs.value.id)

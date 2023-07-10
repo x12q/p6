@@ -1,10 +1,8 @@
 package com.qxdzbc.p6.app.action.worksheet.remove_all_cell
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.di.P6Singleton
@@ -26,7 +24,7 @@ class RemoveAllCellActionImp @Inject constructor(
     fun removeAllCell(wsStateMs: Ms<WorksheetState>) {
         val wsMs = wsStateMs.value.wsMs
         wsMs.value = wsMs.value.removeAllCell()
-        wsStateMs.value = wsStateMs.value.refreshCellState()
+        wsStateMs.value.refreshCellState()
     }
 
     override fun removeAllCell(wbWsSt: WbWsSt): Rse<Unit> {

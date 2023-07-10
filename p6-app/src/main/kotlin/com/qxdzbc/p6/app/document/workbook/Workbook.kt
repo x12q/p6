@@ -73,6 +73,7 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
 
     /**
      * for renaming a worksheet inside a workbook. This include checking the legality of the new worksheet name (illegal name format, name collision)
+     * TODO this function is not appropriate. A better way is to get the worksheet, and perform the change on the worksheet itself.
      */
     fun renameWsRs(oldName: String, newName: String): Rse<Workbook>
     fun renameWsRs(index: Int, newName: String): Rse<Workbook>

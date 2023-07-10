@@ -42,11 +42,17 @@ interface Worksheet : WithSize, WbWsSt {
     val usedRange: RangeAddress
 
     val table: TableCR<Int, Int, Ms<Cell>>
+
     val cells: List<Cell> get() = cellMsList.map { it.value }
+
     val cellMsList: List<Ms<Cell>>
+
     val rangeConstraint: RangeConstraint
+
     val rowRange:IntRange
+
     val colRange:IntRange
+
     override val size: Int get() = table.itemCount
 
     fun toProto(): WorksheetProto
@@ -57,6 +63,7 @@ interface Worksheet : WithSize, WbWsSt {
     fun range(address: RangeAddress): Rse<Range>
 
     fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Worksheet>
+
     fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Rse<Worksheet>
 
     fun getCellsInRange(rangeAddress: RangeAddress): List<Cell>
@@ -78,6 +85,7 @@ interface Worksheet : WithSize, WbWsSt {
     fun getCell(cellAddress: CellAddress): Cell?
 
     fun getCell(colIndex: Int, rowIndex: Int): Cell?
+
     fun getCell(label: String): Cell?
 
     /**
@@ -89,9 +97,11 @@ interface Worksheet : WithSize, WbWsSt {
     fun addOrOverwrite(cell: Cell): Worksheet
 
     fun getColMs(colIndex: Int): List<Ms<Cell>>
+
     fun getRowMs(rowIndex: Int): List<Ms<Cell>>
 
     val allColumns:List<TableCRColumn<Int,Cell>>
+
     val allRows:List<TableCRRow<Int,Cell>>
 
     fun getCol(colIndex: Int): List<Cell>
@@ -99,16 +109,21 @@ interface Worksheet : WithSize, WbWsSt {
     fun getRow(rowIndex: Int): List<Cell>
 
     fun removeCol(colIndex: Int): Worksheet
+
     fun removeRow(rowIndex: Int): Worksheet
 
     fun removeCell(colKey: Int, rowKey: Int): Worksheet
+
     fun removeCell(cellAddress: CellAddress): Worksheet
+
     fun removeCell(label:String): Worksheet
 
     fun removeAllCell(): Worksheet
 
     fun removeCells(cells: Collection<CellAddress>): Worksheet
+
     fun setWsName(newName: String): Worksheet
+
     fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet
 
     fun refreshDisplayText():Worksheet

@@ -21,42 +21,12 @@ class RenameWorksheetInternalApplierImp
 @Inject constructor(
     val appState:AppState,
     val stateContainer: StateContainer,
-    private val docCont: DocumentContainer,
     private val errorRouter: ErrorRouter,
 ) : RenameWorksheetInternalApplier {
 
-    private val dc = docCont
-
     override fun apply(wbKey: WorkbookKey, oldName: String, newName: String) {
-        stateContainer.getStateByWorkbookKeyRs(wbKey).map {
-            it.workbookStateMs?.let{workbookStateMs->
-                it.windowState?.let{windowState->
-                    val wb = workbookStateMs.wb
-                    if (oldName != newName) {
-                        // x: rename the sheet in wb
-                        val renameRs = wb.renameWsRs(oldName, newName)
-                        if (renameRs is Ok) {
-                            val newWb: Workbook = renameRs.value
-                            // x: rename ws state
-                            val sheetStateMs: Ms<WorksheetState>? = workbookStateMs.getWsStateMs(oldName)
-                            if (sheetStateMs != null) {
-                                newWb.getWsMsRs(newName).onSuccess { newWs ->
-                                    sheetStateMs.value = sheetStateMs.value.setWsMs(newWs)
-                                }
-                            }
-                            val newWbState: WorkbookState = workbookStateMs
-                            // x: preserve active sheet pointer if it was pointing to the old name
-                            dc.replaceWb(newWb)
-                            if (newWbState.activeSheetPointer.isPointingTo(oldName)) {
-                                newWbState.setActiveSheet(newName)
-                                newWbState.needSave = true
-                            }
-                        } else {
-                            errorRouter.publishToWindow(renameRs.unwrapError(), windowState.id)
-                        }
-                    }
-                }
-            }
+        stateContainer.getWsMsRs(wbKey,oldName).onSuccess {wsMs->
+            wsMs.value = wsMs.value.setWsName(newName)
         }.onFailure {
             errorRouter.publishToWindow(it,wbKey)
         }

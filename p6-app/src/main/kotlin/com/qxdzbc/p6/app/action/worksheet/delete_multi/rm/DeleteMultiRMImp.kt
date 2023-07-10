@@ -1,12 +1,9 @@
 package com.qxdzbc.p6.app.action.worksheet.delete_multi.rm
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAtCursorRequest
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.RemoveMultiCellResponse
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellRequest
@@ -63,15 +60,14 @@ class DeleteMultiRMImp @Inject constructor(
                 newWs = newWs.removeCells(cellsInRanges)
                 val newWb = wb.addSheetOrOverwrite(newWs).reRun()
                 val oldWsState = stateCont.getWsState(wbk, wsn)
-                val newWsState = if (request.clearFormat) {
-                    stateCont.getWsState(wbk, wsn)?.removeCellState(cells + cellsInRanges)
-                } else {
-                    oldWsState
+                if (request.clearFormat) {
+                    oldWsState?.removeCellState(cells + cellsInRanges)
                 }
+                oldWsState?.refreshCellState()
                 Ok(
                     RemoveMultiCellResponse(
                         newWb = newWb,
-                        newWsState = newWsState?.refreshCellState()
+                        newWsState = oldWsState
                     )
                 )
             }

@@ -161,7 +161,7 @@ data class WorkbookStateImp (
             val wsStateMs: Ms<WorksheetState>? = this.getWsStateMs(ws.name)
             if (wsStateMs != null) {
                 // x: keep the existing state
-                wsStateMs.value = wsStateMs.value.refreshCellState()
+                wsStateMs.value.refreshCellState()
                 newStateMap = newStateMap + (wsStateMs.value.wsNameSt to wsStateMs)
             } else {
                 // x: create new state for new sheet
@@ -218,7 +218,8 @@ data class WorkbookStateImp (
             thumbStateFactory = this.thumbStateFactory
 
         )
-        return ms(wsState.refreshCellState())
+        wsState.refreshCellState()
+        return ms(wsState)
     }
 
     @Throws(Exception::class)

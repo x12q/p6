@@ -1,9 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.load_data
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
@@ -41,7 +39,7 @@ class LoadDataActionImp @Inject constructor(
             val newDataRs = loadDataRs(wsMs.value, request, translator)
             newDataRs.onSuccess {
                 wsMs.value = it
-                wsStateMs.value = wsStateMs.value.refreshCellState()
+                wsStateMs.value.refreshCellState()
             }
             newDataRs
         }

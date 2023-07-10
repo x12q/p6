@@ -5,7 +5,6 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.onFailure
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -61,7 +60,7 @@ class UpdateCellActionImp @Inject constructor(
 
             updateWsRs.flatMap {
                 wsMs.value = it
-                wsStateMs.value = wsStateMs.value.refreshCellState()
+                 wsStateMs.value.refreshCellState()
                 if (wbMs != null) {
                     /*
                     the target ws belongs to a valid workbook, therefore, need

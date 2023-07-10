@@ -8,7 +8,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.proto.DocProtos.WorksheetIdProto
 
 /**
- * contain information that can be used to querying worksheets, worksheet states from the central app state
+ * contain information that can be used to querying worksheets and worksheet states from the central app state
  */
 interface WorksheetId: WbWs, WbWsSt {
     val wsNameMs:Ms<String>

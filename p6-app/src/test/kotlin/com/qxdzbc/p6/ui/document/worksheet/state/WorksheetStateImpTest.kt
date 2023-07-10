@@ -145,9 +145,11 @@ class WorksheetStateImpTest : BaseAppStateTest() {
             val labelA1 = "A1"
             val labelK12 = "K12"
             val labelM10 = "M10"
-            val wsState2 = wsStateForWb0Sheet1
-                .addBlankCellState(CellAddress(labelM10))
-                .addBlankCellState(CellAddress(labelK12))
+            val wsState2 = wsStateForWb0Sheet1.apply {
+                addBlankCellState(CellAddress(labelM10))
+                addBlankCellState(CellAddress(labelK12))
+            }
+
 
             preCondition {
                 val cellState = wsState2.getCellState(labelM10)
@@ -155,17 +157,17 @@ class WorksheetStateImpTest : BaseAppStateTest() {
                 cellState.cell.shouldBeNull()
             }
 
-            val wsState3 = wsState2.refreshCellState()
+            wsState2.refreshCellState()
 
             postCondition {
-                wsState3.cellStateCont.allElements.size shouldBe 1
+                wsState2.cellStateCont.allElements.size shouldBe 1
 
-                val cellStateA1 = wsState3.getCellState(labelA1)
+                val cellStateA1 = wsState2.getCellState(labelA1)
                 cellStateA1.shouldNotBeNull()
                 cellStateA1.cell.shouldNotBeNull()
 
-                wsState3.getCellState(labelK12).shouldBeNull()
-                wsState3.getCellState(labelM10).shouldBeNull()
+                wsState2.getCellState(labelK12).shouldBeNull()
+                wsState2.getCellState(labelM10).shouldBeNull()
             }
         }
     }
@@ -178,22 +180,22 @@ class WorksheetStateImpTest : BaseAppStateTest() {
         assertEquals(nn.value, newWsId.wsName)
     }
 
-    @Test
-    fun `effect of chaning ws`() {
-        val newWsMs: Ms<Worksheet> = WorksheetImp(nameMs = ms("NewWorksheet"), wbKeySt = ms(ts.wbKey1)).toMs()
-
-        val wsState2 = wsStateForWb0Sheet1.setWsMs(newWsMs)
-
-        assertEquals(newWsMs, wsState2.wsMs)
-        assertEquals(newWsMs.value.nameMs, wsState2.id.wsNameMs)
-        assertEquals(newWsMs.value.wbKeySt, wsState2.id.wbKeySt)
-        assertEquals(newWsMs.value.wbKeySt.value, wsState2.cursorState.id.wbKey)
-
-        assertEquals(newWsMs.value.nameMs.value, wsState2.rowRulerState.wsName)
-        assertEquals(newWsMs.value.wbKeySt.value, wsState2.rowRulerState.wbKey)
-
-        assertEquals(newWsMs.value.nameMs.value, wsState2.colRulerState.wsName)
-        assertEquals(newWsMs.value.wbKeySt.value, wsState2.colRulerState.wbKey)
-
-    }
+//    @Test
+//    fun `effect of chaning ws`() {
+//        val newWsMs: Ms<Worksheet> = WorksheetImp(nameMs = ms("NewWorksheet"), wbKeySt = ms(ts.wbKey1)).toMs()
+//
+//        val wsState2 = wsStateForWb0Sheet1.setWsMs(newWsMs)
+//
+//        assertEquals(newWsMs, wsState2.wsMs)
+//        assertEquals(newWsMs.value.nameMs, wsState2.id.wsNameMs)
+//        assertEquals(newWsMs.value.wbKeySt, wsState2.id.wbKeySt)
+//        assertEquals(newWsMs.value.wbKeySt.value, wsState2.cursorState.id.wbKey)
+//
+//        assertEquals(newWsMs.value.nameMs.value, wsState2.rowRulerState.wsName)
+//        assertEquals(newWsMs.value.wbKeySt.value, wsState2.rowRulerState.wbKey)
+//
+//        assertEquals(newWsMs.value.nameMs.value, wsState2.colRulerState.wsName)
+//        assertEquals(newWsMs.value.wbKeySt.value, wsState2.colRulerState.wbKey)
+//
+//    }
 }

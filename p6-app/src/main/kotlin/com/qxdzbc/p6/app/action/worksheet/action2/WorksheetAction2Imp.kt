@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.worksheet.action2
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -10,7 +9,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell.MoveSliderAction
@@ -53,7 +51,7 @@ class WorksheetAction2Imp @Inject constructor(
                 newSlider = newSlider.shiftDown(y)
             }
             if (newSlider != sliderState) {
-                wsStateMs.value = wsState
+                 wsState
                     .setSliderAndRefreshDependentStates(newSlider)
                 wsState.cellLayoutCoorMapMs.value =
                     wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddress(cellAddress) }
@@ -68,7 +66,7 @@ class WorksheetAction2Imp @Inject constructor(
     ) {
         val wsStateMs = sc.getWsStateMs(wsLoc)
         if (wsStateMs != null) {
-            wsStateMs.value = wsStateMs.value
+            wsStateMs.value
                 .addCellLayoutCoor(cellAddress, layoutCoordinates.wrap())
         }
     }
@@ -76,7 +74,7 @@ class WorksheetAction2Imp @Inject constructor(
     override fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt) {
         sc.getWsStateMs(wsLoc)?.also {
             val wsState by it
-            it.value = wsState
+            wsState
                 .removeCellLayoutCoor(cellAddress)
         }
     }
@@ -84,7 +82,7 @@ class WorksheetAction2Imp @Inject constructor(
     override fun removeAllCellLayoutCoor(wsLoc: WbWsSt) {
         sc.getWsStateMs(wsLoc)?.also {
             val wsState by it
-            it.value = wsState
+            wsState
                 .removeAllCellLayoutCoor()
         }
     }
@@ -96,7 +94,6 @@ class WorksheetAction2Imp @Inject constructor(
             val wsState by it
             val newState =wsState
                 .setCellGridLayoutCoorWrapper(newLayoutCoordinates.wrap())
-            it.value = newState
         }
     }
 
@@ -106,8 +103,7 @@ class WorksheetAction2Imp @Inject constructor(
         )
         wsStateMs?.also {
             val wsState by it
-            it.value = wsState
-                .setwsLayoutCoorWrapper(newLayoutCoordinates.wrap())
+            wsState.setWsLayoutCoorWrapper(newLayoutCoordinates.wrap())
         }
     }
 }

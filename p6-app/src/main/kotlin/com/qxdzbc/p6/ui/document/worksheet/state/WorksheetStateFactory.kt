@@ -63,7 +63,9 @@ interface WorksheetStateFactory {
                 sliderMs=sliderMs,
                 cursorStateMs=cursorStateMs,
                 cellLayoutCoorMapMs = cellLayoutCoorMapMs
-            ).refresh()
+            ).apply {
+                refresh()
+            }
         }
 
         /**

@@ -1,8 +1,6 @@
 package com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size
 
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.Dp
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
@@ -29,16 +27,16 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
 
             override fun run() {
                 sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
-                    wsStateMs.value = wsStateMs.value.changeColWidth(_colIndex, _sizeDiff)
+                    wsStateMs.value.changeColWidth(_colIndex, _sizeDiff)
                 }
             }
 
             override fun undo() {
                 sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
                     if(_oldWidth!=null){
-                        wsStateMs.value = wsStateMs.value.changeColWidth(_colIndex, -_sizeDiff)
+                        wsStateMs.value.changeColWidth(_colIndex, -_sizeDiff)
                     }else{
-                        wsStateMs.value = wsStateMs.value.restoreColumnWidthToDefault(_colIndex)
+                        wsStateMs.value.restoreColumnWidthToDefault(_colIndex)
                     }
                 }
             }
@@ -54,7 +52,7 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
             }
         }
         sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            wsStateMs.value = wsStateMs.value.changeColWidth(colIndex, sizeDiff)
+            wsStateMs.value.changeColWidth(colIndex, sizeDiff)
         }
     }
 
@@ -67,16 +65,16 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
 
             override fun run() {
                 sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
-                    wsStateMs.value = wsStateMs.value.changeRowHeight(_rowIndex, _sizeDiff)
+                    wsStateMs.value.changeRowHeight(_rowIndex, _sizeDiff)
                 }
             }
 
             override fun undo() {
                 sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
                     if(_oldHeight!=null){
-                        wsStateMs.value = wsStateMs.value.changeRowHeight(_rowIndex, -_sizeDiff)
+                        wsStateMs.value.changeRowHeight(_rowIndex, -_sizeDiff)
                     }else{
-                        wsStateMs.value = wsStateMs.value.restoreRowHeightToDefault(_rowIndex)
+                        wsStateMs.value.restoreRowHeightToDefault(_rowIndex)
                     }
                 }
             }
@@ -93,8 +91,7 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
         }
         
         sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            val newWsState = wsStateMs.value.changeRowHeight(rowIndex, sizeDiff)
-            wsStateMs.value = newWsState
+            wsStateMs.value.changeRowHeight(rowIndex, sizeDiff)
         }
     }
 }

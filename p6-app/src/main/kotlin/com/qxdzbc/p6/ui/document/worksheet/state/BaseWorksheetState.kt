@@ -26,6 +26,7 @@ abstract class BaseWorksheetState : WorksheetState {
 
     override val redoStack: CommandStack
         get() = redoStackMs.value
+
     override val undoStack: CommandStack
         get() = undoStackMs.value
 
@@ -43,8 +44,8 @@ abstract class BaseWorksheetState : WorksheetState {
         return this.getCellState(CellAddress(label))
     }
 
-    override fun refresh(): WorksheetState {
-        return this.refreshCellState()
+    override fun refresh() {
+        this.refreshCellState()
     }
 
     override fun getCellState(colIndex: Int, rowIndex: Int): CellState? {
@@ -63,32 +64,30 @@ abstract class BaseWorksheetState : WorksheetState {
         return this.getColumnWidth(colIndex) ?: defaultColWidth
     }
 
-    override fun changeColWidth(colIndex: Int, sizeDiff: Dp): WorksheetState {
+    override fun changeColWidth(colIndex: Int, sizeDiff: Dp) {
         val sd = sizeDiff
         if (sd != 0.dp) {
             val oldSize = this.getColumnWidth(colIndex) ?: defaultColWidth
             val newSize = oldSize + sd
             if (newSize == defaultColWidth) {
-                return this.restoreColumnWidthToDefault(colIndex)
+                this.restoreColumnWidthToDefault(colIndex)
             } else {
-                return this.addColumnWidth(colIndex, maxOf(oldSize + sd, 0.dp))
+                this.addColumnWidth(colIndex, maxOf(oldSize + sd, 0.dp))
             }
         }
-        return this
     }
 
-    override fun changeRowHeight(rowIndex: Int, sizeDiff: Dp): WorksheetState {
+    override fun changeRowHeight(rowIndex: Int, sizeDiff: Dp) {
         if (sizeDiff != 0.dp) {
             val wsState = this
             val oldSize = wsState.getRowHeight(rowIndex) ?: defaultRowHeight
             val newSize = oldSize + sizeDiff
             if (newSize == defaultRowHeight) {
-                return wsState.restoreRowHeightToDefault(rowIndex)
+                wsState.restoreRowHeightToDefault(rowIndex)
             } else {
-                return wsState.addRowHeight(rowIndex, maxOf(oldSize + sizeDiff, 0.dp))
+                wsState.addRowHeight(rowIndex, maxOf(oldSize + sizeDiff, 0.dp))
             }
         }
-        return this
     }
 
     override val columnWidthMap: Map<Int, Dp> get() = colRulerState.itemSizeMap
@@ -104,27 +103,23 @@ abstract class BaseWorksheetState : WorksheetState {
         return this.columnWidthMap[colIndex]
     }
 
-    override fun addColumnWidth(colIndex: Int, colWidth: Dp): WorksheetState {
+    override fun addColumnWidth(colIndex: Int, colWidth: Dp) {
         this.colRulerStateMs.value = this.colRulerState.setItemSize(colIndex,colWidth)
-        return this
     }
 
-    override fun restoreColumnWidthToDefault(colIndex: Int): WorksheetState {
+    override fun restoreColumnWidthToDefault(colIndex: Int) {
         this.colRulerStateMs.value = this.colRulerState.removeItemSize(colIndex)
-        return this
     }
 
     override fun getRowHeight(rowIndex: Int): Dp? {
         return this.rowHeightMap[rowIndex]
     }
 
-    override fun addRowHeight(rowIndex: Int, rowHeight: Dp): WorksheetState {
+    override fun addRowHeight(rowIndex: Int, rowHeight: Dp) {
         this.rowRulerStateMs.value = this.rowRulerState.setItemSize(rowIndex,  rowHeight)
-        return this
     }
 
-    override fun restoreRowHeightToDefault(rowIndex: Int): WorksheetState {
+    override fun restoreRowHeightToDefault(rowIndex: Int) {
         rowRulerStateMs.value = rowRulerState.removeItemSize(rowIndex)
-        return this
     }
 }

@@ -76,7 +76,7 @@ internal class WorksheetAction2ImpTest {
         }
         actions = testSample.comp.worksheetAction2()
         for ((c, l) in layoutMap) {
-            wsStateMs.value = wsStateMs.value.addCellLayoutCoor(c, l)
+            wsStateMs.value.addCellLayoutCoor(c, l)
         }
     }
 
