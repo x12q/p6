@@ -26,17 +26,17 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
             val _oldWidth = sc.getWsState(_wbwsSt)?.getColumnWidth(_colIndex)
 
             override fun run() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
-                    wsStateMs.value.changeColWidth(_colIndex, _sizeDiff)
+                sc.getWsState(_wbwsSt)?.also { wsState ->
+                    wsState.changeColWidth(_colIndex, _sizeDiff)
                 }
             }
 
             override fun undo() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
+                sc.getWsState(_wbwsSt)?.also { wsState ->
                     if(_oldWidth!=null){
-                        wsStateMs.value.changeColWidth(_colIndex, -_sizeDiff)
+                        wsState.changeColWidth(_colIndex, -_sizeDiff)
                     }else{
-                        wsStateMs.value.restoreColumnWidthToDefault(_colIndex)
+                        wsState.restoreColumnWidthToDefault(_colIndex)
                     }
                 }
             }
@@ -51,8 +51,8 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
                 it.value = it.value.add(command)
             }
         }
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            wsStateMs.value.changeColWidth(colIndex, sizeDiff)
+        sc.getWsState(wbwsSt)?.also { wsState ->
+            wsState.changeColWidth(colIndex, sizeDiff)
         }
     }
 
@@ -64,17 +64,17 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
             val _oldHeight = sc.getWsState(_wbwsSt)?.getRowHeight(_rowIndex)
 
             override fun run() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
-                    wsStateMs.value.changeRowHeight(_rowIndex, _sizeDiff)
+                sc.getWsState(_wbwsSt)?.also { wsState ->
+                    wsState.changeRowHeight(_rowIndex, _sizeDiff)
                 }
             }
 
             override fun undo() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
+                sc.getWsState(_wbwsSt)?.also { wsState ->
                     if(_oldHeight!=null){
-                        wsStateMs.value.changeRowHeight(_rowIndex, -_sizeDiff)
+                        wsState.changeRowHeight(_rowIndex, -_sizeDiff)
                     }else{
-                        wsStateMs.value.restoreRowHeightToDefault(_rowIndex)
+                        wsState.restoreRowHeightToDefault(_rowIndex)
                     }
                 }
             }
@@ -90,8 +90,8 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
             }
         }
         
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            wsStateMs.value.changeRowHeight(rowIndex, sizeDiff)
+        sc.getWsState(wbwsSt)?.also { wsState ->
+            wsState.changeRowHeight(rowIndex, sizeDiff)
         }
     }
 }

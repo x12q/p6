@@ -22,14 +22,14 @@ internal class RangeToClipboardActionImpTest {
     lateinit var cellRM: CellRM
     lateinit var appState: AppState
     lateinit var stateCont:StateContainer
-    lateinit var wsStateMs: Ms<WorksheetState>
+    lateinit var wsState: WorksheetState
     lateinit var testSample: TestSample
     @BeforeTest
     fun beforeTest() {
         testSample = TestSample()
         appState = testSample.sampleAppState()
         stateCont = testSample.sc
-        wsStateMs = stateCont.getStateByWorkbookKey(TestSample.wbk1)!!.workbookStateMs!!.getWsStateMs("Sheet1")!!
+        wsState = stateCont.getStateByWorkbookKey(TestSample.wbk1)!!.workbookStateMs!!.getWsStateMs("Sheet1")!!
         wsRequestMaker = mock()
         cellRM = mock()
     }

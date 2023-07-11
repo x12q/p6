@@ -5,7 +5,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInWindow
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.RefreshRangeSelectorText
@@ -35,9 +34,8 @@ class RulerActionImp @Inject constructor(
     private val sc = stateCont
 
     private fun resizerIsNotActivate(wbwsSt: WbWsSt): Boolean {
-        val wsStateMs = sc.getWsStateMs(wbwsSt)
-        if (wsStateMs != null) {
-            val wsState by wsStateMs
+        val wsState = sc.getWsState(wbwsSt)
+        if (wsState != null) {
             return !wsState.colResizeBarState.isShow && !wsState.rowResizeBarState.isShow
         } else {
             return false
@@ -89,15 +87,15 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun showColResizeBarThumb(index: Int, wbwsSt: WbWsSt) {
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            val colRulerState = wsStateMs.value.colRulerState
-            val wsState by wsStateMs
+        sc.getWsState(wbwsSt)?.also { wsState ->
+            val colRulerState = wsState.colRulerState
             val resizerLayout = colRulerState.getResizerLayout(index)
             val wsLayout = wsState.wsLayoutCoorWrapper?.layout
             if (wsLayout != null && wsLayout.isAttached) {
                 if (resizerLayout != null && resizerLayout.isAttached) {
                     val p = wsLayout.windowToLocal(resizerLayout.positionInWindow())
-                    wsState.colResizeBarStateMs.value = wsState.colResizeBarStateMs.value.changePosition(p).showThumb()
+                    wsState.colResizeBarStateMs.value =
+                        wsState.colResizeBarStateMs.value.changePosition(p).showThumb()
                 }
             }
         }

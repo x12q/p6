@@ -905,13 +905,12 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         val cellEditorMs = appState.cellEditorStateMs
         val wsAction = ts.comp.wsAction()
         val wds = sc.getWindowStateMsByWbKey(wbk)
-        val wsStateMs = sc.getWsStateMs(wbk, wsn)
+        val wsState = sc.getWsState(wbk, wsn)
 
         cursorMs.shouldNotBeNull()
         wds.shouldNotBeNull()
-        wsStateMs.shouldNotBeNull()
+        wsState.shouldNotBeNull()
 
-        val wsState by wsStateMs
         // open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         // click on another cell

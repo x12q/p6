@@ -78,10 +78,10 @@ class WorkbookStateImpTest {
 
     @Test
     fun setWorkbook() {
-        val sheet1_1State:Ms<WorksheetState>? = wbState.getWsStateMs(wb0.getWs(0)!!.name)
+        val sheet1_1State:WorksheetState? = wbState.getWsStateMs(wb0.getWs(0)!!.name)
         assertNotNull(sheet1_1State)
-        sheet1_1State.value.cursorStateMs.value = sheet1_1State.value.cursorState.setMainCell(CellAddress("B9"))
-        val cursor1_1 = sheet1_1State.value.cursorState
+        sheet1_1State.cursorStateMs.value = sheet1_1State.cursorState.setMainCell(CellAddress("B9"))
+        val cursor1_1 = sheet1_1State.cursorState
         val oldTabBarState = wbState.sheetTabBarState
         val wbState2 = wbState.setWorkbookKeyAndRefreshState(wb1.key)
         val l2 = wbState.worksheetStateList
@@ -90,18 +90,18 @@ class WorkbookStateImpTest {
 
         val sheet11NewState = wbState.getWsStateMs(wb1.getWs(0)!!.name)
         assertNotNull(sheet11NewState)
-        val newCursor11 = sheet11NewState.value.cursorState
+        val newCursor11 = sheet11NewState.cursorState
 
         // cursor state is preserve
         assertEquals(cursor1_1, newCursor11)
 
-        val newSheet11 = sheet11NewState.value.worksheet
+        val newSheet11 = sheet11NewState.worksheet
         // sheet state points to new sheet obj
         assertEquals(wb1.getWs(0), newSheet11)
 
         // slider is preserved
-        val newSlider11 = sheet11NewState.value.slider
-        assertEquals(sheet1_1State.value.slider, newSlider11)
+        val newSlider11 = sheet11NewState.slider
+        assertEquals(sheet1_1State.slider, newSlider11)
 
         // tab bar state is preserved
         assertEquals(oldTabBarState, wbState.sheetTabBarState)

@@ -128,7 +128,7 @@ class CopyCellActionImp @Inject constructor(
             val toCellMs: Ms<Cell>? = sc.getCellMs(request.toCell)
             val rs3: Rse<Unit> = sc.getWsMsRs(request.toCell).flatMap { toWsMs ->
                 val toWs: Worksheet by toWsMs
-                val wsStateMs: Ms<WorksheetState>? = sc.getWsStateMs(request.toCell)
+                val wsState: WorksheetState? = sc.getWsState(request.toCell)
                 // x: create the new cell if the destination cell does not exist
                 val newToWs: Worksheet = if (toCellMs == null) {
                     val newCell = CellImp(
@@ -154,9 +154,7 @@ class CopyCellActionImp @Inject constructor(
                             fromCellMs.value.content
                         }
                         toCellMs.value = toCellMs.value.setContent(targetContent)
-                        wsStateMs?.let {
-                            it.value.refresh()
-                        }
+                        wsState?.refresh()
                         Ok(Unit)
                     }
                 // x: reRun the workbook containing the destination cell

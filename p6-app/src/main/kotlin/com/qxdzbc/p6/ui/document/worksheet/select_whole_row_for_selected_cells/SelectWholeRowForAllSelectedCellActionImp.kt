@@ -1,8 +1,6 @@
 package com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -24,10 +22,9 @@ class SelectWholeRowForAllSelectedCellActionImp @Inject constructor(
 
     private val sc  = stateCont
 
-     fun selectWholeRowForAllSelectedCells(wsStateMs:Ms<WorksheetState>?) {
-        wsStateMs?.also {
-            val wsState by wsStateMs
-            val cursorStateMs = wsStateMs.value.cursorStateMs
+     fun selectWholeRowForAllSelectedCells(wsState:WorksheetState?) {
+        wsState?.also {
+            val cursorStateMs = wsState.cursorStateMs
             val cursorState: CursorState by cursorStateMs
             val selectRows: List<Int> = cursorState.allFragCells.map { it.rowIndex }
             val rowFromRange: List<IntRange> = cursorState.allRanges.map {
@@ -51,11 +48,11 @@ class SelectWholeRowForAllSelectedCellActionImp @Inject constructor(
         }
      }
     override fun selectWholeRowForAllSelectedCells(wbwsSt: WbWsSt) {
-        selectWholeRowForAllSelectedCells(sc.getWsStateMs(wbwsSt))
+        selectWholeRowForAllSelectedCells(sc.getWsState(wbwsSt))
     }
 
     override fun selectWholeRowForAllSelectedCells(wbws: WbWs) {
-        selectWholeRowForAllSelectedCells(sc.getWsStateMs(wbws))
+        selectWholeRowForAllSelectedCells(sc.getWsState(wbws))
     }
 
 }

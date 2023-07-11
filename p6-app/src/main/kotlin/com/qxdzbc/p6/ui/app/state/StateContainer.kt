@@ -141,24 +141,18 @@ interface StateContainer : DocumentContainer, WorkbookStateGetter {
     fun createNewWindowStateMs(): Ms<OuterWindowState>
     fun createNewWindowStateMs(windowId: String): Ms<OuterWindowState>
 
-    fun getWsStateMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<WorksheetState>>
+    fun getWsStateMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<WorksheetState>
     fun getWsStateRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<WorksheetState>
-    fun getWsStateMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<WorksheetState>?
+    fun getWsStateMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): WorksheetState?
     fun getWsState(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): WorksheetState?
 
-    fun getWsStateMsRs(wbwsSt: WbWsSt): Rse<Ms<WorksheetState>>
     fun getWsStateRs(wbwsSt: WbWsSt): Rse<WorksheetState>
-    fun getWsStateMs(wbwsSt: WbWsSt): Ms<WorksheetState>?
     fun getWsState(wbwsSt: WbWsSt): WorksheetState?
 
-    fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>>
     fun getWsStateRs(wbKey: WorkbookKey, wsName: String): Rse<WorksheetState>
-    fun getWsStateMs(wbKey: WorkbookKey, wsName: String): Ms<WorksheetState>?
     fun getWsState(wbKey: WorkbookKey, wsName: String): WorksheetState?
 
-    fun getWsStateMsRs(wbws: WbWs): Rse<Ms<WorksheetState>>
     fun getWsStateRs(wbws: WbWs): Rse<WorksheetState>
-    fun getWsStateMs(wbws: WbWs): Ms<WorksheetState>?
     fun getWsState(wbws: WbWs): WorksheetState?
 
     fun getWindowStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<WindowState, SingleErrorReport>

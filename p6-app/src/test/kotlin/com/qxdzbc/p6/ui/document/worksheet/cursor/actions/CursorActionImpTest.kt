@@ -21,7 +21,7 @@ class CursorActionImpTest {
     lateinit var ts:TestSample
     lateinit var cursorAction: CursorAction
     lateinit var cellEditorAction: CellEditorAction
-    lateinit var wsStateMs:Ms<WorksheetState>
+    lateinit var wsState:WorksheetState
 
     lateinit var sliderMs:Ms<GridSlider>
     lateinit var cursorMs:Ms<CursorState>
@@ -32,16 +32,16 @@ class CursorActionImpTest {
         ts = TestSample()
         cursorAction = ts.comp.cursorAction()
         cellEditorAction = ts.comp.cellEditorAction()
-        val w = ts.sc.getWsStateMs(WbWs(ts.wbKey1,ts.wsn1))
+        val w = ts.sc.getWsState(WbWs(ts.wbKey1,ts.wsn1))
         assertNotNull(w)
-        wsStateMs = w
-        sliderMs = wsStateMs.value.sliderMs
-        cursorMs = wsStateMs.value.cursorStateMs
+        wsState = w
+        sliderMs = wsState.sliderMs
+        cursorMs = wsState.cursorStateMs
     }
 
     @Test
     fun `shift +arrow out of the slider boundary`(){
-        val wbws = wsStateMs.value
+        val wbws = wsState
         val oldSlider = slider
         val cursor by cursorMs
 
@@ -111,7 +111,7 @@ class CursorActionImpTest {
         val cursor by cursorMs
         val e5 = CellAddress("E5")
         cursorMs.value = cursor.setMainCell(e5)
-        val wbws = wsStateMs.value
+        val wbws = wsState
 
         fun testUnChange(){
             assertEquals(e5,cursor.mainCell)
@@ -171,7 +171,7 @@ class CursorActionImpTest {
 
 //    lateinit var action: CursorActionImp
 //    lateinit var appStateMs: Ms<AppState>
-//    lateinit var wsStateMs: Ms<WorksheetState>
+//    lateinit var wsState: WorksheetState
 //    lateinit var wsAction: WorksheetAction
 //    lateinit var errorRouter: ErrorRouter
 //    lateinit var cursorStateMs: Ms<CursorState>
@@ -186,7 +186,7 @@ class CursorActionImpTest {
 //        val wbid: Ms<WorkbookStateID> = ms(WorkbookStateIDImp(WorkbookKey("")))
 //        wsAction = mock()
 //        appStateMs = testSample.sampleAppStateMs()
-//        wsStateMs = appStateMs.value.getWorkbookStateMs(TestSample.sampleWbKey1)?.value?.getWorksheetStateMs("Sheet1")!!
+//        wsState = appStateMs.value.getWorkbookStateMs(TestSample.sampleWbKey1)?.value?.getWorksheetStateMs("Sheet1")!!
 //        errorRouter = mock()
 //        cursorStateMs = ms(
 //            CursorStateImp.default(
@@ -237,15 +237,15 @@ class CursorActionImpTest {
 //        testCtrlMove(
 //            additionalCellAddresses=listOf(),
 //            startingCellAddress = CellAddress(20,33),
-//            expectCellAddress = CellAddress(wsStateMs.value.firstCol,33)) { action.ctrlLeft() }
+//            expectCellAddress = CellAddress(wsState.value.firstCol,33)) { action.ctrlLeft() }
 //    }
 //
 //    @Test
 //    fun ctrlLeft3() {
 //        testCtrlMove(
 //            additionalCellAddresses=listOf(),
-//            startingCellAddress = CellAddress(wsStateMs.value.firstCol,33),
-//            expectCellAddress = CellAddress(wsStateMs.value.firstCol,33)) { action.ctrlLeft() }
+//            startingCellAddress = CellAddress(wsState.value.firstCol,33),
+//            expectCellAddress = CellAddress(wsState.value.firstCol,33)) { action.ctrlLeft() }
 //    }
 //
 //    @Test
@@ -261,15 +261,15 @@ class CursorActionImpTest {
 //        testCtrlMove(
 //            additionalCellAddresses=listOf(),
 //            startingCellAddress = CellAddress("D4"),
-//            expectCellAddress = CellAddress(wsStateMs.value.lastCol,4)) { action.ctrlRight() }
+//            expectCellAddress = CellAddress(wsState.value.lastCol,4)) { action.ctrlRight() }
 //    }
 //
 //    @Test
 //    fun ctrlRight3() {
 //        testCtrlMove(
 //            additionalCellAddresses=listOf(),
-//            startingCellAddress = CellAddress(wsStateMs.value.lastCol,4),
-//            expectCellAddress = CellAddress(wsStateMs.value.lastCol,4)) { action.ctrlRight() }
+//            startingCellAddress = CellAddress(wsState.value.lastCol,4),
+//            expectCellAddress = CellAddress(wsState.value.lastCol,4)) { action.ctrlRight() }
 //    }
 //
 //    @Test
@@ -309,15 +309,15 @@ class CursorActionImpTest {
 //        testCtrlMove(
 //            additionalCellAddresses=listOf(),
 //            startingCellAddress = CellAddress("X3"),
-//            expectCellAddress = CellAddress("X${wsStateMs.value.lastRow}")) { action.ctrlDown() }
+//            expectCellAddress = CellAddress("X${wsState.value.lastRow}")) { action.ctrlDown() }
 //    }
 //
 //    @Test
 //    fun ctrlDown3(){
 //        testCtrlMove(
 //            additionalCellAddresses=listOf(),
-//            startingCellAddress = CellAddress("X${wsStateMs.value.lastRow}"),
-//            expectCellAddress = CellAddress("X${wsStateMs.value.lastRow}")) { action.ctrlDown() }
+//            startingCellAddress = CellAddress("X${wsState.value.lastRow}"),
+//            expectCellAddress = CellAddress("X${wsState.value.lastRow}")) { action.ctrlDown() }
 //    }
 //
 //    private fun testCtrlMove(

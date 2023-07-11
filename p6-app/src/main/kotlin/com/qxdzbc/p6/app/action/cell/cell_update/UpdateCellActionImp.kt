@@ -47,9 +47,9 @@ class UpdateCellActionImp @Inject constructor(
     }
 
     override fun updateCell(request: CellUpdateRequest, publishError: Boolean): Rse<Unit> {
-        val getWsMsRs = sc.getWsStateMsRs(request)
-        val rt = getWsMsRs.flatMap { wsStateMs ->
-            val wsMs = wsStateMs.value.wsMs
+        val getWsMsRs = sc.getWsStateRs(request)
+        val rt = getWsMsRs.flatMap { wsState ->
+            val wsMs = wsState.wsMs
             val ws by wsMs
             val wbMs = sc.getWbMs(ws.wbKeySt)
             val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
@@ -60,7 +60,7 @@ class UpdateCellActionImp @Inject constructor(
 
             updateWsRs.flatMap {
                 wsMs.value = it
-                 wsStateMs.value.refreshCellState()
+                 wsState.refreshCellState()
                 if (wbMs != null) {
                     /*
                     the target ws belongs to a valid workbook, therefore, need

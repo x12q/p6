@@ -17,7 +17,6 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
@@ -239,8 +238,8 @@ class StateContainerImp @Inject constructor(
     }
 
     override fun getThumbStateMsRs(wbwsSt: WbWsSt): Rse<Ms<ThumbState>> {
-        return this.getWsStateMsRs(wbwsSt).flatMap {
-            Ok(it.value.cursorStateMs.value.thumbStateMs)
+        return this.getWsStateRs(wbwsSt).flatMap {
+            Ok(it.cursorStateMs.value.thumbStateMs)
         }
     }
 

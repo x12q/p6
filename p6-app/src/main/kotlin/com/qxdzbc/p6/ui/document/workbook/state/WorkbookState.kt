@@ -19,7 +19,7 @@ interface WorkbookState : CanConvertToWorkbookProto{
      */
     var windowId:String?
 
-    val wsStateMap: Map<St<String>, MutableState<WorksheetState>>
+    val wsStateMap: Map<St<String>, WorksheetState>
 
     fun overWriteWb(newWb:Workbook)
 
@@ -59,8 +59,8 @@ interface WorkbookState : CanConvertToWorkbookProto{
     /**
      * A list of all worksheet state
      */
-    val worksheetStateListMs: List<Ms<WorksheetState>>
-    val worksheetStateList: List<WorksheetState> get() = this.worksheetStateListMs.map { it.value }
+    val worksheetStateListMs: List<WorksheetState>
+    val worksheetStateList: List<WorksheetState> get() = this.worksheetStateListMs
 
     /**
      * produce a derived state for sheet tab bar
@@ -76,22 +76,22 @@ interface WorkbookState : CanConvertToWorkbookProto{
     /**
      * state of the current active worksheet
      */
-    val activeSheetStateMs: MutableState<WorksheetState>?
+    val activeSheetStateMs: WorksheetState?
         get() = activeSheetPointer.wsName?.let {
             getWsStateMs(it)
         }
-    val activeSheetState: WorksheetState? get() = activeSheetStateMs?.value
+    val activeSheetState: WorksheetState? get() = activeSheetStateMs
 
     /**
      * get worksheet state by sheet name
      */
     fun getWsState(sheetName: String): WorksheetState?
-    fun getWsStateMs(sheetName: String): Ms<WorksheetState>?
-    fun getWsStateMsRs(sheetName: String): Rse<Ms<WorksheetState>>
+    fun getWsStateMs(sheetName: String): WorksheetState?
+    fun getWsStateMsRs(sheetName: String): Rse<WorksheetState>
 
     fun getWsState(wsNameSt: St<String>): WorksheetState?
-    fun getWsStateMs(wsNameSt: St<String>): Ms<WorksheetState>?
-    fun getWsStateMsRs(wsNameSt: St<String>): Rse<Ms<WorksheetState>>
+    fun getWsStateMs(wsNameSt: St<String>): WorksheetState?
+    fun getWsStateMsRs(wsNameSt: St<String>): Rse<WorksheetState>
 
     /**
      * set active worksheet by name

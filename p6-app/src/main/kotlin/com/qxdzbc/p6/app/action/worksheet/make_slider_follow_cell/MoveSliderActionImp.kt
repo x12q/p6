@@ -31,12 +31,12 @@ class MoveSliderActionImp @Inject constructor(
     }
 
     override fun makeSliderFollowCell(wbwsSt: WbWsSt, cell: CellAddress, publishErr: Boolean): Rse<Unit> {
-        val rs=sc.getWsStateMsRs(wbwsSt).flatMap { wsStateMs->
-            val sliderMs = wsStateMs.value.sliderMs
+        val rs=sc.getWsStateRs(wbwsSt).flatMap { wsState->
+            val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.followCell(cell)
             if (newSlider != oldSlider) {
-                wsStateMs.value.setSliderAndRefreshDependentStates(newSlider)
+                wsState.setSliderAndRefreshDependentStates(newSlider)
             }
             Ok(Unit)
         }
@@ -47,12 +47,12 @@ class MoveSliderActionImp @Inject constructor(
     }
 
     override fun shiftSlider(cursorLoc: WbWsSt, rowCount: Int, colCount: Int, publishErr: Boolean) {
-        val rs=sc.getWsStateMsRs(cursorLoc).flatMap { wsStateMs->
-            val sliderMs = wsStateMs.value.sliderMs
+        val rs=sc.getWsStateRs(cursorLoc).flatMap { wsState->
+            val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.shiftDown(rowCount).shiftRight(colCount)
             if (newSlider != oldSlider) {
-                wsStateMs.value.setSliderAndRefreshDependentStates(newSlider)
+                wsState.setSliderAndRefreshDependentStates(newSlider)
             }
             Ok(Unit)
         }

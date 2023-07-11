@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.action2
 
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
@@ -40,8 +39,7 @@ class WorksheetAction2Imp @Inject constructor(
     }
 
     override fun scroll(x: Int, y: Int, wsLoc: WbWsSt) {
-        sc.getWsStateMs(wsLoc)?.also { wsStateMs ->
-            val wsState by wsStateMs
+        sc.getWsState(wsLoc)?.also { wsState ->
             val sliderState = wsState.slider
             var newSlider = sliderState
             if (x != 0) {
@@ -51,7 +49,7 @@ class WorksheetAction2Imp @Inject constructor(
                 newSlider = newSlider.shiftDown(y)
             }
             if (newSlider != sliderState) {
-                 wsState
+                wsState
                     .setSliderAndRefreshDependentStates(newSlider)
                 wsState.cellLayoutCoorMapMs.value =
                     wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddress(cellAddress) }
@@ -64,46 +62,27 @@ class WorksheetAction2Imp @Inject constructor(
         layoutCoordinates: LayoutCoordinates,
         wsLoc: WbWsSt
     ) {
-        val wsStateMs = sc.getWsStateMs(wsLoc)
-        if (wsStateMs != null) {
-            wsStateMs.value
-                .addCellLayoutCoor(cellAddress, layoutCoordinates.wrap())
-        }
+        sc.getWsState(wsLoc)?.addCellLayoutCoor(cellAddress, layoutCoordinates.wrap())
     }
 
     override fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt) {
-        sc.getWsStateMs(wsLoc)?.also {
-            val wsState by it
-            wsState
-                .removeCellLayoutCoor(cellAddress)
-        }
+        sc.getWsState(wsLoc)?.removeCellLayoutCoor(cellAddress)
     }
 
     override fun removeAllCellLayoutCoor(wsLoc: WbWsSt) {
-        sc.getWsStateMs(wsLoc)?.also {
-            val wsState by it
-            wsState
-                .removeAllCellLayoutCoor()
-        }
+        sc.getWsState(wsLoc)?.removeAllCellLayoutCoor()
     }
 
 
     override fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
-        val wsStateMs = sc.getWsStateMs(wsLoc)
-        wsStateMs?.also {
-            val wsState by it
-            val newState =wsState
-                .setCellGridLayoutCoorWrapper(newLayoutCoordinates.wrap())
-        }
+        val wsState = sc.getWsState(wsLoc)
+        wsState?.setCellGridLayoutCoorWrapper(newLayoutCoordinates.wrap())
     }
 
     override fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
-        val wsStateMs = sc.getWsStateMs(
+        val wsState = sc.getWsState(
             wsLoc
         )
-        wsStateMs?.also {
-            val wsState by it
-            wsState.setWsLayoutCoorWrapper(newLayoutCoordinates.wrap())
-        }
+        wsState?.setWsLayoutCoorWrapper(newLayoutCoordinates.wrap())
     }
 }

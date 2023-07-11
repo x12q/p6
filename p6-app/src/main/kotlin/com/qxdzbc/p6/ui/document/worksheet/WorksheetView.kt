@@ -138,7 +138,7 @@ fun makeCursorTestTag(worksheetName: String): String {
 //
 //    val ws = WorksheetImp("sheet1")
 //
-//    val wsStateMs: MutableState<WorksheetState> = WorksheetStateImp.rememberMs(
+//    val wsState: WorksheetState = WorksheetStateImp.rememberMs(
 //        workbookKey = WorkbookKey("Wb", null),
 //        worksheet = ws,
 //        cursorState = CursorStates.defaultRememberMs(),
@@ -148,11 +148,11 @@ fun makeCursorTestTag(worksheetName: String): String {
 //    val ec = rememberCoroutineScope()
 //    P6Theme(ThemeType.GRAY) {
 //        WorksheetView(
-//            wsState = wsStateMs.value,
+//            wsState = wsState.value,
 //            wsActions = WorksheetActionsImp(
-//                WorksheetStateActionsImp(wsStateMs),
+//                WorksheetStateActionsImp(wsState),
 //                WorksheetSideEffectsDoNothing,
-//                wsStateMs,
+//                wsState,
 //
 //            ),
 //            executionScope = ec

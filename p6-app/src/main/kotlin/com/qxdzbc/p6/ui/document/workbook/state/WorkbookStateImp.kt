@@ -36,10 +36,10 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-data class WorkbookStateImp (
+data class WorkbookStateImp(
     override val wbMs: Ms<Workbook>,
     val windowIdMs: Ms<String?>,
-    private val wsStateMapMs: Ms<Map<St<String>, MutableState<WorksheetState>>>,
+    private val wsStateMapMs: Ms<Map<St<String>, WorksheetState>>,
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
     private val needSaveMs: Ms<Boolean>,
     private val wsStateFactory: WorksheetStateFactory,
@@ -72,13 +72,13 @@ data class WorkbookStateImp (
         thumbStateFactory = thumbStateFactory
     )
 
-    override val wsStateMap: Map<St<String>, MutableState<WorksheetState>> by wsStateMapMs
+    override val wsStateMap: Map<St<String>, WorksheetState> by wsStateMapMs
 
     override var windowId: String? by windowIdMs
 
     override var needSave: Boolean by needSaveMs
 
-    override val worksheetStateListMs: List<Ms<WorksheetState>> get() = wsStateMap.values.toList()
+    override val worksheetStateListMs: List<WorksheetState> get() = wsStateMap.values.toList()
 
     override val sheetTabBarState: SheetTabBarState
         get() = SheetTabBarStateImp(
@@ -89,23 +89,23 @@ data class WorkbookStateImp (
     override var activeSheetPointer: ActiveWorksheetPointer by activeSheetPointerMs
 
     override fun getWsState(sheetName: String): WorksheetState? {
-        return this.getWsStateMs(sheetName)?.value
+        return this.getWsStateMs(sheetName)
     }
 
     override fun getWsState(wsNameSt: St<String>): WorksheetState? {
-        return this.getWsStateMs(wsNameSt)?.value
+        return this.getWsStateMs(wsNameSt)
     }
 
-    override fun getWsStateMs(sheetName: String): MutableState<WorksheetState>? {
-        val rt = wsStateMap.values.firstOrNull { it.value.wsName == sheetName }
+    override fun getWsStateMs(sheetName: String): WorksheetState? {
+        val rt = wsStateMap.values.firstOrNull { it.wsName == sheetName }
         return rt
     }
 
-    override fun getWsStateMs(wsNameSt: St<String>): Ms<WorksheetState>? {
+    override fun getWsStateMs(wsNameSt: St<String>): WorksheetState? {
         return wsStateMap[wsNameSt]
     }
 
-    override fun getWsStateMsRs(sheetName: String): Rse<Ms<WorksheetState>> {
+    override fun getWsStateMsRs(sheetName: String): Rse<WorksheetState> {
         val w = getWsStateMs(sheetName)
         return w?.let {
             Ok(it)
@@ -113,7 +113,7 @@ data class WorkbookStateImp (
             ?: Err(WorkbookStateErrors.WorksheetStateNotExist.report("Worksheet state for \"${sheetName}\" does not exist"))
     }
 
-    override fun getWsStateMsRs(wsNameSt: St<String>): Rse<Ms<WorksheetState>> {
+    override fun getWsStateMsRs(wsNameSt: St<String>): Rse<WorksheetState> {
         val w = getWsStateMs(wsNameSt)
         return w?.let {
             Ok(it)
@@ -154,19 +154,19 @@ data class WorkbookStateImp (
     }
 
     override fun refreshWsState() {
-        var newStateMap: Map<St<String>, MutableState<WorksheetState>> = mutableMapOf()
+        var newStateMap: Map<St<String>, WorksheetState> = mutableMapOf()
         val sheetList: List<Ms<Worksheet>> = this.wb.worksheetMsList
         for (wsMs: Ms<Worksheet> in sheetList) {
             val ws: Worksheet = wsMs.value
-            val wsStateMs: Ms<WorksheetState>? = this.getWsStateMs(ws.name)
-            if (wsStateMs != null) {
+            val wsState: WorksheetState? = this.getWsStateMs(ws.name)
+            if (wsState != null) {
                 // x: keep the existing state
-                wsStateMs.value.refreshCellState()
-                newStateMap = newStateMap + (wsStateMs.value.wsNameSt to wsStateMs)
+                wsState.refreshCellState()
+                newStateMap = newStateMap + (wsState.wsNameSt to wsState)
             } else {
                 // x: create new state for new sheet
                 val newState = this.createDefaultWsState(wsMs)
-                newStateMap = newStateMap + (newState.value.wsNameSt to newState)
+                newStateMap = newStateMap + (newState.wsNameSt to newState)
             }
         }
         wsStateMapMs.value = newStateMap
@@ -209,7 +209,7 @@ data class WorkbookStateImp (
         }
     }
 
-    private fun createDefaultWsState(worksheet: Ms<Worksheet>): Ms<WorksheetState> {
+    private fun createDefaultWsState(worksheet: Ms<Worksheet>): WorksheetState {
         val wsMs = worksheet
         val wsState = wsStateFactory.createThenRefresh(
             wsMs = wsMs,
@@ -219,7 +219,7 @@ data class WorkbookStateImp (
 
         )
         wsState.refreshCellState()
-        return ms(wsState)
+        return wsState
     }
 
     @Throws(Exception::class)
@@ -265,7 +265,7 @@ data class WorkbookStateImp (
             cursorStateFactory: CursorStateFactory,
             thumbStateFactory: ThumbStateFactory,
         ): WorkbookStateImp {
-            val wsStateMap: Map<St<String>, Ms<WorksheetState>> = wbMs.value.worksheetMsList
+            val wsStateMap: Map<St<String>, WorksheetState> = wbMs.value.worksheetMsList
                 .map { wsMs ->
                     val wsIdMs: Ms<WorksheetId> = ms(
                         WorksheetIdImp(
@@ -276,26 +276,25 @@ data class WorkbookStateImp (
                     val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsIdMs))
                     val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
                     val mainCellMs = ms(CellAddresses.A1)
-                    ms(
-                        wsStateFactory.create(
-                            wsMs = wsMs,
-                            sliderMs = gridSliderFactory.create().toMs(),
-                            cursorStateMs = cursorStateFactory.create(
-                                idMs = cursorIdMs,
-                                cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
-                                thumbStateMs = ms(
-                                    thumbStateFactory.create(
-                                        cursorIdSt = cursorIdMs,
-                                        mainCellSt = mainCellMs,
-                                        cellLayoutCoorMapSt = cellLayoutCoorMapMs
-                                    )
-                                ),
-                                mainCellMs = mainCellMs
-                            ).toMs(),
-                            cellLayoutCoorMapMs = cellLayoutCoorMapMs
-                        ) as WorksheetState
+
+                    wsStateFactory.create(
+                        wsMs = wsMs,
+                        sliderMs = gridSliderFactory.create().toMs(),
+                        cursorStateMs = cursorStateFactory.create(
+                            idMs = cursorIdMs,
+                            cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
+                            thumbStateMs = ms(
+                                thumbStateFactory.create(
+                                    cursorIdSt = cursorIdMs,
+                                    mainCellSt = mainCellMs,
+                                    cellLayoutCoorMapSt = cellLayoutCoorMapMs
+                                )
+                            ),
+                            mainCellMs = mainCellMs
+                        ).toMs(),
+                        cellLayoutCoorMapMs = cellLayoutCoorMapMs
                     )
-                }.associateBy { it.value.wsNameSt }
+                }.associateBy { it.wsNameSt }
 
             return WorkbookStateImp(
                 wbMs = wbMs,
