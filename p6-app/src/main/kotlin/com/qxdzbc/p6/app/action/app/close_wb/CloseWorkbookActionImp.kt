@@ -26,7 +26,7 @@ class CloseWorkbookActionImp @Inject constructor(
 
     override fun closeWb(request: CloseWorkbookRequest): CloseWorkbookResponse {
         val response = requestCloseWb(request)
-        closeWbApplier_applyRes(response)
+        applyRes(response)
         return response
     }
 
@@ -59,7 +59,7 @@ class CloseWorkbookActionImp @Inject constructor(
         )
     }
 
-    private fun closeWbApplier_applyRes(res: CloseWorkbookResponse?) {
+    private fun applyRes(res: CloseWorkbookResponse?) {
         if (res != null) {
             val err = res.errorReport
             if (err != null) {

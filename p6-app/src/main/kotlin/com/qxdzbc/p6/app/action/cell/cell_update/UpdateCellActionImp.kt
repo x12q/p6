@@ -5,7 +5,6 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.onFailure
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
@@ -22,7 +21,6 @@ import javax.inject.Inject
 
 @ContributesBinding(P6AnvilScope::class)
 class UpdateCellActionImp @Inject constructor(
-    private val cellRM: CellRM,
     val scSt:StateContainer,
     val translatorContainerMs: TranslatorContainer,
     val errorRouter: ErrorRouter,
