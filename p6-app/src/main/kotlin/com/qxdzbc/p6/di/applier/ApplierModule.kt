@@ -8,7 +8,6 @@ import dagger.Binds
     includes = [
         WorksheetApplierModule::class,
         CellApplierModule::class,
-        WorkbookApplierModule::class,
         RangeApplierModule::class,
         ScriptApplierModule::class,
     ]

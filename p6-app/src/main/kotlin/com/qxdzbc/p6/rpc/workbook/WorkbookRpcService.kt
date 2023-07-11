@@ -8,8 +8,8 @@ import com.google.protobuf.Int64Value
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
+import com.qxdzbc.p6.app.action.workbook.create_new_ws.CreateNewWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.workbook.create_new_ws.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
@@ -186,7 +186,7 @@ class WorkbookRpcService @Inject constructor(
                     val wbkMsRs = dc.getWbRs(wbKey = wbk)
                     val rs = wbkMsRs.flatMap { wb ->
                         val req = request.toModel(wb.keyMs, translator)
-                        val rs: Rse<AddWorksheetResponse> = rpcActions.createNewWorksheetRs(req)
+                        val rs: Rse<CreateNewWorksheetResponse> = rpcActions.createNewWorksheetRs(req)
                         rs
                     }
                     val rt = SingleSignalResponse.fromRs(rs).toProto()

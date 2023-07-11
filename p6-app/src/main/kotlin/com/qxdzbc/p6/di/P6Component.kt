@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.di
 
 import androidx.compose.ui.window.ApplicationScope
-import com.qxdzbc.p6.app.action.app.AppRM
 import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
@@ -114,9 +113,6 @@ interface P6Component {
 
     @P6Singleton
     fun cellRequestMaker(): CellRM
-
-    @P6Singleton
-    fun appRequestMaker(): AppRM
 
     @EventServerPort
     fun eventServerPort(): Int
