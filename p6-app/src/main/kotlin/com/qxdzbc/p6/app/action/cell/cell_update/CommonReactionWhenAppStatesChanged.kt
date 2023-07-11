@@ -10,6 +10,9 @@ import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 
+/**
+ * TODO This is not appropriate, don't expand this anymore. These reaction should be handled directly by the corresponding action objects.
+ */
 interface CommonReactionWhenAppStatesChanged : CommonReactionOnCursorChanged {
     fun onOneCellChanged(request: CellUpdateRequest)
     fun onOneCellChanged(request: CellUpdateRequestDM)
