@@ -151,7 +151,7 @@ data class WindowStateImp @AssistedInject constructor(
             wbKeyMsSetMs.value = wbKeyMsSet.filter{it!=wbKeyMs}.toSet()
         }
     }
-    @kotlin.jvm.Throws(Exception::class)
+    @Throws(Exception::class)
     override fun addWbKey(wbKey: Ms<WorkbookKey>) {
         addWbKeyRs(wbKey).getOrThrow()
     }

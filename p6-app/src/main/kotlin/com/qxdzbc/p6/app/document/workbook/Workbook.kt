@@ -10,7 +10,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.CanConvertToWorkbookProto
 
 /**
- * essentially a map of worksheet
+ * this is essentially a map of worksheet
  */
 interface Workbook : WithSize, CanConvertToWorkbookProto {
 
