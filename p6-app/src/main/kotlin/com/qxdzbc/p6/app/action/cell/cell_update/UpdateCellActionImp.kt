@@ -64,8 +64,11 @@ class UpdateCellActionImp @Inject constructor(
                     the target ws belongs to a valid workbook, therefore, need
                     to refresh the whole app
                      */
-                    sc.wbCont.allWbMs.forEach { wbMs ->
-                        wbMs.value = wbMs.value.reRun().refreshDisplayText()
+                    sc.wbCont.allWbs.forEach { wbMs ->
+                        wbMs.apply{
+                            reRun()
+                            refreshDisplayText()
+                        }
                     }
                 } else {
                     /*

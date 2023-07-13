@@ -115,8 +115,8 @@ data class RenameWorksheetActionImp @Inject constructor(
             if (oldName != newName) {
                 // x: rename the sheet in wb
                 val renameRs = wb.renameWsRs(oldName, newName)
-                renameRs.onSuccess { newWb ->
-                    dc.replaceWb(newWb)
+                renameRs.onSuccess {
+                    dc.replaceWb(wb)
                     commonReactionWhenAppStatesChanged.onWsChanged(WbWs(wbKey, newName))
                 }.onFailure {
                     errorRouter.publishToWindow(renameRs.unwrapError(), wbStateMs.wbKey)

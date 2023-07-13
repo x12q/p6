@@ -160,7 +160,7 @@ class CopyCellActionImp @Inject constructor(
                 // x: reRun the workbook containing the destination cell
                 val rs2 = rs0.flatMap {
                     sc.getWbMsRs(toWs.wbKeySt).flatMap {
-                        it.value = it.value.reRun()
+                        it.value.reRun()
                         Ok(Unit)
                     }
                 }

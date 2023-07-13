@@ -83,7 +83,7 @@ data class WorkbookStateImp(
     override val sheetTabBarState: SheetTabBarState
         get() = SheetTabBarStateImp(
             activeSheetPointerMs = activeSheetPointerMs,
-            wbMs = wbMs
+            wb = wb
         )
 
     override var activeSheetPointer: ActiveWorksheetPointer by activeSheetPointerMs
@@ -145,10 +145,9 @@ data class WorkbookStateImp(
      * point the workbook inside this state to a new workbook key, then refresh the state.
      */
     override fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey) {
-        val newWb = wb.setKey(newWbKey)
-        this.wb = newWb
+        wb.key = (newWbKey)
         // Assign new active sheet name if need
-        val newActiveSheetName = this.pickActiveSheet(newWb)
+        val newActiveSheetName = this.pickActiveSheet(wb)
         activeSheetPointer = activeSheetPointer.pointTo(newActiveSheetName)
         this.refreshWsState()
     }
@@ -188,7 +187,7 @@ data class WorkbookStateImp(
     }
 
     override fun setWbKey(newWbKey: WorkbookKey) {
-        this.wb = this.wb.setKey(newWbKey)
+        wb.key = newWbKey
     }
 
     /**

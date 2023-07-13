@@ -33,7 +33,8 @@ class CreateNewWorksheetActionImp @Inject constructor(
         val wbk = req.wbKey
         val rs = docCont.getWbRs(wbk).flatMap { wb ->
             wb.addWsRs(req.worksheet).flatMap {
-                Ok(CreateNewWorksheetResponse(it.reRun()))
+                wb.reRun()
+                Ok(CreateNewWorksheetResponse(wb))
             }
         }.mapError { err ->
             err.withNav(wbk)

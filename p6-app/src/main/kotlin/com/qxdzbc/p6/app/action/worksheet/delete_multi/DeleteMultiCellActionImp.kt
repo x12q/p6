@@ -21,7 +21,6 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import kotlin.collections.fold
-import kotlin.onFailure
 
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
@@ -190,7 +189,10 @@ class DeleteMultiCellActionImp @Inject constructor(
                     .map { it.address }
                     .toSet()
                 newWs = newWs.removeCells(cellsInRanges)
-                val newWb = wb.addSheetOrOverwrite(newWs).reRun()
+                wb.apply{
+                    addSheetOrOverwrite(newWs)
+                    reRun()
+                }
                 val oldWsState = stateCont.getWsState(wbk, wsn)
                 if (request.clearFormat) {
                     oldWsState?.removeCellState(cells + cellsInRanges)
@@ -198,7 +200,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                 oldWsState?.refreshCellState()
                 Ok(
                     RemoveMultiCellResponse(
-                        newWb = newWb,
+                        newWb = wb,
                         newWsState = oldWsState
                     )
                 )

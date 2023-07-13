@@ -45,12 +45,14 @@ class P6Loader_SaverTest {
         )
         val wb = WorkbookImp(
             keyMs = wbkSt,
-        ).addMultiSheetOrOverwrite(listOf(
-            WorksheetImp(
-                nameMs = wsnSt,
-                wbKeySt = wbkSt
-            ).addOrOverwrite(cell).addOrOverwrite(cell2)
-        ))
+        ).apply{
+            addMultiSheetOrOverwrite(listOf(
+                WorksheetImp(
+                    nameMs = wsnSt,
+                    wbKeySt = wbkSt
+                ).addOrOverwrite(cell).addOrOverwrite(cell2)
+            ))
+        }
 
         val path = Paths.get("w1.txt").toAbsolutePath()
         val csvPath = Paths.get("w1.csv").toAbsolutePath()
@@ -64,10 +66,10 @@ class P6Loader_SaverTest {
         assertTrue { lRs is Ok }
         val loadedWb = lRs.component1()!!
 
-        val expectedWb = wb.setKey(WorkbookKey("w1.txt",path))
+        wb.key = (WorkbookKey("w1.txt",path))
 //        assertTrue(expectedWb.isSimilar(loadedWb))
-        assertEquals(expectedWb.key,loadedWb.key)
-        assertEquals(expectedWb.worksheets[0].wsName,loadedWb.worksheets[0].wsName)
+        assertEquals(wb.key,loadedWb.key)
+        assertEquals(wb.worksheets[0].wsName,loadedWb.worksheets[0].wsName)
 //        assertEquals(expectedWb,loadedWb)
 
         Files.delete(path)

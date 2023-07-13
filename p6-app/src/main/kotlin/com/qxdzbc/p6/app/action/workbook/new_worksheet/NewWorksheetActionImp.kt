@@ -25,8 +25,6 @@ class NewWorksheetActionImp @Inject constructor(
     private val docCont: DocumentContainer,
 ) : NewWorksheetAction {
 
-    val dc = docCont
-
     override fun createNewWorksheetRs(
         request: CreateNewWorksheetRequest,
         publishError: Boolean
@@ -38,10 +36,10 @@ class NewWorksheetActionImp @Inject constructor(
                 val wb = wbState.wb
                 val canAdd = request.newWorksheetName?.let { !wb.containSheet(it) } ?: true
                 val z = if (canAdd) {
-                    val q = wb.createNewWs_MoreDetail(request.newWorksheetName)
+                    val q = wb.createNewWsWithMoreDetail(request.newWorksheetName)
                     Ok(
                         CreateNewWorksheetResponse(
-                            newWb = q.newWb,
+                            newWb = q!!.newWb,
                             newWsName = q.newWsName,
                         )
                     )
@@ -56,7 +54,7 @@ class NewWorksheetActionImp @Inject constructor(
         )
         rt.map {
             val newWb = it.newWb
-            dc.replaceWb(newWb)
+            docCont.replaceWb(newWb)
             sc.getWbStateRs(newWb.key)
                 .onSuccess { wbStateMs ->
                     wbStateMs.refreshWsState()

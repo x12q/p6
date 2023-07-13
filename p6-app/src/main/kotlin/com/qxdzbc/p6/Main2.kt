@@ -59,17 +59,19 @@ fun main() {
                 run {
                     val wb1: Workbook = WorkbookImp(
                         keyMs = WorkbookKey("Book1", null).toMs(),
-                    ).let {
-                        listOf("Sheet1", "Sheet2").fold(it) { acc, name ->
-                            acc.createNewWs(name) as WorkbookImp
+                    ).let {wb->
+                        listOf("Sheet1", "Sheet2").forEach { name ->
+                            wb.createNewWs(name)
                         }
+                        wb
                     }
                     val wb2 = WorkbookImp(
                         keyMs = WorkbookKey("Book2", null).toMs(),
-                    ).let {
-                        listOf("Sheet1", "Sheet2").fold(it) { acc, name ->
-                            acc.createNewWs(name) as WorkbookImp
+                    ).let {wb->
+                        listOf("Sheet1", "Sheet2").forEach {  name ->
+                            wb.createNewWs(name)
                         }
+                        wb
                     }
                     val wbStateMs1: WorkbookState = p6Comp.workbookStateFactory().createAndRefresh(
                             wbMs = ms(wb1)

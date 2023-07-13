@@ -80,7 +80,7 @@ class UpdateMultiCellActionImp @Inject constructor(
                     wsState.refresh()
                 }
                 sc.wbStateCont.allWbStates.forEach {
-                    it.wbMs.value = it.wb.reRunAndRefreshDisplayText()
+                    it.wb.reRunAndRefreshDisplayText()
                     it.refresh()
                 }
             }

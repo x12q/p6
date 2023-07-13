@@ -16,6 +16,7 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteWorksheetActionImp @Inject constructor(
@@ -24,26 +25,27 @@ class DeleteWorksheetActionImp @Inject constructor(
     val transContMs: TranslatorContainer,
 ) : DeleteWorksheetAction {
 
-    private val dc =docCont
+    private val dc = docCont
 
     override fun deleteWorksheetRs(request: WorksheetIdWithIndexPrt): Rse<Unit> {
         if (request.wsName != null || request.wsIndex != null) {
             val res = makeRequest(request)
-            when(res){
-                is Ok ->{
+            when (res) {
+                is Ok -> {
                     if (request.wsName != null) {
                         return applyResRs(request.wsName, res)
                     } else {
                         return dc.getWbRs(request.wbKey)
                             .andThen { wb ->
                                 wb.getWsRs(request.wsIndex!!)
-                            }.andThen {ws->
+                            }.andThen { ws ->
                                 val wsName = ws.name
                                 applyResRs(wsName, res)
                             }
                     }
                 }
-                is Err ->{
+
+                is Err -> {
                     // do nothing
                     return res
                 }
@@ -54,10 +56,11 @@ class DeleteWorksheetActionImp @Inject constructor(
                 .toErr()
         }
     }
+
     private var tc = transContMs
 
-    fun applyResRs(deletedWsName:String,rs: Rse<Workbook>): Rse<Unit> {
-        return rs.flatMap { newWB->
+    fun applyResRs(deletedWsName: String, rs: Rse<Workbook>): Rse<Unit> {
+        return rs.flatMap { newWB ->
             // x: update wb
             docCont.replaceWb(newWB)
             // x: update wb state
@@ -66,7 +69,7 @@ class DeleteWorksheetActionImp @Inject constructor(
             wbStateMs?.refresh()
             wbStateMs?.needSave = true
             //update translator map
-            tc.removeTranslator(wbKey,deletedWsName)
+            tc.removeTranslator(wbKey, deletedWsName)
             Unit.toOk()
         }
     }
@@ -89,7 +92,10 @@ class DeleteWorksheetActionImp @Inject constructor(
     private fun deleteWorksheetRs(wbKey: WorkbookKey, wsName: String): Rse<Workbook> {
         val wbRs = dc.getWbRs(wbKey)
         val rt = wbRs.flatMap { wb ->
-            wb.removeSheetRs(wsName).map { it.reRun() }
+            wb.removeSheetRs(wsName).map {
+                wb.reRun()
+                wb
+            }
         }
         return rt
     }
@@ -97,7 +103,10 @@ class DeleteWorksheetActionImp @Inject constructor(
     private fun deleteWorksheetRs(wbKey: WorkbookKey, wsIndex: Int): Rse<Workbook> {
         val wbRs = dc.getWbRs(wbKey)
         val rt = wbRs.flatMap { wb ->
-            wb.removeSheetRs(wsIndex).map { it.reRun() }
+            wb.removeSheetRs(wsIndex).map {
+                wb.reRun()
+                wb
+            }
         }
         return rt
     }

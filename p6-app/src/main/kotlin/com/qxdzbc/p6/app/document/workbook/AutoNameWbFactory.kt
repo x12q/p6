@@ -1,10 +1,9 @@
 package com.qxdzbc.p6.app.document.workbook
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
@@ -49,12 +48,11 @@ class AutoNameWbFactory @Inject constructor(
             return WorkbookContainerErrors.WorkbookAlreadyExist.report(newWbKey).toErr()
         }else{
             val sheetNameRs = wsNameGenerator.nextName()
-            val rt = sheetNameRs.map {
+            val rt:Rse<Workbook> = sheetNameRs.flatMap {
                 val wb = WorkbookImp(
                     keyMs = WorkbookKey(newWbName).toMs(),
                 )
-                val wb2 = wb.createNewWs(it)
-                wb2
+                wb.createNewWsRs(it).map{ wb }
             }
             return rt
         }

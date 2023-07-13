@@ -104,36 +104,38 @@ class TestSample : TestAppScope {
 
     private fun makeSampleWbState1(): WorkbookState {
         return comp.workbookStateFactory().createAndRefresh(
-            wbMs = ms(
-                WorkbookImp(
-                    keyMs = wbKey1Ms,
-                ).addMultiSheetOrOverwrite(
+            wbMs =
+            ms(WorkbookImp(
+                keyMs = wbKey1Ms,
+            ).apply {
+                addMultiSheetOrOverwrite(
                     listOf(
                         WorksheetImp(wsn1.toMs(), wbKeySt = wbKey1Ms),
                         WorksheetImp(wsn2.toMs(), wbKey1Ms)
                     )
                 )
-            )
+            })
         )
     }
 
     private fun makeSampleWBState(wbKeyMs: Ms<WorkbookKey>): WorkbookState {
         return comp.workbookStateFactory().createAndRefresh(
-            wbMs = ms(
-                WorkbookImp(
-                    keyMs = wbKeyMs,
-                ).addMultiSheetOrOverwrite(
+            wbMs =
+            ms(WorkbookImp(
+                keyMs = wbKeyMs,
+            ).apply {
+                addMultiSheetOrOverwrite(
                     listOf<Worksheet>(
                         WorksheetImp(wsn1.toMs(), wbKey2Ms),
                         WorksheetImp(wsn2.toMs(), wbKey2Ms)
                     )
                 )
-            )
+            })
         )
     }
 
     private fun setupSampleWbStateContMs(): WorkbookStateContainer {
-        return sc.wbStateCont.apply{
+        return sc.wbStateCont.apply {
             removeAll()
             addOrOverwriteWbState(makeSampleWbState1())
             addOrOverwriteWbState(makeSampleWBState(wbKey2Ms))

@@ -1,7 +1,5 @@
 package test.integration
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
@@ -146,13 +144,20 @@ class IntegrationTest {
         )
         wbCont.addWb(wb)
 
-        val wb2 = wb.reRun()
+        val wb2 = wb.apply{
+            reRun()
+        }
         assertEquals(6.0, wb2.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.value)
 
         val newWs = wb2.getWs(wsNameSt)!!.removeCell(CellAddress("A2"))
-        val wb3 = wb2.addSheetOrOverwrite(newWs).reRun()
+        val wb3 = wb2.apply{
+            addSheetOrOverwrite(newWs)
+            reRun()
+        }
         wbCont.overwriteWB(wb3)
-        val wb4 = wb3.reRun()
+        val wb4 = wb3.apply{
+            reRun()
+        }
 
         assertEquals(4.0, wb4.getWs(wsNameSt)!!.getCell(CellAddress("C1"))!!.cellValueAfterRun.value)
     }

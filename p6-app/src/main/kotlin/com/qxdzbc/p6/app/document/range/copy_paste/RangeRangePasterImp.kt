@@ -1,12 +1,9 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -53,8 +50,8 @@ class RangeRangePasterImp @Inject constructor(
                         }
                     }
                 }
-                val newWb = wb.addSheetOrOverwrite(tws)
-                newWb
+                wb.addSheetOrOverwrite(tws)
+                wb
             }
         }
     }
