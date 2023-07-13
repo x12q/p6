@@ -33,7 +33,7 @@ import dagger.assisted.AssistedInject
 /**
  * a GridSlider + col/row limit
  */
-data class WorksheetStateImp constructor(
+data class WorksheetStateImp (
     // ====Assisted inject properties ======//
     override val wsMs: Ms<Worksheet>,
     override val sliderMs: Ms<GridSlider>,

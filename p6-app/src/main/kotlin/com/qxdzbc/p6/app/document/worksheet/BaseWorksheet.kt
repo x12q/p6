@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.app.document.worksheet
 
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
@@ -15,8 +17,44 @@ import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 
 abstract class BaseWorksheet : Worksheet {
+
+    override val cells: List<Cell> by derivedStateOf {
+        cellMsList.map { it.value }
+    }
+
+    private val minCol: Int by derivedStateOf {
+        val cols = cells.map { it.address.colIndex }
+        cols.minOfOrNull { it } ?: 0
+    }
+
+    private val maxCol: Int by derivedStateOf {
+        val cols = cells.map { it.address.colIndex }
+        cols.maxOfOrNull { it } ?: 0
+    }
+
+    private val minRow: Int by derivedStateOf {
+        val rows = cells.map { it.address.rowIndex }
+        rows.minOfOrNull { it } ?: 0
+    }
+
+    private val maxRow: Int by derivedStateOf {
+        val rows = cells.map { it.address.rowIndex }
+        rows.maxOfOrNull { it }?:0
+    }
+
+    override val usedRange: RangeAddress by derivedStateOf {
+        if(listOf(minCol,maxCol,minRow,maxRow).all { it>=0 }){
+            RangeAddress(
+                colRange = minCol..maxCol,
+                rowRange = minRow..maxRow
+            )
+        }else{
+            RangeAddressUtils.InvalidRange
+        }
+    }
 
     override fun getCellsInRange(rangeAddress: RangeAddress): List<Cell> {
         return this.getCellMsInRange(rangeAddress).map { it.value }
@@ -64,14 +102,14 @@ abstract class BaseWorksheet : Worksheet {
 
     override val allRows: List<TableCRRow<Int, Cell>>
         get() {
-            return table.allRows.map { row->
-                TableCRRowImp(row.rowIndex,row.elements.map{it.value})
+            return table.allRows.map { row ->
+                TableCRRowImp(row.rowIndex, row.elements.map { it.value })
             }
         }
     override val allColumns: List<TableCRColumn<Int, Cell>>
         get() {
-            return table.allColumns.map { col->
-                TableCRColumnImp(col.colIndex,col.elements.map{it.value})
+            return table.allColumns.map { col ->
+                TableCRColumnImp(col.colIndex, col.elements.map { it.value })
             }
         }
 
@@ -91,11 +129,11 @@ abstract class BaseWorksheet : Worksheet {
         return getRowMs(rowIndex).map { it.value }
     }
 
-    override fun removeCell(cellAddress: CellAddress): Worksheet {
-        return this.removeCell(cellAddress.colIndex, cellAddress.rowIndex)
+    override fun removeCell(cellAddress: CellAddress) {
+        this.removeCell(cellAddress.colIndex, cellAddress.rowIndex)
     }
 
-    override fun removeCell(label: String): Worksheet {
-        return this.removeCell(CellAddress(label))
+    override fun removeCell(label: String) {
+        this.removeCell(CellAddress(label))
     }
 }

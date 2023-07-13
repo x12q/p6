@@ -72,7 +72,7 @@ class LoadDataActionImp @Inject constructor(
                     CellContentImp.fromTransRs(translator.translate(it),originalFormula=it)
                 } ?: CellContentImp(cellValueMs = indCellDM.value.toMs(), originalText = indCellDM.content.originalText)
             )
-            rt = rt.addOrOverwrite(newCell)
+            rt.addOrOverwrite(newCell)
         }
         return Ok(rt)
     }

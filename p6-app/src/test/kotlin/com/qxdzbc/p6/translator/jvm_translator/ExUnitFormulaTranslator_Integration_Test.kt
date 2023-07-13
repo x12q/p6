@@ -40,47 +40,51 @@ class ExUnitFormulaTranslator_Integration_Test {
     lateinit var appStateMs: AppState
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
     val wbCont: WorkbookContainer get() = ts.sc.wbCont
-    val sc get()=ts.sc
+    val sc get() = ts.sc
+
     @BeforeTest
     fun b() {
         ts = TestSample()
         val wbl: List<Workbook> = listOf(
             WorkbookImp(
                 keyMs = ts.wbKey1Ms,
-            ).apply{
+            ).apply {
                 addMultiSheetOrOverwrite(
                     listOf(
                         WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms)
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    address = CellAddress("A1"),
-                                    content = CellContentImp(1.0.toCellValue().toMs())
+                            .apply {
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("A1"),
+                                        content = CellContentImp(1.0.toCellValue().toMs())
+                                    )
                                 )
-                            )
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    address = CellAddress("B2"),
-                                    content = CellContentImp(2.0.toCellValue().toMs())
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("B2"),
+                                        content = CellContentImp(2.0.toCellValue().toMs())
+                                    )
                                 )
-                            )
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    address = CellAddress("C3"),
-                                    content = CellContentImp(3.0.toCellValue().toMs())
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("C3"),
+                                        content = CellContentImp(3.0.toCellValue().toMs())
+                                    )
                                 )
-                            ).addOrOverwrite(
-                                IndCellImp(
-                                    address = CellAddress("D4"),
-                                    content = CellContentImp("abc".toCellValue().toMs())
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("D4"),
+                                        content = CellContentImp("abc".toCellValue().toMs())
+                                    )
                                 )
-                            ),
+                            },
                         WorksheetImp("Sheet2".toMs(), ts.wbKey2Ms)
                     )
                 )
             },
             WorkbookImp(
                 keyMs = ts.wbKey2Ms,
-            ).apply{
+            ).apply {
                 addMultiSheetOrOverwrite(
                     listOf<Worksheet>(
                         WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms),

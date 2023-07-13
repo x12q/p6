@@ -46,7 +46,7 @@ class RangeRangePasterImp @Inject constructor(
                             val newCell = sourceCell
                                 .shift(sourceCellAddress, targetCellAddress)
                                 .setAddress(targetCellAddress)
-                            tws = tws.addOrOverwrite(newCell)
+                            tws.addOrOverwrite(newCell)
                         }
                     }
                 }

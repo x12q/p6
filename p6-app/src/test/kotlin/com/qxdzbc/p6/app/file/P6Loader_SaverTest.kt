@@ -9,6 +9,7 @@ import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.p6.app.file.loader.P6FileLoaderImp
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
 import com.qxdzbc.p6.app.file.saver.P6SaverImp
@@ -29,28 +30,33 @@ class P6Loader_SaverTest {
     fun save_load() {
         val saver = P6SaverImp()
         val loader = P6FileLoaderImp(testSample.appState.translatorContainer)
-        val wbkSt =  WorkbookKey("wb1").toMs()
-        val wsnSt = "S1".toMs()
+        val wbkSt =  ms(WorkbookKey("wb1"))
+        val wsnSt = ms("S1")
         val cell = CellImp(
             CellId(address = CellAddress("C5"),wbkSt,wsnSt),
             content = CellContentImp(
-                cellValueMs = 123.toCellValue().toMs()
+                cellValueMs = ms(123.toCellValue())
             )
         )
         val cell2 =CellImp(
             CellId(address = CellAddress("F10"),wbkSt,wsnSt),
             content = CellContentImp(
-                cellValueMs = 456.toCellValue().toMs()
+                cellValueMs = ms(456.toCellValue())
             )
         )
+
+        val qweqwe = WorksheetImp(
+            nameMs = wsnSt,
+            wbKeySt = wbkSt
+        ).apply{
+            addOrOverwrite(cell)
+            addOrOverwrite(cell2)
+        }
         val wb = WorkbookImp(
             keyMs = wbkSt,
         ).apply{
             addMultiSheetOrOverwrite(listOf(
-                WorksheetImp(
-                    nameMs = wsnSt,
-                    wbKeySt = wbkSt
-                ).addOrOverwrite(cell).addOrOverwrite(cell2)
+                qweqwe
             ))
         }
 

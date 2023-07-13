@@ -1,8 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.convert_proto_to_ws
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -42,7 +39,7 @@ class ConvertProtoToWorksheetImp @Inject constructor(
         val translator = tc.getTranslatorOrCreate(wbKeyMs, wsNameMs)
 
         for (cell: Cell in proto.cellsList.map { it.toModel(wbKeyMs, wsNameMs, translator) }) {
-            ws = ws.addOrOverwrite(cell)
+            ws.addOrOverwrite(cell)
         }
         return ws
     }

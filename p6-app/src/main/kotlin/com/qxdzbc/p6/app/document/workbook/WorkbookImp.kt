@@ -4,8 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.getOr
-import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -28,7 +26,8 @@ data class WorkbookImp(
     val worksheetMsMapMs: Ms<Map<Ms<String>, Ms<Worksheet>>> = ms(emptyMap())
 ) : BaseWorkbook() {
 
-    constructor(keyMs: Ms<WorkbookKey>, worksheetMsList: List<Ms<Worksheet>>) : this(keyMs,
+    constructor(keyMs: Ms<WorkbookKey>, worksheetMsList: List<Ms<Worksheet>>) : this(
+        keyMs,
         ms(worksheetMsList.associateBy { it.value.nameMs })
     )
 
@@ -51,6 +50,7 @@ data class WorkbookImp(
         this.worksheets.forEach { it.reRun() }
 
     }
+
     override fun refreshDisplayText() {
         this.worksheets.forEach { it.refreshDisplayText() }
 
@@ -166,7 +166,7 @@ data class WorkbookImp(
     }
 
     override fun addMultiSheetOrOverwrite(worksheetList: List<Worksheet>) {
-        worksheetList.forEach {ws ->
+        worksheetList.forEach { ws ->
             addSheetOrOverwrite(ws)
         }
     }
@@ -203,8 +203,7 @@ data class WorkbookImp(
 
         if (oldWsMs != null) {
             val oldWorksheet = oldWsMs.value
-            val newWorksheet = oldWorksheet.setWsName(newName)
-            oldWsMs.value = newWorksheet
+            oldWorksheet.setWsName(newName)
             return Ok(Unit)
         } else {
             return Err(SingleErrorReport(ErrorHeader("zx", "${index} sheet does not exist"), ""))
@@ -227,11 +226,13 @@ data class WorkbookImp(
                 val nameMs = ms(wsProto.name) // shallow state
                 val translator = translatorGetter(WbWsSt(wbKeyMs, nameMs))
                 // shallow worksheet
-                val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs)
-                    .withNewData(wsProto, translator)
+                val newSheet = WorksheetImp(nameMs = nameMs, wbKeySt = wbKeyMs).apply {
+                    withNewData(wsProto, translator)
+                }
+
                 sheets.add(newSheet)
             }
-            return WorkbookImp(keyMs = wbKeyMs).apply{
+            return WorkbookImp(keyMs = wbKeyMs).apply {
                 addMultiSheetOrOverwrite(sheets)
             }
         }

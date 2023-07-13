@@ -29,7 +29,7 @@ interface Worksheet : WithSize, WbWsSt {
      */
     fun reRun(): Worksheet
 
-    fun reRunAndRefreshDisplayText():Worksheet
+    fun reRunAndRefreshDisplayText()
 
     val idMs: Ms<WorksheetId>
     var id: WorksheetId
@@ -43,15 +43,15 @@ interface Worksheet : WithSize, WbWsSt {
 
     val table: TableCR<Int, Int, Ms<Cell>>
 
-    val cells: List<Cell> get() = cellMsList.map { it.value }
+    val cells: List<Cell>
 
     val cellMsList: List<Ms<Cell>>
 
     val rangeConstraint: RangeConstraint
 
-    val rowRange:IntRange
+    val usedRowRange:IntRange
 
-    val colRange:IntRange
+    val usedColRange:IntRange
 
     override val size: Int get() = table.itemCount
 
@@ -62,9 +62,9 @@ interface Worksheet : WithSize, WbWsSt {
      */
     fun range(address: RangeAddress): Rse<Range>
 
-    fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Worksheet>
+    fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Unit>
 
-    fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Rse<Worksheet>
+    fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Rse<Unit>
 
     fun getCellsInRange(rangeAddress: RangeAddress): List<Cell>
 
@@ -94,7 +94,7 @@ interface Worksheet : WithSize, WbWsSt {
      */
     fun getCellOrDefaultRs(cellAddress: CellAddress): Rse<Cell>
 
-    fun addOrOverwrite(cell: Cell): Worksheet
+    fun addOrOverwrite(cell: Cell)
 
     fun getColMs(colIndex: Int): List<Ms<Cell>>
 
@@ -108,25 +108,25 @@ interface Worksheet : WithSize, WbWsSt {
 
     fun getRow(rowIndex: Int): List<Cell>
 
-    fun removeCol(colIndex: Int): Worksheet
+    fun removeCol(colIndex: Int)
 
-    fun removeRow(rowIndex: Int): Worksheet
+    fun removeRow(rowIndex: Int)
 
-    fun removeCell(colKey: Int, rowKey: Int): Worksheet
+    fun removeCell(colKey: Int, rowKey: Int)
 
-    fun removeCell(cellAddress: CellAddress): Worksheet
+    fun removeCell(cellAddress: CellAddress)
 
-    fun removeCell(label:String): Worksheet
+    fun removeCell(label:String)
 
-    fun removeAllCell(): Worksheet
+    fun removeAllCell()
 
-    fun removeCells(cells: Collection<CellAddress>): Worksheet
+    fun removeCells(cells: Collection<CellAddress>)
 
-    fun setWsName(newName: String): Worksheet
+    fun setWsName(newName: String)
 
-    fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet
+    fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>)
 
-    fun refreshDisplayText():Worksheet
+    fun refreshDisplayText()
 
     companion object {
         fun random():Worksheet{

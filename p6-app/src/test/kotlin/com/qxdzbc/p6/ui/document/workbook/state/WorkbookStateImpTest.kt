@@ -28,16 +28,14 @@ class WorkbookStateImpTest {
         ).apply {
             addMultiSheetOrOverwrite(
                 listOf(
-                    WorksheetImp("Sheet1_2".toMs(), ts.wbKey2Ms).let {
-                        val z = it
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    CellAddress("A1"), CellContentImp(
-                                        cellValueMs = "a1".toCellValue().toMs()
-                                    )
+                    WorksheetImp("Sheet1_2".toMs(), ts.wbKey2Ms).apply {
+                        addOrOverwrite(
+                            IndCellImp(
+                                CellAddress("A1"), CellContentImp(
+                                    cellValueMs = "a1".toCellValue().toMs()
                                 )
                             )
-                        z
+                        )
                     },
                 )
             )
@@ -48,39 +46,33 @@ class WorkbookStateImpTest {
         ).apply {
             addMultiSheetOrOverwrite(
                 listOf(
-                    WorksheetImp("Sheet1_2".toMs(), mock()).let {
-                        val z = it
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    CellAddress("A1"),
-                                    CellContentImp(cellValueMs = "a1".toCellValue().toMs())
-                                )
+                    WorksheetImp("Sheet1_2".toMs(), mock()).apply {
+                        addOrOverwrite(
+                            IndCellImp(
+                                CellAddress("A1"),
+                                CellContentImp(cellValueMs = "a1".toCellValue().toMs())
                             )
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    CellAddress("A2"),
-                                    CellContentImp(cellValueMs = "a2".toCellValue().toMs())
-                                )
+                        )
+                        addOrOverwrite(
+                            IndCellImp(
+                                CellAddress("A2"),
+                                CellContentImp(cellValueMs = "a2".toCellValue().toMs())
                             )
-
-                        z
+                        )
                     },
-                    WorksheetImp("Sheet2_2".toMs(), mock()).let {
-                        val z = it
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    CellAddress("B1"),
-                                    CellContentImp(cellValueMs = "b1".toCellValue().toMs())
-                                )
+                    WorksheetImp("Sheet2_2".toMs(), mock()).apply {
+                        addOrOverwrite(
+                            IndCellImp(
+                                CellAddress("B1"),
+                                CellContentImp(cellValueMs = "b1".toCellValue().toMs())
                             )
-                            .addOrOverwrite(
-                                IndCellImp(
-                                    CellAddress("B2"),
-                                    CellContentImp(cellValueMs = "b2".toCellValue().toMs())
-                                )
+                        )
+                        addOrOverwrite(
+                            IndCellImp(
+                                CellAddress("B2"),
+                                CellContentImp(cellValueMs = "b2".toCellValue().toMs())
                             )
-
-                        z
+                        )
                     }
                 )
             )

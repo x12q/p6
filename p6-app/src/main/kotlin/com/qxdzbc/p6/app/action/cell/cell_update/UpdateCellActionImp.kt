@@ -56,8 +56,7 @@ class UpdateCellActionImp @Inject constructor(
                 request.cellId.address, content
             )
 
-            updateWsRs.flatMap {
-                wsMs.value = it
+            updateWsRs.flatMap { it->
                  wsState.refreshCellState()
                 if (wbMs != null) {
                     /*
@@ -75,7 +74,7 @@ class UpdateCellActionImp @Inject constructor(
                     the target ws does not belong to any valid workbook, just need
                     to refresh itself.
                      */
-                    wsMs.value = ws.reRunAndRefreshDisplayText()
+                    ws.reRunAndRefreshDisplayText()
                 }
                 commonReactionWhenAppStatesChanged.onOneCellChanged(request)
                 Unit.toOk()

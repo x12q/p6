@@ -64,9 +64,6 @@ class UpdateMultiCellActionImp @Inject constructor(
                     cellAddress = indCell.address,
                     cellContent = indCell.content.toCellContent(translator)
                 )
-                updateRs.onSuccess {
-                    ws = it
-                }
                 if (updateRs is Err) {
                     err = updateRs
                     break

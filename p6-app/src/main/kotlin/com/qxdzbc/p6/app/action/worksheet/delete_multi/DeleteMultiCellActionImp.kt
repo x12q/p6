@@ -183,14 +183,13 @@ class DeleteMultiCellActionImp @Inject constructor(
                 val ranges: List<RangeAddress> = request.ranges
                 val cells: List<CellAddress> = request.cells
                 // x: remove cell from worksheet
-                var newWs = ws.removeCells(cells)
+                ws.removeCells(cells)
                 val cellsInRanges = ranges
-                    .flatMap { newWs.getCellsInRange(it) }
+                    .flatMap { ws.getCellsInRange(it) }
                     .map { it.address }
                     .toSet()
-                newWs = newWs.removeCells(cellsInRanges)
+                ws.removeCells(cellsInRanges)
                 wb.apply{
-                    addSheetOrOverwrite(newWs)
                     reRun()
                 }
                 val oldWsState = stateCont.getWsState(wbk, wsn)

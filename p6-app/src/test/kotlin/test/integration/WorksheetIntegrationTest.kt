@@ -59,7 +59,7 @@ class WorksheetIntegrationTest {
 
         // x: rename ws1
         val newName = "newName"
-        ws1Ms.value = ws1.setWsName(newName)
+        ws1.setWsName(newName)
         assertEquals(newName, ws1.name)
 
         val c = ws2.getCell("A1")

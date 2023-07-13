@@ -47,8 +47,8 @@ class P6SaverImp @Inject constructor() : P6Saver {
     override fun saveFirstWsAsCsv(wb: Workbook, path: Path): Rse<Unit> {
         try {
             wb.worksheets.firstOrNull()?.also { ws ->
-                val minRow = ws.rowRange.first
-                val maxCol = ws.colRange.last
+                val minRow = ws.usedRowRange.first
+                val maxCol = ws.usedColRange.last
                 val lineMap = mutableMapOf<Int,List<String?>>()
                 for(row in ws.allRows){
                     val line = if (row.isNotEmpty()) {

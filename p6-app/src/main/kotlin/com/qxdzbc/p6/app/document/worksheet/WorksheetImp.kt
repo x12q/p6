@@ -1,15 +1,14 @@
 package com.qxdzbc.p6.app.document.worksheet
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.common.table.ImmutableTableCR
 import com.qxdzbc.p6.app.common.table.TableCR
 import com.qxdzbc.p6.app.document.cell.*
@@ -32,9 +31,11 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
 
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
-    override val table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
+    val tableMs: Ms<TableCR<Int, Int, Ms<Cell>>> = ms(emptyTable),
     override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
 ) : BaseWorksheet() {
+
+    override val table: TableCR<Int, Int, Ms<Cell>> by tableMs
 
     constructor(
         nameMs: Ms<String>,
@@ -48,7 +49,7 @@ data class WorksheetImp(
                 wbKeySt = wbKeySt,
             )
         ),
-        table = table,
+        tableMs = ms(table),
         rangeConstraint = rangeConstraint
     )
 
@@ -76,22 +77,20 @@ data class WorksheetImp(
         }
     }
 
-    override fun reRunAndRefreshDisplayText(): Worksheet {
+    override fun reRunAndRefreshDisplayText() {
         forEachCell{cellMs, colIndex, rowIndex ->
                 val newCell = cellMs.value.reRun()?.evaluateDisplayText()
                 if (newCell != null) {
                     cellMs.value = newCell
                 }
         }
-        return this
     }
 
-    override fun refreshDisplayText():Worksheet{
+    override fun refreshDisplayText() {
         forEachCell{cellMs, colIndex, rowIndex ->
             val newCell = cellMs.value.evaluateDisplayText()
             cellMs.value = newCell
         }
-        return this
     }
 
     override var id: WorksheetId by idMs
@@ -121,9 +120,9 @@ data class WorksheetImp(
 
     override val name: String get() = nameMs.value
     override val cellMsList: List<Ms<Cell>> get() = this.table.allElements
-    override val rowRange: IntRange
+    override val usedRowRange: IntRange
         get() = usedRange.rowRange
-    override val colRange: IntRange
+    override val usedColRange: IntRange
         get() = usedRange.colRange
 
     override fun toProto(): WorksheetProto {
@@ -133,7 +132,7 @@ data class WorksheetImp(
             .build()
     }
 
-    override fun updateCellValue(cellAddress: CellAddress, value: Any?): Result<Worksheet, SingleErrorReport> {
+    override fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Unit> {
         val cellRs = this.getCellOrDefaultRs(cellAddress)
         val rt = cellRs.map { cell ->
             val newContent = cell.content.setValueAndDeleteExUnit(CellValue.fromAny(value))
@@ -146,7 +145,7 @@ data class WorksheetImp(
     override fun updateCellContentRs(
         cellAddress: CellAddress,
         cellContent: CellContent
-    ): Result<Worksheet, SingleErrorReport> {
+    ): Rse<Unit> {
         val cellRs = this.getCellOrDefaultRs(cellAddress)
         val rt = cellRs.map { cell ->
             val newCell = cell.setContent(cellContent)
@@ -155,31 +154,24 @@ data class WorksheetImp(
         return rt
     }
 
-    private val minCol: Int
-    private val maxCol: Int
-
-    private val minRow: Int
-    private val maxRow: Int
-    override val usedRange: RangeAddress
-
     init {
         if (cells.isNotEmpty()) {
-            val cols = cells.map { it.address.colIndex }
-            minCol = cols.minOf { it }
-            maxCol = cols.maxOf { it }
-            val rows = cells.map { it.address.rowIndex }
-            minRow = rows.minOf { it }
-            maxRow = rows.maxOf { it }
-            usedRange = RangeAddress(
-                colRange = minCol..maxCol,
-                rowRange = minRow..maxRow
-            )
+//            val cols = cells.map { it.address.colIndex }
+//            minCol = cols.minOf { it }
+//            maxCol = cols.maxOf { it }
+//            val rows = cells.map { it.address.rowIndex }
+//            minRow = rows.minOf { it }
+//            maxRow = rows.maxOf { it }
+//            usedRange = RangeAddress(
+//                colRange = minCol..maxCol,
+//                rowRange = minRow..maxRow
+//            )
         } else {
-            minCol = 0
-            maxCol = 0
-            minRow = 0
-            maxRow = 0
-            usedRange = RangeAddressUtils.InvalidRange
+//            minCol = 0
+//            maxCol = 0
+//            minRow = 0
+//            maxRow = 0
+//            usedRange = RangeAddressUtils.InvalidRange
         }
     }
 
@@ -203,69 +195,67 @@ data class WorksheetImp(
         }
     }
 
-    override fun addOrOverwrite(cell: Cell): Worksheet {
+    override fun addOrOverwrite(cell: Cell) {
         val address = cell.address
         val newCell = CellImp(
             id = CellId(address, wbKeySt, wsNameSt),
             content = cell.content
         )
-        val cMs = this.getCellMs(address)
-        if (cMs != null) {
-            cMs.value = cell
-            return this
+        val cellMs = this.getCellMs(address)
+        if (cellMs != null) {
+            cellMs.value = cell
         } else {
             val newTable = table.set(address, ms(newCell))
-            return this.copy(table = newTable)
+            tableMs.value = newTable
         }
     }
 
-    override fun removeCol(colIndex: Int): Worksheet {
+    override fun removeCol(colIndex: Int) {
         val newTable = table.removeCol(colIndex)
-        return this.copy(table = newTable)
+        tableMs.value = newTable
     }
 
-    override fun removeRow(rowIndex: Int): Worksheet {
+    override fun removeRow(rowIndex: Int) {
         val newTable = table.removeCol(rowIndex)
-        return this.copy(table = newTable)
+        tableMs.value = newTable
     }
 
-    override fun removeCell(colKey: Int, rowKey: Int): Worksheet {
+    override fun removeCell(colKey: Int, rowKey: Int) {
         val newTable = table.remove(colKey, rowKey)
-        return this.copy(table = newTable)
+        tableMs.value = newTable
     }
 
-    override fun removeCells(cells: Collection<CellAddress>): Worksheet {
+    override fun removeCells(cells: Collection<CellAddress>) {
         val newTable = cells.fold(table) { accTable, cell ->
             accTable.remove(cell.colIndex, cell.rowIndex)
         }
-        return this.copy(table = newTable)
+        tableMs.value = newTable
     }
 
-    override fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet {
+    override fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>) {
         if (this.name == wsProto.name) {
             var newTable = ImmutableTableCR<Int, Int, Ms<Cell>>()
-            var newWs: Worksheet = this.removeAllCell()
+            this.removeAllCell()
             for (cellProto: DocProtos.CellProto in wsProto.cellsList) {
                 val newCell = cellProto.toModel(wbKeySt, wsNameSt, translator)
                 val cMs: Ms<Cell> = this.getCellMs(newCell.address)?.apply {
                     value = newCell
                 } ?: ms(newCell)
                 newTable = newTable.set(newCell.address, cMs)
-                newWs = newWs.addOrOverwrite(newCell)
+                this.addOrOverwrite(newCell)
             }
-            return newWs.reRunAndRefreshDisplayText()
+            reRunAndRefreshDisplayText()
         } else {
             throw IllegalArgumentException("Cannot update sheet named \"${this.name}\" with data from sheet named \"${wsProto.name}\"")
         }
     }
 
-    override fun removeAllCell(): Worksheet {
-        return this.copy(table = table.removeAll())
+    override fun removeAllCell() {
+        tableMs.value = table.removeAll()
     }
 
-    override fun setWsName(newName: String): Worksheet {
+    override fun setWsName(newName: String) {
         this.nameMs.value = newName
-        return this
     }
 
     override fun equals(other: Any?): Boolean {
@@ -322,13 +312,13 @@ data class WorksheetImp(
          * Create a shallow model from a proto. A shallow model is one that contain fake Ms or St states that do not exist in the app state. Be extra careful when using them.
          */
         fun WorksheetProto.toShallowModel(wbKeyMs: Ms<WorkbookKey>, translator: P6Translator<ExUnit>): Worksheet {
-            var ws: Worksheet = WorksheetImp(
+            val ws: Worksheet = WorksheetImp(
                 nameMs = ms(this.name),
                 table = ImmutableTableCR(),
                 wbKeySt = wbKeyMs
             )
             for (cell: Cell in cellsList.map { it.toShallowModel(translator) }) {
-                ws = ws.addOrOverwrite(cell)
+                ws.addOrOverwrite(cell)
             }
             return ws
         }

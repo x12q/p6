@@ -135,9 +135,8 @@ class CopyCellActionImp @Inject constructor(
                         id = CellId(request.toCell.address, toWs.wbKeySt, toWs.wsNameSt)
                     )
                     // x: add the new cell to the worksheet
-                    val newWs: Worksheet = toWsMs.value.addOrOverwrite(newCell)
-                    toWsMs.value = newWs
-                    newWs
+                    toWsMs.value.addOrOverwrite(newCell)
+                    toWsMs.value
                 } else {
                     toWsMs.value
                 }

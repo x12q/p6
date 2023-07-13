@@ -46,7 +46,7 @@ class SingleCellPaster @Inject constructor(
                                 source.rangeId.rangeAddress.topLeft,
                                 target.rangeAddress.topLeft
                             )
-                            tws = tws.addOrOverwrite(newCell)
+                            tws.addOrOverwrite(newCell)
                         }
                         wb.addSheetOrOverwrite(tws)
                         wb
