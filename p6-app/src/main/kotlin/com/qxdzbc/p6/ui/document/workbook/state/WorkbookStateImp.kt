@@ -39,7 +39,6 @@ import dagger.assisted.AssistedInject
 
 data class WorkbookStateImp(
     override val wbMs: Ms<Workbook>,
-    val windowIdMs: Ms<String?>,
     private val wsStateMapMs: Ms<Map<St<String>, WorksheetState>>,
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
     private val needSaveMs: Ms<Boolean>,
@@ -52,7 +51,6 @@ data class WorkbookStateImp(
     @AssistedInject
     constructor(
         @Assisted("1") wbMs: Ms<Workbook>,
-        @Assisted("2") windowIdMs: Ms<String?>,
         // ======================================= //
         @DefaultActiveWorksheetPointer
         activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
@@ -63,7 +61,6 @@ data class WorkbookStateImp(
         thumbStateFactory: ThumbStateFactory,
     ) : this(
         wbMs = wbMs,
-        windowIdMs = windowIdMs,
         wsStateMapMs = ms(emptyMap()),
         activeSheetPointerMs = activeSheetPointerMs,
         needSaveMs = needSaveMs,
@@ -74,8 +71,6 @@ data class WorkbookStateImp(
     )
 
     override val wsStateMap: Map<St<String>, WorksheetState> by wsStateMapMs
-
-    override var windowId: String? by windowIdMs
 
     override var needSave: Boolean by needSaveMs
 
@@ -308,7 +303,6 @@ data class WorkbookStateImp(
                 gridSliderFactory = gridSliderFactory,
                 cursorStateFactory = cursorStateFactory,
                 thumbStateFactory = thumbStateFactory,
-                windowIdMs = ms(null),
                 needSaveMs = ms(false),
             )
         }
