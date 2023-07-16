@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.document.wb_container
 
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
 import com.qxdzbc.p6.app.document.workbook.Workbook
@@ -24,26 +25,27 @@ interface WorkbookContainer : WorkbookGetter, WithSize {
     /**
      * Overwrite the [Workbook] having the same key as [wb].
      */
-    @Deprecated("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
+    @P6ExperimentalApi("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
     fun overwriteWb(wb: Workbook)
 
     /**
      * Overwrite a workbook having the same key as [wb], and create a new workbook state if necessary.
      * Return a [Rse] object showing whether the operation was successful or not.
      */
-    @Deprecated("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
+    @P6ExperimentalApi("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
     fun overwriteWbRs(wb: Workbook): Rse<Unit>
 
     /**
      * Add or overwrite a [Workbook], then create a new wb state if no such state exist
      */
-    @Deprecated("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
+    @P6ExperimentalApi("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
     fun addOrOverWriteWbRs(wb: Workbook): Rse<Unit>
 
     /**
      * Add or overwrite a [Workbook], then create a new wb state if a state for that [Workbook] does not exist
      */
-    @Deprecated("do not use this function. It is kept for reference purposes only. The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
+
+    @P6ExperimentalApi("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
     fun addOrOverWriteWb(wb: Workbook)
 
     /**

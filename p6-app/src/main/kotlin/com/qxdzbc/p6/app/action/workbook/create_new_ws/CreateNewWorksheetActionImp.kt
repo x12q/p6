@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.mapError
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfos.noNav
@@ -19,7 +20,6 @@ import javax.inject.Inject
 @ContributesBinding(P6AnvilScope::class)
 class CreateNewWorksheetActionImp @Inject constructor(
     private val stateCont: StateContainer,
-    private val wbCont: WorkbookContainer,
     private val docCont: DocumentContainer,
 ) : CreateNewWorksheetAction {
 
