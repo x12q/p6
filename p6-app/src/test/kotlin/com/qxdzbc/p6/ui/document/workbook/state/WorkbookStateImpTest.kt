@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.document.workbook.state
 
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
@@ -14,6 +15,7 @@ import org.mockito.kotlin.mock
 import test.TestSample
 import kotlin.test.*
 
+@OptIn(P6ExperimentalApi::class)
 class WorkbookStateImpTest {
     lateinit var wbState: WorkbookStateImp
     lateinit var wb0: Workbook

@@ -16,6 +16,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.P6ExperimentalApi
 import java.nio.file.Path
 import javax.inject.Inject
 import kotlin.io.path.absolute
@@ -61,11 +62,13 @@ data class WorkbookContainerImp @Inject constructor(
         }
     }
 
+    @P6ExperimentalApi
     @Throws(Exception::class)
     override fun overwriteWb(wb: Workbook) {
         return this.overwriteWbRs(wb).getOrThrow()
     }
 
+    @P6ExperimentalApi
     override fun overwriteWbRs(wb: Workbook): Rse<Unit> {
         val wbStateMs: WorkbookState? = this.wbStateCont.getWbState(wb.key)
         if (wbStateMs != null) {
@@ -77,6 +80,7 @@ data class WorkbookContainerImp @Inject constructor(
         }
     }
 
+    @P6ExperimentalApi
     override fun addOrOverWriteWbRs(wb: Workbook): Rse<Unit> {
         val addRs = this.addWbRs(wb)
         when (addRs) {
@@ -87,7 +91,7 @@ data class WorkbookContainerImp @Inject constructor(
             }
         }
     }
-    @Deprecated("do not use this function. It is kept for reference purposes only. The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
+    @P6ExperimentalApi
     @Throws(Exception::class)
     override fun addOrOverWriteWb(wb: Workbook) {
         return addOrOverWriteWbRs(wb).getOrThrow()

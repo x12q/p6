@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.ErrorUtils.getOrThrow
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -222,12 +223,14 @@ data class WorkbookStateImp(
     }
 
 
+    @P6ExperimentalApi
     @Throws(Exception::class)
     override fun overWriteWb(newWb: Workbook) {
         return this.overWriteWbRs(newWb).getOrThrow()
     }
 
 
+    @P6ExperimentalApi
     override fun overWriteWbRs(newWb: Workbook): Rse<Unit> {
         if (newWb.key == this.wb.key) {
             this.wb = newWb

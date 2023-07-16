@@ -145,9 +145,6 @@ data class WindowStateImp @AssistedInject constructor(
             if (this.activeWbPointer.isPointingTo(wbKeyMs)) {
                 this.activeWbPointerMs.value = this.activeWbPointer.nullify()
             }
-            val wbStateMs = this.wbStateCont.getWbState(wbKeyMs)
-            wbStateMs?.windowId = null
-
             wbKeyMsSetMs.value = wbKeyMsSet.filter{it!=wbKeyMs}.toSet()
         }
     }
@@ -164,7 +161,6 @@ data class WindowStateImp @AssistedInject constructor(
             val rt = wbStateMsRs.map {wbStateMs->
                 val wbk = wbStateMs.wbKeyMs
                 val newWbKeySet = this.wbKeyMsSet + wbk
-                wbStateMs.windowId = this.id
                 wbKeyMsSetMs.value = newWbKeySet
             }
             return rt
@@ -181,10 +177,6 @@ data class WindowStateImp @AssistedInject constructor(
             if (k == null || k !in newWbKeySet) {
                 this.activeWbPointerMs.value = this.activeWbPointer.pointTo(newWbKeySet.first())
             }
-        }
-        // x: update window id of each wb state
-        for (wbk in newWbKeySet) {
-            wbStateCont.getWbState(wbk)?.windowId = this.id
         }
         wbKeyMsSetMs.value = newWbKeySet
     }

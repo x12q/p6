@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.app.state
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -365,6 +366,7 @@ class DocumentContainerImp @Inject constructor(
         return getCellIdRs(cellIdDM).component1()
     }
 
+    @P6ExperimentalApi
     override fun replaceWb(newWb: Workbook) {
         wbCont.overwriteWb(newWb)
     }

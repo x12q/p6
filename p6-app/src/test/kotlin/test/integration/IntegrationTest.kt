@@ -1,5 +1,6 @@
 package test.integration
 
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
@@ -23,6 +24,7 @@ import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractorImp
 import test.TestSample
 import kotlin.test.*
 
+@OptIn(P6ExperimentalApi::class)
 class IntegrationTest {
 
     lateinit var ts: TestSample
