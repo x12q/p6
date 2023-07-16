@@ -62,10 +62,10 @@ data class WorkbookContainerImp @Inject constructor(
     }
     @Throws(Exception::class)
     override fun overwriteWB(wb: Workbook) {
-        return this.overwriteWBRs(wb).getOrThrow()
+        return this.overwriteWbRs(wb).getOrThrow()
     }
 
-    override fun overwriteWBRs(wb: Workbook): Rse<Unit> {
+    override fun overwriteWbRs(wb: Workbook): Rse<Unit> {
         val wbStateMs: WorkbookState? = this.wbStateCont.getWbState(wb.key)
         if (wbStateMs != null) {
             val rs: Rse<Unit> = wbStateMs.overWriteWbRs(wb)
@@ -81,7 +81,7 @@ data class WorkbookContainerImp @Inject constructor(
         when (addRs) {
             is Ok -> return addRs
             is Err -> {
-                val overWriteRs = this.overwriteWBRs(wb)
+                val overWriteRs = this.overwriteWbRs(wb)
                 return overWriteRs
             }
         }

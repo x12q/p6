@@ -92,7 +92,6 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
     fun `apply Load Workbook into invalid window`() {
         val windowId = "invalid wd id"
         val wb = WorkbookImp(WorkbookKey("Book33").toMs())
-        ts.sc.wbCont.addWb(wb)
         action.apply(windowId, wb,null,null,null)
         val wds = ts.sc.getWindowStateMsById(windowId)
         assertNotNull(wds)

@@ -51,9 +51,17 @@ interface StateContainer : DocumentContainer, WorkbookStateGetter {
 
     /**
      * get window state respective to [windowId],
-     * if [windowId] is null, get the active window, or the first, or create a new window
+     * if [windowId] is null, get the active window, or the first in the window state list.
      */
-    fun getWindowStateMs_OrDefault_OrCreateANewOne_Rs(windowId: String?):Rse<WindowState>
+    fun getWindowState_OrDefault_Rs(windowId: String?):Rse<WindowState>
+
+    /**
+     * get window state respective to [windowId],
+     * if [windowId] is null, get the active window, or the first in the window state list, or create a new one if there are not any [WindowState].
+     * It is noted that, the new [WindowState] (if created) is NOT already added to the app state.
+     */
+    fun getWindowState_OrDefault_OrCreateNew_Rs(windowId: String?):WindowState
+
 
     /**
      * get cursor state ms of the active worksheet inside the active workbook
@@ -166,6 +174,9 @@ interface StateContainer : DocumentContainer, WorkbookStateGetter {
     fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState>
     fun getWindowStateByWbKey(wbKey: WorkbookKey): WindowState?
 
+    /**
+     * TODO rename this, remove the Ms part
+     */
     fun getWindowStateMsByIdRs(windowId: String): Rs<WindowState, SingleErrorReport>
     fun getWindowStateMsById(windowId: String): WindowState?
 

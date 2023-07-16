@@ -30,7 +30,7 @@ interface WorkbookContainer : WorkbookGetter, WithSize {
      * Overwrite a workbook having the same key as [wb], and create a new workbook state if necessary.
      * Return a [Rse] object showing whether the operation was successful or not.
      */
-    fun overwriteWBRs(wb: Workbook): Rse<Unit>
+    fun overwriteWbRs(wb: Workbook): Rse<Unit>
 
     /**
      * Add or overwrite a [Workbook], then create a new wb state if no such state exist
