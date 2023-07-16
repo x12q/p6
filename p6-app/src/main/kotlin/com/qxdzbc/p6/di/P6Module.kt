@@ -12,13 +12,9 @@ import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.di.action.ActionModule
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.applier.ApplierModule
 import com.qxdzbc.p6.di.document.DocumentModule
-import com.qxdzbc.p6.di.request_maker.RMModule
 import com.qxdzbc.p6.di.rpc.RpcModule
 import com.qxdzbc.p6.di.state.StateModule
-import com.qxdzbc.p6.di.state.app_state.AppStateModule
-import com.qxdzbc.p6.di.state.window.WindowFocusStateModule
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
 import com.qxdzbc.p6.di.status_bar.StatusBarModule
@@ -36,10 +32,7 @@ import dagger.Provides
 @Module(
     includes = [
         UtilModule::class,
-        RMModule::class,
-        ApplierModule::class,
         ActionTableModule::class,
-//        AppStateModule::class,
         DocumentModule::class,
         TranslatorModule::class,
         StatusBarModule::class,

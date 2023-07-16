@@ -47,10 +47,10 @@ fun WorkbookView(
         var deleteTarget: String by rms("")
         Column(modifier = Modifier.fillMaxSize()) {
             MBox(modifier = Modifier.fillMaxSize().weight(1.0F)) {
-                val wsMs: Ms<WorksheetState>? = wbState.activeSheetStateMs
+                val wsMs: WorksheetState? = wbState.activeSheetStateMs
                 if (wsMs != null) {
                     WorksheetView(
-                        wsState = wsMs.value,
+                        wsState = wsMs,
                         worksheetActionTable = wbActionTable.worksheetActionTable,
                         focusState = focusState
                     )

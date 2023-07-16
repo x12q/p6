@@ -11,9 +11,8 @@ import com.qxdzbc.p6.ui.document.workbook.sheet_tab.tab.SheetTabStateImp
 
 data class SheetTabBarStateImp constructor(
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
-    private val wbMs:Ms<Workbook>,
+    private val wb:Workbook,
 ) : SheetTabBarState {
-    private val wb by wbMs
     override val tabStateList: List<SheetTabState> get() = wb.worksheets.map {
         SheetTabStateImp(
             sheetName = it.name,

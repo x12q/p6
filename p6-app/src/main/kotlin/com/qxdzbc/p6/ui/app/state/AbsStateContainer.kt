@@ -14,7 +14,6 @@ import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.document.cell.state.CellState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.format.CellFormatTable
@@ -159,22 +158,22 @@ abstract class AbsStateContainer : StateContainer {
     }
 
     override fun getWindowStateByIdRs(windowId: String): Rse<WindowState> {
-        return getWindowStateMsByIdRs(windowId).map { it.value }
+        return getWindowStateMsByIdRs(windowId)
     }
 
     override fun getWindowStateById(windowId: String): WindowState? {
-        return getWindowStateMsById(windowId)?.value
+        return getWindowStateMsById(windowId)
     }
 
     override fun getWindowStateByWbKeyRs(wbKey: WorkbookKey): Rse<WindowState> {
-        return getWindowStateMsByWbKeyRs(wbKey).map { it.value }
+        return getWindowStateMsByWbKeyRs(wbKey)
     }
 
     override fun getWindowStateByWbKey(wbKey: WorkbookKey): WindowState? {
-        return getWindowStateMsByWbKey(wbKey)?.value
+        return getWindowStateMsByWbKey(wbKey)
     }
 
-    override fun getWindowStateMsById(windowId: String): Ms<WindowState>? {
+    override fun getWindowStateMsById(windowId: String): WindowState? {
         return getWindowStateMsByIdRs(windowId).component1()
     }
 
@@ -182,108 +181,60 @@ abstract class AbsStateContainer : StateContainer {
         return getFocusStateMsByWbKeyRs(wbKey).component1()
     }
 
-    override fun getWindowStateMsByWbKey(wbKey: WorkbookKey): Ms<WindowState>? {
+    override fun getWindowStateMsByWbKey(wbKey: WorkbookKey): WindowState? {
         return this.getWindowStateMsByWbKeyRs(wbKey).component1()
     }
 
-    override fun getWsStateMsRs(wbwsSt: WbWsSt): Rse<Ms<WorksheetState>> {
+    override fun getWsStateRs(wbwsSt: WbWsSt): Rse<WorksheetState> {
         return this.getWsStateMsRs(wbwsSt.wbKeySt, wbwsSt.wsNameSt)
     }
 
-    override fun getWsStateRs(wbwsSt: WbWsSt): Rse<WorksheetState> {
-        return getWsStateMsRs(wbwsSt).map { it.value }
-    }
-
-    override fun getWsStateMs(wbwsSt: WbWsSt): Ms<WorksheetState>? {
-        return getWsStateMsRs(wbwsSt).component1()
-    }
-
     override fun getWsState(wbwsSt: WbWsSt): WorksheetState? {
-        return getWsStateMs(wbwsSt)?.value
+        return getWsStateRs(wbwsSt).component1()
     }
 
-    override fun getWsStateMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<WorksheetState>> {
+    override fun getWsStateMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<WorksheetState> {
         return this.getWbStateRs(wbKeySt).flatMap {
             it.getWsStateMsRs(wsNameSt)
         }
     }
 
     override fun getWsStateRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<WorksheetState> {
-        return getWsStateMsRs(wbKeySt, wsNameSt).map { it.value }
+        return getWsStateMsRs(wbKeySt, wsNameSt)
     }
 
-    override fun getWsStateMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<WorksheetState>? {
+    override fun getWsStateMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): WorksheetState? {
         return getWsStateMsRs(wbKeySt, wsNameSt).component1()
     }
 
     override fun getWsState(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): WorksheetState? {
-        return getWsStateMs(wbKeySt, wsNameSt)?.value
+        return getWsStateMs(wbKeySt, wsNameSt)
     }
 
     override fun getCursorStateMs(wbKey: WorkbookKey, wsName: String): Ms<CursorState>? {
-        return this.getWsStateMs(wbKey, wsName)?.value?.cursorStateMs
+        return this.getWsState(wbKey, wsName)?.cursorStateMs
     }
 
     override fun getFocusStateMsByWbKeyRs(wbKey: WorkbookKey): Rs<Ms<WindowFocusState>, SingleErrorReport> {
         return this.getWindowStateMsByWbKeyRs(wbKey).map {
-            it.value.focusStateMs
+            it.focusStateMs
         }
     }
 
-    override fun getWsStateMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<WorksheetState>> {
+    override fun getWsStateRs(wbKey: WorkbookKey, wsName: String): Rse<WorksheetState> {
         return this.getWbStateRs(wbKey).flatMap { it.getWsStateMsRs(wsName) }
     }
 
-    override fun getWbStateMs(wbKeySt: St<WorkbookKey>): Ms<WorkbookState>? {
-        return this.getWbStateMsRs(wbKeySt).component1()
-    }
-
-    override fun getWbStateRs(wbKeySt: St<WorkbookKey>): Rse<WorkbookState> {
-        return getWbStateMsRs(wbKeySt).map { it.value }
-    }
-
-    override fun getWbState(wbKeySt: St<WorkbookKey>): WorkbookState? {
-        return getWbStateRs(wbKeySt).component1()
-    }
-
-    override fun getWbStateRs(wbKey: WorkbookKey): Rse<WorkbookState> {
-        return getWbStateMsRs(wbKey).map { it.value }
-    }
-
-    override fun getWbStateMs(wbKey: WorkbookKey): Ms<WorkbookState>? {
-        return getWbStateMsRs(wbKey).component1()
-    }
-
-    override fun getWbState(wbKey: WorkbookKey): WorkbookState? {
-        return getWbStateMs(wbKey)?.value
-    }
-
-    override fun getWsStateRs(wbKey: WorkbookKey, wsName: String): Rse<WorksheetState> {
-        return getWsStateMsRs(wbKey, wsName).map { it.value }
-    }
-
-    override fun getWsStateMs(wbKey: WorkbookKey, wsName: String): Ms<WorksheetState>? {
-        return getWsStateMsRs(wbKey, wsName).component1()
-    }
-
     override fun getWsState(wbKey: WorkbookKey, wsName: String): WorksheetState? {
-        return getWsStateMs(wbKey, wsName)?.value
-    }
-
-    override fun getWsStateMsRs(wbws: WbWs): Rse<Ms<WorksheetState>> {
-        return this.getWsStateMsRs(wbws.wbKey, wbws.wsName)
+        return getWsStateRs(wbKey, wsName).component1()
     }
 
     override fun getWsStateRs(wbws: WbWs): Rse<WorksheetState> {
-        return getWsStateMsRs(wbws.wbKey, wbws.wsName).map { it.value }
-    }
-
-    override fun getWsStateMs(wbws: WbWs): Ms<WorksheetState>? {
-        return getWsStateMsRs(wbws.wbKey, wbws.wsName).component1()
+        return this.getWsStateRs(wbws.wbKey, wbws.wsName)
     }
 
     override fun getWsState(wbws: WbWs): WorksheetState? {
-        return getWsStateMs(wbws.wbKey, wbws.wsName)?.value
+        return getWsStateRs(wbws.wbKey, wbws.wsName).component1()
     }
 
     override fun getCursorState(wbKey: WorkbookKey, wsName: String): CursorState? {

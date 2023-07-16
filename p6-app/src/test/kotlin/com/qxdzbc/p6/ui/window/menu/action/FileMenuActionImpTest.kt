@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.window.menu.action
 
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.ui.window.state.WindowState
@@ -15,17 +14,17 @@ import kotlin.test.assertNull
 
 internal class FileMenuActionImpTest {
     lateinit var action: FileMenuActionImp
-    lateinit var windowStateMs: Ms<WindowState>
+    lateinit var windowState: WindowState
     lateinit var windowAction: WindowAction
     lateinit var ts:TestSample
-    lateinit var wbContMs:Ms<WorkbookContainer>
-    lateinit var wbStateContMs:Ms<WorkbookStateContainer>
+    lateinit var wbCont:WorkbookContainer
+    lateinit var wbStateCont:WorkbookStateContainer
     @BeforeTest
     fun b() {
         ts = TestSample()
-        wbContMs = ts.wbContMs
-        wbStateContMs = ts.sc.wbStateContMs
-        windowStateMs = ts.sampleWindowStateMs
+        wbCont = ts.wbCont
+        wbStateCont = ts.sc.wbStateCont
+        windowState = ts.sampleWindowStateMs
         windowAction = mock<WindowAction>() {
             doNothing().whenever(it).saveActiveWorkbook(any(), any())
             doNothing().whenever(it).openSaveFileDialog(any())
@@ -36,8 +35,6 @@ internal class FileMenuActionImpTest {
             closeWbAct = ts.comp.closeWbAct()
         )
     }
-
-    val windowState get() = windowStateMs.value
 
     @Test
     fun `saveWorkbook when path is null`() {
@@ -53,8 +50,8 @@ internal class FileMenuActionImpTest {
         val validPathKey = TestSample.wbk1.setPath(Path.of("sample/path"))
         assertNotNull(windowState.activeWbStateMs)
 
-        wbContMs.value = wbContMs.value.replaceKey(TestSample.wbk1, validPathKey)
-        wbStateContMs.value = wbStateContMs.value.replaceKey(TestSample.wbk1, validPathKey)
+        wbCont.replaceKey(TestSample.wbk1, validPathKey)
+        wbStateCont.replaceKey(TestSample.wbk1, validPathKey)
 
         assertNotNull(windowState.activeWbState?.wbKey?.path)
         action.save(windowState.id)

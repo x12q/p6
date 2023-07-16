@@ -33,7 +33,7 @@ import dagger.assisted.AssistedInject
 /**
  * a GridSlider + col/row limit
  */
-data class WorksheetStateImp constructor(
+data class WorksheetStateImp (
     // ====Assisted inject properties ======//
     override val wsMs: Ms<Worksheet>,
     override val sliderMs: Ms<GridSlider>,
@@ -95,40 +95,23 @@ data class WorksheetStateImp constructor(
             return idMs.value
         }
 
-    override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState {
+    override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper) {
         val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
         val newLayout = oldLayout.replaceWith(layoutCoor) ?: layoutCoor
-        // TODO: keep the below commented code just in case the new code has bug.
-//        val newLayout: LayoutCoorWrapper = if (oldLayout == null) {
-//            layoutCoor
-//        } else {
-//            if (oldLayout.layout != layoutCoor.layout) {
-//                layoutCoor
-//            } else {
-//                /*
-//                Force refresh cell layout wrapper to force the app to redraw cell when col/row is resize. This is to fix the bug that cell cursor is not resized when col/row is resized
-//                TODO this might be optimized further to reduce redrawing.
-//                 */
-//                layoutCoor.forceRefresh(!oldLayout.refreshVar)
-//            }
-//        }
         val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
         this.cellLayoutCoorMapMs.value = newMap
-        return this
     }
 
-    override fun removeCellLayoutCoor(cellAddress: CellAddress): WorksheetState {
+    override fun removeCellLayoutCoor(cellAddress: CellAddress) {
         if (cellAddress in this.cellLayoutCoorMap.keys) {
             this.cellLayoutCoorMapMs.value = this.cellLayoutCoorMap - (cellAddress)
         }
-        return this
     }
 
-    override fun removeAllCellLayoutCoor(): WorksheetState {
+    override fun removeAllCellLayoutCoor() {
         if (this.cellLayoutCoorMap.isNotEmpty()) {
             this.cellLayoutCoorMapMs.value = emptyMap()
         }
-        return this
     }
 
     /**
@@ -137,7 +120,7 @@ data class WorksheetStateImp constructor(
      *  - contain format data
      *  Cell states that don't point to a valid cell and containt no format data are removed.
      */
-    override fun refreshCellState(): WorksheetState {
+    override fun refreshCellState() {
         var newCellMsCont = CellStateContainers.immutable()
         val existingCells = this.worksheet.cellMsList
         val existingCellAddresses = existingCells.map { it.value.address }.toSet()
@@ -164,27 +147,24 @@ data class WorksheetStateImp constructor(
             val cellState = cellStateMs.value
             val addr = cellState.address
             if (addr !in existingCellAddresses) {
-//                cellStateMs.value = cellState.removeDataCell()
-//                newCellMsCont = newCellMsCont.set(addr, cellStateMs)
                 newCellMsCont = newCellMsCont.remove(addr)
             }
         }
 
         cellStateContMs.value = newCellMsCont
-        return this
     }
 
     override val wbKeySt: St<WorkbookKey>
         get() = this.id.wbKeySt
+
     override val wsNameSt: St<String>
         get() {
             return this.id.wsNameSt
         }
 
-    override fun setSliderAndRefreshDependentStates(i: GridSlider): WorksheetState {
+    override fun setSliderAndRefreshDependentStates(i: GridSlider) {
         this.sliderMs.value = i
-        var wsState: WorksheetState = this
-        wsState = wsState.removeAllCellLayoutCoor()
+        this.removeAllCellLayoutCoor()
 
         colRulerStateMs.value = colRulerState
             .clearItemLayoutCoorsMap()
@@ -193,55 +173,49 @@ data class WorksheetStateImp constructor(
         rowRulerStateMs.value = rowRulerState
             .clearItemLayoutCoorsMap()
             .clearResizerLayoutCoorsMap()
-        return wsState
     }
 
     override val cellStateCont: CellStateContainer
         get() = cellStateContMs.value
 
-    override fun removeCellState(vararg addresses: CellAddress): WorksheetState {
+    override fun removeCellState(vararg addresses: CellAddress) {
         val cont = addresses.fold(cellStateCont) { accCont: CellStateContainer, cellAddress ->
             accCont.remove(cellAddress)
         }
         cellStateContMs.value = cont
-        return this
     }
 
-    override fun removeCellState(addresses: Collection<CellAddress>): WorksheetState {
+    override fun removeCellState(addresses: Collection<CellAddress>) {
         val cont = addresses.fold(cellStateCont) { accCont, cellAddress ->
             accCont.remove(cellAddress)
         }
         cellStateContMs.value = cont
-        return this
     }
 
-    override fun createAndAddNewCellStateMs(cellState: CellState): WorksheetState {
+    override fun createAndAddNewCellStateMs(cellState: CellState) {
         cellStateContMs.value = cellStateCont.set(cellState.address, ms(cellState))
-        return this
     }
 
-    override fun addOrOverwriteCellState(cellState: CellState): WorksheetState {
+    override fun addOrOverwriteCellState(cellState: CellState) {
         val cellStateMs = this.getCellStateMs(cellState.address)
         if (cellStateMs != null) {
             cellStateMs.value = cellState
-            return this
         } else {
-            return this.createAndAddNewCellStateMs(cellState)
+            this.createAndAddNewCellStateMs(cellState)
         }
     }
 
-    override fun addBlankCellState(address: CellAddress): WorksheetState {
+    override fun addBlankCellState(address: CellAddress) {
         val blankState = CellStates.blank(address)
-        return createAndAddNewCellStateMs(blankState)
+        createAndAddNewCellStateMs(blankState)
     }
 
-    override fun addBlankCellState(label: String): WorksheetState {
-        return addBlankCellState(CellAddress(label))
+    override fun addBlankCellState(label: String) {
+        addBlankCellState(CellAddress(label))
     }
 
-    override fun removeAllCellState(): WorksheetState {
+    override fun removeAllCellState() {
         cellStateContMs.value = cellStateCont.removeAll()
-        return this
     }
 
     override fun getCellStateMs(cellAddress: CellAddress): Ms<CellState>? {
@@ -253,20 +227,18 @@ data class WorksheetStateImp constructor(
         return getCellStateMs(CellAddress(label))
     }
 
-    override val wbKey: WorkbookKey
-        get() = this.id.wbKey
+    override val wbKey: WorkbookKey get() = this.id.wbKey
+
     override val cellGridLayoutCoorWrapper: LayoutCoorWrapper? by this.cellGridLayoutCoorWrapperMs
 
-    override fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper): WorksheetState {
+    override fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper) {
         this.cellGridLayoutCoorWrapperMs.value = i
-        return this
     }
 
     override val wsLayoutCoorWrapper: LayoutCoorWrapper? by this.wsLayoutCoorWrapperMs
 
-    override fun setwsLayoutCoorWrapper(i: LayoutCoorWrapper): WorksheetState {
+    override fun setWsLayoutCoorWrapper(i: LayoutCoorWrapper) {
         wsLayoutCoorWrapperMs.value = i
-        return this
     }
 
     override val worksheet: Worksheet by wsMs
@@ -275,12 +247,4 @@ data class WorksheetStateImp constructor(
     override val name: String
         get() = this.idMs.value.wsName
 
-    override fun setWsMs(wsMs: Ms<Worksheet>): WorksheetState {
-        val newState = this.copy(wsMs = wsMs)
-        val newWsStateIdSt = wsMs.value.idMs
-        cursorState.id = cursorState.id.setWsStateIdSt(newWsStateIdSt)
-        rowRulerStateMs.value = rowRulerState.setWsIdSt(newWsStateIdSt)
-        colRulerStateMs.value = colRulerState.setWsIdSt(newWsStateIdSt)
-        return newState
-    }
 }

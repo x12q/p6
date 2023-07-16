@@ -56,7 +56,7 @@ fun InnerWindowView(
                     MBox {
                         if (activeWbStateMs != null) {
                             WorkbookView(
-                                wbState = activeWbStateMs.value,
+                                wbState = activeWbStateMs   ,
                                 wbActionTable = windowActionTable.workbookActionTable,
                                 focusState = state.focusState
                             )

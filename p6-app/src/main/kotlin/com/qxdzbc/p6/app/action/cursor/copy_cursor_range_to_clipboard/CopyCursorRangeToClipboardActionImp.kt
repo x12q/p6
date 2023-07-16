@@ -52,7 +52,7 @@ class CopyCursorRangeToClipboardActionImp @Inject constructor(
                                 wbKeySt = cursorState.id.wbKeySt,
                                 wsNameSt = cursorState.id.wsNameSt
                             ),
-                            windowId = sc.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
+                            windowId = sc.getWindowStateMsByWbKey(cursorState.id.wbKey)?.id
                         )
                     )
 
@@ -64,7 +64,7 @@ class CopyCursorRangeToClipboardActionImp @Inject constructor(
                                 wbKeySt = cursorState.id.wbKeySt,
                                 wsNameSt = cursorState.id.wsNameSt
                             ),
-                            windowId = sc.getWindowStateMsByWbKey(cursorState.id.wbKey)?.value?.id
+                            windowId = sc.getWindowStateMsByWbKey(cursorState.id.wbKey)?.id
                         )
                     )
                 }

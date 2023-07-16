@@ -1,9 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.load_data
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.IndCellImp
@@ -34,14 +32,14 @@ class LoadDataActionImp @Inject constructor(
     val tc = translatorCont
 
     override fun loadDataRs(request: LoadDataRequest, publishErrorToUI: Boolean): Rse<Unit> {
-        val getWsMsRs = sc.getWsStateMsRs(request)
-        val rt = getWsMsRs.flatMap { wsStateMs ->
-            val wsMs = wsStateMs.value.wsMs
+        val getWsMsRs = sc.getWsStateRs(request)
+        val rt = getWsMsRs.flatMap { wsState ->
+            val wsMs = wsState.wsMs
             val translator = tc.getTranslatorOrCreate(request)
             val newDataRs = loadDataRs(wsMs.value, request, translator)
             newDataRs.onSuccess {
                 wsMs.value = it
-                wsStateMs.value = wsStateMs.value.refreshCellState()
+                wsState.refreshCellState()
             }
             newDataRs
         }
@@ -74,7 +72,7 @@ class LoadDataActionImp @Inject constructor(
                     CellContentImp.fromTransRs(translator.translate(it),originalFormula=it)
                 } ?: CellContentImp(cellValueMs = indCellDM.value.toMs(), originalText = indCellDM.content.originalText)
             )
-            rt = rt.addOrOverwrite(newCell)
+            rt.addOrOverwrite(newCell)
         }
         return Ok(rt)
     }

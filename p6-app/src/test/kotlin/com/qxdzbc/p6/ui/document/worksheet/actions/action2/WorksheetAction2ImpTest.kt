@@ -11,7 +11,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
@@ -30,12 +29,11 @@ import kotlin.test.*
 //TODO these tests are still valid, but disabled until better implementation is completed
 internal class WorksheetAction2ImpTest {
     lateinit var ws: Worksheet
-    lateinit var wsStateMs: Ms<WorksheetState>
+    lateinit var wsState: WorksheetState
     lateinit var actions: WorksheetAction2
-    val cursorStateMs get() = wsState.cursorStateMs
-    val cursorState: CursorState get() = wsStateMs.value.cursorStateMs.value
-    val wsState: WorksheetState get() = wsStateMs.value
-    val slider: GridSlider get() = wsState.slider
+    val cursorStateMs get() = this.wsState.cursorStateMs
+    val cursorState: CursorState get() = this.wsState.cursorStateMs.value
+    val slider: GridSlider get() = this.wsState.slider
     val mockOffset = Offset(0F, 0F)
     lateinit var layoutMap: MutableMap<CellAddress, LayoutCoorWrapper>
     lateinit var posMap: MutableMap<CellAddress, Rect>
@@ -44,9 +42,9 @@ internal class WorksheetAction2ImpTest {
     @BeforeTest
     fun before() {
         val testSample = TestSample()
-        wb = testSample.wbContMs.value.getWb(testSample.wbKey1)!!
+        wb = testSample.wbCont.getWb(testSample.wbKey1)!!
         ws = wb.worksheets[0]
-        wsStateMs = testSample.sc.getWsStateMs(ws)!!
+        this.wsState = testSample.sc.getWsState(ws)!!
 
         layoutMap = mutableMapOf()
         // x: create fake cell positions as Rect
@@ -55,12 +53,12 @@ internal class WorksheetAction2ImpTest {
                 for (c in 1..20) {
                     val rect = Rect(
                         topLeft = Offset(
-                            (c - 1) * wsStateMs.value.defaultColWidth.value,
-                            (r - 1) * wsStateMs.value.defaultRowHeight.value,
+                            (c - 1) * this.wsState.defaultColWidth.value,
+                            (r - 1) * this.wsState.defaultRowHeight.value,
                         ),
                         bottomRight = Offset(
-                            c * wsStateMs.value.defaultColWidth.value,
-                            r * wsStateMs.value.defaultRowHeight.value
+                            c * this.wsState.defaultColWidth.value,
+                            r * this.wsState.defaultRowHeight.value
                         )
                     )
                     val cellAddress = CellAddress(c, r)
@@ -76,7 +74,7 @@ internal class WorksheetAction2ImpTest {
         }
         actions = testSample.comp.worksheetAction2()
         for ((c, l) in layoutMap) {
-            wsStateMs.value = wsStateMs.value.addCellLayoutCoor(c, l)
+            this.wsState.addCellLayoutCoor(c, l)
         }
     }
 
@@ -120,7 +118,7 @@ internal class WorksheetAction2ImpTest {
             )
         )
         actions.makeSliderFollowCursorMainCell(newCursor, ws)
-        println(wsState.slider)
+        println(this.wsState.slider)
 
         assertEquals(oldSlider.visibleColRange.add(d), slider.visibleColRange)
         assertEquals(oldSlider.firstVisibleCol + d, slider.firstVisibleCol)
@@ -145,7 +143,7 @@ internal class WorksheetAction2ImpTest {
     fun scroll() {
         val oldSlider = slider
         actions.addCellLayoutCoor(CellAddresses.fromIndices(1, 2), mock(), ws)
-        assertFalse { wsState.cellLayoutCoorMap.isEmpty() }
+        assertFalse { this.wsState.cellLayoutCoorMap.isEmpty() }
         val (x1, y1) = Pair(3, 7)
         actions.scroll(x1, y1, ws)
         assertEquals(oldSlider.visibleRowRange.add(y1), slider.visibleRowRange)
@@ -164,10 +162,10 @@ internal class WorksheetAction2ImpTest {
 
         val (x4, y4) = Pair(Int.MAX_VALUE, Int.MAX_VALUE)
         actions.scroll(x4, y4, ws)
-        assertEquals(wsState.colRange.last, slider.lastVisibleCol)
-        assertEquals(wsState.colRange.last - oldSlider.visibleColRange.dif(), slider.firstVisibleCol)
-        assertEquals(wsState.rowRange.last, slider.lastVisibleRow)
-        assertEquals(wsState.rowRange.last - oldSlider.visibleRowRange.dif(), slider.firstVisibleRow)
+        assertEquals(this.wsState.colRange.last, slider.lastVisibleCol)
+        assertEquals(this.wsState.colRange.last - oldSlider.visibleColRange.dif(), slider.firstVisibleCol)
+        assertEquals(this.wsState.rowRange.last, slider.lastVisibleRow)
+        assertEquals(this.wsState.rowRange.last - oldSlider.visibleRowRange.dif(), slider.firstVisibleRow)
     }
 //
 //    @Test
@@ -258,7 +256,7 @@ internal class WorksheetAction2ImpTest {
 //    @Test
 //    fun removeCellLayoutCoor() {
 //        val c = CellAddress(999, 999)
-//        wsStateMs.value = wsState.addCellLayoutCoor(CellAddress(999, 999), mock())
+//        wsState.value = wsState.addCellLayoutCoor(CellAddress(999, 999), mock())
 //        assertNotNull(wsState.cellLayoutCoorMap[c])
 //        wsActions.removeCellLayoutCoor(c)
 //        assertNull(wsState.cellLayoutCoorMap[c])

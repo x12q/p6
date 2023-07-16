@@ -49,8 +49,8 @@ internal class LoadDataActionImpTest {
         )
         val wsMs = ts.sc.getWsMs(wbk, wsn)
         assertNotNull(wsMs)
-        var ws by wsMs
-        ws = ws.removeAllCell()
+        val ws by wsMs
+        ws.removeAllCell()
         ws.addOrOverwrite(
             IndCellImp(
                 address = CellAddress("A2"),
@@ -79,10 +79,10 @@ internal class LoadDataActionImpTest {
         )
         val wsMs = ts.sc.getWsMs(wbk, wsn)
         assertNotNull(wsMs)
-        var ws by wsMs
+        val ws by wsMs
         val a2Value = "Keep me"
-        ws = ws.removeAllCell()
-        ws = ws.addOrOverwrite(
+        ws.removeAllCell()
+        ws.addOrOverwrite(
             IndCellImp(
                 address = CellAddress("A2"),
                 content = CellContentImp(

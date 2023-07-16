@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.document.workbook.state
 
-import androidx.compose.runtime.MutableState
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -11,52 +11,57 @@ import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 
 /**
- * State of a workbook view
+ * State of a workbook
  */
-interface WorkbookState :CanConvertToWorkbookProto{
+interface WorkbookState : CanConvertToWorkbookProto{
+
+    val wsStateMap: Map<St<String>, WorksheetState>
+
+    @P6ExperimentalApi("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
+    fun overWriteWb(newWb:Workbook)
+
+    @P6ExperimentalApi("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
+    fun overWriteWbRs(newWb:Workbook): Rse<Unit>
+
     /**
-     * the id in which a workbook belong to
+     * Some child state objects (Ws pointer and Ws state) contain a pseudo state variable to force refreshing.
+     * This function invokes all the refresh functions of such objects.
      */
-    val windowId:String?
-    fun setWindowId(windowId:String?):WorkbookState
-    val wsStateMap: Map<St<String>, MutableState<WorksheetState>>
-
-    fun overWriteWb(newWb:Workbook):WorkbookState
-    fun overWriteWbRs(newWb:Workbook): Rse<WorkbookState>
-
-    fun refresh():WorkbookState
+    fun refresh()
 
     /**
      * whether this workbook holds unsaved content or not
      */
-    val needSave:Boolean
-    fun setNeedSave(i:Boolean):WorkbookState
+    var needSave:Boolean
 
     /**
-     * The data obj of shown on the workbook view
+     * The data obj shown on the workbook view
      */
     val wbMs: Ms<Workbook>
     val wb: Workbook
+
+    // need to expose the MS, because State container relies on this
     val wbKey:WorkbookKey
     val wbKeyMs:Ms<WorkbookKey>
+
     /**
-     * point this wb state to a new workbook by setting its workbook key and refresh this state and all child state to reflect this changes if necessary
+     * Find the workbook having key == [newWbKey], and tied this state to that [Workbook]
      */
-    fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey): WorkbookState
+    fun setWorkbookKeyAndRefreshState(newWbKey: WorkbookKey)
 
     /**
      * refresh all child states so that the view state reflect the underlying data.
      */
-    fun refreshWsState():WorkbookState
+    fun refreshWsState()
 
     /**
      * A list of all worksheet state
      */
-    val worksheetStateListMs: List<Ms<WorksheetState>>
-    val worksheetStateList: List<WorksheetState> get() = this.worksheetStateListMs.map { it.value }
+    val worksheetStateListMs: List<WorksheetState>
+    val worksheetStateList: List<WorksheetState> get() = this.worksheetStateListMs
 
     /**
-     * state of sheet tab bar
+     * produce a derived state for sheet tab bar
      */
     val sheetTabBarState: SheetTabBarState
 
@@ -69,31 +74,31 @@ interface WorkbookState :CanConvertToWorkbookProto{
     /**
      * state of the current active worksheet
      */
-    val activeSheetStateMs: MutableState<WorksheetState>?
+    val activeSheetStateMs: WorksheetState?
         get() = activeSheetPointer.wsName?.let {
             getWsStateMs(it)
         }
-    val activeSheetState: WorksheetState? get() = activeSheetStateMs?.value
+    val activeSheetState: WorksheetState? get() = activeSheetStateMs
 
     /**
      * get worksheet state by sheet name
      */
     fun getWsState(sheetName: String): WorksheetState?
-    fun getWsStateMs(sheetName: String): Ms<WorksheetState>?
-    fun getWsStateMsRs(sheetName: String): Rse<Ms<WorksheetState>>
+    fun getWsStateMs(sheetName: String): WorksheetState?
+    fun getWsStateMsRs(sheetName: String): Rse<WorksheetState>
 
     fun getWsState(wsNameSt: St<String>): WorksheetState?
-    fun getWsStateMs(wsNameSt: St<String>): Ms<WorksheetState>?
-    fun getWsStateMsRs(wsNameSt: St<String>): Rse<Ms<WorksheetState>>
+    fun getWsStateMs(wsNameSt: St<String>): WorksheetState?
+    fun getWsStateMsRs(wsNameSt: St<String>): Rse<WorksheetState>
 
     /**
      * set active worksheet by name
      */
-    fun setActiveSheet(sheetName: String): WorkbookState
+    fun setActiveSheet(sheetName: String)
 
     /**
      * set workbook key, effectively point this state to another workbook
      */
-    fun setWbKey(newWbKey: WorkbookKey): WorkbookState
-    fun refreshWsPointer(): WorkbookState
+    fun setWbKey(newWbKey: WorkbookKey)
+    fun refreshWsPointer()
 }

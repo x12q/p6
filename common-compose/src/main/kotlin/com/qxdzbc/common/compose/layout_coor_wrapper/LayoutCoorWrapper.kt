@@ -70,7 +70,9 @@ interface LayoutCoorWrapper {
     val refreshVar:Boolean
     /**
      * [layout] is sometimes mutated directly by compose runtime. This mean re-setting layout may or may not cause re-composition. To force re-composition, call this function with [i] being the opposite of [refreshVar] of this wrapper or the wrapper to be replaced by this wrapper.
+     * TODO consider remove this. It seems this bug is fixed in compose
      */
+    @Deprecated("dont use, unclear effect")
     fun forceRefresh(i:Boolean):LayoutCoorWrapper
 
     /**

@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.remove_all_cell
 
-import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.CellContentImp
@@ -23,11 +22,11 @@ internal class RemoveAllCellActionImpTest {
         val wbk = ts.wbKey1
         val wsn = ts.wsn1
         val sc = ts.sc
-        val wsStateMs = sc.getWsStateMs(wbk,wsn)
-        assertNotNull(wsStateMs)
-        val wsMs = wsStateMs.value.wsMs
-        wsMs.value = wsMs.value.removeAllCell()
-        wsMs.value = wsMs.value.addOrOverwrite(
+        val wsState = sc.getWsState(wbk,wsn)
+        assertNotNull(wsState)
+        val wsMs = wsState.wsMs
+        wsMs.value.removeAllCell()
+        wsMs.value.addOrOverwrite(
             IndCellImp(
             address = CellAddress("A1"),
             content = CellContentImp(
@@ -35,10 +34,10 @@ internal class RemoveAllCellActionImpTest {
             )
         )
         )
-        wsStateMs.value = wsStateMs.value.refreshCellState()
-        assertTrue(wsStateMs.value.worksheet.isNotEmpty())
-        assertTrue(wsStateMs.value.cellStateCont.isNotEmpty())
-        act.removeAllCell(wsStateMs.value.id)
-        assertTrue(wsStateMs.value.worksheet.isEmpty())
+        wsState.refreshCellState()
+        assertTrue(wsState.worksheet.isNotEmpty())
+        assertTrue(wsState.cellStateCont.isNotEmpty())
+        act.removeAllCell(wsState.id)
+        assertTrue(wsState.worksheet.isEmpty())
     }
 }

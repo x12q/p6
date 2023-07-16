@@ -1,10 +1,9 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -32,11 +31,9 @@ import javax.inject.Inject
 @P6Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DocumentContainerImp @Inject constructor(
-    override val wbContMs: Ms<WorkbookContainer>,
+    override val wbCont: WorkbookContainer,
     private val lazyRangeFactory: LazyRangeFactory,
 ) : DocumentContainer {
-
-    override var wbCont: WorkbookContainer by wbContMs
 
     override fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt? {
         return this.getWs(wbKey, wsName)?.id
@@ -369,8 +366,9 @@ class DocumentContainerImp @Inject constructor(
         return getCellIdRs(cellIdDM).component1()
     }
 
+    @P6ExperimentalApi
     override fun replaceWb(newWb: Workbook) {
-        wbCont = wbCont.overwriteWB(newWb)
+        wbCont.overwriteWb(newWb)
     }
 
     override val allWbs: List<Workbook>

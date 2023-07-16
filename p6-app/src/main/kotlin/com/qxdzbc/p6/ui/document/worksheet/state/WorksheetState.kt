@@ -27,11 +27,16 @@ import com.qxdzbc.p6.ui.format.CellFormatTable
  */
 interface WorksheetState : WbWsSt {
 
+    /**
+     * TODO Reconsider this id obj. This contains duplicated information.
+     */
     val idMs: Ms<WorksheetId>
     val id: WorksheetId
 
+    /**
+     * Produce a [WorksheetProto] from this worksheet
+     */
     fun toProto():WorksheetProto
-
 
     /**
      * A stack of [Command], for undoing actions
@@ -45,17 +50,33 @@ interface WorksheetState : WbWsSt {
     val redoStackMs: Ms<CommandStack>
     val redoStack: CommandStack
 
+    /**
+     * contain format information for all cells in this worksheet
+     */
     val cellFormatTableMs: Ms<CellFormatTable>
     val cellFormatTable: CellFormatTable
 
+    /**
+     * State of the resizing bar for resizing column
+     */
     val colResizeBarStateMs: Ms<ResizeBarState>
     val colResizeBarState: ResizeBarState get() = colResizeBarStateMs.value
 
+    /**
+     * State of the resizing bar for resizing row
+     */
     val rowResizeBarStateMs: Ms<ResizeBarState>
     val rowResizeBarState: ResizeBarState get() = rowResizeBarStateMs.value
 
+    /**
+     * state for the ruler of column
+     */
     val colRulerStateMs: Ms<RulerState>
     val colRulerState: RulerState get() = colRulerStateMs.value
+
+    /**
+     * state for the ruler of row
+     */
     val rowRulerStateMs: Ms<RulerState>
     val rowRulerState: RulerState get() = rowRulerStateMs.value
 
@@ -65,7 +86,7 @@ interface WorksheetState : WbWsSt {
     val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
     val cellGridLayoutCoorWrapper: LayoutCoorWrapper?
     val cellGridLayoutCoors: LayoutCoordinates? get() = cellGridLayoutCoorWrapper?.layout
-    fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper): WorksheetState
+    fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper)
 
     /**
      * The layout coor of the whole worksheet (including the grid + the ruler)
@@ -73,16 +94,11 @@ interface WorksheetState : WbWsSt {
     val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
     val wsLayoutCoorWrapper: LayoutCoorWrapper?
     val wsLayoutCoors: LayoutCoordinates? get() = wsLayoutCoorWrapper?.layout
-    fun setwsLayoutCoorWrapper(i: LayoutCoorWrapper): WorksheetState
+    fun setWsLayoutCoorWrapper(i: LayoutCoorWrapper)
 
     val wsMs: Ms<Worksheet>
     val worksheet: Worksheet
     val name: String
-
-    /**
-     * point this state to another worksheet, and update the state id
-     */
-    fun setWsMs(wsMs: Ms<Worksheet>): WorksheetState
 
     val cursorStateMs: Ms<CursorState>
     val cursorState: CursorState get() = cursorStateMs.value
@@ -95,29 +111,47 @@ interface WorksheetState : WbWsSt {
      *  - ruler states
      *  - cell layouts
      */
-    fun setSliderAndRefreshDependentStates(i: GridSlider): WorksheetState
+    fun setSliderAndRefreshDependentStates(i: GridSlider)
 
+    /**
+     * State of the select rectangle used for selecting multiple cells at once by dragging the mouse on this worksheet
+     */
     val selectRectStateMs: Ms<SelectRectState>
     val selectRectState: SelectRectState get() = selectRectStateMs.value
 
     val cellStateCont: CellStateContainer
-    fun removeCellState(vararg addresses: CellAddress): WorksheetState
-    fun removeCellState(addresses: Collection<CellAddress>): WorksheetState
 
     /**
-     * create a new Ms<CellState> from the input cellState, and add it.
-     * Beward, this will overwrite old ms obj if it exists
+     * Remove cell state obj for cells at [addresses]
      */
-    fun createAndAddNewCellStateMs(cellState: CellState): WorksheetState
+    fun removeCellState(vararg addresses: CellAddress)
+    fun removeCellState(addresses: Collection<CellAddress>)
+
+    /**
+     * create a new Ms<CellState> from [cellState], and add it.
+     * Beware this will overwrite old ms obj if it exists
+     */
+    fun createAndAddNewCellStateMs(cellState: CellState)
 
     /**
      * Add or overwrite a cell state if one already exist
      */
-    fun addOrOverwriteCellState(cellState: CellState): WorksheetState
+    fun addOrOverwriteCellState(cellState: CellState)
 
-    fun addBlankCellState(address: CellAddress): WorksheetState
-    fun addBlankCellState(label: String): WorksheetState
-    fun removeAllCellState(): WorksheetState
+    /**
+     * Add a blank cell state object for cell at [address]
+     */
+    fun addBlankCellState(address: CellAddress)
+
+    /**
+     * Add a blank cell state object for cell at [label]
+     */
+    fun addBlankCellState(label: String)
+
+    /**
+     * Remove all cell states
+     */
+    fun removeAllCellState()
 
     fun getCellStateMs(colIndex: Int, rowIndex: Int): Ms<CellState>?
     fun getCellStateMs(cellAddress: CellAddress): Ms<CellState>?
@@ -142,42 +176,55 @@ interface WorksheetState : WbWsSt {
 
     val defaultColWidth: Dp
 
-
+    /**
+     * A map of column width.
+     */
     val columnWidthMap: Map<Int, Dp>
 
     /**
-     * @return column width or null if it is not available
+     * @return width of column at [colIndex], or null if there isn't a record for that width value.
      */
     fun getColumnWidth(colIndex: Int): Dp?
 
     /**
-     * @return column width if it is available, otherwise return a default value.
+     * @return width of the column at [colIndex], otherwise return [defaultColWidth].
      */
     fun getColumnWidthOrDefault(colIndex: Int): Dp
-    fun addColumnWidth(colIndex: Int, colWidth: Dp): WorksheetState
-    fun restoreColumnWidthToDefault(colIndex: Int): WorksheetState
-    fun changeColWidth(colIndex: Int, sizeDiff: Dp): WorksheetState
-
-    val rowHeightMap: Map<Int, Dp>
-    val defaultRowHeight: Dp
-    fun getRowHeight(rowIndex: Int): Dp?
-    fun getRowHeightOrDefault(rowIndex: Int): Dp
-    fun addRowHeight(rowIndex: Int, rowHeight: Dp): WorksheetState
-    fun restoreRowHeightToDefault(rowIndex: Int): WorksheetState
+    fun addColumnWidth(colIndex: Int, colWidth: Dp)
+    fun restoreColumnWidthToDefault(colIndex: Int)
+    fun changeColWidth(colIndex: Int, sizeDiff: Dp)
 
     /**
-     * change size of the row at [rowIndex] by adding [sizeDiff] to the current size
+     * A map of row height.
      */
-    fun changeRowHeight(rowIndex: Int, sizeDiff: Dp): WorksheetState
+    val rowHeightMap: Map<Int, Dp>
+    val defaultRowHeight: Dp
+
+    /**
+     * @return height of row at [rowIndex] or null, if there isn't a record for that height value.
+     */
+    fun getRowHeight(rowIndex: Int): Dp?
+
+    /**
+     * @return height of the row at [rowIndex], or [defaultRowHeight] if there isn't a record for that height value.
+     */
+    fun getRowHeightOrDefault(rowIndex: Int): Dp
+    fun addRowHeight(rowIndex: Int, rowHeight: Dp)
+    fun restoreRowHeightToDefault(rowIndex: Int)
+
+    /**
+     * change size of the row at [rowIndex] by adding [sizeDiff] to the current size.
+     */
+    fun changeRowHeight(rowIndex: Int, sizeDiff: Dp)
 
     val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>
     val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> get() = cellLayoutCoorMapMs.value
-    fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper): WorksheetState
-    fun removeCellLayoutCoor(cellAddress: CellAddress): WorksheetState
-    fun removeAllCellLayoutCoor(): WorksheetState
+    fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper)
+    fun removeCellLayoutCoor(cellAddress: CellAddress)
+    fun removeAllCellLayoutCoor()
 
-    fun refreshCellState(): WorksheetState
-    fun refresh(): WorksheetState
+    fun refreshCellState()
+    fun refresh()
     fun getRulerState(rulerType: RulerType): RulerState
 }
 

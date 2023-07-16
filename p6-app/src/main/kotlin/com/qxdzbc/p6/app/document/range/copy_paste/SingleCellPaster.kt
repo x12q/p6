@@ -1,13 +1,10 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
-import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.Cell
 
@@ -49,10 +46,10 @@ class SingleCellPaster @Inject constructor(
                                 source.rangeId.rangeAddress.topLeft,
                                 target.rangeAddress.topLeft
                             )
-                            tws = tws.addOrOverwrite(newCell)
+                            tws.addOrOverwrite(newCell)
                         }
-                        val newWb = wb.addSheetOrOverwrite(tws)
-                        newWb
+                        wb.addSheetOrOverwrite(tws)
+                        wb
                     }
                 }else{
                     Ok(wb)

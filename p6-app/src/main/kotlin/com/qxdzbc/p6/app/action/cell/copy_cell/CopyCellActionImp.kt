@@ -4,13 +4,10 @@ import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequest
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
-import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatAction
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.document.cell.Cell
@@ -131,16 +128,15 @@ class CopyCellActionImp @Inject constructor(
             val toCellMs: Ms<Cell>? = sc.getCellMs(request.toCell)
             val rs3: Rse<Unit> = sc.getWsMsRs(request.toCell).flatMap { toWsMs ->
                 val toWs: Worksheet by toWsMs
-                val wsStateMs: Ms<WorksheetState>? = sc.getWsStateMs(request.toCell)
+                val wsState: WorksheetState? = sc.getWsState(request.toCell)
                 // x: create the new cell if the destination cell does not exist
                 val newToWs: Worksheet = if (toCellMs == null) {
                     val newCell = CellImp(
                         id = CellId(request.toCell.address, toWs.wbKeySt, toWs.wsNameSt)
                     )
                     // x: add the new cell to the worksheet
-                    val newWs: Worksheet = toWsMs.value.addOrOverwrite(newCell)
-                    toWsMs.value = newWs
-                    newWs
+                    toWsMs.value.addOrOverwrite(newCell)
+                    toWsMs.value
                 } else {
                     toWsMs.value
                 }
@@ -157,15 +153,13 @@ class CopyCellActionImp @Inject constructor(
                             fromCellMs.value.content
                         }
                         toCellMs.value = toCellMs.value.setContent(targetContent)
-                        wsStateMs?.let {
-                            it.value = it.value.refresh()
-                        }
+                        wsState?.refresh()
                         Ok(Unit)
                     }
                 // x: reRun the workbook containing the destination cell
                 val rs2 = rs0.flatMap {
                     sc.getWbMsRs(toWs.wbKeySt).flatMap {
-                        it.value = it.value.reRun()
+                        it.value.reRun()
                         Ok(Unit)
                     }
                 }

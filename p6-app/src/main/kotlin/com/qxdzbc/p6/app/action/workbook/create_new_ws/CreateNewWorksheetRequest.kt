@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.app.action.workbook.add_ws
+package com.qxdzbc.p6.app.action.workbook.create_new_ws
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -9,7 +9,7 @@ import com.qxdzbc.p6.proto.WorkbookProtos
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
-data class AddWorksheetRequest(
+data class CreateNewWorksheetRequest(
     val wbKey: WorkbookKey,
     val worksheet: Worksheet,
     val windowId: String? = null
@@ -18,9 +18,9 @@ data class AddWorksheetRequest(
         fun WorkbookProtos.AddWorksheetRequestProto.toModel(
             wbKeyMs: Ms<WorkbookKey>,
             translator: P6Translator<ExUnit>
-        ): AddWorksheetRequest {
+        ): CreateNewWorksheetRequest {
             val wbk = this.wbKey.toModel()
-            return AddWorksheetRequest(
+            return CreateNewWorksheetRequest(
                 wbKey = wbk,
                 worksheet = this.worksheet.toShallowModel(wbKeyMs, translator)
             )

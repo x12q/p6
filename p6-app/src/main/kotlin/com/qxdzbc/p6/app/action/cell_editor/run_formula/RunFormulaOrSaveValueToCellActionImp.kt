@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.cell_editor.run_formula
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAction
@@ -40,8 +39,8 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
 
 
     override fun runFormulaOrSaveValueToCell(undoable:Boolean) {
-        val wsStateMs: Ms<WorksheetState>? = editorState.targetCursorId?.let { stateCont.getWsStateMs(it) }
-        val ws = wsStateMs?.value?.worksheet
+        val wsState: WorksheetState? = editorState.targetCursorId?.let { stateCont.getWsState(it) }
+        val ws = wsState?.worksheet
         val wbKey = editorState.targetWbKey
         val wsName = editorState.targetWsName
         val editTarget = editorState.targetCell
@@ -83,8 +82,8 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
     }
 
     fun makeCommandToRunFormulaOrSaveValueToCell(): Command? {
-        val wsStateMs: Ms<WorksheetState>? = editorState.targetCursorId?.let { stateCont.getWsStateMs(it) }
-        val ws = wsStateMs?.value?.worksheet
+        val wsState: WorksheetState? = editorState.targetCursorId?.let { stateCont.getWsState(it) }
+        val ws = wsState?.worksheet
         val wbKey = editorState.targetWbKey
         val wsName = editorState.targetWsName
         val editTarget = editorState.targetCell

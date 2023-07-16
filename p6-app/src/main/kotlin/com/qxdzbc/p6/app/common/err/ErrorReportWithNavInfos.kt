@@ -6,6 +6,9 @@ import com.github.michaelbull.result.Result
 import com.qxdzbc.common.Rse
 
 object ErrorReportWithNavInfos{
+    /**
+     * remove nav info from [ErrorReportWithNavInfo]
+     */
     fun <T> Result<T, ErrorReportWithNavInfo>.noNav(): Rse<T> {
         when(this){
             is Ok -> return this

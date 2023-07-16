@@ -1,10 +1,7 @@
 package com.qxdzbc.p6.app.action.worksheet.remove_all_cell
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.di.P6Singleton
@@ -23,22 +20,22 @@ class RemoveAllCellActionImp @Inject constructor(
 
     val sc  = stateCont
 
-    fun removeAllCell(wsStateMs: Ms<WorksheetState>) {
-        val wsMs = wsStateMs.value.wsMs
-        wsMs.value = wsMs.value.removeAllCell()
-        wsStateMs.value = wsStateMs.value.refreshCellState()
+    fun removeAllCell(wsState: WorksheetState) {
+        val wsMs = wsState.wsMs
+        wsMs.value.removeAllCell()
+        wsState.refreshCellState()
     }
 
     override fun removeAllCell(wbWsSt: WbWsSt): Rse<Unit> {
-        val o: Rse<Unit> = sc.getWsStateMsRs(wbWsSt).map { wsStateMs ->
-            removeAllCell(wsStateMs)
+        val o: Rse<Unit> = sc.getWsStateRs(wbWsSt).map { wsState ->
+            removeAllCell(wsState)
         }
         return o
     }
 
     override fun removeAllCell(wbWs: WbWs): Rse<Unit> {
-        val o: Rse<Unit> = sc.getWsStateMsRs(wbWs).map { wsStateMs ->
-            removeAllCell(wsStateMs)
+        val o: Rse<Unit> = sc.getWsStateRs(wbWs).map { wsState ->
+            removeAllCell(wsState)
         }
         return o
     }

@@ -5,6 +5,9 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 
 
+/**
+ * A class for indicating which worksheet is currently selected and shown on the screen.
+ */
 interface ActiveWorksheetPointer {
     val wsNameSt:St<String>?
     val wsName:String?

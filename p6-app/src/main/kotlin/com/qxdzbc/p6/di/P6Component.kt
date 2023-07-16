@@ -1,9 +1,6 @@
 package com.qxdzbc.p6.di
 
 import androidx.compose.ui.window.ApplicationScope
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.app.AppRM
-import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
@@ -108,16 +105,10 @@ interface P6Component {
 //    fun appStateMs(): Ms<AppState>
 
     @P6Singleton
-    fun wbContainerMs(): Ms<WorkbookContainer>
+    fun wbContainer(): WorkbookContainer
 
     @P6Singleton
     fun appContext(): AppContext
-
-    @P6Singleton
-    fun cellRequestMaker(): CellRM
-
-    @P6Singleton
-    fun appRequestMaker(): AppRM
 
     @EventServerPort
     fun eventServerPort(): Int

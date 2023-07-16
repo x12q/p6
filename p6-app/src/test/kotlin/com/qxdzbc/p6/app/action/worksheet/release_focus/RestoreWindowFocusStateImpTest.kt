@@ -23,9 +23,9 @@ class RestoreWindowFocusStateImpTest {
         appState = ts.appState
         action = RestoreWindowFocusStateImp(ts.sc,ts.sc.cellEditorStateMs)
         sc.windowStateMsList.withIndex().forEach { (i,wds)->
-            wds.value.focusState = wds.value.focusState.focusOnEditor()
+            wds.focusState = wds.focusState.focusOnEditor()
             if(i==0){
-                wds.value.focusState = wds.value.focusState.focusOnEditor()
+                wds.focusState = wds.focusState.focusOnEditor()
             }
         }
     }
@@ -34,7 +34,7 @@ class RestoreWindowFocusStateImpTest {
     fun restoreAllWsFocus() {
         action.restoreAllWindowFocusState()
         sc.windowStateMsList.forEach { wds->
-            val f = wds.value.focusState
+            val f = wds.focusState
             assertTrue { f.isCursorFocused }
             assertFalse { f.isEditorFocused }
         }
@@ -49,8 +49,8 @@ class RestoreWindowFocusStateImpTest {
         action.setFocusStateConsideringRangeSelector(wbk)
 
         sc.windowStateMsList.withIndex().forEach {(i,wds) ->
-            if(wds.value.wbKeySet.contains(wbk)){
-                val f = wds.value.focusState
+            if(wds.wbKeySet.contains(wbk)){
+                val f = wds.focusState
 //                assertTrue { f.isEditorFocused }
 //                assertFalse { f.isCursorFocused }
             }

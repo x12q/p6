@@ -29,6 +29,6 @@ abstract class BaseWindowState : WindowState {
     override val size: Int get() = wbStateMsList.size
 
     override val wbStateList: List<WorkbookState>
-        get() = this.wbStateMsList.map { it.value }
+        get() = this.wbStateMsList
 
 }

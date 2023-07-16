@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.workbook.rename_ws
 
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChanged
@@ -49,12 +48,12 @@ data class RenameWorksheetActionImp @Inject constructor(
     }
 
     fun makeCommand(request: RenameWorksheetRequest): Command? {
-        val wbStateMs = sc.getWbStateMs(request.wbKey)
+        val wbStateMs = sc.getWbState(request.wbKey)
         if (wbStateMs != null) {
             val command = object : BaseCommand() {
                 val _oldName = request.oldName
                 val _newName = request.newName
-                val _wbKeySt = wbStateMs.value.wbKeyMs
+                val _wbKeySt = wbStateMs.wbKeyMs
 
                 val _originalRequest
                     get() = RenameWorksheetRequest(
@@ -111,17 +110,16 @@ data class RenameWorksheetActionImp @Inject constructor(
     }
 
     fun apply(wbKey: WorkbookKey, oldName: String, newName: String, publishError: Boolean = true) {
-        sc.getWbStateMsRs(wbKey).onSuccess { wbStateMs ->
-            val wbState by wbStateMs
-            val wb = wbState.wb
+        sc.getWbStateRs(wbKey).onSuccess { wbStateMs ->
+            val wb = wbStateMs.wb
             if (oldName != newName) {
                 // x: rename the sheet in wb
                 val renameRs = wb.renameWsRs(oldName, newName)
-                renameRs.onSuccess { newWb ->
-                    dc.replaceWb(newWb)
-                    commonReactionWhenAppStatesChanged.onWsChanged(WbWs(wbKey,newName))
+                renameRs.onSuccess {
+                    dc.replaceWb(wb)
+                    commonReactionWhenAppStatesChanged.onWsChanged(WbWs(wbKey, newName))
                 }.onFailure {
-                    errorRouter.publishToWindow(renameRs.unwrapError(), wbStateMs.value.wbKey)
+                    errorRouter.publishToWindow(renameRs.unwrapError(), wbStateMs.wbKey)
                 }
             }
         }.onFailure {

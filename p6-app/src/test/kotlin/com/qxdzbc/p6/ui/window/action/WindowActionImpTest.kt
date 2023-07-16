@@ -6,8 +6,8 @@ class WindowActionImpTest {
 //    lateinit var action: WindowActionImp
 //    lateinit var windowRM: WindowRM
 //    lateinit var appRM: AppRM
-//    lateinit var windowStateMs: Ms<WindowState>
-//    val windowState: WindowState get() = windowStateMs.value
+//    lateinit var windowState: Ms<WindowState>
+//    val windowState: WindowState get() = windowState.value
 //    lateinit var appStateMs: Ms<AppState>
 //    lateinit var workbookEventApplier: WorkbookEventApplier
 //    lateinit var windowHandlingLogic: WindowEventApplier
@@ -23,7 +23,7 @@ class WindowActionImpTest {
 //    }
 //
 //    fun aa(): WindowActionImp {
-//        windowStateMs = appStateMs.value.windowStateMsList.first()
+//        windowState = appStateMs.value.windowStateMsList.first()
 //        windowRM = mock<WindowRM> {}
 //        workbookEventApplier = mock()
 //        windowHandlingLogic = mock()
@@ -46,34 +46,34 @@ class WindowActionImpTest {
 //    @Test
 //    fun openLoadFileDialog() {
 //        val a = aa()
-//        assertFalse(windowStateMs.value.loadDialogState.isOpen)
+//        assertFalse(windowState.value.loadDialogState.isOpen)
 //        a.openLoadFileDialog()
-//        assertTrue(windowStateMs.value.loadDialogState.isOpen)
+//        assertTrue(windowState.value.loadDialogState.isOpen)
 //    }
 //
 //    @Test
 //    fun closeOpenFileDialog() {
 //        val a = aa()
-//        windowStateMs.value.loadDialogState = windowStateMs.value.loadDialogState.setOpen(true)
+//        windowState.value.loadDialogState = windowState.value.loadDialogState.setOpen(true)
 //        a.closeLoadFileDialog()
-//        assertFalse { windowStateMs.value.loadDialogState.isOpen }
+//        assertFalse { windowState.value.loadDialogState.isOpen }
 //    }
 //
 //
 //    @Test
 //    fun openSaveFileDialog() {
 //        val a = aa()
-//        assertFalse(windowStateMs.value.saveDialogState.isOpen)
+//        assertFalse(windowState.value.saveDialogState.isOpen)
 //        a.openSaveFileDialog()
-//        assertTrue(windowStateMs.value.saveDialogState.isOpen)
+//        assertTrue(windowState.value.saveDialogState.isOpen)
 //    }
 //
 //    @Test
 //    fun closeSaveFileDialog() {
 //        val a = aa()
-//        windowStateMs.value.saveDialogStateMs.value = windowStateMs.value.saveDialogState.setOpen(true)
+//        windowState.value.saveDialogStateMs.value = windowState.value.saveDialogState.setOpen(true)
 //        a.closeSaveFileDialog()
-//        assertFalse { windowStateMs.value.saveDialogState.isOpen }
+//        assertFalse { windowState.value.saveDialogState.isOpen }
 //    }
 //
 //    @Test
@@ -116,7 +116,7 @@ class WindowActionImpTest {
 //    @Test
 //    fun `saveActiveWorkbook null workbook key`() {
 //        val p = Path.of("folder/file23.txt")
-//        windowStateMs.value = windowState.setWorkbookList(emptyList())
+//        windowState.value = windowState.setWorkbookList(emptyList())
 //        val spyAction = spy(action) {}
 //        spyAction.saveActiveWorkbook(p)
 //        verify(spyAction, times(0)).saveWorkbook(any(), any())

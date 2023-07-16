@@ -1,11 +1,9 @@
 package com.qxdzbc.p6.app.action.worksheet.make_slider_follow_cell
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -33,12 +31,12 @@ class MoveSliderActionImp @Inject constructor(
     }
 
     override fun makeSliderFollowCell(wbwsSt: WbWsSt, cell: CellAddress, publishErr: Boolean): Rse<Unit> {
-        val rs=sc.getWsStateMsRs(wbwsSt).flatMap { wsStateMs->
-            val sliderMs = wsStateMs.value.sliderMs
+        val rs=sc.getWsStateRs(wbwsSt).flatMap { wsState->
+            val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.followCell(cell)
             if (newSlider != oldSlider) {
-                wsStateMs.value = wsStateMs.value.setSliderAndRefreshDependentStates(newSlider)
+                wsState.setSliderAndRefreshDependentStates(newSlider)
             }
             Ok(Unit)
         }
@@ -49,12 +47,12 @@ class MoveSliderActionImp @Inject constructor(
     }
 
     override fun shiftSlider(cursorLoc: WbWsSt, rowCount: Int, colCount: Int, publishErr: Boolean) {
-        val rs=sc.getWsStateMsRs(cursorLoc).flatMap { wsStateMs->
-            val sliderMs = wsStateMs.value.sliderMs
+        val rs=sc.getWsStateRs(cursorLoc).flatMap { wsState->
+            val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.shiftDown(rowCount).shiftRight(colCount)
             if (newSlider != oldSlider) {
-                wsStateMs.value = wsStateMs.value.setSliderAndRefreshDependentStates(newSlider)
+                wsState.setSliderAndRefreshDependentStates(newSlider)
             }
             Ok(Unit)
         }

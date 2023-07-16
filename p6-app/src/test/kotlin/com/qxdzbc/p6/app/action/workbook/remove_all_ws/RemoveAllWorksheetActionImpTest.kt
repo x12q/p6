@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.workbook.remove_all_ws
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import test.TestSample
 import kotlin.test.*
@@ -18,19 +17,18 @@ internal class RemoveAllWorksheetActionImpTest {
     @Test
     fun removeAllWs() {
         val wbk = ts.wbKey1
-        val wbStateMs = ts.sc.getWbStateMs(wbk)
+        val wbStateMs = ts.sc.getWbState(wbk)
         assertNotNull(wbStateMs)
-        val wbState by wbStateMs
 
-        assertTrue(wbState.wb.isNotEmpty())
-        assertTrue(wbState.worksheetStateList.isNotEmpty())
-        assertTrue(wbState.activeSheetPointer.isValid())
+        assertTrue(wbStateMs.wb.isNotEmpty())
+        assertTrue(wbStateMs.worksheetStateList.isNotEmpty())
+        assertTrue(wbStateMs.activeSheetPointer.isValid())
 
         val rs = act.removeAllWsRs(wbk)
 
         assertTrue(rs is Ok)
-        assertTrue(wbState.wb.isEmpty())
-        assertTrue(wbState.worksheetStateList.isEmpty())
-        assertFalse(wbState.activeSheetPointer.isValid())
+        assertTrue(wbStateMs.wb.isEmpty())
+        assertTrue(wbStateMs.worksheetStateList.isEmpty())
+        assertFalse(wbStateMs.activeSheetPointer.isValid())
     }
 }
