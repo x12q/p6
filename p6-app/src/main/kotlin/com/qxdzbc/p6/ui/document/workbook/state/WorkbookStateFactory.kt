@@ -10,6 +10,7 @@ import dagger.assisted.AssistedFactory
 interface WorkbookStateFactory {
     fun create(
         @Assisted("1") wbMs: Ms<Workbook>,
+        @Assisted("2") windowIdMs: Ms<String?> = ms(null),
     ): WorkbookStateImp
 
     companion object {
@@ -22,6 +23,7 @@ interface WorkbookStateFactory {
         ): WorkbookState {
             return this.create(
                 wbMs,
+                ms(null),
             ).apply {
                 refresh()
             }

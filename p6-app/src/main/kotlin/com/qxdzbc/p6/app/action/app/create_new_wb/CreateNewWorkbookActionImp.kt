@@ -44,6 +44,7 @@ class CreateNewWorkbookActionImp @Inject constructor(
     fun apply2(wb: Workbook, windowId: String?): Rse<Unit> {
         val rt = wbCont.addWbRs(wb)
             .onSuccess {
+                wbStateCont.getWbState(wb.key)?.windowId = windowId
                 var useNewWindow = false
                 /*
                  * If the request contains a non-existing window id, a new window will be created with that id to hold the newly create wb.

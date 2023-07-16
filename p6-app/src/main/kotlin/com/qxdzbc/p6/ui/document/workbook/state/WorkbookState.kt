@@ -14,6 +14,11 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
  * State of a workbook
  */
 interface WorkbookState : CanConvertToWorkbookProto{
+    /**
+     * the window id in which a workbook belong to. This shows which window this workbook state belong to.
+     * This way, I can pass a workbook state around, and still know which window it belong to.
+     */
+    var windowId:String?
 
     val wsStateMap: Map<St<String>, WorksheetState>
 
