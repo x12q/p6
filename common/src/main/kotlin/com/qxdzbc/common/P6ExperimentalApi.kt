@@ -1,5 +1,9 @@
 package com.qxdzbc.common
 
+
+/**
+ * For marking classes and functions as experimental.
+ */
 @RequiresOptIn(
     level = RequiresOptIn.Level.ERROR,
 )
