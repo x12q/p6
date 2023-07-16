@@ -92,8 +92,10 @@ class WorksheetStateImpTest : BaseAppStateTest() {
         val p6Comp = ts.comp
         val wsStateFactory = ts.comp.worksheetStateFactory()
         ts.wbCont.apply {
-            addOrOverWriteWb(wb0)
-            addOrOverWriteWb(wb1)
+            removeWb(wb0.key)
+            removeWb(wb1.key)
+            addWb(wb0)
+            addWb(wb1)
         }
         val wssIdMs: Ms<WorksheetId> = ms(
             WorksheetIdImp(

@@ -24,27 +24,17 @@ class CreateNewWorksheetActionImp @Inject constructor(
 ) : CreateNewWorksheetAction {
 
     override fun createNewWorksheetRs(request: CreateNewWorksheetRequest): Rse<CreateNewWorksheetResponse> {
-        val res: RseNav<CreateNewWorksheetResponse> = makeRequest(request)
-        val rt: RseNav<CreateNewWorksheetResponse> = applyRs(res)
-        return rt.noNav()
-    }
-
-    fun makeRequest(req: CreateNewWorksheetRequest): RseNav<CreateNewWorksheetResponse> {
-        val wbk = req.wbKey
+        val wbk = request.wbKey
         val rs = docCont.getWbRs(wbk).flatMap { wb ->
-            wb.addWsRs(req.worksheet).flatMap {
+            wb.addWsRs(request.worksheet).flatMap {
                 wb.reRun()
                 Ok(CreateNewWorksheetResponse(wb))
             }
         }.mapError { err ->
-            err.withNav(wbk)
+            err
         }
-        return rs
-    }
 
-    fun applyRs(res: RseNav<CreateNewWorksheetResponse>): RseNav<CreateNewWorksheetResponse> {
-        val rt = res.andThen { addRs ->
-            wbCont.overwriteWB(addRs.newWb)
+        val rt = rs.andThen { addRs ->
             val wbMs=stateCont.getWbState(addRs.newWb.key)
             wbMs?.refreshWsState()
             Ok(addRs)

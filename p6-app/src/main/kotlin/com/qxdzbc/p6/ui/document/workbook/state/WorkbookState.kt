@@ -9,6 +9,8 @@ import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import io.grpc.netty.shaded.io.netty.util.internal.UnstableApi
+import jdk.jfr.Experimental
 
 /**
  * State of a workbook
@@ -21,8 +23,10 @@ interface WorkbookState : CanConvertToWorkbookProto{
 
     val wsStateMap: Map<St<String>, WorksheetState>
 
+    @Deprecated("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
     fun overWriteWb(newWb:Workbook)
 
+    @Deprecated("Use this function with care.The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
     fun overWriteWbRs(newWb:Workbook): Rse<Unit>
 
     /**

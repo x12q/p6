@@ -60,8 +60,9 @@ data class WorkbookContainerImp @Inject constructor(
             return Ok(Unit)
         }
     }
+
     @Throws(Exception::class)
-    override fun overwriteWB(wb: Workbook) {
+    override fun overwriteWb(wb: Workbook) {
         return this.overwriteWbRs(wb).getOrThrow()
     }
 
@@ -69,7 +70,7 @@ data class WorkbookContainerImp @Inject constructor(
         val wbStateMs: WorkbookState? = this.wbStateCont.getWbState(wb.key)
         if (wbStateMs != null) {
             val rs: Rse<Unit> = wbStateMs.overWriteWbRs(wb)
-            return rs.map { this }
+            return rs
         } else {
             return WorkbookContainerErrors.InvalidWorkbook.report("Workbook at ${wb.key} does not exist, therefore, can't not be overwritten")
                 .toErr()
@@ -86,6 +87,7 @@ data class WorkbookContainerImp @Inject constructor(
             }
         }
     }
+    @Deprecated("do not use this function. It is kept for reference purposes only. The action of forced overwriting a workbook is very destructive. Must be considered careful before use")
     @Throws(Exception::class)
     override fun addOrOverWriteWb(wb: Workbook) {
         return addOrOverWriteWbRs(wb).getOrThrow()
@@ -100,6 +102,7 @@ data class WorkbookContainerImp @Inject constructor(
         return Ok(Unit)
     }
 
+    @Deprecated("don't use. It is dangerous to use this function because it creates inconsistency in the app state.")
     override fun removeAll() {
         this.wbStateCont.removeAll()
     }

@@ -100,19 +100,6 @@ class StateContainerImp @Inject constructor(
         return windowMsRs
     }
 
-    override fun getWindowState_OrDefault_OrCreateNew_Rs(windowId: String?): WindowState {
-        val rt = getWindowState_OrDefault_Rs(windowId)
-            .mapBoth(
-                success = {
-                    it
-                },
-                failure = {
-                    windowStateFactory.createDefault()
-                }
-            )
-        return rt
-    }
-
     override fun getActiveCursorStateMs(): Ms<CursorState>? {
         val rt = getActiveWindowState()?.activeWbPointer?.wbKeyMs?.let {
             getActiveCursorMs(it)

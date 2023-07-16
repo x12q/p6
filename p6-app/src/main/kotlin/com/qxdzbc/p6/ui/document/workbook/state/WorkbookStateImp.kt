@@ -221,10 +221,12 @@ data class WorkbookStateImp(
         return wsState
     }
 
+
     @Throws(Exception::class)
     override fun overWriteWb(newWb: Workbook) {
         return this.overWriteWbRs(newWb).getOrThrow()
     }
+
 
     override fun overWriteWbRs(newWb: Workbook): Rse<Unit> {
         if (newWb.key == this.wb.key) {

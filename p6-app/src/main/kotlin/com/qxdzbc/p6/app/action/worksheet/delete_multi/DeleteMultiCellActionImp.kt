@@ -29,7 +29,6 @@ class DeleteMultiCellActionImp @Inject constructor(
     private val multiCellUpdateAct: UpdateMultiCellAction,
     private val stateCont: StateContainer,
     private val errorRouter: ErrorRouter,
-    private val wbCont: WorkbookContainer,
 ) : DeleteMultiCellAction {
 
     private val sc = stateCont
@@ -84,16 +83,11 @@ class DeleteMultiCellActionImp @Inject constructor(
     }
 
     fun apply(res: RseNav<RemoveMultiCellResponse>): RseNav<RemoveMultiCellResponse> {
-        res
-            .onFailure { err ->
-                errorRouter.publish(err)
-            }
-            .onSuccess { r ->
-                wbCont.overwriteWB(r.newWb)
-            }
+        res.onFailure { err ->
+            errorRouter.publish(err)
+        }
         return res
     }
-
 
 
     private fun createCommandToDeleteMultiCell(request: DeleteMultiCellRequest) {
@@ -189,7 +183,7 @@ class DeleteMultiCellActionImp @Inject constructor(
                     .map { it.address }
                     .toSet()
                 ws.removeCells(cellsInRanges)
-                wb.apply{
+                wb.apply {
                     reRun()
                 }
                 val oldWsState = stateCont.getWsState(wbk, wsn)

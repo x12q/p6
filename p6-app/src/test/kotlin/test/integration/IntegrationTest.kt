@@ -159,7 +159,7 @@ class IntegrationTest {
             addSheetOrOverwrite(newWs)
             reRun()
         }
-        wbCont.overwriteWB(wb3)
+        wbCont.overwriteWb(wb3)
         val wb4 = wb3.apply {
             reRun()
         }

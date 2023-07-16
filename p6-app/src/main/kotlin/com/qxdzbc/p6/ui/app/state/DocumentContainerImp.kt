@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
@@ -368,7 +366,7 @@ class DocumentContainerImp @Inject constructor(
     }
 
     override fun replaceWb(newWb: Workbook) {
-        wbCont.overwriteWB(newWb)
+        wbCont.overwriteWb(newWb)
     }
 
     override val allWbs: List<Workbook>

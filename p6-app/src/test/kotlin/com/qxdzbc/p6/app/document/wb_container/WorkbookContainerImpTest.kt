@@ -42,13 +42,6 @@ class WorkbookContainerImpTest{
     }
 
     @Test
-    fun addOrOverWriteWorkbook() {
-        val wb4 = WorkbookImp(WorkbookKey("wb4",null).toMs(), listOf())
-        cont.addOrOverWriteWb(wb4)
-        assertNotNull(cont.getWb(wb4.key))
-    }
-
-    @Test
     fun removeWorkbook() {
         cont.removeWb(wb1.key)
         assertNull(cont.getWb(wb1.key))

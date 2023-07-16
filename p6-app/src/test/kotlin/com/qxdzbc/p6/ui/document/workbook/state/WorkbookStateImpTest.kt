@@ -81,8 +81,8 @@ class WorkbookStateImpTest {
         val wbCont = ts.wbCont
 
         wbCont.apply {
-            overwriteWB(wb0)
-            overwriteWB(wb1)
+            overwriteWb(wb0)
+            overwriteWb(wb1)
         }
 
         wbState = WorkbookStateImp.forTesting(
