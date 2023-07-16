@@ -28,8 +28,8 @@ data class WorksheetIdImp(
         return this.copy(wsNameMs = wsNameMs)
     }
 
-    override fun pointToWbKeySt(wbKeyMs: St<WorkbookKey>): WorksheetId {
-        return this.copy(wbKeySt = wbKeyMs)
+    override fun pointToWbKeySt(wbKey: St<WorkbookKey>): WorksheetId {
+        return this.copy(wbKeySt = wbKey)
     }
 
     override val wbKey: WorkbookKey
