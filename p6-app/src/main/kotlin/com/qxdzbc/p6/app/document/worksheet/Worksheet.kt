@@ -27,7 +27,7 @@ interface Worksheet : WithSize, WbWsSt {
     /**
      * re-run all the cells but does not update the display text
      */
-    fun reRun(): Worksheet
+    fun reRun()
 
     fun reRunAndRefreshDisplayText()
 
@@ -39,7 +39,7 @@ interface Worksheet : WithSize, WbWsSt {
 
     val name: String
 
-    fun setWbKeySt(wbKeySt: St<WorkbookKey>): Worksheet
+    fun setWbKeySt(wbKeySt: St<WorkbookKey>)
 
     val usedRange: RangeAddress
 

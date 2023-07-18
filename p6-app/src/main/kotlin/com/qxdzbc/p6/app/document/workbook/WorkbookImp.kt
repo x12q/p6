@@ -155,13 +155,13 @@ data class WorkbookImp(
     }
 
     override fun addSheetOrOverwrite(worksheet: Worksheet) {
-        val newSheet = worksheet.setWbKeySt(this.keyMs)
+        worksheet.setWbKeySt(this.keyMs)
         val wsMs = this.getWsMs(worksheet.name)
         if (wsMs != null) {
-            wsMs.value = newSheet
+            wsMs.value = worksheet
         } else {
-            val newWsMs = ms(newSheet)
-            worksheetMsMapMs.value = worksheetMsMap + (newSheet.nameMs to newWsMs)
+            val newWsMs = ms(worksheet)
+            worksheetMsMapMs.value = worksheetMsMap + (worksheet.nameMs to newWsMs)
         }
     }
 

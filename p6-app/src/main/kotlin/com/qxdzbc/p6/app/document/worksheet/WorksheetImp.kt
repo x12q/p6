@@ -59,14 +59,13 @@ data class WorksheetImp(
     override val wsNameSt: St<String>
         get() = id.wsNameMs
 
-    override fun reRun(): Worksheet {
+    override fun reRun() {
         forEachCell{cellMs, colIndex, rowIndex ->
                 val newCell = cellMs.value.reRun()
                 if (newCell != null) {
                     cellMs.value = newCell
                 }
         }
-        return this
     }
 
     private fun forEachCell(f:(cellMs:Ms<Cell>,colIndex:Int,rowIndex:Int)->Unit){
@@ -114,9 +113,8 @@ data class WorksheetImp(
         get() = wbKeySt.value
 
 
-    override fun setWbKeySt(wbKeySt: St<WorkbookKey>): Worksheet {
+    override fun setWbKeySt(wbKeySt: St<WorkbookKey>) {
         this.idMs.value = this.idMs.value.pointToWbKeySt(wbKeySt)
-        return this
     }
 
     override val name: String get() = nameMs.value
