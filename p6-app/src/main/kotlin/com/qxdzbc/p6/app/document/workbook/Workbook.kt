@@ -82,8 +82,9 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
     fun addMultiSheetOrOverwrite(worksheetList: List<Worksheet>)
 
     /**
-     * for renaming a worksheet inside a workbook. This include checking the legality of the new worksheet name (illegal name format, name collision)
-     * TODO this function is not appropriate. A better way is to get the worksheet, and perform the change on the worksheet itself.
+     * This function is for renaming a worksheet inside a workbook. This includes checking the validity of the new name (name format, name collision).
+     *
+     * The reason to have a worksheet rename function here is that there exists a possibility that [newName] collide with other worksheets' names. In order to detect that problem, the renaming logic must have access to all worksheets' names, which is here, in a workbook.
      */
     fun renameWsRs(oldName: String, newName: String): Rse<Unit>
     fun renameWsRs(index: Int, newName: String): Rse<Unit>

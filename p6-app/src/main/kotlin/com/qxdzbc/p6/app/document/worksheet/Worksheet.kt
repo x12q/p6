@@ -32,9 +32,11 @@ interface Worksheet : WithSize, WbWsSt {
     fun reRunAndRefreshDisplayText()
 
     val idMs: Ms<WorksheetId>
+
     var id: WorksheetId
 
     val nameMs: Ms<String>
+
     val name: String
 
     fun setWbKeySt(wbKeySt: St<WorkbookKey>): Worksheet

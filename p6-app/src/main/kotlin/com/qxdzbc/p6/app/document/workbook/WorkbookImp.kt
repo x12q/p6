@@ -2,8 +2,7 @@ package com.qxdzbc.p6.app.document.workbook
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -200,15 +199,9 @@ data class WorkbookImp(
         index: Int,
         newName: String,
     ): Rse<Unit> {
-        val oldWsMs = this.getWsMs(index)
-
-        if (oldWsMs != null) {
-            val oldWorksheet = oldWsMs.value
-            oldWorksheet.setWsName(newName)
-            return Ok(Unit)
-        } else {
-            return Err(SingleErrorReport(ErrorHeader("zx", "${index} sheet does not exist"), ""))
-        }
+        return getWsMsRs(index).onSuccess {
+            it.value.setWsName(newName)
+        }.map { Unit }
     }
 
     override fun moveWs(fromIndex: Int, toIndex: Int): Rse<Unit> {
@@ -238,14 +231,14 @@ data class WorkbookImp(
             }
         }
 
-        fun random():Workbook{
-            val wb=WorkbookImp(
-                keyMs= ms(WorkbookKey.random()),
+        fun random(): Workbook {
+            val wb = WorkbookImp(
+                keyMs = ms(WorkbookKey.random()),
                 worksheetMsList = listOf(
                 )
             )
 
-            wb.addMultiSheetOrOverwrite((1 .. 3).map{
+            wb.addMultiSheetOrOverwrite((1..3).map {
                 WorksheetImp.random()
             })
             return wb
