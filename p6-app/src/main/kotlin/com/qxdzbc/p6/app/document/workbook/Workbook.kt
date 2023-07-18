@@ -72,7 +72,6 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
 
     fun removeSheet(index: Int)
     fun removeSheet(name: String)
-
     fun removeSheetRs(index: Int): Rse<Unit>
     fun removeSheetRs(name: String): Rse<Unit>
 
