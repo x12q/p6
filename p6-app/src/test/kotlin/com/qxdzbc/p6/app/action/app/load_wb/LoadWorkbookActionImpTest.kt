@@ -41,7 +41,7 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
     @Test
     fun `applyLoadWorkbook std case`() {
         val windowId = scMs.windowStateMsList[0].id
-        val wb = Workbook.random()
+        val wb = WorkbookImp.random()
         val cellFormatTableMap = wb.worksheets.associate{
             it.name to CellFormatTable.random()
         }

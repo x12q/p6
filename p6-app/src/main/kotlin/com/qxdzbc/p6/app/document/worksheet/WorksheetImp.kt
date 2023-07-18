@@ -28,6 +28,7 @@ import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
+import java.util.*
 
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
@@ -287,6 +288,23 @@ data class WorksheetImp(
     }
 
     companion object {
+            fun random():Worksheet{
+                val rt= WorksheetImp(
+                    nameMs= ms("Worksheet-"+ UUID.randomUUID().toString()),
+                    wbKeySt = ms(WorkbookKey.random()),
+                    table = run {
+                        var tb= ImmutableTableCR<Int,Int,Ms<Cell>>()
+                        for(c in 1 .. 10){
+                            for (r in 1 .. 10){
+                                tb = tb.set(c,r, ms(Cell.random(CellAddress(c,r))))
+                            }
+                        }
+                        tb
+                    }
+                )
+                return rt
+            }
+
         val emptyTable: TableCR<Int, Int, Ms<Cell>> = ImmutableTableCR()
         fun fromCellList(
             name: String,

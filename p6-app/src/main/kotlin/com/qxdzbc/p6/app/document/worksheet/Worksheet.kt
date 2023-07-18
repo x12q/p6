@@ -128,23 +128,4 @@ interface Worksheet : WithSize, WbWsSt {
 
     fun refreshDisplayText()
 
-    companion object {
-        fun random():Worksheet{
-            val rt= WorksheetImp(
-                nameMs= ms("Worksheet-"+UUID.randomUUID().toString()),
-                wbKeySt = ms(WorkbookKey.random()),
-                table = run {
-                    var tb= ImmutableTableCR<Int,Int,Ms<Cell>>()
-                    for(c in 1 .. 10){
-                        for (r in 1 .. 10){
-                           tb = tb.set(c,r, ms(Cell.random(CellAddress(c,r))))
-                        }
-                    }
-                    tb
-                }
-            )
-            return rt
-        }
-
-    }
 }

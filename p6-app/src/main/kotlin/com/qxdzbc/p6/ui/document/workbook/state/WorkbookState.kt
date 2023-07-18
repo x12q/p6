@@ -16,7 +16,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 interface WorkbookState : CanConvertToWorkbookProto{
     /**
      * the window id in which a workbook belong to. This shows which window this workbook state belong to.
-     * This way, I can pass a workbook state around, and still know which window it belong to.
+     * This way, I can pass a [WorkbookState] around, and still know which window it belong to. Without this, in order to find out which window this belongs to, I would need to iterate through the list of window, and find the window containing the key of this [WorkbookState].
      */
     var windowId:String?
 

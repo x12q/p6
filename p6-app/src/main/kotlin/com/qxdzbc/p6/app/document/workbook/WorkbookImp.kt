@@ -34,6 +34,7 @@ data class WorkbookImp(
     override val worksheetMsMap: Map<Ms<String>, Ms<Worksheet>> by worksheetMsMapMs
 
     override val worksheetMsList: List<Ms<Worksheet>> get() = worksheetMsMap.values.toList()
+
     override var key: WorkbookKey by keyMs
 
     override val worksheets: List<Worksheet> get() = worksheetMsList.map { it.value }
@@ -235,6 +236,19 @@ data class WorkbookImp(
             return WorkbookImp(keyMs = wbKeyMs).apply {
                 addMultiSheetOrOverwrite(sheets)
             }
+        }
+
+        fun random():Workbook{
+            val wb=WorkbookImp(
+                keyMs= ms(WorkbookKey.random()),
+                worksheetMsList = listOf(
+                )
+            )
+
+            wb.addMultiSheetOrOverwrite((1 .. 3).map{
+                WorksheetImp.random()
+            })
+            return wb
         }
     }
 }
