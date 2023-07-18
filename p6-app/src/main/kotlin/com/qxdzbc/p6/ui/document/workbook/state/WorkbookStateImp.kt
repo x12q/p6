@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.document.workbook.state
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
@@ -155,9 +154,8 @@ data class WorkbookStateImp(
 
     override fun refreshWsState() {
         var newStateMap: Map<St<String>, WorksheetState> = mutableMapOf()
-        val sheetList: List<Ms<Worksheet>> = this.wb.worksheetMsList
-        for (wsMs: Ms<Worksheet> in sheetList) {
-            val ws: Worksheet = wsMs.value
+        val sheetList: List<Worksheet> = this.wb.worksheetMsList
+        for (ws: Worksheet in sheetList) {
             val wsState: WorksheetState? = this.getWsStateMs(ws.name)
             if (wsState != null) {
                 // x: keep the existing state
@@ -165,7 +163,7 @@ data class WorkbookStateImp(
                 newStateMap = newStateMap + (wsState.wsNameSt to wsState)
             } else {
                 // x: create new state for new sheet
-                val newState = this.createDefaultWsState(wsMs)
+                val newState = this.createDefaultWsState(ws)
                 newStateMap = newStateMap + (newState.wsNameSt to newState)
             }
         }
@@ -209,10 +207,9 @@ data class WorkbookStateImp(
         }
     }
 
-    private fun createDefaultWsState(worksheet: Ms<Worksheet>): WorksheetState {
-        val wsMs = worksheet
+    private fun createDefaultWsState(worksheet: Worksheet): WorksheetState {
         val wsState = wsStateFactory.createThenRefresh(
-            wsMs = wsMs,
+            worksheet = worksheet,
             gridSliderFactory = this.gridSliderFactory,
             cursorStateFactory = this.cursorStateFactory,
             thumbStateFactory = this.thumbStateFactory
@@ -270,10 +267,10 @@ data class WorkbookStateImp(
             thumbStateFactory: ThumbStateFactory,
         ): WorkbookStateImp {
             val wsStateMap: Map<St<String>, WorksheetState> = wbMs.value.worksheetMsList
-                .map { wsMs ->
+                .map { ws ->
                     val wsIdMs: Ms<WorksheetId> = ms(
                         WorksheetIdImp(
-                            wsNameMs = wsMs.value.nameMs,
+                            wsNameMs = ws.nameMs,
                             wbKeySt = wbMs.value.keyMs,
                         )
                     )
@@ -282,7 +279,7 @@ data class WorkbookStateImp(
                     val mainCellMs = ms(CellAddresses.A1)
 
                     wsStateFactory.create(
-                        wsMs = wsMs,
+                        worksheet = ws,
                         sliderMs = gridSliderFactory.create().toMs(),
                         cursorStateMs = cursorStateFactory.create(
                             idMs = cursorIdMs,

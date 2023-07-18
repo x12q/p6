@@ -14,7 +14,6 @@ import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
@@ -47,10 +46,10 @@ fun WorkbookView(
         var deleteTarget: String by rms("")
         Column(modifier = Modifier.fillMaxSize()) {
             MBox(modifier = Modifier.fillMaxSize().weight(1.0F)) {
-                val wsMs: WorksheetState? = wbState.activeSheetStateMs
-                if (wsMs != null) {
+                val wsState: WorksheetState? = wbState.activeSheetStateMs
+                if (wsState != null) {
                     WorksheetView(
-                        wsState = wsMs,
+                        wsState = wsState,
                         worksheetActionTable = wbActionTable.worksheetActionTable,
                         focusState = focusState
                     )

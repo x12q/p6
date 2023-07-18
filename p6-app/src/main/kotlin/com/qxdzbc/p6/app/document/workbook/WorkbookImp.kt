@@ -6,9 +6,6 @@ import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.common.utils.WorkbookUtils
@@ -22,21 +19,21 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 
 data class WorkbookImp(
     override val keyMs: Ms<WorkbookKey>,
-    val worksheetMsMapMs: Ms<Map<Ms<String>, Ms<Worksheet>>> = ms(emptyMap())
+    val worksheetMsMapMs: Ms<Map<Ms<String>, Worksheet>> = ms(emptyMap())
 ) : BaseWorkbook() {
 
-    constructor(keyMs: Ms<WorkbookKey>, worksheetMsList: List<Ms<Worksheet>>) : this(
+    constructor(keyMs: Ms<WorkbookKey>, worksheetMsList: List<Worksheet>) : this(
         keyMs,
-        ms(worksheetMsList.associateBy { it.value.nameMs })
+        ms(worksheetMsList.associateBy { it.nameMs })
     )
 
-    override val worksheetMsMap: Map<Ms<String>, Ms<Worksheet>> by worksheetMsMapMs
+    override val worksheetMsMap: Map<Ms<String>, Worksheet> by worksheetMsMapMs
 
-    override val worksheetMsList: List<Ms<Worksheet>> get() = worksheetMsMap.values.toList()
+    override val worksheetMsList: List<Worksheet> get() = worksheetMsMap.values.toList()
 
     override var key: WorkbookKey by keyMs
 
-    override val worksheets: List<Worksheet> get() = worksheetMsList.map { it.value }
+    override val worksheets: List<Worksheet> get() = worksheetMsList
 
     override fun reRunAndRefreshDisplayText() {
         this.worksheets.forEach { it.reRunAndRefreshDisplayText() }
@@ -83,11 +80,11 @@ data class WorkbookImp(
         if (actualName in this.worksheetMap.keys) {
             return WorkbookErrors.WorksheetAlreadyExist.report(actualName).toErr()
         } else {
-            val wsMs: Ms<Worksheet> = WorksheetImp(
+            val ws: Worksheet = WorksheetImp(
                 nameMs = ms(actualName),
                 wbKeySt = this.keyMs
-            ).toMs()
-            worksheetMsMapMs.value = this.worksheetMsMap + (wsMs.value.nameMs to wsMs)
+            )
+            worksheetMsMapMs.value = this.worksheetMsMap + (ws.nameMs to ws)
 
             return Ok(CreateNewWorksheetResponse(this, actualName))
         }
@@ -103,13 +100,12 @@ data class WorkbookImp(
         if (actualName in this.worksheetMap.keys) {
             return WorkbookErrors.WorksheetAlreadyExist.report(actualName).toErr()
         } else {
-            val wsMs: Ms<Worksheet> = ms(
-                WorksheetImp(
-                    nameMs = ms(actualName),
-                    wbKeySt = this.keyMs
-                )
+            val ws: Worksheet = WorksheetImp(
+                nameMs = ms(actualName),
+                wbKeySt = this.keyMs
             )
-            worksheetMsMapMs.value = this.worksheetMsMap + (wsMs.value.nameMs to wsMs)
+
+            worksheetMsMapMs.value = this.worksheetMsMap + (ws.nameMs to ws)
             return Ok(Unit)
         }
     }
@@ -125,7 +121,7 @@ data class WorkbookImp(
     override fun removeSheetRs(index: Int): Rse<Unit> {
         if (index in worksheets.indices) {
             val target = worksheetMsList[index]
-            worksheetMsMapMs.value = worksheetMsMap - target.value.nameMs
+            worksheetMsMapMs.value = worksheetMsMap - target.nameMs
             return Ok(Unit)
         } else {
             return WorkbookErrors.InvalidWorksheet.reportWithDetail("Can't delete worksheet at index \'$index\' because it does not exist within workbook at ${this.key}")
@@ -156,12 +152,9 @@ data class WorkbookImp(
 
     override fun addSheetOrOverwrite(worksheet: Worksheet) {
         worksheet.setWbKeySt(this.keyMs)
-        val wsMs = this.getWsMs(worksheet.name)
-        if (wsMs != null) {
-            wsMs.value = worksheet
-        } else {
-            val newWsMs = ms(worksheet)
-            worksheetMsMapMs.value = worksheetMsMap + (worksheet.nameMs to newWsMs)
+        val ws = this.getWs(worksheet.name)
+        if (ws == null) {
+            worksheetMsMapMs.value = worksheetMsMap + (worksheet.nameMs to worksheet)
         }
     }
 
@@ -175,8 +168,8 @@ data class WorkbookImp(
         oldName: String,
         newName: String
     ): Rse<Unit> {
-        val wsMs = this.getWsMs(oldName)
-        if (wsMs != null) {
+        val ws = this.getWs(oldName)
+        if (ws != null) {
             if (oldName == newName) {
                 return Ok(Unit)
             } else {
@@ -184,7 +177,7 @@ data class WorkbookImp(
                     return WorkbookErrors.IllegalSheetName.report("Sheet name \"${newName}\" is illegal").toErr()
                 }
                 if (!this.containSheet(newName)) {
-                    wsMs.value.nameMs.value = newName
+                    ws.nameMs.value = newName
                     return Ok(Unit)
                 } else {
                     return WorkbookErrors.WorksheetAlreadyExist.report(newName).toErr()
@@ -199,8 +192,8 @@ data class WorkbookImp(
         index: Int,
         newName: String,
     ): Rse<Unit> {
-        return getWsMsRs(index).onSuccess {
-            it.value.setWsName(newName)
+        return getWsRs(index).onSuccess {
+            it.setWsName(newName)
         }.map { Unit }
     }
 

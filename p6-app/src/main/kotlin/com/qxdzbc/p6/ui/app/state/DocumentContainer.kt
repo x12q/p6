@@ -64,16 +64,6 @@ interface DocumentContainer : WorkbookGetter {
     fun getWs(wbws: WbWs): Worksheet?
     fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet?
 
-    fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<Worksheet>>
-    fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<Worksheet>>
-    fun getWsMsRs(wbwsSt:WbWsSt): Rse<Ms<Worksheet>>
-    fun getWsMsRs(wbws:WbWs): Rse<Ms<Worksheet>>
-
-    fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>?
-    fun getWsMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<Worksheet>?
-    fun getWsMs(wbws: WbWs): Ms<Worksheet>?
-    fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>?
-
     fun getRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rse<Range>
     fun getRangeRs(rangeId: RangeId): Rse<Range>
     fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range?

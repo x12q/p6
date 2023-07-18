@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.cell.cell_update
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.onFailure
 import com.qxdzbc.common.ResultUtils.toOk
@@ -21,13 +20,11 @@ import javax.inject.Inject
 
 @ContributesBinding(P6AnvilScope::class)
 class UpdateCellActionImp @Inject constructor(
-    val scSt:StateContainer,
-    val translatorContainerMs: TranslatorContainer,
+    val sc:StateContainer,
+    val translatorCont: TranslatorContainer,
     val errorRouter: ErrorRouter,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged
 ) : UpdateCellAction {
-    val sc = scSt
-    val translatorCont = translatorContainerMs
 
     override fun updateCellDM(request: CellUpdateRequestDM, publishError: Boolean): Rse<Unit> {
         return updateCellDM(request.cellId,request.cellContent,publishError)
@@ -45,10 +42,9 @@ class UpdateCellActionImp @Inject constructor(
     }
 
     override fun updateCell(request: CellUpdateRequest, publishError: Boolean): Rse<Unit> {
-        val getWsMsRs = sc.getWsStateRs(request)
-        val rt = getWsMsRs.flatMap { wsState ->
-            val wsMs = wsState.wsMs
-            val ws by wsMs
+        val wsStateRs = sc.getWsStateRs(request)
+        val rt = wsStateRs.flatMap { wsState ->
+            val ws = wsState.worksheet
             val wbMs = sc.getWbMs(ws.wbKeySt)
             val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
             val content: CellContent = request.cellContentDM.toCellContent(translator)
@@ -56,15 +52,15 @@ class UpdateCellActionImp @Inject constructor(
                 request.cellId.address, content
             )
 
-            updateWsRs.flatMap { it->
-                 wsState.refreshCellState()
+            updateWsRs.flatMap { it ->
+                wsState.refreshCellState()
                 if (wbMs != null) {
                     /*
                     the target ws belongs to a valid workbook, therefore, need
                     to refresh the whole app
                      */
                     sc.wbCont.allWbs.forEach { wbMs ->
-                        wbMs.apply{
+                        wbMs.apply {
                             reRun()
                             refreshDisplayText()
                         }

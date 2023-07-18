@@ -21,8 +21,8 @@ class RemoveAllCellActionImp @Inject constructor(
     val sc  = stateCont
 
     fun removeAllCell(wsState: WorksheetState) {
-        val wsMs = wsState.wsMs
-        wsMs.value.removeAllCell()
+        val ws = wsState.worksheet
+        ws.removeAllCell()
         wsState.refreshCellState()
     }
 

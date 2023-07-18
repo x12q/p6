@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.cell.copy_cell
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
@@ -126,23 +125,19 @@ class CopyCellActionImp @Inject constructor(
     private fun copyData(request: CopyCellRequest): Rse<Unit> {
         val rt: Rse<Unit> = sc.getCellMsRs(request.fromCell).flatMap { fromCellMs ->
             val toCellMs: Ms<Cell>? = sc.getCellMs(request.toCell)
-            val rs3: Rse<Unit> = sc.getWsMsRs(request.toCell).flatMap { toWsMs ->
-                val toWs: Worksheet by toWsMs
+            val rs3: Rse<Unit> = sc.getWsRs(request.toCell).flatMap { targetWs ->
                 val wsState: WorksheetState? = sc.getWsState(request.toCell)
                 // x: create the new cell if the destination cell does not exist
-                val newToWs: Worksheet = if (toCellMs == null) {
+                if (toCellMs == null) {
                     val newCell = CellImp(
-                        id = CellId(request.toCell.address, toWs.wbKeySt, toWs.wsNameSt)
+                        id = CellId(request.toCell.address, targetWs.wbKeySt, targetWs.wsNameSt)
                     )
                     // x: add the new cell to the worksheet
-                    toWsMs.value.addOrOverwrite(newCell)
-                    toWsMs.value
-                } else {
-                    toWsMs.value
+                    targetWs.addOrOverwrite(newCell)
                 }
 
                 // x: update the destination cell
-                val rs0 = newToWs.getCellMsRs(request.toCell.address)
+                val rs0 = targetWs.getCellMsRs(request.toCell.address)
                     .flatMap { toCellMs ->
                         val targetContent: CellContent = if (request.shiftRange) {
                             fromCellMs.value.content.shift(
@@ -158,7 +153,7 @@ class CopyCellActionImp @Inject constructor(
                     }
                 // x: reRun the workbook containing the destination cell
                 val rs2 = rs0.flatMap {
-                    sc.getWbMsRs(toWs.wbKeySt).flatMap {
+                    sc.getWbMsRs(targetWs.wbKeySt).flatMap {
                         it.value.reRun()
                         Ok(Unit)
                     }

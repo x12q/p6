@@ -24,9 +24,9 @@ internal class RemoveAllCellActionImpTest {
         val sc = ts.sc
         val wsState = sc.getWsState(wbk,wsn)
         assertNotNull(wsState)
-        val wsMs = wsState.wsMs
-        wsMs.value.removeAllCell()
-        wsMs.value.addOrOverwrite(
+        val ws = wsState.worksheet
+        ws.removeAllCell()
+        ws.addOrOverwrite(
             IndCellImp(
             address = CellAddress("A1"),
             content = CellContentImp(

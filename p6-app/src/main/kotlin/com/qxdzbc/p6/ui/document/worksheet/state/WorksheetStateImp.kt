@@ -35,7 +35,7 @@ import dagger.assisted.AssistedInject
  */
 data class WorksheetStateImp (
     // ====Assisted inject properties ======//
-    override val wsMs: Ms<Worksheet>,
+    override val worksheet: Worksheet,
     override val sliderMs: Ms<GridSlider>,
     override val cursorStateMs: Ms<CursorState>,
     override val colRulerStateMs: Ms<RulerState>,
@@ -68,14 +68,14 @@ data class WorksheetStateImp (
 
     @AssistedInject
     constructor(
-        @Assisted("1") wsMs: Ms<Worksheet>,
+        @Assisted("1") worksheet: Worksheet,
         @Assisted("2") sliderMs: Ms<GridSlider>,
         @Assisted("3") cursorStateMs: Ms<CursorState>,
         @Assisted("4") colRulerStateMs: Ms<RulerState>,
         @Assisted("5") rowRulerStateMs: Ms<RulerState>,
         @Assisted("6") cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
     ) : this(
-        wsMs, sliderMs, cursorStateMs, colRulerStateMs, rowRulerStateMs, cellLayoutCoorMapMs,
+        worksheet, sliderMs, cursorStateMs, colRulerStateMs, rowRulerStateMs, cellLayoutCoorMapMs,
         cellGridLayoutCoorWrapperMs = ms(null),
         wsLayoutCoorWrapperMs = ms(null),
         cellStateContMs = CellStateContainers.immutable().toMs(),
@@ -241,7 +241,6 @@ data class WorksheetStateImp (
         wsLayoutCoorWrapperMs.value = i
     }
 
-    override val worksheet: Worksheet by wsMs
     override val idMs: Ms<WorksheetId> = worksheet.idMs
 
     override val name: String

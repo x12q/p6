@@ -46,7 +46,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
     fun `bug-click on another cell while editing cell editor without range selector enabled`() {
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
         val clickOnCell = comp.clickOnCellAction()
-        val ws by sc.getWsMs(wbwsSt)!!
+        val ws = sc.getWs(wbwsSt)!!
 
         test("open editor on A1, input 123abc, then click on B3") {
             preCondition {

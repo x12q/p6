@@ -72,8 +72,7 @@ class UpdateMultiCellActionImp @Inject constructor(
             val noErr = err == null
             if (noErr) {
                 // x: update state obj
-                if (ws != wsState.wsMs.value) {
-                    wsState.wsMs.value = ws
+                if (ws != wsState.worksheet) {
                     wsState.refresh()
                 }
                 sc.wbStateCont.allWbStates.forEach {

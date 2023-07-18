@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.action.worksheet.load_data
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -47,9 +45,8 @@ internal class LoadDataActionImpTest {
             loadType = LoadType.OVERWRITE,
             ws = indWs
         )
-        val wsMs = ts.sc.getWsMs(wbk, wsn)
-        assertNotNull(wsMs)
-        val ws by wsMs
+        val ws = ts.sc.getWs(wbk, wsn)
+        assertNotNull(ws)
         ws.removeAllCell()
         ws.addOrOverwrite(
             IndCellImp(
@@ -77,9 +74,8 @@ internal class LoadDataActionImpTest {
             loadType = LoadType.KEEP_OLD_DATA_IF_COLLIDE,
             ws = indWs
         )
-        val wsMs = ts.sc.getWsMs(wbk, wsn)
-        assertNotNull(wsMs)
-        val ws by wsMs
+        val ws = ts.sc.getWs(wbk, wsn)
+        assertNotNull(ws)
         val a2Value = "Keep me"
         ws.removeAllCell()
         ws.addOrOverwrite(

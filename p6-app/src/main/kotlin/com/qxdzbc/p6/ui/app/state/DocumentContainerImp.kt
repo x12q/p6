@@ -167,10 +167,6 @@ class DocumentContainerImp @Inject constructor(
         return this.wbCont.getWb(wbws.wbKey)?.getWs(wbws.wsName)
     }
 
-    override fun getWs(wbwsSt: WbWsSt): Worksheet? {
-        return this.wbCont.getWb(wbwsSt.wbKeySt)?.getWs(wbwsSt.wsNameSt)
-    }
-
     override fun getWs(wsId: WorksheetIdWithIndexPrt): Worksheet? {
         val wb: Workbook? = this.wbCont.getWb(wsId.wbKey)
         if (wb != null) {
@@ -186,40 +182,8 @@ class DocumentContainerImp @Inject constructor(
         }
     }
 
-    override fun getWsMsRs(wbKey: WorkbookKey, wsName: String): Rse<Ms<Worksheet>> {
-        return this.wbCont.getWbRs(wbKey).flatMap { it.getWsMsRs(wsName) }
-    }
-
-    override fun getWsMsRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Rse<Ms<Worksheet>> {
-        return this.wbCont.getWbRs(wbKeySt).flatMap { it.getWsMsRs(wsNameSt) }
-    }
-
-    override fun getWsMsRs(wbwsSt: WbWsSt): Rse<Ms<Worksheet>> {
-        return this.wbCont.getWbRs(wbwsSt.wbKeySt).flatMap {
-            it.getWsMsRs(wbwsSt.wsNameSt)
-        }
-    }
-
-    override fun getWsMsRs(wbws: WbWs): Rse<Ms<Worksheet>> {
-        return this.wbCont.getWbRs(wbws.wbKey).flatMap {
-            it.getWsMsRs(wbws.wsName)
-        }
-    }
-
-    override fun getWsMs(wbKey: WorkbookKey, wsName: String): Ms<Worksheet>? {
-        return this.wbCont.getWb(wbKey)?.getWsMs(wsName)
-    }
-
-    override fun getWsMs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): Ms<Worksheet>? {
-        return this.wbCont.getWb(wbKeySt)?.getWsMs(wsNameSt)
-    }
-
-    override fun getWsMs(wbws: WbWs): Ms<Worksheet>? {
-        return this.wbCont.getWb(wbws.wbKey)?.getWsMs(wbws.wsName)
-    }
-
-    override fun getWsMs(wbwsSt: WbWsSt): Ms<Worksheet>? {
-        return this.wbCont.getWb(wbwsSt.wbKeySt)?.getWsMs(wbwsSt.wsNameSt)
+    override fun getWs(wbwsSt: WbWsSt): Worksheet? {
+        return this.wbCont.getWb(wbwsSt.wbKeySt)?.getWs(wbwsSt.wsNameSt)
     }
 
     override fun getRange(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Range? {

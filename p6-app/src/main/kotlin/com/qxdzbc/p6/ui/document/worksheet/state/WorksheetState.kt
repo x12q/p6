@@ -96,7 +96,6 @@ interface WorksheetState : WbWsSt {
     val wsLayoutCoors: LayoutCoordinates? get() = wsLayoutCoorWrapper?.layout
     fun setWsLayoutCoorWrapper(i: LayoutCoorWrapper)
 
-    val wsMs: Ms<Worksheet>
     val worksheet: Worksheet
     val name: String
 

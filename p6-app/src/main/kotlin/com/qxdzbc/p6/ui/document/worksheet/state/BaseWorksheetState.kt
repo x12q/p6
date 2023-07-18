@@ -14,7 +14,7 @@ import com.qxdzbc.p6.ui.format.CellFormatTable
 abstract class BaseWorksheetState : WorksheetState {
 
     override fun toProto(): DocProtos.WorksheetProto {
-        val proto1 = this.wsMs.value.toProto()
+        val proto1 = this.worksheet.toProto()
         val rt = DocProtos.WorksheetProto.newBuilder(proto1)
             .setCellFormatTable(this.cellFormatTable.toProto())
             .putAllColumnWidthMap(this.columnWidthMap.mapValues { it.value.value.toInt() } )

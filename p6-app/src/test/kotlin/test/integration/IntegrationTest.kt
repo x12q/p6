@@ -147,7 +147,7 @@ class IntegrationTest {
                         )
                     )
                 }
-            ).map { ms(it) }
+            )
         )
         wbCont.addWb(wb)
 

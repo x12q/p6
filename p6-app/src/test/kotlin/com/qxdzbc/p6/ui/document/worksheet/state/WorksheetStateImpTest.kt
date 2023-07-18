@@ -107,7 +107,7 @@ class WorksheetStateImpTest : BaseAppStateTest() {
         val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
         val mainCellMs = ms(CellAddresses.A1)
         wsStateForWb0Sheet1 = wsStateFactory.createThenRefresh(
-            wsMs = wb0.getWsMs(0)!!,
+            worksheet = wb0.getWs(0)!!,
             sliderMs = p6Comp.gridSliderFactory().create().toMs(),
 
             cursorStateMs = ms(
@@ -177,23 +177,4 @@ class WorksheetStateImpTest : BaseAppStateTest() {
         val newWsId = wsId.pointToWsNameMs(nn)
         assertEquals(nn.value, newWsId.wsName)
     }
-
-//    @Test
-//    fun `effect of chaning ws`() {
-//        val newWsMs: Ms<Worksheet> = WorksheetImp(nameMs = ms("NewWorksheet"), wbKeySt = ms(ts.wbKey1)).toMs()
-//
-//        val wsState2 = wsStateForWb0Sheet1.setWsMs(newWsMs)
-//
-//        assertEquals(newWsMs, wsState2.wsMs)
-//        assertEquals(newWsMs.value.nameMs, wsState2.id.wsNameMs)
-//        assertEquals(newWsMs.value.wbKeySt, wsState2.id.wbKeySt)
-//        assertEquals(newWsMs.value.wbKeySt.value, wsState2.cursorState.id.wbKey)
-//
-//        assertEquals(newWsMs.value.nameMs.value, wsState2.rowRulerState.wsName)
-//        assertEquals(newWsMs.value.wbKeySt.value, wsState2.rowRulerState.wbKey)
-//
-//        assertEquals(newWsMs.value.nameMs.value, wsState2.colRulerState.wsName)
-//        assertEquals(newWsMs.value.wbKeySt.value, wsState2.colRulerState.wbKey)
-//
-//    }
 }

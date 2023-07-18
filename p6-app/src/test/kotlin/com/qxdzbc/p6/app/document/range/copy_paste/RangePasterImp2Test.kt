@@ -37,7 +37,7 @@ class RangePasterImp2Test {
         ws.getCell("A1")!!.currentValue shouldBe 1.0
         val wb = WorkbookImp(
             keyMs = wbkMs,
-            worksheetMsList = listOf(ws.toMs())
+            worksheetMsList = listOf(ws)
         )
         val rangeCopy = RangeCopy(
             rangeId = RangeIdDM(

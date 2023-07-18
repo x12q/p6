@@ -6,8 +6,6 @@ import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRespons
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.p6.ui.document.workbook.state.CanConvertToWorkbookProto
 
 /**
@@ -26,26 +24,18 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
     val keyMs:Ms<WorkbookKey>
     var key: WorkbookKey
 
-    val worksheetMsMap:Map<Ms<String>,Ms<Worksheet>>
-    val worksheetMsList: List<Ms<Worksheet>>
+    val worksheetMsMap:Map<Ms<String>,Worksheet>
+    val worksheetMsList: List<Worksheet>
     val worksheetMap: Map<String, Worksheet>
     val worksheets: List<Worksheet>
 
-    fun getWsMs(index: Int): Ms<Worksheet>?
-    fun getWsMsRs(index: Int): Rse<Ms<Worksheet>>
     fun getWs(index: Int): Worksheet?
-
-    fun getWsRs(index: Int): Rse<Worksheet>
-
-    fun getWsMs(name: String): Ms<Worksheet>?
-    fun getWsMs(nameSt: St<String>): Ms<Worksheet>?
-    fun getWsMsRs(name: String): Rse<Ms<Worksheet>>
-    fun getWsMsRs(nameSt: St<String>): Rse<Ms<Worksheet>>
-
     fun getWs(name: String): Worksheet?
     fun getWs(nameSt: St<String>): Worksheet?
+
     fun getWsRs(name: String): Rse<Worksheet>
     fun getWsRs(nameSt: St<String>): Rse<Worksheet>
+    fun getWsRs(index: Int): Rse<Worksheet>
 
     /**
      * trying to create a new worksheet inside this workbook.

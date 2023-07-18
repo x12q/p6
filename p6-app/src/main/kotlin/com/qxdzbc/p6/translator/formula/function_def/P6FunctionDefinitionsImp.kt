@@ -1,11 +1,8 @@
 package com.qxdzbc.p6.translator.formula.function_def
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.cell.FormulaErrors
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
@@ -15,7 +12,6 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 
 import com.qxdzbc.p6.translator.formula.execution_unit.function.FunctionExecutor
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import javax.inject.Inject
 import kotlin.reflect.KFunction
@@ -45,8 +41,8 @@ class P6FunctionDefinitionsImp @Inject constructor(
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
             ): Rse<St<Cell>?> {
-                val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
-                    it.value.getCellMs(cellAddress)
+                val rt= docCont.getWsRs(wbKeySt, wsNameSt).map {
+                    it.getCellMs(cellAddress)
                 }
                 return rt
             }

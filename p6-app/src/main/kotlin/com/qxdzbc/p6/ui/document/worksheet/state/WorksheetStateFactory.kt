@@ -24,14 +24,14 @@ import dagger.assisted.AssistedFactory
 interface WorksheetStateFactory {
 
     fun create(
-        @Assisted("1") wsMs: Ms<Worksheet>,
+        @Assisted("1") worksheet: Worksheet,
         @Assisted("2") sliderMs: Ms<GridSlider>,
         @Assisted("3") cursorStateMs: Ms<CursorState>,
         // ============================================//
         @Assisted("4")
         colRulerStateMs: Ms<RulerState> = ms(
             RulerStateImp(
-                wsIdSt = wsMs.value.idMs,
+                wsIdSt = worksheet.idMs,
                 type = RulerType.Col,
                 sliderMs = sliderMs,
 
@@ -40,7 +40,7 @@ interface WorksheetStateFactory {
         @Assisted("5")
         rowRulerStateMs: Ms<RulerState> = ms(
             RulerStateImp(
-                wsIdSt = wsMs.value.idMs,
+                wsIdSt = worksheet.idMs,
                 type = RulerType.Row,
                 sliderMs = sliderMs
             )
@@ -53,13 +53,13 @@ interface WorksheetStateFactory {
          * Create a worksheet state and refresh it immediately
          */
         fun WorksheetStateFactory.createThenRefresh(
-            wsMs: Ms<Worksheet>,
+            worksheet: Worksheet,
             sliderMs: Ms<GridSlider>,
             cursorStateMs: Ms<CursorState>,
             cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
         ): WorksheetState {
             return this.create(
-                wsMs=wsMs,
+                worksheet=worksheet,
                 sliderMs=sliderMs,
                 cursorStateMs=cursorStateMs,
                 cellLayoutCoorMapMs = cellLayoutCoorMapMs
@@ -72,34 +72,35 @@ interface WorksheetStateFactory {
          * Create a worksheet state and refresh it immediately
          */
         fun WorksheetStateFactory.createThenRefresh(
-            wsMs: Ms<Worksheet>,
+            worksheet: Worksheet,
             gridSliderFactory: LimitedGridSliderFactory,
             cursorStateFactory: CursorStateFactory,
             thumbStateFactory: ThumbStateFactory,
         ): WorksheetState {
-            val worksheet = wsMs.value
             val wsIdMs: St<WorksheetId> = worksheet.idMs
             val cursorIdMs: Ms<CursorId> = ms(
                 CursorIdImp(wsIdMs)
             )
             val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
-            val mainCellMs:Ms<CellAddress> = ms(CellAddresses.A1)
-            val wsState:WorksheetState = createThenRefresh(
-                wsMs = wsMs,
+            val mainCellMs: Ms<CellAddress> = ms(CellAddresses.A1)
+            val wsState: WorksheetState = createThenRefresh(
+                worksheet = worksheet,
                 sliderMs = ms(gridSliderFactory.create()),
                 cursorStateMs = ms(
                     cursorStateFactory.create(
                         idMs = cursorIdMs,
                         cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
-                        thumbStateMs = ms(thumbStateFactory.create(
-                            cursorIdSt = cursorIdMs,
-                            mainCellSt = mainCellMs,
-                            cellLayoutCoorMapSt = cellLayoutCoorMapMs,
-                        )),
+                        thumbStateMs = ms(
+                            thumbStateFactory.create(
+                                cursorIdSt = cursorIdMs,
+                                mainCellSt = mainCellMs,
+                                cellLayoutCoorMapSt = cellLayoutCoorMapMs,
+                            )
+                        ),
                         mainCellMs = mainCellMs
                     )
                 ),
-                cellLayoutCoorMapMs=cellLayoutCoorMapMs,
+                cellLayoutCoorMapMs = cellLayoutCoorMapMs,
             )
             return wsState
         }
