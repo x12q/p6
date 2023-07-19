@@ -4,11 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.*
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
@@ -18,7 +18,7 @@ data class RulerStateImp constructor(
     override val wsIdSt:St<WorksheetId>,
     override val type: RulerType,
     override val sliderMs: Ms<GridSlider>,
-    override val defaultItemSize: Dp = if (type == RulerType.Col) P6R.size.value.defaultColumnWidth else P6R.size.value.defaultRowHeight,
+    override val defaultItemSize: Dp = if (type == RulerType.Col) WorksheetConstants.defaultColumnWidth else WorksheetConstants.defaultRowHeight,
     private val itemLayoutMapMs: Ms<Map<Int, LayoutCoorWrapper>> = ms(emptyMap()),
     override val itemSelectRectMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
     private val rulerLayoutMs: Ms<LayoutCoorWrapper?> = ms(null),

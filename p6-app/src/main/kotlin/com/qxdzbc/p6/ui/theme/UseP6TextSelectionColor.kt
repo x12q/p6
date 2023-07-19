@@ -1,9 +1,9 @@
-package com.qxdzbc.p6.ui.common.view
+package com.qxdzbc.p6.ui.theme
 
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.theme.color.UIColor
 
 /**
  * The problem with the current compose lib is that it uses the primary color as text selection color.
@@ -13,7 +13,7 @@ import com.qxdzbc.p6.ui.common.P6R
 fun UseP6TextSelectionColor(
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(LocalTextSelectionColors provides P6R.color.textSelectionColors) {
+    CompositionLocalProvider(LocalTextSelectionColors provides UIColor.textSelectionColors) {
         content()
     }
 }

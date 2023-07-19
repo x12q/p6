@@ -2,16 +2,16 @@ package com.qxdzbc.p6.ui.document.worksheet.resize_bar
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 
 data class ResizeBarStateImp(
     override val dimen: RulerType,
     override val size: Dp,
-    override val selectableAreaWidth: Dp = P6R.size.value.resizerThickness,
+    override val selectableAreaWidth: Dp = WorksheetConstants.resizerThickness,
     override val isShow: Boolean = false,
     override val isActive: Boolean = false,
-    override val thickness: Dp = P6R.size.value.defaultResizeCursorThickness,
+    override val thickness: Dp = WorksheetConstants.defaultResizeCursorThickness,
     override val offset: Offset = Offset(0F,0F),
     override val anchorPointOffset: Offset = Offset(0F,0F),
     override val isShowThumb: Boolean=false,

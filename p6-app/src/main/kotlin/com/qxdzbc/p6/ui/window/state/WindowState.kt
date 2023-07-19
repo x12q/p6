@@ -13,7 +13,6 @@ import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
-import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
@@ -42,12 +41,6 @@ interface WindowState : WithSize {
     val commonFileDialogJob: CompletableDeferred<Path?>?
     fun setCommonFileDialogJob(job:CompletableDeferred<Path?>?)
     fun removeCommonFileDialogJob()
-
-    val showConnectToKernelDialogStateMs:Ms<ShowDialogState>
-    var showConnectToKernelDialogState:ShowDialogState
-
-    val showStartKernelDialogStateMs:Ms<ShowDialogState>
-    var showStartKernelDialogState: ShowDialogState
 
     val wbStateCont: WorkbookStateContainer
 

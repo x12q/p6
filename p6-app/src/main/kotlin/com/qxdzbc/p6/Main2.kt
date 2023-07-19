@@ -29,8 +29,7 @@ import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createAndRefresh
-import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
-import com.qxdzbc.p6.ui.theme.P6LightColors2
+import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.WindowView
 import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
@@ -131,7 +130,7 @@ fun main() {
 
                 starting = false
             }
-            MaterialTheme(colors = P6LightColors2, typography = P6DefaultTypoGraphy) {
+            P6Theme {
                 if (!starting) {
                     val p6Comp3 = p6Comp2
                     if (p6Comp3 != null) {

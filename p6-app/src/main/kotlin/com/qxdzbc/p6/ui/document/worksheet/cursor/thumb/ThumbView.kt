@@ -16,9 +16,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.action.ThumbAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**
  * This is the small square in the corner of the cursor which users can use to perform drag action.
@@ -37,8 +37,8 @@ fun ThumbView(
             .onGloballyPositioned {
                 thumbLayout = it
             }
-            .background(P6R.color.cursorColor)
-            .pointerHoverIcon(P6R.mouse.icon.thumbMouseIcon)
+            .background(P6Theme.color.ws.cursorColor)
+            .pointerHoverIcon(P6Theme.icons.thumbMouseIcon)
             .onPointerEvent(PointerEventType.Press){pointerEvn->
                 thumbLayout?.also {
                     val mousePosInWindow = it.localToWindow(pointerEvn.changes[0].position)

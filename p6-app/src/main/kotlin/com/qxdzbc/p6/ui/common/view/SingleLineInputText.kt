@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.p6.ui.theme.P6Theme
+import com.qxdzbc.p6.ui.theme.UseP6TextSelectionColor
 
 /**
  * Border text field
@@ -32,10 +32,10 @@ fun SingleLineInputText(
 ) {
     MBox(
         modifier = modifier
-            .clip(P6R.shape.textFieldShape)
+            .clip(P6Theme.shape.textFieldShape)
             .let {
                 if(isBordered){
-                    it.border(1.dp, MaterialTheme.colors.onPrimary, P6R.shape.textFieldShape)
+                    it.border(1.dp, MaterialTheme.colors.onPrimary, P6Theme.shape.textFieldShape)
                 }else{
                     it
                 }

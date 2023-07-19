@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.document.worksheet
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Ok
@@ -18,13 +17,12 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.OneOffRange
 import com.qxdzbc.p6.app.document.range.Range
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.proto.DocProtos.WorksheetProto
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
@@ -33,7 +31,7 @@ import java.util.*
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
     val tableMs: Ms<TableCR<Int, Int, Ms<Cell>>> = ms(emptyTable),
-    override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+    override val rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
 ) : BaseWorksheet() {
 
     override val table: TableCR<Int, Int, Ms<Cell>> by tableMs
@@ -42,7 +40,7 @@ data class WorksheetImp(
         nameMs: Ms<String>,
         wbKeySt: St<WorkbookKey>,
         table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
-        rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+        rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
     ) : this(
         idMs = ms(
             WorksheetIdImp(
@@ -307,7 +305,7 @@ data class WorksheetImp(
         fun fromCellList(
             name: String,
             cellList: List<Ms<Cell>> = emptyList(),
-            rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+            rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
             wbKeyMs: Ms<WorkbookKey>,
         ): WorksheetImp {
 

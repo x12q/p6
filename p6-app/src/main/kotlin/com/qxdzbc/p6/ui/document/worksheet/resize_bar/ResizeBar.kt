@@ -10,9 +10,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 
 @Composable
@@ -26,7 +26,7 @@ fun ResizeBar(
     }
         .background(Color.Black)
 
-    val thumbThickness = P6R.size.value.defaultResizeCursorThumbThickness
+    val thumbThickness = WorksheetConstants.defaultResizeCursorThumbThickness
 
     val thumbMod = when (state.dimen) {
         RulerType.Col -> {

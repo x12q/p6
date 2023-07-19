@@ -7,8 +7,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
-import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState
-import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogStateImp
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarStateImp
 import dagger.assisted.Assisted
@@ -30,10 +28,6 @@ interface WindowStateFactory {
         loadDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
         id: String = UUID.randomUUID().toString(),
         wbKeyMsSetMs: Ms<Set<Ms<WorkbookKey>>> = ms(emptySet()),
-        @Assisted("showStartKernelDialogStateMs")
-        showStartKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
-        @Assisted("showConnectToKernelDialogStateMs")
-        showConnectToKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
         commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
     ): WindowStateImp
 

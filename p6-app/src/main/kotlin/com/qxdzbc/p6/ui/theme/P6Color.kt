@@ -18,6 +18,7 @@ package com.qxdzbc.p6.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+
 object P6Color {
     val White = Color.White
     val Black = Color.Black

@@ -18,7 +18,7 @@ import androidx.compose.ui.window.application
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.common.common_objects.P6Icons
 import com.qxdzbc.p6.ui.common.view.MRow
 import com.qxdzbc.p6.ui.common.view.buttons.IconBox
 import com.qxdzbc.p6.ui.window.tool_bar.ToolBarDropDownMenu
@@ -148,7 +148,7 @@ fun main() = application {
         Column {
             ColorSelector(
                 windowId = "",
-                icon = P6R.icons.FormatColorText,
+                icon = P6Icons.FormatColorText,
                 state = ColorSelectorStateImp(Color.Red),
                 action = ColorSelectorActionDoNothing()
             )

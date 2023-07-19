@@ -19,7 +19,7 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementVisito
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
@@ -45,7 +45,7 @@ data class CursorStateImp @AssistedInject constructor(
     @EmptyRangeAddressSet
     override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress> = emptySet(),
     @DefaultRangeConstraint
-    override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+    override val rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
     @DefaultClipBoardRange
     override val clipboardRange: RangeAddress = RangeAddressUtils.InvalidRange,
 
@@ -79,7 +79,7 @@ data class CursorStateImp @AssistedInject constructor(
                 idMs = cursorIdMs,
                 cellLayoutCoorsMapSt = cellLayoutCoorsMapSt,
                 mainCellMs = mainCellMs,
-                rangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+                rangeConstraint = WorksheetConstants.defaultRangeConstraint,
                 mainRange = null,
                 fragmentedCells = emptySet(),
                 fragmentedRanges = emptySet(),

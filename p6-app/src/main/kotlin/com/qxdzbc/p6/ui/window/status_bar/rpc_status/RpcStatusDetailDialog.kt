@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.MButton
-import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
+import com.qxdzbc.p6.ui.theme.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 import com.qxdzbc.p6.ui.window.status_bar.DetailEntry
 

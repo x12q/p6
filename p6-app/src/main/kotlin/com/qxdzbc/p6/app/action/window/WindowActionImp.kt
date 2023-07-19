@@ -79,30 +79,6 @@ class WindowActionImp @Inject constructor(
         }
     }
 
-    override fun openDialogToStartKernel(windowId: String) {
-        subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.showStartKernelDialogState = it.showStartKernelDialogState.show()
-        }
-    }
-
-    override fun closeDialogToStartKernel(windowId: String) {
-        subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.showStartKernelDialogState = it.showStartKernelDialogState.hide()
-        }
-    }
-
-    override fun openDialogToConnectToKernel(windowId: String) {
-        subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.showConnectToKernelDialogState = it.showConnectToKernelDialogState.show()
-        }
-    }
-
-    override fun closeDialogToConnectToKernel(windowId: String) {
-        subAppStateContainer.getWindowStateMsById(windowId)?.also {
-            it.showConnectToKernelDialogState = it.showConnectToKernelDialogState.hide()
-        }
-    }
-
     override fun onFatalError() {
         appScope?.exitApplication()
     }

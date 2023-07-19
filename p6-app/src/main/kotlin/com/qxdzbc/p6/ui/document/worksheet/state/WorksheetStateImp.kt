@@ -12,10 +12,10 @@ import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarStateImp
@@ -50,17 +50,17 @@ data class WorksheetStateImp (
     override val colResizeBarStateMs: Ms<ResizeBarState> = ms(
         ResizeBarStateImp(
             dimen = RulerType.Col,
-            size = P6R.size.value.defaultRowHeight
+            size = WorksheetConstants.defaultRowHeight
         )
     ),
     override val rowResizeBarStateMs: Ms<ResizeBarState> = ms(
         ResizeBarStateImp(
             dimen = RulerType.Row,
-            size = P6R.size.value.rowRulerWidth
+            size = WorksheetConstants.rowRulerWidth
         )
     ),
-    override val colRange: IntRange = P6R.worksheetValue.defaultColRange,
-    override val rowRange: IntRange = P6R.worksheetValue.defaultRowRange,
+    override val colRange: IntRange = WorksheetConstants.defaultColRange,
+    override val rowRange: IntRange = WorksheetConstants.defaultRowRange,
     override val cellFormatTableMs: Ms<CellFormatTable> = ms(CellFormatTableImp()),
     override val undoStackMs: Ms<CommandStack>,
     override val redoStackMs: Ms<CommandStack>,
@@ -80,10 +80,10 @@ data class WorksheetStateImp (
         wsLayoutCoorWrapperMs = ms(null),
         cellStateContMs = CellStateContainers.immutable().toMs(),
         selectRectStateMs = ms(SelectRectStateImp()),
-        colResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Col, size = P6R.size.value.defaultRowHeight)),
-        rowResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Row, size = P6R.size.value.rowRulerWidth)),
-        colRange = P6R.worksheetValue.defaultColRange,
-        rowRange = P6R.worksheetValue.defaultRowRange,
+        colResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Col, size = WorksheetConstants.defaultRowHeight)),
+        rowResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Row, size = WorksheetConstants.rowRulerWidth)),
+        colRange = WorksheetConstants.defaultColRange,
+        rowRange = WorksheetConstants.defaultRowRange,
         cellFormatTableMs = ms(CellFormatTableImp()),
         undoStackMs = ms(CommandStacks.stdCommandStack()),
         redoStackMs = ms(CommandStacks.stdCommandStack()),

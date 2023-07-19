@@ -16,10 +16,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.common.common_objects.P6CommonUIModifiers
 import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
 
 object Tabs {
 
@@ -40,13 +41,13 @@ object Tabs {
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .then(P6R.text.mod.smallBoxPadding)
+                    .then(P6CommonUIModifiers.smallBoxPadding)
             ) {
                 Text(
                     text = text,
                     modifier = Modifier
                         .padding(end = 5.dp)
-                        .requiredWidthIn(P6R.size.value.minTabWidth2 - 43.dp, P6R.size.value.maxTabWidth - 43.dp),
+                        .requiredWidthIn(WorkbookConstants.minTabWidth2 - 43.dp, WorkbookConstants.maxTabWidth - 43.dp),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -93,7 +94,7 @@ object Tabs {
                 text,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .then(P6R.text.mod.smallBoxPadding),
+                    .then(P6CommonUIModifiers.smallBoxPadding),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -118,7 +119,7 @@ object Tabs {
                 boolValue = isSelected,
                 modifier = modifier
                     .fillMaxHeight()
-                    .requiredWidthIn(P6R.size.value.minTabWidth2, P6R.size.value.maxTabWidth)
+                    .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
                     .selectable(
                         selected = isSelected,
                         onClick = onClick
@@ -128,7 +129,7 @@ object Tabs {
                     style = BorderStyle.RIGHT,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .requiredWidthIn(P6R.size.value.minTabWidth2, P6R.size.value.maxTabWidth)
+                        .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
                 ) {
                     content(this@BorderBox)
                 }

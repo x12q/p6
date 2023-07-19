@@ -21,8 +21,6 @@ import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarStateImp
-import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState
-import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogStateImp
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
@@ -47,14 +45,6 @@ data class WindowStateImp @AssistedInject constructor(
     override val loadDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
     @Assisted override val id: String = UUID.randomUUID().toString(),
     @Assisted val wbKeyMsSetMs: Ms<Set<Ms<WorkbookKey>>>,
-    @Assisted("showStartKernelDialogStateMs")
-    override val showStartKernelDialogStateMs: Ms<ShowDialogState> = ms(
-        ShowDialogStateImp()
-    ),
-    @Assisted("showConnectToKernelDialogStateMs")
-    override val showConnectToKernelDialogStateMs: Ms<ShowDialogState> = ms(
-        ShowDialogStateImp()
-    ),
     @Assisted val commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
     // ===========================================================================
 
@@ -74,8 +64,6 @@ data class WindowStateImp @AssistedInject constructor(
     override val wbKeyMsSet: Set<Ms<WorkbookKey>> by wbKeyMsSetMs
 
     override val wbKeySet: Set<WorkbookKey> get()= wbKeyMsSet.map{it.value}.toSet()
-
-    override var showStartKernelDialogState: ShowDialogState by showStartKernelDialogStateMs
 
     override val wbStateMsList: List<WorkbookState>
         get() = wbKeySet.mapNotNull {
@@ -137,8 +125,6 @@ data class WindowStateImp @AssistedInject constructor(
     override fun removeCommonFileDialogJob() {
         commonFileDialogJobMs.value = null
     }
-
-    override var showConnectToKernelDialogState: ShowDialogState by showConnectToKernelDialogStateMs
 
     override fun removeWbState(wbKeyMs: St<WorkbookKey>) {
         if (wbKeyMs in this.wbKeyMsSet) {

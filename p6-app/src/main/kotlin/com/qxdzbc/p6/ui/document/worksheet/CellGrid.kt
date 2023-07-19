@@ -20,7 +20,6 @@ import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.build.BuildConfig
 import com.qxdzbc.p6.build.BuildVariant
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.cell.CellView
@@ -95,7 +94,7 @@ fun CellGrid(
                     for (rowIndex: Int in slider.visibleRowRange) {
                         val cellAddress = CellAddress(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
-                        val rowHeight = wsState.getRowHeight(rowIndex) ?: P6R.size.value.defaultRowHeight
+                        val rowHeight = wsState.getRowHeight(rowIndex) ?: WorksheetConstants.defaultRowHeight
 
                         // x: pick border style base on the cell position
                         val borderStyle =

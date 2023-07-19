@@ -7,8 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
-import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
-import com.qxdzbc.p6.ui.theme.P6GrayColors
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**
  * A text field with a three-dot button on the right side.
@@ -38,7 +37,7 @@ fun DirTextField(
 
 fun main() {
     P6TestApp {
-        MaterialTheme(colors = P6GrayColors, typography = P6DefaultTypoGraphy) {
+        P6Theme {
 //            DirTextField(
 //                "ABC",Modifier,true,
 //                {},

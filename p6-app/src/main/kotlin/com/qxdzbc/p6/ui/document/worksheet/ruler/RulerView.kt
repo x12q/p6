@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.p6.build.DebugFunctions.debug
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
@@ -24,8 +23,10 @@ import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -104,11 +105,11 @@ fun RulerView(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .height(P6R.size.value.resizerThickness)
+                                .height(WorksheetConstants.resizerThickness)
                                 .fillMaxWidth()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomStart)
-                                .pointerHoverIcon(P6R.mouse.icon.downResize)
+                                .pointerHoverIcon(P6Theme.icons.downResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showRowResizeBarThumb(itemIndex,state)
                                 }
@@ -185,11 +186,11 @@ fun RulerView(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .width(P6R.size.value.resizerThickness)
+                                .width(WorksheetConstants.resizerThickness)
                                 .fillMaxHeight()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomEnd)
-                                .pointerHoverIcon(P6R.mouse.icon.rightResize)
+                                .pointerHoverIcon(P6Theme.icons.rightResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showColResizeBarThumb(itemIndex,state)
                                 }

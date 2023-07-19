@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.common.common_objects.P6CommonUIModifiers
 import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
@@ -72,12 +72,12 @@ fun WorkbookTabView(
                 Row(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
-                        .then(P6R.text.mod.smallBoxPadding)
+                        .then(P6CommonUIModifiers.smallBoxPadding)
                 ) {
                     Text(
                         text = state.tabName,
                         modifier = Modifier
-                            .then(P6R.text.mod.smallBoxPadding),
+                            .then(P6CommonUIModifiers.smallBoxPadding),
                         textAlign = TextAlign.Center,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,

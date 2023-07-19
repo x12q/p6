@@ -22,8 +22,8 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.color_generator.*
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
@@ -110,30 +110,18 @@ interface P6Module {
         @Provides
         @DefaultColRangeQualifier
         fun defaultColRange(): IntRange {
-            return P6R.worksheetValue.defaultColRange
+            return WorksheetConstants.defaultColRange
         }
 
         @Provides
         @DefaultRowRangeQualifier
         fun defaultRowRange(): IntRange {
-            return P6R.worksheetValue.defaultRowRange
+            return WorksheetConstants.defaultRowRange
         }
-
-//        @Provides
-//        @P6Singleton
-//        @EventServerSocket
-//        fun eventServerSocket(
-//            zContext: ZContext,
-//            @EventServerPort eventServerPort: Int
-//        ): ZMQ.Socket {
-//            val eventServerSocket = zContext.createSocket(SocketType.REQ)
-//            eventServerSocket.connect("tcp://localhost:${eventServerPort}")
-//            return eventServerSocket
-//        }
 
         @Provides
         @P6Singleton
-        @com.qxdzbc.p6.di.EventServerPort
+        @EventServerPort
         fun eventServerPort(): Int {
             val eventServerPort = Utils.findSocketPort()
             return eventServerPort

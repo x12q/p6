@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.common_objects.DebugColors
 
 /**
  * A rectangular drawn
@@ -40,7 +40,7 @@ fun SelectRect(
                         position.y.toDp()
                     }
                 )
-                .border(3.dp, P6R.color.dBlack)
+                .border(3.dp, DebugColors.dBlack)
         )
     }
 }

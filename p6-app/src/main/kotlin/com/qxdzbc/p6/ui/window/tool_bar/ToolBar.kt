@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.window.tool_bar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.common.common_objects.P6Icons
 import com.qxdzbc.p6.ui.common.view.MRow
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.ColorSelector
@@ -29,14 +29,14 @@ fun ToolBar(
             windowId=windowId,
             state = state.textColorSelectorState,
             action = action.textColorSelectorAction,
-            icon  = P6R.icons.FormatColorText
+            icon  = P6Icons.FormatColorText
         )
 
         ColorSelector(
             windowId=windowId,
             state = state.cellBackgroundColorSelectorState,
             action = action.cellBackgroundColorSelectorAction,
-            icon  = P6R.icons.FormatColorFill
+            icon  = P6Icons.FormatColorFill
         )
     }
 }

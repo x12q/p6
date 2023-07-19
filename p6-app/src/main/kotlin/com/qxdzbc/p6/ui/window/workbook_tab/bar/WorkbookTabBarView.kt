@@ -10,11 +10,10 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.window.workbook_tab.tab.WorkbookTabView
 
 @Composable
@@ -32,10 +31,10 @@ fun WorkbookTabBarView(
                         MBox(
                             modifier = Modifier
                                 .requiredWidthIn(
-                                    P6R.size.value.minWorkbookTabWidth,
-                                    P6R.size.value.maxWorkbookTabWidth
+                                    WorkbookConstants.minWorkbookTabWidth,
+                                    WorkbookConstants.maxWorkbookTabWidth
                                 )
-                                .height(P6R.size.value.tabHeight)
+                                .height(WorkbookConstants.tabHeight)
                         ) {
                             WorkbookTabView(
                                 tabState,
@@ -58,8 +57,8 @@ fun WorkbookTabBarView(
             BorderBox(
                 style = BorderStyle.LEFT_RIGHT,
                 modifier = Modifier
-                    .width(P6R.size.value.tabHeight)
-                    .height(P6R.size.value.tabHeight)
+                    .width(WorkbookConstants.tabHeight)
+                    .height(WorkbookConstants.tabHeight)
                     .align(Alignment.Bottom)
                     .clickable { action.createNewWb(state.windowId) }
             ) {
