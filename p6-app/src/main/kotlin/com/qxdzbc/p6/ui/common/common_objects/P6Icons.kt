@@ -5,7 +5,7 @@ import androidx.compose.material.icons.materialPath
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
- * Icons used in the app. This contains UI that cannot be stored as files.
+ * Icons used in the app. This contains UI icons that cannot be stored as files.
  */
 object P6Icons {
     private var _formatColorText: ImageVector? = null
