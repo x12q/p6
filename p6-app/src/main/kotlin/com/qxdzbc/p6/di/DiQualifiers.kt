@@ -3,10 +3,10 @@ package com.qxdzbc.p6.di
 import javax.inject.Qualifier
 
 /**
- * To annotate that certain action should be injected with a "DoNothing" version
+ * To annotate "DoNothing" version of action objects
  */
 @Qualifier
-annotation class Dont
+annotation class DoNothing
 
 @Qualifier
 @Retention
@@ -51,10 +51,6 @@ annotation class Username
 @Qualifier
 @Retention
 annotation class AppCoroutineScope
-
-@Qualifier
-@Retention
-annotation class EventServerSocket
 
 @Qualifier
 @Retention
