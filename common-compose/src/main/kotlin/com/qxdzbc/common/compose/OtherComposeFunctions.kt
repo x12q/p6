@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.testTag
 object OtherComposeFunctions{
     val PointerKeyboardModifiers.areAnyPressed: Boolean
         get() = isCtrlPressed || isAltPressed || isFunctionPressed || isAltGraphPressed || isShiftPressed || isMetaPressed || isFunctionPressed || isSymPressed
+
     val PointerKeyboardModifiers.isNonePressed: Boolean
         get() = !areAnyPressed
 

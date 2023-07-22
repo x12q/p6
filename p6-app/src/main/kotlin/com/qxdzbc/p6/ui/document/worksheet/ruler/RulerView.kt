@@ -40,7 +40,6 @@ fun RulerView(
     val dimen = state.type
     val slider: GridSlider = state.sliderMs.value
     val itemIndexRange: IntRange = if (dimen == RulerType.Row) slider.visibleRowRange else slider.visibleColRange
-//    Loggers.renderLogger.debug("render ruler")
     val firstIndex: Int = itemIndexRange.first
     val lastIndex: Int = itemIndexRange.last
     val density = LocalDensity.current

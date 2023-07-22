@@ -5,6 +5,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 
 object KeyUtils {
+
     @OptIn(ExperimentalComposeUiApi::class)
     fun Key.isArrowKey(): Boolean {
         return when (this) {

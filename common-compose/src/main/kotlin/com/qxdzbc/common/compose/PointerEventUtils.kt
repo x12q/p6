@@ -14,7 +14,7 @@ object PointerEventUtils {
     fun PointerEvent.isNotAllConsumed(): Boolean {
         return !this.isAllConsumed()
     }
-    @OptIn(ExperimentalComposeUiApi::class)
+
     fun PointerEvent.isAllConsumed(): Boolean {
         for (c in this.changes) {
             if (!c.isConsumed) {
@@ -79,7 +79,6 @@ object PointerEventUtils {
         }
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     fun PointerEvent.consumeAllRelease(){
         for (c in changes){
             if(c.changedToUp()){
