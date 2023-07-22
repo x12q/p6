@@ -15,7 +15,6 @@ import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellDM
 import com.qxdzbc.p6.rpc.cell.msg.CopyCellRequest
@@ -25,8 +24,9 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.format.FormatConfig
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CopyCellActionImp @Inject constructor(
     val stateCont:StateContainer,

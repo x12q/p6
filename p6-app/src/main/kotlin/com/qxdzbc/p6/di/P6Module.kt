@@ -10,10 +10,7 @@ import com.qxdzbc.common.file_util.FileUtilImp
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.common.utils.Utils
-import com.qxdzbc.p6.di.action.ActionModule
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.document.DocumentModule
-import com.qxdzbc.p6.di.rpc.RpcModule
 import com.qxdzbc.p6.di.state.StateModule
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
@@ -28,16 +25,13 @@ import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module(
     includes = [
         UtilModule::class,
-        ActionTableModule::class,
-        DocumentModule::class,
         TranslatorModule::class,
         StatusBarModule::class,
-        ActionModule::class,
-        RpcModule::class,
         StateModule::class,
         CoroutineModule::class,
     ]
@@ -46,28 +40,28 @@ import dagger.Provides
 interface P6Module {
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun FormulaColorProvider(i:FormulaColorGeneratorImp): FormulaColorGenerator
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun ColorGenerator(i: RandomColorGenerator): ColorGenerator
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun ErrorRouter(i: ErrorRouterImp): ErrorRouter
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun AppAction(i: AppActionImp): AppAction
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun AppContext(i: AppContextImp): AppContext
 
     companion object {
         @Provides
-        @P6Singleton
+        @Singleton
         fun FileUtil(): FileUtil {
             return FileUtilImp()
         }
@@ -120,7 +114,7 @@ interface P6Module {
         }
 
         @Provides
-        @P6Singleton
+        @Singleton
         @EventServerPort
         fun eventServerPort(): Int {
             val eventServerPort = Utils.findSocketPort()

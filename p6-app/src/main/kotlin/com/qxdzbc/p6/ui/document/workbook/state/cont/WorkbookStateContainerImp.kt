@@ -10,14 +10,14 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class, boundType = WorkbookStateContainer::class)
 data class WorkbookStateContainerImp(
     private val wbStateFactory: WorkbookStateFactory,

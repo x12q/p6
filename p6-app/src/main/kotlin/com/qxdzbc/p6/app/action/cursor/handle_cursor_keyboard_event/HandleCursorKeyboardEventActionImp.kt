@@ -21,7 +21,6 @@ import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -31,9 +30,10 @@ import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.S
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @OptIn(ExperimentalComposeUiApi::class)
-@P6Singleton
+@Singleton
 @ContributesBinding(scope = P6AnvilScope::class)
 class HandleCursorKeyboardEventActionImp @Inject constructor(
 

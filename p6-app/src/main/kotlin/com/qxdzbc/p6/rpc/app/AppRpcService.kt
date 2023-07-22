@@ -1,12 +1,8 @@
 package com.qxdzbc.p6.rpc.app
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest.Companion.toModel
@@ -20,7 +16,6 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
@@ -33,7 +28,6 @@ import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.rpc.common_data_structure.BoolMsg.toBoolMsgProto
 import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
 import com.qxdzbc.p6.rpc.workbook.msg.WorkbookKeyWithErrorResponse
-import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
@@ -43,7 +37,9 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.nio.file.Path
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=AppServiceGrpc.AppServiceImplBase::class)
 class AppRpcService @Inject constructor(
     val stateCont:StateContainer,

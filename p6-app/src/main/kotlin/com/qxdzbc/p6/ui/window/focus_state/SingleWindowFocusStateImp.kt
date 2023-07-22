@@ -2,15 +2,11 @@ package com.qxdzbc.p6.ui.window.focus_state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.focus.FocusRequester
-import com.qxdzbc.p6.di.FalseMs
-import com.qxdzbc.p6.di.TrueMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.common.focus_requester.FocusRequesterWrapper
 import com.qxdzbc.p6.app.common.focus_requester.FocusRequesterWrapper.Companion.wrap
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 

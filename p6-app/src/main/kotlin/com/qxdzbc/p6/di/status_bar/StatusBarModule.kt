@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.di.status_bar
 
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
@@ -9,24 +8,22 @@ import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewState
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewStateImp
 import dagger.Binds
 import dagger.Provides
+import javax.inject.Singleton
 
-@dagger.Module
+import dagger.Module
+@Module
 interface StatusBarModule {
-
-
-    @Binds
-    fun StatusBarState(i:StatusBarStateImp): StatusBarState
 
     companion object{
         @Provides
-        @P6Singleton
+        @Singleton
         @StatusBarStateQualifier
         fun StatusBarStateMs(i:StatusBarState):Ms<StatusBarState>{
             return ms(i)
         }
 
         @Provides
-        @P6Singleton
+        @Singleton
         @RPCStatusItemStateQualifier
         fun RPCStatusItemStateMs():Ms<RPCStatusViewState>{
             return ms(RPCStatusViewStateImp())

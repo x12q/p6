@@ -24,7 +24,8 @@ import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import dagger.Binds
 import dagger.Provides
 
-@dagger.Module
+import dagger.Module
+@Module
 interface WorksheetStateModule {
 
     @Binds

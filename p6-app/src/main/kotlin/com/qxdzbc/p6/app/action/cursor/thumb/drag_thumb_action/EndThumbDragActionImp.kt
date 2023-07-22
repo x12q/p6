@@ -1,13 +1,10 @@
 package com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action
 
-import androidx.compose.runtime.getValue
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
@@ -17,7 +14,9 @@ import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class EndThumbDragActionImp @Inject constructor(
     val stateContainerSt:StateContainer,

@@ -7,7 +7,6 @@ import com.qxdzbc.p6.app.document.cell.CellImp.Companion.toModel
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
@@ -16,7 +15,9 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ConvertProtoToWorksheetImp @Inject constructor(
     val stateCont:StateContainer,

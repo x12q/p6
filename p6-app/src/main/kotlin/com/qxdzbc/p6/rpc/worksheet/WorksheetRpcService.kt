@@ -1,8 +1,6 @@
 package com.qxdzbc.p6.rpc.worksheet
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.mapError
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequestDM.Companion.toModel
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
@@ -13,7 +11,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.proto.CommonProtos
@@ -37,7 +34,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=WorksheetServiceGrpc.WorksheetServiceImplBase::class)
 class WorksheetRpcService @Inject constructor(
     private val stateCont:StateContainer,

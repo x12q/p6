@@ -4,8 +4,8 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils
 import dagger.Provides
 import org.antlr.v4.runtime.tree.ParseTree
-
-@dagger.Module
+import dagger.Module
+@Module
 interface CursorStateModule {
     companion object{
         @DefaultCursorParseTree

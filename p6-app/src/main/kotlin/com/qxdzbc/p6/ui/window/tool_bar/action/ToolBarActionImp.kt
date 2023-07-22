@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.window.tool_bar.action
 
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.action.CellBackgroundColorSelectorActionQ
 import com.qxdzbc.p6.di.action.TextColorSelectorActionQ
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -8,8 +7,9 @@ import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.ColorSelectorActio
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorAction
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ToolBarActionImp @Inject constructor(
     override val textSizeSelectorAction: TextSizeSelectorAction,

@@ -16,7 +16,6 @@ import com.qxdzbc.p6.app.action.app.set_active_wd.SetActiveWindowAction
 import com.qxdzbc.p6.app.action.window.close_window.CloseWindowAction
 import com.qxdzbc.p6.app.action.window.open_close_save_dialog.OpenCloseSaveDialogOnWindowAction
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
@@ -26,8 +25,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.nio.file.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class, boundType = WindowAction::class)
 class WindowActionImp @Inject constructor(
     private val appScope: ApplicationScope?,

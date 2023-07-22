@@ -31,9 +31,10 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Singleton
 
 
-@P6Singleton
+@Singleton
 @MergeComponent(
     scope = P6AnvilScope::class,
     modules = [
@@ -43,41 +44,41 @@ import kotlinx.coroutines.CoroutineScope
 )
 interface P6Component {
 
-    @P6Singleton
+    @Singleton
     fun appState():AppState
 
-    @P6Singleton
+    @Singleton
     fun moveToWbAction(): MoveToWbAction
 
-    @P6Singleton
+    @Singleton
     fun workbookAction(): WorkbookAction
 
-    @P6Singleton
+    @Singleton
     fun cursorAction(): CursorAction
 
-    @P6Singleton
+    @Singleton
     fun cursorStateFactory(): CursorStateFactory
 
-    @P6Singleton
+    @Singleton
     fun errorRouter(): ErrorRouter
 
-    @P6Singleton
+    @Singleton
     fun workbookStateFactory(): WorkbookStateFactory
 
-    @P6Singleton
+    @Singleton
     fun worksheetStateFactory(): WorksheetStateFactory
 
-    @P6Singleton
+    @Singleton
     fun gridSliderFactory(): LimitedGridSliderFactory
 
-    @P6Singleton
+    @Singleton
     @MsRpcServerQualifier
     fun p6RpcServer(): P6RpcServer
 
-    @P6Singleton
+    @Singleton
     fun windowStateFactory(): WindowStateFactory
 
-    @P6Singleton
+    @Singleton
     fun outerWindowStateFactory(): OuterWindowStateFactory
 
     fun appAction(): AppAction
@@ -86,28 +87,28 @@ interface P6Component {
 
     fun applicationScope(): ApplicationScope?
 
-    @P6Singleton
+    @Singleton
     fun windowActionTable(): WindowActionTable
 
-    @P6Singleton
+    @Singleton
     fun windowAction(): WindowAction
 
-    @P6Singleton
+    @Singleton
     fun workbookActionTable(): WorkbookActionTable
 
-    @P6Singleton
+    @Singleton
     fun worksheetActionTable(): WorksheetActionTable
 
-    @P6Singleton
+    @Singleton
     fun wsAction(): WorksheetAction
 //
-//    @P6Singleton
+//    @Singleton
 //    fun appStateMs(): Ms<AppState>
 
-    @P6Singleton
+    @Singleton
     fun wbContainer(): WorkbookContainer
 
-    @P6Singleton
+    @Singleton
     fun appContext(): AppContext
 
     @EventServerPort

@@ -1,10 +1,8 @@
 package com.qxdzbc.p6.app.action.worksheet.paste_range
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequestDM
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
@@ -20,7 +18,6 @@ import com.qxdzbc.p6.app.command.Command
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.copy_paste.ClipboardReader
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
@@ -28,8 +25,9 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.format.FormatConfig
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class PasteRangeActionImp @Inject constructor(
     private val stateCont:StateContainer,

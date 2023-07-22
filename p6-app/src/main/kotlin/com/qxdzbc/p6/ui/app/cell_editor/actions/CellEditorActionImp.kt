@@ -6,7 +6,6 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
@@ -16,7 +15,6 @@ import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToC
 import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
@@ -28,8 +26,9 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class, boundType = CellEditorAction::class)
 class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,

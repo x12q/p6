@@ -3,12 +3,12 @@ package com.qxdzbc.p6.ui.app
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 data class ActiveWindowPointerImp(
     val windowIdMs:Ms<String?>

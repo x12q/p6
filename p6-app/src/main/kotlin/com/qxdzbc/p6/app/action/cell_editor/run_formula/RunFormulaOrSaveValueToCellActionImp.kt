@@ -10,7 +10,6 @@ import com.qxdzbc.p6.app.common.utils.TextUtils
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
@@ -21,8 +20,9 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,

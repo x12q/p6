@@ -60,6 +60,7 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Singleton
 
 @MergeComponent(
     scope = P6AnvilScope::class,
@@ -68,7 +69,7 @@ import kotlinx.coroutines.CoroutineScope
         WindowStateModuleForTest::class,
     ],
 )
-@P6Singleton
+@Singleton
 interface TestComponent : P6Component {
 
     val activeWindowPointer: ActiveWindowPointer
@@ -77,22 +78,22 @@ interface TestComponent : P6Component {
     @AppCoroutineScope
     fun executionScope(): CoroutineScope
 
-    @P6Singleton
+    @Singleton
     fun wbTabBarAction(): WorkbookTabBarAction
 
-    @P6Singleton
+    @Singleton
     fun cellEditorAction(): CellEditorAction
 
-    @P6Singleton
+    @Singleton
     fun cellLiteralParser(): CellLiteralParser
 
-    @P6Singleton
+    @Singleton
     fun cellViewAction(): UpdateCellAction
 
-    @P6Singleton
+    @Singleton
     fun makeDisplayText(): GenerateCellEditorTextAction
 
-    @P6Singleton
+    @Singleton
     fun openCellEditorAction(): OpenCellEditorAction
     fun translatorFactory(): ExUnitFormulaTranslatorFactory
     fun visitorFactory2(): ExUnitFormulaVisitorFactory

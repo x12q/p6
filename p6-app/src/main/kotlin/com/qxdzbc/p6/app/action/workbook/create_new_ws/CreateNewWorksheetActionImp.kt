@@ -4,19 +4,15 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.mapError
-import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfos.noNav
-import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class CreateNewWorksheetActionImp @Inject constructor(
     private val stateCont: StateContainer,

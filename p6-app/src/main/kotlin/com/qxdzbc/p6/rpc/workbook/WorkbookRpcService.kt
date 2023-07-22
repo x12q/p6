@@ -21,7 +21,6 @@ import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.AppCoroutineScope
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
@@ -41,7 +40,9 @@ import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.*
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class,boundType= WorkbookServiceGrpc.WorkbookServiceImplBase::class)
 class WorkbookRpcService @Inject constructor(
     private val translatorContainer: TranslatorContainer,

@@ -3,7 +3,6 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.github.michaelbull.result.onSuccess
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.cursor.copy_cursor_range_to_clipboard.CopyCursorRangeToClipboardAction
 import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
@@ -13,7 +12,6 @@ import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -24,9 +22,10 @@ import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.Se
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class, boundType = CursorAction::class)
 class CursorActionImp @Inject constructor(
     private val wsAction: WorksheetAction,

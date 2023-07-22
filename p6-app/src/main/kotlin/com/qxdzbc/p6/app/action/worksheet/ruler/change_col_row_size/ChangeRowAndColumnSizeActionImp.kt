@@ -4,13 +4,13 @@ import androidx.compose.ui.unit.Dp
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ChangeRowAndColumnSizeActionImp @Inject constructor(
     private val stateCont:StateContainer

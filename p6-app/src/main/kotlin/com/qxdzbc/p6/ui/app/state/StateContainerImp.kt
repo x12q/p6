@@ -20,7 +20,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
@@ -43,8 +42,9 @@ import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class, boundType = StateContainer::class)
 class StateContainerImp @Inject constructor(
     private val docCont: DocumentContainer,

@@ -9,7 +9,7 @@ import com.qxdzbc.common.error.ErrorReport
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 
-class BinaryCopierImp constructor() : BinaryCopier {
+class BinaryCopierImp : BinaryCopier {
 
     @Throws(Exception::class)
     override fun copy(data: ByteArray): ByteArray {

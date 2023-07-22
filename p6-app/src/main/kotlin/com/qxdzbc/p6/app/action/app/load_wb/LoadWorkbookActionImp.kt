@@ -8,7 +8,6 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toShallowModel
 import com.qxdzbc.p6.app.file.loader.P6FileLoader
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 
@@ -23,8 +22,9 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.squareup.anvil.annotations.ContributesBinding
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 data class LoadWorkbookActionImp @Inject constructor(
     val stateCont: StateContainer,

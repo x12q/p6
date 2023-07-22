@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.document.workbook
 
-import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
@@ -8,16 +7,16 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import java.util.regex.Pattern
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * A wb factory that can automatically generate names for new workbooks
  */
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class AutoNameWbFactory @Inject constructor(
     val wbCont: WorkbookContainer,

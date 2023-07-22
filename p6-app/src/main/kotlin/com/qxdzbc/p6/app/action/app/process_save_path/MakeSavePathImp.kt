@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.app.process_save_path
 
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.window.file_dialog.WithFileExtension
 import com.squareup.anvil.annotations.ContributesBinding
@@ -8,9 +7,10 @@ import org.apache.commons.io.FilenameUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 import javax.swing.filechooser.FileFilter
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class MakeSavePathImp @Inject constructor() : MakeSavePath {
     override fun makeSavePath(originalPath: Path, fileFilter: FileFilter?): Path? {

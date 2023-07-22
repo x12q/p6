@@ -1,17 +1,14 @@
 package com.qxdzbc.p6.ui.window.menu.action
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.app.action.window.WindowAction
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class FileMenuActionImp @Inject constructor(
     private val windowAction: WindowAction,
