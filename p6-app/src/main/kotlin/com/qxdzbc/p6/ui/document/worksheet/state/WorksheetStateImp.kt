@@ -49,14 +49,14 @@ data class WorksheetStateImp (
     override val selectRectStateMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
     override val colResizeBarStateMs: Ms<ResizeBarState> = ms(
         ResizeBarStateImp(
-            dimen = RulerType.Col,
-            size = WorksheetConstants.defaultRowHeight
+            rulerType = RulerType.Col,
+            thumbSize = WorksheetConstants.defaultRowHeight
         )
     ),
     override val rowResizeBarStateMs: Ms<ResizeBarState> = ms(
         ResizeBarStateImp(
-            dimen = RulerType.Row,
-            size = WorksheetConstants.rowRulerWidth
+            rulerType = RulerType.Row,
+            thumbSize = WorksheetConstants.rowRulerWidth
         )
     ),
     override val colRange: IntRange = WorksheetConstants.defaultColRange,
@@ -80,8 +80,8 @@ data class WorksheetStateImp (
         wsLayoutCoorWrapperMs = ms(null),
         cellStateContMs = CellStateContainers.immutable().toMs(),
         selectRectStateMs = ms(SelectRectStateImp()),
-        colResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Col, size = WorksheetConstants.defaultRowHeight)),
-        rowResizeBarStateMs = ms(ResizeBarStateImp(dimen = RulerType.Row, size = WorksheetConstants.rowRulerWidth)),
+        colResizeBarStateMs = ms(ResizeBarStateImp(rulerType = RulerType.Col, thumbSize = WorksheetConstants.defaultRowHeight)),
+        rowResizeBarStateMs = ms(ResizeBarStateImp(rulerType = RulerType.Row, thumbSize = WorksheetConstants.rowRulerWidth)),
         colRange = WorksheetConstants.defaultColRange,
         rowRange = WorksheetConstants.defaultRowRange,
         cellFormatTableMs = ms(CellFormatTableImp()),

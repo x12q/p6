@@ -79,13 +79,13 @@ interface WorksheetStateModule {
         @Provides
         @DefaultColResizeBarStateMs
         fun ResizeColBarStateMs(): Ms<ResizeBarState> {
-            return ms(ResizeBarStateImp(dimen = RulerType.Col, size = WorksheetConstants.defaultRowHeight))
+            return ms(ResizeBarStateImp(rulerType = RulerType.Col, thumbSize = WorksheetConstants.defaultRowHeight))
         }
 
         @Provides
         @DefaultRowResizeBarStateMs
         fun ResizeRowBarStateMs(): Ms<ResizeBarState> {
-            return ms(ResizeBarStateImp(dimen = RulerType.Row, size = WorksheetConstants.rowRulerWidth))
+            return ms(ResizeBarStateImp(rulerType = RulerType.Row, thumbSize = WorksheetConstants.rowRulerWidth))
         }
 
         @Provides

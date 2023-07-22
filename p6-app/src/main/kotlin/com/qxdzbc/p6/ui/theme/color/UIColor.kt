@@ -23,7 +23,8 @@ data class UIColor(
     val uiBaseSurface:Color = Color.LightGray,
     val selectedTabBackground: Color = Color.Cyan,
     val rulerBackground: Color= Color.LightGray,
-    val buttonBorder: Color = Color.Black
+    val buttonBorder: Color = Color.Black,
+    val resizeBarColor: Color=Color.Black,
 ){
 
     companion object {

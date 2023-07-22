@@ -6,16 +6,17 @@ import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 
 data class ResizeBarStateImp(
-    override val dimen: RulerType,
-    override val size: Dp,
+    override val rulerType: RulerType,
+    override val thumbSize: Dp,
     override val selectableAreaWidth: Dp = WorksheetConstants.resizerThickness,
-    override val isShow: Boolean = false,
+    override val isShowBar: Boolean = false,
     override val isActive: Boolean = false,
     override val thickness: Dp = WorksheetConstants.defaultResizeCursorThickness,
     override val offset: Offset = Offset(0F,0F),
     override val anchorPointOffset: Offset = Offset(0F,0F),
     override val isShowThumb: Boolean=false,
 ) : ResizeBarState {
+
     override fun changePosition(newPosition: Offset): ResizeBarState {
         if(this.offset!=newPosition){
             return this.copy(offset = newPosition)
@@ -37,16 +38,16 @@ data class ResizeBarStateImp(
         return this
     }
 
-    override fun show(): ResizeBarState {
-        if(this.isShow){
+    override fun showBar(): ResizeBarState {
+        if(this.isShowBar){
             return this
         }
-        return this.copy(isShow=true)
+        return this.copy(isShowBar=true)
     }
 
-    override fun hide(): ResizeBarState {
-        if(this.isShow){
-            return this.copy(isShow = false)
+    override fun hideBar(): ResizeBarState {
+        if(this.isShowBar){
+            return this.copy(isShowBar = false)
         }
         return this
     }
