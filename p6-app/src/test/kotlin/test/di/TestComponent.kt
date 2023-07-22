@@ -24,7 +24,6 @@ import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragActio
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
@@ -49,6 +48,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetActionImp
+import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeActionImp
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
@@ -118,7 +118,6 @@ interface TestComponent : P6Component {
     fun newWorksheetAction(): NewWorksheetAction
     fun computeSliderSizeAction(): ComputeSliderSizeAction
     fun rulerAction(): RulerAction
-    fun worksheetAction2(): WorksheetAction2
     fun cursorEditorAction(): CellEditorAction
     fun textDiffer(): TextDiffer
     fun thumbStateFactory(): ThumbStateFactory
@@ -142,6 +141,7 @@ interface TestComponent : P6Component {
     fun loadWorkbookActionImp(): LoadWorkbookActionImp
     fun renameWorksheetActionImp(): RenameWorksheetActionImp
     fun changeRowAndColSizeActionImp(): ChangeRowAndColumnSizeActionImp
+    fun worksheetAction(): WorksheetAction
 
     @Component.Builder
     interface Builder {

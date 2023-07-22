@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.document.worksheet.actions.action2
+package com.qxdzbc.p6.ui.document.worksheet.actions
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -11,7 +11,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
+import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
@@ -27,10 +27,10 @@ import kotlin.test.*
 //import io.mockk.mockk
 
 //TODO these tests are still valid, but disabled until better implementation is completed
-internal class WorksheetAction2ImpTest {
+internal class WorksheetActionImpTest {
     lateinit var ws: Worksheet
     lateinit var wsState: WorksheetState
-    lateinit var actions: WorksheetAction2
+    lateinit var actions: WorksheetAction
     val cursorStateMs get() = this.wsState.cursorStateMs
     val cursorState: CursorState get() = this.wsState.cursorStateMs.value
     val slider: GridSlider get() = this.wsState.slider
@@ -72,7 +72,7 @@ internal class WorksheetAction2ImpTest {
                 }
             }
         }
-        actions = testSample.comp.worksheetAction2()
+        actions = testSample.comp.worksheetAction()
         for ((c, l) in layoutMap) {
             this.wsState.addCellLayoutCoor(c, l)
         }
