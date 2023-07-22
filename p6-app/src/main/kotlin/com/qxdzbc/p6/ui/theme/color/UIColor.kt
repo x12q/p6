@@ -22,8 +22,9 @@ data class UIColor(
     val iconColor: Color = Color.Black,
     val uiBaseSurface:Color = Color.LightGray,
     val selectedTabBackground: Color = Color.Cyan,
+    val rulerBackground: Color= Color.LightGray,
+    val buttonBorder: Color = Color.Black
 ){
-
 
     companion object {
         val textSelectionColors:TextSelectionColors = TextSelectionColors(

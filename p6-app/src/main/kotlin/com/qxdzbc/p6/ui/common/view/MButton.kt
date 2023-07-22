@@ -20,7 +20,6 @@ import com.qxdzbc.p6.ui.theme.P6Theme
 fun MButton(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
-    isPrimary: Boolean = false,
     content: @Composable () -> Unit = {}
 ) {
     Button(
@@ -29,9 +28,9 @@ fun MButton(
         modifier = modifier.height(24.dp).widthIn(71.dp),
         contentPadding = PaddingValues(horizontal = 5.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.secondary,
+            backgroundColor = P6Theme.color.uiColor.enabledButton,
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colors.onSecondary)
+        border = BorderStroke(1.dp, P6Theme.color.uiColor.buttonBorder)
     ) {
         content()
     }

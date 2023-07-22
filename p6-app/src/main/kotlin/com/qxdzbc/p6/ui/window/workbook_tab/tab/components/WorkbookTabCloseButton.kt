@@ -13,16 +13,16 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.BorderStyleValue
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 @Composable
-fun CloseWorkbookButton(
+fun WorkbookTabCloseButton(
     onClick:()->Unit,
 ) {
     BorderBox(
         borderStyle = BorderStyle.ALL,
         modifier = Modifier
-            .background(MaterialTheme.colors.primary)
+            .background(P6Theme.color.uiColor.enabledButton)
             .size(DpSize(18.dp, 18.dp))
             .clickable {
                 onClick()

@@ -2,7 +2,6 @@ package com.qxdzbc.p6.ui.document.worksheet.ruler
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,7 +42,8 @@ fun RulerView(
     val firstIndex: Int = itemIndexRange.first
     val lastIndex: Int = itemIndexRange.last
     val density = LocalDensity.current
-    Surface(color = MaterialTheme.colors.primaryVariant,
+    Surface(
+        color = P6Theme.color.uiColor.rulerBackground,
         modifier = Modifier
             .onGloballyPositioned {
                 rulerAction.updateRulerLayout(it, state,)

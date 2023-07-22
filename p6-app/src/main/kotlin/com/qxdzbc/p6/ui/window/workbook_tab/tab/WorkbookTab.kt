@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
@@ -17,7 +18,7 @@ import com.qxdzbc.p6.ui.common.view.*
 import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
 import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.dialog.AskSaveDialog
-import com.qxdzbc.p6.ui.window.workbook_tab.tab.components.CloseWorkbookButton
+import com.qxdzbc.p6.ui.window.workbook_tab.tab.components.WorkbookTabCloseButton
 import com.qxdzbc.p6.ui.window.workbook_tab.tab.components.WorkbookTabNameText
 
 /**
@@ -33,7 +34,7 @@ import com.qxdzbc.p6.ui.window.workbook_tab.tab.components.WorkbookTabNameText
 @Composable
 fun WorkbookTab(
     state: WorkbookTabState,
-    internalState: WorkbookTabInternalState = WorkbookTabInternalStateImp(),
+    internalState: WorkbookTabInternalState = remember{WorkbookTabInternalStateImp()},
     modifier: Modifier = Modifier,
     onClick: (WorkbookKey) -> Unit = {},
     onClose: (WorkbookKey) -> Unit = {},
@@ -68,7 +69,7 @@ fun WorkbookTab(
 
                 WorkbookTabNameText(state.tabName)
 
-                CloseWorkbookButton(
+                WorkbookTabCloseButton(
                     onClick = {
                         if (state.needSave) {
                             internalState.openAskToSaveDialog = true
