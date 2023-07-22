@@ -3,7 +3,6 @@ package com.qxdzbc.p6.ui.window.workbook_tab.tab
 import androidx.compose.foundation.ContextMenuArea
 import androidx.compose.foundation.ContextMenuItem
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
@@ -32,12 +31,12 @@ import com.qxdzbc.p6.ui.window.workbook_tab.tab.components.WorkbookTabNameText
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun WorkbookTabView(
+fun WorkbookTab(
     state: WorkbookTabState,
     internalState: WorkbookTabInternalState = WorkbookTabInternalStateImp(),
     modifier: Modifier = Modifier,
-    onClick: (workbookKey: WorkbookKey) -> Unit = {},
-    onClose: (workbookKey: WorkbookKey) -> Unit = {},
+    onClick: (WorkbookKey) -> Unit = {},
+    onClose: (WorkbookKey) -> Unit = {},
     onClickSave: () -> Unit = {},
 ) {
 
@@ -104,8 +103,8 @@ fun WorkbookTabView(
 fun main() {
     testApp {
         Row {
-            WorkbookTabView(state = WorkbookTabStateImp.random().copy(isSelected = true))
-            WorkbookTabView(state = WorkbookTabStateImp.random().copy(isSelected = false))
+            WorkbookTab(state = WorkbookTabStateImp.random().copy(isSelected = true))
+            WorkbookTab(state = WorkbookTabStateImp.random().copy(isSelected = false))
         }
     }
 }

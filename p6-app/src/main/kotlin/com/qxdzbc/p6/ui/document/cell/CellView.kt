@@ -22,6 +22,9 @@ import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormat
 import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 
+/**
+ * View of a cell. This view by default will fill max size. So it size is decided by the caller.
+ */
 @Composable
 fun CellView(
     state: CellState,

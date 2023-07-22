@@ -11,14 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
-import com.qxdzbc.p6.ui.window.workbook_tab.tab.WorkbookTabView
+import com.qxdzbc.p6.ui.window.workbook_tab.tab.WorkbookTab
 
 @Composable
-fun WorkbookTabBarView(
+fun WorkbookTabBar(
     state: WorkbookTabBarState,
     action: WorkbookTabBarAction,
 ) {
@@ -37,7 +36,7 @@ fun WorkbookTabBarView(
                                 )
                                 .height(WorkbookConstants.tabHeight)
                         ) {
-                            WorkbookTabView(
+                            WorkbookTab(
                                 tabState,
                                 onClick = {
                                     action.moveToWorkbook(it)

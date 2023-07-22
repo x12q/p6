@@ -26,7 +26,6 @@ import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPo
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.theme.P6Theme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SheetTabView(
     state: SheetTabState,
@@ -69,7 +68,6 @@ fun SheetTabView(
 
 fun main() {
     singleWindowApplication {
-        val activeSheetPointer: Ms<ActiveWorksheetPointer> = ms(ActiveWorksheetPointerImp(ms("abc")))
         Column {
             Box(modifier = Modifier.size(100.dp, 30.dp)) {
                 SheetTabView(SheetTabStateImp("abc", true))

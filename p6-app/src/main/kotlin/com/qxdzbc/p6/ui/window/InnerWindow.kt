@@ -19,7 +19,7 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.status_bar.StatusBar
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RpcStatusDetailDialog
 import com.qxdzbc.p6.ui.window.tool_bar.ToolBar
-import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarView
+import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBar
 
 
 @Composable
@@ -31,7 +31,7 @@ fun InnerWindowView(
     val state: WindowState = oState.innerWindowState
     val activeWbStateMs = state.activeWbStateMs
     val oddityContainerMs = state.errorContainerMs
-    val executionScope = rememberCoroutineScope()
+    val cs = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Surface {
@@ -47,7 +47,7 @@ fun InnerWindowView(
                     FormulaBar(state = state.formulaBarState)
                 },
                 workbookTab = {
-                    WorkbookTabBarView(
+                    WorkbookTabBar(
                         state = state.wbTabBarState,
                         action = windowActionTable.wbTabBarAction
                     )
