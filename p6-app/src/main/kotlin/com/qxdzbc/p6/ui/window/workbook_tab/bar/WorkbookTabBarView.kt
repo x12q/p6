@@ -11,8 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.window.workbook_tab.tab.WorkbookTabView
 
@@ -55,7 +56,7 @@ fun WorkbookTabBarView(
 
             // x: this is the button to create new workbook
             BorderBox(
-                style = BorderStyle.LEFT_RIGHT,
+                borderStyle = BorderStyle.LEFT_RIGHT,
                 modifier = Modifier
                     .width(WorkbookConstants.tabHeight)
                     .height(WorkbookConstants.tabHeight)

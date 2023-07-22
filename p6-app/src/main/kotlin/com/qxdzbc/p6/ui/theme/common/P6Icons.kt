@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.common.common_objects
+package com.qxdzbc.p6.ui.theme.common
 
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
  */
 object P6Icons {
     private var _formatColorText: ImageVector? = null
-    val FormatColorText: ImageVector
+    val FormatTextColorIcon: ImageVector
         get() {
             if (_formatColorText != null) {
                 return _formatColorText!!
@@ -43,7 +43,7 @@ object P6Icons {
             return _formatColorText!!
         }
     private var _formatColorFill: ImageVector? = null
-    public val FormatColorFill: ImageVector
+    public val FormatBackgroundColorIcon: ImageVector
         get() {
             if (_formatColorFill != null) {
                 return _formatColorFill!!
@@ -73,6 +73,7 @@ object P6Icons {
                     reflectiveCurveToRelative(2.0f, -0.9f, 2.0f, -2.0f)
                     curveTo(21.0f, 13.67f, 19.0f, 11.5f, 19.0f, 11.5f)
                     close()
+                    // these are the bar under the icon
 //                        moveTo(2.0f, 20.0f)
 //                        horizontalLineToRelative(20.0f)
 //                        verticalLineToRelative(4.0f)

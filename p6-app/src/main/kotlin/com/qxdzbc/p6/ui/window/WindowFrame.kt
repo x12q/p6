@@ -11,8 +11,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import com.qxdzbc.p6.app.common.utils.Loggers
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.PlaceHolder
 
 
@@ -36,22 +37,22 @@ fun WindowFrame(
     ) {
         Column {
             val stdBarMod = Modifier.height(30.dp).fillMaxWidth()
-            BorderBox(style = BorderStyle.BOT, modifier = Modifier.fillMaxWidth()) {
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = Modifier.fillMaxWidth()) {
                 menu()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = stdBarMod){
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = stdBarMod){
                 workbookTab()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = stdBarMod) {
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = stdBarMod) {
                 formulaBar()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = Modifier.weight(1.0F)) {
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = Modifier.weight(1.0F)) {
                 workbookView()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = stdBarMod) {
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = stdBarMod) {
                 toolTab()
             }
-            BorderBox(style = BorderStyle.NONE, modifier = stdBarMod) {
+            BorderBox(borderStyle = BorderStyle.NONE, modifier = stdBarMod) {
                 statusBar()
             }
         }

@@ -15,12 +15,12 @@ import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
-import com.qxdzbc.p6.ui.theme.language.P6UIText
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.workbook.dialog.DeleteWorksheetDialog
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarView
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
@@ -56,7 +56,7 @@ fun WorkbookView(
                     )
                 }
             }
-            BorderBox(style = BorderStyle.TOP, modifier = Modifier.height(30.dp)) {
+            BorderBox(borderStyle = BorderStyle.TOP, modifier = Modifier.height(30.dp)) {
                 SheetTabBarView(
                     state = wbState.sheetTabBarState,
                     onItemClick = { sheetName ->

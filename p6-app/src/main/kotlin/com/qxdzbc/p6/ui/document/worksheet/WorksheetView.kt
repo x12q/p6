@@ -15,10 +15,11 @@ import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.worksheet.cursor.CellCursor
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBar
@@ -50,7 +51,7 @@ fun WorksheetView(
             Column {
                 Row {
                     BorderBox( // x: cell/range indicator
-                        style = BorderStyle.BOT_RIGHT,
+                        borderStyle = BorderStyle.BOT_RIGHT,
                         modifier = Modifier.size(
                             DpSize(
                                 WorksheetConstants.rowRulerWidth,

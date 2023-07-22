@@ -22,6 +22,7 @@ import com.qxdzbc.p6.build.BuildVariant
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.p6.ui.document.cell.CellView
 import com.qxdzbc.p6.ui.document.cell.EmptyCellView
 import com.qxdzbc.p6.ui.document.cell.state.CellState
@@ -122,7 +123,7 @@ fun CellGrid(
                         ).padding(start=1.dp, end = 1.dp, top=1.dp,bottom=1.dp)
 
                         BorderBox(
-                            style = borderStyle,
+                            borderStyle = borderStyle,
                             borderColor = Color.LightGray,
                             padContent = false,
                             modifier = Modifier

@@ -19,8 +19,12 @@ data class UIColor(
     val disabledButton: Color = Color.LightGray,
     val enabledButton:Color = Color.Gray,
     val borderColor:Color = Color.Black,
-
+    val iconColor: Color = Color.Black,
+    val uiBaseSurface:Color = Color.LightGray,
+    val selectedTabBackground: Color = Color.Cyan,
 ){
+
+
     companion object {
         val textSelectionColors:TextSelectionColors = TextSelectionColors(
             handleColor = Color(0xFF4286F4),

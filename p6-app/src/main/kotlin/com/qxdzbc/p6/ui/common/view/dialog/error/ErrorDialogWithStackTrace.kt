@@ -21,9 +21,10 @@ import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.app.err.ErrMsg
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.BorderStyle.Companion.debugAll
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue.Companion.debugAll
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.dialog.ErrorDialogWithStackTraceState
 
 /**
@@ -52,7 +53,7 @@ fun ErrorDialogWithStackTrace(
             Column {
                 // x: message box
                 BorderBox(
-                    style = BorderStyle.NONE.debugAll(),
+                    borderStyle = BorderStyle.NONE.debugAll(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(state.messageMaxHeight)
@@ -72,7 +73,7 @@ fun ErrorDialogWithStackTrace(
                 }
                 // x: show/hide stack trace button
                 BorderBox(
-                    style = BorderStyle.NONE.debugAll(),
+                    borderStyle = BorderStyle.NONE.debugAll(),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     MBox(modifier = Modifier.align(Alignment.CenterEnd).clickable {

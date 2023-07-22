@@ -1,14 +1,15 @@
 package com.qxdzbc.p6.ui.window.workbook_tab.tab
 
-data class WorkbookTabInternalStateImp(
-    override val mouseOnTab: Boolean = false,
-    override val openAskToSaveDialog: Boolean = false
-) : WorkbookTabInternalState {
-    override fun setMouseOnTab(i: Boolean): WorkbookTabInternalStateImp {
-        return this.copy(mouseOnTab = i)
-    }
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils.ms
 
-    override fun setOpenAskToSaveDialog(i: Boolean): WorkbookTabInternalStateImp {
-        return this.copy(openAskToSaveDialog = i)
-    }
+data class WorkbookTabInternalStateImp(
+    val mouseOnTabMs: Ms<Boolean> = ms(false),
+    val openAskToSaveDialogMs: Ms<Boolean> = ms(false),
+) : WorkbookTabInternalState {
+
+    override var mouseOnTab: Boolean by mouseOnTabMs
+    override var openAskToSaveDialog: Boolean by openAskToSaveDialogMs
 }

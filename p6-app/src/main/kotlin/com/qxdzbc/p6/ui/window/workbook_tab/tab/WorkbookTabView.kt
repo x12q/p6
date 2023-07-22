@@ -2,51 +2,41 @@ package com.qxdzbc.p6.ui.window.workbook_tab.tab
 
 import androidx.compose.foundation.ContextMenuArea
 import androidx.compose.foundation.ContextMenuItem
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.ui.common.common_objects.P6CommonUIModifiers
-import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
-import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.*
+import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
+import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.dialog.AskSaveDialog
+import com.qxdzbc.p6.ui.window.workbook_tab.tab.components.CloseWorkbookButton
+import com.qxdzbc.p6.ui.window.workbook_tab.tab.components.WorkbookTabNameText
 
-
+/**
+ * A workbook tab view. Signify a tab that user can click on to open a workbook.
+ * This view contains:
+ * - name of a workbook.
+ * - a close button to close a workbook.
+ * - a close dialog asking user to save the workbook before closing.
+ * - a context menu when users right-click on the tab.
+ *
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun WorkbookTabView(
     state: WorkbookTabState,
-    internalStateMs: Ms<WorkbookTabInternalState> = rms(WorkbookTabInternalStateImp()),
+    internalState: WorkbookTabInternalState = WorkbookTabInternalStateImp(),
     modifier: Modifier = Modifier,
     onClick: (workbookKey: WorkbookKey) -> Unit = {},
     onClose: (workbookKey: WorkbookKey) -> Unit = {},
     onClickSave: () -> Unit = {},
 ) {
-
-    val openAskToSaveDialog = internalStateMs.value.openAskToSaveDialog
-    var internalState by internalStateMs
 
     ContextMenuArea(items = {
         listOf(
@@ -55,71 +45,62 @@ fun WorkbookTabView(
     }) {
         BoolBackgroundBox(
             boolValue = state.isSelected,
+            colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
             modifier = modifier
                 .fillMaxHeight()
                 .clickable { onClick(state.wbKey) }
                 .onPointerEvent(PointerEventType.Enter) {
-                    internalState = internalState.setMouseOnTab(true)
+                    internalState.mouseOnTab = true
                 }
                 .onPointerEvent(PointerEventType.Exit) {
-                    internalState = internalState.setMouseOnTab(false)
+                    internalState.mouseOnTab = false
                 }
         ) {
             BorderBox(
-                style = BorderStyle.RIGHT,
-                modifier = Modifier.fillMaxHeight()
+                borderStyle = BorderStyle.RIGHT,
             ) {
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .then(P6CommonUIModifiers.smallBoxPadding)
+                CenterAlignRow(
+                    modifier = P6CommonUIModifiers.smallBoxPadding
+                        .fillMaxHeight()
                 ) {
-                    Text(
-                        text = state.tabName,
-                        modifier = Modifier
-                            .then(P6CommonUIModifiers.smallBoxPadding),
-                        textAlign = TextAlign.Center,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    BorderBox(
-                        style = BorderStyle.ALL,
-                        modifier = Modifier
-                            .background(MaterialTheme.colors.primary)
-                            .size(DpSize(18.dp, 18.dp))
-                            .clickable {
-                                if (state.needSave) {
-                                    internalState = internalState.setOpenAskToSaveDialog(true)
-                                } else {
-                                    onClose(state.wbKey)
-                                }
-                            }
 
-                    ) {
-                        Icon(
-                            Icons.Filled.Close,
-                            contentDescription = "Localized description"
-                        )
-                    }
+                    WorkbookTabNameText(state.tabName)
+
+                    CloseWorkbookButton(
+                        onClick={
+                            if (state.needSave) {
+                                internalState.openAskToSaveDialog = true
+                            } else {
+                                onClose(state.wbKey)
+                            }
+                        }
+                    )
                 }
             }
         }
     }
 
-    if (openAskToSaveDialog) {
+    if (internalState.openAskToSaveDialog) {
         AskSaveDialog(
             state.tabName,
             onCancel = {
-                internalState = internalState.setOpenAskToSaveDialog(false)
+                internalState.openAskToSaveDialog = false
             },
             onDontSave = {
-                internalState = internalState.setOpenAskToSaveDialog(false)
+                internalState.openAskToSaveDialog = false
                 onClose(state.wbKey)
             },
             onSave = {
-                internalState = internalState.setOpenAskToSaveDialog(false)
+                internalState.openAskToSaveDialog = false
                 onClickSave()
             }
         )
+    }
+}
+
+
+fun main(){
+    testApp {
+        WorkbookTabView(state = WorkbookTabStateImp.random())
     }
 }

@@ -12,8 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.tab.SheetTabView
 
@@ -64,7 +65,7 @@ fun SheetTabBarView(
 //            }
 
             BorderBox(
-                style = BorderStyle.LEFT_RIGHT,
+                borderStyle = BorderStyle.LEFT_RIGHT,
                 modifier = Modifier
                     .width(30.dp)
                     .height(30.dp)

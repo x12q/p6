@@ -21,8 +21,9 @@ import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
@@ -78,7 +79,7 @@ fun RulerView(
                             height = state.getItemSizeOrDefault(itemIndex)
                         )
                         BorderBox(
-                            style = bs,
+                            borderStyle = bs,
                             modifier = Modifier
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {
@@ -160,7 +161,7 @@ fun RulerView(
                             height = size,
                         )
                         BorderBox(
-                            style = bs,
+                            borderStyle = bs,
                             modifier = Modifier
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {

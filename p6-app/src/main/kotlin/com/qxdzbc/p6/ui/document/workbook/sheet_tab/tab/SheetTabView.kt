@@ -18,12 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.common.common_objects.P6CommonUIModifiers
+import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
 import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -43,13 +45,14 @@ fun SheetTabView(
     }) {
         BoolBackgroundBox(
             boolValue = state.isSelected,
+            colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
             modifier = Modifier
                 .then(modifier)
                 .fillMaxHeight()
                 .clickable { onClick(state.sheetName) }
         ){
             BorderBox(
-                style = BorderStyle.RIGHT,
+                borderStyle = BorderStyle.RIGHT,
                 modifier = Modifier.fillMaxHeight()
             ) {
                 Text(state.sheetName,

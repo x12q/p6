@@ -7,16 +7,16 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * Color theme of the app
  */
 @Immutable
-class P6Color2(
+class P6Color(
     val ws: WsColor = WsColor(),
     val uiColor: UIColor = UIColor(),
 ){
     companion object{
-        fun light():P6Color2{
-            return P6Color2()
+        fun light():P6Color{
+            return P6Color()
         }
-        fun dark():P6Color2{
-            return P6Color2(
+        fun dark():P6Color{
+            return P6Color(
                 ws = WsColor.dark(),
                 uiColor = UIColor.dark()
             )

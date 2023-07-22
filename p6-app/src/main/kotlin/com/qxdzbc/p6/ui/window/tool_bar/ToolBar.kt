@@ -1,10 +1,14 @@
 package com.qxdzbc.p6.ui.window.tool_bar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.common_objects.P6Icons
-import com.qxdzbc.p6.ui.common.view.MRow
+import com.qxdzbc.p6.ui.theme.common.P6Icons
+import com.qxdzbc.p6.ui.common.view.CenterAlignRow
+import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.tool_bar.action.ToolBarAction
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.ColorSelector
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.TextSizeSelectorView
@@ -16,8 +20,9 @@ fun ToolBar(
     state:ToolBarState,
     action: ToolBarAction
 ) {
-    MRow(
-        horizontalArrangement = Arrangement.spacedBy(3.dp)
+    CenterAlignRow(
+        Modifier.background(P6Theme.color.uiColor.uiBaseSurface).fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(3.dp),
     ){
         TextSizeSelectorView(
             windowId = windowId,
@@ -29,14 +34,14 @@ fun ToolBar(
             windowId=windowId,
             state = state.textColorSelectorState,
             action = action.textColorSelectorAction,
-            icon  = P6Icons.FormatColorText
+            icon  = P6Icons.FormatTextColorIcon
         )
 
         ColorSelector(
             windowId=windowId,
             state = state.cellBackgroundColorSelectorState,
             action = action.cellBackgroundColorSelectorAction,
-            icon  = P6Icons.FormatColorFill
+            icon  = P6Icons.FormatBackgroundColorIcon
         )
     }
 }

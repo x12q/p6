@@ -2,14 +2,14 @@ package com.qxdzbc.p6.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import com.qxdzbc.p6.ui.theme.color.P6Color2
+import com.qxdzbc.p6.ui.theme.color.P6Color
 import com.qxdzbc.p6.ui.theme.color.UIColor
 import com.qxdzbc.p6.ui.theme.language.AppLanguage
 import com.qxdzbc.p6.ui.theme.typography.P6TypoGraphy
 
 object P6Theme {
-    val color: P6Color2
-        @Composable get() = P6Color2.local.current
+    val color: P6Color
+        @Composable get() = P6Color.local.current
 
     val typography: P6TypoGraphy
         @Composable get() = P6TypoGraphy.local.current
@@ -28,9 +28,9 @@ fun P6Theme(
     content: @Composable () -> Unit,
 ) {
     val color = if (isDark) {
-        P6Color2.dark()
+        P6Color.dark()
     } else {
-        P6Color2.light()
+        P6Color.light()
     }
 
     val typography = if (isDark) {
@@ -48,7 +48,7 @@ fun P6Theme(
     AppLanguage{
         UseP6TextSelectionColor {
             CompositionLocalProvider(
-                P6Color2.local provides color,
+                P6Color.local provides color,
                 UIColor.local provides uiColor,
                 P6TypoGraphy.local provides typography,
                 Canvas.local provides Canvas,
