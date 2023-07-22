@@ -145,7 +145,11 @@ class RulerActionImp @Inject constructor(
             if (colResizeBar.isShow) {
                 val sizeDiff = converter.toDp(colResizeBar.offset.x - colResizeBar.anchorPointOffset.x)
                 this.changeColWidth(colIndex, sizeDiff, wbwsSt,true)
-                wsState.colResizeBarStateMs.value = colResizeBar.deactivate().hideThumb().hide()
+                wsState.colResizeBarStateMs.value = colResizeBar
+                    .deactivate()
+                    .hideThumb()
+                    .hide()
+                sc.getWbState(wsState.wbKeySt)?.needSave = true
             }
         }
     }
@@ -210,6 +214,7 @@ class RulerActionImp @Inject constructor(
                 val sizeDiff = converter.toDp(rowResizeBar.offset.y - rowResizeBar.anchorPointOffset.y)
                 this.changeRowHeight(rowIndex, sizeDiff, wbwsSt,true)
                 wsState.rowResizeBarStateMs.value = rowResizeBar.hide().hideThumb().deactivate()
+                sc.getWbState(wsState.wbKeySt)?.needSave = true
             }
         }
     }
