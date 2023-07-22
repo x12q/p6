@@ -3,6 +3,8 @@ package com.qxdzbc.p6.ui.window.workbook_tab.tab
 import androidx.compose.foundation.ContextMenuArea
 import androidx.compose.foundation.ContextMenuItem
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -11,6 +13,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.ui.common.modifier.boolBackground
 import com.qxdzbc.p6.ui.common.view.*
 import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
 import com.qxdzbc.p6.ui.theme.P6Theme
@@ -43,10 +46,13 @@ fun WorkbookTabView(
             ContextMenuItem("Close") { onClose(state.wbKey) },
         )
     }) {
-        BoolBackgroundBox(
-            boolValue = state.isSelected,
-            colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
+        BorderBox(
+            borderStyle = BorderStyle.RIGHT,
             modifier = modifier
+                .boolBackground(
+                    boolValue = state.isSelected,
+                    colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
+                )
                 .fillMaxHeight()
                 .clickable { onClick(state.wbKey) }
                 .onPointerEvent(PointerEventType.Enter) {
@@ -56,26 +62,22 @@ fun WorkbookTabView(
                     internalState.mouseOnTab = false
                 }
         ) {
-            BorderBox(
-                borderStyle = BorderStyle.RIGHT,
+            CenterAlignRow(
+                modifier = P6CommonUIModifiers.smallBoxPadding
+                    .fillMaxHeight()
             ) {
-                CenterAlignRow(
-                    modifier = P6CommonUIModifiers.smallBoxPadding
-                        .fillMaxHeight()
-                ) {
 
-                    WorkbookTabNameText(state.tabName)
+                WorkbookTabNameText(state.tabName)
 
-                    CloseWorkbookButton(
-                        onClick={
-                            if (state.needSave) {
-                                internalState.openAskToSaveDialog = true
-                            } else {
-                                onClose(state.wbKey)
-                            }
+                CloseWorkbookButton(
+                    onClick = {
+                        if (state.needSave) {
+                            internalState.openAskToSaveDialog = true
+                        } else {
+                            onClose(state.wbKey)
                         }
-                    )
-                }
+                    }
+                )
             }
         }
     }
@@ -99,8 +101,11 @@ fun WorkbookTabView(
 }
 
 
-fun main(){
+fun main() {
     testApp {
-        WorkbookTabView(state = WorkbookTabStateImp.random())
+        Row {
+            WorkbookTabView(state = WorkbookTabStateImp.random().copy(isSelected = true))
+            WorkbookTabView(state = WorkbookTabStateImp.random().copy(isSelected = false))
+        }
     }
 }

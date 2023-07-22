@@ -16,11 +16,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
+import com.qxdzbc.p6.ui.common.modifier.boolBackground
 import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
-import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.theme.P6Theme
 
@@ -117,9 +116,8 @@ object Tabs {
         content: @Composable BoxScope.() -> Unit,
     ) {
         ContextMenuArea(items = { contextMenuItems }) {
-            BoolBackgroundBox(
-                boolValue = isSelected,
-                colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
+            BorderBox(
+                borderStyle = BorderStyle.RIGHT,
                 modifier = modifier
                     .fillMaxHeight()
                     .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
@@ -127,21 +125,19 @@ object Tabs {
                         selected = isSelected,
                         onClick = onClick
                     )
+                    .fillMaxHeight()
+                    .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
+                    .boolBackground(
+                        boolValue = isSelected,
+                        colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
+                    )
             ) {
-                BorderBox(
-                    borderStyle = BorderStyle.RIGHT,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
-                ) {
-                    content(this@BorderBox)
-                }
+                content(this@BorderBox)
             }
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 fun main() {
     singleWindowApplication {
         Column {

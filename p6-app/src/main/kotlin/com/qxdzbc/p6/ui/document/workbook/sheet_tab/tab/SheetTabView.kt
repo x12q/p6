@@ -18,11 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.ui.common.modifier.boolBackground
 import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
-import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.theme.P6Theme
@@ -32,9 +31,9 @@ import com.qxdzbc.p6.ui.theme.P6Theme
 fun SheetTabView(
     state: SheetTabState,
     modifier: Modifier = Modifier,
-    onClick: (sheetName:String) -> Unit = {},
-    onRename:(sheetName:String) -> Unit = {},
-    onDelete:(sheetName:String) -> Unit = {},
+    onClick: (sheetName: String) -> Unit = {},
+    onRename: (sheetName: String) -> Unit = {},
+    onDelete: (sheetName: String) -> Unit = {},
 ) {
 
     ContextMenuArea(items = {
@@ -43,41 +42,39 @@ fun SheetTabView(
             ContextMenuItem("Delete") { onDelete(state.sheetName) }
         )
     }) {
-        BoolBackgroundBox(
-            boolValue = state.isSelected,
-            colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
-            modifier = Modifier
-                .then(modifier)
+
+        BorderBox(
+            borderStyle = BorderStyle.RIGHT,
+            modifier = modifier
                 .fillMaxHeight()
                 .clickable { onClick(state.sheetName) }
-        ){
-            BorderBox(
-                borderStyle = BorderStyle.RIGHT,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Text(state.sheetName,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .then(P6CommonUIModifiers.smallBoxPadding)
-                    ,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+                .boolBackground(
+                    boolValue = state.isSelected,
+                    colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
                 )
-            }
+        ) {
+            Text(
+                state.sheetName,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .then(P6CommonUIModifiers.smallBoxPadding),
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }
 
 
-fun main(){
+fun main() {
     singleWindowApplication {
-        val activeSheetPointer:Ms<ActiveWorksheetPointer> = ms(ActiveWorksheetPointerImp(ms("abc")))
+        val activeSheetPointer: Ms<ActiveWorksheetPointer> = ms(ActiveWorksheetPointerImp(ms("abc")))
         Column {
-            Box(modifier = Modifier.size(100.dp,30.dp)){
+            Box(modifier = Modifier.size(100.dp, 30.dp)) {
                 SheetTabView(SheetTabStateImp("abc", true))
             }
-            Box(modifier = Modifier.size(100.dp,30.dp)){
+            Box(modifier = Modifier.size(100.dp, 30.dp)) {
                 SheetTabView(SheetTabStateImp("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", false))
             }
         }
