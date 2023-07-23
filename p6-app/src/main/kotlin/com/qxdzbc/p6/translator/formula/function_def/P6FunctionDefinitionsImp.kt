@@ -28,6 +28,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
      * A list of internal function for getting wb, ws, range, cell
      */
     private val documentFunctions = listOf(
+
         object : AbstractFunctionDef() {
             fun getLazyRangeRs(
                 wbKeySt: St<WorkbookKey>,
@@ -39,20 +40,21 @@ class P6FunctionDefinitionsImp @Inject constructor(
             override val name: String = P6FunctionDefinitions.getRangeRs
             override val function: KFunction<Rse<Range>> = ::getLazyRangeRs
         },
+
         object : AbstractFunctionDef() {
             fun getCellRs(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
-            ): Rse<St<Cell>?> {
+            ): Rse<Cell?> {
                 val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
-                    it.value.getCellMs(cellAddress)
+                    it.value.getCell(cellAddress)
                 }
                 return rt
             }
 
             override val name: String = P6FunctionDefinitions.getCellRs
-            override val function: KFunction<Rse<St<Cell>?>> = ::getCellRs
+            override val function: KFunction<Rse<Cell?>> = ::getCellRs
         }
     )
 
