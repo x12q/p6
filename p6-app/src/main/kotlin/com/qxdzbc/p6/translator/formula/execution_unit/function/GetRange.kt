@@ -29,17 +29,20 @@ data class GetRange(
 ) : ExUnit, BaseFunctionExUnit() {
 
     override val functionMap by functionMapSt
+
     override val args: List<ExUnit>
         get() = listOf(wbKeyUnit, wsNameUnit, rangeAddressUnit)
+
     override fun getRangeIds(): List<RangeId> {
         return listOf(
             RangeIdImp(
-            rangeAddress = rangeAddressUnit.rangeAddress,
-            wbKeySt = wbKeyUnit.wbKeySt,
-            wsNameSt = wsNameUnit.nameSt
-        )
+                rangeAddress = rangeAddressUnit.rangeAddress,
+                wbKeySt = wbKeyUnit.wbKeySt,
+                wsNameSt = wsNameUnit.nameSt
+            )
         )
     }
+
     override fun getCellRangeExUnit(): List<ExUnit> {
         return listOf(this)
     }

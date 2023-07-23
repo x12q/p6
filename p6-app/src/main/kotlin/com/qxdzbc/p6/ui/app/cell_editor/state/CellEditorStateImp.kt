@@ -190,10 +190,10 @@ data class CellEditorStateImp (
         } else {
             newTextField?.text?.let {
                 treeExtractor.extractTree(it)
-            }?.map {
-                val ces2 = ces1.setRangeSelectorParseTree(it)
-                val ces3 = visitor.visit(it)?.let {
-                    ces2.setRangeSelectorTextElementResult(it)
+            }?.map {parseTree->
+                val ces2 = ces1.setRangeSelectorParseTree(parseTree)
+                val ces3 = visitor.visit(parseTree)?.let {textElementRs->
+                    ces2.setRangeSelectorTextElementResult(textElementRs)
                 } ?: ces2
                 ces3
             }?.component1() ?: ces1
