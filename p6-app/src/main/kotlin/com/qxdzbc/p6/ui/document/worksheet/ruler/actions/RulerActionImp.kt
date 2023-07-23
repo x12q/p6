@@ -96,7 +96,7 @@ class RulerActionImp @Inject constructor(
                 if (resizerLayout != null && resizerLayout.isAttached) {
                     val p = wsLayout.windowToLocal(resizerLayout.positionInWindow())
                     wsState.colResizeBarStateMs.value =
-                        wsState.colResizeBarStateMs.value.changePosition(p).showThumb()
+                        wsState.colResizeBarStateMs.value.setResizeBarOffset(p).showThumb()
                 }
             }
         }
@@ -116,10 +116,10 @@ class RulerActionImp @Inject constructor(
             val colResizeBar by wsState.colResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
-                val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.offset.y)
+                val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.resizeBarOffset.y)
                 wsState.colResizeBarStateMs.value = colResizeBar
-                    .changePosition(p)
-                    .setAnchor(p)
+                    .setResizeBarOffset(p)
+                    .setAnchorPointOffset(p)
                     .activate()
                     .showBar()
             }
@@ -132,8 +132,8 @@ class RulerActionImp @Inject constructor(
             if (colResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
                 if (wsLayout != null && wsLayout.isAttached) {
-                    val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.offset.y)
-                    wsState.colResizeBarStateMs.value = colResizeBar.changePosition(p).showThumb().showBar()
+                    val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.resizeBarOffset.y)
+                    wsState.colResizeBarStateMs.value = colResizeBar.setResizeBarOffset(p).showThumb().showBar()
                 }
             }
         }
@@ -143,7 +143,7 @@ class RulerActionImp @Inject constructor(
         sc.getWsState(wbwsSt)?.also { wsState ->
             val colResizeBar by wsState.colResizeBarStateMs
             if (colResizeBar.isShowBar) {
-                val sizeDiff = converter.toDp(colResizeBar.offset.x - colResizeBar.anchorPointOffset.x)
+                val sizeDiff = converter.toDp(colResizeBar.resizeBarOffset.x - colResizeBar.anchorPointOffset.x)
                 this.changeColWidth(colIndex, sizeDiff, wbwsSt,true)
                 wsState.colResizeBarStateMs.value = colResizeBar
                     .deactivate()
@@ -163,7 +163,7 @@ class RulerActionImp @Inject constructor(
             if (wsLayout != null && wsLayout.isAttached) {
                 if (resizerLayout != null && resizerLayout.isAttached) {
                     val p = wsLayout.windowToLocal(resizerLayout.positionInWindow())
-                    wsState.rowResizeBarStateMs.value = rowResizeBar.changePosition(p).showThumb()
+                    wsState.rowResizeBarStateMs.value = rowResizeBar.setResizeBarOffset(p).showThumb()
                 }
             }
         }
@@ -184,10 +184,10 @@ class RulerActionImp @Inject constructor(
             val rowResizeBar by wsState.rowResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
-                val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.offset.x)
+                val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.resizeBarOffset.x)
                 wsState.rowResizeBarStateMs.value = rowResizeBar
-                    .changePosition(p)
-                    .setAnchor(p)
+                    .setResizeBarOffset(p)
+                    .setAnchorPointOffset(p)
                     .activate()
                     .showBar()
             }
@@ -200,8 +200,8 @@ class RulerActionImp @Inject constructor(
             if (rowResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
                 if (wsLayout != null && wsLayout.isAttached) {
-                    val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.offset.x)
-                    wsState.rowResizeBarStateMs.value = rowResizeBar.changePosition(p).showThumb().showBar()
+                    val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.resizeBarOffset.x)
+                    wsState.rowResizeBarStateMs.value = rowResizeBar.setResizeBarOffset(p).showThumb().showBar()
                 }
             }
         }
@@ -211,7 +211,7 @@ class RulerActionImp @Inject constructor(
         sc.getWsState(wbwsSt)?.also { wsState ->
             val rowResizeBar by wsState.rowResizeBarStateMs
             if (rowResizeBar.isShowBar) {
-                val sizeDiff = converter.toDp(rowResizeBar.offset.y - rowResizeBar.anchorPointOffset.y)
+                val sizeDiff = converter.toDp(rowResizeBar.resizeBarOffset.y - rowResizeBar.anchorPointOffset.y)
                 this.changeRowHeight(rowIndex, sizeDiff, wbwsSt,true)
                 wsState.rowResizeBarStateMs.value = rowResizeBar.hideBar().hideThumb().deactivate()
                 sc.getWbState(wsState.wbKeySt)?.needSave = true

@@ -28,8 +28,8 @@ fun ResizeBar(
     val density = LocalDensity.current
 
     val barMod = when (state.rulerType) {
-        RulerType.Col -> Modifier.width(state.thickness).fillMaxHeight()
-        RulerType.Row -> Modifier.height(state.thickness).fillMaxWidth()
+        RulerType.Col -> Modifier.width(state.resizeBarThickness).fillMaxHeight()
+        RulerType.Row -> Modifier.height(state.resizeBarThickness).fillMaxWidth()
     }.background(P6Theme.color.uiColor.resizeBarColor)
 
     val thumbThickness = WorksheetConstants.defaultResizeCursorThumbThickness
@@ -68,8 +68,8 @@ fun ResizeBar(
         RulerType.Col -> Modifier.width(state.selectableAreaWidth)
         RulerType.Row -> Modifier.height(state.selectableAreaWidth)
     }.offset(
-        x = with(density) { state.offset.x.toDp() },
-        y = with(density) { state.offset.y.toDp() }
+        x = with(density) { state.resizeBarOffset.x.toDp() },
+        y = with(density) { state.resizeBarOffset.y.toDp() }
     )
 
 
@@ -91,7 +91,7 @@ fun main() {
             ResizeBar(
                 ResizeBarStateImp(
                     rulerType = RulerType.Row,
-                    offset = Offset(20F, 20F),
+                    resizeBarOffset = Offset(20F, 20F),
                     isShowBar = true,
                     isShowThumb = true,
                     thumbSize = 20.dp

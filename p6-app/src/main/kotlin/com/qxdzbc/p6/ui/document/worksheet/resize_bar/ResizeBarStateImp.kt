@@ -11,15 +11,15 @@ data class ResizeBarStateImp(
     override val selectableAreaWidth: Dp = WorksheetConstants.resizerThickness,
     override val isShowBar: Boolean = false,
     override val isActive: Boolean = false,
-    override val thickness: Dp = WorksheetConstants.defaultResizeCursorThickness,
-    override val offset: Offset = Offset(0F,0F),
+    override val resizeBarThickness: Dp = WorksheetConstants.defaultResizeCursorThickness,
+    override val resizeBarOffset: Offset = Offset(0F,0F),
     override val anchorPointOffset: Offset = Offset(0F,0F),
     override val isShowThumb: Boolean=false,
 ) : ResizeBarState {
 
-    override fun changePosition(newPosition: Offset): ResizeBarState {
-        if(this.offset!=newPosition){
-            return this.copy(offset = newPosition)
+    override fun setResizeBarOffset(i: Offset): ResizeBarState {
+        if(this.resizeBarOffset!=i){
+            return this.copy(resizeBarOffset = i)
         }
         return this
     }
@@ -66,9 +66,9 @@ data class ResizeBarStateImp(
         return this
     }
 
-    override fun setAnchor(anchorPoint: Offset): ResizeBarState {
-        if(anchorPoint!= this.anchorPointOffset){
-            return this.copy(anchorPointOffset = anchorPoint)
+    override fun setAnchorPointOffset(i: Offset): ResizeBarState {
+        if(i!= this.anchorPointOffset){
+            return this.copy(anchorPointOffset = i)
         }
         return this
     }
