@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.cursor.copy_cursor_range_to_clipboard.CopyCursorRangeToClipboardAction
-import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
+import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleKeyboardEventOnWsCursor
 import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
 import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
@@ -36,13 +36,13 @@ class CursorActionImp @Inject constructor(
     private val selectWholeRow: SelectWholeRowForAllSelectedCellAction,
     override val cellEditorAction: CellEditorAction,
     override val thumbAction: ThumbAction,
-    private val handleCursorKeyboardEventAction: HandleCursorKeyboardEventAction,
+    private val handleKeyboardEventOnWsCursor: HandleKeyboardEventOnWsCursor,
     private val copyCursorRangeToClipboardAction: CopyCursorRangeToClipboardAction,
     private val undoOnCursorAct: UndoRedoAction,
 ) : CursorAction,
     SelectWholeColumnForAllSelectedCellAction by selectWholeCol,
     SelectWholeRowForAllSelectedCellAction by selectWholeRow,
-    HandleCursorKeyboardEventAction by handleCursorKeyboardEventAction,
+    HandleKeyboardEventOnWsCursor by handleKeyboardEventOnWsCursor,
     PasteRangeToCursor by pasteRangeToCursor,
     CopyCursorRangeToClipboardAction by copyCursorRangeToClipboardAction,
     UndoRedoAction by undoOnCursorAct {

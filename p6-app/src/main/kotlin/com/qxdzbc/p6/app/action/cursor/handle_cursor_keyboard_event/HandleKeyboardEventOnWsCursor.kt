@@ -4,7 +4,10 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 
-interface HandleCursorKeyboardEventAction {
+/**
+ * This handles keyboard event on worksheet cursor.
+ */
+interface HandleKeyboardEventOnWsCursor {
     fun handleKeyboardEvent(keyEvent: P6KeyEvent, wbws: WbWs): Boolean
 
     /**

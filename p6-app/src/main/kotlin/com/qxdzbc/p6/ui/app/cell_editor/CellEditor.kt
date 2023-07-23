@@ -17,7 +17,7 @@ import com.qxdzbc.p6.app.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
 import com.qxdzbc.p6.ui.theme.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusStatePerWindow
 import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**
@@ -27,7 +27,7 @@ import com.qxdzbc.p6.ui.theme.P6Theme
 fun CellEditor(
     state: CellEditorState,
     action: CellEditorAction,
-    focusState:CursorFocusState,
+    focusState:CursorFocusStatePerWindow,
     size: DpSize = DpSize(400.dp,50.dp),
     modifier: Modifier = Modifier
 ) {

@@ -6,13 +6,14 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
 import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
-import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
+import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleKeyboardEventOnWsCursor
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.di.PartialTreeExtractor
@@ -33,7 +34,7 @@ import javax.inject.Singleton
 class CellEditorActionImp @Inject constructor(
     private val cellLiteralParser: CellLiteralParser,
     private val updateCellAction: UpdateCellAction,
-    private val handleCursorKeyboardEventAct: HandleCursorKeyboardEventAction,
+    private val handleCursorKeyboardEventAct: HandleKeyboardEventOnWsCursor,
     private val makeDisplayText: GenerateCellEditorTextAction,
     private val openCellEditor: OpenCellEditorAction,
     private val stateCont:StateContainer,
@@ -79,6 +80,7 @@ class CellEditorActionImp @Inject constructor(
      * **For testing only.**
      * Be careful when using this function. It directly updates the text content and will erase all the text formats. Should be used for testing only. Even so, be extra careful when use this in tests. Use [changeRawText] in the app instead.
      */
+    @P6ExperimentalApi
     override fun changeRawText(newText: String) {
         val editorState by stateCont.cellEditorStateMs
         if (editorState.isOpen) {
@@ -187,20 +189,26 @@ class CellEditorActionImp @Inject constructor(
      * Return true to consume the event and prevent further propagation.
      */
     fun handleEnter(keyEvent: P6KeyEvent):Boolean{
-        val targetCursorId = editorState.targetCursorId
-        if (keyEvent.isAltPressedAlone) {
-            val newText = editorState.currentTextField
-                .let { ctf ->
-                    ctf.copy(
-                        text = ctf.text + "\n",
-                        selection = TextRange(ctf.selection.end + 1)
-                    )
-                }
-            changeTextField(newText)
-        } else {
+        if(keyEvent.isFreeOfModificationKey){
             runFormulaOrSaveValueToCell(true)
+        }else{
+            if (keyEvent.isAltPressedAlone) {
+                // add new line if Alt key is pressed in combination with Enter key
+                val newText = editorState.currentTextField
+                    .let { ctf ->
+                        ctf.copy(
+                            text = ctf.text + "\n",
+                            selection = TextRange(ctf.selection.end + 1)
+                        )
+                    }
+                changeTextField(newText)
+            } else {
+                //
+                runFormulaOrSaveValueToCell(true)
+            }
         }
         // x: move the target cursor 1 row down
+        val targetCursorId = editorState.targetCursorId
         targetCursorId?.also {
             stateCont.getCursorStateMs(it)?.also { csMs ->
                 csMs.value = csMs.value.removeAllExceptMainCell().let{cs->

@@ -50,7 +50,7 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     private val commonReactionOnCursorChanged: CommonReactionOnCursorChanged,
     private val updateFormatIndicator:UpdateFormatIndicator,
 
-) : HandleCursorKeyboardEventAction {
+) : HandleKeyboardEventOnWsCursor {
 
     private val sc  = stateCont
     private val cellEditorAction:CellEditorAction get()=cellEditorActionLz.get()

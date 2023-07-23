@@ -29,7 +29,7 @@ import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.CellEditor
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusStatePerWindow
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
 import com.qxdzbc.p6.ui.theme.P6Theme
@@ -48,7 +48,7 @@ fun CellCursor(
     state: CursorState,
     currentDisplayedRange: RangeAddress,
     action: CursorAction,
-    focusState: CursorFocusState,
+    focusState: CursorFocusStatePerWindow,
     modifier: Modifier = Modifier,
 ) {
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> = state.cellLayoutCoorsMap

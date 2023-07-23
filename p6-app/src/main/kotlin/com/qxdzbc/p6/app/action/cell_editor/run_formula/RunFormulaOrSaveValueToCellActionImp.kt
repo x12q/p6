@@ -45,16 +45,15 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
         val wsName = editorState.targetWsName
         val editTarget = editorState.targetCell
         if (ws != null && wbKey != null && wsName != null && editTarget != null) {
-            // x: execute the formula in the editor
-            val cell = ws.getCell(editTarget)
-            val editorText = editorState.rangeSelectorTextField?.text ?: editorState.currentText
+            // execute the formula in the editor
+            val executableText = editorState.executableFormulaText
 
-            var value: String? = null
+            var notFormula: String? = null
             var formula: String? = null
-            if (TextUtils.isFormula(editorText)) {
-                formula = editorText
+            if (TextUtils.isFormula(executableText)) {
+                formula = executableText
             } else {
-                value = editorText
+                notFormula = executableText
             }
             val request = CellUpdateRequestDM(
                 cellId = CellIdDM(
@@ -63,12 +62,13 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
                     address = editTarget,
                 ),
                 cellContent = CellContentDM(
-                    cellValue = CellValue.fromAny(cellLiteralParser.parse(value)),
+                    cellValue = CellValue.fromAny(cellLiteralParser.parse(notFormula)),
                     formula = formula,
-                    originalText = formula ?: value,
+                    originalText = executableText,
                 )
             )
             if(undoable){
+                // construct command to make this action undo-able
                 val command = makeCommandToRunFormulaOrSaveValueToCell()
                 command?.also {
                     stateCont.getUndoStackMs(ws)?.also { cMs ->

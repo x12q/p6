@@ -209,7 +209,7 @@ data class CellEditorStateImp (
     }
 
     /**
-     * When set current text field. A couple of side effects will happen, including:
+     * When set current text field, a couple of side effects will happen, including:
      * - range selector allow state will be re-evaluated
      * - base on range selector state, a new text will be generated
      */
@@ -228,37 +228,6 @@ data class CellEditorStateImp (
         } else {
             val newText = newTextField.text
             val textRange = newTextField.selection
-//            val diffRs = textDiffer.runTextDif(currentTextField, newTextField)
-//            when(diffRs){
-//                is TextDiffResult.Addition -> {
-//                    this.rangeSelectorAllowState.transitWithInput(
-//                        text = newText,
-//                        inputChar = diffRs.addition.text.firstOrNull(),
-//                        inputIndex = diffRs.addition.range.start
-//                    )
-//                }
-//                is TextDiffResult.Deletion -> {
-//                    this.rangeSelectorAllowState.transit(
-//                        text = newText,
-//                        inputChar = null,
-//                        inputIndex = null,
-//                        textCursorIndex = null,
-//                        moveTextCursorWithMouse = false,
-//                        moveTextCursorWithKeyboard = false
-//                    )
-//                }
-//
-//                TextDiffResult.NoChange -> {
-//                    this.rangeSelectorAllowState.transit(
-//                        text=newText,
-//                        inputChar = null,
-//                        inputIndex = null,
-//                        textCursorIndex = null,
-//                        moveTextCursorWithMouse = false,
-//                        moveTextCursorWithKeyboard = false,
-//                    )
-//                }
-//            }
             val diffRs = textDiffer.extractTextAddition(currentTextField,newTextField)
             if(diffRs!=null){
                 this.rangeSelectorAllowState.transitWithInput(
@@ -281,7 +250,7 @@ data class CellEditorStateImp (
         val ces1 = if (newRangeSelectorState.isAllowedOrAllowMouse()) {
             this.setRangeSelectorTextField(newTextField)
         } else {
-            this
+            this.setRangeSelectorTextField(null)
         } .copy(currentTextField = newTextField, rangeSelectorAllowState = newRangeSelectorState)
 //        return ces1
         // Update the parse tree, text element result reflecting the current formula
@@ -300,6 +269,12 @@ data class CellEditorStateImp (
 
         return rt
     }
+
+    override val executableFormulaText: String
+        get() {
+            val rt = rangeSelectorTextField?.text ?: currentText
+            return rt
+        }
 
     override fun setDisplayTextField(newTextField: TextFieldValue): CellEditorStateImp {
         if (this.isOpen && allowRangeSelector) {

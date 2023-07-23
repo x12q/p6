@@ -1,11 +1,11 @@
 package com.qxdzbc.p6.ui.window.focus_state
 
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusStatePerWindow
 
 /**
- * contain focus state of views in a window
+ * contain focus state of views in a window. Each window has one of this.
  */
-interface WindowFocusState: CursorFocusState {
+interface WindowFocusState: CursorFocusStatePerWindow {
     fun freeAllFocus():WindowFocusState
 
     /**

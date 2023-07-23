@@ -1,15 +1,16 @@
 package com.qxdzbc.p6.ui.app.cell_editor.actions
 
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
-import com.qxdzbc.p6.app.action.cell_editor.handle_keyboard_event.HandleKeyboardEventOnCellEditorAction
+import com.qxdzbc.p6.app.action.cell_editor.handle_keyboard_event.HandleKeyboardEventOnCellEditor
 import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
 import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 
 interface CellEditorAction : GenerateCellEditorTextAction, OpenCellEditorAction, CycleFormulaLockStateAction,
-    HandleKeyboardEventOnCellEditorAction, CloseCellEditorAction, RunFormulaOrSaveValueToCellAction {
+    HandleKeyboardEventOnCellEditor, CloseCellEditorAction, RunFormulaOrSaveValueToCellAction {
 
     /**
      * Focus on the cell editor
@@ -22,6 +23,7 @@ interface CellEditorAction : GenerateCellEditorTextAction, OpenCellEditorAction,
      * **For testing only.**
      * Be careful when using this function. It directly updates the text content and may erase all the text formats. Should be used for testing only. Even so, be extra careful when use this in tests. Use [changeRawText] in the app.
      */
+    @P6ExperimentalApi("For testing only")
     fun changeRawText(newText: String)
 
     /**
