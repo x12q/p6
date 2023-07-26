@@ -350,6 +350,18 @@ class DocumentContainerImp @Inject constructor(
         return rt
     }
 
+    override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell> {
+        return getCellMsRs(wbKey, wsName, cellAddress).map { it.value }
+    }
+
+    override fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Rse<Cell> {
+        return getCellMsRs(wbKeySt, wsNameSt, cellAddress).map { it.value }
+    }
+
+    override fun getCellRs(cellId: CellIdDM): Rse<Cell> {
+        return getCellMsRs(cellId).map { it.value }
+    }
+
     override fun getCell(cellIdDM: CellIdDM): Cell? {
         return getCellMs(cellIdDM)?.value
     }

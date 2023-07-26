@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.document.worksheet.cell_editor.in_cell.actions
 
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import test.BaseAppStateTest
@@ -60,6 +61,7 @@ internal class CellEditorActionImpTest : BaseAppStateTest() {
 //        testBrace("{","}")
     }
 
+    @OptIn(P6ExperimentalApi::class)
     @Test
     fun updateTextField(){
         assertNull(sc.cellEditorState.currentParseTree)
@@ -74,6 +76,7 @@ internal class CellEditorActionImpTest : BaseAppStateTest() {
         assertNotEquals(pt1,pt2)
     }
 
+    @OptIn(P6ExperimentalApi::class)
     @Test
     fun closeEditor(){
         // x: pre conditions

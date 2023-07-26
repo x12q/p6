@@ -18,10 +18,10 @@ import org.mockito.kotlin.whenever
 class OperatorTestSample {
     val getBlankCellUnit = mock<GetCellUnit>().apply {
         whenever(this.runRs()) doReturn Ok(
-            ms(IndCellImp(
+            IndCellImp(
                 address = CellAddress("Q2"),
                 content = CellContentImp()
-            ))
+            )
         )
         whenever(this.run()) doReturn
                 IndCellImp(
@@ -34,12 +34,12 @@ class OperatorTestSample {
     fun makeMockCellUnit(i: Any?): GetCellUnit {
         val getIntCellUnit = mock<GetCellUnit>().apply {
             whenever(this.runRs()) doReturn Ok(
-                ms(IndCellImp(
+                IndCellImp(
                     address = CellAddress("Q2"),
                     content = CellContentImp(
                         cellValueMs = CellValue.fromAny(i).toMs()
                     )
-                ))
+                )
             )
             whenever(this.run()) doReturn
                     IndCellImp(

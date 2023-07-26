@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.app.action.cell_editor.color_formula
 
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import io.kotest.matchers.shouldBe
@@ -24,6 +25,7 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseAppStateTest(){
     fun makeAnnotatedString(){
 
     }
+    @OptIn(P6ExperimentalApi::class)
     @Test
     fun `colorFormula preserve text content on err text`(){
         test("test that color formula action preserve the text content when the text is an erroneous formula"){
@@ -40,6 +42,7 @@ internal class ColorFormulaInCellEditorActionImpTest : BaseAppStateTest(){
     }
 
 
+    @OptIn(P6ExperimentalApi::class)
     @Test
     fun `colorFormula preserve text content on ok text`(){
         val wbwsSt = ts.sc.getWbWsSt(ts.wbKey1,ts.wsn1)!!

@@ -102,6 +102,10 @@ interface DocumentContainer : WorkbookGetter {
     fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>?
     fun getCellMs(cellId: CellId): Ms<Cell>?
 
+    fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRs(cellId: CellIdDM): Rse<Cell>
+
     fun getCell(cellIdDM:CellIdDM):Cell?
     fun getCell(cellId:CellId):Cell?
 

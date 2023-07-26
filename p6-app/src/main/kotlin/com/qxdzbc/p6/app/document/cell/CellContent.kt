@@ -17,7 +17,8 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 /**
  * CellContent = formula + cell value
  */
-interface CellContent:CanCheckEmpty,Shiftable {
+interface CellContent: CanCheckEmpty,Shiftable {
+
     val originalText:String?
 
     override fun shift(
@@ -25,8 +26,13 @@ interface CellContent:CanCheckEmpty,Shiftable {
         newAnchorCell: CRAddress<Int, Int>
     ): CellContent
 
+    /**
+     * an [ExUnit] is the result of successfully translating an error-free formula.
+     */
     val exUnit: ExUnit?
+
     val cellValueAfterRun: CellValue
+
     val cellValue: CellValue
 
     fun toDm():CellContentDM
@@ -48,11 +54,17 @@ interface CellContent:CanCheckEmpty,Shiftable {
     fun colorFormula(colorMap: ColorMap, wbKey: WorkbookKey?, wsName: String?): AnnotatedString?
 
     fun reRun(): CellContent?
+
     fun reRunRs():Rse<CellContent>
+
     val editableStr: String
+
     val displayText: String
+
     fun setValueAndDeleteExUnit(cv: CellValue): CellContent
+
     fun setCellValue(cv: CellValue): CellContent
+
     val isFormula: Boolean
 
     fun toProto(): DocProtos.CellContentProto

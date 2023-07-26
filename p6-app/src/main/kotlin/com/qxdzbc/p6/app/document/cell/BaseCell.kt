@@ -21,7 +21,7 @@ abstract class BaseCell : Cell {
         return content.shortFormulaFromExUnit(wbKey, wsName)
     }
 
-    override fun colorEditableValue(
+    override fun colorEditableText(
         colorMap: ColorMap,
         wbKey: WorkbookKey?,
         wsName: String
@@ -34,7 +34,7 @@ abstract class BaseCell : Cell {
     }
 
     override fun editableText(wbKey: WorkbookKey?, wsName: String): String {
-        return this.content.originalText?:""
+        return editableText
     }
 
     override val editableText: String
@@ -44,7 +44,7 @@ abstract class BaseCell : Cell {
     override val fullFormulaFromExUnit: String? get() = content.fullFormulaFromExUnit
     override val shortFormulaFromExUnit: String? get() = content.shortFormulaFromExUnit(this.wbKey, this.wsName)
     override val isEditable: Boolean get() = true
-    override fun hasContent(): Boolean {
+    override fun isContentEmpty(): Boolean {
         return content.isNotEmpty()
     }
 

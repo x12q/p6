@@ -46,15 +46,15 @@ class P6FunctionDefinitionsImp @Inject constructor(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
-            ): Rse<Cell?> {
+            ): Rse<Ms<Cell>?> {
                 val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
-                    it.value.getCell(cellAddress)
+                    it.value.getCellMs(cellAddress)
                 }
                 return rt
             }
 
             override val name: String = P6FunctionDefinitions.getCellRs
-            override val function: KFunction<Rse<Cell?>> = ::getCellRs
+            override val function: KFunction<Rse<Ms<Cell>?>> = ::getCellRs
         }
     )
 
@@ -82,6 +82,26 @@ class P6FunctionDefinitionsImp @Inject constructor(
                             when (obj) {
                                 is Number -> {
                                     rt += (obj.toDouble())
+                                }
+                                is St<*> ->{
+                                    val v = obj.value
+                                    if(v is Cell){
+                                        val cv = v.valueAfterRun
+                                        if(cv!=null){
+                                            try {
+                                                rt += (cv as Double)
+                                            } catch (e: Throwable) {
+                                                when (e) {
+                                                    is ClassCastException -> {
+                                                        return invalidArgumentReport
+                                                    }
+                                                    else -> return FormulaErrors.Unknown.report("Unknown error").toErr()
+                                                }
+                                            }
+                                        }
+                                    }else{
+                                        return invalidArgumentReport
+                                    }
                                 }
                                 is Cell -> {
                                     val cv = obj.valueAfterRun

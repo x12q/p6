@@ -1,3 +1,5 @@
+@file:OptIn(P6ExperimentalApi::class)
+
 package test.integration
 
 import androidx.compose.runtime.getValue
@@ -6,6 +8,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
@@ -42,6 +45,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
     val cellEditorAction get() = comp.cellEditorAction()
     val cursorAction get() = comp.cursorAction()
 
+    @OptIn(P6ExperimentalApi::class)
     @Test
     fun `bug-click on another cell while editing cell editor without range selector enabled`() {
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
