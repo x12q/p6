@@ -21,16 +21,14 @@ import javax.inject.Inject
 import kotlin.reflect.KFunction
 
 class P6FunctionDefinitionsImp @Inject constructor(
-//    private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
-    private val docContSt: St<@JvmSuppressWildcards DocumentContainer>,
+    private val docCont: DocumentContainer,
 ) : P6FunctionDefinitions {
-
-    private val docCont by docContSt
 
     /**
      * A list of internal function for getting wb, ws, range, cell
      */
     private val documentFunctions = listOf(
+
         object : AbstractFunctionDef() {
             fun getLazyRangeRs(
                 wbKeySt: St<WorkbookKey>,
@@ -42,12 +40,13 @@ class P6FunctionDefinitionsImp @Inject constructor(
             override val name: String = P6FunctionDefinitions.getRangeRs
             override val function: KFunction<Rse<Range>> = ::getLazyRangeRs
         },
+
         object : AbstractFunctionDef() {
             fun getCellRs(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
-            ): Rse<St<Cell>?> {
+            ): Rse<Ms<Cell>?> {
                 val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
                     it.value.getCellMs(cellAddress)
                 }
@@ -55,7 +54,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
 
             override val name: String = P6FunctionDefinitions.getCellRs
-            override val function: KFunction<Rse<St<Cell>?>> = ::getCellRs
+            override val function: KFunction<Rse<Ms<Cell>?>> = ::getCellRs
         }
     )
 
@@ -83,6 +82,26 @@ class P6FunctionDefinitionsImp @Inject constructor(
                             when (obj) {
                                 is Number -> {
                                     rt += (obj.toDouble())
+                                }
+                                is St<*> ->{
+                                    val v = obj.value
+                                    if(v is Cell){
+                                        val cv = v.valueAfterRun
+                                        if(cv!=null){
+                                            try {
+                                                rt += (cv as Double)
+                                            } catch (e: Throwable) {
+                                                when (e) {
+                                                    is ClassCastException -> {
+                                                        return invalidArgumentReport
+                                                    }
+                                                    else -> return FormulaErrors.Unknown.report("Unknown error").toErr()
+                                                }
+                                            }
+                                        }
+                                    }else{
+                                        return invalidArgumentReport
+                                    }
                                 }
                                 is Cell -> {
                                     val cv = obj.valueAfterRun

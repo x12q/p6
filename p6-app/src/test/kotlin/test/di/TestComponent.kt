@@ -24,7 +24,6 @@ import com.qxdzbc.p6.app.action.cursor.thumb.drag_thumb_action.EndThumbDragActio
 import com.qxdzbc.p6.app.action.window.pick_active_wb.PickDefaultActiveWbAction
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.remove_all_ws.RemoveAllWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.action2.WorksheetAction2
 import com.qxdzbc.p6.app.action.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.app.action.worksheet.delete_multi.DeleteMultiCellAction
 import com.qxdzbc.p6.app.action.worksheet.load_data.LoadDataAction
@@ -49,8 +48,10 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetActionImp
+import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeActionImp
+import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.TextColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorActionImp
@@ -59,6 +60,7 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Singleton
 
 @MergeComponent(
     scope = P6AnvilScope::class,
@@ -67,35 +69,37 @@ import kotlinx.coroutines.CoroutineScope
         WindowStateModuleForTest::class,
     ],
 )
-@P6Singleton
+@Singleton
 interface TestComponent : P6Component {
+
+    val activeWindowPointer: ActiveWindowPointer
+    val stateContainer:StateContainer
 
     @AppCoroutineScope
     fun executionScope(): CoroutineScope
 
-    @P6Singleton
+    @Singleton
     fun wbTabBarAction(): WorkbookTabBarAction
 
-    @P6Singleton
+    @Singleton
     fun cellEditorAction(): CellEditorAction
 
-    @P6Singleton
+    @Singleton
     fun cellLiteralParser(): CellLiteralParser
 
-    @P6Singleton
+    @Singleton
     fun cellViewAction(): UpdateCellAction
 
-    @P6Singleton
+    @Singleton
     fun makeDisplayText(): GenerateCellEditorTextAction
 
-    @P6Singleton
+    @Singleton
     fun openCellEditorAction(): OpenCellEditorAction
     fun translatorFactory(): ExUnitFormulaTranslatorFactory
     fun visitorFactory2(): ExUnitFormulaVisitorFactory
 
     fun clickOnCellAction(): ClickOnCellAction
     fun mouseOnWsAction(): MouseOnWorksheetAction
-    fun stateContMs(): MutableState<StateContainer>
     fun workbookFactory(): WorkbookFactory
     fun createNewWbActionImp(): CreateNewWorkbookActionImp
     fun setActiveWorkbookAction(): SetActiveWorkbookAction
@@ -114,7 +118,6 @@ interface TestComponent : P6Component {
     fun newWorksheetAction(): NewWorksheetAction
     fun computeSliderSizeAction(): ComputeSliderSizeAction
     fun rulerAction(): RulerAction
-    fun worksheetAction2(): WorksheetAction2
     fun cursorEditorAction(): CellEditorAction
     fun textDiffer(): TextDiffer
     fun thumbStateFactory(): ThumbStateFactory
@@ -138,6 +141,7 @@ interface TestComponent : P6Component {
     fun loadWorkbookActionImp(): LoadWorkbookActionImp
     fun renameWorksheetActionImp(): RenameWorksheetActionImp
     fun changeRowAndColSizeActionImp(): ChangeRowAndColumnSizeActionImp
+    fun worksheetAction(): WorksheetAction
 
     @Component.Builder
     interface Builder {

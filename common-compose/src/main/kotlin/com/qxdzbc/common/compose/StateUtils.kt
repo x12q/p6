@@ -17,9 +17,11 @@ object StateUtils {
     fun <T> ms(o: T): Ms<T> {
         return mutableStateOf(o)
     }
+
     fun <T : Any?> T.toMs(): Ms<T> {
         return ms(this)
     }
+
     fun <T : Any?> T.toSt(): St<T> {
         return ms(this)
     }

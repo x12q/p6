@@ -5,8 +5,6 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.onFailure
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
@@ -23,14 +21,13 @@ import javax.inject.Inject
 
 @ContributesBinding(P6AnvilScope::class)
 class UpdateCellActionImp @Inject constructor(
-    private val cellRM: CellRM,
-    val scSt: St<@JvmSuppressWildcards StateContainer>,
-    val translatorContainerMs: St<@JvmSuppressWildcards TranslatorContainer>,
+    val scSt:StateContainer,
+    val translatorContainerMs: TranslatorContainer,
     val errorRouter: ErrorRouter,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged
 ) : UpdateCellAction {
-    val sc by scSt
-    val translatorCont by translatorContainerMs
+    val sc = scSt
+    val translatorCont = translatorContainerMs
 
     override fun updateCellDM(request: CellUpdateRequestDM, publishError: Boolean): Rse<Unit> {
         return updateCellDM(request.cellId,request.cellContent,publishError)
@@ -48,9 +45,9 @@ class UpdateCellActionImp @Inject constructor(
     }
 
     override fun updateCell(request: CellUpdateRequest, publishError: Boolean): Rse<Unit> {
-        val getWsMsRs = sc.getWsStateMsRs(request)
-        val rt = getWsMsRs.flatMap { wsStateMs ->
-            val wsMs = wsStateMs.value.wsMs
+        val getWsMsRs = sc.getWsStateRs(request)
+        val rt = getWsMsRs.flatMap { wsState ->
+            val wsMs = wsState.wsMs
             val ws by wsMs
             val wbMs = sc.getWbMs(ws.wbKeySt)
             val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
@@ -59,23 +56,25 @@ class UpdateCellActionImp @Inject constructor(
                 request.cellId.address, content
             )
 
-            updateWsRs.flatMap {
-                wsMs.value = it
-                wsStateMs.value = wsStateMs.value.refreshCellState()
+            updateWsRs.flatMap { it->
+                 wsState.refreshCellState()
                 if (wbMs != null) {
                     /*
                     the target ws belongs to a valid workbook, therefore, need
                     to refresh the whole app
                      */
-                    sc.wbCont.allWbMs.forEach { wbMs ->
-                        wbMs.value = wbMs.value.reRun().refreshDisplayText()
+                    sc.wbCont.allWbs.forEach { wbMs ->
+                        wbMs.apply{
+                            reRun()
+                            refreshDisplayText()
+                        }
                     }
                 } else {
                     /*
                     the target ws does not belong to any valid workbook, just need
                     to refresh itself.
                      */
-                    wsMs.value = ws.reRunAndRefreshDisplayText()
+                    ws.reRunAndRefreshDisplayText()
                 }
                 commonReactionWhenAppStatesChanged.onOneCellChanged(request)
                 Unit.toOk()

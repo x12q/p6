@@ -53,7 +53,7 @@ internal class UpdateCellActionImpTest {
         // x: precondition
         val wbk = ts.wbKey1
         val wsn = ts.wsn1
-        val sc by ts.stateContMs
+        val sc = ts.sc
         val ca = CellAddress("K2")
         fun gc() = sc.getCellOrDefault(wbk, wsn, ca)
         val c = gc()

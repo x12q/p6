@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.document.cell.address
 
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 
 
 /**
@@ -13,7 +13,7 @@ data class CR(
 ) : Number() {
     companion object {
         fun fromLabel(label: String): CR? {
-            val isCol = RangeAddresses.singleWholeColAddressPattern.matchEntire(label) != null
+            val isCol = RangeAddressUtils.singleWholeColAddressPattern.matchEntire(label) != null
             if (isCol) {
                 val isFixed = label[0] == '$'
                 val n=if(isFixed){
@@ -24,7 +24,7 @@ data class CR(
                 return CR(n, isFixed)
             }
 
-            val isRow = RangeAddresses.singleWholeRowAddressPattern.matchEntire(label) != null
+            val isRow = RangeAddressUtils.singleWholeRowAddressPattern.matchEntire(label) != null
             if (isRow) {
                 val isFixed = label[0] == '$'
                 val n = if(isFixed){

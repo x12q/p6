@@ -32,7 +32,7 @@ class FormulaBarStateImp(
                         colorKeys = cellRangeExUnits,
                         colors =  windowState.formulaColorGenerator.getColors(cellRangeExUnits.size)
                     )
-                    return cell.colorEditableValue(colorMap,wsState.wbKey, wsState.name)
+                    return cell.colorEditableText(colorMap,wsState.wbKey, wsState.name)
                 }else{
                     return  AnnotatedString ("")
                 }

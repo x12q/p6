@@ -65,14 +65,14 @@ class ExUnitFormulaTranslatorTest {
                 }
             )
         ).toMs()
-        wsNameSt = ts.appState.docCont.getWsNameSt(wbKeySt,ts.wsn1)!!
+        wsNameSt = ts.appState.documentContainer.getWsNameSt(wbKeySt,ts.wsn1)!!
         translator = ExUnitFormulaTranslator(
             treeExtractor = TreeExtractorImp(),
             visitor = ExUnitFormulaVisitor(
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
                 functionMapMs = functionMap,
-                docContMs = ts.appState.docContMs,
+                docCont = ts.appState.documentContainer,
             )
         )
     }

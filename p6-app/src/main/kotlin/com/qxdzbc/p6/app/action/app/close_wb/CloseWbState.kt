@@ -6,6 +6,5 @@ import com.qxdzbc.p6.ui.window.state.WindowState
 
 data class CloseWbState(
     val wbCont: WorkbookContainer,
-    val translatorContainer: TranslatorContainer,
     val respectiveWindowState: WindowState?,
 )

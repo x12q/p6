@@ -1,21 +1,19 @@
 package com.qxdzbc.p6.ui.window
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import com.qxdzbc.p6.app.common.utils.Loggers
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.PlaceHolder
 
 
@@ -38,22 +36,23 @@ fun WindowFrame(
         .fillMaxSize()
     ) {
         Column {
-            BorderBox(style = BorderStyle.BOT, modifier = Modifier.fillMaxWidth()) {
+            val stdBarMod = Modifier.height(30.dp).fillMaxWidth()
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = Modifier.fillMaxWidth()) {
                 menu()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = P6R.composite.mod.stdBar){
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = stdBarMod){
                 workbookTab()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = P6R.composite.mod.stdBar) {
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = stdBarMod) {
                 formulaBar()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = Modifier.weight(1.0F)) {
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = Modifier.weight(1.0F)) {
                 workbookView()
             }
-            BorderBox(style = BorderStyle.BOT, modifier = P6R.composite.mod.stdBar) {
+            BorderBox(borderStyle = BorderStyle.BOT, modifier = stdBarMod) {
                 toolTab()
             }
-            BorderBox(style = BorderStyle.NONE, modifier = P6R.composite.mod.stdBar) {
+            BorderBox(borderStyle = BorderStyle.NONE, modifier = stdBarMod) {
                 statusBar()
             }
         }
@@ -64,7 +63,7 @@ fun WindowFrame(
 fun main() {
     singleWindowApplication {
         Box(
-            modifier = P6R.size.mod.fillMaxSize
+            modifier = Modifier.fillMaxSize()
         ) {
             WindowFrame(
                 {

@@ -22,7 +22,6 @@ interface RulerAction : ChangeRowAndColumnSizeAction {
     fun moveRowResizer(currentPos: Offset, wbwsSt: WbWsSt)
     fun finishRowResizing(rowIndex: Int, wbwsSt: WbWsSt,converter: FloatToDpConverter)
     fun startDragSelection(mousePosition: Offset, rulerSig: RulerSig)
-//    fun startDragSelection(itemIndex:Int, rulerState: RulerState)
     fun makeMouseDragSelectionIfPossible(mousePosition: Offset, rulerSig: RulerSig)
     fun stopDragSelection(rulerSig: RulerSig)
     fun updateItemLayout(itemIndex: Int, itemLayout: LayoutCoorWrapper, rulerSig: RulerSig)

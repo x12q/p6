@@ -18,7 +18,7 @@ internal class CellBackgroundColorSelectorActionTest :BaseAppStateTest(){
     @BeforeTest
     fun b(){
         action = CellBackgroundColorSelectorAction(
-            ts.stateContMs,
+            ts.sc,
             mock(),
             mock()
         )
@@ -26,18 +26,18 @@ internal class CellBackgroundColorSelectorActionTest :BaseAppStateTest(){
 
     @Test
     fun clearColor() {
-        ts.stateCont.getCellBackgroundColorSelectorStateMs(ts.window1Id)!!.value = e
-        ts.stateCont.getCellBackgroundColorSelectorState(ts.window1Id) shouldBe e
+        ts.sc.getCellBackgroundColorSelectorStateMs(ts.window1Id)!!.value = e
+        ts.sc.getCellBackgroundColorSelectorState(ts.window1Id) shouldBe e
 
         action.clearColor(ts.window1Id)
-        ts.stateCont.getCellBackgroundColorSelectorState(ts.window1Id) shouldBe ColorSelectorStateImp(null)
+        ts.sc.getCellBackgroundColorSelectorState(ts.window1Id) shouldBe ColorSelectorStateImp(null)
     }
 
     @Test
     fun pickColor() {
-        ts.stateCont.getCellBackgroundColorSelectorState(ts.window1Id) shouldNotBe e
+        ts.sc.getCellBackgroundColorSelectorState(ts.window1Id) shouldNotBe e
         action.pickColor(ts.window1Id,color)
-        ts.stateCont.getCellBackgroundColorSelectorState(ts.window1Id) shouldBe e
+        ts.sc.getCellBackgroundColorSelectorState(ts.window1Id) shouldBe e
         verify(action.updateCellFormatAction,times(1)).setBackgroundColorOnSelectedCells(color,undoable=true)
 
     }

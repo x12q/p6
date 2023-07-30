@@ -10,9 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
-import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**
  * Standard button used in the entire app
@@ -21,18 +20,17 @@ import com.qxdzbc.p6.ui.theme.P6AllWhiteColors
 fun MButton(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
-    isPrimary: Boolean = false,
     content: @Composable () -> Unit = {}
 ) {
     Button(
         onClick = onClick,
-        shape = P6R.shape.buttonShape,
+        shape = P6Theme.shape.textFieldShape,
         modifier = modifier.height(24.dp).widthIn(71.dp),
         contentPadding = PaddingValues(horizontal = 5.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.secondary,
+            backgroundColor = P6Theme.color.uiColor.enabledButton,
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colors.onSecondary)
+        border = BorderStroke(1.dp, P6Theme.color.uiColor.buttonBorder)
     ) {
         content()
     }
@@ -55,7 +53,7 @@ fun MButton(
 
 fun main() {
     P6TestApp {
-        MaterialTheme(colors = P6AllWhiteColors) {
+        P6Theme  {
             Column {
                 MButton {
                     BasicText("Ok")

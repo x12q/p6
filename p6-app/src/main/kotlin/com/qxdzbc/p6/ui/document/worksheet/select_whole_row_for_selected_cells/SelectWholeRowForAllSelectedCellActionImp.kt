@@ -1,15 +1,11 @@
 package com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -17,18 +13,19 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class SelectWholeRowForAllSelectedCellActionImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont:StateContainer,
 ) : SelectWholeRowForAllSelectedCellAction {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
-     fun selectWholeRowForAllSelectedCells(wsStateMs:Ms<WorksheetState>?) {
-        wsStateMs?.also {
-            val wsState by wsStateMs
-            val cursorStateMs = wsStateMs.value.cursorStateMs
+     fun selectWholeRowForAllSelectedCells(wsState:WorksheetState?) {
+        wsState?.also {
+            val cursorStateMs = wsState.cursorStateMs
             val cursorState: CursorState by cursorStateMs
             val selectRows: List<Int> = cursorState.allFragCells.map { it.rowIndex }
             val rowFromRange: List<IntRange> = cursorState.allRanges.map {
@@ -38,7 +35,7 @@ class SelectWholeRowForAllSelectedCellActionImp @Inject constructor(
 
             newCursor = newCursor.addFragRanges(
                 selectRows.map { row ->
-                    RangeAddresses.wholeRow(row)
+                    RangeAddressUtils.rangeForWholeRow(row)
                 }
             ).addFragRanges(
                 rowFromRange.map { rowRange ->
@@ -52,11 +49,11 @@ class SelectWholeRowForAllSelectedCellActionImp @Inject constructor(
         }
      }
     override fun selectWholeRowForAllSelectedCells(wbwsSt: WbWsSt) {
-        selectWholeRowForAllSelectedCells(sc.getWsStateMs(wbwsSt))
+        selectWholeRowForAllSelectedCells(sc.getWsState(wbwsSt))
     }
 
     override fun selectWholeRowForAllSelectedCells(wbws: WbWs) {
-        selectWholeRowForAllSelectedCells(sc.getWsStateMs(wbws))
+        selectWholeRowForAllSelectedCells(sc.getWsState(wbws))
     }
 
 }

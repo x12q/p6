@@ -1,24 +1,22 @@
 package com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size
 
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.Dp
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.command.BaseCommand
 import com.qxdzbc.p6.app.command.Command
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ChangeRowAndColumnSizeActionImp @Inject constructor(
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>
+    private val stateCont:StateContainer
 ) : ChangeRowAndColumnSizeAction {
 
-    private val sc by stateContSt
+    private val sc  = stateCont
 
     fun makeCommandToChageColWidth(colIndex: Int, sizeDiff: Dp, wbwsSt: WbWsSt): Command {
         val command = object : BaseCommand() {
@@ -28,17 +26,17 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
             val _oldWidth = sc.getWsState(_wbwsSt)?.getColumnWidth(_colIndex)
 
             override fun run() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
-                    wsStateMs.value = wsStateMs.value.changeColWidth(_colIndex, _sizeDiff)
+                sc.getWsState(_wbwsSt)?.also { wsState ->
+                    wsState.changeColWidth(_colIndex, _sizeDiff)
                 }
             }
 
             override fun undo() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
+                sc.getWsState(_wbwsSt)?.also { wsState ->
                     if(_oldWidth!=null){
-                        wsStateMs.value = wsStateMs.value.changeColWidth(_colIndex, -_sizeDiff)
+                        wsState.changeColWidth(_colIndex, -_sizeDiff)
                     }else{
-                        wsStateMs.value = wsStateMs.value.restoreColumnWidthToDefault(_colIndex)
+                        wsState.restoreColumnWidthToDefault(_colIndex)
                     }
                 }
             }
@@ -53,8 +51,8 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
                 it.value = it.value.add(command)
             }
         }
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            wsStateMs.value = wsStateMs.value.changeColWidth(colIndex, sizeDiff)
+        sc.getWsState(wbwsSt)?.also { wsState ->
+            wsState.changeColWidth(colIndex, sizeDiff)
         }
     }
 
@@ -66,17 +64,17 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
             val _oldHeight = sc.getWsState(_wbwsSt)?.getRowHeight(_rowIndex)
 
             override fun run() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
-                    wsStateMs.value = wsStateMs.value.changeRowHeight(_rowIndex, _sizeDiff)
+                sc.getWsState(_wbwsSt)?.also { wsState ->
+                    wsState.changeRowHeight(_rowIndex, _sizeDiff)
                 }
             }
 
             override fun undo() {
-                sc.getWsStateMs(_wbwsSt)?.also { wsStateMs ->
+                sc.getWsState(_wbwsSt)?.also { wsState ->
                     if(_oldHeight!=null){
-                        wsStateMs.value = wsStateMs.value.changeRowHeight(_rowIndex, -_sizeDiff)
+                        wsState.changeRowHeight(_rowIndex, -_sizeDiff)
                     }else{
-                        wsStateMs.value = wsStateMs.value.restoreRowHeightToDefault(_rowIndex)
+                        wsState.restoreRowHeightToDefault(_rowIndex)
                     }
                 }
             }
@@ -92,9 +90,8 @@ class ChangeRowAndColumnSizeActionImp @Inject constructor(
             }
         }
         
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            val newWsState = wsStateMs.value.changeRowHeight(rowIndex, sizeDiff)
-            wsStateMs.value = newWsState
+        sc.getWsState(wbwsSt)?.also { wsState ->
+            wsState.changeRowHeight(rowIndex, sizeDiff)
         }
     }
 }

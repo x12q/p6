@@ -3,13 +3,13 @@ package com.qxdzbc.p6.ui.document.worksheet.ruler
 
 internal class RulerActionImpTest {
 
-//    lateinit var wsStateMs: Ms<WorksheetState>
+//    lateinit var wsState: WorksheetState
 //    lateinit var rowRulerStateMs: Ms<RulerState>
 //    lateinit var colRulerStateMs: Ms<RulerState>
 //    lateinit var rowRulerActions: RulerActionImp
 //    lateinit var colRulerActions: RulerActionImp
 //    lateinit var ws: Worksheet
-//    val wsState get() = wsStateMs.value
+//    val wsState get() = wsState.value
 //
 //    lateinit var rowLayoutMap: Map<Int, LayoutCoorWrapper>
 //    lateinit var rowRectMap: Map<Int, Rect>
@@ -29,7 +29,7 @@ internal class RulerActionImpTest {
 //        )
 //        val testSample = TestSample()
 //        testSample.wbContMs.value = testSample.wbContMs.value.overwriteWB(wb)
-//        wsStateMs = ms(
+//        wsState = ms(
 //            WorksheetStateImp.default(
 //                wsName=ws.name,
 //                workbookStateIDMs = ms(
@@ -38,8 +38,8 @@ internal class RulerActionImpTest {
 //                wbContMs = testSample.wbContMs
 //            )!!
 //        )
-//        rowRulerStateMs = wsStateMs.value.rowRulerStateMs
-//        colRulerStateMs = wsStateMs.value.colRulerStateMs
+//        rowRulerStateMs = wsState.value.rowRulerStateMs
+//        colRulerStateMs = wsState.value.colRulerStateMs
 //
 //        rowRectMap = mutableMapOf()
 //        rowLayoutMap = emptyMap()

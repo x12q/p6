@@ -1,25 +1,24 @@
 package com.qxdzbc.p6.app.action.app.get_wb
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.ActionErrors
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class GetWorkbookActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>
+    val stateCont: StateContainer
 ) : GetWorkbookAction {
 
-    val sc by stateContSt
+    val sc = stateCont
 
     override fun getWbRs(request: GetWorkbookRequest): Rse<Workbook> {
         when{

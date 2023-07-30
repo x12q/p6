@@ -19,8 +19,8 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
 /**
  * Content = Formula + value
- * A class that holds content (value and formula) of a cell.
- * This implementation hold a mutable [CellValue] instance([cellValueMs]), whenever [cellValueAfterRun] is access, a new instance of cell value is computed. This is for auto formula computation
+ * This is a class that holds content (value and formula) of a cell.
+ * This implementation hold a mutable state of [CellValue] ([cellValueMs]), whenever [cellValueAfterRun] is access, a new instance of cell value is computed. This is for auto formula computation.
  */
 data class CellContentImp(
     private val cellValueMs: Ms<CellValue> = ms(CellValue.empty),

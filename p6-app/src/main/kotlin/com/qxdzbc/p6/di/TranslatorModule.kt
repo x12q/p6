@@ -17,30 +17,33 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementVisitor
 import dagger.Binds
 import dagger.Provides
+import javax.inject.Singleton
 
-@dagger.Module
+import dagger.Module
+@Module
 interface TranslatorModule {
+
     @Binds
-    @P6Singleton
+    @Singleton
     @TextElementVisitorQ
     fun TextElementVisitor(i: TextElementVisitor): FormulaBaseVisitor<TextElementResult>
 
     @Binds
-    @P6Singleton
+    @Singleton
     @PartialCellRangeExtractorQ
     fun PartialCellRangeExtractor(i: PartialTextElementTranslator): P6Translator<TextElementResult>
 
     @Binds
-    @P6Singleton
+    @Singleton
     @PartialTreeExtractor
     fun PartialFormulaTreeExtractor(i: PartialFormulaTreeExtractor): TreeExtractor
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun TreeExtractor(i: TreeExtractorImp): TreeExtractor
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun P6FunctionDefs(p6FunctionDef: P6FunctionDefinitionsImp): P6FunctionDefinitions
 
     companion object {
@@ -50,13 +53,13 @@ interface TranslatorModule {
         }
 
         @Provides
-        @P6Singleton
+        @Singleton
         fun FunctionMapMs(fm: FunctionMap): Ms<FunctionMap> {
             return fm.toMs()
         }
 
         @Provides
-        @P6Singleton
+        @Singleton
         fun FunctionMapSt(i: Ms<FunctionMap>): St<FunctionMap> {
             return i
         }

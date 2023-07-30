@@ -1,16 +1,12 @@
 package com.qxdzbc.p6.app.action.app.save_wb
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.file.saver.P6Saver
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouters.publishErrToWindowIfNeed
@@ -19,21 +15,20 @@ import com.qxdzbc.p6.ui.file.P6FileSaverErrors
 import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.isRegularFile
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class SaveWorkbookActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateCont: StateContainer,
     val errorRouter: ErrorRouter,
     val saver: P6Saver,
     private val replaceWbKeyAct: ReplaceWorkbookKeyAction,
 ) : SaveWorkbookAction {
 
-    private val sc by stateContSt
-    private var wbCont by sc.wbContMs
-    private var appState by sc.appStateMs
+    private val sc = stateCont
 
     override fun saveWorkbookForRpc(
         wbKey: WorkbookKey,
@@ -87,7 +82,7 @@ class SaveWorkbookActionImp @Inject constructor(
             is Ok -> {
                 if (wbKey.path != savedPath) {
                     // x: wb was saved to a new path, need to update its path
-                    sc.getWbStateMsRs(wbKey)
+                    sc.getWbStateRs(wbKey)
                         .onFailure {
                             if (publishError) {
                                 errorRouter.publishToWindow(it, wbKey)
@@ -102,12 +97,12 @@ class SaveWorkbookActionImp @Inject constructor(
                                     .publishErrToWindowIfNeed(errorRouter, windowId)
                             }
 
-                            wbStateMs.value = wbStateMs.value.setNeedSave(false)
+                            wbStateMs.needSave = false
                         }
                 } else {
                     // x: same path, no need to update wb path
-                    sc.getWbStateMs(wbKey)?.also {
-                        it.value = it.value.setNeedSave(false)
+                    sc.getWbState(wbKey)?.also {
+                        it.needSave = false
                     }
                 }
             }

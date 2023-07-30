@@ -7,7 +7,7 @@ import test.TestSample
 class SetActiveWindowActionImpTest {
     lateinit var ts: TestSample
     lateinit var action: SetActiveWindowAction
-    val sc get()=ts.stateContMs().value
+    val sc get()=ts.sc
 
     @BeforeTest
     fun b() {
@@ -18,7 +18,7 @@ class SetActiveWindowActionImpTest {
 
     @Test
     fun setActiveWd(){
-        val pointer by ts.appState.activeWindowPointerMs
+        val pointer = ts.activeWindowPointer
         val wid = ts.window2Id
         assertTrue(pointer.windowId != wid)
         action.setActiveWindow(wid)

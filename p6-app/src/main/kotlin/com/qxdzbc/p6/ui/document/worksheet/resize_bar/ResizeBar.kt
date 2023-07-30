@@ -10,30 +10,36 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.common.compose.view.testApp
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
+import com.qxdzbc.p6.ui.document.worksheet.resize_bar.components.ResizeBarBar
+import com.qxdzbc.p6.ui.document.worksheet.resize_bar.components.ResizeBarThumb
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.theme.P6Theme
 
+/**
+ * A resize bar is a hair-line bar that shows up when users drag-to-resize a bar or a column. A resize bar always stretch out to the length or width of the current worksheet.
+ */
 @Composable
 fun ResizeBar(
     state: ResizeBarState
 ) {
     val density = LocalDensity.current
-    val barMod = when (state.dimen) {
-        RulerType.Col -> Modifier.width(state.thickness).fillMaxHeight()
-        RulerType.Row -> Modifier.height(state.thickness).fillMaxWidth()
-    }
-        .background(Color.Black)
 
-    val thumbThickness = P6R.size.value.defaultResizeCursorThumbThickness
+    val barMod = when (state.rulerType) {
+        RulerType.Col -> Modifier.width(state.resizeBarThickness).fillMaxHeight()
+        RulerType.Row -> Modifier.height(state.resizeBarThickness).fillMaxWidth()
+    }.background(P6Theme.color.uiColor.resizeBarColor)
 
-    val thumbMod = when (state.dimen) {
+    val thumbThickness = WorksheetConstants.defaultResizeCursorThumbThickness
+
+    val thumbModifier = when (state.rulerType) {
         RulerType.Col -> {
             Modifier
                 .width(thumbThickness)
                 .height(
-                    state.size
+                    state.thumbSize
                 )
         }
 
@@ -41,54 +47,54 @@ fun ResizeBar(
             Modifier
                 .height(thumbThickness)
                 .width(
-                    state.size
+                    state.thumbSize
                 )
 
         }
     }
         .background(Color.Black)
 
-    val barAlignmentValue = when (state.dimen) {
+    val barAlignmentValue = when (state.rulerType) {
         RulerType.Col -> Alignment.TopCenter
         RulerType.Row -> Alignment.CenterStart
     }
 
-    val thumbAlignmentValue = when (state.dimen) {
+    val thumbAlignmentValue = when (state.rulerType) {
         RulerType.Col -> Alignment.CenterEnd
         RulerType.Row -> Alignment.BottomCenter
     }
 
-    val boxMod = when (state.dimen) {
+    val boxModifier = when (state.rulerType) {
         RulerType.Col -> Modifier.width(state.selectableAreaWidth)
         RulerType.Row -> Modifier.height(state.selectableAreaWidth)
     }.offset(
-        with(density) { state.offset.x.toDp() },
-        with(density) { state.offset.y.toDp() }
+        x = with(density) { state.resizeBarOffset.x.toDp() },
+        y = with(density) { state.resizeBarOffset.y.toDp() }
     )
 
 
-    MBox(modifier = boxMod) {
-        if (state.isShow) {
-            MBox(modifier = barMod.align(barAlignmentValue))
+    MBox(modifier = boxModifier) {
+        if (state.isShowBar) {
+            ResizeBarBar(modifier = barMod.align(barAlignmentValue))
         }
         if (state.isShowThumb) {
-            MBox(
-                modifier = thumbMod.align(if (state.isShow) barAlignmentValue else thumbAlignmentValue)
+            ResizeBarThumb(
+                modifier = thumbModifier.align(if (state.isShowBar) barAlignmentValue else thumbAlignmentValue)
             )
         }
     }
 }
 
 fun main() {
-    P6TestApp {
+    testApp {
         MBox(modifier = Modifier.size(300.dp, 300.dp).border(1.dp, Color.Red)) {
             ResizeBar(
                 ResizeBarStateImp(
-                    dimen = RulerType.Row,
-                    offset = Offset(20F, 20F),
-                    isShow = true,
+                    rulerType = RulerType.Row,
+                    resizeBarOffset = Offset(20F, 20F),
+                    isShowBar = true,
                     isShowThumb = true,
-                    size = 20.dp
+                    thumbSize = 20.dp
                 )
             )
         }

@@ -1,41 +1,28 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.MutableState
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.ui.app.ActiveWindowPointer
+import com.qxdzbc.p6.app.err.ErrorContainer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.ui.window.state.WindowState
 
 /**
- * A fixed point in the app, holding all the state
+ * The root of all the state objects in the app. Although all state objects can be accessed via the inject graph. This interface act as a formal and referencable root.
  */
 interface AppState {
+    /**
+     * There's only one cell editor for the entire app.
+     */
     val cellEditorStateMs:Ms<CellEditorState>
     var cellEditorState: CellEditorState
 
-    val subAppStateContMs: Ms<SubAppStateContainer>
-    var subAppStateCont: SubAppStateContainer
-
-    val activeWindowPointerMs: Ms<ActiveWindowPointer>
-    var activeWindowPointer: ActiveWindowPointer
-
-    val activeWindowStateMs: Ms<WindowState>?
-    val activeWindowState: WindowState?
-
-    val errorContainerMs: MutableState<ErrorContainer>
-    var errorContainer: ErrorContainer
+    val stateCont: StateContainer
+    val documentContainer: DocumentContainer
+    val translatorContainer: TranslatorContainer
 
     /**
-     * Extract information related to a workbook key. Such as the workbook the key is pointing to, the window in which the workbook locates.
+     * Error container at the app level. This is the fall-back error container when no other error container (workbook, worksheet, etc.) can handle an error.
      */
-    @Deprecated("dont use, pending to be deleted")
-    fun queryStateByWorkbookKey(workbookKey: WorkbookKey): QueryByWorkbookKeyResult
-    val docContMs: Ms<DocumentContainer>
-    var docCont: DocumentContainer
-    var translatorContainer: TranslatorContainer
-    val translatorContMs: Ms<TranslatorContainer>
+    val appErrorContainerMs: Ms<ErrorContainer>
+    var appErrorContainer: ErrorContainer
 }
 
 

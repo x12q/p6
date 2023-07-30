@@ -3,17 +3,15 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor.actions
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.github.michaelbull.result.onSuccess
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.cursor.copy_cursor_range_to_clipboard.CopyCursorRangeToClipboardAction
-import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleCursorKeyboardEventAction
+import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleKeyboardEventOnWsCursor
 import com.qxdzbc.p6.app.action.cursor.paste_range_to_cursor.PasteRangeToCursor
 import com.qxdzbc.p6.app.action.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -24,30 +22,32 @@ import com.qxdzbc.p6.ui.document.worksheet.select_whole_col_for_selected_cell.Se
 import com.qxdzbc.p6.ui.document.worksheet.select_whole_row_for_selected_cells.SelectWholeRowForAllSelectedCellAction
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class, boundType = CursorAction::class)
 class CursorActionImp @Inject constructor(
     private val wsAction: WorksheetAction,
-    private val stateContSt: St<@JvmSuppressWildcards StateContainer>,
+    private val stateCont: StateContainer,
     private val formulaColorGenerator: FormulaColorGenerator,
     private val pasteRangeToCursor: PasteRangeToCursor,
     private val selectWholeCol: SelectWholeColumnForAllSelectedCellAction,
     private val selectWholeRow: SelectWholeRowForAllSelectedCellAction,
     override val cellEditorAction: CellEditorAction,
     override val thumbAction: ThumbAction,
-    private val handleCursorKeyboardEventAction: HandleCursorKeyboardEventAction,
+    private val handleKeyboardEventOnWsCursor: HandleKeyboardEventOnWsCursor,
     private val copyCursorRangeToClipboardAction: CopyCursorRangeToClipboardAction,
     private val undoOnCursorAct: UndoRedoAction,
 ) : CursorAction,
     SelectWholeColumnForAllSelectedCellAction by selectWholeCol,
     SelectWholeRowForAllSelectedCellAction by selectWholeRow,
-    HandleCursorKeyboardEventAction by handleCursorKeyboardEventAction,
+    HandleKeyboardEventOnWsCursor by handleKeyboardEventOnWsCursor,
     PasteRangeToCursor by pasteRangeToCursor,
     CopyCursorRangeToClipboardAction by copyCursorRangeToClipboardAction,
     UndoRedoAction by undoOnCursorAct {
-    private val sc by stateContSt
+
+    private val sc = stateCont
 
     /**
      * Get a map of [RangeAddress] and color from the cell which the cell cursor is currently at
@@ -74,30 +74,30 @@ class CursorActionImp @Inject constructor(
 
             //highlight those that have identity == identity of the rangeselector | target cursor
             // wbws == current wbws showing on the screen
-            val colors = formulaColorGenerator.getColors(ces.displayTextElementResult?.cellRangeElements?.size?:0)
+            val colors = formulaColorGenerator.getColors(ces.displayTextElementResult?.cellRangeElements?.size ?: 0)
 
             if (ces.targetCursorId != null) {
-                var ranges = mapOf<Int,RangeAddress>()
+                var ranges = mapOf<Int, RangeAddress>()
                 ranges = if (ces.targetCursorId?.wbKey == wbws.wbKey) {
-                    if(ces.targetCursorId?.wsName == wbws.wsName){
+                    if (ces.targetCursorId?.wsName == wbws.wsName) {
                         ces.displayTextElementResult?.cellRangeElements?.withIndex()
-                            ?.filter {(i,item)->
+                            ?.filter { (i, item) ->
                                 item.wbSuffix == null && item.wsSuffix == null
                             } ?: emptyList()
-                    }else{
-                        ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter {(i,item)->
+                    } else {
+                        ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter { (i, item) ->
                             val c2 = item.wsSuffix?.wsName == wbws.wsName
                             c2
                         } ?: emptyList()
                     }
                 } else {
-                    ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter {(i,item)->
+                    ces.displayTextElementResult?.cellRangeElements?.withIndex()?.filter { (i, item) ->
                         val c2 = item.wsSuffix?.wsName == wbws.wsName
                         val c1 = item.wbSuffix?.toWbKey() == wbws.wbKey
                         c2 && c1
                     } ?: emptyList()
-                }.mapNotNull {(i,item)->
-                    RangeAddresses.fromLabelRs(item.cellRangeLabel).component1()?.let{
+                }.mapNotNull { (i, item) ->
+                    RangeAddressUtils.rangeFromLabelRs(item.cellRangeLabel).component1()?.let {
                         i to it
                     }
                 }.toMap()

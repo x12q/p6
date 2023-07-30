@@ -7,6 +7,9 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import java.nio.file.Path
 
+/**
+ * An interface only for getting [Workbook]
+ */
 interface WorkbookGetter{
     val allWbs:List<Workbook>
     val allWbMs:List<Ms<Workbook>>

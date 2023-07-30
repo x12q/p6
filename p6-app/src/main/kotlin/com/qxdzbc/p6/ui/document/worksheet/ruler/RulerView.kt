@@ -2,7 +2,6 @@ package com.qxdzbc.p6.ui.document.worksheet.ruler
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,16 +15,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.p6.build.DebugFunctions.debug
 import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -38,11 +39,11 @@ fun RulerView(
     val dimen = state.type
     val slider: GridSlider = state.sliderMs.value
     val itemIndexRange: IntRange = if (dimen == RulerType.Row) slider.visibleRowRange else slider.visibleColRange
-//    Loggers.renderLogger.debug("render ruler")
     val firstIndex: Int = itemIndexRange.first
     val lastIndex: Int = itemIndexRange.last
     val density = LocalDensity.current
-    Surface(color = MaterialTheme.colors.primaryVariant,
+    Surface(
+        color = P6Theme.color.uiColor.rulerBackground,
         modifier = Modifier
             .onGloballyPositioned {
                 rulerAction.updateRulerLayout(it, state,)
@@ -77,7 +78,7 @@ fun RulerView(
                             height = state.getItemSizeOrDefault(itemIndex)
                         )
                         BorderBox(
-                            style = bs,
+                            borderStyle = bs,
                             modifier = Modifier
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {
@@ -104,11 +105,11 @@ fun RulerView(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .height(P6R.size.value.resizerThickness)
+                                .height(WorksheetConstants.resizerThickness)
                                 .fillMaxWidth()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomStart)
-                                .pointerHoverIcon(P6R.mouse.icon.downResize)
+                                .pointerHoverIcon(P6Theme.icons.downResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showRowResizeBarThumb(itemIndex,state)
                                 }
@@ -159,7 +160,7 @@ fun RulerView(
                             height = size,
                         )
                         BorderBox(
-                            style = bs,
+                            borderStyle = bs,
                             modifier = Modifier
                                 .size(itemSize)
                                 .onPointerEvent(PointerEventType.Press) {
@@ -185,11 +186,11 @@ fun RulerView(
                                 .onGloballyPositioned {
                                     rulerAction.updateResizerLayout(itemIndex, it,state)
                                 }
-                                .width(P6R.size.value.resizerThickness)
+                                .width(WorksheetConstants.resizerThickness)
                                 .fillMaxHeight()
                                 .background(Color.Magenta.debug())
                                 .align(Alignment.BottomEnd)
-                                .pointerHoverIcon(P6R.mouse.icon.rightResize)
+                                .pointerHoverIcon(P6Theme.icons.rightResize)
                                 .onPointerEvent(PointerEventType.Enter) {
                                     rulerAction.showColResizeBarThumb(itemIndex,state)
                                 }

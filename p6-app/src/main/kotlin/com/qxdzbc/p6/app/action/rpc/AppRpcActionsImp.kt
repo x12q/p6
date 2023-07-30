@@ -7,16 +7,17 @@ import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_active_wb.SetActiveWorkbookAction
 import com.qxdzbc.p6.app.action.app.set_wbkey.ReplaceWorkbookKeyAction
-import com.qxdzbc.p6.app.action.workbook.add_ws.CreateNewWorksheetAction
+import com.qxdzbc.p6.app.action.workbook.create_new_ws.CreateNewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.delete_worksheet.DeleteWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetAction
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetAction
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class, boundType=AppRpcActions::class)
 class AppRpcActionsImp @Inject constructor(
     private val addWsAction: CreateNewWorksheetAction,

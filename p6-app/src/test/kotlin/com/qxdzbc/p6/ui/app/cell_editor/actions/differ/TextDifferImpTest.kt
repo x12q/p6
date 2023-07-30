@@ -57,13 +57,10 @@ internal class TextDifferImpTest{
     }
 
     @Test
-    fun replace(){
-
-
-
-        val diff = TextDifferImp()
+    fun extractTextAddition(){
+        val differ = TextDifferImp()
         val t2 = TextFieldValue("abc(45",selection = TextRange(4))
-        val r=diff.extractTextAddition(
+        val r=differ.extractTextAddition(
             TextFieldValue("abc12345"),
             t2
         )

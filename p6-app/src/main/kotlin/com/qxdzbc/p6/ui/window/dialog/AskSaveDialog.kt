@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.MButton
-import com.qxdzbc.p6.ui.common.view.MRow
+import com.qxdzbc.p6.ui.common.view.CenterAlignRow
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 
 @Composable
@@ -36,7 +36,7 @@ fun AskSaveDialog(
                 }
             }
 
-            MRow(horizontalArrangement = Arrangement.SpaceEvenly,modifier =Modifier.fillMaxWidth()) {
+            CenterAlignRow(horizontalArrangement = Arrangement.SpaceEvenly,modifier =Modifier.fillMaxWidth()) {
                 MButton(label = "Save", onClick = onSave)
                 MButton(label = "Don't save", onClick = onDontSave)
                 MButton(label = "Cancel", onClick = onCancel)

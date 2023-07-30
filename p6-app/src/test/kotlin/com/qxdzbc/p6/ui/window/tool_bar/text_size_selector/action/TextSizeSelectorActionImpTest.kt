@@ -19,7 +19,7 @@ internal class TextSizeSelectorActionImpTest : BaseAppStateTest() {
     @Before
     fun b() {
         action = TextSizeSelectorActionImp(
-            ts.stateContMs,
+            ts.sc,
             mock(),
             mock(),
         )
@@ -29,11 +29,11 @@ internal class TextSizeSelectorActionImpTest : BaseAppStateTest() {
 
     @Test
     fun submitManualEdit() {
-        ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldNotBe textSizeSelectorState
+        ts.sc.getTextSizeSelectorState(ts.window1Id) shouldNotBe textSizeSelectorState
 
         action.submitManualEdit(ts.window1Id, textSizeSelectorState.headerText)
 
-        ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
+        ts.sc.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
         verify(action.updateCellFormatAction,times(1)).setSelectedCellsTextSize(
             newTextSize.toFloat(),undoable=true
         )
@@ -42,11 +42,11 @@ internal class TextSizeSelectorActionImpTest : BaseAppStateTest() {
 
     @Test
     fun pickTextSize() {
-        ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldNotBe textSizeSelectorState
+        ts.sc.getTextSizeSelectorState(ts.window1Id) shouldNotBe textSizeSelectorState
 
         action.pickTextSize(ts.window1Id, newTextSize)
 
-        ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
+        ts.sc.getTextSizeSelectorState(ts.window1Id) shouldBe textSizeSelectorState
         verify(action.updateCellFormatAction,times(1)).setSelectedCellsTextSize(
             newTextSize.toFloat(),undoable=true
         )
@@ -57,10 +57,10 @@ internal class TextSizeSelectorActionImpTest : BaseAppStateTest() {
     fun setHeaderTextOfTextSizeSelector() {
         val text= "text 123"
         val expect = TextSizeSelectorStateImp(text)
-        ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldNotBe expect
+        ts.sc.getTextSizeSelectorState(ts.window1Id) shouldNotBe expect
 
         action.setHeaderTextOfTextSizeSelector(ts.window1Id,text)
 
-        ts.stateCont.getTextSizeSelectorState(ts.window1Id) shouldBe expect
+        ts.sc.getTextSizeSelectorState(ts.window1Id) shouldBe expect
     }
 }

@@ -31,7 +31,7 @@ class SaveLoadIntegrationTest {
     @Test
     fun `load then save to a different file`() {
         // x: precondition
-        val sct by ts.stateContMs()
+        val sct = ts.sc
         val originalPath = this.javaClass.getResource("/sampleWb/w1.txt")?.toURI()?.toPath()
         assertNotNull(originalPath)
         val wbk = WorkbookKey("w1.txt", originalPath)
@@ -45,7 +45,7 @@ class SaveLoadIntegrationTest {
         // x: post condition
         assertEquals(savePath.fileName.toString(), wbkSt.value.name)
         assertEquals(savePath.toAbsolutePath(), wbkSt.value.path?.toAbsolutePath())
-        val wb = ts.stateContMs().value.getWb(wbkSt.value)
+        val wb = ts.sc.getWb(wbkSt.value)
         assertNotNull(wb)
         if (savePath.exists()) {
             Files.delete(savePath)

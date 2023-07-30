@@ -16,10 +16,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.p6.ui.common.view.BoolBackgroundBox
+import com.qxdzbc.p6.ui.common.modifier.boolBackground
+import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 object Tabs {
 
@@ -40,19 +42,19 @@ object Tabs {
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .then(P6R.text.mod.smallBoxPadding)
+                    .then(P6CommonUIModifiers.smallBoxPadding)
             ) {
                 Text(
                     text = text,
                     modifier = Modifier
                         .padding(end = 5.dp)
-                        .requiredWidthIn(P6R.size.value.minTabWidth2 - 43.dp, P6R.size.value.maxTabWidth - 43.dp),
+                        .requiredWidthIn(WorkbookConstants.minTabWidth2 - 43.dp, WorkbookConstants.maxTabWidth - 43.dp),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 BorderBox(
-                    style = BorderStyle.ALL,
+                    borderStyle = BorderStyle.ALL,
                     modifier = Modifier
                         .background(MaterialTheme.colors.primary)
                         .size(DpSize(18.dp, 18.dp))
@@ -93,7 +95,7 @@ object Tabs {
                 text,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .then(P6R.text.mod.smallBoxPadding),
+                    .then(P6CommonUIModifiers.smallBoxPadding),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -114,30 +116,28 @@ object Tabs {
         content: @Composable BoxScope.() -> Unit,
     ) {
         ContextMenuArea(items = { contextMenuItems }) {
-            BoolBackgroundBox(
-                boolValue = isSelected,
+            BorderBox(
+                borderStyle = BorderStyle.RIGHT,
                 modifier = modifier
                     .fillMaxHeight()
-                    .requiredWidthIn(P6R.size.value.minTabWidth2, P6R.size.value.maxTabWidth)
+                    .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
                     .selectable(
                         selected = isSelected,
                         onClick = onClick
                     )
+                    .fillMaxHeight()
+                    .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
+                    .boolBackground(
+                        boolValue = isSelected,
+                        colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,
+                    )
             ) {
-                BorderBox(
-                    style = BorderStyle.RIGHT,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .requiredWidthIn(P6R.size.value.minTabWidth2, P6R.size.value.maxTabWidth)
-                ) {
-                    content(this@BorderBox)
-                }
+                content(this@BorderBox)
             }
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 fun main() {
     singleWindowApplication {
         Column {

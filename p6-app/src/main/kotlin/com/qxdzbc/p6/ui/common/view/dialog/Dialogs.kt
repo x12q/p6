@@ -64,7 +64,7 @@ object Dialogs {
             MBox(modifier = Modifier.fillMaxSize().padding(start = 15.dp, end = 15.dp)) {
                 Column(modifier = Modifier.align(Alignment.Center)) {
                     BorderBox(
-                        style = BorderStyle.NONE,
+                        borderStyle = BorderStyle.NONE,
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
@@ -247,7 +247,7 @@ object Dialogs {
             Surface {
                 WindowDraggableArea(modifier = Modifier.fillMaxSize()) {}
                 Column(modifier = Modifier.fillMaxSize()) {
-                    BorderBox(style = BorderStyle.NONE, modifier = Modifier.fillMaxWidth()) {
+                    BorderBox(borderStyle = BorderStyle.NONE, modifier = Modifier.fillMaxWidth()) {
                         title()
                     }
                     MBox(modifier = Modifier.fillMaxWidth().weight(1.0F)) {

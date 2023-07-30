@@ -9,6 +9,7 @@ import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.p6.app.file.loader.P6FileLoaderImp
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.github.michaelbull.result.Ok
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.cell.CellImp
 import com.qxdzbc.p6.app.file.saver.P6SaverImp
@@ -28,29 +29,36 @@ class P6Loader_SaverTest {
     @Test
     fun save_load() {
         val saver = P6SaverImp()
-        val loader = P6FileLoaderImp(testSample.appState.translatorContMs)
-        val wbkSt =  WorkbookKey("wb1").toMs()
-        val wsnSt = "S1".toMs()
+        val loader = P6FileLoaderImp(testSample.appState.translatorContainer)
+        val wbkSt =  ms(WorkbookKey("wb1"))
+        val wsnSt = ms("S1")
         val cell = CellImp(
             CellId(address = CellAddress("C5"),wbkSt,wsnSt),
             content = CellContentImp(
-                cellValueMs = 123.toCellValue().toMs()
+                cellValueMs = ms(123.toCellValue())
             )
         )
         val cell2 =CellImp(
             CellId(address = CellAddress("F10"),wbkSt,wsnSt),
             content = CellContentImp(
-                cellValueMs = 456.toCellValue().toMs()
+                cellValueMs = ms(456.toCellValue())
             )
         )
+
+        val qweqwe = WorksheetImp(
+            nameMs = wsnSt,
+            wbKeySt = wbkSt
+        ).apply{
+            addOrOverwrite(cell)
+            addOrOverwrite(cell2)
+        }
         val wb = WorkbookImp(
             keyMs = wbkSt,
-        ).addMultiSheetOrOverwrite(listOf(
-            WorksheetImp(
-                nameMs = wsnSt,
-                wbKeySt = wbkSt
-            ).addOrOverwrite(cell).addOrOverwrite(cell2)
-        ))
+        ).apply{
+            addMultiSheetOrOverwrite(listOf(
+                qweqwe
+            ))
+        }
 
         val path = Paths.get("w1.txt").toAbsolutePath()
         val csvPath = Paths.get("w1.csv").toAbsolutePath()
@@ -64,10 +72,10 @@ class P6Loader_SaverTest {
         assertTrue { lRs is Ok }
         val loadedWb = lRs.component1()!!
 
-        val expectedWb = wb.setKey(WorkbookKey("w1.txt",path))
+        wb.key = (WorkbookKey("w1.txt",path))
 //        assertTrue(expectedWb.isSimilar(loadedWb))
-        assertEquals(expectedWb.key,loadedWb.key)
-        assertEquals(expectedWb.worksheets[0].wsName,loadedWb.worksheets[0].wsName)
+        assertEquals(wb.key,loadedWb.key)
+        assertEquals(wb.worksheets[0].wsName,loadedWb.worksheets[0].wsName)
 //        assertEquals(expectedWb,loadedWb)
 
         Files.delete(path)

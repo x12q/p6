@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.app.action.cell.cell_update
 
-import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequestDM
@@ -9,25 +8,25 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.action.cursor.on_cursor_changed_reactor.CommonReactionOnCursorChanged
 import com.qxdzbc.p6.app.document.cell.CellId
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=CommonReactionWhenAppStatesChanged::class)
 class CommonReactionWhenAppStatesChangedImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
     val commonReactionWhenCursorChanged:CommonReactionOnCursorChanged,
 ) : CommonReactionWhenAppStatesChanged, CommonReactionOnCursorChanged by commonReactionWhenCursorChanged {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     override fun onWbChange(wbKey:WorkbookKey){
-        sc.getWbStateMs(wbKey)?.also {
-            it.value = it.value.setNeedSave(true)
+        sc.getWbState(wbKey)?.also {
+            it.needSave = true
         }
     }
 
@@ -78,8 +77,6 @@ class CommonReactionWhenAppStatesChangedImp @Inject constructor(
     }
 
     override fun onWbChange(wbKeySt: St<WorkbookKey>) {
-        sc.getWbStateMs(wbKeySt)?.also {
-            it.value = it.value.setNeedSave(true)
-        }
+        sc.getWbState(wbKeySt)?.needSave = true
     }
 }

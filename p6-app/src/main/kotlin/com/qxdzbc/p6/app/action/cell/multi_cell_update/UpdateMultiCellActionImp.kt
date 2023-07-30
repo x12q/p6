@@ -1,14 +1,9 @@
 package com.qxdzbc.p6.app.action.cell.multi_cell_update
 
-import androidx.compose.runtime.getValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.action.cell.cell_update.CommonReactionWhenAppStatesChanged
-import com.qxdzbc.p6.di.AppCoroutineScope
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
@@ -16,26 +11,23 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class UpdateMultiCellActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>,
-    val tcSt: St<@JvmSuppressWildcards TranslatorContainer>,
+    val stateCont:StateContainer,
+    val tc: TranslatorContainer,
     val errorRouter: ErrorRouter,
-    @AppCoroutineScope
-    val crtScope: CoroutineScope,
     val commonReactionWhenAppStatesChanged: CommonReactionWhenAppStatesChanged
 ) : UpdateMultiCellAction {
 
-    val sc by stateContSt
-    val tc by tcSt
+    val sc  = stateCont
 
     override fun updateMultiCellDM(request: UpdateMultiCellRequestDM, publishErr: Boolean): Rse<Unit> {
-        val wsStateMsRs = sc.getWsStateMsRs(request)
-        val rt = updateMultiCell(wsStateMsRs,request.cellUpdateList)
+        val wsStateRs = sc.getWsStateRs(request)
+        val rt = updateMultiCell(wsStateRs,request.cellUpdateList)
         rt.onFailure {
             if (publishErr) {
                 errorRouter.publishToWindow(it, request.wbKey)
@@ -47,8 +39,8 @@ class UpdateMultiCellActionImp @Inject constructor(
     }
 
     override fun updateMultiCell(request: UpdateMultiCellRequest, publishErr: Boolean): Rse<Unit> {
-        val wsStateMsRs = sc.getWsStateMsRs(request)
-        val rt = this.updateMultiCell(wsStateMsRs,request.cellUpdateList)
+        val wsStateRs = sc.getWsStateRs(request)
+        val rt = this.updateMultiCell(wsStateRs,request.cellUpdateList)
         rt.onFailure {
             if (publishErr) {
                 errorRouter.publishToWindow(it, request.wbKey)
@@ -59,9 +51,9 @@ class UpdateMultiCellActionImp @Inject constructor(
         return rt
     }
 
-    fun updateMultiCell(wsStateMsRs:Rse<Ms<WorksheetState>>, cellUpdateList:List<IndependentCellDM>): Rse<Unit> {
-        val rt = wsStateMsRs.flatMap { wsStateMs ->
-            var ws = wsStateMs.value.worksheet
+    fun updateMultiCell(wsStateRs:Rse<WorksheetState>, cellUpdateList:List<IndependentCellDM>): Rse<Unit> {
+        val rt = wsStateRs.flatMap { wsState ->
+            var ws = wsState.worksheet
             var err: Err<ErrorReport>? = null
             val translator = tc.getTranslatorOrCreate(
                 wbKeySt = ws.wbKeySt, wsNameSt = ws.nameMs
@@ -72,9 +64,6 @@ class UpdateMultiCellActionImp @Inject constructor(
                     cellAddress = indCell.address,
                     cellContent = indCell.content.toCellContent(translator)
                 )
-                updateRs.onSuccess {
-                    ws = it
-                }
                 if (updateRs is Err) {
                     err = updateRs
                     break
@@ -83,13 +72,13 @@ class UpdateMultiCellActionImp @Inject constructor(
             val noErr = err == null
             if (noErr) {
                 // x: update state obj
-                if (ws != wsStateMs.value.wsMs.value) {
-                    wsStateMs.value.wsMs.value = ws
-                    wsStateMs.value = wsStateMs.value.refresh()
+                if (ws != wsState.wsMs.value) {
+                    wsState.wsMs.value = ws
+                    wsState.refresh()
                 }
-                sc.wbStateCont.allStatesMs.forEach {
-                    it.value.wbMs.value = it.value.wb.reRunAndRefreshDisplayText()
-                    it.value = it.value.refresh()
+                sc.wbStateCont.allWbStates.forEach {
+                    it.wb.reRunAndRefreshDisplayText()
+                    it.refresh()
                 }
             }
             err ?: Ok(Unit)

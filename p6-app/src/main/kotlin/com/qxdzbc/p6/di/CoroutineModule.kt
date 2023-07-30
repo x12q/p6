@@ -5,7 +5,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@dagger.Module
+import dagger.Module
+@Module
 @OptIn(ExperimentalCoroutinesApi::class)
 interface CoroutineModule {
     companion object{

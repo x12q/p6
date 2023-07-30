@@ -7,29 +7,29 @@ import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
 import com.qxdzbc.p6.ui.document.workbook.state.CanConvertToWorkbookProto
 
 /**
- * essentially a map of worksheet
+ * this is essentially a map of worksheet
  */
 interface Workbook : WithSize, CanConvertToWorkbookProto {
 
-    fun reRun():Workbook
-    fun refreshDisplayText():Workbook
+    fun reRun()
+    fun refreshDisplayText()
 
     /**
-     * A savable copy is a workbook with an empty workbook key (with empty name and null path) that is completely detached from the app state.
+     * A savable copy is a workbook with an empty workbook key (with empty name and null path), that is completely detached from the app state.
      */
     fun makeSavableCopy(): Workbook
 
     val keyMs:Ms<WorkbookKey>
     var key: WorkbookKey
 
-    val worksheetMapMs:Map<Ms<String>,Ms<Worksheet>>
+    val worksheetMsMap:Map<Ms<String>,Ms<Worksheet>>
     val worksheetMsList: List<Ms<Worksheet>>
     val worksheetMap: Map<String, Worksheet>
     val worksheets: List<Worksheet>
-    override val size: Int get() = worksheetMap.size
 
     fun getWsMs(index: Int): Ms<Worksheet>?
     fun getWsMsRs(index: Int): Rse<Ms<Worksheet>>
@@ -49,56 +49,70 @@ interface Workbook : WithSize, CanConvertToWorkbookProto {
 
     /**
      * trying to create a new worksheet inside this workbook.
-     * @throws Exception if unable to create a new worksheet
+     * do nothing if unable to create a new worksheet for that name
      */
-    fun createNewWs(name: String? = null): Workbook
-    fun createNewWs_MoreDetail(name: String? = null): CreateNewWorksheetResponse
-    fun createNewWsRs(name: String? = null): Rse<Workbook>
+    fun createNewWs(name: String? = null)
 
     /**
-     * create a new ws, return a more detailed result than [createNewWsRs]
+     * create a new ws, return a more info than [createNewWsRs], including:
+     * - the new workbook
+     * - name of the newly created worksheet
+     * @return null if unable to create a new worksheet. This function swallow any errors arising during the worksheet-creating process.
      */
-    fun createNewWsRs_MoreDetail(name: String?): Rse<CreateNewWorksheetResponse>
+    fun createNewWsWithMoreDetail(name: String? = null): CreateNewWorksheetResponse?
 
-    fun removeSheet(index: Int): Workbook
-    fun removeSheet(name: String): Workbook
-
-    fun removeSheetRs(index: Int): Rse<Workbook>
-    fun removeSheetRs(name: String): Rse<Workbook>
-
-    fun addWsRs(ws: Worksheet): Rse<Workbook>
-
-    fun addSheetOrOverwrite(worksheet: Worksheet): Workbook
-    fun addMultiSheetOrOverwrite(worksheetList: List<Worksheet>): Workbook
+    fun createNewWsRs(name: String? = null): Rse<Unit>
 
     /**
-     * for renaming a worksheet inside a workbook. This include checking the legality of the new worksheet name (illegal name format, name collision)
+     * create a new ws, return a more info than [createNewWsRs], including:
+     * - the new workbook
+     * - name of the newly created worksheet
      */
-    fun renameWsRs(oldName: String, newName: String): Rse<Workbook>
-    fun renameWsRs(index: Int, newName: String): Rse<Workbook>
+    fun createNewWsWithMoreDetailRs(name: String? = null): Rse<CreateNewWorksheetResponse>
 
-    fun moveWs(targetIndex: Int, toIndex: Int): Rse<Workbook>
-    fun moveWs(targetName: String, toIndex: Int): Rse<Workbook>
+    fun removeSheet(index: Int)
+    fun removeSheet(name: String)
+    fun removeSheetRs(index: Int): Rse<Unit>
+    fun removeSheetRs(name: String): Rse<Unit>
 
-    fun setKey(newKey: WorkbookKey): Workbook
-    fun containSheet(sheetName: String): Boolean {
-        return this.getWs(sheetName) != null
+    fun addWsRs(ws: Worksheet): Rse<Unit>
+
+    fun addSheetOrOverwrite(worksheet: Worksheet)
+    fun addMultiSheetOrOverwrite(worksheetList: List<Worksheet>)
+
+    /**
+     * This function is for renaming a worksheet inside a workbook. This includes checking the validity of the new name (name format, name collision).
+     *
+     * The reason to have a worksheet rename function here is that there exists a possibility that [newName] collide with other worksheets' names. In order to detect that problem, the renaming logic must have access to all worksheets' names, which is here, in a workbook.
+     */
+    fun renameWsRs(oldName: String, newName: String): Rse<Unit>
+    fun renameWsRs(index: Int, newName: String): Rse<Unit>
+
+    /**
+     * Move worksheet at [fromIndex] to [toIndex]
+     */
+    fun moveWs(fromIndex: Int, toIndex: Int): Rse<Unit>
+
+    /**
+     * Move worksheet with name == [wsName] to [toIndex]
+     */
+    fun moveWs(wsName: String, toIndex: Int): Rse<Unit>
+
+    /**
+     * @return true if this workbook contains a worksheet with name == [wsName]
+     */
+    fun containSheet(wsName: String): Boolean {
+        return this.getWs(wsName) != null
     }
 
-    fun removeAllWs(): Workbook
-    fun reRunAndRefreshDisplayText(): Workbook
+    /**
+     * Remove all worksheet from this workbook
+     */
+    fun removeAllWs()
 
-    companion object{
-        fun random():Workbook{
-            val wb=WorkbookImp(
-                keyMs= ms(WorkbookKey.random()),
-                worksheetMsList = listOf(
-                )
-            )
+    /**
+     * rerun all formula and refresh display text of all worksheet in this workbook.
+     */
+    fun reRunAndRefreshDisplayText()
 
-            return wb.addMultiSheetOrOverwrite((1 .. 3).map{
-                Worksheet.random()
-            })
-        }
-    }
 }

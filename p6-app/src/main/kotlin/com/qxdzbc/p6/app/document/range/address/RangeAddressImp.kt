@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.proto.DocProtos
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 
 
@@ -123,14 +123,14 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     override val rawLabel: String
         get() {
             val firstAddressOnFirstRow = topLeft.rowIndex == 1
-            val lastAddressOnLastRow = botRight.rowIndex == P6R.worksheetValue.rowLimit
+            val lastAddressOnLastRow = botRight.rowIndex == WorksheetConstants.rowLimit
             if (firstAddressOnFirstRow && lastAddressOnLastRow) {
                 val firstColLabel = CellLabelNumberSystem.numberToLabel(topLeft.colIndex)
                 val lastColLabel = CellLabelNumberSystem.numberToLabel(botRight.colIndex)
                 return "${firstColLabel}:${lastColLabel}"
             }
             val firstAddressOnFirstCol = topLeft.colIndex == 1
-            val lastAddressOnLastCol = botRight.colIndex == P6R.worksheetValue.colLimit
+            val lastAddressOnLastCol = botRight.colIndex == WorksheetConstants.colLimit
             if (firstAddressOnFirstCol && lastAddressOnLastCol) {
                 return "${topLeft.rowIndex}:${botRight.rowIndex}"
             }
@@ -225,7 +225,7 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     }
 
     override fun mergeWith(anotherRangeAddress: RangeAddress): RangeAddress {
-        return RangeAddresses.fromManyCells(
+        return RangeAddressUtils.rangeForMultiCells(
             listOf(
                 this.topLeft,
                 this.botRight,
@@ -236,7 +236,7 @@ data class RangeAddressImp(override val topLeft: CellAddress, override val botRi
     }
 
     override fun expand(cellAddress: CellAddress): RangeAddress {
-        return RangeAddresses.fromManyCells(listOf(this.topLeft, this.botRight, cellAddress))
+        return RangeAddressUtils.rangeForMultiCells(listOf(this.topLeft, this.botRight, cellAddress))
     }
 
     override fun strictMerge(cellAddress: CellAddress): RangeAddress? {

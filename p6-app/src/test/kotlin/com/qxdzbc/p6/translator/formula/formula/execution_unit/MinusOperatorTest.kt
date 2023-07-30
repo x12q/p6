@@ -61,7 +61,7 @@ class MinusOperatorTest:OperatorBaseTest(){
         val u2 = MinusOperator(
             ots.getIntCellUnit,intUnit
         )
-        val e = intUnit.v - ((ots.getIntCellUnit.runRs().component1() as St<Cell>).value.valueAfterRun as Double)
+        val e = intUnit.v - ((ots.getIntCellUnit.runRs().component1() as Cell).valueAfterRun as Double)
         assertEquals(Ok(-e),u2.runRs())
     }
 

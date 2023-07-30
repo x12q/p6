@@ -18,10 +18,12 @@ import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * a mutable layer
  */
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class TranslatorContainerImp @Inject constructor(
     val attachedTranslatorMapMs: Ms<TranslatorMap>,
@@ -29,11 +31,7 @@ class TranslatorContainerImp @Inject constructor(
     private val independentTranslatorMap: MutableMap<Pair<WorkbookKey,String>,P6Translator<ExUnit>>,
     private val translatorFactory: ExUnitFormulaTranslatorFactory,
     private val visitorFactory: ExUnitFormulaVisitorFactory,
-//    @StateContainerSt
-//    val stateContSt: St<@JvmSuppressWildcards StateContainer>
 ) : TranslatorContainer {
-
-//    private val sc by stateContSt
 
     private var tm: TranslatorMap by attachedTranslatorMapMs
 
@@ -87,28 +85,24 @@ class TranslatorContainerImp @Inject constructor(
         return this.createOneOffTranslatorForTesting(wbKeySt.value,wsNameSt.value)
     }
 
-    override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorContainer {
+    override fun removeTranslator(wbKey: WorkbookKey, wsName: String) {
         attachedTranslatorMapMs.value = attachedTranslatorMapMs.value.removeTranslator(wbKey, wsName)
-        return this
     }
 
-    override fun removeTranslator(wbKey: WorkbookKey): TranslatorContainer {
+    override fun removeTranslator(wbKey: WorkbookKey) {
         attachedTranslatorMapMs.value = attachedTranslatorMapMs.value.removeTranslator(wbKey)
-        return this
     }
 
-    override fun addTranslator(key: WbWsSt, translator: P6Translator<ExUnit>): TranslatorContainer {
+    override fun addTranslator(key: WbWsSt, translator: P6Translator<ExUnit>) {
         tm = tm.addTranslator(key, translator)
-        return this
     }
 
     override fun addTranslator(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         translator: P6Translator<ExUnit>
-    ): TranslatorContainer {
+    ) {
         tm = tm.addTranslator(wbKeySt, wsNameSt, translator)
-        return this
     }
 
     override fun getTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): P6Translator<ExUnit>? {
@@ -142,21 +136,18 @@ class TranslatorContainerImp @Inject constructor(
         return this.getTranslator(wbWs.wbKey,wbWs.wsName)
     }
 
-    override fun removeTranslator(wbwsSt: WbWsSt): TranslatorContainer {
+    override fun removeTranslator(wbwsSt: WbWsSt) {
         tm = tm.removeTranslator(wbwsSt)
-        return this
     }
 
-    override fun removeTranslator(wbWs: WbWs): TranslatorContainer {
+    override fun removeTranslator(wbWs: WbWs) {
         tm = tm.removeTranslator(wbWs)
-        return this
     }
 
     override fun removeTranslator(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
-    ): TranslatorContainer {
+    ) {
         tm = tm.removeTranslator(wbKeySt, wsNameSt)
-        return this
     }
 }

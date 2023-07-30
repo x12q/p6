@@ -2,7 +2,6 @@ package com.qxdzbc.p6.app.document.workbook
 
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.worksheet.WsNameGeneratorImp
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import org.junit.Test
 
@@ -18,12 +17,12 @@ class AutoNameWbFactoryTest {
         }
         val testSample = TestSample()
 
-        val contMs: Ms<WorkbookContainer> = testSample.wbContMs
-        contMs.value = contMs.value.removeAll()
-        contMs.value = wbl.fold(contMs.value){acc,wb->
-            acc.addWb(wb)
+        val wbCont: WorkbookContainer = testSample.wbCont
+        wbCont.removeAll()
+        wbl.forEach{wb->
+            wbCont.addWb(wb)
         }
-        val f = AutoNameWbFactory(wbContMs = contMs, wsNameGenerator = WsNameGeneratorImp() )
+        val f = AutoNameWbFactory(wbCont = wbCont, wsNameGenerator = WsNameGeneratorImp() )
         assertEquals("Book2", f.createWbRs().component1()!!.key.name)
     }
 }

@@ -1,3 +1,5 @@
+@file:OptIn(P6ExperimentalApi::class)
+
 package test.integration
 
 import androidx.compose.runtime.getValue
@@ -6,6 +8,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
@@ -42,6 +45,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
     val cellEditorAction get() = comp.cellEditorAction()
     val cursorAction get() = comp.cursorAction()
 
+    @OptIn(P6ExperimentalApi::class)
     @Test
     fun `bug-click on another cell while editing cell editor without range selector enabled`() {
         val wbwsSt = sc.getWbWsSt(WbWsImp(ts.wbKey1, ts.wsn1))!!
@@ -166,7 +170,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         cellEditorAction.runFormulaOrSaveValueToCell(true)
         cellEditorAction.openCellEditor(cursor1Ms.value)
         val formulaBar: FormulaBarState? =
-            ts.stateContMs().value.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.value?.formulaBarState
+            ts.sc.getWindowStateMsByWbKey(cursor1Ms.value.wbKey)?.formulaBarState
         assertEquals("=SUM(B2:C4)", cellEditorState.currentText)
     }
 
@@ -791,7 +795,7 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             handleCursorKeyboardEventAct = spyCursorAction,
             makeDisplayText = comp.makeDisplayText(),
             openCellEditor = comp.openCellEditorAction(),
-            stateContMs = ts.stateContMs(),
+            stateCont = ts.sc,
             textDiffer = comp.textDiffer(),
             cycleLockStateAct = comp.cycleFormulaLockStateAct(),
             treeExtractor = comp.partialFormulaTreeExtractor(),
@@ -905,13 +909,12 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
         val cellEditorMs = appState.cellEditorStateMs
         val wsAction = ts.comp.wsAction()
         val wds = sc.getWindowStateMsByWbKey(wbk)
-        val wsStateMs = sc.getWsStateMs(wbk, wsn)
+        val wsState = sc.getWsState(wbk, wsn)
 
         cursorMs.shouldNotBeNull()
         wds.shouldNotBeNull()
-        wsStateMs.shouldNotBeNull()
+        wsState.shouldNotBeNull()
 
-        val wsState by wsStateMs
         // open cell editor on a worksheet
         cellEditorAction.openCellEditor(WbWsImp(wbk, wsn))
         // click on another cell
@@ -991,8 +994,8 @@ class CursorAndCellEditorTest : BaseAppStateTest() {
             cellEditorMs.value.isOpen shouldBe false
             cellEditorMs.value.currentText.shouldBeEmpty()
 
-            wds.value.focusState.isEditorFocused shouldBe false
-            wds.value.focusState.isCursorFocused shouldBe true
+            wds.focusState.isEditorFocused shouldBe false
+            wds.focusState.isCursorFocused shouldBe true
         }
     }
 

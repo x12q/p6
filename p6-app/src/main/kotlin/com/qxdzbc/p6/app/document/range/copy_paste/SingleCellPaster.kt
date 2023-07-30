@@ -1,13 +1,10 @@
 package com.qxdzbc.p6.app.document.range.copy_paste
 
-import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.document.range.RangeCopy
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.action.range.RangeId
 import com.qxdzbc.p6.app.document.cell.Cell
 
@@ -19,12 +16,12 @@ import javax.inject.Inject
  * Paste a range with target being a single cell. This is used inside [RangePasterImp]
  */
 class SingleCellPaster @Inject constructor(
-    private val stateContSt:St<@JvmSuppressWildcards StateContainer>,
-    override val transContMs: Ms<TranslatorContainer>,
+    override val stateCont:StateContainer,
+    override val transCont: TranslatorContainer,
 ) : BaseRangePaster() {
 
-    override val stateCont by stateContSt
 
+    @Deprecated("don't use, kept just in case")
     override fun paste(target: RangeId): PasteResponse {
         var sourceRangeId:RangeId?=null
         val rs = try {
@@ -49,10 +46,10 @@ class SingleCellPaster @Inject constructor(
                                 source.rangeId.rangeAddress.topLeft,
                                 target.rangeAddress.topLeft
                             )
-                            tws = tws.addOrOverwrite(newCell)
+                            tws.addOrOverwrite(newCell)
                         }
-                        val newWb = wb.addSheetOrOverwrite(tws)
-                        newWb
+                        wb.addSheetOrOverwrite(tws)
+                        wb
                     }
                 }else{
                     Ok(wb)

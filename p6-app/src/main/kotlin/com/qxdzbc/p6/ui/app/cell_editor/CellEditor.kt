@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.app.cell_editor
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.*
@@ -13,11 +14,11 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
-import com.qxdzbc.p6.ui.common.view.UseP6TextSelectionColor
+import com.qxdzbc.p6.ui.theme.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusStatePerWindow
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**
  * Note: the editor should be white, has a border identical to cursor border
@@ -26,7 +27,7 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
 fun CellEditor(
     state: CellEditorState,
     action: CellEditorAction,
-    focusState:CursorFocusState,
+    focusState:CursorFocusStatePerWindow,
     size: DpSize = DpSize(400.dp,50.dp),
     modifier: Modifier = Modifier
 ) {
@@ -54,7 +55,7 @@ fun CellEditor(
         modifier = modifier
             .then(boxSizeMod)
             .background(Color.White)
-            .then(P6R.border.mod.cursorBorder)
+            .border(2.dp, P6Theme.color.ws.cursorColor)
 
     ) {
         UseP6TextSelectionColor {
@@ -65,7 +66,7 @@ fun CellEditor(
                 },
                 modifier = Modifier
                     .then(sizeMod)
-                    .then(P6R.padding.mod.stdTextFieldPadding)
+                    .padding(5.dp)
                     .onPreviewKeyEvent {
                         action.handleKeyboardEvent(it.toP6KeyEvent())
                     }

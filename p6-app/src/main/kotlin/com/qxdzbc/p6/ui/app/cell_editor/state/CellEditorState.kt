@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree
 
 interface CellEditorState {
     /**
-     * this value always depend on [currentTextField], therefore it can't be set directly
+     * this value always is derived from [currentTextField], therefore it can't be set directly
      */
     val rangeSelectorAllowState:RangeSelectorAllowState
 
@@ -78,7 +78,9 @@ interface CellEditorState {
      */
     val displayTextField: TextFieldValue
     val displayText: String
+
     /**
+     * Base on the current state of the editor, this function will update either [currentTextField] or [rangeSelectorTextField].
      * if this cell editor is active and is allowing range selector, update the [rangeSelectorTextField], otherwise update the [currentTextField]
      */
     fun setDisplayTextField(newTextField: TextFieldValue):CellEditorState
@@ -101,6 +103,12 @@ interface CellEditorState {
     val currentText: String
     fun setCurrentText(newText: String): CellEditorState
     fun setCurrentTextField(newTextField: TextFieldValue): CellEditorState
+
+    /**
+     * This is the text of the final formula that can be executed.
+     * Derived from [currentTextField] and [rangeSelectorTextField].
+     */
+    val executableFormulaText:String
 
     /**
      * clear both current text and range selector text

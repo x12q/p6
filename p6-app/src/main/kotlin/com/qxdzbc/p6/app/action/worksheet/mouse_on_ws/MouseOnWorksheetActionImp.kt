@@ -8,11 +8,10 @@ import com.qxdzbc.p6.app.action.common_data_structure.WbWs
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -20,24 +19,25 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=MouseOnWorksheetAction::class)
 class MouseOnWorksheetActionImp @Inject constructor(
-    private val scMs: Ms<StateContainer>,
+    private val scMs:StateContainer,
     private val clickOnCell: ClickOnCellAction,
     private val makeDisplayText: GenerateCellEditorTextAction,
     private val refreshRangeSelectorText: RefreshRangeSelectorText,
     private val cellEditorStateMs:Ms<CellEditorState>,
 ) : MouseOnWorksheetAction, ClickOnCellAction by clickOnCell {
 
-    private val sc by scMs
+    private val sc = scMs
 
     fun shiftClickSelectRange(cellAddress: CellAddress, wsState: WorksheetState?) {
         wsState?.also {
             var cursorState by wsState.cursorStateMs
             if (cellAddress != cursorState.mainCell) {
-                cursorState = cursorState.setMainRange(RangeAddresses.from2Cells(cellAddress, cursorState.mainCell))
+                cursorState = cursorState.setMainRange(RangeAddressUtils.rangeFor2Cells(cellAddress, cursorState.mainCell))
             }
             refreshRangeSelectorText.refreshRangeSelectorTextInCurrentCellEditor()
         }
@@ -112,7 +112,7 @@ class MouseOnWorksheetActionImp @Inject constructor(
     ) {
         cursorStateMs?.also {
             val cursorState by it
-            val newRange = RangeAddresses.fromManyCells(listOf(currentCellMouseOn, cursorState.mainCell))
+            val newRange = RangeAddressUtils.rangeForMultiCells(listOf(currentCellMouseOn, cursorState.mainCell))
             val newCursorState = cursorState.setMainRange(newRange)
             it.value = newCursorState
             refreshRangeSelectorText.refreshRangeSelectorTextInCurrentCellEditor()

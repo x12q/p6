@@ -2,7 +2,6 @@ package com.qxdzbc.p6.bench
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.ui.app.state.AppStateImp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -13,8 +12,6 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 import kotlin.random.Random
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 val random = Random(123)
 

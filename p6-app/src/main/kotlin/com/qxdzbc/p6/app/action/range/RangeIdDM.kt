@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.action.range
 
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses.toModel
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils.toModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.proto.DocProtos.RangeIdProto

@@ -10,15 +10,8 @@ import com.qxdzbc.common.file_util.FileUtilImp
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.common.utils.Utils
-import com.qxdzbc.p6.di.action.ActionModule
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.applier.ApplierModule
-import com.qxdzbc.p6.di.document.DocumentModule
-import com.qxdzbc.p6.di.request_maker.RMModule
-import com.qxdzbc.p6.di.rpc.RpcModule
 import com.qxdzbc.p6.di.state.StateModule
-import com.qxdzbc.p6.di.state.app_state.AppStateModule
-import com.qxdzbc.p6.di.state.window.WindowFocusStateModule
 import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
 import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
 import com.qxdzbc.p6.di.status_bar.StatusBarModule
@@ -26,25 +19,19 @@ import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.color_generator.*
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module(
     includes = [
         UtilModule::class,
-        RMModule::class,
-        ApplierModule::class,
-        ActionTableModule::class,
-        AppStateModule::class,
-        DocumentModule::class,
         TranslatorModule::class,
         StatusBarModule::class,
-        ActionModule::class,
-        RpcModule::class,
         StateModule::class,
         CoroutineModule::class,
     ]
@@ -53,28 +40,28 @@ import dagger.Provides
 interface P6Module {
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun FormulaColorProvider(i:FormulaColorGeneratorImp): FormulaColorGenerator
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun ColorGenerator(i: RandomColorGenerator): ColorGenerator
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun ErrorRouter(i: ErrorRouterImp): ErrorRouter
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun AppAction(i: AppActionImp): AppAction
 
     @Binds
-    @P6Singleton
+    @Singleton
     fun AppContext(i: AppContextImp): AppContext
 
     companion object {
         @Provides
-        @P6Singleton
+        @Singleton
         fun FileUtil(): FileUtil {
             return FileUtilImp()
         }
@@ -117,30 +104,18 @@ interface P6Module {
         @Provides
         @DefaultColRangeQualifier
         fun defaultColRange(): IntRange {
-            return P6R.worksheetValue.defaultColRange
+            return WorksheetConstants.defaultColRange
         }
 
         @Provides
         @DefaultRowRangeQualifier
         fun defaultRowRange(): IntRange {
-            return P6R.worksheetValue.defaultRowRange
+            return WorksheetConstants.defaultRowRange
         }
 
-//        @Provides
-//        @P6Singleton
-//        @EventServerSocket
-//        fun eventServerSocket(
-//            zContext: ZContext,
-//            @EventServerPort eventServerPort: Int
-//        ): ZMQ.Socket {
-//            val eventServerSocket = zContext.createSocket(SocketType.REQ)
-//            eventServerSocket.connect("tcp://localhost:${eventServerPort}")
-//            return eventServerSocket
-//        }
-
         @Provides
-        @P6Singleton
-        @com.qxdzbc.p6.di.EventServerPort
+        @Singleton
+        @EventServerPort
         fun eventServerPort(): Int {
             val eventServerPort = Utils.findSocketPort()
             return eventServerPort

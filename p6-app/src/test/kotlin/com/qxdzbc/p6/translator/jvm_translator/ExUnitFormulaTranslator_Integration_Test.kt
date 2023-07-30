@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.translator.jvm_translator
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
@@ -37,67 +35,75 @@ class ExUnitFormulaTranslator_Integration_Test {
     val wsName get() = ts.wsn1
 
     val wbKeySt get() = ts.wbKey1Ms
-    val wsNameSt get() = ts.appState.docCont.getWsNameSt(wbKeySt, wsName)!!
+    val wsNameSt get() = ts.appState.documentContainer.getWsNameSt(wbKeySt, wsName)!!
 
-    lateinit var appStateMs: Ms<AppState>
+    lateinit var appStateMs: AppState
     lateinit var p6FunctDefs: P6FunctionDefinitionsImp
-    val wbCont: WorkbookContainer get() = ts.sc.wbContMs.value
-    val sc get()=ts.sc
+    val wbCont: WorkbookContainer get() = ts.sc.wbCont
+    val sc get() = ts.sc
+
     @BeforeTest
     fun b() {
         ts = TestSample()
         val wbl: List<Workbook> = listOf(
             WorkbookImp(
                 keyMs = ts.wbKey1Ms,
-            ).addMultiSheetOrOverwrite(
-                listOf(
-                    WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms)
-                        .addOrOverwrite(
-                            IndCellImp(
-                                address = CellAddress("A1"),
-                                content = CellContentImp(1.0.toCellValue().toMs())
-                            )
-                        )
-                        .addOrOverwrite(
-                            IndCellImp(
-                                address = CellAddress("B2"),
-                                content = CellContentImp(2.0.toCellValue().toMs())
-                            )
-                        )
-                        .addOrOverwrite(
-                            IndCellImp(
-                                address = CellAddress("C3"),
-                                content = CellContentImp(3.0.toCellValue().toMs())
-                            )
-                        ).addOrOverwrite(
-                            IndCellImp(
-                                address = CellAddress("D4"),
-                                content = CellContentImp("abc".toCellValue().toMs())
-                            )
-                        ),
-                    WorksheetImp("Sheet2".toMs(), ts.wbKey2Ms)
+            ).apply {
+                addMultiSheetOrOverwrite(
+                    listOf(
+                        WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms)
+                            .apply {
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("A1"),
+                                        content = CellContentImp(1.0.toCellValue().toMs())
+                                    )
+                                )
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("B2"),
+                                        content = CellContentImp(2.0.toCellValue().toMs())
+                                    )
+                                )
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("C3"),
+                                        content = CellContentImp(3.0.toCellValue().toMs())
+                                    )
+                                )
+                                addOrOverwrite(
+                                    IndCellImp(
+                                        address = CellAddress("D4"),
+                                        content = CellContentImp("abc".toCellValue().toMs())
+                                    )
+                                )
+                            },
+                        WorksheetImp("Sheet2".toMs(), ts.wbKey2Ms)
+                    )
                 )
-            ),
+            },
             WorkbookImp(
                 keyMs = ts.wbKey2Ms,
-            ).addMultiSheetOrOverwrite(
-                listOf<Worksheet>(
-                    WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms),
-                    WorksheetImp("Sheet2".toMs(), ts.wbKey2Ms)
+            ).apply {
+                addMultiSheetOrOverwrite(
+                    listOf<Worksheet>(
+                        WorksheetImp("Sheet1".toMs(), ts.wbKey2Ms),
+                        WorksheetImp("Sheet2".toMs(), ts.wbKey2Ms)
+                    )
                 )
-            )
+            }
         )
 
         ts.appState
-        var wbc: WorkbookContainer by ts.sc.wbContMs
-        wbc = wbc.removeAll()
-        wbc = wbl.fold(wbc) { acc, wb ->
-            acc.addWb(wb)
+        val wbc: WorkbookContainer = ts.sc.wbCont
+        wbc.removeAll()
+        wbl.forEach { wb ->
+            wbc.addWb(wb)
         }
 
-        appStateMs = ts.sampleAppStateMs(wbCont)
+        appStateMs = ts.sampleAppState()
         p6FunctDefs = P6FunctionDefinitionsImp(
-            ts.appState.docContMs,
+            ts.appState.documentContainer,
         )
         fun add(n1: Int, n2: Int): Result<Int, SingleErrorReport> {
             return Ok(n1 + n2)
@@ -116,7 +122,7 @@ class ExUnitFormulaTranslator_Integration_Test {
                 wbKeySt = wbKeySt,
                 wsNameSt = wsNameSt,
                 functionMapMs = functionMap,
-                docContMs = ts.appState.docContMs
+                docCont = ts.appState.documentContainer,
             )
         )
     }

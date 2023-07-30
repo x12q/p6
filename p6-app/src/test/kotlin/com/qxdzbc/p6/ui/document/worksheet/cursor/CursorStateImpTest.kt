@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.document.worksheet.cursor
 import com.qxdzbc.common.test_util.TestSplitter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import io.kotest.matchers.collections.shouldContainOnly
 import org.mockito.kotlin.mock
@@ -27,7 +27,7 @@ internal class CursorStateImpTest : TestSplitter() {
             "K12", "L12", "X12",
             "F1", "F2", "E1", "E2",
         ).map { CellAddress(it) }
-        val (rr, unUsed) = RangeAddresses.exhaustiveMergeCell(cells)
+        val (rr, unUsed) = RangeAddressUtils.exhaustiveMergeCell(cells)
         rr shouldContainOnly listOf("C2:C4", "A1:A3", "K12:L12", "E1:F2").map { RangeAddress(it) }
         unUsed shouldContainOnly listOf("C10", "X12").map { CellAddress(it) }
     }
@@ -46,7 +46,7 @@ internal class CursorStateImpTest : TestSplitter() {
             val expect = listOf(
                 "D8:G13", "J9:K15",
             ).map { RangeAddress(it) }
-            val rs = RangeAddresses.exhaustiveMergeRanges(l1)
+            val rs = RangeAddressUtils.exhaustiveMergeRanges(l1)
             rs.shouldContainOnly(
                 expect
             )
@@ -63,7 +63,7 @@ internal class CursorStateImpTest : TestSplitter() {
                 "D10:E12",
                 "F10:G12",
             ).map { RangeAddress(it) }
-            val out = RangeAddresses.exhaustiveMergeRanges(ranges)
+            val out = RangeAddressUtils.exhaustiveMergeRanges(ranges)
             out.shouldContainOnly(
                 listOf(
                     "B3:G5", "F6:G12", "D10:E12", "B6:C12"
@@ -80,7 +80,7 @@ internal class CursorStateImpTest : TestSplitter() {
             RangeAddress("C3:C9"),
             RangeAddress("C11:C15")
         )
-        val (cellWasConsumed, l2) = RangeAddresses.exhaustiveMergeRanges(CellAddress("C10"), l1)
+        val (cellWasConsumed, l2) = RangeAddressUtils.exhaustiveMergeRanges(CellAddress("C10"), l1)
 
         assertTrue { cellWasConsumed }
         assertEquals(

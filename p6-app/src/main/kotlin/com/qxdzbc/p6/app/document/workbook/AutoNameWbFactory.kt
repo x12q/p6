@@ -1,30 +1,27 @@
 package com.qxdzbc.p6.app.document.workbook
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import java.util.regex.Pattern
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * A wb factory that can automatically generate names for new workbooks
  */
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class AutoNameWbFactory @Inject constructor(
-    val wbContMs: Ms<WorkbookContainer>,
+    val wbCont: WorkbookContainer,
     val wsNameGenerator: WsNameGenerator,
 ) : WorkbookFactory {
-    private var wbCont by wbContMs
 
     companion object {
         private val namePattern = Pattern.compile("Book[1-9][0-9]*")
@@ -35,7 +32,7 @@ class AutoNameWbFactory @Inject constructor(
         // Eg:{ "Book1", "Book2" }-> {1,2}
 
         val newWbName = wbName?: run{
-            val wbIndices = wbContMs.value.allWbs
+            val wbIndices = wbCont.allWbs
                 .map { it.key.name }
                 .filter {
                     namePattern.matcher(it).matches()
@@ -50,12 +47,11 @@ class AutoNameWbFactory @Inject constructor(
             return WorkbookContainerErrors.WorkbookAlreadyExist.report(newWbKey).toErr()
         }else{
             val sheetNameRs = wsNameGenerator.nextName()
-            val rt = sheetNameRs.map {
+            val rt:Rse<Workbook> = sheetNameRs.flatMap {
                 val wb = WorkbookImp(
                     keyMs = WorkbookKey(newWbName).toMs(),
                 )
-                val wb2 = wb.createNewWs(it)
-                wb2
+                wb.createNewWsRs(it).map{ wb }
             }
             return rt
         }

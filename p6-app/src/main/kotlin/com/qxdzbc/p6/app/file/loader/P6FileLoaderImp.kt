@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.file.loader
 
-import androidx.compose.runtime.getValue
-
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp.Companion.toShallowModel
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -10,8 +8,6 @@ import com.qxdzbc.p6.proto.P6FileProtos
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.UtilQualifier
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.proto.DocProtos
@@ -21,15 +17,18 @@ import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.io.path.name
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class P6FileLoaderImp @Inject constructor(
-    val transContSt:St<@JvmSuppressWildcards TranslatorContainer>,
+    val transCont:TranslatorContainer,
     @UtilQualifier.ReadFileFunction
     val readFileToByteArray:Function1<@JvmSuppressWildcards Path,@JvmSuppressWildcards ByteArray> = Files::readAllBytes,
 ) : P6FileLoader {
-    private val tc by transContSt
+
+    private val tc = transCont
+
     override fun loadToWb(path: Path): Rse<Workbook> {
         try {
             val bytes = readFileToByteArray(path)

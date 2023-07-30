@@ -1,9 +1,6 @@
 package com.qxdzbc.p6.di
 
 import androidx.compose.ui.window.ApplicationScope
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.action.app.AppRM
-import com.qxdzbc.p6.app.action.cell.CellRM
 import com.qxdzbc.p6.app.action.window.WindowAction
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
@@ -34,9 +31,10 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Singleton
 
 
-@P6Singleton
+@Singleton
 @MergeComponent(
     scope = P6AnvilScope::class,
     modules = [
@@ -46,38 +44,41 @@ import kotlinx.coroutines.CoroutineScope
 )
 interface P6Component {
 
-    @P6Singleton
+    @Singleton
+    fun appState():AppState
+
+    @Singleton
     fun moveToWbAction(): MoveToWbAction
 
-    @P6Singleton
+    @Singleton
     fun workbookAction(): WorkbookAction
 
-    @P6Singleton
+    @Singleton
     fun cursorAction(): CursorAction
 
-    @P6Singleton
+    @Singleton
     fun cursorStateFactory(): CursorStateFactory
 
-    @P6Singleton
+    @Singleton
     fun errorRouter(): ErrorRouter
 
-    @P6Singleton
+    @Singleton
     fun workbookStateFactory(): WorkbookStateFactory
 
-    @P6Singleton
+    @Singleton
     fun worksheetStateFactory(): WorksheetStateFactory
 
-    @P6Singleton
+    @Singleton
     fun gridSliderFactory(): LimitedGridSliderFactory
 
-    @P6Singleton
+    @Singleton
     @MsRpcServerQualifier
     fun p6RpcServer(): P6RpcServer
 
-    @P6Singleton
+    @Singleton
     fun windowStateFactory(): WindowStateFactory
 
-    @P6Singleton
+    @Singleton
     fun outerWindowStateFactory(): OuterWindowStateFactory
 
     fun appAction(): AppAction
@@ -86,57 +87,29 @@ interface P6Component {
 
     fun applicationScope(): ApplicationScope?
 
-    @P6Singleton
+    @Singleton
     fun windowActionTable(): WindowActionTable
 
-    @P6Singleton
+    @Singleton
     fun windowAction(): WindowAction
 
-    @P6Singleton
+    @Singleton
     fun workbookActionTable(): WorkbookActionTable
 
-    @P6Singleton
+    @Singleton
     fun worksheetActionTable(): WorksheetActionTable
 
-    @P6Singleton
+    @Singleton
     fun wsAction(): WorksheetAction
+//
+//    @Singleton
+//    fun appStateMs(): Ms<AppState>
 
-    @P6Singleton
-    fun appStateMs(): Ms<AppState>
+    @Singleton
+    fun wbContainer(): WorkbookContainer
 
-    @P6Singleton
-    fun wbContainerMs(): Ms<WorkbookContainer>
-
-    @P6Singleton
+    @Singleton
     fun appContext(): AppContext
-
-//    @P6Singleton
-//    fun msgApiComponent(): MessageApiComponent
-
-//    @P6Singleton
-//    fun zContext(): ZContext
-
-//    @P6Singleton
-//    fun kernelContext(): KernelContext
-
-//    @P6Singleton
-//    fun codeRunner(): CodeRunner
-
-//    @P6Singleton
-//    fun backEndCommander(): PythonCommander
-
-    @P6Singleton
-    fun cellRequestMaker(): CellRM
-
-    @P6Singleton
-    fun appRequestMaker(): AppRM
-
-//    @P6Singleton
-//    fun kernelServiceManager(): KernelServiceManager
-
-//    @P6Singleton
-//    @EventServerSocket
-//    fun eventServerSocket(): ZMQ.Socket
 
     @EventServerPort
     fun eventServerPort(): Int
@@ -144,9 +117,6 @@ interface P6Component {
     @Component.Builder
     interface Builder {
         fun build(): P6Component
-
-//        @BindsInstance
-//        fun messageApiComponent(@P6Singleton component: MessageApiComponent): Builder
 
         @BindsInstance
         fun username(@Username u: String): Builder

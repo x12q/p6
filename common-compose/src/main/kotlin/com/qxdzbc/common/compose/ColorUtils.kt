@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 
 object ColorUtils {
+
     fun Color.getContrastColor(): Color {
         return this.copy(
             red = 1 - this.red,

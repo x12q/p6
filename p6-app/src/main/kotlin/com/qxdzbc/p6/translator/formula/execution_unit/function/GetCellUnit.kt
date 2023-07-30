@@ -36,8 +36,8 @@ data class GetCellUnit(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun runRs(): Result<St<Cell>?, SingleErrorReport> {
-        val rt= super.runRs() as Result<St<Cell>?, SingleErrorReport>
+    override fun runRs(): Result<Cell?, SingleErrorReport> {
+        val rt= super.runRs() as Result<Cell?, SingleErrorReport>
         return rt
     }
 

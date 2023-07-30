@@ -2,8 +2,7 @@ package com.qxdzbc.p6.di.state.ws
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -11,6 +10,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
@@ -23,9 +23,9 @@ import com.qxdzbc.p6.ui.document.worksheet.state.CellStateContainers
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import dagger.Binds
 import dagger.Provides
-import org.antlr.v4.runtime.tree.ParseTree
 
-@dagger.Module
+import dagger.Module
+@Module
 interface WorksheetStateModule {
 
     @Binds
@@ -48,13 +48,13 @@ interface WorksheetStateModule {
         @Provides
         @DefaultVisibleRowRange
         fun DefaultVisibleRowRange():IntRange{
-            return P6R.worksheetValue.defaultVisibleRowRange
+            return WorksheetConstants.defaultVisibleRowRange
         }
 
         @Provides
         @DefaultVisibleColRange
         fun DefaultVisibleColRange():IntRange{
-            return P6R.worksheetValue.defaultVisibleColRange
+            return WorksheetConstants.defaultVisibleColRange
         }
 
 
@@ -79,13 +79,13 @@ interface WorksheetStateModule {
         @Provides
         @DefaultColResizeBarStateMs
         fun ResizeColBarStateMs(): Ms<ResizeBarState> {
-            return ms(ResizeBarStateImp(dimen = RulerType.Col, size = P6R.size.value.defaultRowHeight))
+            return ms(ResizeBarStateImp(rulerType = RulerType.Col, thumbSize = WorksheetConstants.defaultRowHeight))
         }
 
         @Provides
         @DefaultRowResizeBarStateMs
         fun ResizeRowBarStateMs(): Ms<ResizeBarState> {
-            return ms(ResizeBarStateImp(dimen = RulerType.Row, size = P6R.size.value.rowRulerWidth))
+            return ms(ResizeBarStateImp(rulerType = RulerType.Row, thumbSize = WorksheetConstants.rowRulerWidth))
         }
 
         @Provides
@@ -103,13 +103,13 @@ interface WorksheetStateModule {
         @Provides
         @DefaultRangeConstraint
         fun DefaultRangeConstraint(): RangeConstraint {
-            return P6R.worksheetValue.defaultRangeConstraint
+            return WorksheetConstants.defaultRangeConstraint
         }
 
         @Provides
         @DefaultClipBoardRange
         fun clipboardRange(): RangeAddress {
-            return RangeAddresses.InvalidRange
+            return RangeAddressUtils.InvalidRange
         }
 
         @Provides

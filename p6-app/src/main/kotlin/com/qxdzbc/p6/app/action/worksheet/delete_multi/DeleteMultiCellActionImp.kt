@@ -1,46 +1,47 @@
 package com.qxdzbc.p6.app.action.worksheet.delete_multi
 
-import androidx.compose.runtime.getValue
-import com.qxdzbc.common.compose.Ms
+import com.github.michaelbull.result.*
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellAction
 import com.qxdzbc.p6.app.action.cell.multi_cell_update.UpdateMultiCellRequest
 import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.applier.DeleteMultiApplier
-import com.qxdzbc.p6.app.action.worksheet.delete_multi.rm.DeleteMultiRM
 import com.qxdzbc.p6.app.command.BaseCommand
+import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.utils.RseNav
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
-import com.qxdzbc.p6.ui.app.state.AppState
+import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.collections.fold
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DeleteMultiCellActionImp @Inject constructor(
-    val rm: DeleteMultiRM,
-    val applier: DeleteMultiApplier,
-    private val appStateMs: Ms<AppState>,
-    private val docContMs: Ms<DocumentContainer>,
+    private val docCont: DocumentContainer,
     private val multiCellUpdateAct: UpdateMultiCellAction,
-    val stateContMs: Ms<SubAppStateContainer>,
+    private val stateCont: StateContainer,
+    private val errorRouter: ErrorRouter,
 ) : DeleteMultiCellAction {
 
-    private val sc by stateContMs
-    private val dc by docContMs
+    private val sc = stateCont
+    private val dc = docCont
 
     override fun deleteDataOfMultiCellAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
         createCommandAtCursor(request)
         return internalApplyAtCursor(request)
     }
 
-    override fun deleteDataOfMultiCell(request: DeleteMultiCellRequest, undoable: Boolean): RseNav<RemoveMultiCellResponse> {
+    override fun deleteDataOfMultiCell(
+        request: DeleteMultiCellRequest,
+        undoable: Boolean
+    ): RseNav<RemoveMultiCellResponse> {
         if (undoable) {
             createCommandToDeleteMultiCell(request)
         }
@@ -48,14 +49,14 @@ class DeleteMultiCellActionImp @Inject constructor(
     }
 
     private fun internalApplyAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
-        val response = rm.deleteMultiCellAtCursor(request)
-        applier.apply(response)
+        val response = makeRequestDeleteMultiCellAtCursor(request)
+        apply(response)
         return response
     }
 
     private fun internalApply(request: DeleteMultiCellRequest): RseNav<RemoveMultiCellResponse> {
-        val response = rm.deleteMultiCell(request)
-        applier.apply(response)
+        val response = makeRequestDeleteMultiCell(request)
+        apply(response)
         return response
     }
 
@@ -80,6 +81,13 @@ class DeleteMultiCellActionImp @Inject constructor(
         }
     }
 
+    fun apply(res: RseNav<RemoveMultiCellResponse>): RseNav<RemoveMultiCellResponse> {
+        res.onFailure { err ->
+            errorRouter.publish(err)
+        }
+        return res
+    }
+
 
     private fun createCommandToDeleteMultiCell(request: DeleteMultiCellRequest) {
         val wbKey = request.wbKey
@@ -89,7 +97,7 @@ class DeleteMultiCellActionImp @Inject constructor(
             val command = object : BaseCommand() {
                 val _originalRequest = request
                 val _wbKeySt = ws.wbKeySt
-                val _wsNameSt=ws.wsNameSt
+                val _wsNameSt = ws.wsNameSt
 
                 val updateList: List<IndependentCellDM> = run {
                     val _allCellAddresses: Set<CellAddress> = request.ranges.fold(setOf<CellAddress>()) { acc, range ->
@@ -138,4 +146,60 @@ class DeleteMultiCellActionImp @Inject constructor(
 
         }
     }
+
+    fun makeRequestDeleteMultiCellAtCursor(request: DeleteMultiCellAtCursorRequest): RseNav<RemoveMultiCellResponse> {
+        val rangeCells = stateCont.getWsStateRs(request.wbKey, request.wsName).map { wsState ->
+            val ranges = wsState.cursorState.allRanges
+            val cells = wsState.cursorState.allFragCells
+            (ranges to cells)
+        }
+        val ranges = rangeCells.component1()?.first ?: emptyList()
+        val cells = rangeCells.component1()?.second ?: emptyList()
+        val q = makeRequestDeleteMultiCell(
+            DeleteMultiCellRequest(
+                ranges = ranges,
+                cells = cells,
+                wbKey = request.wbKey,
+                wsName = request.wsName,
+                clearFormat = request.clearFormat,
+                windowId = request.windowId
+            )
+        )
+        return q
+    }
+
+    fun makeRequestDeleteMultiCell(request: DeleteMultiCellRequest): RseNav<RemoveMultiCellResponse> {
+        val wbk = request.wbKey
+        val wsn = request.wsName
+        val rt = stateCont.getWbRs(wbk).flatMap { wb ->
+            wb.getWsRs(wsn).flatMap { ws ->
+                val ranges: List<RangeAddress> = request.ranges
+                val cells: List<CellAddress> = request.cells
+                // x: remove cell from worksheet
+                ws.removeCells(cells)
+                val cellsInRanges = ranges
+                    .flatMap { ws.getCellsInRange(it) }
+                    .map { it.address }
+                    .toSet()
+                ws.removeCells(cellsInRanges)
+                wb.apply {
+                    reRun()
+                }
+                val oldWsState = stateCont.getWsState(wbk, wsn)
+                if (request.clearFormat) {
+                    oldWsState?.removeCellState(cells + cellsInRanges)
+                }
+                oldWsState?.refreshCellState()
+                Ok(
+                    RemoveMultiCellResponse(
+                        newWb = wb,
+                        newWsState = oldWsState
+                    )
+                )
+            }
+        }
+        return rt.mapError { it.withNav(request) }
+    }
+
+
 }

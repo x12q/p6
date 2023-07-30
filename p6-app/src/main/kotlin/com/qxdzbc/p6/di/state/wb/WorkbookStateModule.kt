@@ -9,23 +9,17 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import dagger.Binds
 import dagger.Provides
+import dagger.Module
 
-@dagger.Module
+@Module
 interface WorkbookStateModule {
-//    @Binds
-//    fun ScriptContainer(i:ScriptContainerImp): ScriptContainer
 
     companion object
     {
         @Provides
         @DefaultCommandStack
-        fun d():Ms<CommandStack>{
+        fun defaultCommandStack():Ms<CommandStack>{
             return ms(CommandStacks.stdCommandStack())
-        }
-        @Provides
-        @DefaultWsStateMap
-        fun z():Map<St<String>, MutableState<WorksheetState>>{
-            return emptyMap()
         }
     }
 

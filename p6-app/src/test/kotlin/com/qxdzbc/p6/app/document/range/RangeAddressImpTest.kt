@@ -5,8 +5,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddressImp
-import com.qxdzbc.p6.ui.common.P6R
-import io.kotest.matchers.collections.shouldContainAll
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.shouldBe
 import kotlin.test.*
@@ -406,7 +405,7 @@ class RangeAddressImpTest : TestSplitter() {
     fun testLabel_wholeCol() {
         val p = RangeAddressImp(
             topLeft = CellAddresses.fromIndices(1, 1),
-            botRight = CellAddresses.fromIndices(2, P6R.worksheetValue.rowLimit)
+            botRight = CellAddresses.fromIndices(2, WorksheetConstants.rowLimit)
         )
         assertEquals("A:B", p.rawLabel)
         assertEquals("A:B", p.label)
@@ -416,7 +415,7 @@ class RangeAddressImpTest : TestSplitter() {
     fun testLabel_wholeRow() {
         val p = RangeAddressImp(
             topLeft = CellAddresses.fromIndices(1, 1),
-            botRight = CellAddresses.fromIndices(P6R.worksheetValue.colLimit, 5)
+            botRight = CellAddresses.fromIndices(WorksheetConstants.colLimit, 5)
         )
         assertEquals("1:5", p.rawLabel)
         assertEquals("1:5", p.label)

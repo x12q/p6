@@ -5,7 +5,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInWindow
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.action.cell_editor.update_range_selector_text.RefreshRangeSelectorText
@@ -14,8 +13,7 @@ import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAnd
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.di.P6Singleton
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
@@ -24,21 +22,22 @@ import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=RulerAction::class)
 class RulerActionImp @Inject constructor(
-    private val stateContMs: Ms<StateContainer>,
+    private val stateCont:StateContainer,
     val updateCellEditorText: RefreshRangeSelectorText,
     val changColRowSizeAction: ChangeRowAndColumnSizeAction
 ) : RulerAction , ChangeRowAndColumnSizeAction by changColRowSizeAction{
 
-    private var sc by stateContMs
+    private val sc = stateCont
 
     private fun resizerIsNotActivate(wbwsSt: WbWsSt): Boolean {
-        val wsStateMs = sc.getWsStateMs(wbwsSt)
-        if (wsStateMs != null) {
-            val wsState by wsStateMs
-            return !wsState.colResizeBarState.isShow && !wsState.rowResizeBarState.isShow
+        val wsState = sc.getWsState(wbwsSt)
+        if (wsState != null) {
+            return !wsState.colResizeBarState.isShowBar && !wsState.rowResizeBarState.isShowBar
         } else {
             return false
         }
@@ -46,8 +45,8 @@ class RulerActionImp @Inject constructor(
 
     private fun makeWholeColOrRowAddress(ii: Int, type:RulerType): RangeAddress {
         return when (type) {
-            RulerType.Col -> RangeAddresses.wholeCol(ii)
-            RulerType.Row -> RangeAddresses.wholeRow(ii)
+            RulerType.Col -> RangeAddressUtils.rangeForWholeCol(ii)
+            RulerType.Row -> RangeAddressUtils.rangeForWholeRow(ii)
         }
     }
 
@@ -89,15 +88,15 @@ class RulerActionImp @Inject constructor(
     }
 
     override fun showColResizeBarThumb(index: Int, wbwsSt: WbWsSt) {
-        sc.getWsStateMs(wbwsSt)?.also { wsStateMs ->
-            val colRulerState = wsStateMs.value.colRulerState
-            val wsState by wsStateMs
+        sc.getWsState(wbwsSt)?.also { wsState ->
+            val colRulerState = wsState.colRulerState
             val resizerLayout = colRulerState.getResizerLayout(index)
             val wsLayout = wsState.wsLayoutCoorWrapper?.layout
             if (wsLayout != null && wsLayout.isAttached) {
                 if (resizerLayout != null && resizerLayout.isAttached) {
                     val p = wsLayout.windowToLocal(resizerLayout.positionInWindow())
-                    wsState.colResizeBarStateMs.value = wsState.colResizeBarStateMs.value.changePosition(p).showThumb()
+                    wsState.colResizeBarStateMs.value =
+                        wsState.colResizeBarStateMs.value.setResizeBarOffset(p).showThumb()
                 }
             }
         }
@@ -117,12 +116,12 @@ class RulerActionImp @Inject constructor(
             val colResizeBar by wsState.colResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
-                val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.offset.y)
+                val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.resizeBarOffset.y)
                 wsState.colResizeBarStateMs.value = colResizeBar
-                    .changePosition(p)
-                    .setAnchor(p)
+                    .setResizeBarOffset(p)
+                    .setAnchorPointOffset(p)
                     .activate()
-                    .show()
+                    .showBar()
             }
         }
     }
@@ -133,8 +132,8 @@ class RulerActionImp @Inject constructor(
             if (colResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
                 if (wsLayout != null && wsLayout.isAttached) {
-                    val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.offset.y)
-                    wsState.colResizeBarStateMs.value = colResizeBar.changePosition(p).showThumb().show()
+                    val p = wsLayout.windowToLocal(currentPos).copy(y = colResizeBar.resizeBarOffset.y)
+                    wsState.colResizeBarStateMs.value = colResizeBar.setResizeBarOffset(p).showThumb().showBar()
                 }
             }
         }
@@ -143,10 +142,14 @@ class RulerActionImp @Inject constructor(
     override fun finishColResizing(colIndex: Int, wbwsSt: WbWsSt,converter: FloatToDpConverter) {
         sc.getWsState(wbwsSt)?.also { wsState ->
             val colResizeBar by wsState.colResizeBarStateMs
-            if (colResizeBar.isShow) {
-                val sizeDiff = converter.toDp(colResizeBar.offset.x - colResizeBar.anchorPointOffset.x)
+            if (colResizeBar.isShowBar) {
+                val sizeDiff = converter.toDp(colResizeBar.resizeBarOffset.x - colResizeBar.anchorPointOffset.x)
                 this.changeColWidth(colIndex, sizeDiff, wbwsSt,true)
-                wsState.colResizeBarStateMs.value = colResizeBar.deactivate().hideThumb().hide()
+                wsState.colResizeBarStateMs.value = colResizeBar
+                    .deactivate()
+                    .hideThumb()
+                    .hideBar()
+                sc.getWbState(wsState.wbKeySt)?.needSave = true
             }
         }
     }
@@ -160,7 +163,7 @@ class RulerActionImp @Inject constructor(
             if (wsLayout != null && wsLayout.isAttached) {
                 if (resizerLayout != null && resizerLayout.isAttached) {
                     val p = wsLayout.windowToLocal(resizerLayout.positionInWindow())
-                    wsState.rowResizeBarStateMs.value = rowResizeBar.changePosition(p).showThumb()
+                    wsState.rowResizeBarStateMs.value = rowResizeBar.setResizeBarOffset(p).showThumb()
                 }
             }
         }
@@ -181,12 +184,12 @@ class RulerActionImp @Inject constructor(
             val rowResizeBar by wsState.rowResizeBarStateMs
             val wsLayout = wsState.wsLayoutCoors
             if (wsLayout != null && wsLayout.isAttached) {
-                val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.offset.x)
+                val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.resizeBarOffset.x)
                 wsState.rowResizeBarStateMs.value = rowResizeBar
-                    .changePosition(p)
-                    .setAnchor(p)
+                    .setResizeBarOffset(p)
+                    .setAnchorPointOffset(p)
                     .activate()
-                    .show()
+                    .showBar()
             }
         }
     }
@@ -197,8 +200,8 @@ class RulerActionImp @Inject constructor(
             if (rowResizeBar.isActive) {
                 val wsLayout = wsState.wsLayoutCoorWrapper?.layout
                 if (wsLayout != null && wsLayout.isAttached) {
-                    val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.offset.x)
-                    wsState.rowResizeBarStateMs.value = rowResizeBar.changePosition(p).showThumb().show()
+                    val p = wsLayout.windowToLocal(currentPos).copy(x = rowResizeBar.resizeBarOffset.x)
+                    wsState.rowResizeBarStateMs.value = rowResizeBar.setResizeBarOffset(p).showThumb().showBar()
                 }
             }
         }
@@ -207,10 +210,11 @@ class RulerActionImp @Inject constructor(
     override fun finishRowResizing(rowIndex: Int, wbwsSt: WbWsSt,converter: FloatToDpConverter) {
         sc.getWsState(wbwsSt)?.also { wsState ->
             val rowResizeBar by wsState.rowResizeBarStateMs
-            if (rowResizeBar.isShow) {
-                val sizeDiff = converter.toDp(rowResizeBar.offset.y - rowResizeBar.anchorPointOffset.y)
+            if (rowResizeBar.isShowBar) {
+                val sizeDiff = converter.toDp(rowResizeBar.resizeBarOffset.y - rowResizeBar.anchorPointOffset.y)
                 this.changeRowHeight(rowIndex, sizeDiff, wbwsSt,true)
-                wsState.rowResizeBarStateMs.value = rowResizeBar.hide().hideThumb().deactivate()
+                wsState.rowResizeBarStateMs.value = rowResizeBar.hideBar().hideThumb().deactivate()
+                sc.getWbState(wsState.wbKeySt)?.needSave = true
             }
         }
     }
@@ -301,11 +305,11 @@ class RulerActionImp @Inject constructor(
             val newRange = when (rulerSig.type) {
                 RulerType.Col -> {
                     val currentCol = cursorState.mainCell.colIndex
-                    RangeAddresses.wholeMultiCol(currentCol, itemIndex)
+                    RangeAddressUtils.rangeForWholeMultiCol(currentCol, itemIndex)
                 }
                 RulerType.Row -> {
                     val currentRow = cursorState.mainCell.rowIndex
-                    RangeAddresses.wholeMultiRow(currentRow, itemIndex)
+                    RangeAddressUtils.rangeForWholeMultiRow(currentRow, itemIndex)
                 }
             }
             wsState.cursorStateMs.value = cursorState
@@ -320,10 +324,10 @@ class RulerActionImp @Inject constructor(
             var cursorState by wsState.cursorStateMs
             val newRange = when (rulerSig.type) {
                 RulerType.Col -> {
-                    RangeAddresses.wholeCol(itemIndex)
+                    RangeAddressUtils.rangeForWholeCol(itemIndex)
                 }
                 RulerType.Row -> {
-                    RangeAddresses.wholeRow(itemIndex)
+                    RangeAddressUtils.rangeForWholeRow(itemIndex)
                 }
             }
             val newCursorState = if (newRange in cursorState.fragmentedRanges) {

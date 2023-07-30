@@ -12,15 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowState
-import androidx.compose.ui.window.application
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.p6.ui.common.view.MRow
+import com.qxdzbc.common.compose.view.testApp
+import com.qxdzbc.p6.ui.theme.common.P6Icons
+import com.qxdzbc.p6.ui.common.view.CenterAlignRow
 import com.qxdzbc.p6.ui.common.view.buttons.IconBox
+import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.tool_bar.ToolBarDropDownMenu
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.ColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.ColorSelectorActionDoNothing
@@ -61,7 +60,7 @@ fun ColorSelector(
     action: ColorSelectorAction,
     icon: ImageVector,
     colorList: List<Color> = defaultColorList,
-    internalStateMs:Ms<ColorSelectorInternalState> = rms(ColorSelectorInternalStateImp())
+    internalStateMs: Ms<ColorSelectorInternalState> = rms(ColorSelectorInternalStateImp())
 ) {
     val currentColor = state.currentColor
     val openColorDialog = internalStateMs.value.openColorDialog
@@ -74,7 +73,7 @@ fun ColorSelector(
             }) {
                 IconBox(
                     icon = icon,
-                    tint = MaterialTheme.colors.onPrimary,
+                    tint = P6Theme.color.uiColor.iconColor,
                     modifier = Modifier.align(Alignment.TopCenter)
                 )
                 Box(
@@ -102,7 +101,7 @@ fun ColorSelector(
             }
             val chunks = colorList.chunked(10)
             for (chunk in chunks) {
-                MRow(
+                CenterAlignRow(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp),
                     horizontalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
@@ -140,18 +139,13 @@ fun ColorSelector(
     }
 }
 
-fun main() = application {
-    Window(
-        state = WindowState(width = 350.dp, height = 450.dp),
-        onCloseRequest = ::exitApplication
-    ) {
-        Column {
-            ColorSelector(
-                windowId = "",
-                icon = P6R.icons.FormatColorText,
-                state = ColorSelectorStateImp(Color.Red),
-                action = ColorSelectorActionDoNothing()
-            )
-        }
+fun main() = testApp {
+    Column {
+        ColorSelector(
+            windowId = "",
+            icon = P6Icons.FormatTextColorIcon,
+            state = ColorSelectorStateImp(Color.Red),
+            action = ColorSelectorActionDoNothing()
+        )
     }
 }

@@ -4,12 +4,8 @@ import org.apache.commons.text.diff.CommandVisitor
 
 class CharCommandsVisitor : CommandVisitor<Char> {
     private var _addition:String? = null
-//    private var addFrom:Int?=null
-//    private var addTo:Int?=null
 
     private var _hasDelete = false
-//    private var deleteFrom:Int? = null
-//    private var deleteTo:Int?=null
 
     val addition get()=_addition
     val hasDelete get()=_hasDelete
@@ -27,6 +23,5 @@ class CharCommandsVisitor : CommandVisitor<Char> {
 
     override fun visitDeleteCommand(c: Char) {
         _hasDelete = true
-        _addition = null
     }
 }

@@ -28,11 +28,11 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.app.cell_editor.CellEditor
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusState
+import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusStatePerWindow
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.ThumbView
+import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**
  * Cell cursor view consist of:
@@ -48,7 +48,7 @@ fun CellCursor(
     state: CursorState,
     currentDisplayedRange: RangeAddress,
     action: CursorAction,
-    focusState: CursorFocusState,
+    focusState: CursorFocusStatePerWindow,
     modifier: Modifier = Modifier,
 ) {
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> = state.cellLayoutCoorsMap
@@ -119,7 +119,7 @@ fun CellCursor(
                     }
                     .offset { mainCellOffset }
                     .size(mainCellSize)
-                    .then(P6R.border.mod.cursorBorder)
+                    .border(2.dp, P6Theme.color.ws.cursorColor)
                     .onPreviewKeyEvent { keyEvent ->
                         action.handleKeyboardEvent(keyEvent.toP6KeyEvent(), state)
                     }
@@ -169,7 +169,7 @@ fun CellCursor(
                                     color = color,
                                     topLeft = offset,
                                     size = size,
-                                    style = P6R.canvas.stroke.dashLine
+                                    style = P6Theme.canvas.dashLine
                                 )
                                 // x: filled rect
                                 drawRect(
@@ -205,7 +205,7 @@ fun CellCursor(
                                 color = Color.Magenta,
                                 topLeft = offset,
                                 size = cellLayout.dbSizeOrZero(density).toSize(),
-                                style = P6R.canvas.stroke.dashLine
+                                style = P6Theme.canvas.dashLine
                             )
                         }
                     }

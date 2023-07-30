@@ -27,26 +27,34 @@ interface Worksheet : WithSize, WbWsSt {
     /**
      * re-run all the cells but does not update the display text
      */
-    fun reRun(): Worksheet
+    fun reRun()
 
-    fun reRunAndRefreshDisplayText():Worksheet
+    fun reRunAndRefreshDisplayText()
 
     val idMs: Ms<WorksheetId>
+
     var id: WorksheetId
 
     val nameMs: Ms<String>
+
     val name: String
 
-    fun setWbKeySt(wbKeySt: St<WorkbookKey>): Worksheet
+    fun setWbKeySt(wbKeySt: St<WorkbookKey>)
 
     val usedRange: RangeAddress
 
     val table: TableCR<Int, Int, Ms<Cell>>
-    val cells: List<Cell> get() = cellMsList.map { it.value }
+
+    val cells: List<Cell>
+
     val cellMsList: List<Ms<Cell>>
+
     val rangeConstraint: RangeConstraint
-    val rowRange:IntRange
-    val colRange:IntRange
+
+    val usedRowRange:IntRange
+
+    val usedColRange:IntRange
+
     override val size: Int get() = table.itemCount
 
     fun toProto(): WorksheetProto
@@ -56,8 +64,9 @@ interface Worksheet : WithSize, WbWsSt {
      */
     fun range(address: RangeAddress): Rse<Range>
 
-    fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Worksheet>
-    fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Rse<Worksheet>
+    fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Unit>
+
+    fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Rse<Unit>
 
     fun getCellsInRange(rangeAddress: RangeAddress): List<Cell>
 
@@ -78,6 +87,7 @@ interface Worksheet : WithSize, WbWsSt {
     fun getCell(cellAddress: CellAddress): Cell?
 
     fun getCell(colIndex: Int, rowIndex: Int): Cell?
+
     fun getCell(label: String): Cell?
 
     /**
@@ -86,50 +96,38 @@ interface Worksheet : WithSize, WbWsSt {
      */
     fun getCellOrDefaultRs(cellAddress: CellAddress): Rse<Cell>
 
-    fun addOrOverwrite(cell: Cell): Worksheet
+    fun addOrOverwrite(cell: Cell)
 
     fun getColMs(colIndex: Int): List<Ms<Cell>>
+
     fun getRowMs(rowIndex: Int): List<Ms<Cell>>
 
     val allColumns:List<TableCRColumn<Int,Cell>>
+
     val allRows:List<TableCRRow<Int,Cell>>
 
     fun getCol(colIndex: Int): List<Cell>
 
     fun getRow(rowIndex: Int): List<Cell>
 
-    fun removeCol(colIndex: Int): Worksheet
-    fun removeRow(rowIndex: Int): Worksheet
+    fun removeCol(colIndex: Int)
 
-    fun removeCell(colKey: Int, rowKey: Int): Worksheet
-    fun removeCell(cellAddress: CellAddress): Worksheet
-    fun removeCell(label:String): Worksheet
+    fun removeRow(rowIndex: Int)
 
-    fun removeAllCell(): Worksheet
+    fun removeCell(colKey: Int, rowKey: Int)
 
-    fun removeCells(cells: Collection<CellAddress>): Worksheet
-    fun setWsName(newName: String): Worksheet
-    fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>): Worksheet
+    fun removeCell(cellAddress: CellAddress)
 
-    fun refreshDisplayText():Worksheet
+    fun removeCell(label:String)
 
-    companion object {
-        fun random():Worksheet{
-            val rt= WorksheetImp(
-                nameMs= ms("Worksheet-"+UUID.randomUUID().toString()),
-                wbKeySt = ms(WorkbookKey.random()),
-                table = run {
-                    var tb= ImmutableTableCR<Int,Int,Ms<Cell>>()
-                    for(c in 1 .. 10){
-                        for (r in 1 .. 10){
-                           tb = tb.set(c,r, ms(Cell.random(CellAddress(c,r))))
-                        }
-                    }
-                    tb
-                }
-            )
-            return rt
-        }
+    fun removeAllCell()
 
-    }
+    fun removeCells(cells: Collection<CellAddress>)
+
+    fun setWsName(newName: String)
+
+    fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>)
+
+    fun refreshDisplayText()
+
 }

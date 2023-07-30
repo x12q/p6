@@ -15,15 +15,19 @@ import dagger.assisted.AssistedInject
 
 /**
  * A lazy range is a range that does not hold worksheet reference (hold a St instead), and only fetch the worksheet when it is requested. This ensures that the range's content is always update to date, thus safer to use.
+ * TODO this range hold a reference to document container. It should not be that way.
  */
 data class LazyRange @AssistedInject constructor(
     @Assisted("1") override val address: RangeAddress,
     @Assisted("2") val wsNameSt: St<String>,
     @Assisted("3") val wbKeySt: St<WorkbookKey>,
-    val documentContMs: Ms<DocumentContainer>
+    private val docCont: DocumentContainer,
 ) : Range{
+
     val wbKey by wbKeySt
-    val worksheet get() = documentContMs.value.getWs(wbKey, wsNameSt.value)
+
+    val worksheet get() = docCont.getWs(wbKey, wsNameSt.value)
+
     override val rangeId: RangeId get()=RangeIdImp(
         rangeAddress = this.address,
         wbKeySt = wbKeySt,

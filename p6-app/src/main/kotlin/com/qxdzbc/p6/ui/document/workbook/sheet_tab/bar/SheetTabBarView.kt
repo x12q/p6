@@ -11,10 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.tab.SheetTabView
 
 @Composable
@@ -34,8 +35,8 @@ fun SheetTabBarView(
                     itemContent={tabState->
                         MBox(modifier = Modifier
                             .align(Alignment.Bottom)
-                            .requiredWidthIn(P6R.size.value.minTabWidth, P6R.size.value.maxTabWidth)
-                            .height(P6R.size.value.tabHeight)
+                            .requiredWidthIn(WorkbookConstants.minTabWidth, WorkbookConstants.maxTabWidth)
+                            .height(WorkbookConstants.tabHeight)
                         ) {
                             SheetTabView(state=tabState, onClick = onItemClick,
                                 onRename = onRename, onDelete = onDelete,
@@ -64,7 +65,7 @@ fun SheetTabBarView(
 //            }
 
             BorderBox(
-                style = BorderStyle.LEFT_RIGHT,
+                borderStyle = BorderStyle.LEFT_RIGHT,
                 modifier = Modifier
                     .width(30.dp)
                     .height(30.dp)

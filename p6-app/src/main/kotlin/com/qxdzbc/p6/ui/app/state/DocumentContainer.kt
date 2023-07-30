@@ -20,12 +20,11 @@ import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 
 /**
- * A utility interface providing functions for querying documents' content
+ * A convenient bridging interface providing various functions for querying workbooks, worksheets, cells, workbook key Ms, worksheet name Ms.
  */
 interface DocumentContainer : WorkbookGetter {
 
-    val wbContMs: Ms<WorkbookContainer>
-    var wbCont: WorkbookContainer
+    val wbCont: WorkbookContainer
 
     /**
      * @return [WbWsSt] from an existing worksheet, null if such worksheet does not exist
@@ -103,6 +102,10 @@ interface DocumentContainer : WorkbookGetter {
     fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>?
     fun getCellMs(cellId: CellId): Ms<Cell>?
 
+    fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRs(cellId: CellIdDM): Rse<Cell>
+
     fun getCell(cellIdDM:CellIdDM):Cell?
     fun getCell(cellId:CellId):Cell?
 
@@ -112,6 +115,6 @@ interface DocumentContainer : WorkbookGetter {
     /**
      * replace a workbook with a new workbook with the same workbook key
      */
-    fun replaceWb(newWb: Workbook): DocumentContainer
+    fun replaceWb(newWb: Workbook)
 }
 

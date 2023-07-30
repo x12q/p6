@@ -15,17 +15,17 @@ class SetActiveWorkbookActionTest{
 
     @Test
     fun setActiveWb(){
-        assertNotEquals(ts.wbKey4, ts.appState.activeWindowState?.activeWbKey)
+        assertNotEquals(ts.wbKey4, ts.sc.getActiveWindowState()?.activeWbKey)
         val rs = action.setActiveWb(ts.wbKey4)
         assertTrue(rs is Ok)
-        assertEquals(ts.wbKey4, ts.appState.activeWindowState?.activeWbKey)
+        assertEquals(ts.wbKey4, ts.sc.getActiveWindowState()?.activeWbKey)
     }
 
     @Test
     fun `setActiveWb error case`(){
-        assertNotEquals(ts.wbKey4, ts.appState.activeWindowState?.activeWbKey)
+        assertNotEquals(ts.wbKey4, ts.sc.getActiveWindowState()?.activeWbKey)
         val rs = action.setActiveWb(ts.wbKey4)
         assertTrue(rs is Ok)
-        assertEquals(ts.wbKey4, ts.appState.activeWindowState?.activeWbKey)
+        assertEquals(ts.wbKey4, ts.sc.getActiveWindowState()?.activeWbKey)
     }
 }

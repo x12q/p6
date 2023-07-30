@@ -3,7 +3,6 @@ package com.qxdzbc.p6.rpc
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
@@ -13,8 +12,9 @@ import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class P6RpcServerImp @Inject constructor(
     private val cellRpcService: CellServiceGrpc.CellServiceImplBase,

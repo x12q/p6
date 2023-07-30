@@ -8,6 +8,9 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 
 abstract class BaseWorkbook : Workbook {
+
+    override val size: Int get() = worksheetMap.size
+
     override fun getWs(index: Int): Worksheet? {
         return getWsRs(index).component1()
     }
@@ -38,7 +41,7 @@ abstract class BaseWorkbook : Workbook {
     }
 
     override fun getWsMs(nameSt: St<String>): Ms<Worksheet>? {
-        return worksheetMapMs[nameSt]
+        return worksheetMsMap[nameSt]
     }
 
     override fun getWsMsRs(index: Int): Rse<Ms<Worksheet>> {
@@ -57,11 +60,11 @@ abstract class BaseWorkbook : Workbook {
     }
 
     override fun getWs(nameSt: St<String>): Worksheet? {
-        return worksheetMapMs[nameSt]?.value
+        return worksheetMsMap[nameSt]?.value
     }
 
     override fun getWsRs(nameSt: St<String>): Rse<Worksheet> {
-        val rt:Rse<Worksheet> = worksheetMapMs[nameSt]?.value?.toOk() ?: WorkbookErrors.InvalidWorksheet.report(nameSt.value).toErr()
+        val rt:Rse<Worksheet> = worksheetMsMap[nameSt]?.value?.toOk() ?: WorkbookErrors.InvalidWorksheet.report(nameSt.value).toErr()
         return rt
     }
 

@@ -1,17 +1,17 @@
 package com.qxdzbc.p6.app.action.window.pick_active_wb
 
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class PickDefaultActiveWbActionImp @Inject constructor(
-    val stateContSt: St<@JvmSuppressWildcards StateContainer>
+    val stateCont:StateContainer
 ) : PickDefaultActiveWbAction {
     override fun pickAndUpdateActiveWbPointer(windowState: WindowState) {
         val ws = windowState
@@ -24,7 +24,7 @@ class PickDefaultActiveWbActionImp @Inject constructor(
     }
 
     override fun pickAndUpdateActiveWbPointer(windowId: String?) {
-        windowId?.let { stateContSt.value.getWindowStateById(it) }
+        windowId?.let { stateCont.getWindowStateById(it) }
             ?.also { windowState ->
                 pickAndUpdateActiveWbPointer(windowState)
             }

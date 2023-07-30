@@ -1,14 +1,12 @@
 package com.qxdzbc.p6.ui.window.state
 
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.app.oddity.ErrorContainerImp
+import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.app.err.ErrorContainerImp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
-import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogState
-import com.qxdzbc.p6.ui.window.kernel_dialog.ShowDialogStateImp
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarStateImp
 import dagger.assisted.Assisted
@@ -29,13 +27,8 @@ interface WindowStateFactory {
         @Assisted("loadDialogStateMs")
         loadDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
         id: String = UUID.randomUUID().toString(),
-        wbKeyMsSet: Set<Ms<WorkbookKey>> = emptySet(),
-        @Assisted("showStartKernelDialogStateMs")
-        showStartKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
-        @Assisted("showConnectToKernelDialogStateMs")
-        showConnectToKernelDialogStateMs: Ms<ShowDialogState> = ms(ShowDialogStateImp()),
-        commonFileDialogJob: CompletableDeferred<Path?>? = null,
-//        dialogHostStateMs: Ms<WindowDialogGroupState> = ms(WindowDialogGroupStateImp())
+        wbKeyMsSetMs: Ms<Set<Ms<WorkbookKey>>> = ms(emptySet()),
+        commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
     ): WindowStateImp
 
     companion object {
@@ -50,7 +43,7 @@ interface WindowStateFactory {
             return create(
                 activeWorkbookPointerMs = activeWbPointerMs,
                 id=id,
-                wbKeyMsSet = wbKeys.toSet()
+                wbKeyMsSetMs = ms(wbKeys.toSet())
             )
         }
     }

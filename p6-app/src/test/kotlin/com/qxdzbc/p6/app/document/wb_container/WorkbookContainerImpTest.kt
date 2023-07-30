@@ -22,10 +22,15 @@ class WorkbookContainerImpTest{
         wb3 = WorkbookImp(keyMs = WorkbookKey("wb3", null).toMs(), emptyList())
         val workbookList = listOf(wb1, wb2, wb3)
         wbList=workbookList
-        val wbsContMs=testSample.sc.wbStateContMs
-        wbsContMs.value =wbsContMs.value.removeAll().createNewWbState(wb1).createNewWbState(wb2).createNewWbState(wb3)
+        val wbsContMs=testSample.sc.wbStateCont
+        wbsContMs.apply{
+            removeAll()
+            createNewWbState(wb1)
+            createNewWbState(wb2)
+            createNewWbState(wb3)
+        }
 
-        cont = WorkbookContainerImp(testSample.sc.wbStateContMs,testSample.comp.workbookStateFactory())
+        cont = WorkbookContainerImp(testSample.sc.wbStateCont,testSample.comp.workbookStateFactory())
     }
 
 
@@ -37,16 +42,9 @@ class WorkbookContainerImpTest{
     }
 
     @Test
-    fun addOrOverWriteWorkbook() {
-        val wb4 = WorkbookImp(WorkbookKey("wb4",null).toMs(), listOf())
-        val c2 = cont.addOrOverWriteWb(wb4)
-        assertNotNull(c2.getWb(wb4.key))
-    }
-
-    @Test
     fun removeWorkbook() {
-        val c2 = cont.removeWb(wb1.key)
-        assertNull(c2.getWb(wb1.key))
+        cont.removeWb(wb1.key)
+        assertNull(cont.getWb(wb1.key))
     }
 
     @Test

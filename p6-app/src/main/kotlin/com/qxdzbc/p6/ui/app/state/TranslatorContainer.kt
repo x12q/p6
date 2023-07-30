@@ -7,12 +7,13 @@ import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMap
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.p6.translator.TranslatorGetter
 
 
 /**
  * A mutation layer over [TranslatorMap]
  */
-interface TranslatorContainer : TranslatorMap {
+interface TranslatorContainer : TranslatorGetter {
     /**
      * the returned translator is not attached to the app state. For testing only
      */
@@ -37,20 +38,12 @@ interface TranslatorContainer : TranslatorMap {
      */
     fun createOneOffTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>):P6Translator<ExUnit>
 
-    override fun removeTranslator(wbKey: WorkbookKey, wsName: String): TranslatorContainer
-    override fun removeTranslator(wbKey: WorkbookKey): TranslatorContainer
+    fun addTranslator(key: WbWsSt, translator: P6Translator<ExUnit>)
+    fun addTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, translator: P6Translator<ExUnit>)
 
-
-    override fun addTranslator(key: WbWsSt, translator: P6Translator<ExUnit>): TranslatorContainer
-
-    override fun addTranslator(
-        wbKeySt: St<WorkbookKey>,
-        wsNameSt: St<String>,
-        translator: P6Translator<ExUnit>
-    ): TranslatorContainer
-
-
-    override fun removeTranslator(wbwsSt: WbWsSt): TranslatorContainer
-    override fun removeTranslator(wbWs: WbWs): TranslatorContainer
-    override fun removeTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>): TranslatorContainer
+    fun removeTranslator(wbKey: WorkbookKey, wsName: String)
+    fun removeTranslator(wbKey: WorkbookKey)
+    fun removeTranslator(wbwsSt: WbWsSt)
+    fun removeTranslator(wbWs: WbWs)
+    fun removeTranslator(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>)
 }

@@ -5,7 +5,6 @@ import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.proto.P6FileProtos.*
@@ -19,8 +18,9 @@ import java.nio.file.Path
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class P6SaverImp @Inject constructor() : P6Saver {
     override fun saveAsProtoBuf(wb: CanConvertToWorkbookProto, path: Path): Rse<Unit> {
@@ -47,8 +47,8 @@ class P6SaverImp @Inject constructor() : P6Saver {
     override fun saveFirstWsAsCsv(wb: Workbook, path: Path): Rse<Unit> {
         try {
             wb.worksheets.firstOrNull()?.also { ws ->
-                val minRow = ws.rowRange.first
-                val maxCol = ws.colRange.last
+                val minRow = ws.usedRowRange.first
+                val maxCol = ws.usedColRange.last
                 val lineMap = mutableMapOf<Int,List<String?>>()
                 for(row in ws.allRows){
                     val line = if (row.isNotEmpty()) {

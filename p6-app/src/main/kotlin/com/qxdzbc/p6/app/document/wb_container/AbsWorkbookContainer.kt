@@ -25,8 +25,8 @@ abstract class AbsWorkbookContainer : WorkbookContainer {
     override fun getWbMs(wbKeySt: St<WorkbookKey>): Ms<Workbook>? {
         return getWbMsRs(wbKeySt).component1()
     }
-    @kotlin.jvm.Throws(Exception::class)
-    override fun addWb(wb: Workbook): WorkbookContainer {
+    @Throws(Exception::class)
+    override fun addWb(wb: Workbook) {
         return this.addWbRs(wb).getOrThrow()
     }
 

@@ -2,11 +2,9 @@
 
 package test.example
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.qxdzbc.p6.app.oddity.ErrMsg
+import com.qxdzbc.p6.app.err.ErrMsg
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.ui.common.compose.P6TestApp

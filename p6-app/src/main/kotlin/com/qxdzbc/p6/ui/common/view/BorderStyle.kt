@@ -4,30 +4,33 @@ import com.qxdzbc.p6.build.BuildConfig
 import com.qxdzbc.p6.build.BuildVariant
 import java.util.*
 
-enum class BorderStyle {
-    __BOT, __TOP, __LEFT, __RIGHT, __NONE;
+sealed class BorderStyle(
+    val borderStyleValueSet: EnumSet<BorderStyleValue>
+) {
+    object ALL:BorderStyle(BorderStyleValue.ALL)
+    object BOT_RIGHT :BorderStyle(BorderStyleValue.BOT_RIGHT)
+    object TOP_BOT:BorderStyle(BorderStyleValue.TOP_BOT)
+    object TOP_LEFT:BorderStyle(BorderStyleValue.TOP_LEFT)
+    object TOP: BorderStyle(BorderStyleValue.TOP)
+    object BOT:BorderStyle(BorderStyleValue.BOT)
+    object RIGHT:BorderStyle(BorderStyleValue.RIGHT)
+    object LEFT:BorderStyle(BorderStyleValue.LEFT)
+    object LEFT_RIGHT:BorderStyle(BorderStyleValue.LEFT_RIGHT)
+    object NONE:BorderStyle(BorderStyleValue.NONE)
 
-    companion object {
-        val ALL: EnumSet<BorderStyle> = EnumSet.of(__BOT, __TOP, __LEFT, __RIGHT)
-        val BOT_RIGHT = EnumSet.of(__BOT, __RIGHT)
-        val TOP_BOT = EnumSet.of(__TOP, __BOT)
-        val TOP_LEFT = EnumSet.of(__TOP, __LEFT)
-        val TOP = EnumSet.of(__TOP)
-        val BOT = EnumSet.of(__BOT)
-        val RIGHT = EnumSet.of(__RIGHT)
-        val LEFT = EnumSet.of(__LEFT)
-        val LEFT_RIGHT = EnumSet.of(__LEFT, __RIGHT)
-        val NONE = EnumSet.of(__NONE)
+    operator fun contains(bs: BorderStyleValue):Boolean{
+        return bs in this.borderStyleValueSet
+    }
 
-        fun EnumSet<BorderStyle>.debugAll(): EnumSet<BorderStyle> {
-            return debug(ALL)
-        }
-        fun EnumSet<BorderStyle>.debug(debugValue: EnumSet<BorderStyle>): EnumSet<BorderStyle> {
-            return if(BuildConfig.buildVariant == BuildVariant.DEBUG){
-                debugValue
-            }else{
-                NONE
-            }
+    fun debugAll(): BorderStyle {
+        return debug(ALL)
+    }
+
+    fun debug(debugValue: BorderStyle): BorderStyle {
+        return if (BuildConfig.buildVariant == BuildVariant.DEBUG) {
+            debugValue
+        } else {
+            BorderStyle.NONE
         }
     }
 }

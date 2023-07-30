@@ -1,10 +1,9 @@
 package com.qxdzbc.p6.ui.app.state
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
+import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
@@ -27,14 +26,14 @@ import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DocumentContainerImp @Inject constructor(
-    override val wbContMs: Ms<WorkbookContainer>,
+    override val wbCont: WorkbookContainer,
     private val lazyRangeFactory: LazyRangeFactory,
 ) : DocumentContainer {
-
-    override var wbCont: WorkbookContainer by wbContMs
 
     override fun getWbWsSt(wbKey: WorkbookKey, wsName: String): WbWsSt? {
         return this.getWs(wbKey, wsName)?.id
@@ -351,6 +350,18 @@ class DocumentContainerImp @Inject constructor(
         return rt
     }
 
+    override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell> {
+        return getCellMsRs(wbKey, wsName, cellAddress).map { it.value }
+    }
+
+    override fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Rse<Cell> {
+        return getCellMsRs(wbKeySt, wsNameSt, cellAddress).map { it.value }
+    }
+
+    override fun getCellRs(cellId: CellIdDM): Rse<Cell> {
+        return getCellMsRs(cellId).map { it.value }
+    }
+
     override fun getCell(cellIdDM: CellIdDM): Cell? {
         return getCellMs(cellIdDM)?.value
     }
@@ -367,9 +378,9 @@ class DocumentContainerImp @Inject constructor(
         return getCellIdRs(cellIdDM).component1()
     }
 
-    override fun replaceWb(newWb: Workbook): DocumentContainer {
-        wbCont = wbCont.overwriteWB(newWb)
-        return this
+    @P6ExperimentalApi
+    override fun replaceWb(newWb: Workbook) {
+        wbCont.overwriteWb(newWb)
     }
 
     override val allWbs: List<Workbook>

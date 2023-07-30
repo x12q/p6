@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.app.action.app.load_wb
 
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.path.PPath
 import com.qxdzbc.common.path.PPaths
@@ -29,20 +28,20 @@ import kotlin.test.*
 
 class LoadWorkbookActionImpTest : BaseAppStateTest(){
     lateinit var action: LoadWorkbookActionImp
-    lateinit var scMs: Ms<StateContainer>
+    lateinit var scMs:StateContainer
     lateinit var errorRouter: ErrorRouter
 
     @BeforeTest
     fun b() {
         action = ts.comp.loadWorkbookActionImp()
-        scMs = ts.scMs
-        errorRouter = ErrorRouterImp(scMs,ts.appState.errorContainerMs)
+        scMs = ts.sc
+        errorRouter = ErrorRouterImp(scMs,ts.appState.appErrorContainerMs)
     }
 
     @Test
     fun `applyLoadWorkbook std case`() {
-        val windowId = scMs.value.windowStateMsList[0].value.id
-        val wb = Workbook.random()
+        val windowId = scMs.windowStateMsList[0].id
+        val wb = WorkbookImp.random()
         val cellFormatTableMap = wb.worksheets.associate{
             it.name to CellFormatTable.random()
         }
@@ -93,12 +92,11 @@ class LoadWorkbookActionImpTest : BaseAppStateTest(){
     fun `apply Load Workbook into invalid window`() {
         val windowId = "invalid wd id"
         val wb = WorkbookImp(WorkbookKey("Book33").toMs())
-        ts.stateContMs().value.wbCont = ts.stateContMs().value.wbCont.addWb(wb)
         action.apply(windowId, wb,null,null,null)
         val wds = ts.sc.getWindowStateMsById(windowId)
         assertNotNull(wds)
-        assertEquals(listOf(wb), wds.value.wbList)
-        assertEquals(listOf(wb.key), wds.value.wbStateList.map { it.wbKey })
+        assertEquals(listOf(wb), wds.wbList)
+        assertEquals(listOf(wb.key), wds.wbStateList.map { it.wbKey })
     }
 
     @Test

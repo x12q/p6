@@ -14,12 +14,12 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
-import com.qxdzbc.p6.ui.common.P6R
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.worksheet.cursor.CellCursor
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBar
@@ -51,11 +51,11 @@ fun WorksheetView(
             Column {
                 Row {
                     BorderBox( // x: cell/range indicator
-                        style = BorderStyle.BOT_RIGHT,
+                        borderStyle = BorderStyle.BOT_RIGHT,
                         modifier = Modifier.size(
                             DpSize(
-                                P6R.size.value.rowRulerWidth,
-                                P6R.size.value.defaultRowHeight,
+                                WorksheetConstants.rowRulerWidth,
+                                WorksheetConstants.defaultRowHeight,
                             )
                         )
                     ) {
@@ -69,7 +69,7 @@ fun WorksheetView(
                         RulerView(
                             state = wsState.colRulerState,
                             rulerAction = colRulerAction,
-                            size = P6R.size.value.defaultRowHeight
+                            size = WorksheetConstants.defaultRowHeight
                         )
                     }
                 }
@@ -80,7 +80,7 @@ fun WorksheetView(
                             //x: this is row ruler
                             state = wsState.rowRulerState,
                             rulerAction = rowRulerAction,
-                            size = P6R.size.value.rowRulerWidth
+                            size = WorksheetConstants.rowRulerWidth
                         )
                     }
                     MBox(
@@ -138,7 +138,7 @@ fun makeCursorTestTag(worksheetName: String): String {
 //
 //    val ws = WorksheetImp("sheet1")
 //
-//    val wsStateMs: MutableState<WorksheetState> = WorksheetStateImp.rememberMs(
+//    val wsState: WorksheetState = WorksheetStateImp.rememberMs(
 //        workbookKey = WorkbookKey("Wb", null),
 //        worksheet = ws,
 //        cursorState = CursorStates.defaultRememberMs(),
@@ -148,11 +148,11 @@ fun makeCursorTestTag(worksheetName: String): String {
 //    val ec = rememberCoroutineScope()
 //    P6Theme(ThemeType.GRAY) {
 //        WorksheetView(
-//            wsState = wsStateMs.value,
+//            wsState = wsState.value,
 //            wsActions = WorksheetActionsImp(
-//                WorksheetStateActionsImp(wsStateMs),
+//                WorksheetStateActionsImp(wsState),
 //                WorksheetSideEffectsDoNothing,
-//                wsStateMs,
+//                wsState,
 //
 //            ),
 //            executionScope = ec

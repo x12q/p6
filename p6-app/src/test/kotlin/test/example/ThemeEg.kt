@@ -9,15 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.theme.P6DarkColors
-import com.qxdzbc.p6.ui.theme.P6GrayColors
 
 fun main(){
     P6TestApp{
         Row{
-            MaterialTheme(
-                colors = P6DarkColors
-            ) {
+            MaterialTheme {
                 BorderBox {
                     Column {
                         BorderBox(modifier = Modifier.background(MaterialTheme.colors.primary).size(20.dp)){}
@@ -27,9 +23,7 @@ fun main(){
                 }
             }
 
-            MaterialTheme(
-                colors = P6GrayColors
-            ) {
+            MaterialTheme{
                 BorderBox {
                     Column {
                         BorderBox(modifier = Modifier.background(MaterialTheme.colors.primary).size(20.dp)){}

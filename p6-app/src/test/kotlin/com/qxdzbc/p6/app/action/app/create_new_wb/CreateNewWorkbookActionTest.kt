@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.app.action.app.create_new_wb
 
-import androidx.compose.runtime.getValue
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookAction
@@ -16,7 +14,6 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.mock
 import test.BaseAppStateTest
-import test.TestSample
 import kotlin.test.*
 
 class CreateNewWorkbookActionTest : BaseAppStateTest(){
@@ -25,9 +22,9 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
     lateinit var closeWbAct: CloseWorkbookAction
     val wbk = WorkbookKey("NewWb")
 
-    lateinit var scMs: Ms<StateContainer>
+    lateinit var scMs:StateContainer
     lateinit var errRouter: ErrorRouter
-    lateinit var windowStateMs: Ms<WindowState>
+    lateinit var windowState: WindowState
     val newWB = WorkbookImp(WorkbookKey("newWb").toMs())
     lateinit var okRes: CreateNewWorkbookResponse
     lateinit var errRes: CreateNewWorkbookResponse
@@ -38,17 +35,17 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
         errRouter = mock()
         action = ts.comp.createNewWbActionImp()
         closeWbAct = ts.comp.closeWbAct()
-        scMs = ts.scMs
-        windowStateMs = scMs.value.windowStateMsList[0]
+        scMs = ts.comp.stateContainer
+        windowState = scMs.windowStateMsList[0]
         okRes = CreateNewWorkbookResponse(
             errorReport = null,
             wb = newWB,
-            windowId = windowStateMs.value.id
+            windowId = windowState.id
         )
         errRes = CreateNewWorkbookResponse(
             errorReport = CommonErrors.Unknown.header.toErrorReport(),
             wb = null,
-            windowId = windowStateMs.value.id
+            windowId = windowState.id
         )
     }
 
@@ -57,7 +54,7 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
 
         val windowState=sc.getWindowStateMsById(ts.window1Id)
         assertNotNull(windowState)
-        val ws by windowState
+        val ws = windowState
         val wbKeySet=ws.wbKeySet
         for(k in wbKeySet){
             closeWbAct.closeWb(CloseWorkbookRequest(
@@ -83,13 +80,13 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
             wbName = wbk.name
         )
 
-        assertNull(ts.stateContMs().value.getWb(wbk))
+        assertNull(ts.sc.getWb(wbk))
         val o = action.createNewWb(req)
         assertTrue(o.isOk)
         assertNull(o.errorReport)
         assertNotNull(o.wb)
         assertEquals(wbk, o.wb?.key)
-        assertNotNull(ts.stateContMs().value.getWb(wbk))
+        assertNotNull(ts.sc.getWb(wbk))
 
         val o2 = action.createNewWb(req)
         assertTrue(o2.isError)
@@ -99,54 +96,44 @@ class CreateNewWorkbookActionTest : BaseAppStateTest(){
 
     @Test
     fun `apply ok on window`() {
-        val wds by windowStateMs
-        scMs.value.wbCont.getWb(newWB.key).shouldBeNull()
-        scMs.value.getWindowStateMsByWbKey(newWB.key).shouldBeNull()
+        scMs.wbCont.getWb(newWB.key).shouldBeNull()
+        scMs.getWindowStateMsByWbKey(newWB.key).shouldBeNull()
         /**/
-        action.iapply(okRes.wb, okRes.windowId)
-        scMs.value.wbCont.getWb(newWB.key).shouldNotBeNull()
-        scMs.value.getWindowStateMsByWbKey(newWB.key).shouldNotBeNull()
+        action.apply2(okRes.wb!!, okRes.windowId)
+        scMs.wbCont.getWb(newWB.key).shouldNotBeNull()
+        scMs.getWindowStateMsByWbKey(newWB.key).shouldNotBeNull()
     }
 
     @Test
     fun `apply ok with null window id`() {
         val res = okRes.copy(windowId = null)
-        val wdsCount = scMs.value.windowStateMsList.size
+        val wdsCount = scMs.windowStateMsList.size
         testApplyOnApp(res)
-        scMs.value.windowStateMsList.size shouldBe wdsCount
+        scMs.windowStateMsList.size shouldBe wdsCount
     }
 
     @Test
     fun `apply ok with invalid qqq window id`() {
         val res = okRes.copy(windowId = "new windowId")
-        val wdsCount = scMs.value.windowStateMsList.size
+        val wdsCount = scMs.windowStateMsList.size
         testApplyOnApp(res)
-        scMs.value.windowStateMsList.size shouldBe wdsCount+1
+        scMs.windowStateMsList.size shouldBe wdsCount+1
     }
 
     fun testApplyOnApp(res: CreateNewWorkbookResponse) {
-        scMs.value.wbCont.getWb(newWB.key).shouldBeNull()
-        scMs.value.getWindowStateMsByWbKey(newWB.key).shouldBeNull()
+        scMs.wbCont.getWb(newWB.key).shouldBeNull()
+        scMs.getWindowStateMsByWbKey(newWB.key).shouldBeNull()
         /**/
-        action.iapply(res.wb, res.windowId)
-        scMs.value.wbCont.getWb(newWB.key).shouldNotBeNull()
-        scMs.value.getWindowStateMsByWbKey(newWB.key).shouldNotBeNull()
+        action.apply2(res.wb!!, res.windowId)
+        scMs.wbCont.getWb(newWB.key).shouldNotBeNull()
+        scMs.getWindowStateMsByWbKey(newWB.key).shouldNotBeNull()
     }
 
     @Test
     fun `apply ok with invalid window id`() {
         val res = okRes.copy(windowId = "invalid window id")
-        val wdsCount = scMs.value.windowStateMsList.size
+        val wdsCount = scMs.windowStateMsList.size
         testApplyOnApp(res)
-        scMs.value.windowStateMsList.size shouldBe wdsCount + 1
+        scMs.windowStateMsList.size shouldBe wdsCount + 1
     }
-
-//    @Test
-//    fun `apply ok with invalid window id on single window`() {
-//        appStateMs.value = TestSample.sampleAppStateMs().value
-//        val res:CreateNewWorkbookResponse = okRes.copy(windowId = "invalid window id")
-//        val wdsCount = appStateMs.value.windowStateMsList.size
-//        testApplyOnApp(res)
-//        assertEquals(wdsCount,appStateMs.value.windowStateMsList.size)
-//    }
 }

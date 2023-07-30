@@ -6,7 +6,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.view.MRow
+import com.qxdzbc.p6.ui.common.view.CenterAlignRow
 import com.qxdzbc.p6.ui.common.view.buttons.DropDownButton
 
 @Composable
@@ -20,7 +20,7 @@ fun ToolBarDropDownMenuWithButton(
     ToolBarDropDownMenu(
         expanded = expanded,
         header = {
-            MRow {
+            CenterAlignRow {
                 header()
                 DropDownButton(
                     enabled = !expanded,
@@ -44,7 +44,7 @@ fun ToolBarDropDownMenu(
     items: @Composable ColumnScope.() -> Unit,
     onDismiss: () -> Unit,
 ) {
-    MRow {
+    CenterAlignRow {
         header()
     }
 

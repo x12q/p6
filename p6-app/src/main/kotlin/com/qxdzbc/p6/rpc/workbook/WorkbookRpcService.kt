@@ -1,18 +1,15 @@
 package com.qxdzbc.p6.rpc.workbook
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
 import com.google.protobuf.Int64Value
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
 import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.workbook.add_ws.AddWorksheetResponse
+import com.qxdzbc.p6.app.action.workbook.create_new_ws.CreateNewWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.app.action.workbook.create_new_ws.CreateNewWorksheetResponse
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
 import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
@@ -24,7 +21,6 @@ import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.ActionDispatcherDefault
 import com.qxdzbc.p6.di.AppCoroutineScope
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
@@ -38,30 +34,29 @@ import com.qxdzbc.p6.rpc.workbook.msg.GetWorksheetResponse
 import com.qxdzbc.p6.rpc.workbook.msg.WorksheetWithErrorReportMsg
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt.Companion.toModel
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
-import com.qxdzbc.p6.ui.app.state.SubAppStateContainer
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import io.grpc.stub.StreamObserver
 import kotlinx.coroutines.*
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class,boundType= WorkbookServiceGrpc.WorkbookServiceImplBase::class)
 class WorkbookRpcService @Inject constructor(
-//    @AppStateMs
-//    private val appStateMs: Ms<AppState>,
     private val translatorContainer: TranslatorContainer,
     private val rpcActions: WorkbookRpcActions,
-    private val documentContMs: Ms<DocumentContainer>,
-    private val stateContMs: Ms<SubAppStateContainer>,
+    private val docCont: DocumentContainer,
+    private val subAppStateContainer: StateContainer,
     @AppCoroutineScope
     val crtScope: CoroutineScope,
     @ActionDispatcherDefault
     val actionDispatcherDefault: CoroutineDispatcher
 ) : WorkbookServiceGrpc.WorkbookServiceImplBase() {
 
-    //    private var appState by appStateMs
-    private var dc by documentContMs
-    private var sc by stateContMs
+    private val dc = docCont
+    private var sc = subAppStateContainer
 
     override fun removeAllWorksheet(
         request: DocProtos.WorkbookKeyProto?,
@@ -192,7 +187,7 @@ class WorkbookRpcService @Inject constructor(
                     val wbkMsRs = dc.getWbRs(wbKey = wbk)
                     val rs = wbkMsRs.flatMap { wb ->
                         val req = request.toModel(wb.keyMs, translator)
-                        val rs: Rse<AddWorksheetResponse> = rpcActions.createNewWorksheetRs(req)
+                        val rs: Rse<CreateNewWorksheetResponse> = rpcActions.createNewWorksheetRs(req)
                         rs
                     }
                     val rt = SingleSignalResponse.fromRs(rs).toProto()

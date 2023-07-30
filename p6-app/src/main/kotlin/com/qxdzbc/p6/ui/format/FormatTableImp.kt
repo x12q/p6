@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.format
 import com.qxdzbc.common.CollectionUtils.replaceKey
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 
 data class FormatTableImp<T>(
     override val valueMap: Map<RangeAddressSet, T> = emptyMap(),
@@ -112,7 +112,7 @@ data class FormatTableImp<T>(
     }
 
     override fun getConfigSetFromCells(cellAddresses: Collection<CellAddress>): FormatEntrySet<T> {
-        val rangeAddresses = RangeAddresses.exhaustiveMergeRanges(cellAddresses.map { RangeAddress(it) })
+        val rangeAddresses = RangeAddressUtils.exhaustiveMergeRanges(cellAddresses.map { RangeAddress(it) })
         val availableFormats = getValidConfigSetFromRanges(rangeAddresses)
         val nullFormatRangeSet = RangeAddressSetImp(rangeAddresses).getNotIn(
             availableFormats.validSet.flatMap { it.rangeAddressSet.ranges }.toSet()

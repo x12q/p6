@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.IndCellImp
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -76,7 +76,7 @@ internal class WorksheetImpTest {
             )
         )
         val ws = WorksheetImp("Sheet1".toMs(), wbkMs,table)
-        val rs = ws.getCellsInRange(RangeAddresses.wholeCol(1)).map { it.address }
+        val rs = ws.getCellsInRange(RangeAddressUtils.rangeForWholeCol(1)).map { it.address }
         assertEquals(2, rs.size)
         listOf("A1", "A2").map { CellAddress(it) }.forEach {
             assertTrue { it in rs }

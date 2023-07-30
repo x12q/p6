@@ -11,7 +11,7 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
@@ -19,7 +19,7 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementVisito
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
-import com.qxdzbc.p6.ui.common.P6R
+import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
@@ -45,9 +45,9 @@ data class CursorStateImp @AssistedInject constructor(
     @EmptyRangeAddressSet
     override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress> = emptySet(),
     @DefaultRangeConstraint
-    override val rangeConstraint: RangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+    override val rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
     @DefaultClipBoardRange
-    override val clipboardRange: RangeAddress = RangeAddresses.InvalidRange,
+    override val clipboardRange: RangeAddress = RangeAddressUtils.InvalidRange,
 
     ) : BaseCursorState() {
 
@@ -79,7 +79,7 @@ data class CursorStateImp @AssistedInject constructor(
                 idMs = cursorIdMs,
                 cellLayoutCoorsMapSt = cellLayoutCoorsMapSt,
                 mainCellMs = mainCellMs,
-                rangeConstraint = P6R.worksheetValue.defaultRangeConstraint,
+                rangeConstraint = WorksheetConstants.defaultRangeConstraint,
                 mainRange = null,
                 fragmentedCells = emptySet(),
                 fragmentedRanges = emptySet(),
@@ -117,7 +117,7 @@ data class CursorStateImp @AssistedInject constructor(
     }
 
     override fun removeClipboardRange(): CursorState {
-        return this.copy(clipboardRange = RangeAddresses.InvalidRange)
+        return this.copy(clipboardRange = RangeAddressUtils.InvalidRange)
     }
 
     override fun containInClipboard(cellAddress: CellAddress): Boolean {

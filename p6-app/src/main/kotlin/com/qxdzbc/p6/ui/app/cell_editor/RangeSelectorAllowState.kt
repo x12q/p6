@@ -245,7 +245,7 @@ enum class RangeSelectorAllowState {
         /**
          * Activation characters are ones that allow enabling a range selector while editing.
          */
-        val rangeSelectorActivationChars = setOf('(', '+', '-', '*', '/', ':', '=', '^', '%')
+        val rangeSelectorActivationChars = setOf('(', '+', '-', '*', '/', ':', '=', '^', '%', ',')
 
         fun commonTransit(
             text: String,

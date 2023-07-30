@@ -3,14 +3,14 @@ package com.qxdzbc.p6.app.common.formatter
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.io.path.absolutePathString
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class RangeAddressFormatterImp @Inject constructor() : RangeAddressFormatter {
     override fun format(cell: CellAddress, wsName: String?, wbKey: WorkbookKey?): String {

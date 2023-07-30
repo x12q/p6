@@ -14,7 +14,7 @@ import kotlin.test.assertNotNull
 
 class WorksheetIntegrationTest {
     lateinit var ts: TestSample
-    val sc get() = ts.stateContMs().value
+    val sc get() = ts.sc
     lateinit var updateCellAction: UpdateCellAction
 
     @BeforeTest
@@ -59,7 +59,7 @@ class WorksheetIntegrationTest {
 
         // x: rename ws1
         val newName = "newName"
-        ws1Ms.value = ws1.setWsName(newName)
+        ws1.setWsName(newName)
         assertEquals(newName, ws1.name)
 
         val c = ws2.getCell("A1")

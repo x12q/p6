@@ -1,15 +1,11 @@
 package com.qxdzbc.p6.app.action.workbook.new_worksheet
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.toErr
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfos.noNav
 import com.qxdzbc.p6.app.document.workbook.WorkbookErrors
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
@@ -19,17 +15,16 @@ import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
-@P6Singleton
+import javax.inject.Singleton
+
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class NewWorksheetActionImp @Inject constructor(
     private val errorRouter: ErrorRouter,
-    val appStateMs: Ms<AppState>,
-    private val scMs: Ms<StateContainer>,
-    private val dcMs: Ms<DocumentContainer>,
+    val appState:AppState,
+    private val sc: StateContainer,
+    private val docCont: DocumentContainer,
 ) : NewWorksheetAction {
-    var sc by scMs
-    var dc by dcMs
-    var appState by appStateMs
 
     override fun createNewWorksheetRs(
         request: CreateNewWorksheetRequest,
@@ -42,10 +37,10 @@ class NewWorksheetActionImp @Inject constructor(
                 val wb = wbState.wb
                 val canAdd = request.newWorksheetName?.let { !wb.containSheet(it) } ?: true
                 val z = if (canAdd) {
-                    val q = wb.createNewWs_MoreDetail(request.newWorksheetName)
+                    val q = wb.createNewWsWithMoreDetail(request.newWorksheetName)
                     Ok(
                         CreateNewWorksheetResponse(
-                            newWb = q.newWb,
+                            newWb = q!!.newWb,
                             newWsName = q.newWsName,
                         )
                     )
@@ -60,10 +55,11 @@ class NewWorksheetActionImp @Inject constructor(
         )
         rt.map {
             val newWb = it.newWb
-            dcMs.value = dc.replaceWb(newWb)
-            sc.getWbStateMsRs(newWb.key)
+            docCont.replaceWb(newWb)
+            sc.getWbStateRs(newWb.key)
                 .onSuccess { wbStateMs ->
-                    wbStateMs.value = wbStateMs.value.refreshWsState().setNeedSave(true)
+                    wbStateMs.refreshWsState()
+                    wbStateMs.needSave = true
                 }
         }
         if (publishError) {

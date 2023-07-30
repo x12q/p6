@@ -4,28 +4,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
 import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.P6Singleton
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@P6Singleton
+@Singleton
 @ContributesBinding(P6AnvilScope::class)
 class DragThumbActionImp @Inject constructor(
-    val stateContainerSt: St<@JvmSuppressWildcards StateContainer>,
+    val stateContainerSt:StateContainer,
 //    private val copyCellAct: CopyCellAction,
 //    private val multiCellUpdateAct:MultiCellUpdateAction,
     private val endThumbDragAction: EndThumbDragAction,
 ) : DragThumbAction {
 
-    val sc by stateContainerSt
+    val sc  = stateContainerSt
 
     private fun forTest(wbws: WbWsSt, cellAddress: CellAddress, f: (cellLayoutCoor: LayoutCoorWrapper) -> Unit) {
         sc.getThumbStateMsRs(wbws)

@@ -3,8 +3,8 @@ package com.qxdzbc.p6.ui.format
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.cell.address.CRAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses
-import com.qxdzbc.p6.app.document.range.address.RangeAddresses.toModel
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
+import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils.toModel
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressSetProto
 
 data class RangeAddressSetImp(
@@ -12,6 +12,7 @@ data class RangeAddressSetImp(
 ) : RangeAddressSet {
 
     constructor(vararg rangeAddresses: RangeAddress) : this(setOf(*rangeAddresses))
+
     constructor(rangeAddresses: Collection<RangeAddress>) : this(rangeAddresses.toSet())
 
     override fun contains(cellAddress: CellAddress): Boolean {
@@ -23,12 +24,12 @@ data class RangeAddressSetImp(
     }
 
     override fun addRanges(rangeAddresses: Collection<RangeAddress>): RangeAddressSetImp {
-        val newSet = RangeAddresses.exhaustiveMergeRanges(this.ranges + rangeAddresses).toSet()
+        val newSet = RangeAddressUtils.exhaustiveMergeRanges(this.ranges + rangeAddresses).toSet()
         return this.copy(ranges = newSet)
     }
 
     override fun addRanges(vararg rangeAddresses: RangeAddress): RangeAddressSetImp {
-        val newSet = RangeAddresses.exhaustiveMergeRanges(this.ranges + rangeAddresses).toSet()
+        val newSet = RangeAddressUtils.exhaustiveMergeRanges(this.ranges + rangeAddresses).toSet()
         return this.copy(ranges = newSet)
     }
 
@@ -40,7 +41,7 @@ data class RangeAddressSetImp(
         val brokenRanges = ranges.flatMap {
             it.removeCell(cellAddress)
         }
-        val newSet = RangeAddresses.exhaustiveMergeRanges(brokenRanges).toSet()
+        val newSet = RangeAddressUtils.exhaustiveMergeRanges(brokenRanges).toSet()
         return this.copy(ranges = newSet)
     }
 
@@ -51,7 +52,7 @@ data class RangeAddressSetImp(
         val clippedRanges = ranges.flatMap {
             it.getNotIn(rangeAddress)
         }
-        val newSet = RangeAddresses.exhaustiveMergeRanges(clippedRanges).toSet()
+        val newSet = RangeAddressUtils.exhaustiveMergeRanges(clippedRanges).toSet()
         return this.copy(ranges = newSet)
     }
 
@@ -83,7 +84,7 @@ data class RangeAddressSetImp(
     }
 
     override fun addCell(cellAddress: CellAddress): RangeAddressSetImp {
-        val newSet = RangeAddresses.exhaustiveMergeRanges(ranges + RangeAddress(cellAddress)).toSet()
+        val newSet = RangeAddressUtils.exhaustiveMergeRanges(ranges + RangeAddress(cellAddress)).toSet()
         return this.copy(ranges = newSet)
     }
 

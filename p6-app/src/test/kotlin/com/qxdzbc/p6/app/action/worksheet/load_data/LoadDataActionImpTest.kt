@@ -47,10 +47,10 @@ internal class LoadDataActionImpTest {
             loadType = LoadType.OVERWRITE,
             ws = indWs
         )
-        val wsMs = ts.stateCont.getWsMs(wbk, wsn)
+        val wsMs = ts.sc.getWsMs(wbk, wsn)
         assertNotNull(wsMs)
-        var ws by wsMs
-        ws = ws.removeAllCell()
+        val ws by wsMs
+        ws.removeAllCell()
         ws.addOrOverwrite(
             IndCellImp(
                 address = CellAddress("A2"),
@@ -77,12 +77,12 @@ internal class LoadDataActionImpTest {
             loadType = LoadType.KEEP_OLD_DATA_IF_COLLIDE,
             ws = indWs
         )
-        val wsMs = ts.stateCont.getWsMs(wbk, wsn)
+        val wsMs = ts.sc.getWsMs(wbk, wsn)
         assertNotNull(wsMs)
-        var ws by wsMs
+        val ws by wsMs
         val a2Value = "Keep me"
-        ws = ws.removeAllCell()
-        ws = ws.addOrOverwrite(
+        ws.removeAllCell()
+        ws.addOrOverwrite(
             IndCellImp(
                 address = CellAddress("A2"),
                 content = CellContentImp(

@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.StateUtils.toMs
@@ -23,15 +22,14 @@ import com.qxdzbc.p6.app.app_context.P6GlobalAccessPoint
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookImp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.oddity.ErrorContainer
-import com.qxdzbc.p6.app.oddity.ErrorType
+import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.app.err.ErrorType
 import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createRefresh
-import com.qxdzbc.p6.ui.theme.P6DefaultTypoGraphy
-import com.qxdzbc.p6.ui.theme.P6LightColors2
+import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createAndRefresh
+import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.WindowView
 import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
@@ -56,61 +54,56 @@ fun main() {
                     .applicationScope(appScope)
                     .build()
 
-                val appStateMs = p6Comp.appStateMs()
-                var appState by appStateMs
-                appState = run {
+                val appState = p6Comp.appState()
+                run {
                     val wb1: Workbook = WorkbookImp(
                         keyMs = WorkbookKey("Book1", null).toMs(),
-                    ).let {
-                        listOf("Sheet1", "Sheet2").fold(it) { acc, name ->
-                            acc.createNewWs(name) as WorkbookImp
+                    ).let {wb->
+                        listOf("Sheet1", "Sheet2").forEach { name ->
+                            wb.createNewWs(name)
                         }
+                        wb
                     }
                     val wb2 = WorkbookImp(
                         keyMs = WorkbookKey("Book2", null).toMs(),
-                    ).let {
-                        listOf("Sheet1", "Sheet2").fold(it) { acc, name ->
-                            acc.createNewWs(name) as WorkbookImp
+                    ).let {wb->
+                        listOf("Sheet1", "Sheet2").forEach {  name ->
+                            wb.createNewWs(name)
                         }
+                        wb
                     }
-                    val wbStateMs1: Ms<WorkbookState> = ms(
-                        p6Comp.workbookStateFactory().createRefresh(
+                    val wbStateMs1: WorkbookState = p6Comp.workbookStateFactory().createAndRefresh(
                             wbMs = ms(wb1)
                         )
-                    )
-                    val wbStateMs2: Ms<WorkbookState> = ms(
-                        p6Comp.workbookStateFactory().createRefresh(
+
+                    val wbStateMs2: WorkbookState = p6Comp.workbookStateFactory().createAndRefresh(
                             wbMs = ms(wb2)
                         )
-                    )
 
-                    appState.subAppStateCont.wbStateContMs.apply {
-                        this.value = this.value.addOrOverwriteWbState(wbStateMs1).addOrOverwriteWbState(wbStateMs2)
+                    appState.stateCont.wbStateCont.apply{
+                        addOrOverwriteWbState(wbStateMs1)
+                        addOrOverwriteWbState(wbStateMs2)
                     }
+
                     val zz = listOf(
                         ms(
                             p6Comp.outerWindowStateFactory().create(
-                                ms(
-                                    p6Comp.windowStateFactory().create(
-                                        wbKeyMsSet = listOf(wbStateMs1, wbStateMs2).map { it.value.wbKeyMs }.toSet(),
-                                        activeWorkbookPointerMs = ms(
-                                            ActiveWorkbookPointerImp(
-                                                listOf(
-                                                    wbStateMs1,
-                                                    wbStateMs2
-                                                ).map { it.value.wb.keyMs }.toSet().firstOrNull()
-                                            )
+                                p6Comp.windowStateFactory().create(
+                                    wbKeyMsSetMs = ms(listOf(wbStateMs1, wbStateMs2).map { it.wbKeyMs }.toSet()),
+                                    activeWorkbookPointerMs = ms(
+                                        ActiveWorkbookPointerImp(
+                                            listOf(
+                                                wbStateMs1,
+                                                wbStateMs2
+                                            ).map { it.wb.keyMs }.toSet().firstOrNull()
                                         )
-                                    ) as WindowState
-                                )
+                                    )
+                                ) as WindowState
                             ) as OuterWindowState
                         )
-                    ).fold(appState.subAppStateCont)
-                    { acc, e ->
-                        acc.addOuterWindowState(e)
+                    ).forEach {
+                        appState.stateCont.addOuterWindowState(it)
                     }
-                    appState.subAppStateCont = zz
-                    appState
                 }
 
                 p6Comp2 = p6Comp
@@ -137,16 +130,15 @@ fun main() {
 
                 starting = false
             }
-            MaterialTheme(colors = P6LightColors2, typography = P6DefaultTypoGraphy) {
+            P6Theme {
                 if (!starting) {
                     val p6Comp3 = p6Comp2
                     if (p6Comp3 != null) {
-                        val appStateMs2 = remember { p6Comp3.appStateMs() }
-                        P6GlobalAccessPoint.setAppStateMs(appStateMs2)
-                        val appState = appStateMs2.value
+                        val appState = remember { p6Comp3.appState() }
+                        P6GlobalAccessPoint.setAppState(appState)
 
-                        for (windowStateMs in appState.subAppStateCont.outerWindowStateMsList) {
-                            val windowState = windowStateMs.value
+                        for (WindowState in appState.stateCont.outerWindowStateMsList) {
+                            val windowState = WindowState.value
                             val windowAction = p6Comp3.windowActionTable().windowAction
                             val windowActionTable = p6Comp3.windowActionTable()
                             WindowView(
@@ -156,7 +148,7 @@ fun main() {
                             )
                         }
 
-                        var appErrorContainer: ErrorContainer by appState.errorContainerMs
+                        var appErrorContainer: ErrorContainer by appState.appErrorContainerMs
                         if (appErrorContainer.isNotEmpty()) {
                             for (bugMsg in appErrorContainer.errList) {
                                 Window(
@@ -172,6 +164,7 @@ fun main() {
                                                     // x: Kill app when encounter fatal error
                                                     p6Comp3.appAction().exitApp()
                                                 }
+
                                                 else -> appErrorContainer = appErrorContainer.remove(bugMsg)
                                             }
                                         },

@@ -13,20 +13,20 @@ import com.qxdzbc.p6.app.common.utils.WorkbookUtils
 import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
 import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
-import com.qxdzbc.p6.ui.common.P6R
-import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyle
+import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
+import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.document.workbook.dialog.DeleteWorksheetDialog
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarView
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetView
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.qxdzbc.p6.ui.theme.language.AppLanguage
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 
 
@@ -47,16 +47,16 @@ fun WorkbookView(
         var deleteTarget: String by rms("")
         Column(modifier = Modifier.fillMaxSize()) {
             MBox(modifier = Modifier.fillMaxSize().weight(1.0F)) {
-                val wsMs: Ms<WorksheetState>? = wbState.activeSheetStateMs
+                val wsMs: WorksheetState? = wbState.activeSheetStateMs
                 if (wsMs != null) {
                     WorksheetView(
-                        wsState = wsMs.value,
+                        wsState = wsMs,
                         worksheetActionTable = wbActionTable.worksheetActionTable,
                         focusState = focusState
                     )
                 }
             }
-            BorderBox(style = BorderStyle.TOP, modifier = Modifier.height(30.dp)) {
+            BorderBox(borderStyle = BorderStyle.TOP, modifier = Modifier.height(30.dp)) {
                 SheetTabBarView(
                     state = wbState.sheetTabBarState,
                     onItemClick = { sheetName ->
@@ -88,7 +88,7 @@ fun WorkbookView(
 
             if (openRenameDialog) {
                 Dialogs.RenameDialog(
-                    title = P6R.text.renameSheetDialogTitle,
+                    title = AppLanguage.uiText.renameSheetDialogTitle,
                     initName = renameTarget,
                     onOk = { newName ->
                         wbAction.renameWorksheetRs(
