@@ -140,7 +140,7 @@ class CellEditorActionImp @Inject constructor(
             return newTextField
         }
 
-        val diffRs = textDiffer.extractTextAddition(oldTf, newTextField)
+        val diffRs = textDiffer.extractTextAdditionWithRangeOfNewText(oldTf, newTextField)
         val rt = diffRs?.let { tnr ->
             val braces = when (tnr.text) {
                 "(" -> "()"

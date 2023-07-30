@@ -228,7 +228,7 @@ data class CellEditorStateImp (
         } else {
             val newText = newTextField.text
             val textRange = newTextField.selection
-            val diffRs = textDiffer.extractTextAddition(currentTextField,newTextField)
+            val diffRs = textDiffer.extractTextAdditionWithRangeOfNewText(currentTextField,newTextField)
             if(diffRs!=null){
                 this.rangeSelectorAllowState.transitWithInput(
                     text = newText,

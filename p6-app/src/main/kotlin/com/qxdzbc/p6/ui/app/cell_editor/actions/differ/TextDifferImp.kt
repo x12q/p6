@@ -12,32 +12,34 @@ import javax.inject.Singleton
 @ContributesBinding(P6AnvilScope::class)
 class TextDifferImp @Inject constructor() : TextDiffer {
 
-    override fun extractTextAddition(
+    override fun extractTextAdditionWithRangeOfNewText(
         oldTextFieldValue: TextFieldValue,
         newTextFieldValue: TextFieldValue
     ): TextAndRange? {
 
-        val comparator = StringsComparator(oldTextFieldValue.text, newTextFieldValue.text)
-        val visitor = CharCommandsVisitor()
-        comparator.script.visit(visitor)
-
-        val addition = visitor.addition
-        if (addition != null) {
-            return TextAndRange(
-                text = addition,
-                range = newTextFieldValue.selection
-            )
-        }else{
-            return null
+        val rs = runTextDif(oldTextFieldValue, newTextFieldValue)
+        when (rs) {
+            is TextDiffResult.Addition -> {
+                return rs.addition.copy(
+                    range = newTextFieldValue.selection
+                )
+            }
+            else -> {
+                return null
+            }
         }
     }
 
-    override fun runTextDif(oldTextFieldValue: TextFieldValue, newTextFieldValue: TextFieldValue): TextDiffResult {
-        if (oldTextFieldValue == newTextFieldValue){
+    override fun runTextDif(
+        oldTextFieldValue: TextFieldValue,
+        newTextFieldValue: TextFieldValue,
+    ): TextDiffResult {
+
+        if (oldTextFieldValue == newTextFieldValue) {
             return TextDiffResult.NoChange
         }
 
-        if(oldTextFieldValue.text == newTextFieldValue.text && oldTextFieldValue.selection == newTextFieldValue.selection){
+        if (oldTextFieldValue.text == newTextFieldValue.text && oldTextFieldValue.selection == newTextFieldValue.selection) {
             return TextDiffResult.TextSelectionWasChanged(
                 oldTextFieldValue.selection,
                 newTextFieldValue.selection,
@@ -54,17 +56,17 @@ class TextDifferImp @Inject constructor() : TextDiffer {
             return TextDiffResult.Addition(
                 TextAndRange(
                     text = addition,
-                    range = TextRange(start=visitor.addFrom!!,end=visitor.addTo!!)
+                    range = TextRange(start = visitor.addFrom!!, end = visitor.addTo!!)
                 )
             )
-        }else{
+        } else {
             val df = visitor.deleteFrom
             val dt = visitor.deleteTo
-            if(df!=null && dt!=null){
+            if (df != null && dt != null) {
                 return TextDiffResult.Deletion(
-                    TextRange(start=df, end = dt)
+                    TextRange(start = df, end = dt)
                 )
-            }else{
+            } else {
                 return TextDiffResult.NoChange
             }
         }

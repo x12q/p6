@@ -6,13 +6,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 
 interface TextDiffer {
     /**
-     * Extract text addition when [oldTextFieldValue] transforms into [newTextFieldValue].
-     * Return null if the transforming action is not addition.
-     * TODO this text differ is very inadequate. It can only tell if the transformation is addition or not.
-     * TODO And it does not even give correct addition text range. Should not use this.
-     *
+     * Extract text addition when [oldTextFieldValue] transforms into [newTextFieldValue]. With one exception, the return [TextAndRange] always contain the selection [newTextFieldValue]
      */
-    fun extractTextAddition(oldTextFieldValue:TextFieldValue, newTextFieldValue: TextFieldValue):TextAndRange?
+    fun extractTextAdditionWithRangeOfNewText(
+        oldTextFieldValue:TextFieldValue,
+        newTextFieldValue: TextFieldValue,
+    ):TextAndRange?
+
+    /**
+     * run a text diff between 2 text value.
+     */
     fun runTextDif(oldTextFieldValue:TextFieldValue, newTextFieldValue: TextFieldValue):TextDiffResult
 }
 

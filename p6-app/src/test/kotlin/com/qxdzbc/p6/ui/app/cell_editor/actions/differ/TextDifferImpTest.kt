@@ -2,10 +2,11 @@ package com.qxdzbc.p6.ui.app.cell_editor.actions.differ
 
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import com.qxdzbc.common.test_util.TestSplitter
 import io.kotest.matchers.shouldBe
 import kotlin.test.*
 
-internal class TextDifferImpTest{
+internal class TextDifferImpTest : TestSplitter() {
     @Test
     fun `runTextDiff - addition`(){
         val differ = TextDifferImp()
@@ -46,26 +47,32 @@ internal class TextDifferImpTest{
     @Test
     fun add(){
         val diff = TextDifferImp()
+        val t1 = TextFieldValue("abc")
         val t2 = TextFieldValue("abcd")
-        val r=diff.extractTextAddition(
-            TextFieldValue("abc"),
-            t2
-        )
-        assertNotNull(r)
-        assertEquals("d",r.text)
-        assertEquals(t2.selection,r.range)
+        test {
+            val r=diff.extractTextAdditionWithRangeOfNewText(t1, t2)
+            postCondition {
+                assertNotNull(r)
+                assertEquals("d",r.text)
+                assertEquals(t2.selection,r.range)
+            }
+        }
     }
 
     @Test
     fun extractTextAddition(){
-        val differ = TextDifferImp()
-        val t2 = TextFieldValue("abc(45",selection = TextRange(4))
-        val r=differ.extractTextAddition(
-            TextFieldValue("abc12345"),
-            t2
-        )
-        assertNotNull(r)
-        assertEquals("(",r.text)
-        assertEquals(t2.selection,r.range)
+        test {
+            val differ = TextDifferImp()
+            val newText = TextFieldValue("abc(45",selection = TextRange(4))
+            val r=differ.extractTextAdditionWithRangeOfNewText(
+                TextFieldValue("abc12345"),
+                newText
+            )
+            postCondition {
+                assertNotNull(r)
+                assertEquals("(",r.text)
+                assertEquals(newText.selection,r.range)
+            }
+        }
     }
 }
