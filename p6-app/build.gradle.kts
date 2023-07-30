@@ -70,7 +70,7 @@ val p6AppBuildDir = "p6App"
 
 compose.desktop {
     application {
-        mainClass = "com.Main2Kt"
+        mainClass = "com.qxdzbc.p6.Main2Kt"
         nativeDistributions {
             outputBaseDir.set(project.buildDir.resolve(p6AppBuildDir))
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
