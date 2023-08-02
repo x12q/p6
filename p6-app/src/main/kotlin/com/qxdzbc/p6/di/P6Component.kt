@@ -15,16 +15,18 @@ import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.state.window.WindowFocusStateModule
+import com.qxdzbc.p6.ui.window.di.WindowFocusStateModule
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsComponent
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
-import com.qxdzbc.p6.ui.window.move_to_wb.MoveToWbAction
+import com.qxdzbc.p6.ui.window.action.move_focus_to_wb.MoveFocusToWbAction
+import com.qxdzbc.p6.ui.window.di.comp.WindowComponent
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.squareup.anvil.annotations.MergeComponent
@@ -40,15 +42,18 @@ import javax.inject.Singleton
     modules = [
         P6Module::class,
         WindowFocusStateModule::class,
+        ModuleForSubComponentsForP6Component::class,
     ],
 )
 interface P6Component {
+
+    fun windowCompBuilder():WindowComponent.Builder
 
     @Singleton
     fun appState():AppState
 
     @Singleton
-    fun moveToWbAction(): MoveToWbAction
+    fun moveToWbAction(): MoveFocusToWbAction
 
     @Singleton
     fun workbookAction(): WorkbookAction

@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di.state.window
+package com.qxdzbc.p6.ui.window.di
 
 import javax.inject.Qualifier
 

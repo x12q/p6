@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.ui.document.worksheet.slider
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.state.ws.DefaultBaseGridSlider
-import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
-import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultBaseGridSlider
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowRangeQualifier
 import dagger.assisted.AssistedInject
 
 /**

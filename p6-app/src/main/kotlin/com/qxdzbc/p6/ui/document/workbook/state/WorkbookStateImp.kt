@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.ui.document.workbook.state
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.github.michaelbull.result.Err
@@ -19,7 +18,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.di.FalseMs
-import com.qxdzbc.p6.di.state.ws.DefaultActiveWorksheetPointer
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState

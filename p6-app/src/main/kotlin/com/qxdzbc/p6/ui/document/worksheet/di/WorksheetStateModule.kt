@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di.state.ws
+package com.qxdzbc.p6.ui.document.worksheet.di
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
@@ -18,6 +18,8 @@ import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSliderImp
+import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
+import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedSlider
 import com.qxdzbc.p6.ui.document.worksheet.state.CellStateContainer
 import com.qxdzbc.p6.ui.document.worksheet.state.CellStateContainers
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
@@ -33,6 +35,14 @@ interface WorksheetStateModule {
     fun baseGridSlider(b:GridSliderImp):GridSlider
 
     companion object {
+
+        @Provides
+        fun defaultGridSliderMs(factory:LimitedGridSliderFactory):Ms<GridSlider>{
+            val i:LimitedSlider = factory.create()
+            return ms(i)
+        }
+
+
         @DefaultCellLayoutMap
         @Provides
         fun defaultCellLayoutMap():Ms<Map<CellAddress, LayoutCoorWrapper>>{

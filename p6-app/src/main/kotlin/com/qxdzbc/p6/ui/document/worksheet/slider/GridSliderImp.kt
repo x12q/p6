@@ -3,8 +3,8 @@ package com.qxdzbc.p6.ui.document.worksheet.slider
 import com.qxdzbc.p6.app.common.utils.MathUtils
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.NullInt
-import com.qxdzbc.p6.di.state.ws.DefaultVisibleColRange
-import com.qxdzbc.p6.di.state.ws.DefaultVisibleRowRange
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultVisibleColRange
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultVisibleRowRange
 import javax.inject.Inject
 
 /**

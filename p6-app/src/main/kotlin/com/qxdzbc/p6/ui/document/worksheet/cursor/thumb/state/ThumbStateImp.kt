@@ -4,13 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.di.state.ws.DefaultSelectRectState
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp

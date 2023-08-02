@@ -1,8 +1,8 @@
 package  com.qxdzbc.p6
 
 import androidx.compose.foundation.background
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -28,7 +28,6 @@ import com.qxdzbc.p6.di.DaggerP6Component
 import com.qxdzbc.p6.di.P6Component
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createAndRefresh
 import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.WindowView
 import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
@@ -39,7 +38,7 @@ import kotlinx.coroutines.*
 fun main() {
     runBlocking {
         val cs = this
-        var p6Comp2: P6Component? = null
+        var p6Comp: P6Component? = null
         ColdInit()
         application {
             val appScope = this
@@ -48,15 +47,15 @@ fun main() {
             LaunchedEffect(Unit) {
                 val kernelCoroutineScope: CoroutineScope = cs
 
-                val p6Comp: P6Component = DaggerP6Component.builder()
+                val p6Comp2: P6Component = DaggerP6Component.builder()
                     .username("user_name")
                     .applicationCoroutineScope(kernelCoroutineScope)
                     .applicationScope(appScope)
                     .build()
 
-                P6GlobalAccessPoint.setP6Component(p6Comp)
+                P6GlobalAccessPoint.setP6Component(p6Comp2)
 
-                val appState = p6Comp.appState()
+                val appState = p6Comp2.appState()
 
                 val wb1: Workbook = WorkbookImp(
                     keyMs = WorkbookKey("Book1", null).toMs(),
@@ -76,44 +75,42 @@ fun main() {
                     wb
                 }
 
-                val wbStateMs1: WorkbookState = p6Comp.workbookStateFactory().createAndRefresh(
-                    wbMs = ms(wb1)
-                )
 
-                val wbStateMs2: WorkbookState = p6Comp.workbookStateFactory().createAndRefresh(
-                    wbMs = ms(wb2)
-                )
+                val window1Comp = p6Comp2.windowCompBuilder().build()
+
+                val wb1Comp = window1Comp.wbCompBuilder()
+                    .setWb(ms(wb1))
+                    .build()
+                val wb2Comp = window1Comp.wbCompBuilder()
+                    .setWb(ms(wb2))
+                    .build()
+
+                val wbState1: WorkbookState = wb1Comp.wbState()
+
+                val wbState2: WorkbookState = wb2Comp.wbState()
 
                 appState.stateCont.wbStateCont.apply {
-                    addOrOverwriteWbState(wbStateMs1)
-                    addOrOverwriteWbState(wbStateMs2)
+                    addOrOverwriteWbState(wbState1)
+                    addOrOverwriteWbState(wbState2)
+                }
+
+                val windowState1 = window1Comp.windowState().apply {
+                    addWbKey(wbState1.wbKeyMs)
+                    addWbKey(wbState2.wbKeyMs)
+                    activeWbPointerMs.value = activeWbPointer.pointTo(wbState1.wbKeyMs)
                 }
 
                 listOf(
                     ms(
-                        p6Comp.outerWindowStateFactory().create(
-                            p6Comp.windowStateFactory().create(
-                                wbKeyMsSetMs = ms(listOf(wbStateMs1, wbStateMs2).map { it.wbKeyMs }.toSet()),
-                                activeWorkbookPointerMs = ms(
-                                    ActiveWorkbookPointerImp(
-                                        listOf(
-                                            wbStateMs1,
-                                            wbStateMs2
-                                        ).map { it.wb.keyMs }.toSet().firstOrNull()
-                                    )
-                                )
-                            ) as WindowState
-                        ) as OuterWindowState
+                        p6Comp2.outerWindowStateFactory().create(windowState1) as OuterWindowState
                     )
                 ).forEach {
                     appState.stateCont.addOuterWindowState(it)
                 }
 
+                p6Comp = p6Comp2
 
-                p6Comp2 = p6Comp
-
-
-                val p6RpcServer = p6Comp.p6RpcServer()
+                val p6RpcServer = p6Comp2.p6RpcServer()
 
                 cs.launch(Dispatchers.Default) {
                     p6RpcServer.start()
@@ -136,14 +133,13 @@ fun main() {
             }
             P6Theme {
                 if (!starting) {
-                    val p6Comp3 = p6Comp2
-                    if (p6Comp3 != null) {
-                        val appState = p6Comp3.appState()
+                    p6Comp?.also { p6c ->
+                        val appState = p6c.appState()
 
                         for (windowOuterStateMs in appState.stateCont.outerWindowStateMsList) {
                             val windowState = windowOuterStateMs.value
-                            val windowAction = p6Comp3.windowActionTable().windowAction
-                            val windowActionTable = p6Comp3.windowActionTable()
+                            val windowAction = p6c.windowActionTable().windowAction
+                            val windowActionTable = p6c.windowActionTable()
                             WindowView(
                                 state = windowState,
                                 windowActionTable = windowActionTable,
@@ -165,7 +161,7 @@ fun main() {
                                                 ErrorType.FATAL -> {
                                                     appErrorContainer.remove(bugMsg)
                                                     // x: Kill app when encounter fatal error
-                                                    p6Comp3.appAction().exitApp()
+                                                    p6c.appAction().exitApp()
                                                 }
 
                                                 else -> appErrorContainer = appErrorContainer.remove(bugMsg)

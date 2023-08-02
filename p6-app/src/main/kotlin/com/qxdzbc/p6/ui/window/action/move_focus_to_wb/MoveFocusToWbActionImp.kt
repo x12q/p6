@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.window.move_to_wb
+package com.qxdzbc.p6.ui.window.action.move_focus_to_wb
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -15,11 +15,11 @@ import javax.inject.Singleton
 
 @Singleton
 @ContributesBinding(P6AnvilScope::class)
-class MoveToWbActionImp @Inject constructor(
+class MoveFocusToWbActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val sc: StateContainer,
     private val activeWindowPointer:ActiveWindowPointer,
-) : MoveToWbAction {
+) : MoveFocusToWbAction {
 
     override fun moveToWorkbook(wbKey: WorkbookKey) {
         restoreWindowFocusState.setFocusStateConsideringRangeSelector(wbKey)

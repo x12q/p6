@@ -1,7 +1,6 @@
-package com.qxdzbc.p6.di.state.window
+package com.qxdzbc.p6.ui.window.di
 
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import dagger.Module

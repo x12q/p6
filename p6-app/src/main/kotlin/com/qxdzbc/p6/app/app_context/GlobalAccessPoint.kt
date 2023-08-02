@@ -10,7 +10,6 @@ interface GlobalAccessPoint {
     fun setP6Component(p6Component: P6Component)
     val p6Component: P6Component
     val appState:AppState
-    fun setAppState(i:AppState)
 }
 
 val P6GlobalAccessPoint:GlobalAccessPoint = GlobalAccessPointImp()

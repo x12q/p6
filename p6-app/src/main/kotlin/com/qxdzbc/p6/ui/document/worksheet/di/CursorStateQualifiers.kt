@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di.state.ws.cursor
+package com.qxdzbc.p6.ui.document.worksheet.di
 
 import javax.inject.Qualifier
 

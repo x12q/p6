@@ -13,7 +13,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.di.state.ws.*
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementVisitor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
@@ -21,6 +20,7 @@ import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
+import com.qxdzbc.p6.ui.document.worksheet.di.*
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import dagger.assisted.Assisted

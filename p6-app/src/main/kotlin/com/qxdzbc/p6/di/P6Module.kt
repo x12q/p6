@@ -12,8 +12,8 @@ import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.state.StateModule
-import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
-import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowRangeQualifier
 import com.qxdzbc.p6.di.status_bar.StatusBarModule
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
