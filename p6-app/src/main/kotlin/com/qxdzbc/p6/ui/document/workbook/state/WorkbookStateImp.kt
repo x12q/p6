@@ -54,8 +54,6 @@ data class WorkbookStateImp(
 ) : BaseWorkbookState() {
 
     var comp:WbComponent? = null
-//    @Inject
-//    lateinit var compPro:Lazy<WbComponent>
 
     @AssistedInject
     constructor(

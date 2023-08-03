@@ -17,7 +17,6 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.window.di.WindowFocusStateModule
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
-import com.qxdzbc.p6.ui.document.workbook.di.WbStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
@@ -28,7 +27,7 @@ import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.action.move_focus_to_wb.MoveFocusToWbAction
 import com.qxdzbc.p6.ui.window.di.comp.WindowComponent
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
-import com.qxdzbc.p6.ui.window.state.WindowStateFactory
+import com.qxdzbc.p6.ui.window.di.comp.WindowStateFactory
 import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -47,7 +46,6 @@ import javax.inject.Singleton
 )
 interface P6Component {
 
-    fun wbStateFactory():WbStateFactory
 
     fun windowCompBuilder():WindowComponent.Builder
 

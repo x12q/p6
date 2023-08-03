@@ -17,7 +17,7 @@ interface WbStateFactory {
     /**
      * create a new [WorkbookState] for [wbMs], the returned [WorkbookState] contains the component that backs it.
      */
-    fun makeWbState(wbMs: Ms<Workbook>): WorkbookState
+    fun makeWbState(wbMs: Ms<Workbook>, windowId:String?=null): WorkbookState
 
 }
 

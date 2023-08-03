@@ -10,7 +10,6 @@ import dagger.Module
 @Module(
     subcomponents = [
         WindowComponent::class,
-        WbComponent::class,
     ]
 )
 interface ModuleForSubComponentsForP6Component

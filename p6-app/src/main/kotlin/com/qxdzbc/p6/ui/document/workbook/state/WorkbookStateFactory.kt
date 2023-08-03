@@ -20,10 +20,11 @@ interface WorkbookStateFactory {
          */
         fun WorkbookStateFactory.createAndRefresh(
             wbMs: Ms<Workbook>,
+            windowId:String?=null,
         ): WorkbookStateImp {
             return this.create(
                 wbMs,
-                ms(null),
+                ms(windowId),
             ).apply {
                 refresh()
             }

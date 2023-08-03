@@ -17,8 +17,8 @@ interface WbModule{
     companion object{
         @Provides
         @WbScope
-        fun wbState(wbStateFactory: WorkbookStateFactory, wbMs: Ms<Workbook>): WorkbookState {
-            return wbStateFactory.createAndRefresh(wbMs)
+        fun wbState(wbStateFactory: WorkbookStateFactory, wbMs: Ms<Workbook>, @WindowId windowId:String?): WorkbookState {
+            return wbStateFactory.createAndRefresh(wbMs,windowId)
         }
     }
 }

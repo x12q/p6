@@ -13,10 +13,7 @@ import dagger.Subcomponent
 
 /**
  * A workbook component backs a single workbook and handles wiring up all the states object inside a workbook.
- * A [WbComponent] is a child of [WindowComponent] and [P6Component] so that:
- * - the app itself (represent by [P6Component]) can create workbooks.
- * - and each window (represented by [WindowComponent]) can also create workbooks.
- *
+ * A [WbComponent] is a child of [WindowComponent]
  */
 @WbScope
 @MergeSubcomponent(
@@ -31,6 +28,7 @@ interface WbComponent {
     @Subcomponent.Builder
     interface Builder {
         fun setWb(@BindsInstance wbMs: Ms<Workbook>): Builder
+        fun setWindowId(@WindowId @BindsInstance windowId:String?):Builder
         fun build(): WbComponent
     }
 

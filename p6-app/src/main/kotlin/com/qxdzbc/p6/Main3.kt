@@ -30,6 +30,7 @@ import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.WindowView
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.*
+import java.util.*
 
 fun main() {
     runBlocking {
@@ -69,24 +70,28 @@ fun main() {
                     }
                 }
 
+                val windowState1 = p6Comp2.windowStateFactory().createDefault()
 
-                val window1Comp = p6Comp2.windowCompBuilder().build()
 
-                val wbStateFactory = p6Comp2.wbStateFactory()
+//                val wbStateFactory = p6Comp2.wbStateFactory()
 
-                val wbState1: WorkbookState = wbStateFactory.makeWbState(ms(wb1))
-                val wbState2: WorkbookState = wbStateFactory.makeWbState(ms(wb2))
+//                val wbState1: WorkbookState = wbStateFactory.makeWbState(ms(wb1),windowState1.id)
+//                val wbState2: WorkbookState = wbStateFactory.makeWbState(ms(wb2),windowState1.id)
 
-                appState.stateCont.wbStateCont.apply {
-                    addOrOverwriteWbState(wbState1)
-                    addOrOverwriteWbState(wbState2)
-                }
+//                appState.stateCont.wbStateCont.apply {
+//                    addOrOverwriteWbState(wbState1)
+//                    addOrOverwriteWbState(wbState2)
+//                }
 
-                val windowState1 = window1Comp.windowState().apply {
-                    addWbKey(wbState1.wbKeyMs)
-                    addWbKey(wbState2.wbKeyMs)
-                    activeWbPointerMs.value = activeWbPointer.pointTo(wbState1.wbKeyMs)
-                }
+
+
+//                windowState1.apply {
+//                    addWbKey(wbState1.wbKeyMs)
+//                    addWbKey(wbState2.wbKeyMs)
+//                    activeWbPointerMs.value = activeWbPointer.pointTo(wbState1.wbKeyMs)
+//                }
+//                wbState1.windowId=windowState1.id
+//                wbState2.windowId=windowState1.id
 
                 listOf(
                     ms(
