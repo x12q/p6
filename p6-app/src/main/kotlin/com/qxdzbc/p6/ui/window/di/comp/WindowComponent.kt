@@ -25,8 +25,6 @@ interface WindowComponent {
         fun build(): WindowComponent
     }
 
-
-    fun wbCompBuilder(): WbComponent.Builder
     fun windowState():WindowState
 }
 

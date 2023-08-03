@@ -38,7 +38,7 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowState
-import com.qxdzbc.p6.ui.window.di.comp.WindowStateFactory
+import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton

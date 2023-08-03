@@ -22,6 +22,8 @@ import com.qxdzbc.p6.ui.document.worksheet.di.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.di.comp.WbComponent
+import com.qxdzbc.p6.ui.document.workbook.di.comp.WindowIdMsInWb
+import com.qxdzbc.p6.ui.document.workbook.di.comp.WsStateMapMs
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
@@ -40,11 +42,15 @@ import dagger.assisted.AssistedInject
 import javax.inject.Inject
 import javax.inject.Provider
 
-data class WorkbookStateImp(
+data class WorkbookStateImp @Inject constructor(
     override val wbMs: Ms<Workbook>,
+    @WindowIdMsInWb
     private val windowIdMs: Ms<String?>,
+    @WsStateMapMs
     private val wsStateMapMs: Ms<Map<St<String>, WorksheetState>>,
+    @DefaultActiveWorksheetPointer
     override val activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
+    @FalseMs
     private val needSaveMs: Ms<Boolean>,
     private val wsStateFactory: WorksheetStateFactory,
     private val gridSliderFactory: LimitedGridSliderFactory,
@@ -52,32 +58,6 @@ data class WorkbookStateImp(
     private val thumbStateFactory: ThumbStateFactory,
 
 ) : BaseWorkbookState() {
-
-    var comp:WbComponent? = null
-
-    @AssistedInject
-    constructor(
-        @Assisted("1") wbMs: Ms<Workbook>,
-        @Assisted("2") windowIdMs: Ms<String?>,
-        // ======================================= //
-        @DefaultActiveWorksheetPointer
-        activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
-        @FalseMs needSaveMs: Ms<Boolean>,
-        wsStateFactory: WorksheetStateFactory,
-        gridSliderFactory: LimitedGridSliderFactory,
-        cursorStateFactory: CursorStateFactory,
-        thumbStateFactory: ThumbStateFactory,
-    ) : this(
-        wbMs = wbMs,
-        windowIdMs = windowIdMs,
-        wsStateMapMs = ms(emptyMap()),
-        activeSheetPointerMs = activeSheetPointerMs,
-        needSaveMs = needSaveMs,
-        wsStateFactory = wsStateFactory,
-        gridSliderFactory = gridSliderFactory,
-        cursorStateFactory = cursorStateFactory,
-        thumbStateFactory = thumbStateFactory,
-    )
 
     override val wsStateMap: Map<St<String>, WorksheetState> by wsStateMapMs
 
@@ -248,76 +228,77 @@ data class WorkbookStateImp(
         }
     }
 
-    companion object {
-        fun forTesting(
-            wbMs: Ms<Workbook>,
-            wsStateFactory: WorksheetStateFactory,
-            gridSliderFactory: LimitedGridSliderFactory,
-            cursorStateFactory: CursorStateFactory,
-            thumbStateFactory: ThumbStateFactory,
-        ): WorkbookStateImp {
-            val activeSheetName = wbMs.value.getWs(0)?.nameMs
-            return forTesting(
-                wbMs = wbMs,
-                activeSheetPointerMs = ms(ActiveWorksheetPointerImp(activeSheetName)),
-                wsStateFactory = wsStateFactory,
-                gridSliderFactory = gridSliderFactory,
-                cursorStateFactory = cursorStateFactory,
-                thumbStateFactory = thumbStateFactory
-            )
-        }
-
-        fun forTesting(
-            wbMs: Ms<Workbook>,
-            activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
-            wsStateFactory: WorksheetStateFactory,
-            gridSliderFactory: LimitedGridSliderFactory,
-            cursorStateFactory: CursorStateFactory,
-            thumbStateFactory: ThumbStateFactory,
-        ): WorkbookStateImp {
-            val wsStateMap: Map<St<String>, WorksheetState> = wbMs.value.worksheetMsList
-                .map { wsMs ->
-                    val wsIdMs: Ms<WorksheetId> = ms(
-                        WorksheetIdImp(
-                            wsNameMs = wsMs.value.nameMs,
-                            wbKeySt = wbMs.value.keyMs,
-                        )
-                    )
-                    val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsIdMs))
-                    val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
-                    val mainCellMs = ms(CellAddresses.A1)
-
-                    wsStateFactory.create(
-                        wsMs = wsMs,
-                        sliderMs = gridSliderFactory.create().toMs(),
-                        cursorStateMs = cursorStateFactory.create(
-                            idMs = cursorIdMs,
-                            cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
-                            thumbStateMs = ms(
-                                thumbStateFactory.create(
-                                    cursorIdSt = cursorIdMs,
-                                    mainCellSt = mainCellMs,
-                                    cellLayoutCoorMapSt = cellLayoutCoorMapMs
-                                )
-                            ),
-                            mainCellMs = mainCellMs
-                        ).toMs(),
-                        cellLayoutCoorMapMs = cellLayoutCoorMapMs
-                    )
-                }.associateBy { it.wsNameSt }
-
-            return WorkbookStateImp(
-                wbMs = wbMs,
-                activeSheetPointerMs = activeSheetPointerMs,
-                wsStateMapMs = ms(wsStateMap),
-                wsStateFactory = wsStateFactory,
-                gridSliderFactory = gridSliderFactory,
-                cursorStateFactory = cursorStateFactory,
-                thumbStateFactory = thumbStateFactory,
-                windowIdMs = ms(null),
-                needSaveMs = ms(false),
-            )
-        }
-    }
+    // TODO fix this
+//    companion object {
+//        fun forTesting(
+//            wbMs: Ms<Workbook>,
+//            wsStateFactory: WorksheetStateFactory,
+//            gridSliderFactory: LimitedGridSliderFactory,
+//            cursorStateFactory: CursorStateFactory,
+//            thumbStateFactory: ThumbStateFactory,
+//        ): WorkbookStateImp {
+//            val activeSheetName = wbMs.value.getWs(0)?.nameMs
+//            return forTesting(
+//                wbMs = wbMs,
+//                activeSheetPointerMs = ms(ActiveWorksheetPointerImp(activeSheetName)),
+//                wsStateFactory = wsStateFactory,
+//                gridSliderFactory = gridSliderFactory,
+//                cursorStateFactory = cursorStateFactory,
+//                thumbStateFactory = thumbStateFactory
+//            )
+//        }
+//
+//        fun forTesting(
+//            wbMs: Ms<Workbook>,
+//            activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
+//            wsStateFactory: WorksheetStateFactory,
+//            gridSliderFactory: LimitedGridSliderFactory,
+//            cursorStateFactory: CursorStateFactory,
+//            thumbStateFactory: ThumbStateFactory,
+//        ): WorkbookStateImp {
+//            val wsStateMap: Map<St<String>, WorksheetState> = wbMs.value.worksheetMsList
+//                .map { wsMs ->
+//                    val wsIdMs: Ms<WorksheetId> = ms(
+//                        WorksheetIdImp(
+//                            wsNameMs = wsMs.value.nameMs,
+//                            wbKeySt = wbMs.value.keyMs,
+//                        )
+//                    )
+//                    val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsIdMs))
+//                    val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
+//                    val mainCellMs = ms(CellAddresses.A1)
+//
+//                    wsStateFactory.create(
+//                        wsMs = wsMs,
+//                        sliderMs = gridSliderFactory.create().toMs(),
+//                        cursorStateMs = cursorStateFactory.create(
+//                            idMs = cursorIdMs,
+//                            cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
+//                            thumbStateMs = ms(
+//                                thumbStateFactory.create(
+//                                    cursorIdSt = cursorIdMs,
+//                                    mainCellSt = mainCellMs,
+//                                    cellLayoutCoorMapSt = cellLayoutCoorMapMs
+//                                )
+//                            ),
+//                            mainCellMs = mainCellMs
+//                        ).toMs(),
+//                        cellLayoutCoorMapMs = cellLayoutCoorMapMs
+//                    )
+//                }.associateBy { it.wsNameSt }
+//
+//            return WorkbookStateImp(
+//                wbMs = wbMs,
+//                activeSheetPointerMs = activeSheetPointerMs,
+//                wsStateMapMs = ms(wsStateMap),
+//                wsStateFactory = wsStateFactory,
+//                gridSliderFactory = gridSliderFactory,
+//                cursorStateFactory = cursorStateFactory,
+//                thumbStateFactory = thumbStateFactory,
+//                windowIdMs = ms(null),
+//                needSaveMs = ms(false),
+//            )
+//        }
+//    }
 
 }

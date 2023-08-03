@@ -6,28 +6,15 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 
-@AssistedFactory
 interface WorkbookStateFactory {
-    fun create(
-        @Assisted("1") wbMs: Ms<Workbook>,
-        @Assisted("2") windowIdMs: Ms<String?> = ms(null),
-    ): WorkbookStateImp
 
-    companion object {
-        /**
-         * Create a new workbook state using [WorkbookStateFactory], and refresh it immediately.
-         * Refreshing will create state object for worksheets and cells that does not have a state.
-         */
-        fun WorkbookStateFactory.createAndRefresh(
-            wbMs: Ms<Workbook>,
-            windowId:String?=null,
-        ): WorkbookStateImp {
-            return this.create(
-                wbMs,
-                ms(windowId),
-            ).apply {
-                refresh()
-            }
-        }
-    }
+    fun createAndRefresh(
+        wbMs: Ms<Workbook>,
+        windowId: String? = null,
+    ): WorkbookState
+
+    fun create(
+        wbMs: Ms<Workbook>,
+    ): WorkbookState
+
 }

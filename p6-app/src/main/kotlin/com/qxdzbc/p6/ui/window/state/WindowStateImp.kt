@@ -28,10 +28,7 @@ import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
-import com.qxdzbc.p6.ui.window.di.comp.LoadDialogStateMs
-import com.qxdzbc.p6.ui.window.di.comp.SaveDialogStateMs
-import com.qxdzbc.p6.ui.window.di.comp.WindowIdInWindow
-import com.qxdzbc.p6.ui.window.di.comp.WindowScope
+import com.qxdzbc.p6.ui.window.di.comp.*
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -62,7 +59,7 @@ data class WindowStateImp @Inject constructor(
     @DefaultFocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,
     override val formulaColorGenerator: FormulaColorGenerator,
-
+    override val component:WindowComponent,
     ) : BaseWindowState() {
 
     override val commonFileDialogJob: CompletableDeferred<Path?>? by commonFileDialogJobMs

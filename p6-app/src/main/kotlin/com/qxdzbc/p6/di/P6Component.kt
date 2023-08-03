@@ -27,7 +27,7 @@ import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.action.move_focus_to_wb.MoveFocusToWbAction
 import com.qxdzbc.p6.ui.window.di.comp.WindowComponent
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
-import com.qxdzbc.p6.ui.window.di.comp.WindowStateFactory
+import com.qxdzbc.p6.ui.window.state.WindowStateFactory
 import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
