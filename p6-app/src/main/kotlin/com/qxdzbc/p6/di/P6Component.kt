@@ -17,11 +17,11 @@ import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.window.di.WindowFocusStateModule
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
+import com.qxdzbc.p6.ui.document.workbook.di.WbStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsComponent
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
@@ -46,6 +46,8 @@ import javax.inject.Singleton
     ],
 )
 interface P6Component {
+
+    fun wbStateFactory():WbStateFactory
 
     fun windowCompBuilder():WindowComponent.Builder
 

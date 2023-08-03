@@ -2,10 +2,8 @@ package  com.qxdzbc.p6
 
 import androidx.compose.foundation.background
 import androidx.compose.material.Text
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,9 +28,7 @@ import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.window.WindowView
-import com.qxdzbc.p6.ui.window.state.ActiveWorkbookPointerImp
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
-import com.qxdzbc.p6.ui.window.state.WindowState
 import kotlinx.coroutines.*
 
 fun main() {
@@ -59,35 +55,27 @@ fun main() {
 
                 val wb1: Workbook = WorkbookImp(
                     keyMs = WorkbookKey("Book1", null).toMs(),
-                ).let { wb ->
+                ).apply {
                     listOf("Sheet1", "Sheet2").forEach { name ->
-                        wb.createNewWs(name)
+                        createNewWs(name)
                     }
-                    wb
                 }
 
                 val wb2 = WorkbookImp(
                     keyMs = WorkbookKey("Book2", null).toMs(),
-                ).let { wb ->
+                ).apply {
                     listOf("Sheet1", "Sheet2").forEach { name ->
-                        wb.createNewWs(name)
+                        createNewWs(name)
                     }
-                    wb
                 }
 
 
                 val window1Comp = p6Comp2.windowCompBuilder().build()
 
-                val wb1Comp = window1Comp.wbCompBuilder()
-                    .setWb(ms(wb1))
-                    .build()
-                val wb2Comp = window1Comp.wbCompBuilder()
-                    .setWb(ms(wb2))
-                    .build()
+                val wbStateFactory = p6Comp2.wbStateFactory()
 
-                val wbState1: WorkbookState = wb1Comp.wbState()
-
-                val wbState2: WorkbookState = wb2Comp.wbState()
+                val wbState1: WorkbookState = wbStateFactory.makeWbState(ms(wb1))
+                val wbState2: WorkbookState = wbStateFactory.makeWbState(ms(wb2))
 
                 appState.stateCont.wbStateCont.apply {
                     addOrOverwriteWbState(wbState1)

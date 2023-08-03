@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.di
 
+import com.qxdzbc.p6.ui.document.workbook.di.comp.WbComponent
 import com.qxdzbc.p6.ui.window.di.comp.WindowComponent
 import dagger.Module
 
@@ -9,6 +10,7 @@ import dagger.Module
 @Module(
     subcomponents = [
         WindowComponent::class,
+        WbComponent::class,
     ]
 )
 interface ModuleForSubComponentsForP6Component

@@ -20,7 +20,7 @@ interface WorkbookStateFactory {
          */
         fun WorkbookStateFactory.createAndRefresh(
             wbMs: Ms<Workbook>,
-        ): WorkbookState {
+        ): WorkbookStateImp {
             return this.create(
                 wbMs,
                 ms(null),

@@ -7,6 +7,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
+import com.qxdzbc.p6.ui.document.workbook.di.comp.WbComponent
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 

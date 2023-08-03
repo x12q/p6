@@ -21,6 +21,7 @@ import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
+import com.qxdzbc.p6.ui.document.workbook.di.comp.WbComponent
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarState
 import com.qxdzbc.p6.ui.document.workbook.sheet_tab.bar.SheetTabBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
@@ -33,8 +34,11 @@ import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
+import dagger.Lazy
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import javax.inject.Inject
+import javax.inject.Provider
 
 data class WorkbookStateImp(
     override val wbMs: Ms<Workbook>,
@@ -46,7 +50,12 @@ data class WorkbookStateImp(
     private val gridSliderFactory: LimitedGridSliderFactory,
     private val cursorStateFactory: CursorStateFactory,
     private val thumbStateFactory: ThumbStateFactory,
+
 ) : BaseWorkbookState() {
+
+    var comp:WbComponent? = null
+//    @Inject
+//    lateinit var compPro:Lazy<WbComponent>
 
     @AssistedInject
     constructor(
@@ -69,7 +78,7 @@ data class WorkbookStateImp(
         wsStateFactory = wsStateFactory,
         gridSliderFactory = gridSliderFactory,
         cursorStateFactory = cursorStateFactory,
-        thumbStateFactory = thumbStateFactory
+        thumbStateFactory = thumbStateFactory,
     )
 
     override val wsStateMap: Map<St<String>, WorksheetState> by wsStateMapMs
