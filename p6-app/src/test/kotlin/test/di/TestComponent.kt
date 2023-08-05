@@ -67,7 +67,6 @@ import javax.inject.Singleton
     scope = P6AnvilScope::class,
     modules = [
         P6Module::class,
-//        WindowFocusStateModule::class,
         WindowStateModuleForTest::class,
         ModuleForSubComponentsForP6Component::class,
     ],
