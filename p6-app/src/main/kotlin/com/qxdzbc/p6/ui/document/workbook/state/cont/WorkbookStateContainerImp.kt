@@ -12,7 +12,7 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
+import com.qxdzbc.p6.ui.document.workbook.state.factory.WorkbookStateFactory
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -96,7 +96,7 @@ data class WorkbookStateContainerImp(
             return WorkbookStateContainerErrors.WorkbookStateAlreadyExist.report("Can't create new workbook state for ${wb.key} because a state for such key already exist")
                 .toErr()
         } else {
-            val newWbState = wbStateFactory.create(ms(wb))
+            val newWbState = wbStateFactory.create(ms(wb),null)
             return Ok(this.addOrOverwriteWbState(newWbState))
         }
     }

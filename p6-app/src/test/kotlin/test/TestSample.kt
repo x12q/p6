@@ -19,7 +19,6 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory.Companion.createAndRefresh
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ColdInit
@@ -28,6 +27,7 @@ import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import test.di.DaggerTestComponent
+import test.di.TestComponent
 
 
 class TestSample : TestAppScope {
@@ -86,7 +86,7 @@ class TestSample : TestAppScope {
 
     val kernelCoroutineScope: CoroutineScope = GlobalScope
 
-    override val comp = DaggerTestComponent.builder()
+    override val comp: TestComponent = DaggerTestComponent.builder()
         .username("user_name")
         .applicationCoroutineScope(kernelCoroutineScope)
         .applicationScope(null)
@@ -102,9 +102,8 @@ class TestSample : TestAppScope {
 
 
     private fun makeSampleWbState1(): WorkbookState {
-        return comp.workbookStateFactory().createAndRefresh(
-            wbMs =
-            ms(WorkbookImp(
+        return comp.workbookStateFactory().create(
+            wbMs = ms(WorkbookImp(
                 keyMs = wbKey1Ms,
             ).apply {
                 addMultiSheetOrOverwrite(
@@ -113,12 +112,13 @@ class TestSample : TestAppScope {
                         WorksheetImp(wsn2.toMs(), wbKey1Ms)
                     )
                 )
-            })
+            }),
+            null
         )
     }
 
     private fun makeSampleWBState(wbKeyMs: Ms<WorkbookKey>): WorkbookState {
-        return comp.workbookStateFactory().createAndRefresh(
+        return comp.workbookStateFactory().create(
             wbMs =
             ms(WorkbookImp(
                 keyMs = wbKeyMs,
@@ -129,7 +129,8 @@ class TestSample : TestAppScope {
                         WorksheetImp(wsn2.toMs(), wbKey2Ms)
                     )
                 )
-            })
+            }),
+            null
         )
     }
 
@@ -144,18 +145,23 @@ class TestSample : TestAppScope {
     }
 
     private fun makeSampleWindowStateMs1(): Ms<OuterWindowState> {
-        val inner: WindowState = comp.windowStateFactory().createDefault(
-            listOf(wbKey1Ms, wbKey2Ms).toSet()
-        )
+        val inner: WindowState = comp.windowStateFactory().createDefault().apply {
+            addWbKey(wbKey1Ms)
+            addWbKey(wbKey2Ms)
+            activeWbPointer = activeWbPointer.pointTo(wbKey1Ms)
+        }
 
         return ms(comp.outerWindowStateFactory().create(inner))
     }
 
     private fun makeSampleWindowStateMs2(): Ms<OuterWindowState> {
 
-        val inner: WindowState = comp.windowStateFactory().createDefault(
-            listOf(wbKey3Ms, wbKey4Ms).toSet()
-        )
+        val inner: WindowState = comp.windowStateFactory().createDefault()
+            .apply {
+                addWbKey(wbKey3Ms)
+                addWbKey(wbKey4Ms)
+                activeWbPointer = activeWbPointer.pointTo(wbKey3Ms)
+            }
 
         return ms(comp.outerWindowStateFactory().create(inner))
     }

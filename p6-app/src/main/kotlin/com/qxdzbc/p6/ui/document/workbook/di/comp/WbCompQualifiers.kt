@@ -7,7 +7,10 @@ import javax.inject.Qualifier
 annotation class WindowIdInWb
 
 @Qualifier
-annotation class WindowIdMsInWb
+annotation class WindowIdMsInWbState
 
 @Qualifier
 annotation class WsStateMapMs
+
+@Qualifier
+annotation class NeedSave

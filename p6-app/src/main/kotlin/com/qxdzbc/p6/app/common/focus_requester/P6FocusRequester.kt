@@ -2,17 +2,17 @@ package com.qxdzbc.p6.app.common.focus_requester
 
 import androidx.compose.ui.focus.FocusRequester
 
-interface FocusRequesterWrapper {
+interface P6FocusRequester {
     fun freeFocus():Boolean
     fun requestFocus()
     val focusRequester:FocusRequester
 
     companion object{
-        fun FocusRequester.wrap():FocusRequesterWrapper{
-            return FocusRequesterWrapperImp(this)
+        fun FocusRequester.toP6FocusRequester():P6FocusRequester{
+            return P6FocusRequesterImp(this)
         }
 
-        val fake = object : FocusRequesterWrapper{
+        val fake = object : P6FocusRequester{
             override fun freeFocus(): Boolean {
                 return true
             }

@@ -25,7 +25,7 @@ import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
+import com.qxdzbc.p6.ui.document.workbook.state.factory.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateGetter
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
@@ -150,7 +150,7 @@ class StateContainerImp @Inject constructor(
 
     override fun addWbStateFor(wb: Workbook) {
         if (!this.hasStateFor(wb.key)) {
-            val newState = wbStateFactory.create(ms(wb))
+            val newState = wbStateFactory.create(ms(wb),null)
             wbStateCont.addOrOverwriteWbState(newState)
         }
     }

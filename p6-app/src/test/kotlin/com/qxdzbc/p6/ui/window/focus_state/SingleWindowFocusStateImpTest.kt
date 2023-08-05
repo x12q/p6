@@ -2,18 +2,18 @@ package com.qxdzbc.p6.ui.window.focus_state
 
 
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.p6.app.common.focus_requester.FocusRequesterWrapper
+import com.qxdzbc.p6.app.common.focus_requester.P6FocusRequester
 import org.mockito.Mockito.*
 import kotlin.test.*
 
 class SingleWindowFocusStateImpTest {
     lateinit var f : SingleWindowFocusStateImp
-    lateinit var mockCursorFR:FocusRequesterWrapper
-    lateinit var mockEditorFR:FocusRequesterWrapper
+    lateinit var mockCursorFR:P6FocusRequester
+    lateinit var mockEditorFR:P6FocusRequester
     @BeforeTest
     fun b(){
-        mockCursorFR = mock(FocusRequesterWrapper::class.java)
-        mockEditorFR = mock(FocusRequesterWrapper::class.java)
+        mockCursorFR = mock(P6FocusRequester::class.java)
+        mockEditorFR = mock(P6FocusRequester::class.java)
         f = SingleWindowFocusStateImp(
             isCursorFocusedMs = false.toMs(),
             isEditorFocusedMs = false.toMs(),

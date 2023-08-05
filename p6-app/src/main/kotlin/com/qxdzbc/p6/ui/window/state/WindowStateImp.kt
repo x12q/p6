@@ -14,7 +14,7 @@ import com.qxdzbc.p6.ui.window.di.DefaultFocusStateMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
+import com.qxdzbc.p6.ui.document.workbook.state.factory.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
@@ -30,8 +30,6 @@ import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
 import com.qxdzbc.p6.ui.window.di.comp.*
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CompletableDeferred
 import java.nio.file.Path
 import java.util.*
@@ -39,7 +37,6 @@ import javax.inject.Inject
 
 @WindowScope
 data class WindowStateImp @Inject constructor(
-
     override val toolBarStateMs: Ms<ToolBarState>,
     override val activeWbPointerMs: Ms<ActiveWorkbookPointer>,
     override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),

@@ -13,7 +13,12 @@ import javax.inject.Singleton
 class WindowStateFactoryImp @Inject constructor(
     val windowCompBuilderProvider:Provider<WindowComponent.Builder>
 ) : WindowStateFactory {
+
     override fun createDefault(id: String): WindowState {
-        return windowCompBuilderProvider.get().setId(id).build().windowState()
+        return windowCompBuilderProvider
+            .get()
+            .setId(id)
+            .build()
+            .windowState()
     }
 }

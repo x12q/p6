@@ -1,6 +1,6 @@
 package test.test_implementation
 
-import com.qxdzbc.p6.app.common.focus_requester.FocusRequesterWrapper
+import com.qxdzbc.p6.app.common.focus_requester.P6FocusRequester
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 
 data class FakeWindowFocusState(
@@ -44,6 +44,6 @@ data class FakeWindowFocusState(
         return setCellEditorFocus(false)
     }
 
-    override val cursorFocusRequester: FocusRequesterWrapper = FocusRequesterWrapper.fake
-    override val editorFocusRequester: FocusRequesterWrapper = FocusRequesterWrapper.fake
+    override val cursorFocusRequester: P6FocusRequester = P6FocusRequester.fake
+    override val editorFocusRequester: P6FocusRequester = P6FocusRequester.fake
 }
