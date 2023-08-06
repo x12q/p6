@@ -3,13 +3,34 @@ package com.qxdzbc.p6.ui.document.worksheet.select_rect
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import com.qxdzbc.common.compose.RectUtils.makeRect
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.qualifiers.DefaultZeroOffset
+import com.qxdzbc.p6.di.qualifiers.False
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectState
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
+import javax.inject.Inject
 
-data class SelectRectStateImp(
-    override val isShow: Boolean = false,
-    override val anchorPoint: Offset = Offset(0F, 0F),
-    override val movingPoint: Offset = Offset(0F, 0F),
-    override val isActive: Boolean = false
+//@ContributesBinding(P6AnvilScope::class)
+data class SelectRectStateImp constructor(
+    @False
+    override val isShow: Boolean,
+    @False
+    override val isActive: Boolean,
+    @DefaultZeroOffset
+    override val anchorPoint: Offset,
+    @DefaultZeroOffset
+    override val movingPoint: Offset,
+
 ) : SelectRectState {
+
+    @Inject constructor():this(
+        isShow = false,
+        anchorPoint = Offset(0F, 0F),
+        movingPoint = Offset(0F, 0F),
+        isActive = false
+    )
+
     override fun setShow(i: Boolean): SelectRectState {
         return this.copy(isShow=i)
     }

@@ -1,12 +1,12 @@
 package com.qxdzbc.p6.rpc
 
-import com.qxdzbc.p6.di.status_bar.RPCStatusItemStateQualifier
+import com.qxdzbc.p6.di.status_bar.qualifiers.RPCStatusItemStateQualifier
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewState
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
+import com.qxdzbc.p6.di.qualifiers.MsRpcServerQualifier
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -8,7 +8,6 @@ import dagger.Module
  */
 @Module(
     subcomponents = [
-        WsComponent::class
     ]
 )
 interface ModuleForSubComponentsForWbComponent

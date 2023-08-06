@@ -15,7 +15,7 @@ import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.di.ActionDispatcherDefault
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 

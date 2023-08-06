@@ -10,7 +10,7 @@ import com.qxdzbc.p6.app.common.utils.TextUtils
 import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.di.PartialTreeExtractor
+import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM

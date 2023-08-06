@@ -12,11 +12,7 @@ interface WorkbookStateModule {
 
     companion object
     {
-        @Provides
-        @DefaultCommandStack
-        fun defaultCommandStack():Ms<CommandStack>{
-            return ms(CommandStacks.stdCommandStack())
-        }
+
     }
 
 }

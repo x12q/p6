@@ -7,7 +7,7 @@ import com.qxdzbc.p6.app.document.cell.Cell
 import com.qxdzbc.p6.app.document.cell.CellContent
 import com.qxdzbc.p6.app.document.cell.CellContentImp
 import com.qxdzbc.p6.app.document.cell.CellValue
-import com.qxdzbc.p6.di.ActionDispatcherDefault
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.proto.CellProtos

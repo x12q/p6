@@ -6,7 +6,7 @@ import com.qxdzbc.p6.app.action.workbook.WorkbookAction
 import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.di.rpc.MsRpcServerQualifier
+import com.qxdzbc.p6.di.qualifiers.MsRpcServerQualifier
 
 
 import com.qxdzbc.p6.rpc.P6RpcServer
@@ -15,6 +15,9 @@ import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope
+import com.qxdzbc.p6.di.qualifiers.EventServerPort
+import com.qxdzbc.p6.di.qualifiers.Username
 import com.qxdzbc.p6.ui.window.di.WindowFocusStateModule
 import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.factory.WorkbookStateFactory

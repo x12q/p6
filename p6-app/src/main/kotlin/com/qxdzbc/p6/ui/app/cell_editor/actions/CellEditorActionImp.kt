@@ -16,7 +16,7 @@ import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToC
 import com.qxdzbc.p6.app.action.cursor.handle_cursor_keyboard_event.HandleKeyboardEventOnWsCursor
 import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.app.common.key_event.P6KeyEvent
-import com.qxdzbc.p6.di.PartialTreeExtractor
+import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor

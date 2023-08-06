@@ -19,9 +19,11 @@ interface CursorState : WbWsSt {
     var id:CursorId
 
     val cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>
+
     val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper>
 
     val thumbStateMs:Ms<ThumbState>
+
     var thumbState: ThumbState
 
     /**

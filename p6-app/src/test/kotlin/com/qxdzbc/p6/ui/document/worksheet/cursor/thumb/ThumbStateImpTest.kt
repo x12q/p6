@@ -83,8 +83,10 @@ internal class ThumbStateImpTest {
     fun `getRelevantCell move down`() {
         // anchor == inside C5, moving point = C8
         val rect = SelectRectStateImp(
+            isShow = false,
             anchorPoint = Offset(x = 2 * w + 3, y = 4 * h + 3),
-            movingPoint = Offset(x = 2 * w + 3, y = 7 * h + 1)
+            movingPoint = Offset(x = 2 * w + 3, y = 7 * h + 1),
+            isActive = false
         )
         val s1 = s.setSelectRectState(rect)
         val relCellMap = s1.getRelevantCells()
@@ -107,7 +109,7 @@ internal class ThumbStateImpTest {
     @Test
     fun `getRelevantCell move up`() {
         // anchor == inside C5, moving point = C1
-        val rect = SelectRectStateImp(
+        val rect = SelectRectStateImp().copy(
             anchorPoint = Offset(x = 2 * w + 3, y = 4 * h + 3),
             movingPoint = Offset(x = 2 * w + 3, y = 0 * h + 1)
         )
@@ -133,7 +135,7 @@ internal class ThumbStateImpTest {
     @Test
     fun `getRelevantCell move right`() {
         // anchor == inside C5, moving point = E5
-        val rect = SelectRectStateImp(
+        val rect = SelectRectStateImp().copy(
             anchorPoint = Offset(x = 2 * w + 3, y = 4 * h + 3),
             movingPoint = Offset(x = 4 * w + 3, y = 4 * h + 3)
         )
@@ -158,7 +160,7 @@ internal class ThumbStateImpTest {
     @Test
     fun `getRelevantCell move left`() {
         // anchor == inside C5, moving point = A5
-        val rect = SelectRectStateImp(
+        val rect = SelectRectStateImp().copy(
             anchorPoint = Offset(x = 2 * w + 3, y = 4 * h + 3),
             movingPoint = Offset(x = 0 * w + 3, y = 4 * h + 3)
         )

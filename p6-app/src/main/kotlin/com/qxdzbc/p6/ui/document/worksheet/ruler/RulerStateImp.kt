@@ -18,6 +18,7 @@ data class RulerStateImp constructor(
     override val wsIdSt:St<WorksheetId>,
     override val type: RulerType,
     override val sliderMs: Ms<GridSlider>,
+    // ====== TODO move this to the DI graph
     override val defaultItemSize: Dp = if (type == RulerType.Col) WorksheetConstants.defaultColumnWidth else WorksheetConstants.defaultRowHeight,
     private val itemLayoutMapMs: Ms<Map<Int, LayoutCoorWrapper>> = ms(emptyMap()),
     override val itemSelectRectMs: Ms<SelectRectState> = ms(SelectRectStateImp()),

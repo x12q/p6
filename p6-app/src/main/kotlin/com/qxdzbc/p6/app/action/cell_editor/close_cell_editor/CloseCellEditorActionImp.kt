@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.app.action.cell_editor.close_cell_editor
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.di.PartialTreeExtractor
+import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.state.StateContainer

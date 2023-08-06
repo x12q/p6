@@ -6,7 +6,7 @@ import kotlin.test.*
 internal class SelectRectStateImpTest{
     @Test
     fun movingFlags(){
-        val s1 = SelectRectStateImp(
+        val s1 = SelectRectStateImp().copy(
             anchorPoint = Offset(3F,4F),
             movingPoint = Offset(3F,5F)
         )

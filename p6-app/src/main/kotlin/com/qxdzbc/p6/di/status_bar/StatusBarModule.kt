@@ -2,11 +2,11 @@ package com.qxdzbc.p6.di.status_bar
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.di.status_bar.qualifiers.RPCStatusItemStateQualifier
+import com.qxdzbc.p6.di.status_bar.qualifiers.StatusBarStateQualifier
 import com.qxdzbc.p6.ui.window.status_bar.StatusBarState
-import com.qxdzbc.p6.ui.window.status_bar.StatusBarStateImp
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewState
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewStateImp
-import dagger.Binds
 import dagger.Provides
 import javax.inject.Singleton
 

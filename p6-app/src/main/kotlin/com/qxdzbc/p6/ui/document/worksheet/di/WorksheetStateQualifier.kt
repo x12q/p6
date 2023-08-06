@@ -34,19 +34,19 @@ annotation class DefaultColResizeBarStateMs
 annotation class DefaultRowResizeBarStateMs
 
 @Qualifier
-annotation class DefaultRangeConstraint
+annotation class Init_RangeConstraintInCursor
 
 @Qualifier
-annotation class DefaultClipBoardRange
+annotation class Init_ClipBoardRangeInCursor
 
 @Qualifier
 annotation class DefaultActiveWorksheetPointer
 
 @Qualifier
-annotation class EmptyCellAddressSet
+annotation class Init_FragmentedCellSetInCursor
 
 @Qualifier
-annotation class EmptyRangeAddressSet
+annotation class Init_RangeAddressSetInCursor
 
 @Qualifier
-annotation class NullRangeAddress
+annotation class Init_MainRangeInCursor

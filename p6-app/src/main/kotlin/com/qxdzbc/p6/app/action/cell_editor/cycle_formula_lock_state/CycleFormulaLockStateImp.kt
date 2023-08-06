@@ -3,7 +3,7 @@ package com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state
 import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.di.PartialCellRangeExtractorQ
+import com.qxdzbc.p6.di.qualifiers.PartialCellRangeExtractorQ
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.translator.P6Translator

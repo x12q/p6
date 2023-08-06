@@ -11,6 +11,8 @@ import com.qxdzbc.p6.app.app_context.AppContext
 import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.qualifiers.*
+import com.qxdzbc.p6.di.state.CommonDefaultObjModule
 import com.qxdzbc.p6.di.state.StateModule
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColRangeQualifier
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowRangeQualifier
@@ -34,6 +36,7 @@ import javax.inject.Singleton
         StatusBarModule::class,
         StateModule::class,
         CoroutineModule::class,
+        CommonDefaultObjModule::class,
     ]
 )
 @ContributesTo(P6AnvilScope::class)
@@ -67,50 +70,8 @@ interface P6Module {
         }
 
         @Provides
-        @NullInt
-        fun nullInt(): Int? {
-            return null
-        }
-
-        @Provides
         fun fq(): FocusRequester {
             return FocusRequester()
-        }
-
-        @Provides
-        @True
-        fun bTrue(): Boolean {
-            return true
-        }
-
-        @Provides
-        @FalseMs
-        fun falseMs(): Ms<Boolean> {
-            return ms(false)
-        }
-
-        @Provides
-        @TrueMs
-        fun trueMs(): Ms<Boolean> {
-            return ms(true)
-        }
-
-        @Provides
-        @False
-        fun bFalse(): Boolean {
-            return false
-        }
-
-        @Provides
-        @DefaultColRangeQualifier
-        fun defaultColRange(): IntRange {
-            return WorksheetConstants.defaultColRange
-        }
-
-        @Provides
-        @DefaultRowRangeQualifier
-        fun defaultRowRange(): IntRange {
-            return WorksheetConstants.defaultRowRange
         }
 
         @Provides
@@ -119,12 +80,6 @@ interface P6Module {
         fun eventServerPort(): Int {
             val eventServerPort = Utils.findSocketPort()
             return eventServerPort
-        }
-
-        @Provides
-        @Null
-        fun pNull(): Any? {
-            return null
         }
 
 

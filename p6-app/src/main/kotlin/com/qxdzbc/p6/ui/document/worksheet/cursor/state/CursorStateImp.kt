@@ -19,15 +19,13 @@ import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
-import com.qxdzbc.p6.ui.document.worksheet.cursor.di.MainCellMs
+import com.qxdzbc.p6.ui.document.worksheet.cursor.di.qualifiers.MainCellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.di.*
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.squareup.anvil.annotations.ContributesBinding
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import javax.inject.Inject
 
 @ContributesBinding(WsAnvilScope::class, boundType = CursorState::class)
@@ -35,21 +33,19 @@ data class CursorStateImp @Inject constructor(
     override val idMs: Ms<CursorId>,
     override val cellLayoutCoorsMapSt: St<@JvmSuppressWildcards Map<CellAddress, LayoutCoorWrapper>>,
     override val thumbStateMs: Ms<ThumbState>,
-    @MainCellMs
+    @MainCellState
     val mainCellMs: Ms<CellAddress> = ms(CellAddresses.A1),
-    //=============================================//
     override val cellEditorStateMs: Ms<CellEditorState>,
-    @NullRangeAddress
+    @Init_MainRangeInCursor
     override val mainRange: RangeAddress? = null,
-    @EmptyCellAddressSet
-    override val fragmentedCells: Set<@JvmSuppressWildcards CellAddress> = emptySet(),
-    @EmptyRangeAddressSet
-    override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress> = emptySet(),
-    @DefaultRangeConstraint
-    override val rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
-    @DefaultClipBoardRange
-    override val clipboardRange: RangeAddress = RangeAddressUtils.InvalidRange,
-
+    @Init_FragmentedCellSetInCursor
+    override val fragmentedCells: Set<@JvmSuppressWildcards CellAddress>,
+    @Init_RangeAddressSetInCursor
+    override val fragmentedRanges: Set<@JvmSuppressWildcards RangeAddress>,
+    @Init_RangeConstraintInCursor
+    override val rangeConstraint: RangeConstraint,
+    @Init_ClipBoardRangeInCursor
+    override val clipboardRange: RangeAddress,
     ) : BaseCursorState() {
 
     override val isEditing: Boolean by isEditingMs
@@ -94,7 +90,8 @@ data class CursorStateImp @Inject constructor(
                         textDiffer = TextDifferImp()
                     )
                 ),
-                thumbStateMs = thumbStateMs
+                thumbStateMs = thumbStateMs,
+                clipboardRange = RangeAddressUtils.InvalidRange,
             )
         }
 

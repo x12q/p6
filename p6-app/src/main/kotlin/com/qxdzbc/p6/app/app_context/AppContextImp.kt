@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.app.app_context
 
-import com.qxdzbc.p6.di.Username
+import com.qxdzbc.p6.di.qualifiers.Username
 import javax.inject.Inject
 
 

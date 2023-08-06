@@ -4,34 +4,28 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper.Companion.replaceWith
 import com.qxdzbc.p6.app.command.CommandStack
-import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
 import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
-import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.di.comp.ColRuler
-import com.qxdzbc.p6.ui.document.worksheet.di.comp.RowRuler
-import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultCellStateContainer
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColResizeBarStateMs
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowResizeBarStateMs
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectStateMs
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.*
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.*
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
-import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
-import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.format.CellFormatTableImp
 import com.squareup.anvil.annotations.ContributesBinding
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import javax.inject.Inject
 
 
@@ -39,7 +33,7 @@ import javax.inject.Inject
  * a GridSlider + col/row limit
  */
 @ContributesBinding(WsAnvilScope::class, boundType = WorksheetState::class)
-data class WorksheetStateImp constructor(
+data class WorksheetStateImp @Inject constructor(
     override val wsMs: Ms<Worksheet>,
     override val sliderMs: Ms<GridSlider>,
     override val cursorStateMs: Ms<CursorState>,
@@ -48,59 +42,28 @@ data class WorksheetStateImp constructor(
     @RowRuler
     override val rowRulerStateMs: Ms<RulerState>,
     override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
-    override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
-    override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
-    val cellStateContMs: Ms<CellStateContainer> = CellStateContainers.immutable().toMs(),
-    override val selectRectStateMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
-    override val colResizeBarStateMs: Ms<ResizeBarState> = ms(
-        ResizeBarStateImp(
-            rulerType = RulerType.Col,
-            thumbSize = WorksheetConstants.defaultRowHeight
-        )
-    ),
-    override val rowResizeBarStateMs: Ms<ResizeBarState> = ms(
-        ResizeBarStateImp(
-            rulerType = RulerType.Row,
-            thumbSize = WorksheetConstants.rowRulerWidth
-        )
-    ),
-    override val colRange: IntRange = WorksheetConstants.defaultColRange,
-    override val rowRange: IntRange = WorksheetConstants.defaultRowRange,
-    override val cellFormatTableMs: Ms<CellFormatTable> = ms(CellFormatTableImp()),
+    @CellGridLayoutMs
+    override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
+    @WsLayoutMs
+    override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
+    @DefaultCellStateContainer
+    val cellStateContMs: Ms<CellStateContainer>,
+    @DefaultSelectRectStateMs
+    override val selectRectStateMs: Ms<SelectRectState>,
+    @DefaultColResizeBarStateMs
+    override val colResizeBarStateMs: Ms<ResizeBarState>,
+    @DefaultRowResizeBarStateMs
+    override val rowResizeBarStateMs: Ms<ResizeBarState>,
+    @Init_ColRange
+    override val colRange: IntRange,
+    @Init_RowRange
+    override val rowRange: IntRange,
+    override val cellFormatTableMs: Ms<CellFormatTable>,
+    @WsUndoStack
     override val undoStackMs: Ms<CommandStack>,
+    @WsRedoStack
     override val redoStackMs: Ms<CommandStack>,
 ) : BaseWorksheetState() {
-
-    @Inject
-    constructor(
-        wsMs: Ms<Worksheet>,
-        sliderMs: Ms<GridSlider>,
-        cursorStateMs: Ms<CursorState>,
-        @ColRuler
-        colRulerStateMs: Ms<RulerState>,
-        @RowRuler
-        rowRulerStateMs: Ms<RulerState>,
-        cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
-    ) : this(
-        wsMs = wsMs,
-        sliderMs = sliderMs,
-        cursorStateMs = cursorStateMs,
-        colRulerStateMs = colRulerStateMs,
-        rowRulerStateMs = rowRulerStateMs,
-        cellLayoutCoorMapMs = cellLayoutCoorMapMs,
-        cellGridLayoutCoorWrapperMs = ms(null),
-        wsLayoutCoorWrapperMs = ms(null),
-        cellStateContMs = CellStateContainers.immutable().toMs(),
-        selectRectStateMs = ms(SelectRectStateImp()),
-        colResizeBarStateMs = ms(ResizeBarStateImp(rulerType = RulerType.Col, thumbSize = WorksheetConstants.defaultRowHeight)),
-        rowResizeBarStateMs = ms(ResizeBarStateImp(rulerType = RulerType.Row, thumbSize = WorksheetConstants.rowRulerWidth)),
-        colRange = WorksheetConstants.defaultColRange,
-        rowRange = WorksheetConstants.defaultRowRange,
-        cellFormatTableMs = ms(CellFormatTableImp()),
-        undoStackMs = ms(CommandStacks.stdCommandStack()),
-        redoStackMs = ms(CommandStacks.stdCommandStack()),
-    )
-
 
     override val id: WorksheetId
         get() {

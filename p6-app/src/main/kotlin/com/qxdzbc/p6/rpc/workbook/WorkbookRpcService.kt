@@ -19,8 +19,8 @@ import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest.Compa
 import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
 import com.qxdzbc.p6.app.document.workbook.toModel
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.AppCoroutineScope
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
+import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 
