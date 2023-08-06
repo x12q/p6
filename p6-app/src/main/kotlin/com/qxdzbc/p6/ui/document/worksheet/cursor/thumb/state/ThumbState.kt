@@ -40,10 +40,14 @@ interface ThumbState {
 
     /**
      * Return a pair [CellAddress] denoting the starting cell and ending cell.
-     * Starting cell is the cell where the drag action start from, this is always the main cell.
+     * Starting cell is the cell where the drag action start from, this is always the [mainCell].
      * Ending cell is where the drag action end. Ending cell could be above or below the starting cell.
      */
     fun getStartEndCells():Pair<CellAddress, CellAddress>
 
+    /**
+     * Range that is currently selected by user dragging the thumb.
+     * A null value indicate that there is no range being selected.
+     */
     val selectedRange: RangeAddress?
 }
