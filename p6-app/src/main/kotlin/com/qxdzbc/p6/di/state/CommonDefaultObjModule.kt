@@ -2,12 +2,11 @@ package com.qxdzbc.p6.di.state
 
 import androidx.compose.ui.geometry.Offset
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.di.qualifiers.*
-import com.qxdzbc.p6.ui.document.workbook.di.DefaultCommandStack
+import com.qxdzbc.p6.ui.document.workbook.di.DefaultCommandStackMs
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColRangeQualifier
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowRangeQualifier
@@ -25,22 +24,23 @@ import dagger.Provides
 @Module
 interface CommonDefaultObjModule {
 
+    /**
+     * TODO for some reason I can't bind this using Anvil, must do a manual binding.
+     */
     @Binds
     @DefaultSelectRectState
     fun SelectRectState(i: SelectRectStateImp): SelectRectState
 
     companion object{
         @Provides
-        @DefaultCommandStack
+        @DefaultCommandStackMs
         fun defaultCommandStack():Ms<CommandStack>{
             return ms(CommandStacks.stdCommandStack())
         }
 
         @Provides
         @DefaultSelectRectStateMs
-        fun SelectRectStateMs(
-            @DefaultSelectRectState i: SelectRectState
-        ): Ms<SelectRectState> {
+        fun SelectRectStateMs(@DefaultSelectRectState i: SelectRectState): Ms<SelectRectState> {
             return ms(i)
         }
 

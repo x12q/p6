@@ -11,7 +11,6 @@ import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
-//@ContributesBinding(P6AnvilScope::class)
 data class SelectRectStateImp constructor(
     @False
     override val isShow: Boolean,
@@ -21,7 +20,6 @@ data class SelectRectStateImp constructor(
     override val anchorPoint: Offset,
     @DefaultZeroOffset
     override val movingPoint: Offset,
-
 ) : SelectRectState {
 
     @Inject constructor():this(

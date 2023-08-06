@@ -4,12 +4,11 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.app.command.CommandStack
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.document.workbook.di.DefaultCommandStack
+import com.qxdzbc.p6.ui.document.workbook.di.DefaultCommandStackMs
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
@@ -20,8 +19,6 @@ import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
-import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
-import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.document.worksheet.slider.di.LimitedSliderQualifier
 import com.qxdzbc.p6.ui.document.worksheet.state.CellStateContainer
@@ -49,12 +46,12 @@ interface WsModule {
     @Binds
     @WsScope
     @WsUndoStack
-    fun undoStackMs(@DefaultCommandStack i: Ms<CommandStack>): Ms<CommandStack>
+    fun undoStackMs(@DefaultCommandStackMs i: Ms<CommandStack>): Ms<CommandStack>
 
     @Binds
     @WsScope
     @WsRedoStack
-    fun redoStackMs(@DefaultCommandStack i: Ms<CommandStack>): Ms<CommandStack>
+    fun redoStackMs(@DefaultCommandStackMs i: Ms<CommandStack>): Ms<CommandStack>
 
     companion object {
 
