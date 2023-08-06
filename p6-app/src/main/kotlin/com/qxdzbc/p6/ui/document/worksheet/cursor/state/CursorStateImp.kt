@@ -21,8 +21,8 @@ import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.di.qualifiers.MainCellState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
-import com.qxdzbc.p6.ui.document.worksheet.di.*
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.*
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
 import com.squareup.anvil.annotations.ContributesBinding

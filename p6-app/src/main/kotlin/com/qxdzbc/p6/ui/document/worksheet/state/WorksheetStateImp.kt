@@ -14,10 +14,10 @@ import com.qxdzbc.p6.ui.document.cell.state.CellState
 import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultCellStateContainer
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColResizeBarStateMs
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowResizeBarStateMs
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectStateMs
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultCellStateContainer
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultColResizeBarStateMs
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultRowResizeBarStateMs
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultSelectRectStateMs
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.*
 import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.*
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState

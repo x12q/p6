@@ -8,10 +8,10 @@ import com.qxdzbc.p6.app.command.CommandStacks
 import com.qxdzbc.p6.di.qualifiers.*
 import com.qxdzbc.p6.ui.document.workbook.di.DefaultCommandStackMs
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColRangeQualifier
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowRangeQualifier
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectState
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectStateMs
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultColRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultRowRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultSelectRectState
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultSelectRectStateMs
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import dagger.Binds

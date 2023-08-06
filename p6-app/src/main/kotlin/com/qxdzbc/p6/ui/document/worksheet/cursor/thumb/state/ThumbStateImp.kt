@@ -10,11 +10,10 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
 import com.qxdzbc.p6.ui.document.worksheet.cursor.di.qualifiers.MainCellState
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectState
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultSelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
-import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 

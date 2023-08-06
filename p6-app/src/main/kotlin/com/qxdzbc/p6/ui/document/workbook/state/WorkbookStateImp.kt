@@ -13,7 +13,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultActiveWorksheetPointer
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.di.comp.NeedSave

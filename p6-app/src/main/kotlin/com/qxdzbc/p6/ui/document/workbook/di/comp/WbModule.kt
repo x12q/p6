@@ -7,7 +7,7 @@ import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPo
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateImp
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultActiveWorksheetPointer
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import dagger.Binds
 import dagger.Module

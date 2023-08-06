@@ -1,13 +1,12 @@
 package com.qxdzbc.p6.ui.document.worksheet.slider
 
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultBaseGridSlider
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultColRangeQualifier
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultRowRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultBaseGridSlider
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultColRangeQualifier
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultRowRangeQualifier
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.slider.di.LimitedSliderQualifier
 import com.squareup.anvil.annotations.ContributesBinding
-import dagger.assisted.AssistedInject
 import javax.inject.Inject
 
 /**
