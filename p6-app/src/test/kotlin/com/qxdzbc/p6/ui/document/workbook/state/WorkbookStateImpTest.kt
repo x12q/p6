@@ -89,11 +89,9 @@ class WorkbookStateImpTest {
 
         wbState = WorkbookStateImp.forTesting(
             wbMs = wbCont.getWbMs(wb0.key)!!,
-            wsStateFactory = ts.comp.worksheetStateFactory(),
-            gridSliderFactory = ts.comp.gridSliderFactory(),
-            cursorStateFactory = ts.comp.cursorStateFactory(),
-            thumbStateFactory = ts.comp.thumbStateFactory()
+            wsStateFactory = ts.comp.wsStateFactory(),
         )
+
     }
 
     @Test

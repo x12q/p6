@@ -19,7 +19,6 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateImp
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -90,7 +89,7 @@ class WorksheetStateImpTest : BaseAppStateTest() {
         }
 
         val p6Comp = ts.comp
-        val wsStateFactory = ts.comp.worksheetStateFactory()
+        val wsStateFactory = ts.comp.wsStateFactory()
         ts.wbCont.apply {
             removeWb(wb0.key)
             removeWb(wb1.key)
@@ -106,26 +105,8 @@ class WorksheetStateImpTest : BaseAppStateTest() {
         val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
         val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
         val mainCellMs = ms(CellAddresses.A1)
-        wsStateForWb0Sheet1 = wsStateFactory.createThenRefresh(
+        wsStateForWb0Sheet1 = wsStateFactory.create(
             wsMs = wb0.getWsMs(0)!!,
-            sliderMs = p6Comp.gridSliderFactory().create().toMs(),
-
-            cursorStateMs = ms(
-                CursorStateImp.forTest(
-                    cursorIdMs = cursorIdMs,
-                    cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
-                    mainCellMs = mainCellMs,
-                    thumbStateMs = ms(
-                        ThumbStateImp(
-                            cursorIdSt = cursorIdMs,
-                            mainCellSt = mainCellMs,
-                            cellLayoutCoorMapSt = cellLayoutCoorMapMs
-                        )
-                    )
-                )
-            ),
-            cellLayoutCoorMapMs = cellLayoutCoorMapMs
-
         ) as WorksheetStateImp
         worksheetIDMs = wsStateForWb0Sheet1.idMs
     }

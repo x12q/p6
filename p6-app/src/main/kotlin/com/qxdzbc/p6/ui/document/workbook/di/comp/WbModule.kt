@@ -2,9 +2,13 @@ package com.qxdzbc.p6.ui.document.workbook.di.comp
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
+import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateImp
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
 import dagger.Binds
 import dagger.Module
@@ -18,6 +22,12 @@ interface WbModule{
     fun wbState(i:WorkbookStateImp):WorkbookState
 
     companion object{
+        @Provides
+        @WbScope
+        @DefaultActiveWorksheetPointer
+        fun DefaultActiveWorksheetPointer(): Ms<ActiveWorksheetPointer> {
+            return StateUtils.ms(ActiveWorksheetPointerImp())
+        }
 
         @Provides
         @WbScope

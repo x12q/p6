@@ -17,6 +17,10 @@ import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultCellLayoutMap
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.ColRuler
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.RowRuler
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarState
 import com.qxdzbc.p6.ui.document.worksheet.resize_bar.ResizeBarStateImp
 import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
@@ -26,23 +30,26 @@ import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
 import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
+import com.squareup.anvil.annotations.ContributesBinding
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import javax.inject.Inject
 
 
 /**
  * a GridSlider + col/row limit
  */
-data class WorksheetStateImp (
-    // ====Assisted inject properties ======//
+@ContributesBinding(WsAnvilScope::class, boundType = WorksheetState::class)
+data class WorksheetStateImp constructor(
     override val wsMs: Ms<Worksheet>,
     override val sliderMs: Ms<GridSlider>,
     override val cursorStateMs: Ms<CursorState>,
+    @ColRuler
     override val colRulerStateMs: Ms<RulerState>,
+    @RowRuler
     override val rowRulerStateMs: Ms<RulerState>,
+    @DefaultCellLayoutMap
     override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
-
-    //====Automatically injected properties====//
     override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
     override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
     val cellStateContMs: Ms<CellStateContainer> = CellStateContainers.immutable().toMs(),
@@ -66,16 +73,24 @@ data class WorksheetStateImp (
     override val redoStackMs: Ms<CommandStack>,
 ) : BaseWorksheetState() {
 
-    @AssistedInject
+    @Inject
     constructor(
-        @Assisted("1") wsMs: Ms<Worksheet>,
-        @Assisted("2") sliderMs: Ms<GridSlider>,
-        @Assisted("3") cursorStateMs: Ms<CursorState>,
-        @Assisted("4") colRulerStateMs: Ms<RulerState>,
-        @Assisted("5") rowRulerStateMs: Ms<RulerState>,
-        @Assisted("6") cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
+        wsMs: Ms<Worksheet>,
+        sliderMs: Ms<GridSlider>,
+        cursorStateMs: Ms<CursorState>,
+        @ColRuler
+        colRulerStateMs: Ms<RulerState>,
+        @RowRuler
+        rowRulerStateMs: Ms<RulerState>,
+        @DefaultCellLayoutMap
+        cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
     ) : this(
-        wsMs, sliderMs, cursorStateMs, colRulerStateMs, rowRulerStateMs, cellLayoutCoorMapMs,
+        wsMs = wsMs,
+        sliderMs = sliderMs,
+        cursorStateMs = cursorStateMs,
+        colRulerStateMs = colRulerStateMs,
+        rowRulerStateMs = rowRulerStateMs,
+        cellLayoutCoorMapMs = cellLayoutCoorMapMs,
         cellGridLayoutCoorWrapperMs = ms(null),
         wsLayoutCoorWrapperMs = ms(null),
         cellStateContMs = CellStateContainers.immutable().toMs(),

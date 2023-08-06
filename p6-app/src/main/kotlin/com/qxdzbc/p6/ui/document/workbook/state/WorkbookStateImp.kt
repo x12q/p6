@@ -17,7 +17,6 @@ import com.qxdzbc.p6.app.document.cell.address.CellAddresses
 import com.qxdzbc.p6.app.document.workbook.Workbook
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.FalseMs
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointer
 import com.qxdzbc.p6.ui.document.workbook.active_sheet_pointer.ActiveWorksheetPointerImp
@@ -31,16 +30,10 @@ import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorIdImp
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetIdImp
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory.Companion.createThenRefresh
+import com.qxdzbc.p6.ui.document.worksheet.state.*
 import javax.inject.Inject
 
-/**
- *
- */
+
 data class WorkbookStateImp @Inject constructor(
     override val wbMs: Ms<Workbook>,
     @WindowIdMsInWbState
@@ -52,9 +45,6 @@ data class WorkbookStateImp @Inject constructor(
     @NeedSave
     private val needSaveMs: Ms<Boolean>,
     private val wsStateFactory: WorksheetStateFactory,
-    private val gridSliderFactory: LimitedGridSliderFactory,
-    private val cursorStateFactory: CursorStateFactory,
-    private val thumbStateFactory: ThumbStateFactory,
 ) : BaseWorkbookState() {
 
     override val wsStateMap: Map<St<String>, WorksheetState> by wsStateMapMs
@@ -195,13 +185,7 @@ data class WorkbookStateImp @Inject constructor(
 
     private fun createDefaultWsState(worksheet: Ms<Worksheet>): WorksheetState {
         val wsMs = worksheet
-        val wsState = wsStateFactory.createThenRefresh(
-            wsMs = wsMs,
-            gridSliderFactory = this.gridSliderFactory,
-            cursorStateFactory = this.cursorStateFactory,
-            thumbStateFactory = this.thumbStateFactory
-
-        )
+        val wsState = wsStateFactory.create(wsMs)
         wsState.refreshCellState()
         return wsState
     }
@@ -226,23 +210,16 @@ data class WorkbookStateImp @Inject constructor(
         }
     }
 
-    // TODO fix this
     companion object {
         fun forTesting(
             wbMs: Ms<Workbook>,
             wsStateFactory: WorksheetStateFactory,
-            gridSliderFactory: LimitedGridSliderFactory,
-            cursorStateFactory: CursorStateFactory,
-            thumbStateFactory: ThumbStateFactory,
         ): WorkbookStateImp {
             val activeSheetName = wbMs.value.getWs(0)?.nameMs
             return forTesting(
                 wbMs = wbMs,
                 activeSheetPointerMs = ms(ActiveWorksheetPointerImp(activeSheetName)),
                 wsStateFactory = wsStateFactory,
-                gridSliderFactory = gridSliderFactory,
-                cursorStateFactory = cursorStateFactory,
-                thumbStateFactory = thumbStateFactory
             )
         }
 
@@ -250,38 +227,12 @@ data class WorkbookStateImp @Inject constructor(
             wbMs: Ms<Workbook>,
             activeSheetPointerMs: Ms<ActiveWorksheetPointer>,
             wsStateFactory: WorksheetStateFactory,
-            gridSliderFactory: LimitedGridSliderFactory,
-            cursorStateFactory: CursorStateFactory,
-            thumbStateFactory: ThumbStateFactory,
         ): WorkbookStateImp {
             val wsStateMap: Map<St<String>, WorksheetState> = wbMs.value.worksheetMsList
                 .map { wsMs ->
-                    val wsIdMs: Ms<WorksheetId> = ms(
-                        WorksheetIdImp(
-                            wsNameMs = wsMs.value.nameMs,
-                            wbKeySt = wbMs.value.keyMs,
-                        )
-                    )
-                    val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsIdMs))
-                    val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>> = ms(emptyMap())
-                    val mainCellMs = ms(CellAddresses.A1)
 
                     wsStateFactory.create(
                         wsMs = wsMs,
-                        sliderMs = gridSliderFactory.create().toMs(),
-                        cursorStateMs = cursorStateFactory.create(
-                            idMs = cursorIdMs,
-                            cellLayoutCoorsMapSt = cellLayoutCoorMapMs,
-                            thumbStateMs = ms(
-                                thumbStateFactory.create(
-                                    cursorIdSt = cursorIdMs,
-                                    mainCellSt = mainCellMs,
-                                    cellLayoutCoorMapSt = cellLayoutCoorMapMs
-                                )
-                            ),
-                            mainCellMs = mainCellMs
-                        ).toMs(),
-                        cellLayoutCoorMapMs = cellLayoutCoorMapMs
                     )
                 }.associateBy { it.wsNameSt }
 
@@ -290,9 +241,6 @@ data class WorkbookStateImp @Inject constructor(
                 activeSheetPointerMs = activeSheetPointerMs,
                 wsStateMapMs = ms(wsStateMap),
                 wsStateFactory = wsStateFactory,
-                gridSliderFactory = gridSliderFactory,
-                cursorStateFactory = cursorStateFactory,
-                thumbStateFactory = thumbStateFactory,
                 windowIdMs = ms(null),
                 needSaveMs = ms(false),
             ).apply {

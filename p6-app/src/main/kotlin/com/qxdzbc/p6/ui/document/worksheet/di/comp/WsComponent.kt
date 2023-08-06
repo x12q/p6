@@ -12,7 +12,7 @@ import dagger.Subcomponent
 @MergeSubcomponent(
     scope = WsAnvilScope::class,
     modules = [
-        WsModule::class
+        WorksheetStateModule::class
     ]
 )
 interface WsComponent {

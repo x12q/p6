@@ -14,15 +14,7 @@ interface WindowStateModuleForTest {
         @Provides
         @DefaultFocusStateMs
         fun FocusStateMs(): Ms<WindowFocusState> {
-            return ms(
-//                SingleWindowFocusStateImp(
-//                    isCursorFocusedMs = ms(true),
-//                    isEditorFocusedMs = ms(false),
-//                    cursorFocusRequester = FocusRequesterWrapper.fake,
-//                    editorFocusRequester = FocusRequesterWrapper.fake,
-//                )
-                FakeWindowFocusState()
-            )
+            return ms(FakeWindowFocusState())
         }
     }
 }
