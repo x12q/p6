@@ -69,6 +69,7 @@ internal class ThumbStateImpTest {
             cursorIdSt = ms(mock()),
             mainCellSt = ms(CellAddress("C5")),
             cellLayoutCoorMapSt = ms(celllayoutMap),
+            selectRectState = SelectRectStateImp()
         )
     }
 
