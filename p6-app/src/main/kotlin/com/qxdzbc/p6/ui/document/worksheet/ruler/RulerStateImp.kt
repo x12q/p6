@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.document.worksheet.ruler
 
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
@@ -21,7 +22,9 @@ data class RulerStateImp constructor(
     // ====== TODO move this to the DI graph
     override val defaultItemSize: Dp = if (type == RulerType.Col) WorksheetConstants.defaultColumnWidth else WorksheetConstants.defaultRowHeight,
     private val itemLayoutMapMs: Ms<Map<Int, LayoutCoorWrapper>> = ms(emptyMap()),
-    override val itemSelectRectMs: Ms<SelectRectState> = ms(SelectRectStateImp()),
+    override val itemSelectRectMs: Ms<SelectRectState> = ms(SelectRectStateImp(
+        false,false, Offset.Zero,Offset.Zero
+    )),
     private val rulerLayoutMs: Ms<LayoutCoorWrapper?> = ms(null),
     private val itemSizeMapMs: Ms<Map<Int, Dp>> = ms(emptyMap()),
     override val resizerLayoutMap: Map<Int, LayoutCoordinates> = emptyMap(),

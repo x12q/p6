@@ -3,30 +3,32 @@ package com.qxdzbc.p6.ui.document.worksheet.select_rect
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import com.qxdzbc.common.compose.RectUtils.makeRect
+import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.qualifiers.DefaultZeroOffset
 import com.qxdzbc.p6.di.qualifiers.False
+import com.qxdzbc.p6.ui.document.worksheet.di.qualifiers.DefaultSelectRectState
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
-data class SelectRectStateImp constructor(
-    @False
+@ContributesBinding(P6AnvilScope::class)
+@DefaultSelectRectState
+data class SelectRectStateImp(
     override val isShow: Boolean,
-    @False
     override val isActive: Boolean,
-    @DefaultZeroOffset
     override val anchorPoint: Offset,
-    @DefaultZeroOffset
     override val movingPoint: Offset,
 ) : SelectRectState {
 
-    @Inject constructor():this(
+    @Inject
+    constructor() : this(
         isShow = false,
+        isActive = false,
         anchorPoint = Offset(0F, 0F),
         movingPoint = Offset(0F, 0F),
-        isActive = false
     )
 
     override fun setShow(i: Boolean): SelectRectState {
-        return this.copy(isShow=i)
+        return this.copy(isShow = i)
     }
 
     override fun show(): SelectRectState {
@@ -38,14 +40,14 @@ data class SelectRectStateImp constructor(
 
     override fun hide(): SelectRectState {
         if (this.isShow) {
-            return this.copy(isShow=false)
+            return this.copy(isShow = false)
         }
         return this
     }
 
     override val rect: Rect = makeRect(this.anchorPoint, this.movingPoint)
     override fun setMovingPoint(point: Offset): SelectRectState {
-        if(point!=this.movingPoint){
+        if (point != this.movingPoint) {
             return this.copy(movingPoint = point)
         }
         return this
@@ -69,10 +71,10 @@ data class SelectRectStateImp constructor(
         get() = movingPoint.y > anchorPoint.y
 
     override fun isMovingDownward(ratio: Double): Boolean {
-        if(isMovingDownward){
+        if (isMovingDownward) {
             val r = rect
-            return r.width/r.height <= ratio
-        }else{
+            return r.width / r.height <= ratio
+        } else {
             return false
         }
     }
@@ -81,10 +83,10 @@ data class SelectRectStateImp constructor(
         get() = movingPoint.y < anchorPoint.y
 
     override fun isMovingUpward(ratio: Double): Boolean {
-        if(isMovingUpward){
+        if (isMovingUpward) {
             val r = rect
-            return r.width/r.height <= ratio
-        }else{
+            return r.width / r.height <= ratio
+        } else {
             return false
         }
     }
@@ -93,10 +95,10 @@ data class SelectRectStateImp constructor(
         get() = movingPoint.x < anchorPoint.x
 
     override fun isMovingToTheLeft(ratio: Double): Boolean {
-        if(isMovingToTheLeft){
+        if (isMovingToTheLeft) {
             val r = rect
-            return r.height/r.width <= ratio
-        }else{
+            return r.height / r.width <= ratio
+        } else {
             return false
         }
     }
@@ -105,10 +107,10 @@ data class SelectRectStateImp constructor(
         get() = movingPoint.x > anchorPoint.x
 
     override fun isMovingToTheRight(ratio: Double): Boolean {
-        if(isMovingToTheRight){
+        if (isMovingToTheRight) {
             val r = rect
-            return r.height/r.width <= ratio
-        }else{
+            return r.height / r.width <= ratio
+        } else {
             return false
         }
     }
