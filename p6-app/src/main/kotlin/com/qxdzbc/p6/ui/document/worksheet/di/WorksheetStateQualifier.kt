@@ -16,12 +16,6 @@ annotation class DefaultVisibleColRange
 annotation class DefaultVisibleRowRange
 
 @Qualifier
-annotation class DefaultLayoutCoorMs
-
-@Qualifier
-annotation class DefaultCellLayoutMap
-
-@Qualifier
 annotation class DefaultBaseGridSlider
 
 @Qualifier
@@ -38,12 +32,6 @@ annotation class DefaultColResizeBarStateMs
 
 @Qualifier
 annotation class DefaultRowResizeBarStateMs
-
-@Qualifier
-annotation class DefaultTopLeftCellAddress
-
-@Qualifier
-annotation class DefaultTopLeftCellAddressMs
 
 @Qualifier
 annotation class DefaultRangeConstraint

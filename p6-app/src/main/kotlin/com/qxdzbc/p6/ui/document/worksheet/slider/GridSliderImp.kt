@@ -3,13 +3,18 @@ package com.qxdzbc.p6.ui.document.worksheet.slider
 import com.qxdzbc.p6.app.common.utils.MathUtils
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.di.NullInt
+import com.qxdzbc.p6.ui.document.worksheet.di.DefaultBaseGridSlider
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultVisibleColRange
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultVisibleRowRange
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 /**
  * immutable [GridSlider]
  */
+@ContributesBinding(WsAnvilScope::class, boundType = GridSlider::class)
+@DefaultBaseGridSlider
 data class GridSliderImp @Inject constructor(
     @DefaultVisibleColRange
     override val visibleColRange: IntRange,

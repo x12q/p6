@@ -19,22 +19,23 @@ import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
+import com.qxdzbc.p6.ui.document.worksheet.cursor.di.MainCellMs
 import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
 import com.qxdzbc.p6.ui.document.worksheet.di.*
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.document.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetId
+import com.squareup.anvil.annotations.ContributesBinding
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import javax.inject.Inject
 
-
-data class CursorStateImp @AssistedInject constructor(
-    @Assisted("1")
+@ContributesBinding(WsAnvilScope::class, boundType = CursorState::class)
+data class CursorStateImp @Inject constructor(
     override val idMs: Ms<CursorId>,
-    @Assisted("2")
-    override val cellLayoutCoorsMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
-    @Assisted("3")
+    override val cellLayoutCoorsMapSt: St<@JvmSuppressWildcards Map<CellAddress, LayoutCoorWrapper>>,
     override val thumbStateMs: Ms<ThumbState>,
-    @Assisted("4")
+    @MainCellMs
     val mainCellMs: Ms<CellAddress> = ms(CellAddresses.A1),
     //=============================================//
     override val cellEditorStateMs: Ms<CellEditorState>,

@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di
+package com.qxdzbc.p6.ui.document.worksheet.di
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils
@@ -26,11 +26,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
+
+/**
+ * Contain mostly obj for cursor state
+ *
+ *
+ */
 @Module
 interface XModule {
-    @Binds
-    @DefaultBaseGridSlider
-    fun baseGridSlider(b: GridSliderImp): GridSlider
 
     companion object{
 

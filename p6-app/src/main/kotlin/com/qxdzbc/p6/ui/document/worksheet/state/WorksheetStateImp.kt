@@ -17,7 +17,6 @@ import com.qxdzbc.p6.ui.document.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.document.cell.state.CellStates
 import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.di.DefaultCellLayoutMap
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.ColRuler
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.RowRuler
 import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
@@ -48,7 +47,6 @@ data class WorksheetStateImp constructor(
     override val colRulerStateMs: Ms<RulerState>,
     @RowRuler
     override val rowRulerStateMs: Ms<RulerState>,
-    @DefaultCellLayoutMap
     override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
     override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
     override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?> = ms(null),
@@ -82,7 +80,6 @@ data class WorksheetStateImp constructor(
         colRulerStateMs: Ms<RulerState>,
         @RowRuler
         rowRulerStateMs: Ms<RulerState>,
-        @DefaultCellLayoutMap
         cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
     ) : this(
         wsMs = wsMs,

@@ -9,17 +9,24 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.app.document.cell.address.CellAddress
 import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.ui.document.worksheet.cursor.di.MainCellMs
 import com.qxdzbc.p6.ui.document.worksheet.di.DefaultSelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsAnvilScope
+import com.qxdzbc.p6.ui.document.worksheet.di.comp.WsScope
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.document.worksheet.select_rect.SelectRectStateImp
+import com.squareup.anvil.annotations.ContributesBinding
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import javax.inject.Inject
 
-data class ThumbStateImp @AssistedInject constructor(
-    @Assisted("1") private val cursorIdSt: St<CursorId>,
-    @Assisted("2") private val mainCellSt: St<CellAddress>,
-    @Assisted("3") private val cellLayoutCoorMapSt: St<Map<CellAddress, LayoutCoorWrapper>>,
+@ContributesBinding(WsAnvilScope::class)
+data class ThumbStateImp @Inject constructor(
+    private val cursorIdSt: St<@JvmSuppressWildcards CursorId>,
+    @MainCellMs
+    private val mainCellSt: St<@JvmSuppressWildcards CellAddress>,
+    private val cellLayoutCoorMapSt: St<@JvmSuppressWildcards Map<CellAddress, LayoutCoorWrapper>>,
     @DefaultSelectRectState
     override val selectRectState: SelectRectState = SelectRectStateImp(),
 ) : ThumbState {

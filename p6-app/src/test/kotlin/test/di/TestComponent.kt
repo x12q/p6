@@ -1,6 +1,5 @@
 package test.di
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ApplicationScope
 import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookActionImp
 import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookActionImp
@@ -44,7 +43,6 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElemen
 import com.qxdzbc.p6.ui.app.cell_editor.actions.*
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.app.action.workbook.rename_ws.RenameWorksheetActionImp
@@ -52,7 +50,6 @@ import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
 import com.qxdzbc.p6.app.action.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.app.action.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeActionImp
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
-import com.qxdzbc.p6.ui.window.di.WindowFocusStateModule
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.TextColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorActionImp
@@ -122,7 +119,6 @@ interface TestComponent : P6Component {
     fun rulerAction(): RulerAction
     fun cursorEditorAction(): CellEditorAction
     fun textDiffer(): TextDiffer
-    fun thumbStateFactory(): ThumbStateFactory
     fun dragThumbAction(): DragThumbAction
     fun endThumbDragAction(): EndThumbDragAction
     fun copyCellActionImp(): CopyCellActionImp

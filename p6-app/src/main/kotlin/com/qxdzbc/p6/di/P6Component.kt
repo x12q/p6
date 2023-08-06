@@ -20,10 +20,7 @@ import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.document.workbook.state.factory.WorkbookStateFactory
 import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.slider.LimitedGridSliderFactory
 import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateInternalFactory
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.action.move_focus_to_wb.MoveFocusToWbAction
 import com.qxdzbc.p6.ui.window.di.comp.WindowComponent
@@ -63,9 +60,6 @@ interface P6Component {
     fun cursorAction(): CursorAction
 
     @Singleton
-    fun cursorStateFactory(): CursorStateFactory
-
-    @Singleton
     fun errorRouter(): ErrorRouter
 
     @Singleton
@@ -73,9 +67,6 @@ interface P6Component {
 
     @Singleton
     fun wsStateFactory():WorksheetStateFactory
-
-    @Singleton
-    fun gridSliderFactory(): LimitedGridSliderFactory
 
     @Singleton
     @MsRpcServerQualifier
