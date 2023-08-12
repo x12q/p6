@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.window.tool_bar.color_selector.action
 import androidx.compose.ui.graphics.Color
 import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatAction
 import com.qxdzbc.p6.app.action.tool_bar.return_focus_to_cell.ReturnFocusToCellCursor
-import com.qxdzbc.p6.di.action.CellBackgroundColorSelectorActionQ
+import com.qxdzbc.p6.di.qualifiers.CellBackgroundColorSelectorActionQualifier
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 @ContributesBinding(P6AnvilScope::class)
-@CellBackgroundColorSelectorActionQ
+@CellBackgroundColorSelectorActionQualifier
 class CellBackgroundColorSelectorAction @Inject constructor(
     private val stateContainerSt:StateContainer,
     val updateCellFormatAction: UpdateCellFormatAction,

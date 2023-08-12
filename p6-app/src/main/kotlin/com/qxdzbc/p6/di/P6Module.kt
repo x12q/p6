@@ -10,9 +10,8 @@ import com.qxdzbc.p6.app.app_context.AppContextImp
 import com.qxdzbc.p6.app.common.utils.Utils
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.qualifiers.*
-import com.qxdzbc.p6.di.state.CommonDefaultObjModule
-import com.qxdzbc.p6.di.state.app_state.AppStateModule
-import com.qxdzbc.p6.di.status_bar.StatusBarModule
+import com.qxdzbc.p6.ui.app.di.AppStateModule
+import com.qxdzbc.p6.ui.window.status_bar.di.StatusBarModule
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction

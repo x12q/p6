@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di.status_bar.qualifiers
+package com.qxdzbc.p6.ui.window.status_bar.di.qualifiers
 
 import javax.inject.Qualifier
 

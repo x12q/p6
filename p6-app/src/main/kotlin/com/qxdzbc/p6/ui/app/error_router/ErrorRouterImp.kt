@@ -9,7 +9,7 @@ import com.github.michaelbull.result.Err
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.app.err.ErrorContainer
-import com.qxdzbc.p6.di.state.app_state.qualifiers.AppErrorContMs
+import com.qxdzbc.p6.ui.app.di.qualifiers.AppErrorContMs
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import javax.inject.Inject
 

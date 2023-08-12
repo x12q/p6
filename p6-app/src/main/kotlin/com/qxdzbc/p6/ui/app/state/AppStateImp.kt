@@ -8,7 +8,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.state.app_state.qualifiers.AppErrorContMs
+import com.qxdzbc.p6.ui.app.di.qualifiers.AppErrorContMs
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 

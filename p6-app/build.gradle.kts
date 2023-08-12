@@ -74,7 +74,7 @@ compose.desktop {
         nativeDistributions {
             outputBaseDir.set(project.buildDir.resolve(p6AppBuildDir))
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "p6"
+            packageName = "p6-prototype"
             packageVersion = "1.0.0"
             modules("java.sql")
 //            includeAllModules = true

@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.ErrorUtils.getOrThrow
 
-import com.qxdzbc.p6.di.status_bar.qualifiers.StatusBarStateQualifier
+import com.qxdzbc.p6.ui.window.status_bar.di.qualifiers.StatusBarStateQualifier
 import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
 import com.qxdzbc.p6.app.document.workbook.WorkbookKey
 import com.qxdzbc.p6.app.err.ErrorContainer

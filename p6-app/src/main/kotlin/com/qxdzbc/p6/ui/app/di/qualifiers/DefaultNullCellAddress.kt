@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di.state.app_state.qualifiers
+package com.qxdzbc.p6.ui.app.di.qualifiers
 
 import javax.inject.Qualifier
 

@@ -33,7 +33,9 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
 import javax.inject.Singleton
+
 
 
 @Singleton
@@ -46,8 +48,7 @@ import javax.inject.Singleton
     ],
 )
 interface P6Component {
-
-
+    
     fun windowCompBuilder():WindowComponent.Builder
 
     @Singleton
@@ -101,9 +102,6 @@ interface P6Component {
 
     @Singleton
     fun wsAction(): WorksheetAction
-//
-//    @Singleton
-//    fun appStateMs(): Ms<AppState>
 
     @Singleton
     fun wbContainer(): WorkbookContainer

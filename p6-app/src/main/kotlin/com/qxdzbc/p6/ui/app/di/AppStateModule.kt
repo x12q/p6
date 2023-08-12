@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di.state.app_state
+package com.qxdzbc.p6.ui.app.di
 
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.CapHashMap
@@ -16,7 +16,7 @@ import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.di.state.app_state.qualifiers.*
+import com.qxdzbc.p6.ui.app.di.qualifiers.*
 import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState

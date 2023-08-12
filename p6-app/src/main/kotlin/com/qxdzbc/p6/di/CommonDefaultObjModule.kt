@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.di.state
+package com.qxdzbc.p6.di
 
 import androidx.compose.ui.geometry.Offset
 import com.qxdzbc.common.compose.Ms
