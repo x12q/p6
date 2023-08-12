@@ -11,12 +11,20 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
 
+/**
+ * Handle drag and drop action.
+ * [content] can contain [Drag] and/or [Drop]
+ * all the drags must have their id stored in [dragIds], all the drops in [dropIds].
+ * id can be anything.
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DragDropHost(
-    internalStateMs: Ms<DragAndDropHostInternalState>,
+    internalStateMs: Ms<DragAndDropHostInternalState> = rms(DragAndDropHostInternalStateImp()),
     dragIds:Set<Any>,
     dropIds:Set<Any>,
     content: @Composable (

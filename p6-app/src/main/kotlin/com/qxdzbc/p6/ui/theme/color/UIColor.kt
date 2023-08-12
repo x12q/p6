@@ -23,6 +23,8 @@ data class UIColor(
     val uiBaseSurface:Color = Color.LightGray,
     val selectedTabBackground: Color = Color.Cyan,
     val rulerBackground: Color= Color.LightGray,
+    val sliderRailBackground:Color = Color.LightGray,
+    val sliderThumbColor:Color = Color.DarkGray,
     val buttonBorder: Color = Color.Black,
     val resizeBarColor: Color=Color.Black,
 ){

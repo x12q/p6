@@ -18,14 +18,22 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
 
 /**
  * Worksheet + UI data
  * store + expose ms object of slider, cursor
  * provide method to lookup cell state + ms
  * store + expose ms object of cell state
+ *
+ * See [WorksheetStateImp] for implementation.
+ *
+ * To create a [WorksheetState], use [WorksheetStateFactory].
+ *
+ * [WorksheetStateFactory] is available as a singleton in the global DI container.
  */
 interface WorksheetState : WbWsSt {
+
 
     /**
      * TODO Reconsider this id obj. This contains duplicated information.

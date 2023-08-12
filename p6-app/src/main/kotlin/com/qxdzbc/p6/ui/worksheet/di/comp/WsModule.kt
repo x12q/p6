@@ -24,12 +24,17 @@ import com.qxdzbc.p6.ui.worksheet.state.CellStateContainer
 import com.qxdzbc.p6.ui.worksheet.state.CellStateContainers
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.EdgeSliderModule
 import dagger.Binds
 import dagger.Provides
 
 import dagger.Module
 
-@Module
+@Module(
+    includes = [
+        EdgeSliderModule::class
+    ]
+)
 interface WsModule {
 
     @Binds
