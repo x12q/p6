@@ -2,14 +2,14 @@ package com.qxdzbc.p6.di
 
 import com.qxdzbc.common.copiers.binary_copier.BinaryCopier
 import com.qxdzbc.common.copiers.binary_copier.BinaryCopierImp
-import com.qxdzbc.p6.app.document.workbook.WorkbookFactory
-import com.qxdzbc.p6.app.document.workbook.AutoNameWbFactory
-import com.qxdzbc.p6.app.document.worksheet.WsNameGenerator
-import com.qxdzbc.p6.app.document.worksheet.WsNameGeneratorImp
-import com.qxdzbc.p6.app.file.loader.P6FileLoader
-import com.qxdzbc.p6.app.file.loader.P6FileLoaderImp
-import com.qxdzbc.p6.app.file.saver.P6Saver
-import com.qxdzbc.p6.app.file.saver.P6SaverImp
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookFactory
+import com.qxdzbc.p6.document_data_layer.workbook.AutoNameWbFactory
+import com.qxdzbc.p6.document_data_layer.worksheet.WsNameGenerator
+import com.qxdzbc.p6.document_data_layer.worksheet.WsNameGeneratorImp
+import com.qxdzbc.p6.file.loader.P6FileLoader
+import com.qxdzbc.p6.file.loader.P6FileLoaderImp
+import com.qxdzbc.p6.file.saver.P6Saver
+import com.qxdzbc.p6.file.saver.P6SaverImp
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParserImp
 import dagger.Binds

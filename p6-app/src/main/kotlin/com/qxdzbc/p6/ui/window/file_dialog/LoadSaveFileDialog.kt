@@ -3,8 +3,8 @@ package com.qxdzbc.p6.ui.window.file_dialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.p6.app.action.app.process_save_path.MakeSavePath
-import com.qxdzbc.p6.app.action.app.process_save_path.MakeSavePathImp
+import com.qxdzbc.p6.composite_actions.app.process_save_path.MakeSavePath
+import com.qxdzbc.p6.composite_actions.app.process_save_path.MakeSavePathImp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

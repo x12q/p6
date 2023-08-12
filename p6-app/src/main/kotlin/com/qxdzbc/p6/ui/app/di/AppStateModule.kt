@@ -2,12 +2,12 @@ package com.qxdzbc.p6.ui.app.di
 
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.CapHashMap
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainerImp
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.err.ErrorContainer
-import com.qxdzbc.p6.app.err.ErrorContainerImp
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainer
+import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainerImp
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.err.ErrorContainer
+import com.qxdzbc.p6.err.ErrorContainerImp
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMap
 import com.qxdzbc.p6.translator.TranslatorMapImp
@@ -17,9 +17,9 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.app.di.qualifiers.*
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorId
 import dagger.Binds
 import dagger.Provides
 import dagger.Module

@@ -1,9 +1,7 @@
 package test.integration
 
-import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.ColdInit
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.composite_actions.cell.cell_update.CellUpdateRequestDM
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import test.TestSample

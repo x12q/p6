@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.window.di.comp
 
-import com.qxdzbc.p6.ui.document.workbook.di.comp.WbComponent
+import com.qxdzbc.p6.ui.workbook.di.comp.WbComponent
 import dagger.Module
 
 /**

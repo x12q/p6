@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.app.cell_editor
 
 import androidx.compose.ui.text.TextRange
-import com.qxdzbc.p6.app.common.utils.TextUtils
+import com.qxdzbc.p6.common.utils.TextUtils
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffResult
 
 /**

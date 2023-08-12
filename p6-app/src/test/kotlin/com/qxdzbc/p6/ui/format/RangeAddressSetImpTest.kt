@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.format
 
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test

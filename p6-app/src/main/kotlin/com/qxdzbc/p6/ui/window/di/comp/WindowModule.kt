@@ -2,9 +2,9 @@ package com.qxdzbc.p6.ui.window.di.comp
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.err.ErrorContainer
-import com.qxdzbc.p6.app.err.ErrorContainerImp
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.err.ErrorContainer
+import com.qxdzbc.p6.err.ErrorContainerImp
 import com.qxdzbc.p6.ui.window.di.qualifiers.LoadDialogStateMs
 import com.qxdzbc.p6.ui.window.di.qualifiers.SaveDialogStateMs
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState

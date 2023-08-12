@@ -4,8 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.focus.FocusRequester
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.app.common.focus_requester.P6FocusRequester
-import com.qxdzbc.p6.app.common.focus_requester.P6FocusRequester.Companion.toP6FocusRequester
+import com.qxdzbc.p6.common.focus_requester.P6FocusRequester
+import com.qxdzbc.p6.common.focus_requester.P6FocusRequester.Companion.toP6FocusRequester
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -17,8 +17,8 @@ import javax.inject.Inject
 data class SingleWindowFocusStateImp (
     private val isCursorFocusedMs:Ms<Boolean>,
     private val isEditorFocusedMs:Ms<Boolean>,
-    override val cursorFocusRequester: P6FocusRequester = FocusRequester().toP6FocusRequester(),
-    override val editorFocusRequester: P6FocusRequester = FocusRequester().toP6FocusRequester(),
+    override val cursorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester = FocusRequester().toP6FocusRequester(),
+    override val editorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester = FocusRequester().toP6FocusRequester(),
 ) : WindowFocusState {
 
     @Inject constructor():this(

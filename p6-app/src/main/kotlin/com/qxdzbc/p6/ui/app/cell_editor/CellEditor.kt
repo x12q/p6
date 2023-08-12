@@ -13,11 +13,11 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.app.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
+import com.qxdzbc.p6.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
 import com.qxdzbc.p6.ui.theme.UseP6TextSelectionColor
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorFocusStatePerWindow
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorFocusStatePerWindow
 import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**

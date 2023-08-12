@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
-import com.qxdzbc.p6.app.common.utils.Loggers
+import com.qxdzbc.p6.common.utils.Loggers
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox

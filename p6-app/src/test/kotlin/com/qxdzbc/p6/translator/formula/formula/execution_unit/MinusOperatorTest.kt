@@ -3,9 +3,9 @@ package com.qxdzbc.p6.translator.formula.formula.execution_unit
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.cell.Cell
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.translator.formula.execution_unit.obj_type_in_app.CellAddressUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.primitive.DoubleUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.primitive.IntUnit
@@ -61,7 +61,7 @@ class MinusOperatorTest:OperatorBaseTest(){
         val u2 = MinusOperator(
             ots.getIntCellUnit,intUnit
         )
-        val e = intUnit.v - ((ots.getIntCellUnit.runRs().component1() as Cell).valueAfterRun as Double)
+        val e = intUnit.v - ((ots.getIntCellUnit.runRs().component1() as com.qxdzbc.p6.document_data_layer.cell.Cell).valueAfterRun as Double)
         assertEquals(Ok(-e),u2.runRs())
     }
 
@@ -70,7 +70,7 @@ class MinusOperatorTest:OperatorBaseTest(){
         val u = MinusOperator(
             intUnit, ots.getIntCellUnit
         )
-        val e = intUnit.v - ((ots.getIntCellUnit.run() as Cell).valueAfterRun as Double)
+        val e = intUnit.v - ((ots.getIntCellUnit.run() as com.qxdzbc.p6.document_data_layer.cell.Cell).valueAfterRun as Double)
         assertEquals(Ok(e),u.runRs())
     }
     @Test

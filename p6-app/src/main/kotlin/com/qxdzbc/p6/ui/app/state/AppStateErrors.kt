@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.app.state
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 
 object AppStateErrors {
     private val ASErr = "UI_AppStateErrors_"

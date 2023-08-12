@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.ui.app.error_router
 
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.common.utils.RseNav
-import com.qxdzbc.p6.app.common.err.ErrorReportWithNavInfo
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.common.utils.RseNav
+import com.qxdzbc.p6.common.err.ErrorReportWithNavInfo
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.common.error.ErrorReport
 
 /**
@@ -27,6 +27,6 @@ interface ErrorRouter {
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?, workbookKey:WorkbookKey?)
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?, wbKeySt:St<WorkbookKey>?)
 
-    fun publish(errorReport: ErrorReportWithNavInfo)
+    fun publish(errorReport: com.qxdzbc.p6.common.err.ErrorReportWithNavInfo)
     fun <T> publishIfPossible(resNav: RseNav<T>)
 }

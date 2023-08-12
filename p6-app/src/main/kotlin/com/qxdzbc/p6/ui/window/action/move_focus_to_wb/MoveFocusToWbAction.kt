@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.window.action.move_focus_to_wb
 
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 
 interface MoveFocusToWbAction {
     /**

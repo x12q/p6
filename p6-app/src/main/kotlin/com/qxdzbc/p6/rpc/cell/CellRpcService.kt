@@ -1,12 +1,12 @@
 package com.qxdzbc.p6.rpc.cell
 
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM.Companion.toModel
-import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.cell.CellContent
-import com.qxdzbc.p6.app.document.cell.CellContentImp
-import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.composite_actions.cell.cell_update.CellUpdateRequestDM.Companion.toModel
+import com.qxdzbc.p6.composite_actions.common_data_structure.SingleSignalResponse
+import com.qxdzbc.p6.common.utils.Utils.onNextAndComplete
+import com.qxdzbc.p6.document_data_layer.cell.Cell
+import com.qxdzbc.p6.document_data_layer.cell.CellContent
+import com.qxdzbc.p6.document_data_layer.cell.CellContentImp
+import com.qxdzbc.p6.document_data_layer.cell.CellValue
 import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
@@ -61,7 +61,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCellOrDefault(cid)
+            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
             val rt = StrMsg(cell?.cachedDisplayText ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -73,7 +73,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCellOrDefault(cid)
+            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
             val rt = StrMsg(cell?.fullFormulaFromExUnit ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -85,7 +85,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCellOrDefault(cid)
+            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
             val rt: CellValue = cell?.currentCellValue ?: CellValue.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -97,8 +97,8 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: Cell? = sc.getCellOrDefault(cid)
-            val rt: CellContent = cell?.content ?: CellContentImp.empty
+            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
+            val rt: com.qxdzbc.p6.document_data_layer.cell.CellContent = cell?.content ?: CellContentImp.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }
     }

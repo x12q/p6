@@ -1,10 +1,10 @@
 package com.qxdzbc.p6.ui.format
 
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.address.CRAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
-import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils.toModel
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.cell.address.CRAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddressUtils
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddressUtils.toModel
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressSetProto
 
 data class RangeAddressSetImp(

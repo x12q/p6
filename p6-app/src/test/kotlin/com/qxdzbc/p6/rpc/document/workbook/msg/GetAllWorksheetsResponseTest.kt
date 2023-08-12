@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.rpc.document.workbook.msg
 
-import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.document.worksheet.WorksheetImp
+import com.qxdzbc.p6.common.proto.ProtoUtils.toProto
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.worksheet.WorksheetImp
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok

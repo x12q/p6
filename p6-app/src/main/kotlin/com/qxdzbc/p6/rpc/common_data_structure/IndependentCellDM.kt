@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.rpc.common_data_structure
 
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.address.toModel
-import com.qxdzbc.p6.app.document.cell.CellValue
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.cell.address.toModel
+import com.qxdzbc.p6.document_data_layer.cell.CellValue
 import com.qxdzbc.p6.proto.DocProtos
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM.Companion.toModelDM

@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.ui.window.menu.action
 
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
-import com.qxdzbc.p6.app.action.window.WindowAction
+import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainer
+import com.qxdzbc.p6.ui.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.composite_actions.window.WindowAction
 import com.qxdzbc.p6.ui.window.state.WindowState
 import org.mockito.kotlin.*
 import test.TestSample

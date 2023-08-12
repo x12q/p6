@@ -1,13 +1,13 @@
 package com.qxdzbc.p6.ui.app.cell_editor.state
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorId
 import org.antlr.v4.runtime.tree.ParseTree
 
 interface CellEditorState {

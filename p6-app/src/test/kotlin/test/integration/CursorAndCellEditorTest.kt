@@ -10,21 +10,21 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.P6ExperimentalApi
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsImp
-import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.MouseOnWorksheetAction
-import com.qxdzbc.p6.app.action.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
-import com.qxdzbc.p6.app.common.utils.CellLabelNumberSystem
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsImp
+import com.qxdzbc.p6.composite_actions.workbook.set_active_ws.SetActiveWorksheetRequest
+import com.qxdzbc.p6.composite_actions.worksheet.mouse_on_ws.MouseOnWorksheetAction
+import com.qxdzbc.p6.composite_actions.worksheet.mouse_on_ws.click_on_cell.ClickOnCellAction
+import com.qxdzbc.p6.common.utils.CellLabelNumberSystem
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorAction
 import com.qxdzbc.p6.ui.app.cell_editor.actions.CellEditorActionImp
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
-import com.qxdzbc.p6.ui.document.worksheet.ruler.actions.RulerAction
+import com.qxdzbc.p6.ui.worksheet.ruler.RulerSig
+import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction
 import io.kotest.matchers.collections.shouldNotBeEmpty
@@ -40,6 +40,7 @@ import test.BaseAppStateTest
 import test.test_implementation.MockP6KeyEvent
 import kotlin.test.*
 
+@OptIn(P6ExperimentalApi::class)
 class CursorAndCellEditorTest : BaseAppStateTest() {
 
     val cellEditorAction get() = comp.cellEditorAction()

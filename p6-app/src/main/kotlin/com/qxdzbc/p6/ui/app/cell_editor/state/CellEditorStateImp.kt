@@ -7,7 +7,7 @@ import com.github.michaelbull.result.map
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
 import com.qxdzbc.p6.di.qualifiers.TextElementVisitorQ
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -19,7 +19,7 @@ import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementVisito
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDiffer
 import com.qxdzbc.p6.ui.app.cell_editor.actions.differ.TextDifferImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorId
 import com.squareup.anvil.annotations.ContributesBinding
 import org.antlr.v4.runtime.tree.ParseTree
 import javax.inject.Inject

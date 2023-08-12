@@ -2,12 +2,12 @@ package com.qxdzbc.p6.ui.app.cell_editor.actions
 
 import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.P6ExperimentalApi
-import com.qxdzbc.p6.app.action.cell_editor.close_cell_editor.CloseCellEditorAction
-import com.qxdzbc.p6.app.action.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
-import com.qxdzbc.p6.app.action.cell_editor.handle_keyboard_event.HandleKeyboardEventOnCellEditor
-import com.qxdzbc.p6.app.action.cell_editor.open_cell_editor.OpenCellEditorAction
-import com.qxdzbc.p6.app.action.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
-import com.qxdzbc.p6.app.action.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
+import com.qxdzbc.p6.composite_actions.cell_editor.close_cell_editor.CloseCellEditorAction
+import com.qxdzbc.p6.composite_actions.cell_editor.cycle_formula_lock_state.CycleFormulaLockStateAction
+import com.qxdzbc.p6.composite_actions.cell_editor.handle_keyboard_event.HandleKeyboardEventOnCellEditor
+import com.qxdzbc.p6.composite_actions.cell_editor.open_cell_editor.OpenCellEditorAction
+import com.qxdzbc.p6.composite_actions.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
+import com.qxdzbc.p6.composite_actions.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 
 interface CellEditorAction : GenerateCellEditorTextAction, OpenCellEditorAction, CycleFormulaLockStateAction,
     HandleKeyboardEventOnCellEditor, CloseCellEditorAction, RunFormulaOrSaveValueToCellAction {

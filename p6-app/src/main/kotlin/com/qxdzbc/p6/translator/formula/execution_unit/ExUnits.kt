@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.translator.formula.execution_unit
 
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.common.utils.TypeUtils.checkStAndCast
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.range.Range
+import com.qxdzbc.p6.common.utils.TypeUtils.checkStAndCast
+import com.qxdzbc.p6.document_data_layer.cell.Cell
+import com.qxdzbc.p6.document_data_layer.range.Range
 
 /**
  * This obj contains utils function for working with [ExUnit].
@@ -23,7 +23,7 @@ object ExUnits {
      */
     private fun extractFromCellOrDefault(r1: Any, defaultValue: Any?): Any? {
          when (r1) {
-            is Cell -> {
+            is com.qxdzbc.p6.document_data_layer.cell.Cell -> {
                 val rt= r1.valueAfterRun ?: defaultValue
                 return rt
             }
@@ -36,7 +36,7 @@ object ExUnits {
                 }
             }
             else -> {
-                val casted:St<Cell>? = r1.checkStAndCast()
+                val casted:St<com.qxdzbc.p6.document_data_layer.cell.Cell>? = r1.checkStAndCast()
                 if(casted!=null){
                     val rt= casted.value.valueAfterRun ?: defaultValue
                     return rt

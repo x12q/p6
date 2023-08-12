@@ -2,8 +2,8 @@ package com.qxdzbc.p6.ui.app.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.err.ErrorContainer
-import com.qxdzbc.p6.app.err.ErrorContainerImp
+import com.qxdzbc.p6.err.ErrorContainer
+import com.qxdzbc.p6.err.ErrorContainerImp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState

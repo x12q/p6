@@ -1,0 +1,75 @@
+package com.qxdzbc.p6.ui.worksheet.slider
+
+import com.qxdzbc.p6.common.utils.MathUtils
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.di.qualifiers.NullInt
+import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultBaseGridSlider
+import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultVisibleColRange
+import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultVisibleRowRange
+import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
+import com.squareup.anvil.annotations.ContributesBinding
+import javax.inject.Inject
+
+/**
+ * immutable [GridSlider]
+ */
+@ContributesBinding(WsAnvilScope::class, boundType = GridSlider::class)
+@DefaultBaseGridSlider
+data class GridSliderImp @Inject constructor(
+    @DefaultVisibleColRange
+    override val visibleColRange: IntRange,
+    @DefaultVisibleRowRange
+    override val visibleRowRange: IntRange,
+    @NullInt
+    override val marginRow: Int? = null,
+    @NullInt
+    override val marginCol: Int? = null,
+) : BaseSlider() {
+    override val topLeftCell: CellAddress get() = CellAddress(this.firstVisibleCol, this.firstVisibleRow)
+    override val firstVisibleCol: Int get() = visibleColRange.first
+    override val lastVisibleCol: Int get() = visibleColRange.last
+    override fun setVisibleColRange(i: IntRange): GridSlider {
+        if (i == this.visibleColRange) {
+            return this
+        } else {
+            return this.copy(visibleColRange = i)
+        }
+    }
+
+    override val firstVisibleRow: Int get() = visibleRowRange.first
+    override val lastVisibleRow: Int get() = visibleRowRange.last
+    override fun setMarginRow(i: Int?): GridSlider = this.copy(marginRow = i)
+    override fun setMarginCol(i: Int?): GridSlider = this.copy(marginCol = i)
+
+    override fun setVisibleRowRange(i: IntRange): GridSlider {
+        if (i == this.visibleRowRange) {
+            return this
+        } else {
+            return this.copy(visibleRowRange = i)
+        }
+    }
+
+    override fun shiftLeft(v: Int): GridSlider {
+        val i = MathUtils.addIntOrDefault(firstVisibleCol, -v)
+        val w = MathUtils.addIntOrDefault(lastVisibleCol, -v)
+        return this.copy(
+            visibleColRange = IntRange(i, w)
+        )
+    }
+
+    override fun shiftRight(v: Int): GridSlider {
+        return this.shiftLeft(-v)
+    }
+
+    override fun shiftUp(v: Int): GridSlider {
+        return this.shiftDown(-v)
+    }
+
+    override fun shiftDown(v: Int): GridSlider {
+        val i = MathUtils.addIntOrDefault(firstVisibleRow, v)
+        val w = MathUtils.addIntOrDefault(lastVisibleRow, v)
+        return this.copy(
+            visibleRowRange = IntRange(i, w)
+        )
+    }
+}

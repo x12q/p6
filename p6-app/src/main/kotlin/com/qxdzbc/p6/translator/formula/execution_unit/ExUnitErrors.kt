@@ -2,7 +2,7 @@ package com.qxdzbc.p6.translator.formula.execution_unit
 
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.document.cell.CellErrors
+import com.qxdzbc.p6.document_data_layer.cell.CellErrors
 
 object ExUnitErrors {
     const val prefix = "ExUnitErrors "

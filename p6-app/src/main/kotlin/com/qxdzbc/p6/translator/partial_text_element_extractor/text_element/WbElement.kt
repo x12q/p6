@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.translator.partial_text_element_extractor.text_element
 
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import java.nio.file.Path
 
 /**

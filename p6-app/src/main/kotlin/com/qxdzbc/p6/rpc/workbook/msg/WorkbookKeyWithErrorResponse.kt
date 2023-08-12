@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.rpc.workbook.msg
 
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.common.proto.ProtoUtils.toProto
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.proto.AppProtos.WorkbookKeyWithErrorResponseProto
 
 class WorkbookKeyWithErrorResponse(

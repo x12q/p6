@@ -6,7 +6,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorStateImp
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorId
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorId
 import org.mockito.Mockito.mock
 import kotlin.test.*
 

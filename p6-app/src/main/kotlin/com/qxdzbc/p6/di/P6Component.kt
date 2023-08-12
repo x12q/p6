@@ -1,11 +1,11 @@
 package com.qxdzbc.p6.di
 
 import androidx.compose.ui.window.ApplicationScope
-import com.qxdzbc.p6.app.action.window.WindowAction
-import com.qxdzbc.p6.app.action.workbook.WorkbookAction
-import com.qxdzbc.p6.app.action.worksheet.WorksheetAction
-import com.qxdzbc.p6.app.app_context.AppContext
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
+import com.qxdzbc.p6.composite_actions.window.WindowAction
+import com.qxdzbc.p6.composite_actions.workbook.WorkbookAction
+import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
+import com.qxdzbc.p6.app_context.AppContext
+import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainer
 import com.qxdzbc.p6.di.qualifiers.MsRpcServerQualifier
 
 
@@ -19,11 +19,11 @@ import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope
 import com.qxdzbc.p6.di.qualifiers.EventServerPort
 import com.qxdzbc.p6.di.qualifiers.Username
 import com.qxdzbc.p6.ui.window.di.WindowFocusStateModule
-import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
-import com.qxdzbc.p6.ui.document.workbook.state.factory.WorkbookStateFactory
-import com.qxdzbc.p6.ui.document.worksheet.action.WorksheetActionTable
-import com.qxdzbc.p6.ui.document.worksheet.cursor.actions.CursorAction
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetStateFactory
+import com.qxdzbc.p6.ui.workbook.action.WorkbookActionTable
+import com.qxdzbc.p6.ui.workbook.state.factory.WorkbookStateFactory
+import com.qxdzbc.p6.ui.worksheet.action.WorksheetActionTable
+import com.qxdzbc.p6.ui.worksheet.cursor.actions.CursorAction
+import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateFactory
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.action.move_focus_to_wb.MoveFocusToWbAction
 import com.qxdzbc.p6.ui.window.di.comp.WindowComponent
@@ -33,7 +33,6 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineScope
-import javax.inject.Inject
 import javax.inject.Singleton
 
 

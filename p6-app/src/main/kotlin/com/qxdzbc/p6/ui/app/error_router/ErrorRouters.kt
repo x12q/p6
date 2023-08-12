@@ -4,7 +4,7 @@ import com.github.michaelbull.result.onFailure
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 
 object ErrorRouters {
      fun <T> Rs<T,ErrorReport>.publishErrIfNeed(errorRouter: ErrorRouter, windowId:String?=null, wbKey: WorkbookKey?=null):Rs<T,ErrorReport>{

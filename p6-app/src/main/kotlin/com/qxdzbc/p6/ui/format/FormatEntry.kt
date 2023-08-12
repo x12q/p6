@@ -3,18 +3,19 @@ package com.qxdzbc.p6.ui.format
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.cell.address.CRAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.Shiftable
+import com.qxdzbc.p6.document_data_layer.cell.address.CRAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.ui.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format.RangeAddressSetImp.Companion.toModel
 
 /**
  * A pair value of a [RangeAddressSet] and a format value
  */
-data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue: T) : Shiftable {
+data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue: T) :
+    com.qxdzbc.p6.document_data_layer.Shiftable {
 
     constructor(rangeAddress: RangeAddress, formatValue: T) : this(
         RangeAddressSetImp(rangeAddress), formatValue

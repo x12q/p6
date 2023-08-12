@@ -1,11 +1,11 @@
 package test.integration
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.composite_actions.cell.cell_update.CellUpdateRequestDM
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
-import com.qxdzbc.p6.app.action.cell.cell_update.UpdateCellAction
+import com.qxdzbc.p6.composite_actions.cell.cell_update.UpdateCellAction
 import test.TestSample
 import kotlin.test.BeforeTest
 import kotlin.test.Test

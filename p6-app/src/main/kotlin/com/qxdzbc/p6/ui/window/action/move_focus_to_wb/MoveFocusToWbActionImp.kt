@@ -2,8 +2,8 @@ package com.qxdzbc.p6.ui.window.action.move_focus_to_wb
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import com.qxdzbc.p6.app.action.worksheet.release_focus.RestoreWindowFocusState
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.composite_actions.worksheet.release_focus.RestoreWindowFocusState
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer

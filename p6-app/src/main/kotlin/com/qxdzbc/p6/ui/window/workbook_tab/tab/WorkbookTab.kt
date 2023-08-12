@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import com.qxdzbc.common.compose.view.testApp
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.modifier.boolBackground
 import com.qxdzbc.p6.ui.common.view.*
 import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers

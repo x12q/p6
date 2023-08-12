@@ -7,12 +7,12 @@ import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.document.cell.FormulaErrors
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.cell.FormulaErrors
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.cell.Cell
+import com.qxdzbc.p6.document_data_layer.range.Range
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 
 import com.qxdzbc.p6.translator.formula.execution_unit.function.FunctionExecutor
 import com.qxdzbc.p6.ui.app.state.AppState
@@ -46,7 +46,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
-            ): Rse<Ms<Cell>?> {
+            ): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?> {
                 val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
                     it.value.getCellMs(cellAddress)
                 }
@@ -54,7 +54,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
 
             override val name: String = P6FunctionDefinitions.getCellRs
-            override val function: KFunction<Rse<Ms<Cell>?>> = ::getCellRs
+            override val function: KFunction<Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?>> = ::getCellRs
         }
     )
 
@@ -85,7 +85,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                                 }
                                 is St<*> ->{
                                     val v = obj.value
-                                    if(v is Cell){
+                                    if(v is com.qxdzbc.p6.document_data_layer.cell.Cell){
                                         val cv = v.valueAfterRun
                                         if(cv!=null){
                                             try {
@@ -103,7 +103,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                                         return invalidArgumentReport
                                     }
                                 }
-                                is Cell -> {
+                                is com.qxdzbc.p6.document_data_layer.cell.Cell -> {
                                     val cv = obj.valueAfterRun
                                     if(cv!=null){
                                         try {

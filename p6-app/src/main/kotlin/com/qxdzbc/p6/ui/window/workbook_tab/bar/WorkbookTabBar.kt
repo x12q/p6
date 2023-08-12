@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
+import com.qxdzbc.p6.ui.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.window.workbook_tab.tab.WorkbookTab
 
 @Composable
@@ -31,10 +31,10 @@ fun WorkbookTabBar(
                         MBox(
                             modifier = Modifier
                                 .requiredWidthIn(
-                                    WorkbookConstants.minWorkbookTabWidth,
-                                    WorkbookConstants.maxWorkbookTabWidth
+                                    com.qxdzbc.p6.ui.workbook.WorkbookConstants.minWorkbookTabWidth,
+                                    com.qxdzbc.p6.ui.workbook.WorkbookConstants.maxWorkbookTabWidth
                                 )
-                                .height(WorkbookConstants.tabHeight)
+                                .height(com.qxdzbc.p6.ui.workbook.WorkbookConstants.tabHeight)
                         ) {
                             WorkbookTab(
                                 tabState,
@@ -57,8 +57,8 @@ fun WorkbookTabBar(
             BorderBox(
                 borderStyle = BorderStyle.LEFT_RIGHT,
                 modifier = Modifier
-                    .width(WorkbookConstants.tabHeight)
-                    .height(WorkbookConstants.tabHeight)
+                    .width(com.qxdzbc.p6.ui.workbook.WorkbookConstants.tabHeight)
+                    .height(com.qxdzbc.p6.ui.workbook.WorkbookConstants.tabHeight)
                     .align(Alignment.Bottom)
                     .clickable { action.createNewWb(state.windowId) }
             ) {

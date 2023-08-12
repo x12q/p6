@@ -7,11 +7,11 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.document.cell.FormulaErrors
-import com.qxdzbc.p6.app.document.cell.address.CRAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.composite_actions.range.RangeId
+import com.qxdzbc.p6.document_data_layer.cell.FormulaErrors
+import com.qxdzbc.p6.document_data_layer.cell.address.CRAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnitErrors
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnits
