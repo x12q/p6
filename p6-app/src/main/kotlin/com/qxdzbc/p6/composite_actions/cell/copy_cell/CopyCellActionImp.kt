@@ -144,7 +144,7 @@ class CopyCellActionImp @Inject constructor(
                 // x: update the destination cell
                 val rs0 = newToWs.getCellMsRs(request.toCell.address)
                     .flatMap { toCellMs ->
-                        val targetContent: com.qxdzbc.p6.document_data_layer.cell.CellContent = if (request.shiftRange) {
+                        val targetContent: CellContent = if (request.shiftRange) {
                             fromCellMs.value.content.shift(
                                 oldAnchorCell = fromCellMs.value.address,
                                 newAnchorCell = toCellMs.value.address

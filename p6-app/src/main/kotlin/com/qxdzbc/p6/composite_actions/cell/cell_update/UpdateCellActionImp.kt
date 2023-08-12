@@ -51,7 +51,7 @@ class UpdateCellActionImp @Inject constructor(
             val ws by wsMs
             val wbMs = sc.getWbMs(ws.wbKeySt)
             val translator: P6Translator<ExUnit> = translatorCont.getTranslatorOrCreate(ws.id)
-            val content: com.qxdzbc.p6.document_data_layer.cell.CellContent = request.cellContentDM.toCellContent(translator)
+            val content: CellContent = request.cellContentDM.toCellContent(translator)
             val updateWsRs = ws.updateCellContentRs(
                 request.cellId.address, content
             )

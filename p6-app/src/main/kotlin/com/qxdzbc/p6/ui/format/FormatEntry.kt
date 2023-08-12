@@ -15,7 +15,7 @@ import com.qxdzbc.p6.ui.format.RangeAddressSetImp.Companion.toModel
  * A pair value of a [RangeAddressSet] and a format value
  */
 data class FormatEntry<T>(val rangeAddressSet: RangeAddressSet, val formatValue: T) :
-    com.qxdzbc.p6.document_data_layer.Shiftable {
+    Shiftable {
 
     constructor(rangeAddress: RangeAddress, formatValue: T) : this(
         RangeAddressSetImp(rangeAddress), formatValue

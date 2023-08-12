@@ -61,7 +61,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
+            val cell: Cell? = sc.getCellOrDefault(cid)
             val rt = StrMsg(cell?.cachedDisplayText ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -73,7 +73,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
+            val cell: Cell? = sc.getCellOrDefault(cid)
             val rt = StrMsg(cell?.fullFormulaFromExUnit ?: "")
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -85,7 +85,7 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
+            val cell: Cell? = sc.getCellOrDefault(cid)
             val rt: CellValue = cell?.currentCellValue ?: CellValue.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }
@@ -97,8 +97,8 @@ class CellRpcService @Inject constructor(
     ) {
         if (request != null && responseObserver != null) {
             val cid: CellIdDM = request.toModel()
-            val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = sc.getCellOrDefault(cid)
-            val rt: com.qxdzbc.p6.document_data_layer.cell.CellContent = cell?.content ?: CellContentImp.empty
+            val cell: Cell? = sc.getCellOrDefault(cid)
+            val rt: CellContent = cell?.content ?: CellContentImp.empty
             responseObserver.onNextAndComplete(rt.toProto())
         }
     }

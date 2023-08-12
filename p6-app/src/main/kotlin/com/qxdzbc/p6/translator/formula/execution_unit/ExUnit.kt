@@ -22,7 +22,7 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
  * - object in this app: cell address, range address, workbook key, Worksheet name
  * - a function
  */
-interface ExUnit : com.qxdzbc.p6.document_data_layer.Shiftable, ColorKey {
+interface ExUnit : Shiftable, ColorKey {
     /**
      * get a list of range + cell ExUnit (if any) from this unit
      */

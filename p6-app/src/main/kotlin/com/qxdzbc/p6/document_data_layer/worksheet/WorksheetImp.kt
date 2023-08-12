@@ -30,16 +30,16 @@ import java.util.*
 
 data class WorksheetImp(
     override val idMs: Ms<WorksheetId>,
-    val tableMs: Ms<TableCR<Int, Int, Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>> = ms(emptyTable),
+    val tableMs: Ms<TableCR<Int, Int, Ms<Cell>>> = ms(emptyTable),
     override val rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
 ) : BaseWorksheet() {
 
-    override val table: TableCR<Int, Int, Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> by tableMs
+    override val table: TableCR<Int, Int, Ms<Cell>> by tableMs
 
     constructor(
         nameMs: Ms<String>,
         wbKeySt: St<WorkbookKey>,
-        table: TableCR<Int, Int, Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> = emptyTable,
+        table: TableCR<Int, Int, Ms<Cell>> = emptyTable,
         rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
     ) : this(
         idMs = ms(
@@ -66,7 +66,7 @@ data class WorksheetImp(
         }
     }
 
-    private fun forEachCell(f:(cellMs:Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>, colIndex:Int, rowIndex:Int)->Unit){
+    private fun forEachCell(f:(cellMs:Ms<Cell>, colIndex:Int, rowIndex:Int)->Unit){
         val cellMap = table.dataMap
         for ((colIndex, col) in cellMap) {
             for ((rowIndex, cellMs) in col) {
@@ -116,7 +116,7 @@ data class WorksheetImp(
     }
 
     override val name: String get() = nameMs.value
-    override val cellMsList: List<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> get() = this.table.allElements
+    override val cellMsList: List<Ms<Cell>> get() = this.table.allElements
     override val usedRowRange: IntRange
         get() = usedRange.rowRange
     override val usedColRange: IntRange
@@ -141,7 +141,7 @@ data class WorksheetImp(
 
     override fun updateCellContentRs(
         cellAddress: CellAddress,
-        cellContent: com.qxdzbc.p6.document_data_layer.cell.CellContent
+        cellContent: CellContent
     ): Rse<Unit> {
         val cellRs = this.getCellOrDefaultRs(cellAddress)
         val rt = cellRs.map { cell ->
@@ -172,11 +172,11 @@ data class WorksheetImp(
         }
     }
 
-    override fun getCellMsInRange(rangeAddress: RangeAddress): List<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> {
+    override fun getCellMsInRange(rangeAddress: RangeAddress): List<Ms<Cell>> {
         if (rangeAddress.contains(usedRange)) {
             return this.cellMsList
         } else {
-            val rt = mutableListOf<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>()
+            val rt = mutableListOf<Ms<Cell>>()
             val intersectionaRange = this.usedRange.intersect(rangeAddress)
             if (intersectionaRange != null && intersectionaRange.isValid()) {
                 val iterator = intersectionaRange.cellIterator
@@ -192,7 +192,7 @@ data class WorksheetImp(
         }
     }
 
-    override fun addOrOverwrite(cell: com.qxdzbc.p6.document_data_layer.cell.Cell) {
+    override fun addOrOverwrite(cell: Cell) {
         val address = cell.address
         val newCell = CellImp(
             id = CellId(address, wbKeySt, wsNameSt),
@@ -231,11 +231,11 @@ data class WorksheetImp(
 
     override fun withNewData(wsProto: WorksheetProto, translator: P6Translator<ExUnit>) {
         if (this.name == wsProto.name) {
-            var newTable = ImmutableTableCR<Int, Int, Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>()
+            var newTable = ImmutableTableCR<Int, Int, Ms<Cell>>()
             this.removeAllCell()
             for (cellProto: DocProtos.CellProto in wsProto.cellsList) {
                 val newCell = cellProto.toModel(wbKeySt, wsNameSt, translator)
-                val cMs: Ms<com.qxdzbc.p6.document_data_layer.cell.Cell> = this.getCellMs(newCell.address)?.apply {
+                val cMs: Ms<Cell> = this.getCellMs(newCell.address)?.apply {
                     value = newCell
                 } ?: ms(newCell)
                 newTable = newTable.set(newCell.address, cMs)
@@ -260,10 +260,10 @@ data class WorksheetImp(
             val sameName = this.name == other.name
             val sameWb = this.wbKey == other.wbKey
             val sameCellMap = run {
-                val cellMap1: Map<Int, Map<Int, com.qxdzbc.p6.document_data_layer.cell.Cell>> = this.table.dataMap.mapValues {
+                val cellMap1: Map<Int, Map<Int, Cell>> = this.table.dataMap.mapValues {
                     it.value.mapValues { it.value.value }
                 }
-                val cellMap2: Map<Int, Map<Int, com.qxdzbc.p6.document_data_layer.cell.Cell>> = other.table.dataMap.mapValues {
+                val cellMap2: Map<Int, Map<Int, Cell>> = other.table.dataMap.mapValues {
                     it.value.mapValues { it.value.value }
                 }
                 cellMap1 == cellMap2
@@ -289,10 +289,10 @@ data class WorksheetImp(
                     nameMs= ms("Worksheet-"+ UUID.randomUUID().toString()),
                     wbKeySt = ms(WorkbookKey.random()),
                     table = run {
-                        var tb= ImmutableTableCR<Int,Int,Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>()
+                        var tb= ImmutableTableCR<Int,Int,Ms<Cell>>()
                         for(c in 1 .. 10){
                             for (r in 1 .. 10){
-                                tb = tb.set(c,r, ms(com.qxdzbc.p6.document_data_layer.cell.Cell.random(CellAddress(c,r))))
+                                tb = tb.set(c,r, ms(Cell.random(CellAddress(c,r))))
                             }
                         }
                         tb
@@ -301,10 +301,10 @@ data class WorksheetImp(
                 return rt
             }
 
-        val emptyTable: TableCR<Int, Int, Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> = ImmutableTableCR()
+        val emptyTable: TableCR<Int, Int, Ms<Cell>> = ImmutableTableCR()
         fun fromCellList(
             name: String,
-            cellList: List<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> = emptyList(),
+            cellList: List<Ms<Cell>> = emptyList(),
             rangeConstraint: RangeConstraint = WorksheetConstants.defaultRangeConstraint,
             wbKeyMs: Ms<WorkbookKey>,
         ): WorksheetImp {
@@ -331,7 +331,7 @@ data class WorksheetImp(
                 table = ImmutableTableCR(),
                 wbKeySt = wbKeyMs
             )
-            for (cell: com.qxdzbc.p6.document_data_layer.cell.Cell in cellsList.map { it.toShallowModel(translator) }) {
+            for (cell: Cell in cellsList.map { it.toShallowModel(translator) }) {
                 ws.addOrOverwrite(cell)
             }
             return ws

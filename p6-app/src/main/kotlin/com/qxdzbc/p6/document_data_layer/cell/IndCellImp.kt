@@ -15,17 +15,17 @@ import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
  */
 data class IndCellImp(
     override val address: CellAddress,
-    override val content: com.qxdzbc.p6.document_data_layer.cell.CellContent = CellContentImp.empty,
+    override val content: CellContent = CellContentImp.empty,
     override val externalEvalError: ErrorReport? = null,
     override val cachedDisplayText: String = "",
-) : com.qxdzbc.p6.document_data_layer.cell.BaseCell() {
+) : BaseCell() {
 
     companion object {
         fun random():IndCellImp{
             return IndCellImp.random(CellAddress.random())
         }
         fun random(address: CellAddress):IndCellImp{
-            val ct = com.qxdzbc.p6.document_data_layer.cell.CellContent.randomNumericContent()
+            val ct = CellContent.randomNumericContent()
             return IndCellImp(
                 address = address,
                 content = ct,
@@ -34,20 +34,20 @@ data class IndCellImp(
         }
     }
 
-    override fun setExternalEvalError(i: ErrorReport?): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun setExternalEvalError(i: ErrorReport?): Cell {
         return this.copy(externalEvalError=i)
     }
 
-    override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): Cell {
         val newAddress:CellAddress = address.shift(oldAnchorCell, newAnchorCell)
-        val newContent: com.qxdzbc.p6.document_data_layer.cell.CellContent = content.shift(oldAnchorCell, newAnchorCell)
+        val newContent: CellContent = content.shift(oldAnchorCell, newAnchorCell)
         return this.copy(
             address=newAddress,
             content = newContent
         )
     }
 
-    override fun reRunRs(): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    override fun reRunRs(): Rse<Cell> {
         val c = content.reRunRs()
         val rt = c.map { this.copy(content = it) }
         return rt
@@ -60,7 +60,7 @@ data class IndCellImp(
         return cachedDisplayText
     }
 
-    override fun evaluateDisplayText(): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun evaluateDisplayText(): Cell {
         throw UnsupportedOperationException()
     }
 
@@ -73,15 +73,15 @@ data class IndCellImp(
     override val wsName: String
         get() = throw UnsupportedOperationException()
 
-    override fun setAddress(newAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun setAddress(newAddress: CellAddress): Cell {
         return this.copy(address = newAddress)
     }
 
-    override fun setContent(content: com.qxdzbc.p6.document_data_layer.cell.CellContent): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun setContent(content: CellContent): Cell {
         return this.copy(content = content)
     }
 
-    override fun setCellValue(i: CellValue): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun setCellValue(i: CellValue): Cell {
         val newContent = this.content
             .setValueAndDeleteExUnit(i)
         return this.setContent(newContent)

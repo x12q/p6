@@ -8,14 +8,14 @@ import com.qxdzbc.p6.common.focus_requester.P6FocusRequester
 interface CursorFocusStatePerWindow {
 
     val isCursorFocused:Boolean
-    val cursorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester
+    val cursorFocusRequester: P6FocusRequester
     fun setCursorFocus(i:Boolean):CursorFocusStatePerWindow
     fun focusOnCursor(): CursorFocusStatePerWindow
     fun freeFocusOnCursor(): CursorFocusStatePerWindow
 
     val isEditorFocused:Boolean
     fun setCellEditorFocus(i:Boolean):CursorFocusStatePerWindow
-    val editorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester
+    val editorFocusRequester: P6FocusRequester
     fun focusOnEditor(): CursorFocusStatePerWindow
     fun freeFocusOnEditor(): CursorFocusStatePerWindow
 }

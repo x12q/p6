@@ -64,7 +64,7 @@ internal class PasteRangeActionImpTest : BaseAppStateTest(){
         clipboadCellMap = listOf(
             f7, g9
         ).associateWith {
-            IndCellImp(CellAddress(it), content = com.qxdzbc.p6.document_data_layer.cell.CellContent.randomNumericContent())
+            IndCellImp(CellAddress(it), content = CellContent.randomNumericContent())
         }
 
         shiftedClipboardData = RangeCopy(

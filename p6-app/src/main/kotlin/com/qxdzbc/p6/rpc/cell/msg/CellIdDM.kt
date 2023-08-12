@@ -16,7 +16,7 @@ data class CellIdDM(
     val address: CellAddress,
     override val wbKey:WorkbookKey,
     override val wsName:String,
-) :WbWs, com.qxdzbc.p6.document_data_layer.Shiftable {
+) :WbWs, Shiftable {
 
     constructor(address: CellAddress,wbws:WbWs):this(address,wbws.wbKey,wbws.wsName)
 
@@ -40,7 +40,7 @@ data class CellIdDM(
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
-    ): com.qxdzbc.p6.document_data_layer.Shiftable {
+    ): Shiftable {
         return this.copy(address=address.shift(oldAnchorCell,newAnchorCell))
     }
 }

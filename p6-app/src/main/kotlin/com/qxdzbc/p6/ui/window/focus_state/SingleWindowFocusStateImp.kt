@@ -17,8 +17,8 @@ import javax.inject.Inject
 data class SingleWindowFocusStateImp (
     private val isCursorFocusedMs:Ms<Boolean>,
     private val isEditorFocusedMs:Ms<Boolean>,
-    override val cursorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester = FocusRequester().toP6FocusRequester(),
-    override val editorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester = FocusRequester().toP6FocusRequester(),
+    override val cursorFocusRequester: P6FocusRequester = FocusRequester().toP6FocusRequester(),
+    override val editorFocusRequester: P6FocusRequester = FocusRequester().toP6FocusRequester(),
 ) : WindowFocusState {
 
     @Inject constructor():this(

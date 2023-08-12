@@ -8,12 +8,12 @@ import kotlin.test.*
 
 class SingleWindowFocusStateImpTest {
     lateinit var f : SingleWindowFocusStateImp
-    lateinit var mockCursorFR: com.qxdzbc.p6.common.focus_requester.P6FocusRequester
-    lateinit var mockEditorFR: com.qxdzbc.p6.common.focus_requester.P6FocusRequester
+    lateinit var mockCursorFR: P6FocusRequester
+    lateinit var mockEditorFR: P6FocusRequester
     @BeforeTest
     fun b(){
-        mockCursorFR = mock(com.qxdzbc.p6.common.focus_requester.P6FocusRequester::class.java)
-        mockEditorFR = mock(com.qxdzbc.p6.common.focus_requester.P6FocusRequester::class.java)
+        mockCursorFR = mock(P6FocusRequester::class.java)
+        mockEditorFR = mock(P6FocusRequester::class.java)
         f = SingleWindowFocusStateImp(
             isCursorFocusedMs = false.toMs(),
             isEditorFocusedMs = false.toMs(),

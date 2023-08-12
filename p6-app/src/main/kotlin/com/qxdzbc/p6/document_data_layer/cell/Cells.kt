@@ -9,24 +9,24 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddresses
 import com.qxdzbc.p6.document_data_layer.cell.CellValue.Companion.toCellValue
 
 object Cells {
-    fun emptyIndCell(colIndex: Int, rowIndex: Int): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    fun emptyIndCell(colIndex: Int, rowIndex: Int): Cell {
         return emptyIndCell(CellAddresses.fromIndices(colIndex, rowIndex))
     }
 
-    fun emptyIndCell(label: String): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    fun emptyIndCell(label: String): Cell {
         return emptyIndCell(CellAddresses.fromLabel(label))
     }
 
-    fun number(label: String, number: Number): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    fun number(label: String, number: Number): Cell {
         val rt=emptyIndCell(label).setCellValue(number.toCellValue())
         return rt
     }
 
-    fun str(label: String, str: String): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    fun str(label: String, str: String): Cell {
         return emptyIndCell(label).setCellValue(str.toCellValue())
     }
 
-    fun emptyIndCell(cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    fun emptyIndCell(cellAddress: CellAddress): Cell {
         return IndCellImp(
             cellAddress,
             CellContentImp.empty

@@ -45,7 +45,7 @@ class GetWorkbookActionImp @Inject constructor(
                 }
             }
             else ->{
-                return com.qxdzbc.p6.composite_actions.ActionErrors.InvalidRequest.report("Can't get workbook with request ${request}. GetWorkbookRequest must have at least one non-null property").toErr()
+                return ActionErrors.InvalidRequest.report("Can't get workbook with request ${request}. GetWorkbookRequest must have at least one non-null property").toErr()
             }
         }
     }

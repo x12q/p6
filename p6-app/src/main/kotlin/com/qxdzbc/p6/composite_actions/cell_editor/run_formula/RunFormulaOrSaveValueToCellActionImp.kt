@@ -101,7 +101,7 @@ class RunFormulaOrSaveValueToCellActionImp @Inject constructor(
                 value = editorText
             }
             val command = object : BaseCommand() {
-                val _cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = cell
+                val _cell: Cell? = cell
                 val _targetWbKeySt = editorState.targetCursorId?.wbKeySt
                 val _targetWsNameSt = editorState.targetCursorId?.wsNameSt
                 val _editTarget:CellAddress? = editorState.targetCell

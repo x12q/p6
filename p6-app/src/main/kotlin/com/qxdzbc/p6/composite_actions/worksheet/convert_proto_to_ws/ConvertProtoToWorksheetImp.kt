@@ -39,7 +39,7 @@ class ConvertProtoToWorksheetImp @Inject constructor(
         )
         val translator = tc.getTranslatorOrCreate(wbKeyMs, wsNameMs)
 
-        for (cell: com.qxdzbc.p6.document_data_layer.cell.Cell in proto.cellsList.map { it.toModel(wbKeyMs, wsNameMs, translator) }) {
+        for (cell: Cell in proto.cellsList.map { it.toModel(wbKeyMs, wsNameMs, translator) }) {
             ws.addOrOverwrite(cell)
         }
         return ws

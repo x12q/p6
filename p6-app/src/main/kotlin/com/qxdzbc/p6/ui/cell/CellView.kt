@@ -32,7 +32,7 @@ fun CellView(
     boxModifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
 ) {
-    val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? = state.cell
+    val cell: Cell? = state.cell
     MBox(
         modifier = boxModifier
             .fillMaxSize()

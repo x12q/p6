@@ -41,7 +41,7 @@ class RangeRangePasterImp @Inject constructor(
                         val shiftedSourceAddress: CellAddress = targetCellAddress.shift(targetTopLeft, sourceTopLeft)
                         val sourceCellAddress: CellAddress =
                             sourceRangeAddress.getCellAddressCycle(shiftedSourceAddress)
-                        val sourceCell: com.qxdzbc.p6.document_data_layer.cell.Cell? = source.cellTable.getElement(sourceCellAddress)
+                        val sourceCell: Cell? = source.cellTable.getElement(sourceCellAddress)
                         if (sourceCell != null) {
                             val newCell = sourceCell
                                 .shift(sourceCellAddress, targetCellAddress)

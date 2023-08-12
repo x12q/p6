@@ -43,7 +43,7 @@ data class CellContentDM(
         }
     }
 
-    fun toCellContent(translator: P6Translator<ExUnit>): com.qxdzbc.p6.document_data_layer.cell.CellContent {
+    fun toCellContent(translator: P6Translator<ExUnit>): CellContent {
         val rt = formula?.let {
             CellContentImp.fromTransRs(translator.translate(formula),originalFormula = this.originalText)
         } ?: CellContentImp(cellValueMs = cellValue.toMs(),originalText = this.originalText)

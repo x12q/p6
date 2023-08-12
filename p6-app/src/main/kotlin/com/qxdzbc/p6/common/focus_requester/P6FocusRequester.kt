@@ -8,11 +8,11 @@ interface P6FocusRequester {
     val focusRequester:FocusRequester
 
     companion object{
-        fun FocusRequester.toP6FocusRequester(): com.qxdzbc.p6.common.focus_requester.P6FocusRequester {
-            return com.qxdzbc.p6.common.focus_requester.P6FocusRequesterImp(this)
+        fun FocusRequester.toP6FocusRequester(): P6FocusRequester {
+            return P6FocusRequesterImp(this)
         }
 
-        val fake = object : com.qxdzbc.p6.common.focus_requester.P6FocusRequester {
+        val fake = object : P6FocusRequester {
             override fun freeFocus(): Boolean {
                 return true
             }

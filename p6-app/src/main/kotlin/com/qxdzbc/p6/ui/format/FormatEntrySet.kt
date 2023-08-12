@@ -29,7 +29,7 @@ import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toTextVerticalProto
 data class FormatEntrySet<T>(
     val validSet: Set<FormatEntry<T>> = emptySet(),
     val invalidSet: Set<FormatEntry<T?>> = emptySet(),
-) : com.qxdzbc.p6.document_data_layer.Shiftable {
+) : Shiftable {
     val allRanges: Set<RangeAddress>
         get() =
             invalidSet.flatMap { it.rangeAddressSet.ranges }.toSet() + validSet.flatMap { it.rangeAddressSet.ranges }

@@ -19,11 +19,11 @@ data class CellValue (
     val bool: Boolean? = null,
     val str: String? = null,
     val range: Range? = null,
-    val cellSt: St<com.qxdzbc.p6.document_data_layer.cell.Cell>? = null,
+    val cellSt: St<Cell>? = null,
     val errorReport: ErrorReport? = null,
     val transErrorReport: ErrorReport? = null,
 ) {
-    val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? get() = cellSt?.value
+    val cell: Cell? get() = cellSt?.value
     override fun hashCode(): Int {
         var result = number?.hashCode() ?: 0
         result = 31 * result + (bool?.hashCode() ?: 0)
@@ -97,7 +97,7 @@ data class CellValue (
                 is Range -> return from(i)
                 is SingleErrorReport -> return from(i)
                 else -> {
-                    val casted: St<com.qxdzbc.p6.document_data_layer.cell.Cell>? = i.checkStAndCast()
+                    val casted: St<Cell>? = i.checkStAndCast()
                     if(casted!=null){
                         val rt:CellValue= from(casted)
                         return rt
@@ -112,11 +112,11 @@ data class CellValue (
             return CellValue(transErrorReport = errorReport)
         }
 
-        fun from(i: St<com.qxdzbc.p6.document_data_layer.cell.Cell>): CellValue {
+        fun from(i: St<Cell>): CellValue {
             return CellValue(cellSt = i)
         }
 
-        fun fromCellForTest(i: com.qxdzbc.p6.document_data_layer.cell.Cell): CellValue {
+        fun fromCellForTest(i: Cell): CellValue {
             return CellValue(cellSt = ms(i))
         }
 

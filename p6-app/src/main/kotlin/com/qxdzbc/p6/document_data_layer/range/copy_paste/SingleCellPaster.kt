@@ -41,7 +41,7 @@ class SingleCellPaster @Inject constructor(
                 if(source!=null){
                     wb.getWsRs(target.wsName).map {
                         var tws = it
-                        for (cell: com.qxdzbc.p6.document_data_layer.cell.Cell in source.cells) {
+                        for (cell: Cell in source.cells) {
                             val newCell = cell.shift(
                                 source.rangeId.rangeAddress.topLeft,
                                 target.rangeAddress.topLeft

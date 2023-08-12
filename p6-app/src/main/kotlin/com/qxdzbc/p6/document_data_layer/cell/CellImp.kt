@@ -29,22 +29,22 @@ import kotlin.jvm.Throws
  */
 data class CellImp(
     override val id: CellId,
-    override val content: com.qxdzbc.p6.document_data_layer.cell.CellContent = CellContentImp.empty,
+    override val content: CellContent = CellContentImp.empty,
     override val externalEvalError: ErrorReport? = null,
     override val cachedDisplayText: String = "",
-) : com.qxdzbc.p6.document_data_layer.cell.BaseCell(), WbWsSt by id {
+) : BaseCell(), WbWsSt by id {
 
     override fun setExternalEvalError(i: ErrorReport?): CellImp {
         return this.copy(externalEvalError = i)
     }
 
-    override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun shift(oldAnchorCell: CRAddress<Int, Int>, newAnchorCell: CRAddress<Int, Int>): Cell {
         val newAddress: CellAddress = address.shift(oldAnchorCell, newAnchorCell)
-        val newContent: com.qxdzbc.p6.document_data_layer.cell.CellContent = content.shift(oldAnchorCell, newAnchorCell)
+        val newContent: CellContent = content.shift(oldAnchorCell, newAnchorCell)
         return this.setAddress(newAddress).setContent(newContent)
     }
 
-    override fun reRunRs(): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    override fun reRunRs(): Rse<Cell> {
         val contentRs = content.reRunRs()
         val rt = contentRs
             .map { this.copy(content = it).evaluateDisplayText() }
@@ -59,7 +59,7 @@ data class CellImp(
         return this.content.displayText
     }
 
-    override fun evaluateDisplayText(): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun evaluateDisplayText(): Cell {
         try {
             val dt = attemptToAccessDisplayText()
             return this.copy(cachedDisplayText = dt)
@@ -77,11 +77,11 @@ data class CellImp(
         }
     }
 
-    override fun setAddress(newAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun setAddress(newAddress: CellAddress): Cell {
         return this.copy(id = id.setAddress(newAddress))
     }
 
-    override fun setContent(content: com.qxdzbc.p6.document_data_layer.cell.CellContent): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun setContent(content: CellContent): Cell {
         val newContent = CellContentImp(
             cellValueMs = ms(content.cellValue),
             exUnit = content.exUnit,
@@ -90,7 +90,7 @@ data class CellImp(
         return this.copy(content = newContent)
     }
 
-    override fun setCellValue(i: CellValue): com.qxdzbc.p6.document_data_layer.cell.Cell {
+    override fun setCellValue(i: CellValue): Cell {
         val rs = this.content
             .setValueAndDeleteExUnit(i)
         return this.setContent(rs)

@@ -27,7 +27,7 @@ class ErrorRouterDoNothing : ErrorRouter {
         println("do nothing")
     }
 
-    override fun publish(errorReport: com.qxdzbc.p6.common.err.ErrorReportWithNavInfo) {
+    override fun publish(errorReport: ErrorReportWithNavInfo) {
         println("do nothing")
     }
 

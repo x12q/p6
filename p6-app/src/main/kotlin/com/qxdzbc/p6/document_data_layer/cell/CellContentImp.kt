@@ -26,7 +26,7 @@ data class CellContentImp(
     private val cellValueMs: Ms<CellValue> = ms(CellValue.empty),
     override val exUnit: ExUnit? = null,
     override val originalText: String?,
-) : com.qxdzbc.p6.document_data_layer.cell.CellContent {
+) : CellContent {
 
     constructor(
          cellValueMs: Ms<CellValue> = ms(CellValue.empty),
@@ -87,7 +87,7 @@ data class CellContentImp(
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
-    ): com.qxdzbc.p6.document_data_layer.cell.CellContent {
+    ): CellContent {
         if (exUnit != null) {
             return this.copy(exUnit = exUnit.shift(oldAnchorCell, newAnchorCell))
         } else {
@@ -136,7 +136,7 @@ data class CellContentImp(
         )
     }
 
-    override fun reRunRs(): Rse<com.qxdzbc.p6.document_data_layer.cell.CellContent> {
+    override fun reRunRs(): Rse<CellContent> {
         if (this.exUnit == null) {
             return Ok(this)
         } else {
@@ -147,7 +147,7 @@ data class CellContentImp(
         }
     }
 
-    override fun reRun(): com.qxdzbc.p6.document_data_layer.cell.CellContent? {
+    override fun reRun(): CellContent? {
         return reRunRs().component1()
     }
 
@@ -179,18 +179,18 @@ data class CellContentImp(
         cellValueMs.value = cv
     }
 
-    override fun setValueAndDeleteExUnit(cv: CellValue): com.qxdzbc.p6.document_data_layer.cell.CellContent {
+    override fun setValueAndDeleteExUnit(cv: CellValue): CellContent {
         internalSetCellValue(cv)
         return this.copy(exUnit = null)
     }
 
-    override fun setCellValue(cv: CellValue): com.qxdzbc.p6.document_data_layer.cell.CellContent {
+    override fun setCellValue(cv: CellValue): CellContent {
         internalSetCellValue(cv)
         return this
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other is com.qxdzbc.p6.document_data_layer.cell.CellContent) {
+        if (other is CellContent) {
             val c1 = cellValue == other.cellValue
             val c2 = exUnit == other.exUnit
             return c1 && c2

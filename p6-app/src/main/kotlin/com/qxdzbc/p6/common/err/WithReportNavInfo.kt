@@ -9,7 +9,7 @@ interface WithReportNavInfo {
     val wbKey: WorkbookKey?
     val windowId: String?
     companion object{
-        val default = object : com.qxdzbc.p6.common.err.WithReportNavInfo {
+        val default = object : WithReportNavInfo {
             override val wbKey: WorkbookKey? = null
             override val windowId: String? = null
         }

@@ -7,10 +7,10 @@ object ActionErrors {
     private val prefix = "ActionErrors_"
 
     object InvalidRequest {
-        val header = ErrorHeader("${com.qxdzbc.p6.composite_actions.ActionErrors.prefix}0", "Invalid request")
+        val header = ErrorHeader("${prefix}0", "Invalid request")
 
         fun report(detail: String?): ErrorReport {
-            return (detail?.let { com.qxdzbc.p6.composite_actions.ActionErrors.InvalidRequest.header.setDescription(detail) } ?: com.qxdzbc.p6.composite_actions.ActionErrors.InvalidRequest.header).toErrorReport()
+            return (detail?.let { header.setDescription(detail) } ?: header).toErrorReport()
         }
     }
 

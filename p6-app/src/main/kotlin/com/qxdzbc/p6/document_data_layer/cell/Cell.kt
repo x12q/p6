@@ -15,7 +15,7 @@ import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 import kotlin.jvm.Throws
 
 
-interface Cell : com.qxdzbc.p6.document_data_layer.Shiftable, WbWsSt {
+interface Cell : Shiftable, WbWsSt {
 
     /**
      * This is error caused by evaluation that happens outside of cell content.
@@ -24,36 +24,36 @@ interface Cell : com.qxdzbc.p6.document_data_layer.Shiftable, WbWsSt {
      */
     val externalEvalError: ErrorReport?
 
-    fun setExternalEvalError(i: ErrorReport?): com.qxdzbc.p6.document_data_layer.cell.Cell
+    fun setExternalEvalError(i: ErrorReport?): Cell
 
     /**
      * A cell is similar to another cell if they are in the same ws, same wb, and their content is similar
      */
-    fun isSimilar(c: com.qxdzbc.p6.document_data_layer.cell.Cell): Boolean
+    fun isSimilar(c: Cell): Boolean
 
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
-    ): com.qxdzbc.p6.document_data_layer.cell.Cell
+    ): Cell
 
     /**
      * Rerun a cell, return a null if something wrong happens
      */
-    fun reRun(): com.qxdzbc.p6.document_data_layer.cell.Cell?
+    fun reRun(): Cell?
 
     /**
      * Rerun a cell
      */
-    fun reRunRs(): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    fun reRunRs(): Rse<Cell>
 
     /**
      * A cell's address never changes, so no need for a Ms
      */
-    val id: com.qxdzbc.p6.document_data_layer.cell.CellId
+    val id: CellId
 
     val address: CellAddress
 
-    val content: com.qxdzbc.p6.document_data_layer.cell.CellContent
+    val content: CellContent
 
     /**
      * a full formula reconstructed from the [ExUnit] inside this cell. Null if this cell does not hold any [ExUnit]
@@ -86,17 +86,17 @@ interface Cell : com.qxdzbc.p6.document_data_layer.Shiftable, WbWsSt {
     /**
      * Evaluate display text (aka run the cell), stored the result in [cachedDisplayText]
      */
-    fun evaluateDisplayText(): com.qxdzbc.p6.document_data_layer.cell.Cell
+    fun evaluateDisplayText(): Cell
 
     /**
      * reRun this [Cell] and return its new [CellValue]
      */
-    val cellValueAfterRun: com.qxdzbc.p6.document_data_layer.cell.CellValue
+    val cellValueAfterRun: CellValue
 
     /**
      * this is the cached value of this [Cell]
      */
-    val currentCellValue: com.qxdzbc.p6.document_data_layer.cell.CellValue
+    val currentCellValue: CellValue
 
     /**
      * The text that can be put into cell editor to edit
@@ -140,11 +140,11 @@ interface Cell : com.qxdzbc.p6.document_data_layer.Shiftable, WbWsSt {
     /**
      * Move this cell to a new [CellAddress]
      */
-    fun setAddress(newAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell
+    fun setAddress(newAddress: CellAddress): Cell
 
-    fun setCellValue(i: com.qxdzbc.p6.document_data_layer.cell.CellValue): com.qxdzbc.p6.document_data_layer.cell.Cell
+    fun setCellValue(i: CellValue): Cell
 
-    fun setContent(content: com.qxdzbc.p6.document_data_layer.cell.CellContent): com.qxdzbc.p6.document_data_layer.cell.Cell
+    fun setContent(content: CellContent): Cell
 
     /**
      * if [content] is empty or not
@@ -162,10 +162,10 @@ interface Cell : com.qxdzbc.p6.document_data_layer.Shiftable, WbWsSt {
     fun toDm(): CellDM
 
     companion object {
-        fun random(address: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell {
-            return com.qxdzbc.p6.document_data_layer.cell.IndCellImp(
+        fun random(address: CellAddress): Cell {
+            return IndCellImp(
                 address,
-                content = com.qxdzbc.p6.document_data_layer.cell.CellContent.Companion.randomNumericContent()
+                content = CellContent.Companion.randomNumericContent()
             )
         }
     }

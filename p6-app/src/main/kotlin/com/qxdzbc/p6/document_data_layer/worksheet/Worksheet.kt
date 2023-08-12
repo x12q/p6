@@ -40,11 +40,11 @@ interface Worksheet : WithSize, WbWsSt {
 
     val usedRange: RangeAddress
 
-    val table: TableCR<Int, Int, Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    val table: TableCR<Int, Int, Ms<Cell>>
 
-    val cells: List<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    val cells: List<Cell>
 
-    val cellMsList: List<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    val cellMsList: List<Ms<Cell>>
 
     val rangeConstraint: RangeConstraint
 
@@ -63,49 +63,49 @@ interface Worksheet : WithSize, WbWsSt {
 
     fun updateCellValue(cellAddress: CellAddress, value: Any?): Rse<Unit>
 
-    fun updateCellContentRs(cellAddress: CellAddress, cellContent: com.qxdzbc.p6.document_data_layer.cell.CellContent): Rse<Unit>
+    fun updateCellContentRs(cellAddress: CellAddress, cellContent: CellContent): Rse<Unit>
 
-    fun getCellsInRange(rangeAddress: RangeAddress): List<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    fun getCellsInRange(rangeAddress: RangeAddress): List<Cell>
 
-    fun getCellMsInRange(rangeAddress: RangeAddress): List<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    fun getCellMsInRange(rangeAddress: RangeAddress): List<Ms<Cell>>
 
-    fun getCellMs(cellAddress: CellAddress): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?
+    fun getCellMs(cellAddress: CellAddress): Ms<Cell>?
 
-    fun getCellMs(colIndex: Int, rowIndex: Int): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?
+    fun getCellMs(colIndex: Int, rowIndex: Int): Ms<Cell>?
 
-    fun getCellMs(label: String): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?
+    fun getCellMs(label: String): Ms<Cell>?
 
     /**
      * @return error when the requested address does not exist.
      * @return a cell state ms if it exists
      */
-    fun getCellMsRs(cellAddress: CellAddress): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    fun getCellMsRs(cellAddress: CellAddress): Rse<Ms<Cell>>
 
-    fun getCell(cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell?
+    fun getCell(cellAddress: CellAddress): Cell?
 
-    fun getCell(colIndex: Int, rowIndex: Int): com.qxdzbc.p6.document_data_layer.cell.Cell?
+    fun getCell(colIndex: Int, rowIndex: Int): Cell?
 
-    fun getCell(label: String): com.qxdzbc.p6.document_data_layer.cell.Cell?
+    fun getCell(label: String): Cell?
 
     /**
      * @return a cell if it exists or create an empty cell if the input address is legal
      * @return an error is the input address is illegal (out of the bound limit of this worksheet)
      */
-    fun getCellOrDefaultRs(cellAddress: CellAddress): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    fun getCellOrDefaultRs(cellAddress: CellAddress): Rse<Cell>
 
-    fun addOrOverwrite(cell: com.qxdzbc.p6.document_data_layer.cell.Cell)
+    fun addOrOverwrite(cell: Cell)
 
-    fun getColMs(colIndex: Int): List<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    fun getColMs(colIndex: Int): List<Ms<Cell>>
 
-    fun getRowMs(rowIndex: Int): List<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    fun getRowMs(rowIndex: Int): List<Ms<Cell>>
 
-    val allColumns:List<TableCRColumn<Int, com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    val allColumns:List<TableCRColumn<Int, Cell>>
 
-    val allRows:List<TableCRRow<Int, com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    val allRows:List<TableCRRow<Int, Cell>>
 
-    fun getCol(colIndex: Int): List<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    fun getCol(colIndex: Int): List<Cell>
 
-    fun getRow(rowIndex: Int): List<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    fun getRow(rowIndex: Int): List<Cell>
 
     fun removeCol(colIndex: Int)
 

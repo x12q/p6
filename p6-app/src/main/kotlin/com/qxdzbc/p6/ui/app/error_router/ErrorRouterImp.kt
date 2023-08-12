@@ -73,7 +73,7 @@ class ErrorRouterImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun publish(errorReport: com.qxdzbc.p6.common.err.ErrorReportWithNavInfo) {
+    override fun publish(errorReport: ErrorReportWithNavInfo) {
         this.publishToWindow(errorReport.errorReport, errorReport.windowId, errorReport.wbKey)
     }
 

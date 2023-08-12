@@ -44,6 +44,6 @@ data class FakeWindowFocusState(
         return setCellEditorFocus(false)
     }
 
-    override val cursorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester = com.qxdzbc.p6.common.focus_requester.P6FocusRequester.fake
-    override val editorFocusRequester: com.qxdzbc.p6.common.focus_requester.P6FocusRequester = com.qxdzbc.p6.common.focus_requester.P6FocusRequester.fake
+    override val cursorFocusRequester: P6FocusRequester = P6FocusRequester.fake
+    override val editorFocusRequester: P6FocusRequester = P6FocusRequester.fake
 }

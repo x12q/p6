@@ -46,7 +46,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                 wbKeySt: St<WorkbookKey>,
                 wsNameSt: St<String>,
                 cellAddress: CellAddress
-            ): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?> {
+            ): Rse<Ms<Cell>?> {
                 val rt= docCont.getWsMsRs(wbKeySt, wsNameSt).map {
                     it.value.getCellMs(cellAddress)
                 }
@@ -54,7 +54,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
             }
 
             override val name: String = P6FunctionDefinitions.getCellRs
-            override val function: KFunction<Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?>> = ::getCellRs
+            override val function: KFunction<Rse<Ms<Cell>?>> = ::getCellRs
         }
     )
 
@@ -85,7 +85,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                                 }
                                 is St<*> ->{
                                     val v = obj.value
-                                    if(v is com.qxdzbc.p6.document_data_layer.cell.Cell){
+                                    if(v is Cell){
                                         val cv = v.valueAfterRun
                                         if(cv!=null){
                                             try {
@@ -103,7 +103,7 @@ class P6FunctionDefinitionsImp @Inject constructor(
                                         return invalidArgumentReport
                                     }
                                 }
-                                is com.qxdzbc.p6.document_data_layer.cell.Cell -> {
+                                is Cell -> {
                                     val cv = obj.valueAfterRun
                                     if(cv!=null){
                                         try {

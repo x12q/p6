@@ -23,7 +23,7 @@ object ExUnits {
      */
     private fun extractFromCellOrDefault(r1: Any, defaultValue: Any?): Any? {
          when (r1) {
-            is com.qxdzbc.p6.document_data_layer.cell.Cell -> {
+            is Cell -> {
                 val rt= r1.valueAfterRun ?: defaultValue
                 return rt
             }
@@ -36,7 +36,7 @@ object ExUnits {
                 }
             }
             else -> {
-                val casted:St<com.qxdzbc.p6.document_data_layer.cell.Cell>? = r1.checkStAndCast()
+                val casted:St<Cell>? = r1.checkStAndCast()
                 if(casted!=null){
                     val rt= casted.value.valueAfterRun ?: defaultValue
                     return rt

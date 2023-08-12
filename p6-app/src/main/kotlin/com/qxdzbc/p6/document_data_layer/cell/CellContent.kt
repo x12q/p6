@@ -24,16 +24,16 @@ interface CellContent: CanCheckEmpty, com.qxdzbc.p6.document_data_layer.Shiftabl
     override fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
-    ): com.qxdzbc.p6.document_data_layer.cell.CellContent
+    ): CellContent
 
     /**
      * an [ExUnit] is the result of successfully translating an error-free formula.
      */
     val exUnit: ExUnit?
 
-    val cellValueAfterRun: com.qxdzbc.p6.document_data_layer.cell.CellValue
+    val cellValueAfterRun: CellValue
 
-    val cellValue: com.qxdzbc.p6.document_data_layer.cell.CellValue
+    val cellValue: CellValue
 
     fun toDm():CellContentDM
 
@@ -53,35 +53,35 @@ interface CellContent: CanCheckEmpty, com.qxdzbc.p6.document_data_layer.Shiftabl
      */
     fun colorFormula(colorMap: ColorMap, wbKey: WorkbookKey?, wsName: String?): AnnotatedString?
 
-    fun reRun(): com.qxdzbc.p6.document_data_layer.cell.CellContent?
+    fun reRun(): CellContent?
 
-    fun reRunRs():Rse<com.qxdzbc.p6.document_data_layer.cell.CellContent>
+    fun reRunRs():Rse<CellContent>
 
     val editableStr: String
 
     val displayText: String
 
-    fun setValueAndDeleteExUnit(cv: com.qxdzbc.p6.document_data_layer.cell.CellValue): com.qxdzbc.p6.document_data_layer.cell.CellContent
+    fun setValueAndDeleteExUnit(cv: CellValue): CellContent
 
-    fun setCellValue(cv: com.qxdzbc.p6.document_data_layer.cell.CellValue): com.qxdzbc.p6.document_data_layer.cell.CellContent
+    fun setCellValue(cv: CellValue): CellContent
 
     val isFormula: Boolean
 
     fun toProto(): DocProtos.CellContentProto
 
     companion object{
-        fun randomNumericContent(): com.qxdzbc.p6.document_data_layer.cell.CellContentImp {
+        fun randomNumericContent(): CellContentImp {
             val num = (1 .. 1000).random()
-            return com.qxdzbc.p6.document_data_layer.cell.CellContentImp(
+            return CellContentImp(
                 cellValueMs = StateUtils.ms(num.toCellValue()),
                 exUnit = null,
                 originalText = num.toString()
             )
         }
-        fun randomExUnitContent(): com.qxdzbc.p6.document_data_layer.cell.CellContentImp {
+        fun randomExUnitContent(): CellContentImp {
             val num=(1 .. 1000).random()
-            return com.qxdzbc.p6.document_data_layer.cell.CellContentImp(
-                cellValueMs = StateUtils.ms(com.qxdzbc.p6.document_data_layer.cell.CellValue.Companion.empty),
+            return CellContentImp(
+                cellValueMs = StateUtils.ms(CellValue.Companion.empty),
                 exUnit = IntUnit(num),
                 originalText = "=${num}"
             )

@@ -264,7 +264,7 @@ class DocumentContainerImp @Inject constructor(
         wbKey: WorkbookKey,
         wsName: String,
         cellAddress: CellAddress
-    ): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    ): Rse<Cell> {
         return this.getWsRs(wbKey, wsName).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
@@ -272,40 +272,40 @@ class DocumentContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
-    ): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    ): Rse<Cell> {
         return this.getWsRs(wbKeySt, wsNameSt).andThen { it.getCellOrDefaultRs(cellAddress) }
     }
 
-    override fun getCellRsOrDefault(cellId: CellIdDM): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    override fun getCellRsOrDefault(cellId: CellIdDM): Rse<Cell> {
         return getCellRsOrDefault(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
-    override fun getCellRsOrDefault(cellId: CellId): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    override fun getCellRsOrDefault(cellId: CellId): Rse<Cell> {
         return getCellRsOrDefault(cellId.wbKeySt, cellId.wsNameSt, cellId.address)
     }
 
-    override fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell? {
         return this.getCellRsOrDefault(wbKey, wsName, cellAddress).component1()
     }
 
-    override fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): Cell? {
         return this.getCellOrDefault(wbws.wbKey, wbws.wsName, cellAddress)
     }
 
-    override fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Cell? {
         val rt = this.getCellMsRs(wbKeySt, wsNameSt, cellAddress).component1()?.value
         return rt
     }
 
-    override fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell? {
         return this.getCellOrDefault(wbwsSt.wbKeySt, wbwsSt.wsNameSt, cellAddress)
     }
 
-    override fun getCellOrDefault(cellId: CellIdDM): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCellOrDefault(cellId: CellIdDM): Cell? {
         return getCellRsOrDefault(cellId).component1()
     }
 
-    override fun getCellOrDefault(cellId: CellId): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCellOrDefault(cellId: CellId): Cell? {
         return this.getCellOrDefault(
             cellId.wbKeySt, cellId.wsNameSt, cellId.address
         )
@@ -315,7 +315,7 @@ class DocumentContainerImp @Inject constructor(
         wbKey: WorkbookKey,
         wsName: String,
         cellAddress: CellAddress
-    ): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> {
+    ): Rse<Ms<Cell>> {
         return getWsRs(wbKey, wsName).flatMap {
             it.getCellMsRs(cellAddress)
         }
@@ -325,48 +325,48 @@ class DocumentContainerImp @Inject constructor(
         wbKeySt: St<WorkbookKey>,
         wsNameSt: St<String>,
         cellAddress: CellAddress
-    ): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> {
+    ): Rse<Ms<Cell>> {
         return getWsRs(wbKeySt, wsNameSt).flatMap {
             it.getCellMsRs(cellAddress)
         }
     }
 
-    override fun getCellMsRs(cellId: CellIdDM): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>> {
+    override fun getCellMsRs(cellId: CellIdDM): Rse<Ms<Cell>> {
         return getCellMsRs(cellId.wbKey, cellId.wsName, cellId.address)
     }
 
-    override fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>? {
+    override fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>? {
         return getCellMsRs(wbKey, wsName, cellAddress).component1()
     }
 
-    override fun getCellMs(cellIdDM: CellIdDM): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>? {
+    override fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>? {
         return getCellMsRs(cellIdDM).component1()
     }
 
-    override fun getCellMs(cellId: CellId): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>? {
+    override fun getCellMs(cellId: CellId): Ms<Cell>? {
         val rt = getWsRs(cellId).flatMap {
             it.getCellMsRs(cellId.address)
         }.component1()
         return rt
     }
 
-    override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    override fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell> {
         return getCellMsRs(wbKey, wsName, cellAddress).map { it.value }
     }
 
-    override fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    override fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt: St<String>, cellAddress: CellAddress): Rse<Cell> {
         return getCellMsRs(wbKeySt, wsNameSt, cellAddress).map { it.value }
     }
 
-    override fun getCellRs(cellId: CellIdDM): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell> {
+    override fun getCellRs(cellId: CellIdDM): Rse<Cell> {
         return getCellMsRs(cellId).map { it.value }
     }
 
-    override fun getCell(cellIdDM: CellIdDM): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCell(cellIdDM: CellIdDM): Cell? {
         return getCellMs(cellIdDM)?.value
     }
 
-    override fun getCell(cellId: CellId): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+    override fun getCell(cellId: CellId): Cell? {
         return getCellMs(cellId)?.value
     }
 

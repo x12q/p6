@@ -9,8 +9,8 @@ import com.qxdzbc.common.compose.Ms
  */
 interface CellState {
     val address:CellAddress
-    val cell: com.qxdzbc.p6.document_data_layer.cell.Cell?
-    val cellMs:Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?
-    fun setCellMs(cellMs:Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>): CellState
+    val cell: Cell?
+    val cellMs:Ms<Cell>?
+    fun setCellMs(cellMs:Ms<Cell>): CellState
     fun removeDataCell(): CellState
 }

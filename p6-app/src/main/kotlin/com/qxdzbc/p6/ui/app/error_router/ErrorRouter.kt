@@ -27,6 +27,6 @@ interface ErrorRouter {
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?, workbookKey:WorkbookKey?)
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?, wbKeySt:St<WorkbookKey>?)
 
-    fun publish(errorReport: com.qxdzbc.p6.common.err.ErrorReportWithNavInfo)
+    fun publish(errorReport: ErrorReportWithNavInfo)
     fun <T> publishIfPossible(resNav: RseNav<T>)
 }

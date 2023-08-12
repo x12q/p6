@@ -9,5 +9,5 @@ interface Shiftable {
     fun shift(
         oldAnchorCell: CRAddress<Int, Int>,
         newAnchorCell: CRAddress<Int, Int>
-    ): com.qxdzbc.p6.document_data_layer.Shiftable
+    ): Shiftable
 }

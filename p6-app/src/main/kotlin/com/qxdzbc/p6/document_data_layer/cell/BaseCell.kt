@@ -5,12 +5,12 @@ import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.rpc.cell.msg.CellDM
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 
-abstract class BaseCell : com.qxdzbc.p6.document_data_layer.cell.Cell {
-    override fun reRun(): com.qxdzbc.p6.document_data_layer.cell.Cell? {
+abstract class BaseCell : Cell {
+    override fun reRun(): Cell? {
         return reRunRs().component1()
     }
 
-    override fun isSimilar(c: com.qxdzbc.p6.document_data_layer.cell.Cell): Boolean {
+    override fun isSimilar(c: Cell): Boolean {
         val sameAddress = id.isSimilar(c.id)
         // TODO check this similar check. Does not look good.
         val similarContent = content == c.content
@@ -48,7 +48,7 @@ abstract class BaseCell : com.qxdzbc.p6.document_data_layer.cell.Cell {
         return content.isNotEmpty()
     }
 
-    override val cellValueAfterRun: com.qxdzbc.p6.document_data_layer.cell.CellValue get() = content.cellValueAfterRun
+    override val cellValueAfterRun: CellValue get() = content.cellValueAfterRun
 
     override val valueAfterRun: Any?
         get() {
@@ -56,7 +56,7 @@ abstract class BaseCell : com.qxdzbc.p6.document_data_layer.cell.Cell {
             val rt = cv.value
             return rt
         }
-    override val currentCellValue: com.qxdzbc.p6.document_data_layer.cell.CellValue
+    override val currentCellValue: CellValue
         get() = content.cellValue
     override val currentValue: Any?
         get() = content.cellValue.value

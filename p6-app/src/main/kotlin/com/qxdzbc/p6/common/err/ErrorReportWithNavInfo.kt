@@ -8,20 +8,20 @@ class ErrorReportWithNavInfo(
     val errorReport: ErrorReport,
     override val wbKey: WorkbookKey? = null,
     override val windowId: String? = null
-) : com.qxdzbc.p6.common.err.WithReportNavInfo {
+) : WithReportNavInfo {
     companion object {
         fun ErrorReport.withNav(
             wbKey: WorkbookKey? = null,
             windowId: String? = null
-        ): com.qxdzbc.p6.common.err.ErrorReportWithNavInfo {
-            return com.qxdzbc.p6.common.err.ErrorReportWithNavInfo(this, wbKey, windowId)
+        ): ErrorReportWithNavInfo {
+            return ErrorReportWithNavInfo(this, wbKey, windowId)
         }
 
-        fun com.qxdzbc.p6.common.err.ErrorReportWithNavInfo.toErr(): Err<com.qxdzbc.p6.common.err.ErrorReportWithNavInfo> {
+        fun ErrorReportWithNavInfo.toErr(): Err<ErrorReportWithNavInfo> {
             return Err(this)
         }
 
-        fun ErrorReport.withNav(info: com.qxdzbc.p6.common.err.WithReportNavInfo): com.qxdzbc.p6.common.err.ErrorReportWithNavInfo {
+        fun ErrorReport.withNav(info: WithReportNavInfo): ErrorReportWithNavInfo {
             return withNav(info.wbKey, info.windowId)
         }
     }

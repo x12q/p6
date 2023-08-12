@@ -82,32 +82,32 @@ interface DocumentContainer : WorkbookGetter {
     fun getLazyRangeRs(wbKey: WorkbookKey, wsName: String, rangeAddress: RangeAddress): Rse<Range>
     fun getLazyRangeRs(wbKeySt:St<WorkbookKey> , wsNameSt:St<String> , rangeAddress: RangeAddress): Rse<Range>
 
-    fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
-    fun getCellRsOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
-    fun getCellRsOrDefault(cellId: CellIdDM): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
-    fun getCellRsOrDefault(cellId: CellId): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    fun getCellRsOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRsOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRsOrDefault(cellId: CellIdDM): Rse<Cell>
+    fun getCellRsOrDefault(cellId: CellId): Rse<Cell>
 
-    fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell?
-    fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell?
-    fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell?
-    fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): com.qxdzbc.p6.document_data_layer.cell.Cell?
-    fun getCellOrDefault(cellId: CellIdDM): com.qxdzbc.p6.document_data_layer.cell.Cell?
-    fun getCellOrDefault(cellId: CellId): com.qxdzbc.p6.document_data_layer.cell.Cell?
+    fun getCellOrDefault(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(wbws: WbWs, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(wbwsSt: WbWsSt, cellAddress: CellAddress): Cell?
+    fun getCellOrDefault(cellId: CellIdDM): Cell?
+    fun getCellOrDefault(cellId: CellId): Cell?
 
-    fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
-    fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
-    fun getCellMsRs(cellId: CellIdDM): Rse<Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>>
+    fun getCellMsRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Ms<Cell>>
+    fun getCellMsRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Ms<Cell>>
+    fun getCellMsRs(cellId: CellIdDM): Rse<Ms<Cell>>
 
-    fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?
-    fun getCellMs(cellIdDM: CellIdDM): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?
-    fun getCellMs(cellId: CellId): Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?
+    fun getCellMs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Ms<Cell>?
+    fun getCellMs(cellIdDM: CellIdDM): Ms<Cell>?
+    fun getCellMs(cellId: CellId): Ms<Cell>?
 
-    fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
-    fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
-    fun getCellRs(cellId: CellIdDM): Rse<com.qxdzbc.p6.document_data_layer.cell.Cell>
+    fun getCellRs(wbKey: WorkbookKey, wsName: String, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Cell>
+    fun getCellRs(cellId: CellIdDM): Rse<Cell>
 
-    fun getCell(cellIdDM:CellIdDM): com.qxdzbc.p6.document_data_layer.cell.Cell?
-    fun getCell(cellId:CellId): com.qxdzbc.p6.document_data_layer.cell.Cell?
+    fun getCell(cellIdDM:CellIdDM): Cell?
+    fun getCell(cellId:CellId): Cell?
 
     fun getCellIdRs(cellIdDM:CellIdDM):Rse<CellId>
     fun getCellId(cellIdDM:CellIdDM):CellId?

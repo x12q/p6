@@ -31,10 +31,10 @@ fun WorkbookTabBar(
                         MBox(
                             modifier = Modifier
                                 .requiredWidthIn(
-                                    com.qxdzbc.p6.ui.workbook.WorkbookConstants.minWorkbookTabWidth,
-                                    com.qxdzbc.p6.ui.workbook.WorkbookConstants.maxWorkbookTabWidth
+                                    WorkbookConstants.minWorkbookTabWidth,
+                                    WorkbookConstants.maxWorkbookTabWidth
                                 )
-                                .height(com.qxdzbc.p6.ui.workbook.WorkbookConstants.tabHeight)
+                                .height(WorkbookConstants.tabHeight)
                         ) {
                             WorkbookTab(
                                 tabState,
@@ -57,8 +57,8 @@ fun WorkbookTabBar(
             BorderBox(
                 borderStyle = BorderStyle.LEFT_RIGHT,
                 modifier = Modifier
-                    .width(com.qxdzbc.p6.ui.workbook.WorkbookConstants.tabHeight)
-                    .height(com.qxdzbc.p6.ui.workbook.WorkbookConstants.tabHeight)
+                    .width(WorkbookConstants.tabHeight)
+                    .height(WorkbookConstants.tabHeight)
                     .align(Alignment.Bottom)
                     .clickable { action.createNewWb(state.windowId) }
             ) {

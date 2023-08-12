@@ -7,7 +7,7 @@ import com.qxdzbc.p6.ui.cell.state.format.text.TextVerticalAlignment
 
 data class CellStateImp(
     override val address: CellAddress,
-    override val cellMs: Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>?,
+    override val cellMs: Ms<Cell>?,
 ) : CellState {
     init {
         if (cellMs != null) {
@@ -17,8 +17,8 @@ data class CellStateImp(
         }
     }
 
-    override val cell: com.qxdzbc.p6.document_data_layer.cell.Cell? get() = cellMs?.value
-    override fun setCellMs(cellMs: Ms<com.qxdzbc.p6.document_data_layer.cell.Cell>): CellState {
+    override val cell: Cell? get() = cellMs?.value
+    override fun setCellMs(cellMs: Ms<Cell>): CellState {
         return this.copy(cellMs = cellMs)
     }
 

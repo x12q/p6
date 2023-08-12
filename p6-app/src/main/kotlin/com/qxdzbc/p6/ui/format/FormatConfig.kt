@@ -31,7 +31,7 @@ data class FormatConfig(
     val horizontalAlignmentConfig: FormatEntrySet<TextHorizontalAlignment> = FormatEntrySet(),
     val verticalAlignmentConfig: FormatEntrySet<TextVerticalAlignment> = FormatEntrySet(),
     val backgroundColorConfig: FormatEntrySet<Color> = FormatEntrySet()
-) : com.qxdzbc.p6.document_data_layer.Shiftable {
+) : Shiftable {
     val allRanges
         get() = textSizeConfig.allRanges +
                 textColorConfig.allRanges +
