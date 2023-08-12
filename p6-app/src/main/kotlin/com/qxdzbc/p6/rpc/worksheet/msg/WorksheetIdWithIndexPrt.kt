@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.rpc.worksheet.msg
 
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.document.workbook.toModel
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.toModel
 import com.qxdzbc.p6.proto.WorksheetProtos
 
 data class WorksheetIdWithIndexPrt(

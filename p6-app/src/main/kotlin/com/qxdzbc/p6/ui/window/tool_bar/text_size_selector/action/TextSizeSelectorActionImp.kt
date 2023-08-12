@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action
 
-import com.qxdzbc.p6.app.action.cell.update_cell_format.UpdateCellFormatAction
-import com.qxdzbc.p6.app.action.tool_bar.return_focus_to_cell.ReturnFocusToCellCursor
+import com.qxdzbc.p6.composite_actions.cell.update_cell_format.UpdateCellFormatAction
+import com.qxdzbc.p6.composite_actions.tool_bar.return_focus_to_cell.ReturnFocusToCellCursor
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding

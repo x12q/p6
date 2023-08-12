@@ -3,8 +3,8 @@ package com.qxdzbc.p6.ui.window.state
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.err.ErrorContainer
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import dagger.assisted.Assisted

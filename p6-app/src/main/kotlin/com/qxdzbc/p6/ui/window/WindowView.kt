@@ -11,8 +11,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.rememberWindowState
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.app.action.window.WindowAction
-import com.qxdzbc.p6.app.common.utils.CoroutineUtils
+import com.qxdzbc.p6.composite_actions.window.WindowAction
+import com.qxdzbc.p6.common.utils.CoroutineUtils
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.file_dialog.LoadSaveFileDialog
 import com.qxdzbc.p6.ui.window.menu.WindowMenu

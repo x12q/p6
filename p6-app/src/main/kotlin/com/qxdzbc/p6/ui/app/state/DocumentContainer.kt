@@ -3,19 +3,19 @@ package com.qxdzbc.p6.ui.app.state
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.cell.CellId
-import com.qxdzbc.p6.app.document.range.Range
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.app.document.wb_container.WorkbookGetter
-import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
+import com.qxdzbc.p6.composite_actions.range.RangeId
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.cell.Cell
+import com.qxdzbc.p6.document_data_layer.cell.CellId
+import com.qxdzbc.p6.document_data_layer.range.Range
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainer
+import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookGetter
+import com.qxdzbc.p6.document_data_layer.workbook.Workbook
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 
@@ -106,8 +106,8 @@ interface DocumentContainer : WorkbookGetter {
     fun getCellRs(wbKeySt: St<WorkbookKey>, wsNameSt:St<String>, cellAddress: CellAddress): Rse<Cell>
     fun getCellRs(cellId: CellIdDM): Rse<Cell>
 
-    fun getCell(cellIdDM:CellIdDM):Cell?
-    fun getCell(cellId:CellId):Cell?
+    fun getCell(cellIdDM:CellIdDM): Cell?
+    fun getCell(cellId:CellId): Cell?
 
     fun getCellIdRs(cellIdDM:CellIdDM):Rse<CellId>
     fun getCellId(cellIdDM:CellIdDM):CellId?

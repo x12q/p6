@@ -17,8 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.app.common.utils.Utils
-import com.qxdzbc.p6.app.err.ErrMsg
+import com.qxdzbc.p6.common.utils.Utils
+import com.qxdzbc.p6.err.ErrMsg
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyleValue

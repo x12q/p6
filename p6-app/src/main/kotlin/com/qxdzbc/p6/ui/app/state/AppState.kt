@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.err.ErrorContainer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.common.compose.Ms
 

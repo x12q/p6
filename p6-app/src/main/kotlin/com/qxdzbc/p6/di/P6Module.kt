@@ -3,24 +3,20 @@ package com.qxdzbc.p6.di
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.file_util.FileUtil
 import com.qxdzbc.common.file_util.FileUtilImp
-import com.qxdzbc.p6.app.app_context.AppContext
-import com.qxdzbc.p6.app.app_context.AppContextImp
-import com.qxdzbc.p6.app.common.utils.Utils
+import com.qxdzbc.p6.app_context.AppContext
+import com.qxdzbc.p6.app_context.AppContextImp
+import com.qxdzbc.p6.common.utils.Utils
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.state.StateModule
-import com.qxdzbc.p6.di.state.ws.DefaultColRangeQualifier
-import com.qxdzbc.p6.di.state.ws.DefaultRowRangeQualifier
-import com.qxdzbc.p6.di.status_bar.StatusBarModule
+import com.qxdzbc.p6.di.qualifiers.*
+import com.qxdzbc.p6.ui.app.di.AppStateModule
+import com.qxdzbc.p6.ui.window.status_bar.di.StatusBarModule
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouterImp
 import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionImp
 import com.qxdzbc.p6.ui.common.color_generator.*
-import com.qxdzbc.p6.ui.document.worksheet.WorksheetConstants
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
@@ -31,9 +27,10 @@ import javax.inject.Singleton
     includes = [
         UtilModule::class,
         TranslatorModule::class,
+        AppStateModule::class,
         StatusBarModule::class,
-        StateModule::class,
         CoroutineModule::class,
+        CommonDefaultObjModule::class,
     ]
 )
 @ContributesTo(P6AnvilScope::class)
@@ -67,50 +64,8 @@ interface P6Module {
         }
 
         @Provides
-        @NullInt
-        fun nullInt(): Int? {
-            return null
-        }
-
-        @Provides
         fun fq(): FocusRequester {
             return FocusRequester()
-        }
-
-        @Provides
-        @True
-        fun bTrue(): Boolean {
-            return true
-        }
-
-        @Provides
-        @FalseMs
-        fun falseMs(): Ms<Boolean> {
-            return ms(false)
-        }
-
-        @Provides
-        @TrueMs
-        fun trueMs(): Ms<Boolean> {
-            return ms(true)
-        }
-
-        @Provides
-        @False
-        fun bFalse(): Boolean {
-            return false
-        }
-
-        @Provides
-        @DefaultColRangeQualifier
-        fun defaultColRange(): IntRange {
-            return WorksheetConstants.defaultColRange
-        }
-
-        @Provides
-        @DefaultRowRangeQualifier
-        fun defaultRowRange(): IntRange {
-            return WorksheetConstants.defaultRowRange
         }
 
         @Provides
@@ -119,12 +74,6 @@ interface P6Module {
         fun eventServerPort(): Int {
             val eventServerPort = Utils.findSocketPort()
             return eventServerPort
-        }
-
-        @Provides
-        @Null
-        fun pNull(): Any? {
-            return null
         }
 
 

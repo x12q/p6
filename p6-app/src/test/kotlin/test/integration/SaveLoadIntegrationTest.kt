@@ -1,11 +1,10 @@
 package test.integration
 
-import androidx.compose.runtime.getValue
 import com.qxdzbc.common.path.PPaths
-import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookAction
-import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest
-import com.qxdzbc.p6.app.action.app.save_wb.SaveWorkbookAction
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.composite_actions.app.load_wb.LoadWorkbookAction
+import com.qxdzbc.p6.composite_actions.app.load_wb.LoadWorkbookRequest
+import com.qxdzbc.p6.composite_actions.app.save_wb.SaveWorkbookAction
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import test.TestSample
 import java.nio.file.Files
 import java.nio.file.Paths

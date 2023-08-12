@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.app.action.window.WindowAction
-import com.qxdzbc.p6.app.err.ErrMsg
-import com.qxdzbc.p6.app.err.ErrorType
+import com.qxdzbc.p6.composite_actions.window.WindowAction
+import com.qxdzbc.p6.err.ErrMsg
+import com.qxdzbc.p6.err.ErrorType
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
-import com.qxdzbc.p6.ui.document.workbook.WorkbookView
+import com.qxdzbc.p6.ui.workbook.WorkbookView
 import com.qxdzbc.p6.ui.window.action.WindowActionTable
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBar
 import com.qxdzbc.p6.ui.window.state.OuterWindowState

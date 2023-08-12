@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.di
 
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherMain
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

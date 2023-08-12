@@ -6,21 +6,21 @@ import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
 import com.google.protobuf.Int64Value
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.action.app.set_wbkey.SetWbKeyRequest
-import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.action.workbook.create_new_ws.CreateNewWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.workbook.create_new_ws.CreateNewWorksheetResponse
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest
-import com.qxdzbc.p6.app.action.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetRequest
-import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetResponse2
-import com.qxdzbc.p6.app.action.workbook.set_active_ws.SetActiveWorksheetWithIndexRequest
-import com.qxdzbc.p6.app.action.worksheet.rename_ws.RenameWorksheetRequest.Companion.toModel
-import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
-import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.app.document.worksheet.Worksheet
-import com.qxdzbc.p6.di.ActionDispatcherDefault
-import com.qxdzbc.p6.di.AppCoroutineScope
+import com.qxdzbc.p6.composite_actions.app.set_wbkey.SetWbKeyRequest
+import com.qxdzbc.p6.composite_actions.common_data_structure.SingleSignalResponse
+import com.qxdzbc.p6.composite_actions.workbook.create_new_ws.CreateNewWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.composite_actions.workbook.create_new_ws.CreateNewWorksheetResponse
+import com.qxdzbc.p6.composite_actions.workbook.new_worksheet.CreateNewWorksheetRequest
+import com.qxdzbc.p6.composite_actions.workbook.new_worksheet.CreateNewWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.composite_actions.workbook.set_active_ws.SetActiveWorksheetRequest
+import com.qxdzbc.p6.composite_actions.workbook.set_active_ws.SetActiveWorksheetResponse2
+import com.qxdzbc.p6.composite_actions.workbook.set_active_ws.SetActiveWorksheetWithIndexRequest
+import com.qxdzbc.p6.composite_actions.worksheet.rename_ws.RenameWorksheetRequest.Companion.toModel
+import com.qxdzbc.p6.common.utils.Utils.onNextAndComplete
+import com.qxdzbc.p6.document_data_layer.workbook.toModel
+import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
+import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 

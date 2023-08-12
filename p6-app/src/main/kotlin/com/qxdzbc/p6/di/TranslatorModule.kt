@@ -3,6 +3,9 @@ package com.qxdzbc.p6.di
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.p6.di.qualifiers.PartialCellRangeExtractorQ
+import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
+import com.qxdzbc.p6.di.qualifiers.TextElementVisitorQ
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialTextElementTranslator

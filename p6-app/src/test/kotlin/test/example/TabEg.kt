@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
+import com.qxdzbc.p6.ui.workbook.WorkbookConstants
 
 /**
  * See console for detail
@@ -50,7 +50,7 @@ fun main() {
                     modifier = Modifier
                         .background(
                             Color.White
-                        ).requiredWidthIn(WorkbookConstants.minTabWidth, WorkbookConstants.maxTabWidth),
+                        ).requiredWidthIn(com.qxdzbc.p6.ui.workbook.WorkbookConstants.minTabWidth, com.qxdzbc.p6.ui.workbook.WorkbookConstants.maxTabWidth),
                     selected = selected,
                     onClick = { selectedIndex = index },
                 ) {

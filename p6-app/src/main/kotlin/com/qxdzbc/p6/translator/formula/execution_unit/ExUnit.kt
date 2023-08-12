@@ -6,11 +6,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.action.range.RangeId
-import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.cell.address.CRAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.composite_actions.range.RangeId
+import com.qxdzbc.p6.document_data_layer.Shiftable
+import com.qxdzbc.p6.document_data_layer.cell.address.CRAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorKey
 import com.qxdzbc.p6.ui.common.color_generator.ColorMap
 

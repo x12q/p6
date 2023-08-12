@@ -3,19 +3,19 @@ package com.qxdzbc.p6.rpc.app
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.app.action.app.close_wb.CloseWorkbookRequest
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest
-import com.qxdzbc.p6.app.action.app.create_new_wb.CreateNewWorkbookRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.app.get_wb.GetWorkbookRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.app.load_wb.LoadWorkbookRequest.Companion.toModel
-import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.action.rpc.AppRpcAction
-import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
-import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.document.workbook.toModel
-import com.qxdzbc.p6.di.ActionDispatcherDefault
+import com.qxdzbc.p6.composite_actions.app.close_wb.CloseWorkbookRequest
+import com.qxdzbc.p6.composite_actions.app.create_new_wb.CreateNewWorkbookRequest
+import com.qxdzbc.p6.composite_actions.app.create_new_wb.CreateNewWorkbookRequest.Companion.toModel
+import com.qxdzbc.p6.composite_actions.app.get_wb.GetWorkbookRequest.Companion.toModel
+import com.qxdzbc.p6.composite_actions.app.load_wb.LoadWorkbookRequest.Companion.toModel
+import com.qxdzbc.p6.composite_actions.common_data_structure.SingleSignalResponse
+import com.qxdzbc.p6.composite_actions.rpc.AppRpcAction
+import com.qxdzbc.p6.common.proto.ProtoUtils.toProto
+import com.qxdzbc.p6.common.utils.Utils.onNextAndComplete
+import com.qxdzbc.p6.document_data_layer.workbook.Workbook
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.toModel
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 

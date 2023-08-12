@@ -20,7 +20,7 @@ import com.qxdzbc.p6.ui.common.modifier.boolBackground
 import com.qxdzbc.p6.ui.theme.common.P6CommonUIModifiers
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
+import com.qxdzbc.p6.ui.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.theme.P6Theme
 
 object Tabs {
@@ -48,7 +48,7 @@ object Tabs {
                     text = text,
                     modifier = Modifier
                         .padding(end = 5.dp)
-                        .requiredWidthIn(WorkbookConstants.minTabWidth2 - 43.dp, WorkbookConstants.maxTabWidth - 43.dp),
+                        .requiredWidthIn(com.qxdzbc.p6.ui.workbook.WorkbookConstants.minTabWidth2 - 43.dp, com.qxdzbc.p6.ui.workbook.WorkbookConstants.maxTabWidth - 43.dp),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -120,13 +120,13 @@ object Tabs {
                 borderStyle = BorderStyle.RIGHT,
                 modifier = modifier
                     .fillMaxHeight()
-                    .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
+                    .requiredWidthIn(com.qxdzbc.p6.ui.workbook.WorkbookConstants.minTabWidth2, com.qxdzbc.p6.ui.workbook.WorkbookConstants.maxTabWidth)
                     .selectable(
                         selected = isSelected,
                         onClick = onClick
                     )
                     .fillMaxHeight()
-                    .requiredWidthIn(WorkbookConstants.minTabWidth2, WorkbookConstants.maxTabWidth)
+                    .requiredWidthIn(com.qxdzbc.p6.ui.workbook.WorkbookConstants.minTabWidth2, com.qxdzbc.p6.ui.workbook.WorkbookConstants.maxTabWidth)
                     .boolBackground(
                         boolValue = isSelected,
                         colorIfTrue = P6Theme.color.uiColor.selectedTabBackground,

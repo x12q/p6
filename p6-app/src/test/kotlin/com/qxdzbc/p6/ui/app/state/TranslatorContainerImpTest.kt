@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.app.state
 
-import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.TranslatorMapImp
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit

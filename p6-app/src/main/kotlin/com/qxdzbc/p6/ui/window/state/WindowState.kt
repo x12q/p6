@@ -2,14 +2,15 @@ package com.qxdzbc.p6.ui.window.state
 
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.WithSize
-import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.err.ErrorContainer
+import com.qxdzbc.p6.document_data_layer.workbook.Workbook
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.err.ErrorContainer
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.workbook.state.WorkbookState
+import com.qxdzbc.p6.ui.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.window.di.comp.WindowComponent
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.window.formula_bar.FormulaBarState
@@ -20,6 +21,7 @@ import kotlinx.coroutines.CompletableDeferred
 import java.nio.file.Path
 
 interface WindowState : WithSize {
+    val component: WindowComponent
 
     val id:String
 
@@ -45,8 +47,6 @@ interface WindowState : WithSize {
     val wbStateCont: WorkbookStateContainer
 
     val formulaBarState:FormulaBarState
-
-
 
     /**
      * Check if this window contain workbook having [wbKey]

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.translator.partial_text_element_extractor
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rs
 import com.qxdzbc.common.error.SingleErrorReport
-import com.qxdzbc.p6.di.PartialTreeExtractor
+import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import javax.inject.Inject

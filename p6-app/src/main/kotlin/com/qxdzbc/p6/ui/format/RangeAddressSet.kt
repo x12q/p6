@@ -1,10 +1,10 @@
 package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.common.WithSize
-import com.qxdzbc.p6.app.document.Shiftable
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.cell.address.CRAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.Shiftable
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.cell.address.CRAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.proto.DocProtos.RangeAddressSetProto
 
 /**
@@ -13,7 +13,7 @@ import com.qxdzbc.p6.proto.DocProtos.RangeAddressSetProto
  * - cross-checking with other [RangeAddressSet].
  *
  */
-interface RangeAddressSet: WithSize,Shiftable {
+interface RangeAddressSet: WithSize, com.qxdzbc.p6.document_data_layer.Shiftable {
     val ranges: Set<RangeAddress>
 
     /**

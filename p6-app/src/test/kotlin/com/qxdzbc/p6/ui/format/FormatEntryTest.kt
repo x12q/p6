@@ -3,9 +3,9 @@ package com.qxdzbc.p6.ui.format
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextHorizontalAlignment
-import com.qxdzbc.p6.ui.document.cell.state.format.text.TextVerticalAlignment
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.ui.cell.state.format.text.TextHorizontalAlignment
+import com.qxdzbc.p6.ui.cell.state.format.text.TextVerticalAlignment
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toBoolProto
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toColorModel
 import com.qxdzbc.p6.ui.format.FormatEntry.Companion.toColorProto

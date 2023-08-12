@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
-import com.qxdzbc.p6.ui.document.workbook.WorkbookConstants
+import com.qxdzbc.p6.ui.workbook.WorkbookConstants
 import com.qxdzbc.p6.ui.window.workbook_tab.tab.WorkbookTab
 
 @Composable

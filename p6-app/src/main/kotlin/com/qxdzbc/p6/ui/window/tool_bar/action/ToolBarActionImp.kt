@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.window.tool_bar.action
 
-import com.qxdzbc.p6.di.action.CellBackgroundColorSelectorActionQ
-import com.qxdzbc.p6.di.action.TextColorSelectorActionQ
+import com.qxdzbc.p6.di.qualifiers.CellBackgroundColorSelectorActionQualifier
+import com.qxdzbc.p6.di.qualifiers.TextColorSelectorActionQualifier
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.ColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorAction
@@ -13,8 +13,8 @@ import javax.inject.Singleton
 @ContributesBinding(P6AnvilScope::class)
 class ToolBarActionImp @Inject constructor(
     override val textSizeSelectorAction: TextSizeSelectorAction,
-    @TextColorSelectorActionQ
+    @TextColorSelectorActionQualifier
     override val textColorSelectorAction: ColorSelectorAction,
-    @CellBackgroundColorSelectorActionQ
+    @CellBackgroundColorSelectorActionQualifier
     override val cellBackgroundColorSelectorAction: ColorSelectorAction,
 ) : ToolBarAction

@@ -5,17 +5,17 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.ErrorUtils.getOrThrow
 
-import com.qxdzbc.p6.di.status_bar.StatusBarStateQualifier
-import com.qxdzbc.p6.app.document.wb_container.WorkbookContainer
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.err.ErrorContainer
-import com.qxdzbc.p6.app.err.ErrorContainerImp
-import com.qxdzbc.p6.di.state.window.DefaultFocusStateMs
+import com.qxdzbc.p6.ui.window.status_bar.di.qualifiers.StatusBarStateQualifier
+import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainer
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.err.ErrorContainer
+import com.qxdzbc.p6.err.ErrorContainerImp
+import com.qxdzbc.p6.ui.window.di.qualifiers.DefaultFocusStateMs
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
-import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.workbook.state.WorkbookState
+import com.qxdzbc.p6.ui.workbook.state.factory.WorkbookStateFactory
+import com.qxdzbc.p6.ui.workbook.state.cont.WorkbookStateContainer
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogState
 import com.qxdzbc.p6.ui.window.file_dialog.state.FileDialogStateImp
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
@@ -26,28 +26,31 @@ import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarState
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarStateImp
 import com.github.michaelbull.result.*
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.p6.app.document.workbook.Workbook
+import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.ui.common.color_generator.FormulaColorGenerator
+import com.qxdzbc.p6.ui.window.di.comp.*
+import com.qxdzbc.p6.ui.window.di.qualifiers.LoadDialogStateMs
+import com.qxdzbc.p6.ui.window.di.qualifiers.SaveDialogStateMs
+import com.qxdzbc.p6.ui.window.di.qualifiers.WindowIdInWindow
 import com.qxdzbc.p6.ui.window.tool_bar.state.ToolBarState
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CompletableDeferred
 import java.nio.file.Path
 import java.util.*
+import javax.inject.Inject
 
-data class WindowStateImp @AssistedInject constructor(
-    @Assisted override val toolBarStateMs: Ms<ToolBarState>,
-    @Assisted override val activeWbPointerMs: Ms<ActiveWorkbookPointer>,
-    @Assisted override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
-    @Assisted("saveDialogStateMs")
+@WindowScope
+data class WindowStateImp @Inject constructor(
+    override val toolBarStateMs: Ms<ToolBarState>,
+    override val activeWbPointerMs: Ms<ActiveWorkbookPointer>,
+    override val errorContainerMs: Ms<ErrorContainer> = ms(ErrorContainerImp()),
+    @SaveDialogStateMs
     override val saveDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
-    @Assisted("loadDialogStateMs")
+    @LoadDialogStateMs
     override val loadDialogStateMs: Ms<FileDialogState> = ms(FileDialogStateImp()),
-    @Assisted override val id: String = UUID.randomUUID().toString(),
-    @Assisted val wbKeyMsSetMs: Ms<Set<Ms<WorkbookKey>>>,
-    @Assisted val commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
-    // ===========================================================================
-
+    @WindowIdInWindow
+    override val id: String = UUID.randomUUID().toString(),
+    val wbKeyMsSetMs: Ms<Set<Ms<WorkbookKey>>>,
+    val commonFileDialogJobMs: Ms<CompletableDeferred<Path?>?> = ms(null),
     private val wbCont: WorkbookContainer,
     override val wbStateCont: WorkbookStateContainer,
     @StatusBarStateQualifier
@@ -56,14 +59,14 @@ data class WindowStateImp @AssistedInject constructor(
     @DefaultFocusStateMs
     override val focusStateMs: Ms<WindowFocusState>,
     override val formulaColorGenerator: FormulaColorGenerator,
-
+    override val component:WindowComponent,
     ) : BaseWindowState() {
 
     override val commonFileDialogJob: CompletableDeferred<Path?>? by commonFileDialogJobMs
 
     override val wbKeyMsSet: Set<Ms<WorkbookKey>> by wbKeyMsSetMs
 
-    override val wbKeySet: Set<WorkbookKey> get()= wbKeyMsSet.map{it.value}.toSet()
+    override val wbKeySet: Set<WorkbookKey> get() = wbKeyMsSet.map { it.value }.toSet()
 
     override val wbStateMsList: List<WorkbookState>
         get() = wbKeySet.mapNotNull {
@@ -75,7 +78,7 @@ data class WindowStateImp @AssistedInject constructor(
     /**
      * special note: FormulaBarState is a fully derivative state, therefore it does not have a Ms<>
      */
-    override val formulaBarState: FormulaBarState get()= FormulaBarStateImp(this)
+    override val formulaBarState: FormulaBarState get() = FormulaBarStateImp(this)
 
     override fun containWbKey(wbKey: WorkbookKey): Boolean {
         return this.wbKeySet.contains(wbKey)
@@ -94,15 +97,15 @@ data class WindowStateImp @AssistedInject constructor(
 
     override val activeWbState: WorkbookState?
         get() {
-            val activeWbKey:WorkbookKey? = this.activeWbPointer.wbKey
-            if (activeWbKey!=null) {
+            val activeWbKey: WorkbookKey? = this.activeWbPointer.wbKey
+            if (activeWbKey != null) {
                 return this.wbStateCont.getWbState(activeWbKey)
             }
             return null
         }
     override val activeWbStateMs: WorkbookState?
         get() {
-            return this.activeWbPointer.wbKey?.let{this.getWorkbookStateMs(it)}
+            return this.activeWbPointer.wbKey?.let { this.getWorkbookStateMs(it) }
         }
 
     private fun getWorkbookStateMs(workbookKey: WorkbookKey): WorkbookState? {
@@ -131,9 +134,10 @@ data class WindowStateImp @AssistedInject constructor(
             if (this.activeWbPointer.isPointingTo(wbKeyMs)) {
                 this.activeWbPointerMs.value = this.activeWbPointer.nullify()
             }
-            wbKeyMsSetMs.value = wbKeyMsSet.filter{it!=wbKeyMs}.toSet()
+            wbKeyMsSetMs.value = wbKeyMsSet.filter { it != wbKeyMs }.toSet()
         }
     }
+
     @Throws(Exception::class)
     override fun addWbKey(wbKey: Ms<WorkbookKey>) {
         addWbKeyRs(wbKey).getOrThrow()
@@ -144,8 +148,8 @@ data class WindowStateImp @AssistedInject constructor(
             return Ok(Unit)
         } else {
             val wbStateMsRs = this.wbStateCont.getWbStateRs(wbKey)
-            val rt = wbStateMsRs.map {wbStateMs->
-                val wbk = wbStateMs.wbKeyMs
+            val rt = wbStateMsRs.map { wbState ->
+                val wbk = wbState.wbKeyMs
                 val newWbKeySet = this.wbKeyMsSet + wbk
                 wbKeyMsSetMs.value = newWbKeySet
             }

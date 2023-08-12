@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.rpc.worksheet.msg
 
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.proto.WorksheetProtos
 
 data class GetAllCellResponse(

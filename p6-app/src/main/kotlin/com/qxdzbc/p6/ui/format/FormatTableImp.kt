@@ -1,9 +1,9 @@
 package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.common.CollectionUtils.replaceKey
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddress
-import com.qxdzbc.p6.app.document.range.address.RangeAddressUtils
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
+import com.qxdzbc.p6.document_data_layer.range.address.RangeAddressUtils
 
 data class FormatTableImp<T>(
     override val valueMap: Map<RangeAddressSet, T> = emptyMap(),

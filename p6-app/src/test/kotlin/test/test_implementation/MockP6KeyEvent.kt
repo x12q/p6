@@ -4,7 +4,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
-import com.qxdzbc.p6.app.common.key_event.AbsP6KeyEvent
+import com.qxdzbc.p6.common.key_event.AbsP6KeyEvent
 
 data class MockP6KeyEvent @OptIn(ExperimentalComposeUiApi::class) constructor(
     override val key: Key = Key.Unknown,

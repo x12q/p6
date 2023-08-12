@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.ui.format
 
 import com.qxdzbc.common.test_util.TestSplitter
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.ui.document.cell.state.format.text.CellFormatImp
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.ui.cell.state.format.text.CellFormatImp
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

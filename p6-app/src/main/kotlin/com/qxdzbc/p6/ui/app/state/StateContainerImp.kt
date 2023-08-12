@@ -13,33 +13,32 @@ import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.error.SingleErrorReport
-import com.qxdzbc.p6.app.action.common_data_structure.WbWs
-import com.qxdzbc.p6.app.action.common_data_structure.WbWsSt
-import com.qxdzbc.p6.app.document.cell.CellId
-import com.qxdzbc.p6.app.document.cell.address.CellAddress
-import com.qxdzbc.p6.app.document.workbook.Workbook
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
-import com.qxdzbc.p6.app.document.worksheet.WorksheetErrors
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
+import com.qxdzbc.p6.document_data_layer.cell.CellId
+import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.document_data_layer.workbook.Workbook
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.worksheet.WorksheetErrors
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
-import com.qxdzbc.p6.ui.document.cell.state.CellState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookState
-import com.qxdzbc.p6.ui.document.workbook.state.WorkbookStateFactory
-import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateContainer
-import com.qxdzbc.p6.ui.document.workbook.state.cont.WorkbookStateGetter
-import com.qxdzbc.p6.ui.document.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.document.worksheet.cursor.thumb.state.ThumbState
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerSig
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerState
-import com.qxdzbc.p6.ui.document.worksheet.ruler.RulerType
-import com.qxdzbc.p6.ui.document.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.document.worksheet.state.WorksheetState
+import com.qxdzbc.p6.ui.cell.state.CellState
+import com.qxdzbc.p6.ui.workbook.state.WorkbookState
+import com.qxdzbc.p6.ui.workbook.state.factory.WorkbookStateFactory
+import com.qxdzbc.p6.ui.workbook.state.cont.WorkbookStateContainer
+import com.qxdzbc.p6.ui.workbook.state.cont.WorkbookStateGetter
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
+import com.qxdzbc.p6.ui.worksheet.cursor.thumb.state.ThumbState
+import com.qxdzbc.p6.ui.worksheet.ruler.RulerSig
+import com.qxdzbc.p6.ui.worksheet.ruler.RulerState
+import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
+import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import com.qxdzbc.p6.ui.window.state.OuterWindowStateFactory
 import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.window.state.WindowStateFactory
-import com.qxdzbc.p6.ui.window.state.WindowStateFactory.Companion.createDefault
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -151,7 +150,7 @@ class StateContainerImp @Inject constructor(
 
     override fun addWbStateFor(wb: Workbook) {
         if (!this.hasStateFor(wb.key)) {
-            val newState = wbStateFactory.create(ms(wb))
+            val newState = wbStateFactory.create(ms(wb),null)
             wbStateCont.addOrOverwriteWbState(newState)
         }
     }

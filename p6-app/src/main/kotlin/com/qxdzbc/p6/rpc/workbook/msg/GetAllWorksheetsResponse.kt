@@ -4,8 +4,8 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.ErrorReport
-import com.qxdzbc.p6.app.common.proto.ProtoUtils.toProto
-import com.qxdzbc.p6.app.document.worksheet.Worksheet
+import com.qxdzbc.p6.common.proto.ProtoUtils.toProto
+import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.proto.WorkbookProtos
 
 class GetAllWorksheetsResponse(

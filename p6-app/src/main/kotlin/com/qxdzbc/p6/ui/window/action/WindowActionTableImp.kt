@@ -1,8 +1,8 @@
 package com.qxdzbc.p6.ui.window.action
 
-import com.qxdzbc.p6.app.action.window.WindowAction
+import com.qxdzbc.p6.composite_actions.window.WindowAction
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.ui.document.workbook.action.WorkbookActionTable
+import com.qxdzbc.p6.ui.workbook.action.WorkbookActionTable
 import com.qxdzbc.p6.ui.window.file_dialog.action.FileDialogAction
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuAction
 import com.qxdzbc.p6.ui.window.workbook_tab.bar.WorkbookTabBarAction

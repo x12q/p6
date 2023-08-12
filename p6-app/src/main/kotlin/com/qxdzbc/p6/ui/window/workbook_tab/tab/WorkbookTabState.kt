@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.window.workbook_tab.tab
 
-import com.qxdzbc.p6.app.document.workbook.WorkbookKey
+import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 
 interface WorkbookTabState {
     val wbKey:WorkbookKey

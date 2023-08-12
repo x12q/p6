@@ -1,13 +1,13 @@
 package com.qxdzbc.p6.rpc.cell
 
-import com.qxdzbc.p6.app.action.cell.cell_update.CellUpdateRequestDM.Companion.toModel
-import com.qxdzbc.p6.app.action.common_data_structure.SingleSignalResponse
-import com.qxdzbc.p6.app.common.utils.Utils.onNextAndComplete
-import com.qxdzbc.p6.app.document.cell.Cell
-import com.qxdzbc.p6.app.document.cell.CellContent
-import com.qxdzbc.p6.app.document.cell.CellContentImp
-import com.qxdzbc.p6.app.document.cell.CellValue
-import com.qxdzbc.p6.di.ActionDispatcherDefault
+import com.qxdzbc.p6.composite_actions.cell.cell_update.CellUpdateRequestDM.Companion.toModel
+import com.qxdzbc.p6.composite_actions.common_data_structure.SingleSignalResponse
+import com.qxdzbc.p6.common.utils.Utils.onNextAndComplete
+import com.qxdzbc.p6.document_data_layer.cell.Cell
+import com.qxdzbc.p6.document_data_layer.cell.CellContent
+import com.qxdzbc.p6.document_data_layer.cell.CellContentImp
+import com.qxdzbc.p6.document_data_layer.cell.CellValue
+import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
 
 import com.qxdzbc.p6.proto.CellProtos
