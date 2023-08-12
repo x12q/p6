@@ -8,13 +8,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.view.testApp
+import com.qxdzbc.p6.ui.worksheet.slider.LimitedSliderImp
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderRail
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderThumb
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
@@ -30,7 +30,8 @@ fun VerticalEdgeSlider(
     onDrag: (positionRatio:Float) -> Unit = {},
     onClickOnRail: (clickPositionRatio: Float) -> Unit = {},
 ) {
-    var railLayout: LayoutCoorWrapper? by remember { ms(null) }
+    var railLayout: LayoutCoorWrapper? by rms(null)
+    var thumbLayout: LayoutCoorWrapper? by rms(null)
     val density = LocalDensity.current
 
     SliderRail(
@@ -40,11 +41,33 @@ fun VerticalEdgeSlider(
         val railLength = railLayout?.dbSize(density)?.height ?: 0.dp
         SliderThumb(
             length = state.thumbLength(railLength),
-            offset = state.thumbOffset,
-            modifier = Modifier.draggable(
+            offset = state.thumbPosition,
+            modifier = Modifier
+                .onGloballyPositioned {
+                    thumbLayout = it.wrap()
+                }
+                .draggable(
                 orientation = Orientation.Vertical,
                 state = rememberDraggableState { delta ->
                     state.setThumbOffsetWhenDrag(density, delta)
+                    // detect if slider reach the bottom
+
+                    val thumbYBottom = thumbLayout?.boundInWindow?.bottom
+                    val railYBottom = railLayout?.boundInWindow?.bottom
+
+                    val thumbReachRailBottom = thumbYBottom!=null && railYBottom!=null && thumbYBottom==railYBottom
+
+                    if(thumbReachRailBottom){
+                        state.recomputeStateWhenThumbReachRailBottom(railLength)
+                    }else{
+                        val thumbYTop = thumbLayout?.boundInWindow?.top
+                        val railYTop = railLayout?.boundInWindow?.top
+
+                        val thumbReachRailTop = railYTop!=null && thumbYTop!=null && railYTop==thumbYTop
+                        if(thumbReachRailTop){
+                            state.recomputeStateWhenThumbReachRailTop()
+                        }
+                    }
                 }
             )
         )
@@ -55,7 +78,9 @@ fun VerticalEdgeSlider(
 @Composable
 fun Preview_VerticalEdgeSlider() {
 
-    val state by rms(VerticalEdgeSliderStateImp())
+    val state by rms(VerticalEdgeSliderStateImp(
+        sliderStateSt = ms(LimitedSliderImp.forPreview())
+    ))
 
     VerticalEdgeSlider(
         state = state,

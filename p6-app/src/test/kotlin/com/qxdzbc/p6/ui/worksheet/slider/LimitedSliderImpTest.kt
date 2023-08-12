@@ -1,15 +1,12 @@
 package com.qxdzbc.p6.ui.worksheet.slider
 
-import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
-import com.qxdzbc.p6.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 
-internal class LimitedSliderTest {
+internal class LimitedSliderImpTest {
 
-    val s0 = LimitedSlider(
+    val s0 = LimitedSliderImp(
         slider = GridSliderImp(
             visibleColRange = IntRange(0, 9),
             visibleRowRange = IntRange(3, 20),
@@ -21,7 +18,7 @@ internal class LimitedSliderTest {
     @Test
     fun constructor() {
         assertFailsWith<IllegalArgumentException> {
-            LimitedSlider(
+            LimitedSliderImp(
                 slider = GridSliderImp(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
@@ -32,7 +29,7 @@ internal class LimitedSliderTest {
         }
 
         assertFailsWith<IllegalArgumentException> {
-            LimitedSlider(
+            LimitedSliderImp(
                 slider = GridSliderImp(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
@@ -43,7 +40,7 @@ internal class LimitedSliderTest {
         }
 
         assertFailsWith<IllegalArgumentException> {
-            LimitedSlider(
+            LimitedSliderImp(
                 slider = GridSliderImp(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
@@ -53,7 +50,7 @@ internal class LimitedSliderTest {
             )
         }
         assertFailsWith<IllegalArgumentException> {
-            LimitedSlider(
+            LimitedSliderImp(
                 slider = GridSliderImp(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),

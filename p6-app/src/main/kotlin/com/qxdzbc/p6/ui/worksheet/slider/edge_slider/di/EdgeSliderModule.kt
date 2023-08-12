@@ -17,10 +17,5 @@ interface EdgeSliderModule {
     fun VerticalEdgeSliderState(i:VerticalEdgeSliderStateImp):VerticalEdgeSliderState
 
     companion object{
-//        @Provides
-//        @WsScope
-//        fun verticalEdgeSliderStateMs():Ms<VerticalEdgeSliderState>{
-//
-//        }
     }
 }

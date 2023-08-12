@@ -4,7 +4,7 @@ import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 
 
 object GridSliders {
-    fun default(): GridSlider {
+    fun default(): LimitedSliderImp {
         return create()
     }
 
@@ -13,8 +13,8 @@ object GridSliders {
         visibleRowRange: IntRange = WorksheetConstants.defaultVisibleRowRange,
         colLimit: IntRange = WorksheetConstants.defaultColRange,
         rowLimit: IntRange = WorksheetConstants.defaultRowRange,
-    ): GridSlider {
-        return LimitedSlider(
+    ): LimitedSliderImp {
+        return LimitedSliderImp(
             slider = GridSliderImp(
                 visibleColRange = visibleColRange,
                 visibleRowRange = visibleRowRange,

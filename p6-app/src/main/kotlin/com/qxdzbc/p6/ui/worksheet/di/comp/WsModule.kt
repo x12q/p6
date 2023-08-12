@@ -19,11 +19,11 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.worksheet.ruler.RulerStateImp
 import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.worksheet.slider.di.LimitedSliderQualifier
 import com.qxdzbc.p6.ui.worksheet.state.CellStateContainer
 import com.qxdzbc.p6.ui.worksheet.state.CellStateContainers
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
+import com.qxdzbc.p6.ui.worksheet.slider.di.SliderModule
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.EdgeSliderModule
 import dagger.Binds
 import dagger.Provides
@@ -32,7 +32,8 @@ import dagger.Module
 
 @Module(
     includes = [
-        EdgeSliderModule::class
+        EdgeSliderModule::class,
+        SliderModule::class,
     ]
 )
 interface WsModule {
@@ -41,11 +42,6 @@ interface WsModule {
     @WsScope
     fun cellLayoutMapSt(i: Ms<Map<CellAddress, LayoutCoorWrapper>>): St<Map<CellAddress, LayoutCoorWrapper>>
 
-
-//    @Binds
-//    @WsScope
-//    @DefaultSelectRectState
-//    fun SelectRectState(i:SelectRectStateImp): SelectRectState
 
     @Binds
     @WsScope
@@ -58,16 +54,6 @@ interface WsModule {
     fun redoStackMs(@DefaultCommandStackMs i: Ms<CommandStack>): Ms<CommandStack>
 
     companion object {
-
-        @Provides
-        @WsScope
-        fun sliderMs(
-            @LimitedSliderQualifier
-            i: GridSlider,
-        ): Ms<GridSlider> {
-            return ms(i)
-        }
-
 
         @Provides
         @WsScope
