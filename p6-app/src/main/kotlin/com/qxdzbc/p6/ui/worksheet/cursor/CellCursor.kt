@@ -66,7 +66,7 @@ fun CellCursor(
         }
     }
     /*
-     x: this an invisible box that matches the whole cell grid in size and
+     This an invisible box that matches the whole cell grid in size and
      contains the anchor cell, cell editor, and all the annotation views
      (selected, copied, referred cells)
      */

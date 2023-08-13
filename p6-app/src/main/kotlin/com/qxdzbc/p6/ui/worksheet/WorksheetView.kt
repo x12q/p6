@@ -25,6 +25,7 @@ import com.qxdzbc.p6.ui.worksheet.resize_bar.ResizeBar
 import com.qxdzbc.p6.ui.worksheet.ruler.RulerView
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
+import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 
 
 /**
@@ -46,81 +47,65 @@ fun WorksheetView(
     Surface(modifier = Modifier.onGloballyPositioned {
         wsActions.updateWsLayoutCoors(it, wsState)
     }) {
-        MBox {
-            Column {
-                Row {
-                    BorderBox( // x: cell/range indicator
-                        borderStyle = BorderStyle.BOT_RIGHT,
-                        modifier = Modifier.size(
-                            DpSize(
-                                WorksheetConstants.rowRulerWidth,
-                                WorksheetConstants.defaultRowHeight,
-                            )
-                        )
-                    ) {
-                        Text(
-                            text = cursorState.mainCell.label,
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                    }
-                    MBox {
-                        val colRulerAction = worksheetActionTable.colRulerAction
-                        RulerView(
-                            state = wsState.colRulerState,
-                            rulerAction = colRulerAction,
-                            size = WorksheetConstants.defaultRowHeight
-                        )
-                    }
-                }
-                Row {
-                    MBox {
-                        val rowRulerAction = worksheetActionTable.rowRulerAction
-                        RulerView(
-                            //x: this is row ruler
-                            state = wsState.rowRulerState,
-                            rulerAction = rowRulerAction,
-                            size = WorksheetConstants.rowRulerWidth
-                        )
-                    }
-                    MBox(
+        Column {
+            Row {
+
+                CellRangeIndicator(cursorState.mainCell.label)
+
+                val colRulerAction = worksheetActionTable.colRulerAction
+                RulerView(
+                    state = wsState.colRulerState,
+                    rulerAction = colRulerAction,
+                    size = WorksheetConstants.defaultRowHeight
+                )
+            }
+            Row {
+
+                val rowRulerAction = worksheetActionTable.rowRulerAction
+                RulerView(
+                    //x: this is row ruler
+                    state = wsState.rowRulerState,
+                    rulerAction = rowRulerAction,
+                    size = WorksheetConstants.rowRulerWidth
+                )
+
+                MBox(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    CellGrid(
+                        wsState = wsState,
+                        wsActions = wsActions,
                         modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        CellGrid(
-                            wsState = wsState,
-                            wsActions = wsActions,
-                            modifier = Modifier
-                                .onPointerEvent(PointerEventType.Scroll) { pointerEvent ->
-                                    val x: Int = pointerEvent.changes.first().scrollDelta.x.toInt()
-                                    val y: Int = pointerEvent.changes.first().scrollDelta.y.toInt()
-                                    wsActions.scroll(x, y, wsState)
-                                }
-                                .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
-                        )
-                        MBox {
-                            val cursorAction = worksheetActionTable.cursorAction
-                            CellCursor(
-                                state = wsState.cursorState,
-                                currentDisplayedRange= wsState.slider.currentDisplayedRange,
-                                action = cursorAction,
-                                focusState=focusState,
-                                modifier = Modifier
-                                    .then(addTestTag(enableTestTag, makeCursorTestTag(wsName))),
-                            )
-                        }
-                    }
+                            .onPointerEvent(PointerEventType.Scroll) { pointerEvent ->
+                                val x: Int = pointerEvent.changes.first().scrollDelta.x.toInt()
+                                val y: Int = pointerEvent.changes.first().scrollDelta.y.toInt()
+                                wsActions.scroll(x, y, wsState)
+                            }
+                            .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
+                    )
+
+                    val cursorAction = worksheetActionTable.cursorAction
+                    CellCursor(
+                        state = wsState.cursorState,
+                        currentDisplayedRange = wsState.slider.currentDisplayedRange,
+                        action = cursorAction,
+                        focusState = focusState,
+                        modifier = Modifier
+                            .then(addTestTag(enableTestTag, makeCursorTestTag(wsName))),
+                    )
                 }
             }
-            MBox {
-                ResizeBar(
-                    state = wsState.colResizeBarState
-                )
-            }
-            MBox {
-                ResizeBar(
-                    state = wsState.rowResizeBarState
-                )
-            }
+        }
+        MBox {
+            ResizeBar(
+                state = wsState.colResizeBarState
+            )
+        }
+        MBox {
+            ResizeBar(
+                state = wsState.rowResizeBarState
+            )
         }
     }
 }

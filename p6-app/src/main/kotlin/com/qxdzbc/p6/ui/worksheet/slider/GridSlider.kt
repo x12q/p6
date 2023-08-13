@@ -10,8 +10,6 @@ import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
  */
 interface GridSlider {
 
-    val phantomRowMargin:Int
-
     val colLimit: IntRange
 
     val rowLimit: IntRange

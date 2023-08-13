@@ -34,19 +34,19 @@ import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun CellGrid(
+fun CellGrid2(
     wsState: WorksheetState,
     wsActions: WorksheetAction,
     modifier: Modifier = Modifier,
 ) {
     val slider by wsState.sliderMs
-   val density = LocalDensity.current
+    val density = LocalDensity.current
     MBox(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned {
                 wsActions.updateCellGridLayoutCoors(it, wsState)
-                wsActions.computeSliderSize(wsState,density)
+                wsActions.computeSliderSize(wsState, density)
             }
             .onPointerEvent(PointerEventType.Press) {
                 if (it.buttons.isPrimaryPressed && it.keyboardModifiers.isNonePressed) {
@@ -119,7 +119,7 @@ fun CellGrid(
                             onClick = {
                                 wsActions.shiftClickSelectRange(cellAddress, wsState)
                             }
-                        ).padding(start=1.dp, end = 1.dp, top=1.dp,bottom=1.dp)
+                        ).padding(start = 1.dp, end = 1.dp, top = 1.dp, bottom = 1.dp)
 
                         BorderBox(
                             borderStyle = borderStyle,
@@ -135,7 +135,7 @@ fun CellGrid(
                             if (cellState != null) {
                                 CellView(
                                     state = cellState,
-                                    format=format,
+                                    format = format,
                                     boxModifier = cellBoxMod
                                 )
                             } else {
@@ -162,6 +162,5 @@ fun CellGrid(
                 position = pos
             )
         }
-
     }
 }

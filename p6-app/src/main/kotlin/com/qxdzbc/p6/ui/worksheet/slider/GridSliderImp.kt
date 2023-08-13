@@ -14,12 +14,13 @@ data class GridSliderImp(
     private val slider: InternalGridSlider,
     override val colLimit: IntRange,
     override val rowLimit: IntRange,
-    override val phantomRowMargin: Int,
+//    override val phantomRowMargin: Int,
     override val marginRow: Int?,
     override val marginCol: Int?,
 ) : BaseSlider(),GridSlider {
 
-    @Inject constructor(
+    @Inject
+    constructor(
         slider: InternalGridSlider,
         @DefaultColRangeQualifier
         colLimit: IntRange,
@@ -29,7 +30,6 @@ data class GridSliderImp(
         slider = slider,
         colLimit = colLimit,
         rowLimit = rowLimit,
-        phantomRowMargin = 30,
         marginRow = null,
         marginCol = null,
     )

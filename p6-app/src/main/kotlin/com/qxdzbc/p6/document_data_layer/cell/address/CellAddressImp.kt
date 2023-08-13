@@ -6,7 +6,7 @@ import com.qxdzbc.p6.proto.DocProtos
  * Standard implementation of CellAddress.
  * col and row index cannot go lower than 1, but has no upper bound
  */
-data class CellAddressImp constructor(
+data class CellAddressImp (
     override val colCR: CR,
     override val rowCR: CR,
 ) : CellAddress {
@@ -50,6 +50,7 @@ data class CellAddressImp constructor(
     }
 
     override val isRowLocked: Boolean = rowCR.isLocked
+
     override fun setLockRow(i: Boolean): CellAddress {
         val rcr = rowCR.copy(isLocked = i)
         return this.copy(rowCR = rcr)
