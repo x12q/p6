@@ -12,10 +12,12 @@ import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
+import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.worksheet.slider.UnlimitedGridSlider
+import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
+import com.qxdzbc.p6.ui.worksheet.slider.InternalGridSlider
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -80,16 +82,23 @@ internal class WorksheetActionImpTest {
 
     @Test
     fun determineSliderSize() {
-        val o = UnlimitedGridSlider(
-            visibleColRange = 1..5,
-            visibleRowRange = 1..5,
+        val o =GridSliderImp(
+            slider = InternalGridSlider(
+                visibleColRange = 1..5,
+                visibleRowRange = 1..5,
+            ),
+            colLimit = WorksheetConstants.defaultColRange,
+            rowLimit = WorksheetConstants.defaultRowRange,
+
+
         )
-        val n: GridSlider = actions.computeSliderSize(
-            o, DpSize(width = 100.dp, height = 200.dp),
-            anchorCell = CellAddress(3, 2),
-            colWidthGetter = { 30.dp },
-            rowHeightGetter = { 20.dp }
-        )
+         val n: GridSlider = actions.computeSliderSize(
+             oldGridSlider = o,
+             sizeConstraint = DpSize(width = 100.dp, height = 200.dp),
+             anchorCell = CellAddress(3, 2),
+             colWidthGetter = { 30.dp },
+             rowHeightGetter = { 20.dp }
+         )
         assertEquals(3 .. 6, n.visibleColRange)
         assertEquals(2 .. 11, n.visibleRowRange)
         assertNull(n.marginRow)

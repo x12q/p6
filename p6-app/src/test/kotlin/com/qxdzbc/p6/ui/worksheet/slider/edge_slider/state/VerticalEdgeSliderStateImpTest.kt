@@ -33,7 +33,7 @@ class VerticalEdgeSliderStateImpTest:TestSplitter(){
             preCondition {
                 state.thumbPosition.y shouldBe 0.dp
             }
-            state.setThumbOffsetWhenDrag(mockDensity, -1000f,)
+            state.setThumbOffsetWhenDrag(mockDensity, -1000f,100.dp)
 
             postCondition {
                 state.thumbPosition.y shouldBeGreaterThanOrEqualTo 0.dp
@@ -48,7 +48,7 @@ class VerticalEdgeSliderStateImpTest:TestSplitter(){
                 state.thumbPosition.y shouldBe 0.dp
             }
 
-            state.setThumbOffsetWhenDrag(mockDensity, 20f,)
+            state.setThumbOffsetWhenDrag(mockDensity, 20f,100.dp)
 
             postCondition {
                 state.thumbPosition.y shouldBe 20.dp

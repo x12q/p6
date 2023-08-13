@@ -1,8 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet.slider
 
-import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
-import com.qxdzbc.p6.ui.worksheet.slider.di.qualifiers.UnlimitedGridSlider
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultColRangeQualifier
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultRowRangeQualifier
 import com.squareup.anvil.annotations.ContributesBinding
@@ -12,16 +10,17 @@ import javax.inject.Inject
  * A slider that can only shift within bounds defined by [colLimit] and [rowLimit]
  */
 @ContributesBinding(WsAnvilScope::class, boundType = GridSlider::class)
-data class GridSliderImp constructor(
-    private val slider: GridSlider,
+data class GridSliderImp(
+    private val slider: InternalGridSlider,
     override val colLimit: IntRange,
     override val rowLimit: IntRange,
     override val phantomRowMargin: Int,
+    override val marginRow: Int?,
+    override val marginCol: Int?,
 ) : BaseSlider(),GridSlider {
 
     @Inject constructor(
-        @UnlimitedGridSlider
-        slider: GridSlider,
+        slider: InternalGridSlider,
         @DefaultColRangeQualifier
         colLimit: IntRange,
         @DefaultRowRangeQualifier
@@ -31,6 +30,8 @@ data class GridSliderImp constructor(
         colLimit = colLimit,
         rowLimit = rowLimit,
         phantomRowMargin = 30,
+        marginRow = null,
+        marginCol = null,
     )
 
 
@@ -41,9 +42,6 @@ data class GridSliderImp constructor(
             throw IllegalArgumentException("slider ${slider} doesn't fit in range (c:${colLimit}, r:${rowLimit})")
         }
     }
-
-    override val topLeftCell: CellAddress
-        get() = slider.topLeftCell
 
     override val firstVisibleCol: Int get() = slider.firstVisibleCol
 
@@ -65,19 +63,17 @@ data class GridSliderImp constructor(
 
     override val visibleRowRange: IntRange get() = slider.visibleRowRange
 
-    override val marginRow: Int? get() = slider.marginRow
 
     override fun setMarginRow(i: Int?): GridSliderImp {
         return this.copy(
-            slider = slider.setMarginRow(i)
+            marginRow = i
         )
     }
 
-    override val marginCol: Int? get() = slider.marginCol
 
     override fun setMarginCol(i: Int?): GridSliderImp {
         return this.copy(
-            slider = slider.setMarginCol(i)
+            marginCol = i
         )
     }
 

@@ -4,6 +4,7 @@ import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 
 
 object GridSliders {
+
     fun default(): GridSliderImp {
         return create()
     }
@@ -15,7 +16,7 @@ object GridSliders {
         rowLimit: IntRange = WorksheetConstants.defaultRowRange,
     ): GridSliderImp {
         return GridSliderImp(
-            slider = UnlimitedGridSlider(
+            slider = InternalGridSlider(
                 visibleColRange = visibleColRange,
                 visibleRowRange = visibleRowRange,
             ),
