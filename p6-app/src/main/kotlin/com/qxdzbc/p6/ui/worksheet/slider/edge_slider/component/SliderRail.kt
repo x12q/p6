@@ -16,7 +16,7 @@ import com.qxdzbc.p6.ui.theme.P6Theme
 
 @Composable
 internal fun SliderRail(
-    width: Dp = 20.dp,
+    width: Dp = 30.dp,
     modifier: Modifier = Modifier,
     color: Color = P6Theme.color.uiColor.sliderRailBackground,
     content: @Composable () -> Unit,

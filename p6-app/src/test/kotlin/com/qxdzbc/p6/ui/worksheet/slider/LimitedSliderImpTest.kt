@@ -6,8 +6,8 @@ import kotlin.test.assertFailsWith
 
 internal class LimitedSliderImpTest {
 
-    val s0 = LimitedSliderImp(
-        slider = GridSliderImp(
+    val s0 = GridSliderImp(
+        slider = UnlimitedGridSlider(
             visibleColRange = IntRange(0, 9),
             visibleRowRange = IntRange(3, 20),
         ),
@@ -18,8 +18,8 @@ internal class LimitedSliderImpTest {
     @Test
     fun constructor() {
         assertFailsWith<IllegalArgumentException> {
-            LimitedSliderImp(
-                slider = GridSliderImp(
+            GridSliderImp(
+                slider = UnlimitedGridSlider(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),
@@ -29,8 +29,8 @@ internal class LimitedSliderImpTest {
         }
 
         assertFailsWith<IllegalArgumentException> {
-            LimitedSliderImp(
-                slider = GridSliderImp(
+            GridSliderImp(
+                slider = UnlimitedGridSlider(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),
@@ -40,8 +40,8 @@ internal class LimitedSliderImpTest {
         }
 
         assertFailsWith<IllegalArgumentException> {
-            LimitedSliderImp(
-                slider = GridSliderImp(
+            GridSliderImp(
+                slider = UnlimitedGridSlider(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),
@@ -50,8 +50,8 @@ internal class LimitedSliderImpTest {
             )
         }
         assertFailsWith<IllegalArgumentException> {
-            LimitedSliderImp(
-                slider = GridSliderImp(
+            GridSliderImp(
+                slider = UnlimitedGridSlider(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),

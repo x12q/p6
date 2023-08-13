@@ -5,10 +5,17 @@ import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 
 /**
- * A slider contains a range of row and a range of col of fixed width.
- * A slider can shift its ranges up, down, left, right, but cannot change the width of the ranges.
+ * A slider contains a range of row and a range of col.
+ * A slider can shift its ranges up, down, left, right.
  */
 interface GridSlider {
+
+    val phantomRowMargin:Int
+
+    val colLimit: IntRange
+
+    val rowLimit: IntRange
+
     val currentDisplayedRange:RangeAddress
 
     /**
@@ -28,30 +35,33 @@ interface GridSlider {
     val visibleRowRange: IntRange
     val visibleRowRangeExcludeMargin: IntRange
 
+    /**
+     * Margin row is the row at the margin of the sheet. It is only shown partially
+     */
     val marginRow: Int?
     fun setMarginRow(i: Int?): GridSlider
+
+    /**
+     * Margin col is the col at the margin of the sheet. It is only shown partially
+     */
     val marginCol: Int?
     fun setMarginCol(i: Int?): GridSlider
 
     fun setVisibleRowRange(i: IntRange): GridSlider
 
-    fun containCol(col: Int): Boolean {
+    fun containColInVisibleRange(col: Int): Boolean {
         return col in visibleColRange
     }
 
-    fun containRow(row: Int): Boolean {
+    fun containRowInVisibleRange(row: Int): Boolean {
         return row in visibleRowRange
     }
 
-    fun containAddress(cellAddress: CellAddress): Boolean {
-        return containCol(cellAddress.colIndex) && containRow(cellAddress.rowIndex)
-    }
+    fun containAddressInVisibleRange(cellAddress: CellAddress): Boolean
 
     fun containAddressNotMargin(cellAddress: CellAddress): Boolean
 
-    fun containAddress(col: Int, row: Int): Boolean {
-        return containCol(col) && containRow(row)
-    }
+    fun containAddressInVisibleRange(col: Int, row: Int): Boolean
 
     /**
      * move the slider [v] unit to the left, this will decrease the visible column range by v unit

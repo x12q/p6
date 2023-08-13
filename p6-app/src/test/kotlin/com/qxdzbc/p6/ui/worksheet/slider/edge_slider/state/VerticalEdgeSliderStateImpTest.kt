@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.test_util.TestSplitter
-import com.qxdzbc.p6.ui.worksheet.slider.LimitedSliderImp
+import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
 import io.kotest.matchers.shouldBe
@@ -23,7 +23,7 @@ class VerticalEdgeSliderStateImpTest:TestSplitter(){
     @BeforeTest
     fun bt(){
         state = VerticalEdgeSliderStateImp(
-            sliderStateSt = ms(LimitedSliderImp.forPreview())
+            sliderStateMs = ms(GridSliderImp.forPreview())
         )
     }
 
@@ -33,7 +33,7 @@ class VerticalEdgeSliderStateImpTest:TestSplitter(){
             preCondition {
                 state.thumbPosition.y shouldBe 0.dp
             }
-            state.setThumbOffsetWhenDrag(mockDensity,-1000f)
+            state.setThumbOffsetWhenDrag(mockDensity, -1000f,)
 
             postCondition {
                 state.thumbPosition.y shouldBeGreaterThanOrEqualTo 0.dp
@@ -48,7 +48,7 @@ class VerticalEdgeSliderStateImpTest:TestSplitter(){
                 state.thumbPosition.y shouldBe 0.dp
             }
 
-            state.setThumbOffsetWhenDrag(mockDensity,20f)
+            state.setThumbOffsetWhenDrag(mockDensity, 20f,)
 
             postCondition {
                 state.thumbPosition.y shouldBe 20.dp

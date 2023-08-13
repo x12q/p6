@@ -63,7 +63,7 @@ class WorksheetActionImp @Inject constructor(
                 wsState
                     .setSliderAndRefreshDependentStates(newSlider)
                 wsState.cellLayoutCoorMapMs.value =
-                    wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddress(cellAddress) }
+                    wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddressInVisibleRange(cellAddress) }
             }
         }
     }

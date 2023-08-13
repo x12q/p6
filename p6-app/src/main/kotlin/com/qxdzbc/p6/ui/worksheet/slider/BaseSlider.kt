@@ -5,12 +5,32 @@ import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 
 abstract class BaseSlider : GridSlider {
+
+    override val firstVisibleRow: Int get() = visibleRowRange.first
+
+    override val lastVisibleRow: Int get() = visibleRowRange.last
+
+
+    override val topLeftCell: CellAddress get() = CellAddress(this.firstVisibleCol, this.firstVisibleRow)
+
+    override val firstVisibleCol: Int get() = visibleColRange.first
+
+    override val lastVisibleCol: Int get() = visibleColRange.last
+
+    override fun containAddressInVisibleRange(cellAddress: CellAddress): Boolean {
+        return containColInVisibleRange(cellAddress.colIndex) && containRowInVisibleRange(cellAddress.rowIndex)
+    }
+
+    override fun containAddressInVisibleRange(col: Int, row: Int): Boolean {
+        return containColInVisibleRange(col) && containRowInVisibleRange(row)
+    }
+
     override val currentDisplayedRange: RangeAddress
         get() = RangeAddress(visibleColRange,visibleRowRange)
+
     override val lastVisibleColNotMargin: Int
         get() = if (marginCol != null) {
             maxOf(lastVisibleCol - 1, 0)
-//            lastVisibleCol
         } else {
             lastVisibleCol
         }

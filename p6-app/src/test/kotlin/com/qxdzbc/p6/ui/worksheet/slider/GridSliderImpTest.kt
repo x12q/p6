@@ -14,7 +14,7 @@ import kotlin.test.assertNotNull
 
 internal class GridSliderImpTest {
 
-    val gridSlider = GridSliderImp(
+    val gridSlider = UnlimitedGridSlider(
         visibleColRange = IntRange(5, 10),
         visibleRowRange = IntRange(3, 20),
     )
@@ -34,7 +34,7 @@ internal class GridSliderImpTest {
 
     @Test
     fun `followCursor with margin`() {
-        val gridSlider = GridSliderImp(
+        val gridSlider = UnlimitedGridSlider(
             visibleColRange = IntRange(5, 10),
             visibleRowRange = IntRange(3, 20),
             marginRow = 20,

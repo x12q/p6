@@ -15,7 +15,7 @@ import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
+import com.qxdzbc.p6.ui.worksheet.slider.UnlimitedGridSlider
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -80,7 +80,7 @@ internal class WorksheetActionImpTest {
 
     @Test
     fun determineSliderSize() {
-        val o = GridSliderImp(
+        val o = UnlimitedGridSlider(
             visibleColRange = 1..5,
             visibleRowRange = 1..5,
         )

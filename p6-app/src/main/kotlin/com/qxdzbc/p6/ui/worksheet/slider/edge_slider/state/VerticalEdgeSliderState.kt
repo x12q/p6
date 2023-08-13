@@ -20,7 +20,7 @@ interface VerticalEdgeSliderState {
      * Compute new [thumbPosition] with a [density] and a [dragDelta].
      * [dragDelta] is produced by drag modifier.
      */
-    fun setThumbOffsetWhenDrag(density: Density, dragDelta:Float)
+    fun setThumbOffsetWhenDrag(density: Density, dragDelta: Float, railLength: Dp)
 
     /**
      * recompute this state when thumb reach the bottom of the rail
