@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet.slider
 
 import com.qxdzbc.p6.common.utils.MathUtils
-import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.qualifiers.NullInt
 import com.qxdzbc.p6.ui.worksheet.slider.di.qualifiers.UnlimitedGridSlider
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultVisibleColRange
@@ -55,25 +54,25 @@ data class UnlimitedGridSlider @Inject constructor(
         }
     }
 
-    override fun shiftLeft(v: Int): GridSlider {
-        val i = MathUtils.addIntOrDefault(firstVisibleCol, -v)
-        val w = MathUtils.addIntOrDefault(lastVisibleCol, -v)
+    override fun shiftLeft(colCount: Int): GridSlider {
+        val i = MathUtils.addIntOrDefault(firstVisibleCol, -colCount)
+        val w = MathUtils.addIntOrDefault(lastVisibleCol, -colCount)
         return this.copy(
             visibleColRange = IntRange(i, w)
         )
     }
 
-    override fun shiftRight(v: Int): GridSlider {
-        return this.shiftLeft(-v)
+    override fun shiftRight(colCount: Int): GridSlider {
+        return this.shiftLeft(-colCount)
     }
 
-    override fun shiftUp(v: Int): GridSlider {
-        return this.shiftDown(-v)
+    override fun shiftUp(rowCount: Int): GridSlider {
+        return this.shiftDown(-rowCount)
     }
 
-    override fun shiftDown(v: Int): GridSlider {
-        val i = MathUtils.addIntOrDefault(firstVisibleRow, v)
-        val w = MathUtils.addIntOrDefault(lastVisibleRow, v)
+    override fun shiftDown(rowCount: Int): GridSlider {
+        val i = MathUtils.addIntOrDefault(firstVisibleRow, rowCount)
+        val w = MathUtils.addIntOrDefault(lastVisibleRow, rowCount)
         return this.copy(
             visibleRowRange = IntRange(i, w)
         )

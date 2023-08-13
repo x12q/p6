@@ -1,14 +1,10 @@
 package com.qxdzbc.p6.ui.worksheet.slider
 
-import com.qxdzbc.p6.common.utils.MathUtils
-import com.qxdzbc.p6.di.qualifiers.NullInt
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.slider.di.qualifiers.UnlimitedGridSlider
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultColRangeQualifier
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultRowRangeQualifier
-import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultVisibleColRange
-import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultVisibleRowRange
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -93,35 +89,36 @@ data class GridSliderImp constructor(
         }
     }
 
-    override fun shiftLeft(v: Int): GridSliderImp {
-        if(v<0){
-            return this.shiftRight(-v)
+    override fun shiftLeft(colCount: Int): GridSliderImp {
+        if(colCount<0){
+            return this.shiftRight(-colCount)
         }
-        val md = minOf(firstVisibleCol - colLimit.first, v)
+        val md = minOf(firstVisibleCol - colLimit.first, colCount)
         return this.copy(slider = slider.shiftLeft(md))
     }
 
-    override fun shiftRight(v: Int): GridSliderImp {
-        if(v<0){
-            return this.shiftLeft(-v)
+    override fun shiftRight(colCount: Int): GridSliderImp {
+        if(colCount<0){
+            return this.shiftLeft(-colCount)
         }
-        val md = minOf(colLimit.last - lastVisibleCol, v)
+        val md = minOf(colLimit.last - lastVisibleCol, colCount)
         return this.copy(slider = slider.shiftRight(md))
     }
 
-    override fun shiftUp(v: Int): GridSliderImp {
-        if(v<0){
-            return this.shiftDown(-v)
+    override fun shiftUp(rowCount: Int): GridSliderImp {
+        if(rowCount<0){
+            return this.shiftDown(-rowCount)
         }
-        val md = minOf(firstVisibleRow - rowLimit.first, v)
+        val md = minOf(firstVisibleRow - rowLimit.first, rowCount)
         return this.copy(slider = slider.shiftUp(md))
     }
 
-    override fun shiftDown(v: Int): GridSliderImp {
-        if(v<0){
-            return this.shiftUp(-v)
+    override fun shiftDown(rowCount: Int): GridSliderImp {
+        if(rowCount<0){
+            return this.shiftUp(-rowCount)
         }
-        val md = minOf(rowLimit.last - lastVisibleRow, v)
+        val remainingRow = rowLimit.last - lastVisibleRow
+        val md = minOf(remainingRow, rowCount)
         return this.copy(slider = slider.shiftDown(md))
     }
 
