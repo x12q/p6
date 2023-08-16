@@ -10,8 +10,14 @@ import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
  */
 interface GridSlider {
 
+    /**
+     * The limit of column, in which the slider can move around
+     */
     val colLimit: IntRange
 
+    /**
+     * The limit of row, in which the slider can move around
+     */
     val rowLimit: IntRange
 
     val currentDisplayedRange:RangeAddress
@@ -23,14 +29,15 @@ interface GridSlider {
 
     val firstVisibleCol: Int
     val lastVisibleCol: Int
-    val visibleColRange: IntRange
+
+    val visibleColRangeIncludeMargin: IntRange
     val visibleColRangeExcludeMargin: IntRange
     val lastVisibleColNotMargin: Int
     fun setVisibleColRange(i: IntRange): GridSlider
 
     val firstVisibleRow: Int
     val lastVisibleRow: Int
-    val visibleRowRange: IntRange
+    val visibleRowRangeIncludeMargin: IntRange
     val visibleRowRangeExcludeMargin: IntRange
 
     /**
@@ -48,11 +55,11 @@ interface GridSlider {
     fun setVisibleRowRange(i: IntRange): GridSlider
 
     fun containColInVisibleRange(col: Int): Boolean {
-        return col in visibleColRange
+        return col in visibleColRangeIncludeMargin
     }
 
     fun containRowInVisibleRange(row: Int): Boolean {
-        return row in visibleRowRange
+        return row in visibleRowRangeIncludeMargin
     }
 
     fun containAddressInVisibleRange(cellAddress: CellAddress): Boolean

@@ -10,12 +10,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@ContributesBinding(P6AnvilScope::class, boundType=CommonReactionOnCursorChanged::class)
-class CommonReactionOnCursorChangedImp @Inject constructor(
+@ContributesBinding(P6AnvilScope::class, boundType=CommonSideEffectWhenCursorChanged::class)
+class CommonSideEffectWhenCursorChangedImp @Inject constructor(
     val stateContainerSt:StateContainer,
     private val makeSliderFollowCellAct: MoveSliderAction,
     val updateFormatIndicator: UpdateFormatIndicator,
-) : CommonReactionOnCursorChanged {
+) : CommonSideEffectWhenCursorChanged {
 
     private val sc  = stateContainerSt
 
@@ -24,7 +24,7 @@ class CommonReactionOnCursorChangedImp @Inject constructor(
      * - update format indicators on toolbar, such as text color selector, cell background color selector to reflect the format state of the main cell of the updated cursor.
      * - make worksheet sliders follow the cursor
      */
-    override fun onCursorChanged(cursorId: WbWsSt) {
+    override fun run(cursorId: WbWsSt) {
         sc.getCursorState(cursorId)?.also { cursorState ->
             updateFormatIndicator.updateFormatIndicator(cursorState)
             makeSliderFollowCellAct.makeSliderFollowCell(cursorState,cursorState.mainCell,false)

@@ -46,7 +46,8 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.composite_actions.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.composite_actions.workbook.rename_ws.RenameWorksheetActionImp
-import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
+import com.qxdzbc.p6.composite_actions.worksheet.WorksheetActionImp
+import com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size.ComputeSliderSizeActionImp
 import com.qxdzbc.p6.composite_actions.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.composite_actions.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeActionImp
 import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope
@@ -141,7 +142,8 @@ interface TestComponent : P6Component {
     fun loadWorkbookActionImp(): LoadWorkbookActionImp
     fun renameWorksheetActionImp(): RenameWorksheetActionImp
     fun changeRowAndColSizeActionImp(): ChangeRowAndColumnSizeActionImp
-    fun worksheetAction(): WorksheetAction
+    fun worksheetActionImp(): WorksheetActionImp
+    fun computeSliderSizeActionImp(): ComputeSliderSizeActionImp
 
     @Component.Builder
     interface Builder {

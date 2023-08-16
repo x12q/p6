@@ -20,7 +20,6 @@ import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyleValue
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
@@ -38,7 +37,7 @@ fun RulerView(
 ) {
     val dimen = state.type
     val slider: GridSlider = state.sliderMs.value
-    val itemIndexRange: IntRange = if (dimen == RulerType.Row) slider.visibleRowRange else slider.visibleColRange
+    val itemIndexRange: IntRange = if (dimen == RulerType.Row) slider.visibleRowRangeIncludeMargin else slider.visibleColRangeIncludeMargin
     val firstIndex: Int = itemIndexRange.first
     val lastIndex: Int = itemIndexRange.last
     val density = LocalDensity.current

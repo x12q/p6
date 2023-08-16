@@ -47,10 +47,10 @@ data class GridSliderImp(
 
     override val lastVisibleCol: Int get() = slider.lastVisibleCol
 
-    override val visibleColRange: IntRange get() = slider.visibleColRange
+    override val visibleColRangeIncludeMargin: IntRange get() = slider.visibleColRange
 
     override fun setVisibleColRange(i: IntRange): GridSlider {
-        if(i==this.visibleColRange){
+        if(i==this.visibleColRangeIncludeMargin){
             return this
         }else{
             return this.copy(slider = this.slider.setVisibleColRange(i))
@@ -61,7 +61,7 @@ data class GridSliderImp(
 
     override val lastVisibleRow: Int get() = slider.lastVisibleRow
 
-    override val visibleRowRange: IntRange get() = slider.visibleRowRange
+    override val visibleRowRangeIncludeMargin: IntRange get() = slider.visibleRowRange
 
 
     override fun setMarginRow(i: Int?): GridSliderImp {
@@ -78,7 +78,7 @@ data class GridSliderImp(
     }
 
     override fun setVisibleRowRange(i: IntRange): GridSliderImp {
-        if(i == this.visibleRowRange){
+        if(i == this.visibleRowRangeIncludeMargin){
             return this
         }else{
             return this.copy(slider = this.slider.setVisibleRowRange(i))

@@ -5,7 +5,7 @@ import com.qxdzbc.p6.composite_actions.cell.multi_cell_update.UpdateMultiCellReq
 import com.qxdzbc.p6.composite_actions.cell.multi_cell_update.UpdateMultiCellRequestDM
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
-import com.qxdzbc.p6.composite_actions.cursor.on_cursor_changed_reactor.CommonReactionOnCursorChanged
+import com.qxdzbc.p6.composite_actions.cursor.on_cursor_changed_reactor.CommonSideEffectWhenCursorChanged
 import com.qxdzbc.p6.document_data_layer.cell.CellId
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.di.anvil.P6AnvilScope
@@ -19,8 +19,8 @@ import javax.inject.Singleton
 @ContributesBinding(P6AnvilScope::class,boundType=CommonReactionWhenAppStatesChanged::class)
 class CommonReactionWhenAppStatesChangedImp @Inject constructor(
     val stateContainerSt:StateContainer,
-    val commonReactionWhenCursorChanged:CommonReactionOnCursorChanged,
-) : CommonReactionWhenAppStatesChanged, CommonReactionOnCursorChanged by commonReactionWhenCursorChanged {
+    val commonReactionWhenCursorChanged:CommonSideEffectWhenCursorChanged,
+) : CommonReactionWhenAppStatesChanged, CommonSideEffectWhenCursorChanged by commonReactionWhenCursorChanged {
 
     val sc  = stateContainerSt
 

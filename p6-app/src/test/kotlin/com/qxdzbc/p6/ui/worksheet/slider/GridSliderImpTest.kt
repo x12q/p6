@@ -73,26 +73,26 @@ internal class GridSliderImpTest {
     @Test
     fun shiftLeft() {
         val s1 = s0.shiftLeft(1000)
-        assertEquals(IntRange(0, 9), s1.visibleColRange)
+        assertEquals(IntRange(0, 9), s1.visibleColRangeIncludeMargin)
         assertEquals(0, s1.firstVisibleCol)
         assertEquals(9, s1.lastVisibleCol)
-        assertEquals(s0.visibleRowRange, s1.visibleRowRange)
+        assertEquals(s0.visibleRowRangeIncludeMargin, s1.visibleRowRangeIncludeMargin)
     }
 
     @Test
     fun shiftRight() {
         val s1 = s0.shiftRight(1000)
-        assertEquals(IntRange(91, 100), s1.visibleColRange)
+        assertEquals(IntRange(91, 100), s1.visibleColRangeIncludeMargin)
         assertEquals(91, s1.firstVisibleCol)
         assertEquals(100, s1.lastVisibleCol)
-        assertEquals(s0.visibleRowRange, s1.visibleRowRange)
+        assertEquals(s0.visibleRowRangeIncludeMargin, s1.visibleRowRangeIncludeMargin)
     }
 
     @Test
     fun shiftUp() {
         val s1 = s0.shiftUp(1000)
-        assertEquals(s0.visibleColRange, s1.visibleColRange)
-        assertEquals(IntRange(0, 17), s1.visibleRowRange)
+        assertEquals(s0.visibleColRangeIncludeMargin, s1.visibleColRangeIncludeMargin)
+        assertEquals(IntRange(0, 17), s1.visibleRowRangeIncludeMargin)
         assertEquals(0, s1.firstVisibleRow)
         assertEquals(17, s1.lastVisibleRow)
     }
@@ -100,8 +100,8 @@ internal class GridSliderImpTest {
     @Test
     fun shiftDown() {
         val s1 = s0.shiftDown(1000)
-        assertEquals(s0.visibleColRange, s1.visibleColRange)
-        assertEquals(IntRange(103, 120), s1.visibleRowRange)
+        assertEquals(s0.visibleColRangeIncludeMargin, s1.visibleColRangeIncludeMargin)
+        assertEquals(IntRange(103, 120), s1.visibleRowRangeIncludeMargin)
         assertEquals(103, s1.firstVisibleRow)
         assertEquals(120, s1.lastVisibleRow)
 
@@ -110,8 +110,8 @@ internal class GridSliderImpTest {
     @Test
     fun shiftDown_negative() {
         val s1 = s0.shiftDown(-4)
-        assertEquals(s0.visibleColRange, s1.visibleColRange)
-        assertEquals(IntRange(0, 17), s1.visibleRowRange)
+        assertEquals(s0.visibleColRangeIncludeMargin, s1.visibleColRangeIncludeMargin)
+        assertEquals(IntRange(0, 17), s1.visibleRowRangeIncludeMargin)
         assertEquals(0, s1.firstVisibleRow)
         assertEquals(17, s1.lastVisibleRow)
     }
@@ -129,7 +129,6 @@ internal class GridSliderImpTest {
             ),
             colLimit = WorksheetConstants.defaultColRange,
             rowLimit = WorksheetConstants.defaultRowRange,
-            phantomRowMargin = 30,
             marginCol = null,
             marginRow = null,
         )
@@ -141,7 +140,7 @@ internal class GridSliderImpTest {
         assertNotNull(m1)
         assertEquals(gridSlider.firstVisibleCol - 1, m1.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol - 1, m1.lastVisibleCol)
-        assertEquals(gridSlider.visibleRowRange, m1.visibleRowRange)
+        assertEquals(gridSlider.visibleRowRangeIncludeMargin, m1.visibleRowRangeIncludeMargin)
 
         // cursor on right-most col
         val cursor2 = CursorStateImp.default2(wsId, mock(), mock()).setMainCell(
@@ -151,7 +150,7 @@ internal class GridSliderImpTest {
         assertNotNull(m2)
         assertEquals(gridSlider.firstVisibleCol + 1, m2.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol + 1, m2.lastVisibleCol)
-        assertEquals(gridSlider.visibleRowRange, m2.visibleRowRange)
+        assertEquals(gridSlider.visibleRowRangeIncludeMargin, m2.visibleRowRangeIncludeMargin)
 
         // cursor on bot row
         val cursor3 = CursorStateImp.default2(wsId, mock(), mock()).setMainCell(
@@ -161,7 +160,7 @@ internal class GridSliderImpTest {
         assertNotNull(m3)
         assertEquals(gridSlider.lastVisibleRow + 1, m3.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow + 1, m3.firstVisibleRow)
-        assertEquals(gridSlider.visibleColRange, m3.visibleColRange)
+        assertEquals(gridSlider.visibleColRangeIncludeMargin, m3.visibleColRangeIncludeMargin)
 
         // cursor on top row
         val cursor4 = CursorStateImp.default2(wsId, mock(), mock()).setMainCell(
@@ -171,7 +170,7 @@ internal class GridSliderImpTest {
         assertNotNull(m4)
         assertEquals(gridSlider.lastVisibleRow - 1, m4.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow - 1, m4.firstVisibleRow)
-        assertEquals(gridSlider.visibleColRange, m4.visibleColRange)
+        assertEquals(gridSlider.visibleColRangeIncludeMargin, m4.visibleColRangeIncludeMargin)
     }
 
     @Test
@@ -186,7 +185,6 @@ internal class GridSliderImpTest {
             rowLimit = WorksheetConstants.defaultRowRange,
             marginRow = 20,
             marginCol = 10,
-            phantomRowMargin = 30
         )
 
 
@@ -197,7 +195,7 @@ internal class GridSliderImpTest {
         assertNotNull(m1)
         assertEquals(gridSlider.firstVisibleCol - 1, m1.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol - 1, m1.lastVisibleCol)
-        assertEquals(gridSlider.visibleRowRange, m1.visibleRowRange)
+        assertEquals(gridSlider.visibleRowRangeIncludeMargin, m1.visibleRowRangeIncludeMargin)
 
         // x: cursor on the margin col
         val cursor2 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
@@ -207,7 +205,7 @@ internal class GridSliderImpTest {
         assertNotNull(m2)
         assertEquals(gridSlider.firstVisibleCol + 1, m2.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol + 1, m2.lastVisibleCol)
-        assertEquals(gridSlider.visibleRowRange, m2.visibleRowRange)
+        assertEquals(gridSlider.visibleRowRangeIncludeMargin, m2.visibleRowRangeIncludeMargin)
 
         // x: cursor on margin row
         val cursor3 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
@@ -217,7 +215,7 @@ internal class GridSliderImpTest {
         assertNotNull(m3)
         assertEquals(gridSlider.lastVisibleRow + 1, m3.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow + 1, m3.firstVisibleRow)
-        assertEquals(gridSlider.visibleColRange, m3.visibleColRange)
+        assertEquals(gridSlider.visibleColRangeIncludeMargin, m3.visibleColRangeIncludeMargin)
 
         // x: cursor on top row
         val cursor4 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
@@ -227,7 +225,7 @@ internal class GridSliderImpTest {
         assertNotNull(m4)
         assertEquals(gridSlider.lastVisibleRow - 1, m4.lastVisibleRow)
         assertEquals(gridSlider.firstVisibleRow - 1, m4.firstVisibleRow)
-        assertEquals(gridSlider.visibleColRange, m4.visibleColRange)
+        assertEquals(gridSlider.visibleColRangeIncludeMargin, m4.visibleColRangeIncludeMargin)
     }
 
 }

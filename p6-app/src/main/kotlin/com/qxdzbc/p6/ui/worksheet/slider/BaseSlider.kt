@@ -6,16 +6,16 @@ import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 
 abstract class BaseSlider : GridSlider {
 
-    override val firstVisibleRow: Int get() = visibleRowRange.first
+    override val firstVisibleRow: Int get() = visibleRowRangeIncludeMargin.first
 
-    override val lastVisibleRow: Int get() = visibleRowRange.last
+    override val lastVisibleRow: Int get() = visibleRowRangeIncludeMargin.last
 
 
     override val topLeftCell: CellAddress get() = CellAddress(this.firstVisibleCol, this.firstVisibleRow)
 
-    override val firstVisibleCol: Int get() = visibleColRange.first
+    override val firstVisibleCol: Int get() = visibleColRangeIncludeMargin.first
 
-    override val lastVisibleCol: Int get() = visibleColRange.last
+    override val lastVisibleCol: Int get() = visibleColRangeIncludeMargin.last
 
     override fun containAddressInVisibleRange(cellAddress: CellAddress): Boolean {
         return containColInVisibleRange(cellAddress.colIndex) && containRowInVisibleRange(cellAddress.rowIndex)
@@ -26,7 +26,7 @@ abstract class BaseSlider : GridSlider {
     }
 
     override val currentDisplayedRange: RangeAddress
-        get() = RangeAddress(visibleColRange,visibleRowRange)
+        get() = RangeAddress(visibleColRangeIncludeMargin,visibleRowRangeIncludeMargin)
 
     override val lastVisibleColNotMargin: Int
         get() = if (marginCol != null) {
@@ -53,7 +53,7 @@ abstract class BaseSlider : GridSlider {
             return if (marginCol != null) {
                 firstVisibleCol..maxOf(firstVisibleCol, marginCol!! - 1)
             } else {
-                visibleColRange
+                visibleColRangeIncludeMargin
             }
         }
 
@@ -62,7 +62,7 @@ abstract class BaseSlider : GridSlider {
             return if (marginRow != null) {
                 firstVisibleRow..maxOf(firstVisibleRow, marginRow!! - 1)
             } else {
-                visibleRowRange
+                visibleRowRangeIncludeMargin
             }
         }
 

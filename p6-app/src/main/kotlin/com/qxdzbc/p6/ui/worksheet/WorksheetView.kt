@@ -85,11 +85,10 @@ fun WorksheetView(
                             .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
                     )
 
-                    val cursorAction = worksheetActionTable.cursorAction
                     CellCursor(
                         state = wsState.cursorState,
                         currentDisplayedRange = wsState.slider.currentDisplayedRange,
-                        action = cursorAction,
+                        action = worksheetActionTable.cursorAction,
                         focusState = focusState,
                         modifier = Modifier
                             .then(addTestTag(enableTestTag, makeCursorTestTag(wsName))),

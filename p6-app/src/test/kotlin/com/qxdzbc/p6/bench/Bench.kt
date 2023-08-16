@@ -1,51 +1,101 @@
 package com.qxdzbc.p6.bench
 
-import androidx.compose.runtime.MutableState
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.StateUtils.ms
-import dagger.multibindings.ClassKey
-import dagger.multibindings.StringKey
+import com.qxdzbc.common.compose.view.testApp
 import test.TestSample
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
-import kotlin.random.Random
-import kotlin.test.Test
+import java.util.UUID
 
-val random = Random(123)
 
-@OptIn(ExperimentalContracts::class)
-fun Any?.n2(): Boolean {
-    contract {
-        returns(true) implies (this@n2 != null)
-        returns(false) implies (this@n2 == null)
-    }
-    return this@n2 != null
+/**
+ * State hold data only
+ */
+interface MState{
+    val x:Int
+    val text:String
+
+    val allText:String
+
+    fun increaseX(i:Int):MState
+    fun mutateText():MState
 }
 
-class Bench {
-    @OptIn(ExperimentalContracts::class)
-    fun nn(z: Any?): Boolean {
-        contract {
-            returns(true) implies (z != null)
-            returns(false) implies (z == null)
-        }
-        return z != null
+data class MStateImp(override val x:Int, override val text: String):MState {
+    override val allText: String
+        get() = "$text:$x"
+
+    override fun increaseX(i: Int): MState {
+        return this.copy(x=x+1)
     }
 
-    interface A{
-        fun doWork():Int
+    override fun mutateText(): MState {
+        return copy(text=UUID.randomUUID().toString())
     }
-    class AImp(val a:Int):A{
-        override fun doWork(): Int {
-            return a
-        }
-    }
+}
 
-    @Test
-    fun z() {
-        println("a line")
+/**
+ * action mirror the actual UI action or very specific action tied to UI event.
+ * An action can change more than one state object at once.
+ */
+interface MAction{
+    fun clickBtn()
+}
+
+class MActionImp(
+    val stateMs:Ms<MState>
+):MAction{
+    val s by stateMs
+    override fun clickBtn() {
+        stateMs.value = s.increaseX(2).mutateText()
+    }
+}
+
+/**
+ * VM only act as an injection point
+ */
+class VM(
+    val stateMs:Ms<MState>,
+    val action:MAction
+)
+
+@Composable
+fun MView(
+    vm:VM
+){
+    MView(
+        vm.stateMs.value,
+        vm.action
+    )
+}
+
+@Composable
+fun MView(
+    state:MState,
+    action:MAction,
+){
+    Column {
+        Text(state.x.toString())
+        Text(state.text)
+        Button({
+            action.clickBtn()
+        }){}
+    }
+}
+
+fun main() {
+    val ts = TestSample()
+
+    val stateMs:Ms<MState> = ms(MStateImp(0,"asd"))
+    val action = MActionImp(stateMs)
+    val vm = VM(stateMs, action)
+
+    testApp {
+        MView(vm)
     }
 }
 

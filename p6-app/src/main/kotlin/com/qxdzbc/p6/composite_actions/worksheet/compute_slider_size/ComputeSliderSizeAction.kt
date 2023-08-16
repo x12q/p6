@@ -1,22 +1,27 @@
 package com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size
 
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
-import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
-import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
-import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
+import androidx.compose.ui.unit.IntSize
+import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 
 interface ComputeSliderSizeAction {
+
+//    fun computeSliderSize(
+//        oldGridSlider: GridSlider,
+//        sizeConstraint: DpSize,
+//        anchorCell: CellAddress,
+//        getColWidth: (colIndex: Int) -> Dp,
+//        getRowHeight: (rowIndex: Int) -> Dp
+//    ): GridSlider
+
     /**
-     * Compute the slider from the currently available space
+     * Compute the slider's properties from the currently available space. These are:
+     * - both pixel/dp size
+     * - row range and col range to display
      */
-    fun computeSliderSize(wsLoc: WbWsSt,density:Density)
-    fun computeSliderSize(
-        oldGridSlider: GridSlider,
-        sizeConstraint: DpSize,
-        anchorCell: CellAddress,
-        colWidthGetter: (colIndex: Int) -> Dp,
-        rowHeightGetter: (rowIndex: Int) -> Dp
-    ): GridSlider
+    fun computeSliderProperties(
+        availableSpace: IntSize,
+        wsState: WorksheetState,
+        density: Density
+    )
 }

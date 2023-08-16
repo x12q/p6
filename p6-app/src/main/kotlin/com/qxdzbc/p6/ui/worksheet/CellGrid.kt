@@ -40,13 +40,14 @@ fun CellGrid(
     modifier: Modifier = Modifier,
 ) {
     val slider by wsState.sliderMs
-   val density = LocalDensity.current
+    val density = LocalDensity.current
     MBox(
         modifier = modifier
             .fillMaxSize()
-            .onGloballyPositioned {
-                wsActions.updateCellGridLayoutCoors(it, wsState)
-                wsActions.computeSliderSize(wsState,density)
+            .onGloballyPositioned { layoutCoor ->
+                wsActions.updateCellGridLayoutCoors(layoutCoor, wsState)
+                // this action is invoke here so that the slider is redrawn whenever the cell grid is re-drawn/resized.
+                wsActions.computeSliderProperties(layoutCoor.size, wsState, density)
             }
             .onPointerEvent(PointerEventType.Press) {
                 if (it.buttons.isPrimaryPressed && it.keyboardModifiers.isNonePressed) {
@@ -82,7 +83,7 @@ fun CellGrid(
                 align = Alignment.TopStart
             )
         ) {
-            for (colIndex: Int in slider.visibleColRange) {
+            for (colIndex: Int in slider.visibleColRangeIncludeMargin) {
                 val colWidth = wsState.getColumnWidthOrDefault(colIndex)
                 Column(
                     modifier = Modifier
@@ -91,10 +92,10 @@ fun CellGrid(
                             align = Alignment.TopStart
                         )
                 ) {
-                    for (rowIndex: Int in slider.visibleRowRange) {
+                    for (rowIndex: Int in slider.visibleRowRangeIncludeMargin) {
                         val cellAddress = CellAddress(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
-                        val rowHeight = wsState.getRowHeight(rowIndex) ?: WorksheetConstants.defaultRowHeight
+                        val rowHeight = wsState.getRowHeightOrDefault(rowIndex)
 
                         // x: pick border style base on the cell position
                         val borderStyle =
@@ -119,7 +120,7 @@ fun CellGrid(
                             onClick = {
                                 wsActions.shiftClickSelectRange(cellAddress, wsState)
                             }
-                        ).padding(start=1.dp, end = 1.dp, top=1.dp,bottom=1.dp)
+                        ).padding(start = 1.dp, end = 1.dp, top = 1.dp, bottom = 1.dp)
 
                         BorderBox(
                             borderStyle = borderStyle,
@@ -135,7 +136,7 @@ fun CellGrid(
                             if (cellState != null) {
                                 CellView(
                                     state = cellState,
-                                    format=format,
+                                    format = format,
                                     boxModifier = cellBoxMod
                                 )
                             } else {
