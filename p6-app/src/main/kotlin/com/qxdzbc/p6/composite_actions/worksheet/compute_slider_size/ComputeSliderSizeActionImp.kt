@@ -18,22 +18,10 @@ class ComputeSliderSizeActionImp @Inject constructor(
     val stateCont: StateContainer,
 ) : ComputeSliderSizeAction {
 
-    override fun computeSliderProperties(
-        availableSpace: IntSize,
-        wsState: WorksheetState,
-        density: Density
-    ) {
-//        val newSlider = computeSliderProperties(
-//            oldSlider = wsState.slider,
-//            sizeConstraint = availableSpace.toDpSize(density),
-//            anchorCell = wsState.slider.topLeftCell,
-//            getColWidth = wsState::getColumnWidthOrDefault,
-//            getRowHeight = wsState::getRowHeightOrDefault,
-//        )
-
-        val newSlider = computeSliderSizeQQQ(
+    override fun computeSliderProperties(availableSpace: DpSize, wsState: WorksheetState) {
+        val newSlider = computeSliderProperties(
             oldGridSlider = wsState.slider,
-            sizeConstraint = availableSpace.toDpSize(density),
+            sizeConstraint = availableSpace,
             anchorCell = wsState.cursorState.mainCell,
             getColWidth = wsState::getColumnWidthOrDefault,
             getRowHeight = wsState::getRowHeightOrDefault,
@@ -41,105 +29,15 @@ class ComputeSliderSizeActionImp @Inject constructor(
         wsState.sliderMs.value = newSlider
     }
 
-
-    data class ComputeResult(
-        val index: Int,
-        val size: Dp
-    )
-
-    /**
-     * Compute grid slide size by looping through displayed cells,
-     */
     fun computeSliderProperties(
-        oldSlider: GridSlider,
-        sizeConstraint: DpSize,
-        /** a top-left cell to start the computation from **/
-        anchorCell: CellAddress,
-        getColWidth: (colIndex: Int) -> Dp,
-        getRowHeight: (rowIndex: Int) -> Dp,
-    ): GridSlider {
-        val limitWidth = sizeConstraint.width
-        val limitHeight = sizeConstraint.height
-
-        /** Compute slider width **/
-        val fromCol = anchorCell.colIndex
-        val (toCol, accumWidth) = computeSize(
-            fromCol, limitWidth, getColWidth
-        )
-
-        /** Compute slider height **/
-        val fromRow = anchorCell.rowIndex
-        val (toRow, accumHeight) = computeSize(
-            fromRow, limitHeight, getRowHeight
-        )
-//        val lastRow = maxOf(toRow - 1, fromRow)
-//        val lastCol = maxOf(toCol - 1, fromCol)
-
-        val lastRow = toRow
-        val lastCol = toCol
-
-        val newSlider = oldSlider
-            .setVisibleRowRange(fromRow..lastRow)
-            .setVisibleColRange(fromCol..lastCol)
-            .setMarginRow(computeMarginItem(lastRow, accumHeight, limitHeight))
-            .setMarginCol(computeMarginItem(lastCol, accumWidth, limitWidth))
-
-        return newSlider
-    }
-
-    fun computeMarginItem(
-        lastItemIndex: Int,
-        currentSize: Dp,
-        limitSize: Dp,
-    ): Int? {
-        if (currentSize < limitSize) {
-            return lastItemIndex + 1
-        } else {
-            return null
-        }
-    }
-
-    /**
-     * Compute a [ComputeResult] consist of a size and a last-item index.
-     */
-    fun computeSize(
-        itemInitIndex: Int,
-        limitSize: Dp,
-        getItemSize: (colIndex: Int) -> Dp,
-    ): ComputeResult {
-        var toIndex = itemInitIndex
-        var accumSize = 0.dp
-
-        var lastWidth = accumSize
-        while (accumSize < limitSize) {
-            val w = getItemSize(toIndex)
-            accumSize += w
-            lastWidth = w
-            toIndex += 1
-        }
-
-        /**
-         * discard the last item if accum size is larger than size limit
-         */
-        if (accumSize > limitSize) {
-            accumSize -= lastWidth
-            toIndex -= 1
-        }
-
-        return ComputeResult(
-            toIndex,
-            accumSize
-        )
-    }
-
-    fun computeSliderSizeQQQ(
         oldGridSlider: GridSlider,
         sizeConstraint: DpSize,
-        /** anchor cell should be the main cell of the cell cursor **/
+        /** anchor cell should be the main cell of the cell cursor so that the computed slider can guarantee that the main cell of the cursor is always shown **/
         anchorCell: CellAddress,
         getColWidth: (colIndex: Int) -> Dp,
         getRowHeight: (rowIndex: Int) -> Dp,
     ): GridSlider {
+
         val limitWidth = sizeConstraint.width
         val limitHeight = sizeConstraint.height
 
@@ -196,13 +94,12 @@ class ComputeSliderSizeActionImp @Inject constructor(
         limitWidth: Dp,
         getColWidth: (colIndex: Int) -> Dp,
     ): TwoSideResult {
-        val topLeftCell = oldGridSlider.topLeftCell
         val rt = computeTwoWay(
             initIndex = anchorCell.colIndex,
             limitSize = limitWidth,
             getItemSize = getColWidth,
             checkIndexValidity = { colIndex ->
-                colIndex in oldGridSlider.colLimit && colIndex >= topLeftCell.colIndex
+                colIndex in oldGridSlider.colLimit && colIndex >= oldGridSlider.topLeftCell.colIndex
             }
         )
         return rt
@@ -218,13 +115,12 @@ class ComputeSliderSizeActionImp @Inject constructor(
         limitHeight: Dp,
         getRowHeight: (rowIndex: Int) -> Dp,
     ): TwoSideResult {
-        val topLeftCell = oldGridSlider.topLeftCell
         val rt = computeTwoWay(
             initIndex = anchorCell.rowIndex,
             limitSize = limitHeight,
             getItemSize = getRowHeight,
             checkIndexValidity = { rowIndex ->
-                rowIndex in oldGridSlider.rowLimit && rowIndex >= topLeftCell.rowIndex
+                rowIndex in oldGridSlider.rowLimit && rowIndex >= oldGridSlider.topLeftCell.rowIndex
             }
         )
         return rt
@@ -257,10 +153,9 @@ class ComputeSliderSizeActionImp @Inject constructor(
             )
         }
 
-        return TwoSideResult(
-            fromIndex = upRs.fromIndex,
-            toIndex = downRs?.toIndex ?: upRs.toIndex,
-            margin = upRs.margin ?: downRs?.margin
+        return TwoSideResult.from(
+            upRs = upRs,
+            downRs = downRs
         )
     }
 
@@ -361,8 +256,8 @@ class ComputeSliderSizeActionImp @Inject constructor(
             )
         } else if (accumSize == limitSize) {
             // whole item -> no margin
-            return DownResult(toIndex, toIndex,null)
-        }else {
+            return DownResult(toIndex, toIndex, null)
+        } else {
             var moreThanSizeLimit = false
             while (accumSize < limitSize) {
                 val nextIndex = toIndex + 1
@@ -373,7 +268,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
                         accumSize = nextSize
                         toIndex = nextIndex
                     } else {
-                        if(nextSize > limitSize){
+                        if (nextSize > limitSize) {
                             moreThanSizeLimit = true
                             break
                         }
@@ -398,6 +293,9 @@ class ComputeSliderSizeActionImp @Inject constructor(
     }
 
 
+    /**
+     * Result for "up" computation
+     */
     data class UpResult(
         val fromIndex: Int?,
         val toIndex: Int?,
@@ -405,12 +303,18 @@ class ComputeSliderSizeActionImp @Inject constructor(
         val accumSize: Dp,
     )
 
+    /**
+     * Result for "down" computation
+     */
     data class DownResult(
         val fromIndex: Int?,
         val toIndex: Int?,
         val margin: Int?,
     )
 
+    /**
+     * A combined result, combined from both up and down
+     */
     data class TwoSideResult(
         val fromIndex: Int?,
         val toIndex: Int?,
@@ -420,12 +324,25 @@ class ComputeSliderSizeActionImp @Inject constructor(
             get() {
                 val f = fromIndex
                 val t = margin ?: toIndex
-                if(f!=null && t!=null) {
-                    return f .. t
-                }else{
+                if (f != null && t != null) {
+                    return f..t
+                } else {
                     return null
                 }
             }
+
+        companion object {
+            fun from(
+                upRs: UpResult,
+                downRs: DownResult?
+            ): TwoSideResult {
+                return TwoSideResult(
+                    fromIndex = upRs.fromIndex,
+                    toIndex = downRs?.toIndex ?: upRs.toIndex,
+                    margin = upRs.margin ?: downRs?.margin
+                )
+            }
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size
 
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
@@ -8,7 +7,6 @@ import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import com.qxdzbc.p6.ui.worksheet.slider.InternalGridSlider
-import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import test.BaseAppStateTest
@@ -28,20 +26,6 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
     }
 
 
-    @Test
-    fun computeSize() {
-        fun getSize(i: Int): Dp {
-            return 31.dp
-        }
-
-        val result = action.computeSize(
-            3, 100.dp, ::getSize
-        )
-        (result.size <= 100.dp).shouldBeTrue()
-        result shouldBe ComputeSliderSizeActionImp.ComputeResult(
-            3 + 3, (3 * 31).dp
-        )
-    }
 
     @Test
     fun determineSliderSize() {
@@ -56,7 +40,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
 
             )
         val n: GridSlider = action.computeSliderProperties(
-            oldSlider = o,
+            oldGridSlider = o,
             sizeConstraint = DpSize(width = 100.dp, height = 200.dp),
             anchorCell = CellAddress(3, 2),
             getColWidth = { 30.dp },
@@ -92,7 +76,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
             rowLimit = WorksheetConstants.defaultRowRange,
         )
 
-        val ng = action.computeSliderSizeQQQ(
+        val ng = action.computeSliderProperties(
             oldGridSlider = o,
             sizeConstraint = DpSize(100.dp,100.dp),
             anchorCell = CellAddress(1,5),
@@ -254,4 +238,30 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
 
         rs shouldBe ComputeSliderSizeActionImp.TwoSideResult(2,8,null)
     }
+
+
+    @Test
+    fun `create TwoSideResult`(){
+        ComputeSliderSizeActionImp.TwoSideResult.from(
+            upRs = ComputeSliderSizeActionImp.UpResult(1,10,null,0.dp),
+            downRs = ComputeSliderSizeActionImp.DownResult(11,15,16),
+        ) shouldBe ComputeSliderSizeActionImp.TwoSideResult(
+            fromIndex = 1, toIndex = 15, margin = 16
+        )
+
+        ComputeSliderSizeActionImp.TwoSideResult.from(
+            upRs = ComputeSliderSizeActionImp.UpResult(1,10,null,0.dp),
+            downRs = ComputeSliderSizeActionImp.DownResult(11,15,null),
+        ) shouldBe ComputeSliderSizeActionImp.TwoSideResult(
+            fromIndex = 1, toIndex = 15, margin = null
+        )
+
+        ComputeSliderSizeActionImp.TwoSideResult.from(
+            upRs = ComputeSliderSizeActionImp.UpResult(1,10,null,0.dp),
+            downRs = ComputeSliderSizeActionImp.DownResult(11,null,null),
+        ) shouldBe ComputeSliderSizeActionImp.TwoSideResult(
+            fromIndex = 1, toIndex = 10, margin = null
+        )
+    }
+
 }

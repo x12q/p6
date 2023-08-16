@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
+import com.qxdzbc.common.compose.SizeUtils.toDpSize
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
 import com.qxdzbc.p6.build.BuildConfig
@@ -47,7 +48,8 @@ fun CellGrid(
             .onGloballyPositioned { layoutCoor ->
                 wsActions.updateCellGridLayoutCoors(layoutCoor, wsState)
                 // this action is invoke here so that the slider is redrawn whenever the cell grid is re-drawn/resized.
-                wsActions.computeSliderProperties(layoutCoor.size, wsState, density)
+                wsActions.computeSliderProperties(layoutCoor.size.toDpSize(density), wsState)
+
             }
             .onPointerEvent(PointerEventType.Press) {
                 if (it.buttons.isPrimaryPressed && it.keyboardModifiers.isNonePressed) {
