@@ -23,16 +23,24 @@ class ComputeSliderSizeActionImp @Inject constructor(
         wsState: WorksheetState,
         density: Density
     ) {
-        val newSlider = computeSliderProperties(
-            oldSlider = wsState.slider,
+//        val newSlider = computeSliderProperties(
+//            oldSlider = wsState.slider,
+//            sizeConstraint = availableSpace.toDpSize(density),
+//            anchorCell = wsState.slider.topLeftCell,
+//            getColWidth = wsState::getColumnWidthOrDefault,
+//            getRowHeight = wsState::getRowHeightOrDefault,
+//        )
+
+        val newSlider = computeSliderSizeQQQ(
+            oldGridSlider = wsState.slider,
             sizeConstraint = availableSpace.toDpSize(density),
-            anchorCell = wsState.slider.topLeftCell,
+            anchorCell = wsState.cursorState.mainCell,
             getColWidth = wsState::getColumnWidthOrDefault,
             getRowHeight = wsState::getRowHeightOrDefault,
         )
-
         wsState.sliderMs.value = newSlider
     }
+
 
     data class ComputeResult(
         val index: Int,
@@ -124,27 +132,10 @@ class ComputeSliderSizeActionImp @Inject constructor(
         )
     }
 
-
-    /**
-     * anchorCell is now the cell that the cursor land in.
-     * I would need to detect the movement direction, because:
-     * - when the cursor is moving down, the calculation is bottom-> top
-     * - when the cursor is moving up, the calculation is top-> bottom
-     * - when the cursor is moving to the right, the calculation is from right -> left
-     * - when the cursor is moving to the left, the calculation is from left -> right.
-     * Take the cursor's position into consideration. When the cursor is at the corner of the slider, probably need to do the computation from there.
-     * One of the requirement of this function is that it must ensure the cell at the cursor is shown fully everytime.
-     *
-     * The margin cell can only be at the bottom and the right side.
-     * The ones at the top, and the left cannot contain margin cells.
-     *
-     * I need to re-read the margin item logic. Can margin item
-     *
-     */
     fun computeSliderSizeQQQ(
         oldGridSlider: GridSlider,
         sizeConstraint: DpSize,
-        /** a top-left cell to start the computation from **/
+        /** anchor cell should be the main cell of the cell cursor **/
         anchorCell: CellAddress,
         getColWidth: (colIndex: Int) -> Dp,
         getRowHeight: (rowIndex: Int) -> Dp,
@@ -196,7 +187,9 @@ class ComputeSliderSizeActionImp @Inject constructor(
         return newSlider
     }
 
-
+    /**
+     * Compute visible row range including margin row to be used in a grid slider
+     */
     fun computeCol(
         oldGridSlider: GridSlider,
         anchorCell: CellAddress,
@@ -205,7 +198,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
     ): TwoSideResult {
         val topLeftCell = oldGridSlider.topLeftCell
         val rt = computeTwoWay(
-            initIndex = anchorCell.rowIndex,
+            initIndex = anchorCell.colIndex,
             limitSize = limitWidth,
             getItemSize = getColWidth,
             checkIndexValidity = { colIndex ->
@@ -216,6 +209,9 @@ class ComputeSliderSizeActionImp @Inject constructor(
     }
 
 
+    /**
+     * Compute visible row range including margin row to be used in a grid slider
+     */
     fun computeRow(
         oldGridSlider: GridSlider,
         anchorCell: CellAddress,
@@ -234,7 +230,9 @@ class ComputeSliderSizeActionImp @Inject constructor(
         return rt
     }
 
-
+    /**
+     * Compute a range of indices by perform "up" and "down" computation.
+     */
     fun computeTwoWay(
         initIndex: Int,
         limitSize: Dp,
@@ -267,10 +265,25 @@ class ComputeSliderSizeActionImp @Inject constructor(
     }
 
 
+    /**
+     * Compute a range of index starting from [initIndex] by "moving up" (think moving up row by row).
+     */
     fun computeUp(
+        /**
+         * initial index. Will be included in the final result
+         */
         initIndex: Int,
+        /**
+         * Maximum size
+         */
         limitSize: Dp,
-        getItemSize: (rowIndex: Int) -> Dp,
+        /**
+         * a function to get item size by index
+         */
+        getItemSize: (index: Int) -> Dp,
+        /**
+         * a predicate to check if an index is valid. This is to prevent invalid indices.
+         */
         checkIndexValidity: (Int) -> Boolean,
     ): UpResult {
 
@@ -279,7 +292,10 @@ class ComputeSliderSizeActionImp @Inject constructor(
 
         if (accumSize > limitSize) {
             return UpResult(
-                null, null, toIndex, accumSize
+                fromIndex = null,
+                toIndex = null,
+                margin = toIndex,
+                accumSize = accumSize
             )
         } else {
             while (accumSize < limitSize) {
@@ -299,28 +315,52 @@ class ComputeSliderSizeActionImp @Inject constructor(
             }
 
             return UpResult(
-                toIndex, initIndex, null, accumSize
+                fromIndex = toIndex,
+                toIndex = initIndex,
+                margin = null,
+                accumSize = accumSize
             )
         }
     }
 
 
     /**
-     * Compute downward, [initIndex] will be included into the computation
+     * Compute downward, [initIndex] will be included into the result
      */
     fun computeDown(
+        /**
+         * starting index
+         */
         initIndex: Int,
+        /**
+         * maximum size
+         */
         limitSize: Dp,
+        /**
+         * initial size
+         */
         initSize: Dp,
+        /**
+         * to check if an index is valid
+         */
         checkIndexValidity: (Int) -> Boolean,
+        /**
+         * a function to get item size from index
+         */
         getItemSize: (colIndex: Int) -> Dp,
     ): DownResult {
         var toIndex = initIndex
         var accumSize = initSize + getItemSize(initIndex)
 
         if (accumSize > limitSize) {
-            return DownResult(null, null, toIndex)
+            // the init item does not fit in the remaining space -> it is a margin item
+            return DownResult(
+                fromIndex = null,
+                toIndex = null,
+                margin = toIndex
+            )
         } else if (accumSize == limitSize) {
+            // whole item -> no margin
             return DownResult(toIndex, toIndex,null)
         }else {
             var moreThanSizeLimit = false
