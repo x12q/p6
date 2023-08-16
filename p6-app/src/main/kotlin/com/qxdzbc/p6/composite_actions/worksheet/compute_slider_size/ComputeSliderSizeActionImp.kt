@@ -127,7 +127,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
     }
 
     /**
-     * Compute a range of indices by perform "up" and "down" computation.
+     * Compute a range of indices by calling both [computeUp] and [computeDown], then combine the two output into one [TwoSideResult].
      */
     fun computeTwoWay(
         initIndex: Int,
@@ -162,6 +162,8 @@ class ComputeSliderSizeActionImp @Inject constructor(
 
     /**
      * Compute a range of index starting from [initIndex] by "moving up" (think moving up row by row).
+     *
+     * This function calculates a range of indices that satisfy size constraints. It starts from an initial index and iterates backward, accumulating item sizes until the accumulated size reaches the limit size
      */
     fun computeUp(
         /**
@@ -220,7 +222,11 @@ class ComputeSliderSizeActionImp @Inject constructor(
 
 
     /**
-     * Compute downward, [initIndex] will be included into the result
+     * Compute downward, [initIndex] will be included into the result.
+     *
+     * This works as follows: this function iterates through indices and accumulate item sizes until reaching the limit. The result, including start and end indices and a potential margin index, is returned in a DownResult object. This function essentially finds a range of indices fitting the size criteria.
+     *
+     * Margin index is the index of the last item that if its size is added to the accumulated size will make the accumulated value larger than the size limit.
      */
     fun computeDown(
         /**
