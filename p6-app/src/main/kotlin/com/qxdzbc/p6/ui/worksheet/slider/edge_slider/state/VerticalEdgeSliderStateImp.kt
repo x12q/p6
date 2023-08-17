@@ -22,7 +22,7 @@ data class VerticalEdgeSliderStateImp(
     val maxLengthRatio: Float,
     val minLengthRatio: Float,
     val reductionRatio: Float,
-    val moveBackRatio:Float,
+    val moveBackRatio: Float,
     val thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
     val railLayoutCoorMs: Ms<P6LayoutCoor?>,
 ) : VerticalEdgeSliderState {
@@ -42,7 +42,7 @@ data class VerticalEdgeSliderStateImp(
     private var _thumbLengthRatio by thumbLengthRatioMs
 
     override val railLengthPx: Float?
-        by derivedStateOf { railLayoutCoor?.boundInWindow?.height }
+            by derivedStateOf { railLayoutCoor?.boundInWindow?.height }
 
     override var thumbLayoutCoor: P6LayoutCoor? by thumbLayoutCoorMs
 
@@ -83,13 +83,8 @@ data class VerticalEdgeSliderStateImp(
      * Shorten thumb length and move it back up when thumb reaches rail bottom
      */
     override fun recomputeStateWhenThumbReachRailBottom(railLength: Dp) {
-        // recompute the thumb length
+
         _thumbLengthRatio = max(_thumbLengthRatio * reductionRatio, minLengthRatio)
-
-//        val lastRow = sliderState.lastVisibleRow
-
-//        val newSize = lastRow + step
-//        val newPos = lastRow.toFloat() / newSize
 
         thumbPosition = DpOffset(0.dp, railLength * moveBackRatio)
 
@@ -114,25 +109,51 @@ data class VerticalEdgeSliderStateImp(
         }
     }
 
-    override val slideRatio:Float? by derivedStateOf {
-        val ratio = railLengthPx?.let { rl ->
-            railLayoutCoor?.boundInWindow?.bottom?.let{railBotY->
-                thumbLayoutCoor?.boundInWindow?.bottom?.let { thumbBotY ->
-                    val thumbLength = rl * _thumbLengthRatio
-                    if(railBotY!=0f){
-                        (thumbBotY-thumbLength)/(railBotY-thumbLength)
-                    }else{
-                        null
-                    }
-                }
+    override val thumbPositionRatio: Float? by derivedStateOf {
+        thumbLayoutCoor?.boundInWindow?.bottom?.let { thumbBotY ->
+            computePositionRatioFromThumbBot(thumbBotY)
+        }
+    }
+
+    override fun computePositionRatioOnFullRail(yPx: Float): Float? {
+        return computePositionRatioWithOffset(yPx,0f)
+    }
+
+    override fun moveThumbTo(yPx: Float) {
+        railLengthPx?.also{rlPx->
+            val ratio = yPx/rlPx
+            // TODO
+        }
+    }
+
+
+    fun computePositionRatioFromThumbBot(yPx:Float): Float? {
+        val rt = railLengthPx?.let { rl ->
+            railLayoutCoor?.boundInWindow?.bottom?.let { railBotY ->
+                val thumbLength = rl * _thumbLengthRatio
+                computePositionRatioWithOffset(yPx,thumbLength)
             }
         }
 
-        val rt = ratio?.coerceIn(0f,1f)
-
-        rt
+        return rt
     }
 
+
+    fun computePositionRatioWithOffset(yPx:Float,offset:Float): Float? {
+        val ratio =
+            railLayoutCoor?.boundInWindow?.bottom?.let { railBotY ->
+                if (railBotY != 0f) {
+                    (yPx - offset) / (railBotY - offset)
+                } else {
+                    null
+                }
+            }
+
+
+        val rt = ratio?.coerceIn(0f, 1f)
+
+        return rt
+    }
 
     override val thumbReachRailBottom: Boolean
         get() {

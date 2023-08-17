@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
@@ -61,10 +62,20 @@ interface VerticalEdgeSliderState {
     val thumbReachRailTop: Boolean
 
     /**
-     * [slideRatio] tells how far the thumb is away from the top of the rail in percentage (%).
+     * [thumbPositionRatio] tells how far the thumb is away from the top of the rail in percentage (%).
      * - 0.0 (or 0%) means the thumb is at the top.
      * - 1.0 (or 100%) means the thumb is at the bottom
-     * [slideRatio] is always in [0,1] range
+     * [thumbPositionRatio] is always in [0,1] range
      */
-    val slideRatio: Float?
+    val thumbPositionRatio: Float?
+
+    /**
+     * Compute the position ratio of a point with offset [yPx] from the top of the rail against full rail length
+     */
+    fun computePositionRatioOnFullRail(yPx:Float):Float?
+
+    /**
+     * Try to move thumb to the point at [yPx] offset from the top of the rail
+     */
+    fun moveThumbTo(yPx: Float)
 }

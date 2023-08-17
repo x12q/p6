@@ -4,11 +4,15 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -34,19 +38,33 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderSta
  * Edge slider can change grid slider, hence itself.
  *
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun VerticalEdgeSlider(
     state: VerticalEdgeSliderState,
-    onDrag: (positionRatio:Float) -> Unit = {},
+    onDrag: (positionRatio: Float) -> Unit = {},
     onClickOnRail: (clickPositionRatio: Float) -> Unit = {},
 ) {
     val density = LocalDensity.current
 
     SliderRail(
-        modifier = Modifier.onGloballyPositioned {
-            state.railLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
-        }) {
-        val railLength = with(density){state.railLengthPx?.toDp()} ?: 0.dp
+        modifier = Modifier
+            .onGloballyPositioned {
+                state.railLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
+            }
+            .onPointerEvent(PointerEventType.Release){pte->
+                pte.changes.firstOrNull()?.position?.also {offset->
+
+                    // TODO move thumb to the clicked position if possible
+                    state.moveThumbTo(offset.y)
+
+                    state.computePositionRatioOnFullRail(offset.y)?.let{ ratio->
+                        onClickOnRail(ratio)
+                    }
+                }
+            }
+    ) {
+        val railLength = with(density) { state.railLengthPx?.toDp() } ?: 0.dp
         SliderThumb(
             length = state.computeRelativeThumbLength(railLength),
             offset = state.thumbPosition,
@@ -55,11 +73,14 @@ fun VerticalEdgeSlider(
                     state.thumbLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
                 }
                 .draggable(
-                orientation = Orientation.Vertical,
-                state = rememberDraggableState { delta ->
-                    state.recomputeStateWhenThumbIsDragged(density,delta)
-                }
-            )
+                    orientation = Orientation.Vertical,
+                    state = rememberDraggableState { delta ->
+                        state.recomputeStateWhenThumbIsDragged(density, delta)
+                        state.thumbPositionRatio?.let{ratio->
+                            onDrag(ratio)
+                        }
+                    }
+                )
         )
     }
 }
@@ -68,18 +89,33 @@ fun VerticalEdgeSlider(
 @Composable
 fun Preview_VerticalEdgeSlider() {
 
-    val sliderState:Ms<GridSlider> = rms(GridSliderImp.forPreview())
-    val state by rms(VerticalEdgeSliderStateImp(
-    ))
+    val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
+    val state by rms(
+        VerticalEdgeSliderStateImp(
+        )
+    )
+
+    var dragRatio:Float? by rms(null)
+    var clickRatio:Float? by rms(null)
 
     Row {
         VerticalEdgeSlider(
             state = state,
+            onDrag = {
+                dragRatio = it
+            },
+            onClickOnRail = {
+                clickRatio = it
+            }
         )
         HSpacer(50.dp)
-        Column {
-            Text("${state.slideRatio}")
-            HSpacer(10.dp)
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text("Click ratio: ${clickRatio}")
+
+            Text("Drag ratio: ${dragRatio}")
+
+            Text("${state.thumbPositionRatio}")
+
             Text("${sliderState}")
         }
 
