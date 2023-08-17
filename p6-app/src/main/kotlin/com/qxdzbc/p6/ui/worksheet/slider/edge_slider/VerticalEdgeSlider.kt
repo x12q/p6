@@ -4,6 +4,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -14,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.common.compose.view.HSpacer
 import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
@@ -44,15 +44,15 @@ fun VerticalEdgeSlider(
 
     SliderRail(
         modifier = Modifier.onGloballyPositioned {
-            state.railLayoutCoor = it.wrap()
+            state.railLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
         }) {
         val railLength = with(density){state.railLengthPx?.toDp()} ?: 0.dp
         SliderThumb(
-            length = state.computeThumbLength(railLength),
+            length = state.computeRelativeThumbLength(railLength),
             offset = state.thumbPosition,
             modifier = Modifier
                 .onGloballyPositioned {
-                    state.thumbLayoutCoor = it.wrap()
+                    state.thumbLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
                 }
                 .draggable(
                 orientation = Orientation.Vertical,
@@ -78,7 +78,12 @@ fun Preview_VerticalEdgeSlider() {
             state = state,
         )
         HSpacer(50.dp)
-        Text("${sliderState}")
+        Column {
+            Text("${state.slideRatio}")
+            HSpacer(10.dp)
+            Text("${sliderState}")
+        }
+
     }
 
 }

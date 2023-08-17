@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
@@ -51,9 +51,9 @@ fun CellCursor(
     focusState: CursorFocusStatePerWindow,
     modifier: Modifier = Modifier,
 ) {
-    val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper> = state.cellLayoutCoorsMap
+    val cellLayoutCoorsMap: Map<CellAddress, P6LayoutCoor> = state.cellLayoutCoorsMap
     val mainCell: CellAddress = state.mainCell
-    var boundLayoutCoorsWrapper: LayoutCoorWrapper? by rms(null)
+    var boundLayoutCoorsWrapper: P6LayoutCoor? by rms(null)
     val density = LocalDensity.current
 
     LaunchedEffect(Unit) {

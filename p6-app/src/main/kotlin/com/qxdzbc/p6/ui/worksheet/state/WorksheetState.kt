@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.state
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.command.Command
 import com.qxdzbc.p6.command.CommandStack
@@ -18,7 +18,6 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
 
 /**
  * Worksheet + UI data
@@ -91,18 +90,18 @@ interface WorksheetState : WbWsSt {
     /**
      * The layout coor of the cell grid
      */
-    val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
-    val cellGridLayoutCoorWrapper: LayoutCoorWrapper?
+    val cellGridLayoutCoorWrapperMs: Ms<P6LayoutCoor?>
+    val cellGridLayoutCoorWrapper: P6LayoutCoor?
     val cellGridLayoutCoors: LayoutCoordinates? get() = cellGridLayoutCoorWrapper?.layout
-    fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper)
+    fun setCellGridLayoutCoorWrapper(i: P6LayoutCoor)
 
     /**
      * The layout coor of the whole worksheet (including the grid + the ruler)
      */
-    val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
-    val wsLayoutCoorWrapper: LayoutCoorWrapper?
+    val wsLayoutCoorWrapperMs: Ms<P6LayoutCoor?>
+    val wsLayoutCoorWrapper: P6LayoutCoor?
     val wsLayoutCoors: LayoutCoordinates? get() = wsLayoutCoorWrapper?.layout
-    fun setWsLayoutCoorWrapper(i: LayoutCoorWrapper)
+    fun setWsLayoutCoorWrapper(i: P6LayoutCoor)
 
     val wsMs: Ms<Worksheet>
     val worksheet: Worksheet
@@ -225,9 +224,9 @@ interface WorksheetState : WbWsSt {
      */
     fun changeRowHeight(rowIndex: Int, sizeDiff: Dp)
 
-    val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>
-    val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> get() = cellLayoutCoorMapMs.value
-    fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper)
+    val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6LayoutCoor>>
+    val cellLayoutCoorMap: Map<CellAddress, P6LayoutCoor> get() = cellLayoutCoorMapMs.value
+    fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: P6LayoutCoor)
     fun removeCellLayoutCoor(cellAddress: CellAddress)
     fun removeAllCellLayoutCoor()
 

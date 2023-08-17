@@ -6,7 +6,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.ui.worksheet.cursor.thumb.state.ThumbStateImp
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectStateImp
@@ -22,7 +22,7 @@ internal class ThumbStateImpTest {
     lateinit var s: ThumbStateImp
     val w = 100f
     val h = 30f
-    val celllayoutMap: MutableMap<CellAddress, LayoutCoorWrapper> = mutableMapOf()
+    val celllayoutMap: MutableMap<CellAddress, P6LayoutCoor> = mutableMapOf()
     val c5 = CellAddress("C5")
 
     @BeforeTest
@@ -30,7 +30,7 @@ internal class ThumbStateImpTest {
 
         for (c in 1..30) {
             for (r in 1..30) {
-                celllayoutMap[CellAddress(c, r)] = mock<LayoutCoorWrapper>() {
+                celllayoutMap[CellAddress(c, r)] = mock<P6LayoutCoor>() {
                     val offset = Offset(
                         x = w * (c - 1),
                         y = h * (r - 1),

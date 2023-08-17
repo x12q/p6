@@ -1,15 +1,14 @@
 package com.qxdzbc.common.compose
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapperImp
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoorImp
 
 
 object LayoutCoorsUtils{
 
-    fun LayoutCoordinates.wrap(): LayoutCoorWrapper {
-        return LayoutCoorWrapperImp(this)
+    fun LayoutCoordinates.wrap(previousForceRefreshVar:Boolean?=true): P6LayoutCoor {
+        return P6LayoutCoorImp(this,!(previousForceRefreshVar?:true))
     }
 
     fun <T> LayoutCoordinates?.ifAttached(f:(lc:LayoutCoordinates)->T):T? {

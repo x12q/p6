@@ -21,7 +21,7 @@ import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.common.compose.view.MBox
 
 /**
@@ -41,9 +41,9 @@ fun main() = application {
         var pos: IntOffset? by rms(null)
         var isClicked by rms(false)
 
-        val greenBoxPosMs: Ms<LayoutCoorWrapper?> = rms(null)
-        val redBoxPosMs: Ms<LayoutCoorWrapper?> = rms(null)
-        var dragHostCoorWrapper: LayoutCoorWrapper? by rms(null)
+        val greenBoxPosMs: Ms<P6LayoutCoor?> = rms(null)
+        val redBoxPosMs: Ms<P6LayoutCoor?> = rms(null)
+        var dragHostCoorWrapper: P6LayoutCoor? by rms(null)
 
         // drag host
         Surface(color = Color.Black, modifier = Modifier

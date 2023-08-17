@@ -4,8 +4,8 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper.Companion.replaceWith
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor.Companion.replaceWith
 import com.qxdzbc.p6.command.CommandStack
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
@@ -41,11 +41,11 @@ data class WorksheetStateImp @Inject constructor(
     override val colRulerStateMs: Ms<RulerState>,
     @RowRuler
     override val rowRulerStateMs: Ms<RulerState>,
-    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>,
+    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6LayoutCoor>>,
     @CellGridLayoutMs
-    override val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
+    override val cellGridLayoutCoorWrapperMs: Ms<P6LayoutCoor?>,
     @WsLayoutMs
-    override val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>,
+    override val wsLayoutCoorWrapperMs: Ms<P6LayoutCoor?>,
     @DefaultCellStateContainer
     val cellStateContMs: Ms<CellStateContainer>,
     @DefaultSelectRectStateMs
@@ -70,8 +70,8 @@ data class WorksheetStateImp @Inject constructor(
             return idMs.value
         }
 
-    override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper) {
-        val oldLayout: LayoutCoorWrapper? = this.cellLayoutCoorMap[cellAddress]
+    override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: P6LayoutCoor) {
+        val oldLayout: P6LayoutCoor? = this.cellLayoutCoorMap[cellAddress]
         val newLayout = oldLayout.replaceWith(layoutCoor) ?: layoutCoor
         val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
         this.cellLayoutCoorMapMs.value = newMap
@@ -204,15 +204,15 @@ data class WorksheetStateImp @Inject constructor(
 
     override val wbKey: WorkbookKey get() = this.id.wbKey
 
-    override val cellGridLayoutCoorWrapper: LayoutCoorWrapper? by this.cellGridLayoutCoorWrapperMs
+    override val cellGridLayoutCoorWrapper: P6LayoutCoor? by this.cellGridLayoutCoorWrapperMs
 
-    override fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper) {
+    override fun setCellGridLayoutCoorWrapper(i: P6LayoutCoor) {
         this.cellGridLayoutCoorWrapperMs.value = i
     }
 
-    override val wsLayoutCoorWrapper: LayoutCoorWrapper? by this.wsLayoutCoorWrapperMs
+    override val wsLayoutCoorWrapper: P6LayoutCoor? by this.wsLayoutCoorWrapperMs
 
-    override fun setWsLayoutCoorWrapper(i: LayoutCoorWrapper) {
+    override fun setWsLayoutCoorWrapper(i: P6LayoutCoor) {
         wsLayoutCoorWrapperMs.value = i
     }
 

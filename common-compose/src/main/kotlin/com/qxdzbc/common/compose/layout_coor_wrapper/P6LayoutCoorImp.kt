@@ -13,10 +13,10 @@ import androidx.compose.ui.unit.IntSize
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
-data class LayoutCoorWrapperImp(
+data class P6LayoutCoorImp(
     override val layout: LayoutCoordinates,
     override val refreshVar: Boolean = true
-) : LayoutCoorWrapper {
+) : P6LayoutCoor {
 
     override val pixelSizeOrZero: IntSize get() = pixelSize?: IntSize.Zero
 
@@ -68,24 +68,24 @@ data class LayoutCoorWrapperImp(
             return layout.isAttached
         }
 
-    override fun ifAttached(f: (lc: LayoutCoorWrapper) -> Unit) {
+    override fun ifAttached(f: (lc: P6LayoutCoor) -> Unit) {
         if (this.layout.isAttached) {
             f(this)
         }
     }
 
     @Composable
-    override fun ifAttachedComposable(f: @Composable (lc: LayoutCoorWrapper) -> Unit) {
+    override fun ifAttachedComposable(f: @Composable (lc: P6LayoutCoor) -> Unit) {
         if (this.layout.isAttached) {
             f(this)
         }
     }
 
-    override fun forceRefresh(i: Boolean): LayoutCoorWrapper {
+    override fun forceRefresh(i: Boolean): P6LayoutCoor {
         return this.copy(refreshVar = i)
     }
 
-    override fun forceRefresh(): LayoutCoorWrapper {
+    override fun forceRefresh(): P6LayoutCoor {
         return this.copy(refreshVar = !refreshVar)
     }
 }

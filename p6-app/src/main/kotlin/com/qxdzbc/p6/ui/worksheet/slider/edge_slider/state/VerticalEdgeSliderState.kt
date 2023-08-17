@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 
 interface VerticalEdgeSliderState {
 
@@ -12,13 +12,14 @@ interface VerticalEdgeSliderState {
      */
     val railLengthPx:Float?
 
-    var thumbLayoutCoor:LayoutCoorWrapper?
-    var railLayoutCoor:LayoutCoorWrapper?
+    var thumbLayoutCoor:P6LayoutCoor?
+    var railLayoutCoor:P6LayoutCoor?
 
     /**
      * compute thumb length relative to rail length
      */
-    fun computeThumbLength(railLength:Dp):Dp
+    fun computeRelativeThumbLength(railLength:Dp):Dp
+
     fun setThumbLengthRatio(ratio:Float)
 
     /**
@@ -58,4 +59,12 @@ interface VerticalEdgeSliderState {
      * A thumb is considered "reach rail top" if its top edge touch the top edge of the rail
      */
     val thumbReachRailTop: Boolean
+
+    /**
+     * [slideRatio] tells how far the thumb is away from the top of the rail in percentage (%).
+     * - 0.0 (or 0%) means the thumb is at the top.
+     * - 1.0 (or 100%) means the thumb is at the bottom
+     * [slideRatio] is always in [0,1] range
+     */
+    val slideRatio: Float?
 }

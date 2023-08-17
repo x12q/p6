@@ -7,16 +7,15 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
-import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
 /**
  */
-class DummyLayoutCoorWrapper(
+class DummyP6LayoutCoor(
     private val _size: IntSize? = IntSize.Zero,
     override val boundInWindow: Rect? = Rect.Zero,
     override val posInWindow: Offset? = Offset.Zero,
     override val isAttached: Boolean = true,
-) : LayoutCoorWrapper {
+) : P6LayoutCoor {
 
     override val boundInWindowOrZero: Rect get() = boundInWindow ?: Rect.Zero
     override val posInWindowOrZero: Offset get() = posInWindow ?: Offset.Zero
@@ -51,19 +50,19 @@ class DummyLayoutCoorWrapper(
         throw UnsupportedOperationException()
     }
 
-    override fun ifAttached(f: (lc: LayoutCoorWrapper) -> Unit) {
+    override fun ifAttached(f: (lc: P6LayoutCoor) -> Unit) {
         throw UnsupportedOperationException()
     }
     @Composable
-    override fun ifAttachedComposable(f:@Composable (lc: LayoutCoorWrapper) -> Unit) {
+    override fun ifAttachedComposable(f:@Composable (lc: P6LayoutCoor) -> Unit) {
         throw UnsupportedOperationException()
     }
 
-    override fun forceRefresh(i: Boolean): LayoutCoorWrapper {
+    override fun forceRefresh(i: Boolean): P6LayoutCoor {
         throw UnsupportedOperationException()
     }
 
-    override fun forceRefresh(): LayoutCoorWrapper {
+    override fun forceRefresh(): P6LayoutCoor {
         throw UnsupportedOperationException()
     }
 }

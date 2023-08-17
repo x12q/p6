@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Density
@@ -8,7 +9,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderUtils
@@ -24,8 +25,8 @@ data class VerticalEdgeSliderStateImp(
     val reductionRatio: Float,
     val sliderStateMs: Ms<GridSlider>,
     val step: Int,
-    val thumbLayoutCoorMs: Ms<LayoutCoorWrapper?>,
-    val railLayoutCoorMs: Ms<LayoutCoorWrapper?>,
+    val thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
+    val railLayoutCoorMs: Ms<P6LayoutCoor?>,
 ) : VerticalEdgeSliderState {
 
     @Inject
@@ -43,22 +44,23 @@ data class VerticalEdgeSliderStateImp(
         railLayoutCoorMs = ms(null),
     )
 
-    private var lengthRatio by thumbLengthRatioMs
+    private var _thumbLengthRatio by thumbLengthRatioMs
 
     private var sliderState by sliderStateMs
+
     override val railLengthPx: Float?
-        get() = railLayoutCoor?.boundInWindow?.height
+        by derivedStateOf { railLayoutCoor?.boundInWindow?.height }
 
-    override var thumbLayoutCoor: LayoutCoorWrapper? by thumbLayoutCoorMs
+    override var thumbLayoutCoor: P6LayoutCoor? by thumbLayoutCoorMs
 
-    override var railLayoutCoor: LayoutCoorWrapper? by railLayoutCoorMs
+    override var railLayoutCoor: P6LayoutCoor? by railLayoutCoorMs
 
-    override fun computeThumbLength(railLength: Dp): Dp {
+    override fun computeRelativeThumbLength(railLength: Dp): Dp {
         return railLength * thumbLengthRatioMs.value
     }
 
     override fun setThumbLengthRatio(ratio: Float) {
-        lengthRatio = ratio
+        _thumbLengthRatio = ratio
     }
 
     override var thumbPosition: DpOffset by thumbPositionMs
@@ -92,7 +94,7 @@ data class VerticalEdgeSliderStateImp(
 
     override fun recomputeStateWhenThumbReachRailBottom(railLength: Dp) {
         // recompute the thumb length
-        lengthRatio = max(lengthRatio * reductionRatio, minLengthRatio)
+        _thumbLengthRatio = max(_thumbLengthRatio * reductionRatio, minLengthRatio)
 
         val lastRow = sliderState.lastVisibleRow
 
@@ -111,7 +113,7 @@ data class VerticalEdgeSliderStateImp(
      * When reach the top, reset the thumb length to the max value
      */
     override fun recomputeStateWhenThumbReachRailTop() {
-        lengthRatio = maxLengthRatio
+        _thumbLengthRatio = maxLengthRatio
         // TODO scroll the slider too
     }
 
@@ -122,12 +124,41 @@ data class VerticalEdgeSliderStateImp(
 
         if (thumbReachRailBottom) {
             recomputeStateWhenThumbReachRailBottom(railLength)
+        } else if (thumbReachRailTop) {
+            recomputeStateWhenThumbReachRailTop()
         } else {
-            if (thumbReachRailTop) {
-                recomputeStateWhenThumbReachRailTop()
-            }
+
         }
     }
+
+    override val slideRatio:Float? by derivedStateOf {
+        val ratio = railLengthPx?.let { rl ->
+            railLayoutCoor?.boundInWindow?.bottom?.let{railBotY->
+                thumbLayoutCoor?.boundInWindow?.bottom?.let { thumbBotY ->
+                    val thumbLength = rl * _thumbLengthRatio
+                    if(railBotY!=0f){
+                        (thumbBotY-thumbLength)/(railBotY-thumbLength)
+                    }else{
+                        null
+                    }
+                }
+            }
+        }
+        val rt = if(ratio!=null){
+            if(ratio < 0f){
+                0f
+            }else if(ratio > 1f){
+                1f
+            }else{
+                ratio
+            }
+        }else{
+            null
+        }
+
+        rt
+    }
+
 
     override val thumbReachRailBottom: Boolean
         get() {
@@ -160,7 +191,7 @@ data class VerticalEdgeSliderStateImp(
         sliderState.shiftDown/up
          */
 
-        val effectiveRailLength = railLength * (1 - lengthRatio)
+        val effectiveRailLength = railLength * (1 - _thumbLengthRatio)
 
         val distancePerRow = effectiveRailLength / sliderState.lastVisibleRow
         val oldY = oldThumbOffset.y

@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.IntSize
  * The purpose of this interface is to provide an easily mock-able abstraction layer,
  * so that classes relying on LayoutCoordinates can depend on this instead.
  */
-interface LayoutCoorWrapper {
+interface P6LayoutCoor {
     val layout: LayoutCoordinates
 
     val pixelSizeOrZero:IntSize
@@ -58,33 +58,37 @@ interface LayoutCoorWrapper {
     /**
      * If [layout] is attached, invoke the function [f]
      */
-    fun ifAttached(f:(lc: LayoutCoorWrapper)->Unit)
+    fun ifAttached(f:(lc: P6LayoutCoor)->Unit)
 
     /**
      * If [layout] is attached, invoke the composable [f]
      */
     @Composable
-    fun ifAttachedComposable(f:@Composable (lc: LayoutCoorWrapper)->Unit)
+    fun ifAttachedComposable(f:@Composable (lc: P6LayoutCoor)->Unit)
 
 
+    /**
+     * A dummy variable that is used to force refresh composable functions that relies on ms of layout coordinate wrapper.
+     */
     val refreshVar:Boolean
     /**
-     * [layout] is sometimes mutated directly by compose runtime. This mean re-setting layout may or may not cause re-composition. To force re-composition, call this function with [i] being the opposite of [refreshVar] of this wrapper or the wrapper to be replaced by this wrapper.
-     * TODO consider remove this. It seems this bug is fixed in compose
+     * [layout] is sometimes mutated directly by compose runtime. This mean re-setting layout coordinates object may or may not cause re-composition.
+     * To force re-composition, call this function with [i] being the opposite of [refreshVar] of this wrapper or the wrapper to be replaced by this wrapper.
+     * Still not fixed in compose 1.4
      */
-    @Deprecated("dont use, unclear effect")
-    fun forceRefresh(i:Boolean):LayoutCoorWrapper
+    fun forceRefresh(i:Boolean):P6LayoutCoor
 
     /**
      * for refresh by reversing [refreshVar]
+     * Still not fixed in compose 1.4
      */
-    fun forceRefresh():LayoutCoorWrapper
+    fun forceRefresh():P6LayoutCoor
 
     companion object{
         /**
-         * Replace a [LayoutCoorWrapper] with another. If they are the same, force refresh.
+         * Replace a [P6LayoutCoor] with another. If they are the same, force refresh.
          */
-        fun LayoutCoorWrapper?.replaceWith(i: LayoutCoorWrapper?): LayoutCoorWrapper? {
+        fun P6LayoutCoor?.replaceWith(i: P6LayoutCoor?): P6LayoutCoor? {
             if (i != this) {
                 return i
             } else {
