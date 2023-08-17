@@ -35,7 +35,10 @@ class ComputeSliderSizeActionImp @Inject constructor(
     fun computeSliderProperties(
         oldGridSlider: GridSlider,
         sizeConstraint: DpSize,
-        /** [anchorCell] should be the main cell of the cell cursor so that the computed slider can guarantee that the main cell of the cursor is always shown **/
+        /**
+         * [anchorCell] should be the main cell of the cell cursor so that
+         * the computed slider can guarantee that the main cell of the cursor is always shown
+         **/
         anchorCell: CellAddress,
         getColWidth: (colIndex: Int) -> Dp,
         getRowHeight: (rowIndex: Int) -> Dp,
@@ -182,7 +185,8 @@ class ComputeSliderSizeActionImp @Inject constructor(
          */
         getItemSize: (index: Int) -> Dp,
         /**
-         * a predicate to check if an index is valid. This is to prevent invalid indices.
+         * a predicate to check if an index is valid.
+         * This is to prevent invalid indices.
          */
         checkIndexValidity: (Int) -> Boolean,
     ): UpResult {
@@ -227,7 +231,10 @@ class ComputeSliderSizeActionImp @Inject constructor(
     /**
      * Compute downward, [initIndex] will be included into the result.
      *
-     * This works as follows: this function iterates through indices and accumulate item sizes until reaching the limit. The result, including start and end indices and a potential margin index, is returned in a DownResult object. This function essentially finds a range of indices fitting the size criteria.
+     * This works as follows:
+     * - This function iterates through indices and accumulate item sizes until reaching the limit.
+     * - The result, including start and end indices and a potential margin index, is returned in a DownResult object.
+     * - This function essentially finds a range of indices fitting the size criteria.
      *
      * Margin index is the index of the last item that if its size is added to the accumulated size will make the accumulated value larger than the size limit.
      */
