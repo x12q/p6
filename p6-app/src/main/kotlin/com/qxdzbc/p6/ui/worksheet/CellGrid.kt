@@ -48,7 +48,7 @@ fun CellGrid(
             .onGloballyPositioned { layoutCoor ->
                 wsActions.updateCellGridLayoutCoors(layoutCoor, wsState)
                 // this action is invoke here so that the slider is redrawn whenever the cell grid is re-drawn/resized.
-                wsActions.computeSliderProperties(layoutCoor.size.toDpSize(density), wsState)
+                wsActions.computeSliderProperties(wsState,layoutCoor.size.toDpSize(density))
 
             }
             .onPointerEvent(PointerEventType.Press) {

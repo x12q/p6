@@ -18,7 +18,10 @@ class ComputeSliderSizeActionImp @Inject constructor(
     val stateCont: StateContainer,
 ) : ComputeSliderSizeAction {
 
-    override fun computeSliderProperties(availableSpace: DpSize, wsState: WorksheetState) {
+    override fun computeSliderProperties(
+        wsState: WorksheetState,
+        availableSpace: DpSize,
+    ) {
         val newSlider = computeSliderProperties(
             oldGridSlider = wsState.slider,
             sizeConstraint = availableSpace,
@@ -32,7 +35,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
     fun computeSliderProperties(
         oldGridSlider: GridSlider,
         sizeConstraint: DpSize,
-        /** anchor cell should be the main cell of the cell cursor so that the computed slider can guarantee that the main cell of the cursor is always shown **/
+        /** [anchorCell] should be the main cell of the cell cursor so that the computed slider can guarantee that the main cell of the cursor is always shown **/
         anchorCell: CellAddress,
         getColWidth: (colIndex: Int) -> Dp,
         getRowHeight: (rowIndex: Int) -> Dp,
