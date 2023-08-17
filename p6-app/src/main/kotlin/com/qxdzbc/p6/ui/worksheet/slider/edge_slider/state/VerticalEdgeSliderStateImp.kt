@@ -144,17 +144,8 @@ data class VerticalEdgeSliderStateImp(
                 }
             }
         }
-        val rt = if(ratio!=null){
-            if(ratio < 0f){
-                0f
-            }else if(ratio > 1f){
-                1f
-            }else{
-                ratio
-            }
-        }else{
-            null
-        }
+
+        val rt = ratio?.coerceIn(0f,1f)
 
         rt
     }
