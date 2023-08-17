@@ -8,23 +8,18 @@ import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
 import io.kotest.matchers.shouldBe
+import test.MockObjects
 import kotlin.test.*
 
 class VerticalEdgeSliderStateImpTest:TestSplitter(){
 
     lateinit var state: VerticalEdgeSliderStateImp
-    val mockDensity = object :Density{
-        override val density: Float
-            get() = 1f
-        override val fontScale: Float
-            get() = 1f
-    }
+
+    val mockDensity = MockObjects.mockDensity
 
     @BeforeTest
     fun bt(){
-        state = VerticalEdgeSliderStateImp(
-            sliderStateMs = ms(GridSliderImp.forPreview())
-        )
+        state = VerticalEdgeSliderStateImp()
     }
 
     @Test
@@ -62,7 +57,7 @@ class VerticalEdgeSliderStateImpTest:TestSplitter(){
             val oldLengthRatio = state.thumbLengthRatioMs.value
             state.recomputeStateWhenThumbReachRailBottom(100.dp)
             postCondition {
-                state.thumbLengthRatioMs.value shouldBe oldLengthRatio*state.reductionRatio
+                state.thumbLengthRatioMs.value shouldBe oldLengthRatio * state.reductionRatio
             }
         }
     }

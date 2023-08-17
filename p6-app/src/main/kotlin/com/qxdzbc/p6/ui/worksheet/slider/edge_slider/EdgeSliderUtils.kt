@@ -4,7 +4,7 @@ object EdgeSliderUtils {
     /**
      * A slider's maximum length percentage. Percentage of the rail
      */
-    const val maxLength = 0.1f
+    const val maxLength = 0.5f
 
     /**
      * A slider's minimum length percentage. Percentage of the rail

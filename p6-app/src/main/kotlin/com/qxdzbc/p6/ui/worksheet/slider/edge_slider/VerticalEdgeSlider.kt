@@ -70,7 +70,6 @@ fun Preview_VerticalEdgeSlider() {
 
     val sliderState:Ms<GridSlider> = rms(GridSliderImp.forPreview())
     val state by rms(VerticalEdgeSliderStateImp(
-        sliderStateMs = sliderState
     ))
 
     Row {
