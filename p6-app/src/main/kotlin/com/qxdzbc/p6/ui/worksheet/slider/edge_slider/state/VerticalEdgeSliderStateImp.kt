@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderUtils
@@ -22,7 +23,9 @@ data class VerticalEdgeSliderStateImp(
     val minLengthRatio: Float,
     val reductionRatio: Float,
     val sliderStateMs: Ms<GridSlider>,
-    val step:Int,
+    val step: Int,
+    val thumbLayoutCoorMs: Ms<LayoutCoorWrapper?>,
+    val railLayoutCoorMs: Ms<LayoutCoorWrapper?>,
 ) : VerticalEdgeSliderState {
 
     @Inject
@@ -35,14 +38,22 @@ data class VerticalEdgeSliderStateImp(
         minLengthRatio = EdgeSliderUtils.minLength,
         reductionRatio = EdgeSliderUtils.reductionRate,
         sliderStateMs = sliderStateMs,
-        step=10,
+        step = 10,
+        thumbLayoutCoorMs = ms(null),
+        railLayoutCoorMs = ms(null),
     )
 
     private var lengthRatio by thumbLengthRatioMs
 
     private var sliderState by sliderStateMs
+    override val railLengthPx: Float?
+        get() = railLayoutCoor?.boundInWindow?.height
 
-    override fun thumbLength(railLength: Dp): Dp {
+    override var thumbLayoutCoor: LayoutCoorWrapper? by thumbLayoutCoorMs
+
+    override var railLayoutCoor: LayoutCoorWrapper? by railLayoutCoorMs
+
+    override fun computeThumbLength(railLength: Dp): Dp {
         return railLength * thumbLengthRatioMs.value
     }
 
@@ -75,7 +86,7 @@ data class VerticalEdgeSliderStateImp(
         // TODO need to move the slider when thumb is moved.
 
         moveSliderWhenThumbIsDragged(
-            railLength,oldPos,sliderOffset
+            railLength, oldPos, sliderOffset
         )
     }
 
@@ -90,8 +101,8 @@ data class VerticalEdgeSliderStateImp(
 
         // TODO recompute slider size and position, so that it can be used again
         val newSize = lastRow + step
-        val newPos = lastRow.toFloat()/newSize
-        thumbPosition =  DpOffset(0.dp,railLength*newPos)
+        val newPos = lastRow.toFloat() / newSize
+        thumbPosition = DpOffset(0.dp, railLength * newPos)
 
 
     }
@@ -104,13 +115,43 @@ data class VerticalEdgeSliderStateImp(
         // TODO scroll the slider too
     }
 
+    override fun recomputeStateWhenThumbIsDragged(density: Density, delta: Float) {
+
+        val railLength: Dp = with(density) { railLengthPx?.toDp() } ?: 0.dp
+        setThumbOffsetWhenDrag(density, delta, railLength)
+
+        if (thumbReachRailBottom) {
+            recomputeStateWhenThumbReachRailBottom(railLength)
+        } else {
+            if (thumbReachRailTop) {
+                recomputeStateWhenThumbReachRailTop()
+            }
+        }
+    }
+
+    override val thumbReachRailBottom: Boolean
+        get() {
+            val thumbYBottom = thumbLayoutCoor?.boundInWindow?.bottom
+            val railYBottom = railLayoutCoor?.boundInWindow?.bottom
+            val rt = thumbYBottom != null && railYBottom != null && thumbYBottom == railYBottom
+            return rt
+        }
+
+    override val thumbReachRailTop: Boolean
+        get() {
+            val thumbYTop = thumbLayoutCoor?.boundInWindow?.top
+            val railYTop = railLayoutCoor?.boundInWindow?.top
+            val rt = railYTop != null && thumbYTop != null && railYTop == thumbYTop
+            return rt
+        }
+
     fun moveSliderWhenThumbIsDragged(
 //        density: Density,
 //        dragDelta: Float,
         railLength: Dp,
         oldThumbOffset: DpOffset,
         newThumbOffset: DpOffset,
-    ){
+    ) {
         /*
         need to translate the drag distance -> number of row to change
 
@@ -119,19 +160,17 @@ data class VerticalEdgeSliderStateImp(
         sliderState.shiftDown/up
          */
 
-        val effectiveRailLength = railLength*(1-lengthRatio)
+        val effectiveRailLength = railLength * (1 - lengthRatio)
 
-        val distancePerRow = effectiveRailLength/sliderState.lastVisibleRow
+        val distancePerRow = effectiveRailLength / sliderState.lastVisibleRow
         val oldY = oldThumbOffset.y
         val newY = newThumbOffset.y
-        val movingDown = newY>oldY
-        if(movingDown){
-            val newRow = (newY/distancePerRow).toInt()
+        val movingDown = newY > oldY
+        if (movingDown) {
+            val newRow = (newY / distancePerRow).toInt()
             // see if it has cross any threadhold
 
         }
-
-
 
 
 //        sliderState = sliderState.shiftUp(row)

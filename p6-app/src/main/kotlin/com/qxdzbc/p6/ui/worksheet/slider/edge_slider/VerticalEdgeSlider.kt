@@ -40,44 +40,24 @@ fun VerticalEdgeSlider(
     onDrag: (positionRatio:Float) -> Unit = {},
     onClickOnRail: (clickPositionRatio: Float) -> Unit = {},
 ) {
-    var railLayout: LayoutCoorWrapper? by rms(null)
-    var thumbLayout: LayoutCoorWrapper? by rms(null)
     val density = LocalDensity.current
 
     SliderRail(
         modifier = Modifier.onGloballyPositioned {
-            railLayout = it.wrap()
+            state.railLayoutCoor = it.wrap()
         }) {
-        val railLength = railLayout?.dbSize(density)?.height ?: 0.dp
+        val railLength = with(density){state.railLengthPx?.toDp()} ?: 0.dp
         SliderThumb(
-            length = state.thumbLength(railLength),
+            length = state.computeThumbLength(railLength),
             offset = state.thumbPosition,
             modifier = Modifier
                 .onGloballyPositioned {
-                    thumbLayout = it.wrap()
+                    state.thumbLayoutCoor = it.wrap()
                 }
                 .draggable(
                 orientation = Orientation.Vertical,
                 state = rememberDraggableState { delta ->
-                    state.setThumbOffsetWhenDrag(density, delta,railLength)
-                    // detect if slider reach the bottom
-
-                    val thumbYBottom = thumbLayout?.boundInWindow?.bottom
-                    val railYBottom = railLayout?.boundInWindow?.bottom
-
-                    val thumbReachRailBottom = thumbYBottom!=null && railYBottom!=null && thumbYBottom==railYBottom
-
-                    if(thumbReachRailBottom){
-                        state.recomputeStateWhenThumbReachRailBottom(railLength)
-                    }else{
-                        val thumbYTop = thumbLayout?.boundInWindow?.top
-                        val railYTop = railLayout?.boundInWindow?.top
-
-                        val thumbReachRailTop = railYTop!=null && thumbYTop!=null && railYTop==thumbYTop
-                        if(thumbReachRailTop){
-                            state.recomputeStateWhenThumbReachRailTop()
-                        }
-                    }
+                    state.recomputeStateWhenThumbIsDragged(density,delta)
                 }
             )
         )
@@ -105,7 +85,6 @@ fun Preview_VerticalEdgeSlider() {
 
 fun main() {
     testApp {
-
         Preview_VerticalEdgeSlider()
     }
 }
