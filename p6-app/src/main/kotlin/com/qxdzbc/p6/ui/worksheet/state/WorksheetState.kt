@@ -18,6 +18,7 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 
 /**
  * Worksheet + UI data
@@ -62,6 +63,10 @@ interface WorksheetState : WbWsSt {
      */
     val cellFormatTableMs: Ms<CellFormatTable>
     val cellFormatTable: CellFormatTable
+
+
+    val verticalEdgeSliderState:EdgeSliderState
+
 
     /**
      * State of the resizing bar for resizing column

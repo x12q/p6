@@ -5,8 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import com.qxdzbc.common.FloatUtils
-import com.qxdzbc.common.FloatUtils.guardFloat
 import com.qxdzbc.common.FloatUtils.guardFloat01
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
@@ -17,7 +15,7 @@ import javax.inject.Inject
 import kotlin.math.max
 
 @WsScope
-data class VerticalEdgeSliderStateImp(
+data class EdgeSliderStateImp(
     val thumbLengthRatioMs: Ms<Float>,
     val thumbPositionRatioMs: Ms<Float>,
     val maxLengthRatio: Float,
@@ -26,7 +24,7 @@ data class VerticalEdgeSliderStateImp(
     val moveBackRatio: Float,
     val thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
     val railLayoutCoorMs: Ms<P6LayoutCoor?>,
-) : VerticalEdgeSliderState {
+) : EdgeSliderState {
 
     @Inject
     constructor() : this(
@@ -53,8 +51,8 @@ data class VerticalEdgeSliderStateImp(
         (railLengthPx ?: 0f) * thumbPositionRatio
     }
 
-    val thumbLengthInPx:Float by derivedStateOf {
-        (railLengthPx?:0f) * _thumbLengthRatio
+    val thumbLengthInPx: Float by derivedStateOf {
+        (railLengthPx ?: 0f) * _thumbLengthRatio
     }
 
     override fun computeThumbLength(density: Density): Dp {
@@ -90,19 +88,42 @@ data class VerticalEdgeSliderStateImp(
     }
 
     /**
+     * Prevent the thumb moving pass bottom
+     */
+    fun stuckTheThumbAtBot() {
+        val rl = railLengthPx
+        if (rl != null && rl > 0f) {
+            val thumbBot = thumbLayoutCoorMs.value?.boundInWindow?.bottom
+            val railBot = railLayoutCoorMs.value?.boundInWindow?.bottom
+            if (thumbBot != null && railBot != null) {
+                if (thumbBot >= railBot) {
+                    // reset thumb position ratio so that thumb bot is equal rail bot
+                    val newThumbPositionRatio = (railBot - thumbLengthInPx) / rl
+                    thumbPositionRatioMs.value = newThumbPositionRatio
+                }
+            }
+        }
+    }
+
+    /**
      * When reach the top, reset the thumb length to the max value
      */
     fun recomputeStateWhenThumbReachRailTop() {
         _thumbLengthRatio = maxLengthRatio
     }
 
-    override fun recomputeStateWhenThumbIsDragged(delta: Float) {
+    override fun recomputeStateWhenThumbIsDragged(delta: Float, allowRecomputationWhenReachBot: Boolean) {
 
         computeThumbOffsetWhenDrag(delta)
 
         if (thumbReachRailBottom) {
-            recomputeStateWhenThumbReachRailBottom()
-
+            if (allowRecomputationWhenReachBot) {
+                recomputeStateWhenThumbReachRailBottom()
+            } else {
+                if (delta > 0f) {
+                    stuckTheThumbAtBot()
+                }
+            }
         } else if (thumbReachRailTop) {
             recomputeStateWhenThumbReachRailTop()
         }
@@ -116,15 +137,15 @@ data class VerticalEdgeSliderStateImp(
 
     override fun performMoveThumbWhenClickOnRail(point: Float) {
         guardFloat01(point, "percent")
-        if(point>=thumbPositionRatio){
+        if (point >= thumbPositionRatio) {
             moveThumbByPercent(0.1f)
-        }else{
+        } else {
             moveThumbByPercent(-0.1f)
         }
     }
 
     fun moveThumbByPercent(percent: Float) {
-        val newRatio = (thumbPositionRatio + percent).coerceIn(0f,1f)
+        val newRatio = (thumbPositionRatio + percent).coerceIn(0f, 1f)
         thumbPositionRatioMs.value = newRatio
     }
 
@@ -153,7 +174,7 @@ data class VerticalEdgeSliderStateImp(
         get() {
             val thumbYBottom = thumbLayoutCoor?.boundInWindow?.bottom
             val railYBottom = railLayoutCoor?.boundInWindow?.bottom
-            val rt = thumbYBottom != null && railYBottom != null && thumbYBottom == railYBottom
+            val rt = thumbYBottom != null && railYBottom != null && thumbYBottom >= railYBottom
             return rt
         }
 

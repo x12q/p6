@@ -25,6 +25,8 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.VerticalWsEdgeSliderStateQualifier
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -63,12 +65,15 @@ data class WorksheetStateImp @Inject constructor(
     override val undoStackMs: Ms<CommandStack>,
     @WsRedoStack
     override val redoStackMs: Ms<CommandStack>,
+    @VerticalWsEdgeSliderStateQualifier
+    override val verticalEdgeSliderState: EdgeSliderState,
 ) : BaseWorksheetState() {
 
     override val id: WorksheetId
         get() {
             return idMs.value
         }
+
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: P6LayoutCoor) {
         val oldLayout: P6LayoutCoor? = this.cellLayoutCoorMap[cellAddress]

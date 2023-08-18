@@ -7,7 +7,7 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 /**
  * This state consist of the state of a rail, and a thumb of a edge slider
  */
-interface VerticalEdgeSliderState {
+interface EdgeSliderState {
 
     /**
      * rail length in px
@@ -39,7 +39,7 @@ interface VerticalEdgeSliderState {
     /**
      * Recompute states when thumb is dragged. This also affect the grid slider state attached to this state
      */
-    fun recomputeStateWhenThumbIsDragged(delta: Float)
+    fun recomputeStateWhenThumbIsDragged(delta: Float,allowRecomputationWhenReachBot:Boolean)
 
     /**
      * if the thumb has reached the bottom of the rail or not.

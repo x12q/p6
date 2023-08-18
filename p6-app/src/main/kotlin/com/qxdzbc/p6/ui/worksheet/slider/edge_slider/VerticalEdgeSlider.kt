@@ -26,8 +26,8 @@ import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderRail
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderThumb
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderStateImp
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderStateImp
 
 
 /**
@@ -39,33 +39,47 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderSta
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun VerticalEdgeSlider(
-    state: VerticalEdgeSliderState,
-    railModifier:Modifier = Modifier,
-    thumbModifier:Modifier = Modifier,
-    onDrag: (positionRatio: Float) -> Unit = {},
-    onClickOnRail: (clickPositionRatio: Float) -> Unit = {},
+    state: EdgeSliderState,
+    railModifier: Modifier = Modifier,
+    thumbModifier: Modifier = Modifier,
+    onDrag: (positionRatio: Float) -> Unit,
+    onClickOnRail: (clickPositionRatio: Float) -> Unit,
+    allowComputationAtBot:()->Boolean = {true},
 ) {
     val density = LocalDensity.current
+
+    var isPressed by rms(false)
+    var isDragged by rms(false)
 
     SliderRail(
         modifier = railModifier
             .onGloballyPositioned {
                 state.railLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
             }
-            .onPointerEvent(PointerEventType.Release){pte->
-                pte.changes.firstOrNull()?.position?.also {clickPointOffset->
-                    state.computePositionRatioOnFullRail(clickPointOffset.y)?.let{ ratio->
-                        state.performMoveThumbWhenClickOnRail(ratio)
-                        onClickOnRail(ratio)
-                    }
-
+            .onPointerEvent(PointerEventType.Press){
+                isPressed = true
+            }
+            .onPointerEvent(PointerEventType.Move){
+                if(isPressed){
+                    isDragged = true
                 }
             }
+            .onPointerEvent(PointerEventType.Release) { pte ->
+                if(!isDragged){
+                    pte.changes.firstOrNull()?.position?.also { clickPointOffset ->
+                        state.computePositionRatioOnFullRail(clickPointOffset.y)?.let { ratio ->
+                            state.performMoveThumbWhenClickOnRail(ratio)
+                            onClickOnRail(ratio)
+                        }
+                    }
+                }
+                isPressed = false
+                isDragged = false
+            }
     ) {
-        val railLength = with(density) { state.railLengthPx?.toDp() } ?: 0.dp
         SliderThumb(
             length = state.computeThumbLength(density),
-            offset = DpOffset(x=0.dp,y=with(density){state.thumbPositionInPx.toDp()}),
+            offset = DpOffset(x = 0.dp, y = with(density) { state.thumbPositionInPx.toDp() }),
             modifier = thumbModifier
                 .onGloballyPositioned {
                     state.thumbLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
@@ -73,10 +87,8 @@ fun VerticalEdgeSlider(
                 .draggable(
                     orientation = Orientation.Vertical,
                     state = rememberDraggableState { delta ->
-                        state.recomputeStateWhenThumbIsDragged(delta)
-                        state.thumbPositionRatio?.let{ratio->
-                            onDrag(ratio)
-                        }
+                        state.recomputeStateWhenThumbIsDragged(delta,allowComputationAtBot())
+                        onDrag(state.thumbPositionRatio)
                     }
                 )
         )
@@ -89,12 +101,11 @@ fun Preview_VerticalEdgeSlider() {
 
     val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
     val state by rms(
-        VerticalEdgeSliderStateImp(
-        )
+        EdgeSliderStateImp()
     )
 
-    var dragRatio:Float? by rms(null)
-    var clickRatio:Float? by rms(null)
+    var dragRatio: Float? by rms(null)
+    var clickRatio: Float? by rms(null)
 
     Row {
         VerticalEdgeSlider(
