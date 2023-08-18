@@ -15,6 +15,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
 import com.qxdzbc.common.compose.Ms
@@ -52,18 +53,19 @@ fun VerticalEdgeSlider(
                 state.railLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
             }
             .onPointerEvent(PointerEventType.Release){pte->
-                pte.changes.firstOrNull()?.position?.also {offset->
-                    state.moveThumbTo(offset.y)
-                    state.computePositionRatioOnFullRail(offset.y)?.let{ ratio->
+                pte.changes.firstOrNull()?.position?.also {clickPointOffset->
+                    state.computePositionRatioOnFullRail(clickPointOffset.y)?.let{ ratio->
+                        state.performMoveThumbWhenClickOnRail(ratio)
                         onClickOnRail(ratio)
                     }
+
                 }
             }
     ) {
         val railLength = with(density) { state.railLengthPx?.toDp() } ?: 0.dp
         SliderThumb(
-            length = state.computeRelativeThumbLength(railLength),
-            offset = state.thumbPosition,
+            length = state.computeThumbLength(density),
+            offset = DpOffset(x=0.dp,y=with(density){state.thumbPositionInPx.toDp()}),
             modifier = thumbModifier
                 .onGloballyPositioned {
                     state.thumbLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
@@ -71,7 +73,7 @@ fun VerticalEdgeSlider(
                 .draggable(
                     orientation = Orientation.Vertical,
                     state = rememberDraggableState { delta ->
-                        state.recomputeStateWhenThumbIsDragged(density, delta)
+                        state.recomputeStateWhenThumbIsDragged(delta)
                         state.thumbPositionRatio?.let{ratio->
                             onDrag(ratio)
                         }
@@ -110,7 +112,7 @@ fun Preview_VerticalEdgeSlider() {
 
             Text("Drag ratio: ${dragRatio}")
 
-            Text("${state.thumbPositionRatio}")
+            Text("Thumb position ratio: ${state.thumbPositionRatio}")
 
             Text("${sliderState}")
         }

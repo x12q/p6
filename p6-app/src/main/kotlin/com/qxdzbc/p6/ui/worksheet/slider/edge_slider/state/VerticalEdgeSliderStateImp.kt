@@ -5,8 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.FloatUtils
+import com.qxdzbc.common.FloatUtils.guardFloat
+import com.qxdzbc.common.FloatUtils.guardFloat01
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
@@ -17,8 +18,8 @@ import kotlin.math.max
 
 @WsScope
 data class VerticalEdgeSliderStateImp(
-    val thumbPositionMs: Ms<DpOffset>,
     val thumbLengthRatioMs: Ms<Float>,
+    val thumbPositionRatioMs: Ms<Float>,
     val maxLengthRatio: Float,
     val minLengthRatio: Float,
     val reductionRatio: Float,
@@ -29,7 +30,6 @@ data class VerticalEdgeSliderStateImp(
 
     @Inject
     constructor() : this(
-        thumbPositionMs = ms(DpOffset.Zero),
         thumbLengthRatioMs = ms(EdgeSliderUtils.maxLength),
         maxLengthRatio = EdgeSliderUtils.maxLength,
         minLengthRatio = EdgeSliderUtils.minLength,
@@ -37,6 +37,7 @@ data class VerticalEdgeSliderStateImp(
         moveBackRatio = 0.7f,
         thumbLayoutCoorMs = ms(null),
         railLayoutCoorMs = ms(null),
+        thumbPositionRatioMs = ms(EdgeSliderUtils.startingThumbPositionRatio)
     )
 
     private var _thumbLengthRatio by thumbLengthRatioMs
@@ -48,98 +49,87 @@ data class VerticalEdgeSliderStateImp(
 
     override var railLayoutCoor: P6LayoutCoor? by railLayoutCoorMs
 
-    override fun computeRelativeThumbLength(railLength: Dp): Dp {
-        return railLength * thumbLengthRatioMs.value
+    override val thumbPositionInPx: Float by derivedStateOf {
+        (railLengthPx ?: 0f) * thumbPositionRatio
+    }
+
+    val thumbLengthInPx:Float by derivedStateOf {
+        (railLengthPx?:0f) * _thumbLengthRatio
+    }
+
+    override fun computeThumbLength(density: Density): Dp {
+        return with(density) { thumbLengthInPx.toDp() }
     }
 
     override fun setThumbLengthRatio(ratio: Float) {
         _thumbLengthRatio = ratio
     }
 
-    override var thumbPosition: DpOffset by thumbPositionMs
-
     /**
-     * When thumb is dragged by [dragDelta] px, change the offset of the thumb so that it follow the pointer.
-     * Impose a cap on thumb offset so that it cannot get below 0.
+     * When thumb is dragged by [dragDelta] px, change the offset ratio of the thumb so that it follow the pointer.
+     * Impose a cap on thumb offset ratio so that it remains within [0,1].
      */
-    override fun setThumbOffsetWhenDrag(
-        density: Density, dragDelta: Float, railLength: Dp,
-    ) {
-        val sliderThumbYPx = with(density) {
-            max(thumbPosition.y.toPx() + dragDelta, 0f)
-        }
+    fun computeThumbOffsetWhenDrag(dragDelta: Float) {
+        val newThumbPositionRatio = railLengthPx?.let { rl ->
+            val newThumbYPx = max((thumbLayoutCoor?.boundInWindow?.top ?: 0f) + dragDelta, 0f)
+            (newThumbYPx) / (rl)
+        }?.coerceIn(0f, 1f) ?: 0f
 
-        val sliderOffset = run {
-            val slideThumYOffsetDp = with(density) {
-                sliderThumbYPx.toDp()
-            }
-            DpOffset(0.dp, slideThumYOffsetDp)
-        }
-        thumbPosition = sliderOffset
-
+        thumbPositionRatioMs.value = newThumbPositionRatio
     }
 
     /**
      * Shorten thumb length and move it back up when thumb reaches rail bottom
      */
-    override fun recomputeStateWhenThumbReachRailBottom(railLength: Dp) {
+    fun recomputeStateWhenThumbReachRailBottom() {
 
         _thumbLengthRatio = max(_thumbLengthRatio * reductionRatio, minLengthRatio)
 
-        thumbPosition = DpOffset(0.dp, railLength * moveBackRatio)
+        thumbPositionRatioMs.value = moveBackRatio
 
     }
 
     /**
      * When reach the top, reset the thumb length to the max value
      */
-    override fun recomputeStateWhenThumbReachRailTop() {
+    fun recomputeStateWhenThumbReachRailTop() {
         _thumbLengthRatio = maxLengthRatio
     }
 
-    override fun recomputeStateWhenThumbIsDragged(density: Density, delta: Float) {
+    override fun recomputeStateWhenThumbIsDragged(delta: Float) {
 
-        val railLength: Dp = with(density) { railLengthPx?.toDp() } ?: 0.dp
-        setThumbOffsetWhenDrag(density, delta, railLength)
+        computeThumbOffsetWhenDrag(delta)
 
         if (thumbReachRailBottom) {
-            recomputeStateWhenThumbReachRailBottom(railLength)
+            recomputeStateWhenThumbReachRailBottom()
+
         } else if (thumbReachRailTop) {
             recomputeStateWhenThumbReachRailTop()
         }
     }
 
-    override val thumbPositionRatio: Float? by derivedStateOf {
-        thumbLayoutCoor?.boundInWindow?.bottom?.let { thumbBotY ->
-            computePositionRatioFromThumbBot(thumbBotY)
-        }
-    }
+    override val thumbPositionRatio: Float by thumbPositionRatioMs
 
     override fun computePositionRatioOnFullRail(yPx: Float): Float? {
-        return computePositionRatioWithOffset(yPx,0f)
+        return computePositionRatioWithOffset(yPx, 0f)
     }
 
-    override fun moveThumbTo(yPx: Float) {
-        railLengthPx?.also{rlPx->
-            val ratio = yPx/rlPx
-            // TODO
+    override fun performMoveThumbWhenClickOnRail(point: Float) {
+        guardFloat01(point, "percent")
+        if(point>=thumbPositionRatio){
+            moveThumbByPercent(0.1f)
+        }else{
+            moveThumbByPercent(-0.1f)
         }
     }
 
-
-    fun computePositionRatioFromThumbBot(yPx:Float): Float? {
-        val rt = railLengthPx?.let { rl ->
-            railLayoutCoor?.boundInWindow?.bottom?.let { railBotY ->
-                val thumbLength = rl * _thumbLengthRatio
-                computePositionRatioWithOffset(yPx,thumbLength)
-            }
-        }
-
-        return rt
+    fun moveThumbByPercent(percent: Float) {
+        val newRatio = (thumbPositionRatio + percent).coerceIn(0f,1f)
+        thumbPositionRatioMs.value = newRatio
     }
 
 
-    fun computePositionRatioWithOffset(yPx:Float,offset:Float): Float? {
+    fun computePositionRatioWithOffset(yPx: Float, offset: Float): Float? {
         val ratio =
             railLayoutCoor?.boundInWindow?.bottom?.let { railBotY ->
                 if (railBotY != 0f) {
@@ -149,12 +139,16 @@ data class VerticalEdgeSliderStateImp(
                 }
             }
 
-
         val rt = ratio?.coerceIn(0f, 1f)
 
         return rt
     }
 
+
+    /**
+     * if the thumb has reached the bottom of the rail or not.
+     * A thumb is considered "reach rail bottom" if its bottom edge touch the bottom edge of the rail
+     */
     override val thumbReachRailBottom: Boolean
         get() {
             val thumbYBottom = thumbLayoutCoor?.boundInWindow?.bottom
@@ -163,6 +157,10 @@ data class VerticalEdgeSliderStateImp(
             return rt
         }
 
+    /**
+     * Tell if the thumb has reached the top of the rail or not.
+     * A thumb is considered "reach rail top" if its top edge touch the top edge of the rail
+     */
     override val thumbReachRailTop: Boolean
         get() {
             val thumbYTop = thumbLayoutCoor?.boundInWindow?.top

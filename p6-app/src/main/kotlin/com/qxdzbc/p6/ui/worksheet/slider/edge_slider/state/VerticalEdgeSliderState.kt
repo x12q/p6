@@ -1,9 +1,7 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpOffset
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 
 /**
@@ -29,35 +27,19 @@ interface VerticalEdgeSliderState {
     /**
      * compute thumb length relative to rail length
      */
-    fun computeRelativeThumbLength(railLength:Dp):Dp
+    fun computeThumbLength(density: Density):Dp
 
     fun setThumbLengthRatio(ratio:Float)
 
     /**
-     * Offset in comparison to slider rail
+     * Offset of the thumb from the top of the rail, in px
      */
-    var thumbPosition:DpOffset
-
-    /**
-     * Compute new [thumbPosition] with a [density] and a [dragDelta].
-     * [dragDelta] is produced by drag modifier.
-     */
-    fun setThumbOffsetWhenDrag(density: Density, dragDelta: Float, railLength: Dp)
-
-    /**
-     * recompute this state when thumb reach the bottom of the rail
-     */
-    fun recomputeStateWhenThumbReachRailBottom(railLength: Dp)
-
-    /**
-     * recompute this state when thumb reach the top of the rail
-     */
-    fun recomputeStateWhenThumbReachRailTop()
+    val thumbPositionInPx:Float
 
     /**
      * Recompute states when thumb is dragged. This also affect the grid slider state attached to this state
      */
-    fun recomputeStateWhenThumbIsDragged(density: Density, delta: Float)
+    fun recomputeStateWhenThumbIsDragged(delta: Float)
 
     /**
      * if the thumb has reached the bottom of the rail or not.
@@ -77,7 +59,7 @@ interface VerticalEdgeSliderState {
      * - 1.0 (or 100%) means the thumb is at the bottom
      * [thumbPositionRatio] is always in [0,1] range
      */
-    val thumbPositionRatio: Float?
+    val thumbPositionRatio: Float
 
     /**
      * Compute the position ratio of a point with offset [yPx] from the top of the rail against the full rail length
@@ -85,7 +67,9 @@ interface VerticalEdgeSliderState {
     fun computePositionRatioOnFullRail(yPx:Float):Float?
 
     /**
-     * Try to move thumb to the point at [yPx] offset from the top of the rail
+     * Perform move thumb when the rail is clicked at [point] on rail.
+     * [point] is between [0,1]
      */
-    fun moveThumbTo(yPx: Float)
+    fun performMoveThumbWhenClickOnRail(point:Float)
+
 }

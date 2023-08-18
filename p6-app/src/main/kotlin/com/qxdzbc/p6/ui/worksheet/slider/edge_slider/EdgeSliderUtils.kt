@@ -13,4 +13,6 @@ object EdgeSliderUtils {
 
 
     const val reductionRate = 0.5f
+
+    const val startingThumbPositionRatio = 0f
 }
