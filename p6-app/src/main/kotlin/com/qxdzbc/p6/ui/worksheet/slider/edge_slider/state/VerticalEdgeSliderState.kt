@@ -6,6 +6,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 
+/**
+ * This state consist of the state of a rail, and a thumb of a edge slider
+ */
 interface VerticalEdgeSliderState {
 
     /**
@@ -13,7 +16,14 @@ interface VerticalEdgeSliderState {
      */
     val railLengthPx:Float?
 
+    /**
+     * Layout of the thumb in this edge slider
+     */
     var thumbLayoutCoor:P6LayoutCoor?
+
+    /**
+     * Layout of the rail in this edge slider
+     */
     var railLayoutCoor:P6LayoutCoor?
 
     /**
@@ -50,13 +60,13 @@ interface VerticalEdgeSliderState {
     fun recomputeStateWhenThumbIsDragged(density: Density, delta: Float)
 
     /**
-     * if the thumb has real the bottom of the rail or not.
+     * if the thumb has reached the bottom of the rail or not.
      * A thumb is considered "reach rail bottom" if its bottom edge touch the bottom edge of the rail
      */
     val thumbReachRailBottom:Boolean
 
     /**
-     * if the thumb has real the top of the rail or not.
+     * Tell if the thumb has reached the top of the rail or not.
      * A thumb is considered "reach rail top" if its top edge touch the top edge of the rail
      */
     val thumbReachRailTop: Boolean
@@ -70,7 +80,7 @@ interface VerticalEdgeSliderState {
     val thumbPositionRatio: Float?
 
     /**
-     * Compute the position ratio of a point with offset [yPx] from the top of the rail against full rail length
+     * Compute the position ratio of a point with offset [yPx] from the top of the rail against the full rail length
      */
     fun computePositionRatioOnFullRail(yPx:Float):Float?
 

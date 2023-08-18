@@ -30,34 +30,30 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderSta
 
 
 /**
- * Edge slider is a slider at the end of a worksheet. User can drag on this slider to scroll the worksheet vertically or horizontally.
- *
- * Source of truth: grid slider.
- *
- * Edge slider size and sliding speed reflect that of grid slider
- * Edge slider can change grid slider, hence itself.
- *
+ * Edge slider is a slider at the edge of a worksheet.
+ * User can drag on this slider to scroll the worksheet vertically or horizontally.
+ * An edge slider consist of a [SliderRail] and a [SliderThumb].
+ * The rail takes up the entire length of the slider, and the thumb resides on top of the rail, and can move back and fort.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun VerticalEdgeSlider(
     state: VerticalEdgeSliderState,
+    railModifier:Modifier = Modifier,
+    thumbModifier:Modifier = Modifier,
     onDrag: (positionRatio: Float) -> Unit = {},
     onClickOnRail: (clickPositionRatio: Float) -> Unit = {},
 ) {
     val density = LocalDensity.current
 
     SliderRail(
-        modifier = Modifier
+        modifier = railModifier
             .onGloballyPositioned {
                 state.railLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
             }
             .onPointerEvent(PointerEventType.Release){pte->
                 pte.changes.firstOrNull()?.position?.also {offset->
-
-                    // TODO move thumb to the clicked position if possible
                     state.moveThumbTo(offset.y)
-
                     state.computePositionRatioOnFullRail(offset.y)?.let{ ratio->
                         onClickOnRail(ratio)
                     }
@@ -68,7 +64,7 @@ fun VerticalEdgeSlider(
         SliderThumb(
             length = state.computeRelativeThumbLength(railLength),
             offset = state.thumbPosition,
-            modifier = Modifier
+            modifier = thumbModifier
                 .onGloballyPositioned {
                     state.thumbLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
                 }
