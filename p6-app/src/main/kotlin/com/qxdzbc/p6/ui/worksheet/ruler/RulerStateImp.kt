@@ -6,7 +6,7 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.common.compose.*
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
@@ -53,7 +53,7 @@ data class RulerStateImp constructor(
 
     override val rulerLayout: P6LayoutCoor? by rulerLayoutMs
     override fun setLayout(layout: LayoutCoordinates): RulerState {
-        rulerLayoutMs.value = layout.wrap()
+        rulerLayoutMs.value = layout.toP6LayoutCoor()
         return this
     }
 

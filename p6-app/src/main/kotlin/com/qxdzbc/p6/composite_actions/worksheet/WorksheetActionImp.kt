@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.composite_actions.worksheet
 
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.range.range_to_clipboard.RangeToClipboardAction
@@ -73,7 +73,7 @@ class WorksheetActionImp @Inject constructor(
         layoutCoordinates: LayoutCoordinates,
         wsLoc: WbWsSt
     ) {
-        sc.getWsState(wsLoc)?.addCellLayoutCoor(cellAddress, layoutCoordinates.wrap())
+        sc.getWsState(wsLoc)?.addCellLayoutCoor(cellAddress, layoutCoordinates.toP6LayoutCoor())
     }
 
     override fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt) {
@@ -87,13 +87,13 @@ class WorksheetActionImp @Inject constructor(
 
     override fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
         val wsState = sc.getWsState(wsLoc)
-        wsState?.setCellGridLayoutCoorWrapper(newLayoutCoordinates.wrap())
+        wsState?.setCellGridLayoutCoorWrapper(newLayoutCoordinates.toP6LayoutCoor())
     }
 
     override fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
         val wsState = sc.getWsState(
             wsLoc
         )
-        wsState?.setWsLayoutCoorWrapper(newLayoutCoordinates.wrap())
+        wsState?.setWsLayoutCoorWrapper(newLayoutCoordinates.toP6LayoutCoor())
     }
 }

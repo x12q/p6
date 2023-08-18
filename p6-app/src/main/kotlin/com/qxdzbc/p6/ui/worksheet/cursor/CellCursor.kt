@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
@@ -73,7 +73,7 @@ fun CellCursor(
     MBox(modifier = Modifier
         .fillMaxSize()
         .onGloballyPositioned {
-            boundLayoutCoorsWrapper = it.wrap()
+            boundLayoutCoorsWrapper = it.toP6LayoutCoor()
         }) {
         val layout = boundLayoutCoorsWrapper
         val mainCellOffset: IntOffset = if (layout != null && layout.isAttached) {

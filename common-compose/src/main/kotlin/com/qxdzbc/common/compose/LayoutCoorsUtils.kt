@@ -7,7 +7,7 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoorImp
 
 object LayoutCoorsUtils{
 
-    fun LayoutCoordinates.wrap(previousForceRefreshVar:Boolean?=true): P6LayoutCoor {
+    fun LayoutCoordinates.toP6LayoutCoor(previousForceRefreshVar:Boolean?=true): P6LayoutCoor {
         return P6LayoutCoorImp(this,!(previousForceRefreshVar?:true))
     }
 

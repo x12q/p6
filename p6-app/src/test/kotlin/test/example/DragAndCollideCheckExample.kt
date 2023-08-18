@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
@@ -62,14 +62,14 @@ fun main() = application {
                     gb.overlaps(rb)
                 }
             } ?: false
-            Column(modifier = Modifier.onGloballyPositioned { dragHostCoorWrapper = it.wrap() }) {
+            Column(modifier = Modifier.onGloballyPositioned { dragHostCoorWrapper = it.toP6LayoutCoor() }) {
                 Text("Overlap: $isOverlap", color = Color.White)
                 Box(modifier = Modifier.fillMaxSize()) {
                     // drag target
                     MBox(
                         modifier = Modifier.size(120.dp, 30.dp).offset(0.dp, 100.dp).background(Color.Red)
                             .onGloballyPositioned {
-                                redBoxPosMs.value = it.wrap()
+                                redBoxPosMs.value = it.toP6LayoutCoor()
                             }
                     )
 
@@ -89,7 +89,7 @@ fun main() = application {
                                     pos = null
                                 }
                             }.onGloballyPositioned {
-                                greenBoxPosMs.value = it.wrap()
+                                greenBoxPosMs.value = it.toP6LayoutCoor()
                             })
                 }
             }

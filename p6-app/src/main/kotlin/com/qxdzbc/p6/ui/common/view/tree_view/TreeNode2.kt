@@ -19,7 +19,7 @@ import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.compose.P6TestApp
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.tree_view.state.TreeNodeState
 import com.qxdzbc.p6.ui.common.view.tree_view.state.TreeNodeStateImp
@@ -157,7 +157,7 @@ fun TreeNode2(
                     },
                 ).onGloballyPositioned {
                     it.ifAttached { i ->
-                        state.setLayoutCoorWrapper(i.wrap())
+                        state.setLayoutCoorWrapper(i.toP6LayoutCoor())
                     }
                 }
         ) {

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.qxdzbc.p6.build.DebugFunctions.debug
 import com.qxdzbc.p6.common.utils.CellLabelNumberSystem
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.PointerEventUtils.executeOnReleaseThenConsumed
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
@@ -93,7 +93,7 @@ fun RulerView(
                                     }
                                 }
                                 .onGloballyPositioned {
-                                    rulerAction.updateItemLayout(itemIndex, it.wrap(), state,)
+                                    rulerAction.updateItemLayout(itemIndex, it.toP6LayoutCoor(), state,)
                                 }
 
                         ) {
@@ -175,7 +175,7 @@ fun RulerView(
                                     }
                                 }
                                 .onGloballyPositioned {
-                                    rulerAction.updateItemLayout(itemIndex, it.wrap(), state,)
+                                    rulerAction.updateItemLayout(itemIndex, it.toP6LayoutCoor(), state,)
                                 }
                         )
                         {

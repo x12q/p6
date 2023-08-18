@@ -17,7 +17,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.HSpacer
@@ -44,7 +44,7 @@ fun VerticalEdgeSlider(
     thumbModifier: Modifier = Modifier,
     onDrag: (positionRatio: Float) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
-    allowComputationAtBot:()->Boolean = {true},
+    allowComputationAtBot: () -> Boolean = { true },
 ) {
     val density = LocalDensity.current
 
@@ -54,18 +54,18 @@ fun VerticalEdgeSlider(
     SliderRail(
         modifier = railModifier
             .onGloballyPositioned {
-                state.railLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
+                state.railLayoutCoor = it.toP6LayoutCoor(state.thumbLayoutCoor?.refreshVar)
             }
-            .onPointerEvent(PointerEventType.Press){
+            .onPointerEvent(PointerEventType.Press) {
                 isPressed = true
             }
-            .onPointerEvent(PointerEventType.Move){
-                if(isPressed){
+            .onPointerEvent(PointerEventType.Move) {
+                if (isPressed) {
                     isDragged = true
                 }
             }
             .onPointerEvent(PointerEventType.Release) { pte ->
-                if(!isDragged){
+                if (!isDragged) {
                     pte.changes.firstOrNull()?.position?.also { clickPointOffset ->
                         state.computePositionRatioOnFullRail(clickPointOffset.y)?.let { ratio ->
                             state.performMoveThumbWhenClickOnRail(ratio)
@@ -82,12 +82,12 @@ fun VerticalEdgeSlider(
             offset = DpOffset(x = 0.dp, y = with(density) { state.thumbPositionInPx.toDp() }),
             modifier = thumbModifier
                 .onGloballyPositioned {
-                    state.thumbLayoutCoor = it.wrap(state.thumbLayoutCoor?.refreshVar)
+                    state.thumbLayoutCoor = it.toP6LayoutCoor(state.thumbLayoutCoor?.refreshVar)
                 }
                 .draggable(
                     orientation = Orientation.Vertical,
                     state = rememberDraggableState { delta ->
-                        state.recomputeStateWhenThumbIsDragged(delta,allowComputationAtBot())
+                        state.recomputeStateWhenThumbIsDragged(delta, allowComputationAtBot())
                         onDrag(state.thumbPositionRatio)
                     }
                 )
@@ -100,9 +100,9 @@ fun VerticalEdgeSlider(
 fun Preview_VerticalEdgeSlider() {
 
     val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
-    val state by rms(
+    val state = remember {
         EdgeSliderStateImp()
-    )
+    }
 
     var dragRatio: Float? by rms(null)
     var clickRatio: Float? by rms(null)

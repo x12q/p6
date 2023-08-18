@@ -3,7 +3,7 @@ package com.qxdzbc.common.compose.drag_drop
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.view.MBox
 
@@ -21,7 +21,7 @@ fun Drop(
     MBox(
         modifier = modifier
             .onGloballyPositioned {
-                internalStateMs.value = internalStateMs.value.addDropLayoutCoorWrapper(identifier(),it.wrap())
+                internalStateMs.value = internalStateMs.value.addDropLayoutCoorWrapper(identifier(),it.toP6LayoutCoor())
 
             }
     ) {
