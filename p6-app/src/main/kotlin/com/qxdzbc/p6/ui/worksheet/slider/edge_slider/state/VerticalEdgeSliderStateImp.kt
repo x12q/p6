@@ -34,7 +34,7 @@ data class VerticalEdgeSliderStateImp(
         maxLengthRatio = EdgeSliderUtils.maxLength,
         minLengthRatio = EdgeSliderUtils.minLength,
         reductionRatio = EdgeSliderUtils.reductionRate,
-        moveBackRatio = 0.7f,
+        moveBackRatio = EdgeSliderUtils.moveBackRatio,
         thumbLayoutCoorMs = ms(null),
         railLayoutCoorMs = ms(null),
         thumbPositionRatioMs = ms(EdgeSliderUtils.startingThumbPositionRatio)
