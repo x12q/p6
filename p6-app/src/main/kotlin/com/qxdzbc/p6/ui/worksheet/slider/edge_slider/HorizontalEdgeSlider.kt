@@ -27,6 +27,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderRail
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderThumb
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalEdgeSliderState
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
 
 
@@ -38,7 +39,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderSta
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun VerticalEdgeSlider(
+fun HorizontalEdgeSlider(
     state: EdgeSliderState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
@@ -53,18 +54,18 @@ fun VerticalEdgeSlider(
 
 @Preview
 @Composable
-fun Preview_VerticalEdgeSlider() {
+fun Preview_HorizontalEdgeSlider() {
 
     val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
     val state = remember {
-        VerticalEdgeSliderState()
+        HorizontalEdgeSliderState()
     }
 
     var dragRatio: Float? by rms(null)
     var clickRatio: Float? by rms(null)
 
-    Row {
-        VerticalEdgeSlider(
+    Column {
+        HorizontalEdgeSlider(
             state = state,
             onDrag = {
                 dragRatio = it
@@ -90,6 +91,6 @@ fun Preview_VerticalEdgeSlider() {
 
 fun main() {
     testApp {
-        Preview_VerticalEdgeSlider()
+        Preview_HorizontalEdgeSlider()
     }
 }

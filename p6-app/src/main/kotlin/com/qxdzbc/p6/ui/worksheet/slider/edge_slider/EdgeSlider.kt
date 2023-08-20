@@ -1,0 +1,100 @@
+package com.qxdzbc.p6.ui.worksheet.slider.edge_slider
+
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
+import com.qxdzbc.common.compose.StateUtils.rms
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderRail
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderThumb
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalEdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
+
+
+/**
+ * Edge slider is a slider at the edge of a worksheet.
+ * User can drag on this slider to scroll the worksheet vertically or horizontally.
+ * An edge slider consist of a [SliderRail] and a [SliderThumb].
+ * The rail takes up the entire length of the slider, and the thumb resides on top of the rail, and can move back and fort.
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun EdgeSlider(
+    state: EdgeSliderState,
+    railModifier: Modifier = Modifier,
+    thumbModifier: Modifier = Modifier,
+    onDrag: (positionRatio: Float) -> Unit,
+    onClickOnRail: (clickPositionRatio: Float) -> Unit,
+    allowComputationAtEnd: () -> Boolean = { true },
+) {
+    val density = LocalDensity.current
+
+    var isPressed by rms(false)
+    var isDragged by rms(false)
+
+    SliderRail(
+        type = state.type,
+        modifier = railModifier
+            .onGloballyPositioned {
+                state.railLayoutCoor = it.toP6LayoutCoor(state.thumbLayoutCoor?.refreshVar)
+            }
+            .onPointerEvent(PointerEventType.Press) {
+                isPressed = true
+            }
+            .onPointerEvent(PointerEventType.Move) {
+                if (isPressed) {
+                    isDragged = true
+                }
+            }
+            .onPointerEvent(PointerEventType.Release) { pte ->
+                if (!isDragged) {
+                    pte.changes.firstOrNull()?.position?.also { clickPointOffset ->
+
+                        val clickPosition = when(state){
+                            is HorizontalEdgeSliderState -> clickPointOffset.x
+                            is VerticalEdgeSliderState -> clickPointOffset.y
+                        }
+
+                        state.computePositionRatioOnFullRail(clickPosition)?.let { ratio ->
+                            state.performMoveThumbWhenClickOnRail(ratio)
+                            onClickOnRail(ratio)
+                        }
+                    }
+                }
+                isPressed = false
+                isDragged = false
+            }
+    ) {
+        val dragOrientation = remember {
+            when (state) {
+                is HorizontalEdgeSliderState -> Orientation.Horizontal
+                is VerticalEdgeSliderState -> Orientation.Vertical
+            }
+        }
+
+        SliderThumb(
+            type = state.type,
+            length = state.computeThumbLength(density),
+            offset = state.computeThumbOffset(density),
+            modifier = thumbModifier
+                .onGloballyPositioned {
+                    state.thumbLayoutCoor = it.toP6LayoutCoor(state.thumbLayoutCoor?.refreshVar)
+                }
+                .draggable(
+                    orientation = dragOrientation,
+                    state = rememberDraggableState { delta ->
+                        state.recomputeStateWhenThumbIsDragged(delta, allowComputationAtEnd())
+                        onDrag(state.thumbPositionRatio)
+                    }
+                )
+        )
+    }
+}

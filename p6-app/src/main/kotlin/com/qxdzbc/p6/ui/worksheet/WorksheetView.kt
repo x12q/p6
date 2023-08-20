@@ -1,37 +1,28 @@
 package com.qxdzbc.p6.ui.worksheet
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetActionTable
-import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
 import com.qxdzbc.common.compose.OtherComposeFunctions.addTestTag
-import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.worksheet.cursor.CellCursor
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.worksheet.resize_bar.ResizeBar
-import com.qxdzbc.p6.ui.worksheet.ruler.RulerView
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSlider
 
 
 /**
@@ -95,7 +86,7 @@ fun WorksheetView(
                     }
                 }
             }
-            VerticalEdgeSlider(
+            EdgeSlider(
                 state=wsState.verticalEdgeSliderState,
                 onDrag = {positionRatio->
                     println(positionRatio)

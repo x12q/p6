@@ -11,10 +11,14 @@ object EdgeSliderUtils {
      */
     const val minLength = 0.1f
 
-
     const val reductionRate = 0.5f
 
     const val startingThumbPositionRatio = 0f
 
     const val moveBackRatio = 0.7f
+
+    /**
+     * how much to move the thumb when user click on the edge slider rail
+     */
+    const val moveThumbByClickRatio = 0.1f
 }

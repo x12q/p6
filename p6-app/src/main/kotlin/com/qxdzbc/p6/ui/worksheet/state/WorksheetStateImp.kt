@@ -25,7 +25,7 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.VerticalWsEdgeSliderStateQualifier
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.VerticalWsEdgeSliderStateQualifier
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject

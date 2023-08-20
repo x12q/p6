@@ -2,12 +2,15 @@ package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 
 /**
- * This state consist of the state of a rail, and a thumb of a edge slider
+ * This state consist of the state of a rail, and a thumb of an edge slider
  */
-interface EdgeSliderState {
+sealed interface EdgeSliderState {
+
+    val type:EdgeSliderType
 
     /**
      * rail length in px
@@ -32,7 +35,7 @@ interface EdgeSliderState {
     fun setThumbLengthRatio(ratio:Float)
 
     /**
-     * Offset of the thumb from the top of the rail, in px
+     * Offset of the thumb from the start of the rail, in px
      */
     val thumbPositionInPx:Float
 
@@ -45,13 +48,13 @@ interface EdgeSliderState {
      * if the thumb has reached the bottom of the rail or not.
      * A thumb is considered "reach rail bottom" if its bottom edge touch the bottom edge of the rail
      */
-    val thumbReachRailBottom:Boolean
+    val thumbReachRailEnd:Boolean
 
     /**
      * Tell if the thumb has reached the top of the rail or not.
      * A thumb is considered "reach rail top" if its top edge touch the top edge of the rail
      */
-    val thumbReachRailTop: Boolean
+    val thumbReachRailStart: Boolean
 
     /**
      * [thumbPositionRatio] tells how far the thumb is away from the top of the rail in percentage (%).
@@ -71,5 +74,10 @@ interface EdgeSliderState {
      * [point] is between [0,1]
      */
     fun performMoveThumbWhenClickOnRail(point:Float)
+
+    /**
+     * Compute thumb offset base on [density]
+     */
+    fun computeThumbOffset(density: Density): DpOffset
 
 }
