@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -8,10 +9,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetActionTable
 import com.qxdzbc.p6.ui.common.view.BorderBox
@@ -26,6 +29,8 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerView
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
+import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
+import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalEdgeSlider
 
 
@@ -45,42 +50,28 @@ fun WorksheetView(
     val wsActions: WorksheetAction = worksheetActionTable.worksheetAction
     val wsName = ws.name
     val cursorState: CursorState by wsState.cursorStateMs
+
     Surface(modifier = Modifier.onGloballyPositioned {
         wsActions.updateWsLayoutCoors(it, wsState)
     }) {
         Row{
-//            VerticalEdgeSlider(
-//                state=wsState.verticalEdgeSliderState,
-//                onDrag = {},
-//                onClickOnRail = {}
-//            )
-            Column {
+            Column(Modifier.fillMaxHeight().weight(1f)) {
                 Row {
-
                     CellRangeIndicator(cursorState.mainCell.label)
-
-                    val colRulerAction = worksheetActionTable.colRulerAction
-                    RulerView(
+                    ColumRulerView(
                         state = wsState.colRulerState,
-                        rulerAction = colRulerAction,
+                        rulerAction = worksheetActionTable.colRulerAction,
                         size = WorksheetConstants.defaultRowHeight
                     )
                 }
                 Row {
-
-                    val rowRulerAction = worksheetActionTable.rowRulerAction
-                    RulerView(
-                        //x: this is row ruler
+                    RowRulerView(
                         state = wsState.rowRulerState,
-                        rulerAction = rowRulerAction,
+                        rulerAction = worksheetActionTable.rowRulerAction,
                         size = WorksheetConstants.rowRulerWidth
                     )
 
-
-                    MBox(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
+                    MBox{
                         CellGrid(
                             wsState = wsState,
                             wsActions = wsActions,
@@ -104,7 +95,13 @@ fun WorksheetView(
                     }
                 }
             }
-
+            VerticalEdgeSlider(
+                state=wsState.verticalEdgeSliderState,
+                onDrag = {positionRatio->
+                    println(positionRatio)
+                },
+                onClickOnRail = {}
+            )
         }
         MBox {
             ResizeBar(

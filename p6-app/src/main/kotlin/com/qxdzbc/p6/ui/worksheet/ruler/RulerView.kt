@@ -65,10 +65,10 @@ fun RulerView(
             RulerType.Row -> {
                 Column(
                     modifier = rulerModifier
-                        .wrapContentSize(
-                            unbounded = true,
-                            align = Alignment.TopStart
-                        )
+//                        .wrapContentSize(
+//                            unbounded = true,
+//                            align = Alignment.TopStart
+//                        )
                 ) {
                     for (itemIndex in firstIndex..lastIndex) {
                         val bs = if (itemIndex != lastIndex) BorderStyle.BOT_RIGHT else BorderStyle.RIGHT

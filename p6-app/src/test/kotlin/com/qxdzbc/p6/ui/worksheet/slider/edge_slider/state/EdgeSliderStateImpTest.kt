@@ -18,8 +18,6 @@ class EdgeSliderStateImpTest : TestSplitter() {
 
     lateinit var state: EdgeSliderStateImp
 
-    val mockDensity = MockObjects.mockDensity
-
     @BeforeTest
     fun bt() {
         state = EdgeSliderStateImp()
@@ -70,6 +68,7 @@ class EdgeSliderStateImpTest : TestSplitter() {
             state.recomputeStateWhenThumbReachRailBottom()
             postCondition {
                 state.thumbLengthRatioMs.value shouldBe oldLengthRatio * state.reductionRatio
+                state.thumbPositionRatio shouldBe state.moveBackRatio
             }
         }
     }
@@ -87,6 +86,28 @@ class EdgeSliderStateImpTest : TestSplitter() {
             postCondition {
                 state.thumbLengthRatioMs.value shouldBe state.maxLengthRatio
             }
+        }
+    }
+
+    @Test
+    fun recomputeStateWhenThumbIsDragged(){
+//        test("drag thumb but thumb does not reach bottom yet"){
+//            state.recomputeStateWhenThumbIsDragged(
+//                delta = 30f,true
+//            )
+//            state.thumbPositionRatio shouldBe 30f/state.railLengthPx!!
+//
+//        }
+
+        test("drag thumb to the bottom"){
+            val oldThumbLength = state.thumbLengthInPx
+
+            state.recomputeStateWhenThumbIsDragged(
+                delta = 90f,true
+            )
+            state.thumbPositionRatio shouldBe state.moveBackRatio
+            state.thumbLengthInPx shouldBe oldThumbLength*state.reductionRatio
+
         }
     }
 

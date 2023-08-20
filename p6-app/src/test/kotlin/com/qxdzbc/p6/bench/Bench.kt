@@ -1,10 +1,14 @@
 package com.qxdzbc.p6.bench
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.view.testApp
@@ -88,14 +92,20 @@ fun MView(
 }
 
 fun main() {
-    val ts = TestSample()
-
-    val stateMs:Ms<MState> = ms(MStateImp(0,"asd"))
-    val action = MActionImp(stateMs)
-    val vm = VM(stateMs, action)
-
     testApp {
-        MView(vm)
+        Row {
+            Box(
+                Modifier
+                    .background(Color.Gray)
+                    .fillMaxHeight()
+                    .weight(1f)
+            )
+            Box(
+
+                modifier = Modifier.background(Color.Red).size(20.dp)
+
+            )
+        }
     }
 }
 

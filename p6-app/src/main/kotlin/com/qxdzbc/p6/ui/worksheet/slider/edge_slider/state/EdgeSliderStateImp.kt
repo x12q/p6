@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.FloatUtils.guardFloat01
@@ -69,7 +70,7 @@ data class EdgeSliderStateImp(
      */
     fun computeThumbOffsetWhenDrag(dragDelta: Float) {
         val newThumbPositionRatio = railLengthPx?.let { rl ->
-            val newThumbYPx = max((thumbLayoutCoor?.boundInWindow?.top ?: 0f) + dragDelta, 0f)
+            val newThumbYPx = max((thumbLayoutCoor?.layout?.boundsInParent()?.top ?: 0f) + dragDelta, 0f)
             (newThumbYPx) / (rl)
         }?.coerceIn(0f, 1f) ?: 0f
 

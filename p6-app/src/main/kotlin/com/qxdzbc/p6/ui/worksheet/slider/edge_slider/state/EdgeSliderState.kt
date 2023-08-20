@@ -37,7 +37,7 @@ interface EdgeSliderState {
     val thumbPositionInPx:Float
 
     /**
-     * Recompute states when thumb is dragged. This also affect the grid slider state attached to this state
+     * Recompute this state when thumb is dragged, including thumb position and thumb size.
      */
     fun recomputeStateWhenThumbIsDragged(delta: Float,allowRecomputationWhenReachBot:Boolean)
 
