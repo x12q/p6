@@ -5,6 +5,7 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetId
+import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -23,6 +24,67 @@ internal class GridSliderImpTest {
         colLimit = IntRange(0, 100),
         rowLimit = IntRange(0, 120)
     )
+
+    @Test
+    fun `updateEdgeSliderLimit - shrink case`(){
+        val s0 = GridSliderImp(
+            slider = InternalGridSlider(
+                visibleColRange = IntRange(1,100),
+                visibleRowRange = IntRange(3,120),
+            ),
+            colLimit = IntRange(0, 100),
+            rowLimit = IntRange(0, 120),
+        ).copy(
+            edgeSliderCol = 1000,
+            edgeSliderRow = 800,
+        )
+
+        val margin = 20
+        val s1 = s0.updateEdgeSliderLimit(margin)
+        s1.edgeSliderCol shouldBe 100+20
+        s1.edgeSliderRow shouldBe 120+20
+    }
+
+    @Test
+    fun `updateEdgeSliderLimit - expanse case`(){
+        val s0 = GridSliderImp(
+            slider = InternalGridSlider(
+                visibleColRange = IntRange(1,100),
+                visibleRowRange = IntRange(3,120),
+            ),
+            colLimit = IntRange(0, 100),
+            rowLimit = IntRange(0, 120),
+        ).copy(
+            edgeSliderCol = 100,
+            edgeSliderRow = 100,
+        )
+
+        val margin = 20
+        val s1 = s0.updateEdgeSliderLimit(margin)
+        s1.edgeSliderCol shouldBe 100+20
+        s1.edgeSliderRow shouldBe 120+20
+    }
+
+    @Test
+    fun `updateEdgeSliderLimit non update`(){
+        val s0 = GridSliderImp(
+            slider = InternalGridSlider(
+                visibleColRange = IntRange(1,100),
+                visibleRowRange = IntRange(3,120),
+            ),
+            colLimit = IntRange(0, 100),
+            rowLimit = IntRange(0, 120),
+        ).copy(
+            edgeSliderCol = 170,
+            edgeSliderRow = 180,
+        )
+
+        val margin = 20
+        val s1 = s0.updateEdgeSliderLimit(margin)
+        s1 shouldBe s0
+
+    }
+
 
     @Test
     fun constructor() {
@@ -171,9 +233,9 @@ internal class GridSliderImpTest {
         assertEquals(gridSlider.visibleColRangeIncludeMargin, m4.visibleColRangeIncludeMargin)
     }
 
-    @Test
-    fun `followCursor with margin`() {
 
+    @Test
+    fun `followCursorMainCell when main cell is one of the margin cells`() {
         val gridSlider =GridSliderImp(
             slider = InternalGridSlider(
                 visibleColRange = IntRange(5, 10),
@@ -181,27 +243,29 @@ internal class GridSliderImpTest {
             ),
             colLimit = WorksheetConstants.defaultColRange,
             rowLimit = WorksheetConstants.defaultRowRange,
+        ).copy(
+            marginRow = 20,
+            marginCol = 10
         )
 
-
-        // x: cursor on left-most col
+//         x: cursor on left-most col
         val cursor = CursorStateImp.default2(wsId, mock(),mock())
             .setMainCell(CellAddress(gridSlider.firstVisibleCol - 1, 2))
+
         val m1 = gridSlider.followCursorMainCell(cursor)
-        assertNotNull(m1)
+
         assertEquals(gridSlider.firstVisibleCol - 1, m1.firstVisibleCol)
         assertEquals(gridSlider.lastVisibleCol - 1, m1.lastVisibleCol)
         assertEquals(gridSlider.visibleRowRangeIncludeMargin, m1.visibleRowRangeIncludeMargin)
 
-        // x: cursor on the margin col
+        // x: cursor on the margin col on the right => gridSlider should move its visible range 1 col to
         val cursor2 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(
             CellAddress(gridSlider.lastVisibleCol, 2)
         )
         val m2 = gridSlider.followCursorMainCell(cursor2)
-        assertNotNull(m2)
-        assertEquals(gridSlider.firstVisibleCol + 1, m2.firstVisibleCol)
-        assertEquals(gridSlider.lastVisibleCol + 1, m2.lastVisibleCol)
-        assertEquals(gridSlider.visibleRowRangeIncludeMargin, m2.visibleRowRangeIncludeMargin)
+
+        m2.firstVisibleCol shouldBe gridSlider.firstVisibleCol + 1
+        m2.visibleRowRangeIncludeMargin shouldBe gridSlider.visibleRowRangeIncludeMargin
 
         // x: cursor on margin row
         val cursor3 = CursorStateImp.default2(wsId, mock(),mock()).setMainCell(

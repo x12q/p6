@@ -26,7 +26,8 @@ interface GridSlider {
     val edgeSliderRow:Int
 
     /**
-     * (1,[edgeSliderRow])
+     * This is this range: (1,[edgeSliderRow]).
+     * This range is always larger than the [visibleRowRangeIncludeMargin] and is expanded when [visibleRowRangeIncludeMargin] reach this limit.
      */
     val edgeSliderRowRange:IntRange
 
@@ -36,7 +37,8 @@ interface GridSlider {
     val edgeSliderCol:Int
 
     /**
-     * (1,[edgeSliderCol])
+     * This is this range: (1,[edgeSliderCol])
+     * This range is always larger than the [visibleColRangeIncludeMargin] and is expanded whenever [visibleColRangeIncludeMargin] reach this limit.
      */
     val edgeSliderColRange:IntRange
 

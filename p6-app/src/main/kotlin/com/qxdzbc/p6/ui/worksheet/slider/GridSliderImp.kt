@@ -19,7 +19,7 @@ data class GridSliderImp(
     override val marginCol: Int?,
     override val edgeSliderRow: Int,
     override val edgeSliderCol: Int,
-) : BaseSlider(),GridSlider {
+) : BaseSlider(), GridSlider {
 
     @Inject
     constructor(
@@ -28,7 +28,7 @@ data class GridSliderImp(
         colLimit: IntRange,
         @DefaultRowRangeQualifier
         rowLimit: IntRange,
-    ):this(
+    ) : this(
         slider = slider,
         colLimit = colLimit,
         rowLimit = rowLimit,
@@ -39,17 +39,17 @@ data class GridSliderImp(
     )
 
 
-    init{
+    init {
         val sliderColOutOfBound = !(slider.firstVisibleCol in colLimit && slider.lastVisibleCol in colLimit)
         val sliderRowOutOfBound = !(slider.firstVisibleRow in rowLimit && slider.lastVisibleRow in rowLimit)
-        if(sliderColOutOfBound || sliderRowOutOfBound){
+        if (sliderColOutOfBound || sliderRowOutOfBound) {
             throw IllegalArgumentException("slider ${slider} doesn't fit in range (c:${colLimit}, r:${rowLimit})")
         }
     }
 
-    override val edgeSliderRowRange: IntRange get() = IntRange(1,edgeSliderRow)
+    override val edgeSliderRowRange: IntRange get() = IntRange(1, edgeSliderRow)
 
-    override val edgeSliderColRange: IntRange get() = IntRange(1,edgeSliderCol)
+    override val edgeSliderColRange: IntRange get() = IntRange(1, edgeSliderCol)
 
     override val firstVisibleCol: Int get() = slider.firstVisibleCol
 
@@ -58,10 +58,14 @@ data class GridSliderImp(
     override val visibleColRangeIncludeMargin: IntRange get() = slider.visibleColRange
 
     override fun setVisibleColRange(i: IntRange): GridSlider {
-        if(i==this.visibleColRangeIncludeMargin){
+        if (i == this.visibleColRangeIncludeMargin) {
             return this
-        }else{
-            return this.copy(slider = this.slider.setVisibleColRange(i))
+        } else {
+            val rt = this
+                .copy(slider = this.slider.setVisibleColRange(i))
+                .updateEdgeSliderLimit()
+
+            return rt
         }
     }
 
@@ -71,13 +75,11 @@ data class GridSliderImp(
 
     override val visibleRowRangeIncludeMargin: IntRange get() = slider.visibleRowRange
 
-
     override fun setMarginRow(i: Int?): GridSliderImp {
         return this.copy(
             marginRow = i
         )
     }
-
 
     override fun setMarginCol(i: Int?): GridSliderImp {
         return this.copy(
@@ -86,47 +88,84 @@ data class GridSliderImp(
     }
 
     override fun setVisibleRowRange(i: IntRange): GridSliderImp {
-        if(i == this.visibleRowRangeIncludeMargin){
+        if (i == this.visibleRowRangeIncludeMargin) {
             return this
-        }else{
-            return this.copy(slider = this.slider.setVisibleRowRange(i))
+        } else {
+            val rt = this
+                .copy(slider = this.slider.setVisibleRowRange(i))
+                .updateEdgeSliderLimit()
+            return rt
         }
     }
 
     override fun shiftLeft(colCount: Int): GridSliderImp {
-        if(colCount<0){
+        if (colCount < 0) {
             return this.shiftRight(-colCount)
         }
         val md = minOf(firstVisibleCol - colLimit.first, colCount)
-        return this.copy(slider = slider.shiftLeft(md))
+        val rt = this
+            .copy(slider = slider.shiftLeft(md))
+            .updateEdgeSliderLimit()
+        return rt
     }
 
     override fun shiftRight(colCount: Int): GridSliderImp {
-        if(colCount<0){
-            return this.shiftLeft(-colCount)
+
+        if (colCount < 0) {
+            return this
+                .shiftLeft(-colCount)
+                .updateEdgeSliderLimit()
         }
         val md = minOf(colLimit.last - lastVisibleCol, colCount)
-        return this.copy(slider = slider.shiftRight(md))
+        return this
+            .copy(slider = slider.shiftRight(md))
+            .updateEdgeSliderLimit()
     }
 
     override fun shiftUp(rowCount: Int): GridSliderImp {
-        if(rowCount<0){
-            return this.shiftDown(-rowCount)
+        if (rowCount < 0) {
+            return this
+                .shiftDown(-rowCount)
+                .updateEdgeSliderLimit()
         }
         val md = minOf(firstVisibleRow - rowLimit.first, rowCount)
-        return this.copy(slider = slider.shiftUp(md))
+        return this
+            .copy(slider = slider.shiftUp(md))
+            .updateEdgeSliderLimit()
     }
 
     override fun shiftDown(rowCount: Int): GridSliderImp {
-        if(rowCount<0){
-            return this.shiftUp(-rowCount)
+        if (rowCount < 0) {
+            return this
+                .shiftUp(-rowCount)
+                .updateEdgeSliderLimit()
         }
         val remainingRow = rowLimit.last - lastVisibleRow
         val md = minOf(remainingRow, rowCount)
-        return this.copy(slider = slider.shiftDown(md))
+        return this
+            .copy(slider = slider.shiftDown(md))
+            .updateEdgeSliderLimit()
     }
 
-    companion object{
+    /**
+     * expand or shrink [edgeSliderCol] and [edgeSliderRow] if [slider] reaches or goes out of those limits.
+     */
+    fun updateEdgeSliderLimit(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSliderImp {
+
+        var rt = this
+
+        if (slider.lastVisibleCol >= edgeSliderCol || edgeSliderCol - slider.lastVisibleCol > margin) {
+            rt = rt.copy(edgeSliderCol = slider.lastVisibleCol + margin)
+        }
+
+        if (slider.lastVisibleRow >= edgeSliderRow || edgeSliderRow - slider.lastVisibleRow > margin) {
+            rt = rt.copy(edgeSliderRow = slider.lastVisibleRow + margin)
+        }
+
+        return rt
+    }
+
+    companion object {
         fun forPreview(
             visibleColRange: IntRange = WorksheetConstants.defaultVisibleColRange,
             visibleRowRange: IntRange = WorksheetConstants.defaultVisibleRowRange,
