@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.unit.Density
@@ -12,7 +10,7 @@ import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderUtils
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.HorizontalWsEdgeSliderStateQualifier
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -45,14 +43,14 @@ class HorizontalEdgeSliderState(
 
     @Inject
     constructor() : this(
-        thumbLengthRatioMs = StateUtils.ms(EdgeSliderUtils.maxLength),
-        maxLengthRatio = EdgeSliderUtils.maxLength,
-        minLengthRatio = EdgeSliderUtils.minLength,
-        reductionRatio = EdgeSliderUtils.reductionRate,
-        moveBackRatio = EdgeSliderUtils.moveBackRatio,
+        thumbLengthRatioMs = StateUtils.ms(EdgeSliderConstants.maxLength),
+        maxLengthRatio = EdgeSliderConstants.maxLength,
+        minLengthRatio = EdgeSliderConstants.minLength,
+        reductionRatio = EdgeSliderConstants.reductionRate,
+        moveBackRatio = EdgeSliderConstants.moveBackRatio,
         thumbLayoutCoorMs = StateUtils.ms(null),
         railLayoutCoorMs = StateUtils.ms(null),
-        thumbPositionRatioMs = StateUtils.ms(EdgeSliderUtils.startingThumbPositionRatio)
+        thumbPositionRatioMs = StateUtils.ms(EdgeSliderConstants.startingThumbPositionRatio)
     )
 
     override val thumbStartInParentPx: Float?

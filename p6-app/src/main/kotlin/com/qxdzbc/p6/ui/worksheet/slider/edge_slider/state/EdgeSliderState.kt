@@ -4,6 +4,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.OnDragThumbData
 
 /**
  * This state consist of the state of a rail, and a thumb of an edge slider
@@ -11,6 +12,8 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 sealed interface EdgeSliderState {
 
     val type:EdgeSliderType
+
+    val onDragData:OnDragThumbData
 
     /**
      * rail length in px
@@ -57,12 +60,18 @@ sealed interface EdgeSliderState {
     val thumbReachRailStart: Boolean
 
     /**
-     * [thumbPositionRatio] tells how far the thumb is away from the top of the rail in percentage (%).
+     * This tells how far the thumb is away from the top of the rail in percentage (%).
      * - 0.0 (or 0%) means the thumb is at the top.
-     * - 1.0 (or 100%) means the thumb is at the bottom
-     * [thumbPositionRatio] is always in [0,1] range
+     * - 1.0 (or 100%) means the thumb is at the bottom.
+     * [thumbPositionRatio] is for displaying thumb on the view layer
+     * * [thumbPositionRatio] is always in [0,1] range.
      */
     val thumbPositionRatio: Float
+
+    /**
+     * this tells the actual % of the scroll.
+     */
+    val thumbScrollRatio:Float
 
     /**
      * Compute the position ratio of a point with offset [yPx] from the top of the rail against the full rail length
@@ -80,4 +89,10 @@ sealed interface EdgeSliderState {
      */
     fun computeThumbOffset(density: Density): DpOffset
 
+    /**
+     * Convert [thumbPositionRatio] to an int within [indexRange]
+     */
+    fun projectThumbPositionToIndex(indexRange:IntRange):Int
+
+    val effectiveRailLengthPx: Float?
 }

@@ -42,7 +42,7 @@ fun VerticalEdgeSlider(
     state: EdgeSliderState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
-    onDrag: (positionRatio: Float) -> Unit,
+    onDrag: (OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
     allowComputationAtBot: () -> Boolean = { true },
 ) {
@@ -60,7 +60,7 @@ fun Preview_VerticalEdgeSlider() {
         VerticalEdgeSliderState()
     }
 
-    var dragRatio: Float? by rms(null)
+    var dragRatio: OnDragThumbData? by rms(null)
     var clickRatio: Float? by rms(null)
 
     Row {
@@ -81,7 +81,9 @@ fun Preview_VerticalEdgeSlider() {
 
             Text("Thumb position ratio: ${state.thumbPositionRatio}")
 
-            Text("${sliderState}")
+            Text("Thumb scroll ratio: ${state.thumbScrollRatio}")
+
+
         }
 
     }

@@ -5,6 +5,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.Density
@@ -45,6 +46,15 @@ data class P6LayoutCoorImp(
                 return null
             }
         }
+    override val boundInParent: Rect?
+        get() {
+            if (layout.isAttached) {
+                return layout.boundsInParent()
+            } else {
+                return null
+            }
+        }
+
     override val posInWindowOrZero: Offset get() = posInWindow ?: Offset(0F, 0F)
     override val posInWindow: Offset?
         get() {

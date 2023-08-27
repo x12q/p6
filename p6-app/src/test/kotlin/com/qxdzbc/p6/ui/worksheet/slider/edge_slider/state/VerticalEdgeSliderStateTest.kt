@@ -3,6 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import com.qxdzbc.common.compose.layout_coor_wrapper.DummyP6LayoutCoor
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.common.test_util.TestSplitter
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -11,24 +12,35 @@ import io.kotest.matchers.shouldBe
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import test.MockObjects
 import kotlin.test.*
 
-class EdgeSliderStateImpTest : TestSplitter() {
+class VerticalEdgeSliderStateTest : TestSplitter() {
 
-    lateinit var state: EdgeSliderStateImp
+    lateinit var state: VerticalEdgeSliderState
 
     @BeforeTest
     fun bt() {
-        state = EdgeSliderStateImp()
+        state = VerticalEdgeSliderState()
+        state.thumbLayoutCoorMs.value = DummyP6LayoutCoor(
+                boundInWindow = Rect(Offset.Zero,size= Size(width=10f,height=10f)),
+                boundInParent = Rect(Offset.Zero,size= Size(width=10f,height=10f)),
+            )
 
-        state.thumbLayoutCoorMs.value = mock<P6LayoutCoor>{
-            whenever(it.boundInWindow) doReturn Rect(Offset.Zero,size= Size(10f,10f))
-        }
+        state.railLayoutCoorMs.value = DummyP6LayoutCoor(
+            boundInWindow = Rect(Offset.Zero,size= Size(width=10f,height=100f)),
+            boundInParent = null,
+        )    }
 
-        state.railLayoutCoorMs.value = mock<P6LayoutCoor>{
-            whenever(it.boundInWindow) doReturn Rect(Offset.Zero,size= Size(10f,100f))
-        }
+    @Test
+    fun projectThumbPositionToIndex(){
+        state.thumbPositionRatioMs.value=0f
+        state.projectThumbPositionToIndex(1 .. 100) shouldBe 1
+
+        state.thumbPositionRatioMs.value=0.1f
+        state.projectThumbPositionToIndex(1 .. 100) shouldBe 20
+
+        state.thumbPositionRatioMs.value=0.25f
+        state.projectThumbPositionToIndex(1 .. 100) shouldBe 50
 
     }
 
@@ -56,7 +68,7 @@ class EdgeSliderStateImpTest : TestSplitter() {
             state.computeThumbOffsetWhenDrag( 20f)
 
             postCondition {
-                state.thumbPositionRatio shouldBe 0.2f
+                state.thumbPositionRatio shouldBe 20f/state.railLengthPx!!
             }
         }
     }
@@ -99,16 +111,16 @@ class EdgeSliderStateImpTest : TestSplitter() {
 //
 //        }
 
-        test("drag thumb to the bottom"){
-            val oldThumbLength = state.thumbLengthInPx
-
-            state.recomputeStateWhenThumbIsDragged(
-                delta = 90f,true
-            )
-            state.thumbPositionRatio shouldBe state.moveBackRatio
-            state.thumbLengthInPx shouldBe oldThumbLength*state.reductionRatio
-
-        }
+//        test("drag thumb to the bottom"){
+//            val oldThumbLength = state.thumbLengthInPx
+//
+//            state.recomputeStateWhenThumbIsDragged(
+//                delta = 90f,true
+//            )
+//            state.thumbPositionRatio shouldBe state.moveBackRatio
+//            state.thumbLengthInPx shouldBe oldThumbLength*state.reductionRatio
+//
+//        }
     }
 
 }

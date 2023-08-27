@@ -43,7 +43,7 @@ fun HorizontalEdgeSlider(
     state: EdgeSliderState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
-    onDrag: (positionRatio: Float) -> Unit,
+    onDrag: (data:OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
     allowComputationAtBot: () -> Boolean = { true },
 ) {
@@ -61,7 +61,7 @@ fun Preview_HorizontalEdgeSlider() {
         HorizontalEdgeSliderState()
     }
 
-    var dragRatio: Float? by rms(null)
+    var dragRatio: OnDragThumbData? by rms(null)
     var clickRatio: Float? by rms(null)
 
     Column {

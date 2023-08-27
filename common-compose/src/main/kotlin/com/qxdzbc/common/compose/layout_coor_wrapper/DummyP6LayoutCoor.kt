@@ -15,6 +15,7 @@ class DummyP6LayoutCoor(
     override val boundInWindow: Rect? = Rect.Zero,
     override val posInWindow: Offset? = Offset.Zero,
     override val isAttached: Boolean = true,
+    override val boundInParent: Rect? = Rect.Zero,
 ) : P6LayoutCoor {
 
     override val boundInWindowOrZero: Rect get() = boundInWindow ?: Rect.Zero

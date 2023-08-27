@@ -89,7 +89,6 @@ fun WorksheetView(
             EdgeSlider(
                 state=wsState.verticalEdgeSliderState,
                 onDrag = {positionRatio->
-                    println(positionRatio)
                 },
                 onClickOnRail = {}
             )

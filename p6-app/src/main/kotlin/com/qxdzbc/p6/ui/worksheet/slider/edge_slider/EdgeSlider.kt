@@ -3,7 +3,10 @@ package com.qxdzbc.p6.ui.worksheet.slider.edge_slider
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
@@ -18,7 +21,6 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalEdgeSliderState
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
 
-
 /**
  * Edge slider is a slider at the edge of a worksheet.
  * User can drag on this slider to scroll the worksheet vertically or horizontally.
@@ -31,7 +33,7 @@ fun EdgeSlider(
     state: EdgeSliderState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
-    onDrag: (positionRatio: Float) -> Unit,
+    onDrag: (positionRatio: OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
     allowComputationAtEnd: () -> Boolean = { true },
 ) {
@@ -92,7 +94,7 @@ fun EdgeSlider(
                     orientation = dragOrientation,
                     state = rememberDraggableState { delta ->
                         state.recomputeStateWhenThumbIsDragged(delta, allowComputationAtEnd())
-                        onDrag(state.thumbPositionRatio)
+                        onDrag(state.onDragData)
                     }
                 )
         )

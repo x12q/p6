@@ -32,6 +32,11 @@ interface P6LayoutCoor {
     val boundInWindow: Rect?
 
     /**
+     * Bound in parent is null if [layout] is not attached
+     */
+    val boundInParent:Rect?
+
+    /**
      * return zero offset if the current position is not available
      */
     val posInWindowOrZero:Offset

@@ -129,8 +129,6 @@ internal class GridSliderImpTest {
             ),
             colLimit = WorksheetConstants.defaultColRange,
             rowLimit = WorksheetConstants.defaultRowRange,
-            marginCol = null,
-            marginRow = null,
         )
         // cursor on left-most col
         val cursor = CursorStateImp.default2(wsId, mock(), mock()).setMainCell(
@@ -183,8 +181,6 @@ internal class GridSliderImpTest {
             ),
             colLimit = WorksheetConstants.defaultColRange,
             rowLimit = WorksheetConstants.defaultRowRange,
-            marginRow = 20,
-            marginCol = 10,
         )
 
 

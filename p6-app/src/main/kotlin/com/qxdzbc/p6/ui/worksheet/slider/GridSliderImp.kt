@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet.slider
 
+import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultColRangeQualifier
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultRowRangeQualifier
@@ -14,9 +15,10 @@ data class GridSliderImp(
     private val slider: InternalGridSlider,
     override val colLimit: IntRange,
     override val rowLimit: IntRange,
-//    override val phantomRowMargin: Int,
     override val marginRow: Int?,
     override val marginCol: Int?,
+    override val edgeSliderRow: Int,
+    override val edgeSliderCol: Int,
 ) : BaseSlider(),GridSlider {
 
     @Inject
@@ -32,6 +34,8 @@ data class GridSliderImp(
         rowLimit = rowLimit,
         marginRow = null,
         marginCol = null,
+        edgeSliderCol = GridSliderConstants.startingEdgeSliderCol,
+        edgeSliderRow = GridSliderConstants.startingEdgeSliderRow,
     )
 
 
@@ -42,6 +46,10 @@ data class GridSliderImp(
             throw IllegalArgumentException("slider ${slider} doesn't fit in range (c:${colLimit}, r:${rowLimit})")
         }
     }
+
+    override val edgeSliderRowRange: IntRange get() = IntRange(1,edgeSliderRow)
+
+    override val edgeSliderColRange: IntRange get() = IntRange(1,edgeSliderCol)
 
     override val firstVisibleCol: Int get() = slider.firstVisibleCol
 
@@ -119,8 +127,20 @@ data class GridSliderImp(
     }
 
     companion object{
-        fun forPreview(): GridSliderImp {
-            return GridSliders.create()
+        fun forPreview(
+            visibleColRange: IntRange = WorksheetConstants.defaultVisibleColRange,
+            visibleRowRange: IntRange = WorksheetConstants.defaultVisibleRowRange,
+            colLimit: IntRange = WorksheetConstants.defaultColRange,
+            rowLimit: IntRange = WorksheetConstants.defaultRowRange,
+        ): GridSliderImp {
+            return GridSliderImp(
+                slider = InternalGridSlider(
+                    visibleColRange = visibleColRange,
+                    visibleRowRange = visibleRowRange,
+                ),
+                colLimit = colLimit,
+                rowLimit = rowLimit
+            )
         }
     }
 }

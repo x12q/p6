@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.unit.Density
@@ -10,7 +12,7 @@ import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderUtils
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.VerticalWsEdgeSliderStateQualifier
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -43,39 +45,39 @@ class VerticalEdgeSliderState(
 
     @Inject
     constructor() : this(
-        thumbLengthRatioMs = StateUtils.ms(EdgeSliderUtils.maxLength),
-        maxLengthRatio = EdgeSliderUtils.maxLength,
-        minLengthRatio = EdgeSliderUtils.minLength,
-        reductionRatio = EdgeSliderUtils.reductionRate,
-        moveBackRatio = EdgeSliderUtils.moveBackRatio,
+        thumbLengthRatioMs = StateUtils.ms(EdgeSliderConstants.maxLength),
+        maxLengthRatio = EdgeSliderConstants.maxLength,
+        minLengthRatio = EdgeSliderConstants.minLength,
+        reductionRatio = EdgeSliderConstants.reductionRate,
+        moveBackRatio = EdgeSliderConstants.moveBackRatio,
         thumbLayoutCoorMs = StateUtils.ms(null),
         railLayoutCoorMs = StateUtils.ms(null),
-        thumbPositionRatioMs = StateUtils.ms(EdgeSliderUtils.startingThumbPositionRatio)
+        thumbPositionRatioMs = StateUtils.ms(EdgeSliderConstants.startingThumbPositionRatio)
     )
 
     override val thumbStartInParentPx: Float?
-        get() = thumbLayoutCoor?.layout?.boundsInParent()?.top
+        get() = thumbLayoutCoor?.boundInParent?.top
 
     override val railEndInWindowPx: Float?
-        get() = railLayoutCoor?.layout?.boundsInWindow()?.bottom
+        get() = railLayoutCoor?.boundInWindow?.bottom
 
     override val thumbEndInWindowPx: Float?
-        get() = thumbLayoutCoor?.layout?.boundsInWindow()?.bottom
+        get() = thumbLayoutCoor?.boundInWindow?.bottom
 
     override val thumbStartInWindowPx: Float?
-        get() = thumbLayoutCoor?.layout?.boundsInWindow()?.top
+        get() = thumbLayoutCoor?.boundInWindow?.top
 
     override val railStartInWindowPx: Float?
-        get() = railLayoutCoor?.layout?.boundsInWindow()?.top
+        get() = railLayoutCoor?.boundInWindow?.top
 
     override val type: EdgeSliderType
         get() = EdgeSliderType.Vertical
 
     override val railLengthPx: Float?
-        get() = railLayoutCoor?.layout?.boundsInWindow()?.height
+        get() = railLayoutCoor?.boundInWindow?.height
 
     override fun computeThumbOffset(density: Density): DpOffset {
-        val rt= DpOffset(
+        val rt = DpOffset(
             x = 0.dp,
             y = with(density) { thumbPositionInPx.toDp() },
         )

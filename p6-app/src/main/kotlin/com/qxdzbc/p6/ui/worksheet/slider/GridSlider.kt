@@ -20,6 +20,26 @@ interface GridSlider {
      */
     val rowLimit: IntRange
 
+    /**
+     * the last row of the row range used by vertical edge slider
+     */
+    val edgeSliderRow:Int
+
+    /**
+     * (1,[edgeSliderRow])
+     */
+    val edgeSliderRowRange:IntRange
+
+    /**
+     * the last col of the col range used by vertical edge slider
+     */
+    val edgeSliderCol:Int
+
+    /**
+     * (1,[edgeSliderCol])
+     */
+    val edgeSliderColRange:IntRange
+
     val currentDisplayedRange:RangeAddress
 
     /**
