@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.worksheet.di.comp
+package com.qxdzbc.p6.ui.worksheet.di
 
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor

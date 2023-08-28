@@ -41,6 +41,7 @@ fun WorksheetView(
     val wsActions: WorksheetAction = worksheetActionTable.worksheetAction
     val wsName = ws.name
     val cursorState: CursorState by wsState.cursorStateMs
+    val localAction = wsState.localAction
 
     Surface(modifier = Modifier.onGloballyPositioned {
         wsActions.updateWsLayoutCoors(it, wsState)
@@ -89,7 +90,7 @@ fun WorksheetView(
             EdgeSlider(
                 state=wsState.verticalEdgeSliderState,
                 onDrag = {dragData->
-                    wsState.slider
+                    localAction.edgeSliderAction.onDrag()
                 },
                 onClickOnRail = {}
             )

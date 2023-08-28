@@ -1,19 +1,15 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.layout.boundsInParent
-import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
+import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
+import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.VerticalWsEdgeSliderStateQualifier
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.ForVerticalWsEdgeSlider
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -21,7 +17,7 @@ import javax.inject.Inject
  * State for vertical edge slider. Exist as a singleton under [WsScope]
  */
 @WsScope
-@VerticalWsEdgeSliderStateQualifier
+@ForVerticalWsEdgeSlider
 @ContributesBinding(scope = WsAnvilScope::class, boundType = EdgeSliderState::class)
 class VerticalEdgeSliderState(
     thumbLengthRatioMs: Ms<Float>,

@@ -9,7 +9,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.OnDragThumbData
 /**
  * This state consist of the state of a rail, and a thumb of an edge slider
  */
-sealed interface EdgeSliderState {
+sealed interface EdgeSliderState : ProjectThumbPosition{
 
     val type:EdgeSliderType
 
@@ -89,10 +89,7 @@ sealed interface EdgeSliderState {
      */
     fun computeThumbOffset(density: Density): DpOffset
 
-    /**
-     * Convert [thumbPositionRatio] to an int within [indexRange]
-     */
-    fun projectThumbPositionToIndex(indexRange:IntRange):Int
+
 
     val effectiveRailLengthPx: Float?
 }

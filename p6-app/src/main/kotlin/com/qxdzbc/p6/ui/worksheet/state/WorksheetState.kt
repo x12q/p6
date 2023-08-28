@@ -18,6 +18,7 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 
 /**
@@ -45,6 +46,8 @@ interface WorksheetState : WbWsSt {
      * Produce a [WorksheetProto] from this worksheet
      */
     fun toProto():WorksheetProto
+
+    val localAction:WorksheetLocalActions
 
     /**
      * A stack of [Command], for undoing actions

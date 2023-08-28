@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
+import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
+import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.HorizontalWsEdgeSliderStateQualifier
 import com.squareup.anvil.annotations.ContributesBinding

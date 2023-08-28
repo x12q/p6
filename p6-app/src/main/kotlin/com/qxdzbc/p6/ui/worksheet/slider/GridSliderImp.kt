@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.worksheet.slider
 
 import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
+import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultColRangeQualifier
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultRowRangeQualifier
 import com.squareup.anvil.annotations.ContributesBinding

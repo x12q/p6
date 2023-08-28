@@ -8,11 +8,10 @@ import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.FloatUtils.guardFloat01
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
+import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants.moveThumbByClickRatio
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.OnDragThumbData
 import kotlin.math.max
-import kotlin.math.roundToInt
 
 
 /**

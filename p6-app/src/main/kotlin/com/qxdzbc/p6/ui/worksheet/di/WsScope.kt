@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.ui.worksheet.di.comp
+package com.qxdzbc.p6.ui.worksheet.di
 
 import javax.inject.Scope
 
