@@ -19,14 +19,14 @@ import kotlin.math.max
  */
 @WsScope
 sealed class AbsEdgeSliderState(
-    val thumbLengthRatioMs: Ms<Float>,
-    val thumbPositionRatioMs: Ms<Float>,
+    private val thumbLengthRatioMs: Ms<Float>,
+    private val thumbPositionRatioMs: Ms<Float>,
     val maxLengthRatio: Float,
     val minLengthRatio: Float,
     val reductionRatio: Float,
     val moveBackRatio: Float,
-    val thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
-    val railLayoutCoorMs: Ms<P6LayoutCoor?>,
+    private val thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
+    private val railLayoutCoorMs: Ms<P6LayoutCoor?>,
 ) : EdgeSliderState {
 
     protected abstract val railEndInWindowPx: Float?
@@ -217,8 +217,9 @@ sealed class AbsEdgeSliderState(
 
     override val onDragData: OnDragThumbData by derivedStateOf {
         OnDragThumbData(
-            positionRatio = thumbPositionRatio,
-            scrollRatio = thumbScrollRatio
+            realPositionRatio = thumbPositionRatio,
+            virtualPositionRatio = thumbScrollRatio,
+            scaleRatio = this._thumbLengthRatio,
         )
     }
 }

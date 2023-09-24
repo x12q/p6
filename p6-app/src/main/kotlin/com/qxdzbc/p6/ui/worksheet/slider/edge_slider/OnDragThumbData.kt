@@ -1,9 +1,20 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider
 
 /**
- * Data for on drag-thumb event
+ * Position data for on drag-thumb event
+ * [realPositionRatio] is the position ratio of the top of the thumb. It indicates the real position of the thumb.
+ * [virtualPositionRatio] is the virtual position of thumb. This one should be used to compute derivative positions such as worksheet scroll position.
+ * [scaleRatio] denotes how big is the thumb compared to the whole slider. It is used to compute scroll speed.
  */
 data class OnDragThumbData(
-    val positionRatio: Float,
-    val scrollRatio:Float
-)
+    val realPositionRatio: Float,
+    val virtualPositionRatio:Float,
+    private val scaleRatio:Float,
+){
+    /**
+     * Give caller an idea of how fast the thumb is moving.
+     * - The larger [scrollSpeedRatio] is, the more content should be scrolled.
+     * - [scrollSpeedRatio] is between 0 and 1, and is capped at a certain value that is decided by the slider producing this data object.
+     */
+    val scrollSpeedRatio:Float = 1-scaleRatio
+}

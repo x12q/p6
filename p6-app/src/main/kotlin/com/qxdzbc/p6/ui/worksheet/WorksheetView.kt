@@ -23,6 +23,7 @@ import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalEdgeSlider
 
 
 /**
@@ -87,7 +88,7 @@ fun WorksheetView(
                     }
                 }
             }
-            EdgeSlider(
+            VerticalEdgeSlider(
                 state=wsState.verticalEdgeSliderState,
                 onDrag = {dragData->
                     localAction.edgeSliderAction.onDrag()

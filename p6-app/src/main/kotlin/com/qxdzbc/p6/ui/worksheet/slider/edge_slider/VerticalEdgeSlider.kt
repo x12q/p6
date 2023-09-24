@@ -31,12 +31,8 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderSta
 
 
 /**
- * Edge slider is a slider at the edge of a worksheet.
- * User can drag on this slider to scroll the worksheet vertically or horizontally.
- * An edge slider consist of a [SliderRail] and a [SliderThumb].
- * The rail takes up the entire length of the slider, and the thumb resides on top of the rail, and can move back and fort.
+ * [EdgeSlider] but on the vertical axis.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun VerticalEdgeSlider(
     state: EdgeSliderState,
