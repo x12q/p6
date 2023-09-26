@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.workbook.state.factory
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.workbook.di.comp.WbComponent
 import com.qxdzbc.p6.ui.workbook.state.WorkbookState
 import com.squareup.anvil.annotations.ContributesBinding

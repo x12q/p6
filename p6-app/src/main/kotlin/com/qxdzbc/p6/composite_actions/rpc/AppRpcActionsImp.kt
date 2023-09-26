@@ -12,7 +12,7 @@ import com.qxdzbc.p6.composite_actions.workbook.delete_worksheet.DeleteWorksheet
 import com.qxdzbc.p6.composite_actions.workbook.new_worksheet.NewWorksheetAction
 import com.qxdzbc.p6.composite_actions.workbook.rename_ws.RenameWorksheetAction
 import com.qxdzbc.p6.composite_actions.workbook.set_active_ws.SetActiveWorksheetAction
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton

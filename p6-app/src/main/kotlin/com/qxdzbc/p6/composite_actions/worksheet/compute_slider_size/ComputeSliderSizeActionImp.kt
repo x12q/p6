@@ -1,9 +1,8 @@
 package com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size
 
 import androidx.compose.ui.unit.*
-import com.qxdzbc.common.compose.SizeUtils.toDpSize
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState

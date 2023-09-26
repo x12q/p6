@@ -17,7 +17,7 @@ import com.qxdzbc.p6.composite_actions.cursor.handle_cursor_keyboard_event.Handl
 import com.qxdzbc.p6.composite_actions.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
 import com.qxdzbc.p6.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.RangeSelectorAllowState

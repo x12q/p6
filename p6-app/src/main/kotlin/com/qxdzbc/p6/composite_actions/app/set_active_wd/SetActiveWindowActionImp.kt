@@ -3,7 +3,7 @@ package com.qxdzbc.p6.composite_actions.app.set_active_wd
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding

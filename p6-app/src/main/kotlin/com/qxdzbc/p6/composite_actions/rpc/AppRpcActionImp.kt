@@ -6,7 +6,7 @@ import com.qxdzbc.p6.composite_actions.app.get_wb.GetWorkbookAction
 import com.qxdzbc.p6.composite_actions.app.load_wb.LoadWorkbookAction
 import com.qxdzbc.p6.composite_actions.app.save_wb.SaveWorkbookAction
 import com.qxdzbc.p6.composite_actions.app.set_active_wb.SetActiveWorkbookAction
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton

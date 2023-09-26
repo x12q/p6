@@ -6,7 +6,7 @@ import com.qxdzbc.p6.common.err.ErrorReportWithNavInfo.Companion.toErr
 import com.qxdzbc.p6.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.common.err.ErrorReportWithNavInfos.noNav
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookErrors
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter

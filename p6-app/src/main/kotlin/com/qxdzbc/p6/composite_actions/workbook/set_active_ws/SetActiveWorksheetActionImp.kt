@@ -3,7 +3,7 @@ package com.qxdzbc.p6.composite_actions.workbook.set_active_ws
 import com.github.michaelbull.result.*
 import com.qxdzbc.p6.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.common.utils.RseNav
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.DocumentContainer

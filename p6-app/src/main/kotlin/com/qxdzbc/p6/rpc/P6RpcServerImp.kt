@@ -3,7 +3,7 @@ package com.qxdzbc.p6.rpc
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.CommonErrors
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.proto.rpc.AppServiceGrpc
 import com.qxdzbc.p6.proto.rpc.CellServiceGrpc
 import com.qxdzbc.p6.proto.rpc.WorkbookServiceGrpc

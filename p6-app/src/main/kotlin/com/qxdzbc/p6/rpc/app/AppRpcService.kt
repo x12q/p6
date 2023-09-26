@@ -16,7 +16,7 @@ import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.document_data_layer.workbook.toModel
 import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 
 import com.qxdzbc.p6.proto.AppProtos

@@ -11,7 +11,7 @@ import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSli
 import com.qxdzbc.p6.composite_actions.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.composite_actions.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding

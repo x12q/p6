@@ -10,7 +10,7 @@ import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
 import com.qxdzbc.p6.di.qualifiers.TextElementVisitorQ
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.formula.translator.antlr.FormulaBaseVisitor
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.translator.partial_text_element_extractor.PartialFormulaTreeExtractor

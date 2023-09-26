@@ -5,7 +5,7 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.composite_actions.ActionErrors
 import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding

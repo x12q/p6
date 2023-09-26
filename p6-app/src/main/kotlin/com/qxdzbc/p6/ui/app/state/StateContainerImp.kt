@@ -20,7 +20,7 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.document_data_layer.worksheet.WorksheetErrors
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.cell.state.CellState

@@ -1,6 +1,7 @@
 package com.qxdzbc.p6.ui.worksheet
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +25,8 @@ import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSlider
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderActionType
 
 
 /**
@@ -88,12 +91,17 @@ fun WorksheetView(
                     }
                 }
             }
+
+            val vEdgeSliderAction = localAction.edgeSliderAction
+
             VerticalEdgeSlider(
                 state=wsState.verticalEdgeSliderState,
                 onDrag = {dragData->
-                    localAction.edgeSliderAction.onDrag()
+                    vEdgeSliderAction.onAction(EdgeSliderActionType.Drag(dragData))
                 },
-                onClickOnRail = {}
+                onClickOnRail = {
+                    // TODO
+                }
             )
         }
         MBox {

@@ -4,7 +4,7 @@ import com.qxdzbc.common.copiers.binary_copier.BinaryCopier
 import com.qxdzbc.p6.document_data_layer.range.Range
 import com.github.michaelbull.result.map
 import com.qxdzbc.common.Rse
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton

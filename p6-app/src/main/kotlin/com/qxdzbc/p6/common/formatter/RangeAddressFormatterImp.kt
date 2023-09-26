@@ -3,7 +3,7 @@ package com.qxdzbc.p6.common.formatter
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import java.nio.file.Path
 import javax.inject.Inject

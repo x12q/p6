@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.CommonErrors
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 import com.qxdzbc.p6.proto.P6FileProtos.*
 import com.qxdzbc.p6.ui.workbook.state.CanConvertToWorkbookProto

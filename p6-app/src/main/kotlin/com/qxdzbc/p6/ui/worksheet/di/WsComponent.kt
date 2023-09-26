@@ -8,7 +8,9 @@ import com.squareup.anvil.annotations.MergeSubcomponent
 import dagger.BindsInstance
 import dagger.Subcomponent
 
-
+/**
+ * This component is tied to [WorksheetState]. Whenever a new [WorksheetState] is created, a new [WsComponent] is created along with it. [WorksheetState] self is not stored inside this component, but it can be provided by this component.
+ */
 @WsScope
 @MergeSubcomponent(
     scope = WsAnvilScope::class,

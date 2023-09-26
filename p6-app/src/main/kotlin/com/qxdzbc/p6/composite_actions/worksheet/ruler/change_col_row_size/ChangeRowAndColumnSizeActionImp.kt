@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.command.BaseCommand
 import com.qxdzbc.p6.command.Command
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject

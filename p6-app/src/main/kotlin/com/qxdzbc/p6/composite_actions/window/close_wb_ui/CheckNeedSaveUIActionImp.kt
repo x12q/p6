@@ -2,7 +2,7 @@ package com.qxdzbc.p6.composite_actions.window.close_wb_ui
 
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.workbook.state.WorkbookState
 import com.squareup.anvil.annotations.ContributesBinding

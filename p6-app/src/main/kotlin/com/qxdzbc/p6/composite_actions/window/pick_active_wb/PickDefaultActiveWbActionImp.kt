@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.composite_actions.window.pick_active_wb
 
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.window.state.WindowState

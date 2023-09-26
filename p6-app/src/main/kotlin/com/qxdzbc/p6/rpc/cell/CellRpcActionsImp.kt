@@ -2,7 +2,7 @@ package com.qxdzbc.p6.rpc.cell
 
 import com.qxdzbc.p6.composite_actions.cell.copy_cell.CopyCellAction
 import com.qxdzbc.p6.composite_actions.cell.cell_update.UpdateCellAction
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton

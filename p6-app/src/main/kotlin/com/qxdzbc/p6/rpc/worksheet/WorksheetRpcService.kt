@@ -11,7 +11,7 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.proto.CommonProtos
 import com.qxdzbc.p6.proto.DocProtos

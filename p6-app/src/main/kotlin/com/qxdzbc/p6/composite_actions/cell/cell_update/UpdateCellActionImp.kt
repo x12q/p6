@@ -6,7 +6,7 @@ import com.github.michaelbull.result.onFailure
 import com.qxdzbc.common.ResultUtils.toOk
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.document_data_layer.cell.CellContent
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 

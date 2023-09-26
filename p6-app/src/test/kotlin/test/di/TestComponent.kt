@@ -34,7 +34,7 @@ import com.qxdzbc.p6.common.formatter.RangeAddressFormatter
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookFactory
 import com.qxdzbc.p6.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.*
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaVisitorFactory
@@ -68,7 +68,7 @@ import javax.inject.Singleton
     modules = [
         P6Module::class,
         WindowStateModuleForTest::class,
-        ModuleForSubComponentsForP6Component::class,
+        ModuleContainSubComponentsForP6Component::class,
     ],
 )
 @Singleton

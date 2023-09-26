@@ -7,7 +7,7 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainer
 import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainerErrors
 import com.qxdzbc.p6.document_data_layer.worksheet.WsNameGenerator
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import java.util.regex.Pattern
 import javax.inject.Inject

@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.window.menu.action
 
 import com.qxdzbc.p6.composite_actions.app.close_wb.CloseWorkbookAction
 import com.qxdzbc.p6.composite_actions.window.WindowAction
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject

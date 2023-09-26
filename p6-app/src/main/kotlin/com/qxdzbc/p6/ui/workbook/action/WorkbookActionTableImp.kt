@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.ui.workbook.action
 
 import com.qxdzbc.p6.composite_actions.workbook.WorkbookAction
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetActionTable
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject

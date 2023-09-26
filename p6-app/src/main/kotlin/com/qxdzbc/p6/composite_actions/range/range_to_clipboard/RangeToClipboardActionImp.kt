@@ -5,7 +5,7 @@ import com.qxdzbc.p6.composite_actions.range.RangeId
 import com.qxdzbc.p6.common.err.ErrorReportWithNavInfo.Companion.withNav
 import com.qxdzbc.p6.common.utils.RseNav
 import com.qxdzbc.p6.document_data_layer.range.copy_paste.RangeCopier
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.StateContainer

@@ -10,7 +10,7 @@ import com.qxdzbc.p6.command.Command
 import com.qxdzbc.p6.document_data_layer.cell.CellId
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.cell.state.format.text.TextHorizontalAlignment
 import com.qxdzbc.p6.ui.cell.state.format.text.TextVerticalAlignment

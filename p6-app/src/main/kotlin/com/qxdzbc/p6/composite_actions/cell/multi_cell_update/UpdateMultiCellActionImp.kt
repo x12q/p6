@@ -4,7 +4,7 @@ import com.github.michaelbull.result.*
 import com.qxdzbc.common.Rse
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.composite_actions.cell.cell_update.CommonReactionWhenAppStatesChanged
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer

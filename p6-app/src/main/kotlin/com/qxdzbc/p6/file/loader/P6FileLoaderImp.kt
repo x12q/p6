@@ -9,7 +9,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.di.UtilQualifier
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.proto.DocProtos
 
 import com.qxdzbc.p6.ui.app.state.TranslatorContainer

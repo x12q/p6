@@ -20,7 +20,7 @@ import com.qxdzbc.p6.document_data_layer.wb_container.WorkbookContainer
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.squareup.anvil.annotations.ContributesBinding

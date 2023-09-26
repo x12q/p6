@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.ui.window.status_bar.di.qualifiers.RPCStatusItemStateQualifier
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.window.status_bar.rpc_status.RPCStatusViewState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject

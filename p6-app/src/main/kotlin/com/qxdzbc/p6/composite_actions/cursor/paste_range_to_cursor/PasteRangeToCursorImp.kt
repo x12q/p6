@@ -4,7 +4,7 @@ import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
