@@ -42,6 +42,9 @@ class DummyP6LayoutCoor(
 
     override val refreshVar: Boolean get() = throw UnsupportedOperationException()
     override val layout: LayoutCoordinates get() = throw UnsupportedOperationException()
+    override fun setLayout(i: LayoutCoordinates): P6LayoutCoor {
+        TODO("Not yet implemented")
+    }
 
     override fun localToWindow(local: Offset): Offset {
         throw UnsupportedOperationException()

@@ -5,6 +5,7 @@ import androidx.compose.foundation.PointerMatcher
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -44,14 +45,20 @@ fun CellGrid(
     val slider by wsState.sliderMs
     val density = LocalDensity.current
 
+    LaunchedEffect(wsState.cellGridLayoutCoorWrapper) {
+        wsState.cellGridLayoutCoorWrapper?.layout?.size?.also { availableSize ->
+            // this action is invoke here so that the slider is redrawn whenever the whole cell grid is re-rendered upon resizing or something similar.
+            wsActions.computeSliderPropertiesForAvailableSpace(wsState, availableSize.toDpSize(density))
+        }
+    }
+
     MBox(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned { layoutCoor ->
-                wsState.setCellGridLayoutCoorWrapper(layoutCoor.toP6LayoutCoor())
-                // this action is invoke here so that the slider is redrawn whenever the cell grid is re-drawn/resized.
-                wsActions.computeSliderPropertiesForAvailableSpace(wsState,layoutCoor.size.toDpSize(density))
-
+                val newLayout = wsState.cellGridLayoutCoorWrapper?.setLayout(layoutCoor)
+                    ?: layoutCoor.toP6LayoutCoor()
+                wsState.setCellGridLayoutCoorWrapper(newLayout)
             }
             .onPointerEvent(PointerEventType.Press) {
                 if (it.buttons.isPrimaryPressed && it.keyboardModifiers.isNonePressed) {

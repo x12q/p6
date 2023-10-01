@@ -12,12 +12,20 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
 data class P6LayoutCoorImp(
     override val layout: LayoutCoordinates,
     override val refreshVar: Boolean = true
 ) : P6LayoutCoor {
+
+    override fun setLayout(i: LayoutCoordinates): P6LayoutCoor {
+        return this.copy(
+            layout = i,
+            refreshVar = !refreshVar
+        )
+    }
 
     override val pixelSizeOrZero: IntSize get() = pixelSize?: IntSize.Zero
 

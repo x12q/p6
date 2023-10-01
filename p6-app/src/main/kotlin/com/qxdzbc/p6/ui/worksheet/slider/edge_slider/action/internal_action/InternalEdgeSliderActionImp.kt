@@ -27,9 +27,6 @@ class InternalEdgeSliderActionImp @Inject constructor(
         val newEdgeRow = projectThumbPosition.convertThumbPositionToIndex(edgeRowRange)
         // move the top row to this
         val shiftCount = newEdgeRow - slider.topLeftCell.rowIndex
-        if(shiftCount>0){
-            println("a")
-        }
         sliderMs.value = slider.shiftDown(shiftCount)
     }
 }

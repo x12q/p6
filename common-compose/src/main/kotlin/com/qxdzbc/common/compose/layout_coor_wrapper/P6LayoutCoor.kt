@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.IntSize
  */
 interface P6LayoutCoor {
     val layout: LayoutCoordinates
+    fun setLayout(i:LayoutCoordinates):P6LayoutCoor
 
     val pixelSizeOrZero:IntSize
     val pixelSize:IntSize?
