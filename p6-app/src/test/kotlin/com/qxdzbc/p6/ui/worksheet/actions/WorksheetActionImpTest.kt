@@ -118,23 +118,23 @@ internal class WorksheetActionImpTest {
         actions.addCellLayoutCoor(CellAddresses.fromIndices(1, 2), mock(), ws)
         assertFalse { this.wsState.cellLayoutCoorMap.isEmpty() }
         val (x1, y1) = Pair(3, 7)
-        actions.scroll(x1, y1, ws)
+        actions.onMouseScroll(x1, y1, ws)
         assertEquals(oldSlider.visibleRowRangeIncludeMargin.add(y1), slider.visibleRowRangeIncludeMargin)
         assertEquals(oldSlider.visibleColRangeIncludeMargin.add(x1), slider.visibleColRangeIncludeMargin)
 
         val (x2, y2) = Pair(-2, -4)
         val oldSlider2 = slider
-        actions.scroll(x2, y2, ws)
+        actions.onMouseScroll(x2, y2, ws)
         assertEquals(oldSlider2.visibleRowRangeIncludeMargin.add(y2), slider.visibleRowRangeIncludeMargin)
         assertEquals(oldSlider2.visibleColRangeIncludeMargin.add(x2), slider.visibleColRangeIncludeMargin)
 
         val (x3, y3) = Pair(-1000, -2000)
-        actions.scroll(x3, y3, ws)
+        actions.onMouseScroll(x3, y3, ws)
         assertEquals(oldSlider.visibleRowRangeIncludeMargin, slider.visibleRowRangeIncludeMargin)
         assertEquals(oldSlider.visibleColRangeIncludeMargin, slider.visibleColRangeIncludeMargin)
 
         val (x4, y4) = Pair(Int.MAX_VALUE, Int.MAX_VALUE)
-        actions.scroll(x4, y4, ws)
+        actions.onMouseScroll(x4, y4, ws)
         assertEquals(this.wsState.colRange.last, slider.lastVisibleCol)
         assertEquals(this.wsState.colRange.last - oldSlider.visibleColRangeIncludeMargin.dif(), slider.firstVisibleCol)
         assertEquals(this.wsState.rowRange.last, slider.lastVisibleRow)

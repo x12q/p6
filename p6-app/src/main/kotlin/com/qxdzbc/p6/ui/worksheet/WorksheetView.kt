@@ -72,7 +72,7 @@ fun WorksheetView(
                                 .onPointerEvent(PointerEventType.Scroll) { pointerEvent ->
                                     val x: Int = pointerEvent.changes.first().scrollDelta.x.toInt()
                                     val y: Int = pointerEvent.changes.first().scrollDelta.y.toInt()
-                                    wsActions.scroll(x, y, wsState)
+                                    wsActions.onMouseScroll(x, y, wsState)
                                 }
                                 .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
                         )

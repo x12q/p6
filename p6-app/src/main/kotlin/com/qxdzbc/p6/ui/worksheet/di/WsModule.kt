@@ -7,7 +7,9 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.command.CommandStack
+import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
+import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.workbook.di.DefaultCommandStackMs
 import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
@@ -19,15 +21,15 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerState
 import com.qxdzbc.p6.ui.worksheet.ruler.RulerStateImp
 import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.worksheet.state.CellStateContainer
-import com.qxdzbc.p6.ui.worksheet.state.CellStateContainers
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.format.CellFormatTableImp
 import com.qxdzbc.p6.ui.worksheet.slider.di.SliderModule
+import com.qxdzbc.p6.ui.worksheet.state.*
 import dagger.Binds
 import dagger.Provides
 
 import dagger.Module
+import javax.inject.Provider
 
 @Module(
     includes = [
@@ -52,6 +54,22 @@ interface WsModule {
     fun redoStackMs(@DefaultCommandStackMs i: Ms<CommandStack>): Ms<CommandStack>
 
     companion object {
+
+        @Provides
+        @WsScope
+        fun wsId(i:Ms<Worksheet>): WorksheetId {
+            return i.value.id
+        }
+
+        @Provides
+        @WsScope
+        fun wsStateGetter(stateContainer: StateContainer,wsIdProvider: Provider<WorksheetId>):WorksheetStateGetter{
+            return object : WorksheetStateGetter {
+                override fun get(): WorksheetState? {
+                    return stateContainer.getWsState(wsIdProvider.get())
+                }
+            }
+        }
 
         @Provides
         @WsScope
@@ -123,8 +141,6 @@ interface WsModule {
         fun DefaultCellStateContainer(): Ms<CellStateContainer> {
             return CellStateContainers.immutable().toMs()
         }
-
-
 
         @Provides
         @WsScope

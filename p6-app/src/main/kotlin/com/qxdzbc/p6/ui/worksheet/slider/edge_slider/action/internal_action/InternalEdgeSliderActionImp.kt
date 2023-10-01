@@ -8,25 +8,35 @@ import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderActionType
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.ForVerticalWsEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ThumbPositionConverter
+import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateGetter
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 @WsScope
 @ContributesBinding(scope = WsAnvilScope::class)
 class InternalEdgeSliderActionImp @Inject constructor(
-    val sliderMs: Ms<GridSlider>,
+    private val wsStateGetter: WorksheetStateGetter,
+    private val sliderMs: Ms<GridSlider>,
     @ForVerticalWsEdgeSlider
-    val projectThumbPosition: ThumbPositionConverter,
+    private val thumbPositionConverter: ThumbPositionConverter,
 ) : InternalEdgeSliderAction {
 
-    var slider by sliderMs
+    private var slider by sliderMs
 
     override fun drag(data: EdgeSliderActionType.Drag) {
+
         val edgeRowRange = slider.edgeSliderRowRange
-        val newEdgeRow = projectThumbPosition.convertThumbPositionToIndex(edgeRowRange)
+        val newEdgeRow = thumbPositionConverter.convertThumbPositionToIndex(edgeRowRange)
+
         // move the top row to this
         val shiftCount = newEdgeRow - slider.topLeftCell.rowIndex
-        sliderMs.value = slider.shiftDown(shiftCount)
+        val newSlider = slider.shiftDown(shiftCount)
+
+        if (newSlider != slider) {
+            wsStateGetter.get()?.setSliderAndRefreshDependentStates(newSlider)
+        }
+        slider = newSlider
     }
 }

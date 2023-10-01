@@ -38,7 +38,7 @@ class WorksheetActionImp @Inject constructor(
 
     private val sc = stateCont
 
-    override fun scroll(x: Int, y: Int, wsLoc: WbWsSt) {
+    override fun onMouseScroll(x: Int, y: Int, wsLoc: WbWsSt) {
         sc.getWsState(wsLoc)?.also { wsState ->
             val sliderState = wsState.slider
             var newSlider = sliderState
@@ -49,10 +49,11 @@ class WorksheetActionImp @Inject constructor(
                 newSlider = newSlider.shiftDown(y)
             }
             if (newSlider != sliderState) {
-                wsState
-                    .setSliderAndRefreshDependentStates(newSlider)
-                wsState.cellLayoutCoorMapMs.value =
-                    wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddressInVisibleRange(cellAddress) }
+                wsState.setSliderAndRefreshDependentStates(newSlider)
+//                wsState.cellLayoutCoorMapMs.value = wsState.cellLayoutCoorMap
+//                    .filter { (cellAddress, _) ->
+//                        sliderState.containAddressInVisibleRange(cellAddress)
+//                    }
             }
         }
     }
@@ -72,7 +73,6 @@ class WorksheetActionImp @Inject constructor(
     override fun removeAllCellLayoutCoor(wsLoc: WbWsSt) {
         sc.getWsState(wsLoc)?.removeAllCellLayoutCoor()
     }
-
 
     override fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
         val wsState = sc.getWsState(wsLoc)

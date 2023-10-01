@@ -12,6 +12,6 @@ interface EdgeSliderModule {
 
     @Binds
     @ForVerticalWsEdgeSlider
-    fun projectasda(@ForVerticalWsEdgeSlider i:EdgeSliderState):ThumbPositionConverter
+    fun thumpPositionConverterVertical(@ForVerticalWsEdgeSlider i:EdgeSliderState):ThumbPositionConverter
 
 }

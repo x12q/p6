@@ -7,6 +7,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.internal_action.InternalEdgeSliderActionImp
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ThumbPositionConverter
+import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateGetter
 import test.BaseAppStateTest
 import kotlin.test.*
 
@@ -27,8 +28,9 @@ class EdgeSliderActionImpTest : BaseAppStateTest(){
     fun bt(){
         gridSliderMs = ms(GridSliderImp.forPreview())
         action = InternalEdgeSliderActionImp(
+            wsStateGetter = WorksheetStateGetter { TODO() },
             sliderMs = gridSliderMs,
-            projectThumbPosition =dummyProjecter
+            thumbPositionConverter =dummyProjecter
         )
     }
 

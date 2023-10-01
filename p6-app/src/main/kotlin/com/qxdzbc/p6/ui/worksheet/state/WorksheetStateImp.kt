@@ -69,11 +69,16 @@ data class WorksheetStateImp @Inject constructor(
     override val localAction: WorksheetLocalActions,
 ) : BaseWorksheetState() {
 
-    override val id: WorksheetId
-        get() {
-            return idMs.value
-        }
+    override val worksheet: Worksheet by wsMs
 
+    override val idMs: Ms<WorksheetId> = worksheet.idMs
+
+    override val id: WorksheetId by idMs
+
+    override val name: String
+        get() = idMs.value.wsName
+
+    //----- implement new functions below this line -----//
 
     override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: P6LayoutCoor) {
         val oldLayout: P6LayoutCoor? = this.cellLayoutCoorMap[cellAddress]
@@ -142,9 +147,16 @@ data class WorksheetStateImp @Inject constructor(
             return this.id.wsNameSt
         }
 
+    private fun reScanCellLayout(){
+        cellLayoutCoorMapMs.value = cellLayoutCoorMap
+            .filter { (cellAddress, _) ->
+                slider.containAddressInVisibleRange(cellAddress)
+            }
+    }
     override fun setSliderAndRefreshDependentStates(i: GridSlider) {
         sliderMs.value = i
-        removeAllCellLayoutCoor()
+//        removeAllCellLayoutCoor()
+        reScanCellLayout()
 
         colRulerStateMs.value = colRulerState
             .clearItemLayoutCoorsMap()
@@ -153,10 +165,10 @@ data class WorksheetStateImp @Inject constructor(
         rowRulerStateMs.value = rowRulerState
             .clearItemLayoutCoorsMap()
             .clearResizerLayoutCoorsMap()
+
     }
 
-    override val cellStateCont: CellStateContainer
-        get() = cellStateContMs.value
+    override val cellStateCont: CellStateContainer by cellStateContMs
 
     override fun removeCellState(vararg addresses: CellAddress) {
         val cont = addresses.fold(cellStateCont) { accCont: CellStateContainer, cellAddress ->
@@ -220,11 +232,5 @@ data class WorksheetStateImp @Inject constructor(
     override fun setWsLayoutCoorWrapper(i: P6LayoutCoor) {
         wsLayoutCoorWrapperMs.value = i
     }
-
-    override val worksheet: Worksheet by wsMs
-    override val idMs: Ms<WorksheetId> = worksheet.idMs
-
-    override val name: String
-        get() = idMs.value.wsName
 
 }
