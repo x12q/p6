@@ -22,8 +22,8 @@ import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalScrollBar
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderActionType
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.VerticalScrollBar
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.EdgeSliderActionType
 
 
 /**

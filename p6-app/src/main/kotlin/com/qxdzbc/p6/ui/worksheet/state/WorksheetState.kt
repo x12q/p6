@@ -19,7 +19,7 @@ import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarState
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 
 /**
  * Worksheet + UI data
