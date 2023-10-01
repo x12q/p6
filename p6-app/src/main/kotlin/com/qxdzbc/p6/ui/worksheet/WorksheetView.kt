@@ -1,7 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,9 +22,7 @@ import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSlider
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalEdgeSlider
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderAction
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderActionType
 
 
@@ -97,7 +94,7 @@ fun WorksheetView(
             VerticalEdgeSlider(
                 state=wsState.verticalEdgeSliderState,
                 onDrag = {dragData->
-                    vEdgeSliderAction.onAction(EdgeSliderActionType.Drag(dragData))
+                    vEdgeSliderAction.runAction(EdgeSliderActionType.Drag(dragData))
                 },
                 onClickOnRail = {
                     // TODO
@@ -124,29 +121,3 @@ fun makeWorksheetTestTag(worksheet: Worksheet): String {
 fun makeCursorTestTag(worksheetName: String): String {
     return "cursor_${worksheetName}"
 }
-//
-//fun main() = testApp {
-//
-//    val ws = WorksheetImp("sheet1")
-//
-//    val wsState: WorksheetState = WorksheetStateImp.rememberMs(
-//        workbookKey = WorkbookKey("Wb", null),
-//        worksheet = ws,
-//        cursorState = CursorStates.defaultRememberMs(),
-//        slider = GridSliders.defaultMs()
-//    )
-//
-//    val ec = rememberCoroutineScope()
-//    P6Theme(ThemeType.GRAY) {
-//        WorksheetView(
-//            wsState = wsState.value,
-//            wsActions = WorksheetActionsImp(
-//                WorksheetStateActionsImp(wsState),
-//                WorksheetSideEffectsDoNothing,
-//                wsState,
-//
-//            ),
-//            executionScope = ec
-//        )
-//    }
-//}

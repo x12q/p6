@@ -13,8 +13,12 @@ import javax.inject.Singleton
 @Singleton
 @ContributesBinding(P6AnvilScope::class)
 class WorksheetStateFactoryImp @Inject constructor(
+    /**
+     * This [Provider] provides a new instance of [WsComponent.Builder] every time it is called.
+     */
     private val componentBuilderProvider: Provider<WsComponent.Builder>
 ) : WorksheetStateFactory {
+
     override fun create(wsMs: Ms<Worksheet>): WorksheetState {
         val compBuilder = componentBuilderProvider.get()
         val comp = compBuilder
@@ -24,4 +28,5 @@ class WorksheetStateFactoryImp @Inject constructor(
         rt.refresh()
         return rt
     }
+
 }

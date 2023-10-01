@@ -71,7 +71,7 @@ interface WsModule {
 
         @Provides
         @WsScope
-        @ColRuler
+        @ForCol
         fun colRulerStateMs(
             wsMs: Ms<Worksheet>,
             sliderMs: Ms<GridSlider>
@@ -85,7 +85,7 @@ interface WsModule {
 
         @Provides
         @WsScope
-        @RowRuler
+        @ForRow
         fun rowRulerStateMs(
             wsMs: Ms<Worksheet>,
             sliderMs: Ms<GridSlider>
@@ -128,7 +128,7 @@ interface WsModule {
 
         @Provides
         @WsScope
-        @DefaultColResizeBarStateMs
+        @ForCol
         fun ResizeColBarStateMs(): Ms<ResizeBarState> {
             return ms(
                 ResizeBarStateImp(
@@ -140,7 +140,7 @@ interface WsModule {
 
         @Provides
         @WsScope
-        @DefaultRowResizeBarStateMs
+        @ForRow
         fun ResizeRowBarStateMs(): Ms<ResizeBarState> {
             return ms(
                 ResizeBarStateImp(

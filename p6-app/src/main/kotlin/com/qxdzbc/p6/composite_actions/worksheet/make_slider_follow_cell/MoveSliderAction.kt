@@ -4,10 +4,27 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 
 interface MoveSliderAction {
-    fun makeSliderFollowCell(wbws: WbWs, cell: CellAddress, publishErr: Boolean=true): Rse<Unit>
-    fun makeSliderFollowCell(wbwsSt: WbWsSt, cell: CellAddress, publishErr: Boolean=true): Rse<Unit>
+    /**
+     * Make a slider at [wbws] follow a cell at [cellAddr]
+     */
+    fun makeSliderFollowCell(wbws: WbWs, cellAddr: CellAddress, publishErr: Boolean=true): Rse<Unit>
+    /**
+     * Make a slider at [wbwsSt] follow a cell at [cellAddr]
+     */
+    fun makeSliderFollowCell(wbwsSt: WbWsSt, cellAddr: CellAddress, publishErr: Boolean=true): Rse<Unit>
+
+    /**
+     * Make slider at [wsLoc] follow the main cell of [cursorState]
+     */
+    fun makeSliderFollowCursorMainCell(cursorState: CursorState, wsLoc: WbWsSt)
+
+    /**
+     * Make slider at [wsLoc] follow the main cell of [cursorState]
+     */
+    fun makeSliderFollowCursorMainCell(cursorState: CursorState, wsLoc: WbWs)
 
     /**
      * Shift the worksheet slider at [cursorLoc] by [rowCount] and [colCount]

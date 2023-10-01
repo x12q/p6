@@ -10,7 +10,7 @@ interface ComputeSliderSizeAction {
     /**
      * Compute the slider's properties from the currently available space.
      */
-    fun computeSliderProperties(
+    fun computeSliderPropertiesForAvailableSpace(
         wsState: WorksheetState,
         availableSpace: DpSize,
     )

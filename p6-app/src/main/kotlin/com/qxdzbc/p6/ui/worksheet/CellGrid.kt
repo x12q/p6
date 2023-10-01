@@ -14,6 +14,7 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 import com.qxdzbc.common.compose.view.MBox
@@ -42,13 +43,14 @@ fun CellGrid(
 ) {
     val slider by wsState.sliderMs
     val density = LocalDensity.current
+
     MBox(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned { layoutCoor ->
-                wsActions.updateCellGridLayoutCoors(layoutCoor, wsState)
+                wsState.setCellGridLayoutCoorWrapper(layoutCoor.toP6LayoutCoor())
                 // this action is invoke here so that the slider is redrawn whenever the cell grid is re-drawn/resized.
-                wsActions.computeSliderProperties(wsState,layoutCoor.size.toDpSize(density))
+                wsActions.computeSliderPropertiesForAvailableSpace(wsState,layoutCoor.size.toDpSize(density))
 
             }
             .onPointerEvent(PointerEventType.Press) {

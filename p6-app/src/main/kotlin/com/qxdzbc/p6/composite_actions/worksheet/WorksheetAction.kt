@@ -21,10 +21,6 @@ interface WorksheetAction :
      */
     fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt)
 
-    fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWs)
-
-    fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWsSt)
-
     fun scroll(x:Int, y:Int, wsLoc: WbWsSt)
 
     fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt)
@@ -34,4 +30,4 @@ interface WorksheetAction :
     fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt)
 
     fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt)
-    }
+}

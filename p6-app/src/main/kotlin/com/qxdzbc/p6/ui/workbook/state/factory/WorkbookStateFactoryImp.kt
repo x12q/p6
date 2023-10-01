@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 @ContributesBinding(P6AnvilScope::class)
 class WorkbookStateFactoryImp @Inject constructor(
-    val wbCompBuilderProvider: Provider<WbComponent.Builder>,
+    private val wbCompBuilderProvider: Provider<WbComponent.Builder>,
 ) : WorkbookStateFactory {
 
     /**

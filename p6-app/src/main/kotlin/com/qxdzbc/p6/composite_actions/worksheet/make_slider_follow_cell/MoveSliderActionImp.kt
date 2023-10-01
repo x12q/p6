@@ -12,6 +12,7 @@ import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouters.publishErrIfNeedSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,17 +26,17 @@ class MoveSliderActionImp @Inject constructor(
 
     private val sc  = stateCont
 
-    override fun makeSliderFollowCell(wbws: WbWs, cell: CellAddress, publishErr: Boolean): Rse<Unit> {
+    override fun makeSliderFollowCell(wbws: WbWs, cellAddr: CellAddress, publishErr: Boolean): Rse<Unit> {
         return sc.getWbWsStRs(wbws).map {
-            this.makeSliderFollowCell(it,cell, publishErr)
+            this.makeSliderFollowCell(it,cellAddr, publishErr)
         }
     }
 
-    override fun makeSliderFollowCell(wbwsSt: WbWsSt, cell: CellAddress, publishErr: Boolean): Rse<Unit> {
+    override fun makeSliderFollowCell(wbwsSt: WbWsSt, cellAddr: CellAddress, publishErr: Boolean): Rse<Unit> {
         val rs=sc.getWsStateRs(wbwsSt).flatMap { wsState->
             val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
-            val newSlider = oldSlider.followCell(cell)
+            val newSlider = oldSlider.followCell(cellAddr)
             if (newSlider != oldSlider) {
                 wsState.setSliderAndRefreshDependentStates(newSlider)
             }
@@ -45,6 +46,14 @@ class MoveSliderActionImp @Inject constructor(
             rs.publishErrIfNeedSt(errorRouter,null,wbwsSt.wbKeySt)
         }
         return rs
+    }
+
+    override fun makeSliderFollowCursorMainCell(cursorState: CursorState, wsLoc: WbWsSt) {
+        makeSliderFollowCell(wsLoc,cursorState.mainCell)
+    }
+
+    override fun makeSliderFollowCursorMainCell(cursorState: CursorState, wsLoc: WbWs) {
+        makeSliderFollowCell(wsLoc,cursorState.mainCell)
     }
 
     override fun shiftSlider(cursorLoc: WbWsSt, rowCount: Int, colCount: Int, publishErr: Boolean) {

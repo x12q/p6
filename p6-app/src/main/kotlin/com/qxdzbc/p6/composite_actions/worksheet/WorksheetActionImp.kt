@@ -25,7 +25,7 @@ class WorksheetActionImp @Inject constructor(
     private val deleteMultiAct: DeleteMultiCellAction,
     private val restoreWindowFocusState: RestoreWindowFocusState,
     val stateCont: StateContainer,
-    private val makeSliderFollowCellAct: MoveSliderAction,
+    private val moveSliderAct: MoveSliderAction,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
     private val mouseOnWsAction: MouseOnWorksheetAction,
 ) : WorksheetAction,
@@ -37,17 +37,6 @@ class WorksheetActionImp @Inject constructor(
 {
 
     private val sc = stateCont
-
-    override fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWsSt) {
-        makeSliderFollowCellAct.makeSliderFollowCell(wsLoc,newCursor.mainCell)
-    }
-
-    override fun makeSliderFollowCursorMainCell(
-        newCursor: CursorState,
-        wsLoc: WbWs,
-    ) {
-        makeSliderFollowCellAct.makeSliderFollowCell(wsLoc,newCursor.mainCell)
-    }
 
     override fun scroll(x: Int, y: Int, wsLoc: WbWsSt) {
         sc.getWsState(wsLoc)?.also { wsState ->

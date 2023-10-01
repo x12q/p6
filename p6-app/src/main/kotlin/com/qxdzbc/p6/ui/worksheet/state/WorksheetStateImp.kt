@@ -15,8 +15,6 @@ import com.qxdzbc.p6.ui.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.cell.state.CellStates
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultCellStateContainer
-import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultColResizeBarStateMs
-import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultRowResizeBarStateMs
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultSelectRectStateMs
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.*
 import com.qxdzbc.p6.ui.worksheet.resize_bar.ResizeBarState
@@ -40,9 +38,9 @@ data class WorksheetStateImp @Inject constructor(
     override val wsMs: Ms<Worksheet>,
     override val sliderMs: Ms<GridSlider>,
     override val cursorStateMs: Ms<CursorState>,
-    @ColRuler
+    @ForCol
     override val colRulerStateMs: Ms<RulerState>,
-    @RowRuler
+    @ForRow
     override val rowRulerStateMs: Ms<RulerState>,
     override val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6LayoutCoor>>,
     @CellGridLayoutMs
@@ -53,9 +51,9 @@ data class WorksheetStateImp @Inject constructor(
     val cellStateContMs: Ms<CellStateContainer>,
     @DefaultSelectRectStateMs
     override val selectRectStateMs: Ms<SelectRectState>,
-    @DefaultColResizeBarStateMs
+    @ForCol
     override val colResizeBarStateMs: Ms<ResizeBarState>,
-    @DefaultRowResizeBarStateMs
+    @ForRow
     override val rowResizeBarStateMs: Ms<ResizeBarState>,
     @Init_ColRange
     override val colRange: IntRange,
@@ -145,8 +143,8 @@ data class WorksheetStateImp @Inject constructor(
         }
 
     override fun setSliderAndRefreshDependentStates(i: GridSlider) {
-        this.sliderMs.value = i
-        this.removeAllCellLayoutCoor()
+        sliderMs.value = i
+        removeAllCellLayoutCoor()
 
         colRulerStateMs.value = colRulerState
             .clearItemLayoutCoorsMap()
@@ -179,7 +177,7 @@ data class WorksheetStateImp @Inject constructor(
     }
 
     override fun addOrOverwriteCellState(cellState: CellState) {
-        val cellStateMs = this.getCellStateMs(cellState.address)
+        val cellStateMs = getCellStateMs(cellState.address)
         if (cellStateMs != null) {
             cellStateMs.value = cellState
         } else {
@@ -211,13 +209,13 @@ data class WorksheetStateImp @Inject constructor(
 
     override val wbKey: WorkbookKey get() = this.id.wbKey
 
-    override val cellGridLayoutCoorWrapper: P6LayoutCoor? by this.cellGridLayoutCoorWrapperMs
+    override val cellGridLayoutCoorWrapper: P6LayoutCoor? by cellGridLayoutCoorWrapperMs
 
     override fun setCellGridLayoutCoorWrapper(i: P6LayoutCoor) {
         this.cellGridLayoutCoorWrapperMs.value = i
     }
 
-    override val wsLayoutCoorWrapper: P6LayoutCoor? by this.wsLayoutCoorWrapperMs
+    override val wsLayoutCoorWrapper: P6LayoutCoor? by wsLayoutCoorWrapperMs
 
     override fun setWsLayoutCoorWrapper(i: P6LayoutCoor) {
         wsLayoutCoorWrapperMs.value = i
@@ -227,6 +225,6 @@ data class WorksheetStateImp @Inject constructor(
     override val idMs: Ms<WorksheetId> = worksheet.idMs
 
     override val name: String
-        get() = this.idMs.value.wsName
+        get() = idMs.value.wsName
 
 }

@@ -84,11 +84,11 @@ class TestSample : TestAppScope {
     val window1Id: String get() = sc.windowStateMsList[0].id
     val window2Id: String get() = sc.windowStateMsList[1].id
 
-    val kernelCoroutineScope: CoroutineScope = GlobalScope
+    val coroutineScope: CoroutineScope = GlobalScope
 
     override val comp: TestComponent = DaggerTestComponent.builder()
         .username("user_name")
-        .applicationCoroutineScope(kernelCoroutineScope)
+        .applicationCoroutineScope(coroutineScope)
         .applicationScope(null)
         .build()
 

@@ -41,7 +41,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
             )
         val n: GridSlider = action.computeSliderProperties(
             oldGridSlider = o,
-            sizeConstraint = DpSize(width = 100.dp, height = 200.dp),
+            availableSpace = DpSize(width = 100.dp, height = 200.dp),
             anchorCell = CellAddress(3, 2),
             getColWidth = { 30.dp },
             getRowHeight = { 20.dp }
@@ -78,7 +78,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
 
         val ng = action.computeSliderProperties(
             oldGridSlider = o,
-            sizeConstraint = DpSize(100.dp,100.dp),
+            availableSpace = DpSize(100.dp,100.dp),
             anchorCell = CellAddress(1,5),
             getColWidth = {
                 10.dp

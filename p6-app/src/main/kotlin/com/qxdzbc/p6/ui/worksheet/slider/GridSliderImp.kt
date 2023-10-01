@@ -13,7 +13,13 @@ import javax.inject.Inject
 @ContributesBinding(WsAnvilScope::class, boundType = GridSlider::class)
 data class GridSliderImp(
     private val slider: InternalGridSlider,
+    /**
+     * 1-> 1 million
+     */
     override val colLimit: IntRange,
+    /**
+     * 1-> 1 million
+     */
     override val rowLimit: IntRange,
     override val marginRow: Int?,
     override val marginCol: Int?,
@@ -39,6 +45,9 @@ data class GridSliderImp(
     )
 
 
+    /**
+     * Conduct check to make sure the initial state is legal
+     */
     init {
         val sliderColOutOfBound = !(slider.firstVisibleCol in colLimit && slider.lastVisibleCol in colLimit)
         val sliderRowOutOfBound = !(slider.firstVisibleRow in rowLimit && slider.lastVisibleRow in rowLimit)
@@ -140,11 +149,15 @@ data class GridSliderImp(
                 .shiftUp(-rowCount)
                 .updateEdgeSliderLimit()
         }
-        val remainingRow = rowLimit.last - lastVisibleRow
-        val md = minOf(remainingRow, rowCount)
-        return this
-            .copy(slider = slider.shiftDown(md))
+        /**
+         * Can only shift down, if there's still row down to shift.
+         */
+        val remainingRowToLimit = rowLimit.last - lastVisibleRow
+        val shiftableRow = minOf(remainingRowToLimit, rowCount)
+        val rt = this
+            .copy(slider = slider.shiftDown(shiftableRow))
             .updateEdgeSliderLimit()
+        return rt
     }
 
     /**

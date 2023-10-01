@@ -10,6 +10,7 @@ import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetActionImp
+import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
@@ -35,6 +36,7 @@ internal class WorksheetActionImpTest {
     lateinit var layoutMap: MutableMap<CellAddress, P6LayoutCoor>
     lateinit var posMap: MutableMap<CellAddress, Rect>
     lateinit var wb: Workbook
+    lateinit var moveSlideraction:MoveSliderAction
 
     @BeforeTest
     fun before() {
@@ -42,6 +44,8 @@ internal class WorksheetActionImpTest {
         wb = testSample.wbCont.getWb(testSample.wbKey1)!!
         ws = wb.worksheets[0]
         this.wsState = testSample.sc.getWsState(ws)!!
+
+        moveSlideraction = testSample.comp.moveSliderAction
 
         layoutMap = mutableMapOf()
         // x: create fake cell positions as Rect
@@ -86,7 +90,7 @@ internal class WorksheetActionImpTest {
                 rowIndex = slider.visibleRowRangeIncludeMargin.random()
             )
         )
-        actions.makeSliderFollowCursorMainCell(newCursor, ws)
+        moveSlideraction.makeSliderFollowCursorMainCell(newCursor, ws)
         println(this.wsState.slider)
 
         assertEquals(oldSlider.visibleColRangeIncludeMargin.add(d), slider.visibleColRangeIncludeMargin)
@@ -101,7 +105,7 @@ internal class WorksheetActionImpTest {
         )
 
         val oldSlider2 = slider
-        actions.makeSliderFollowCursorMainCell(cursor2, ws)
+        moveSlideraction.makeSliderFollowCursorMainCell(cursor2, ws)
 
         assertEquals(oldSlider2.visibleRowRangeIncludeMargin.add(d), slider.visibleRowRangeIncludeMargin)
         assertEquals(oldSlider2.firstVisibleRow + d, slider.firstVisibleRow)

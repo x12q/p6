@@ -8,5 +8,8 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderActionType
  * A singleton instance of this one is available in [WsScope].
  */
 interface InternalEdgeSliderAction {
-    fun run(data: EdgeSliderActionType.Drag)
+    /**
+     * React to the action of user dragging the thumb of an edge slider
+     */
+    fun drag(data: EdgeSliderActionType.Drag)
 }

@@ -91,25 +91,25 @@ interface GridSlider {
     fun containAddressInVisibleRange(col: Int, row: Int): Boolean
 
     /**
-     * move the slider [colCount] unit to the left, this will decrease the visible column range by v unit
+     * move the slider to the left by [colCount] unit
      * @return a new slider
      */
     fun shiftLeft(colCount: Int): GridSlider
 
     /**
-     * move the slider [colCount] unit to the right, this will increase the visible column range by v unit
+     * move the slider to the right by [colCount] unit
      * @return a new slider
      */
     fun shiftRight(colCount: Int): GridSlider
 
     /**
-     * move the slider a number ([rowCount]) of cells up, this will decrease the visible row range by v unit
+     * move the slider a number ([rowCount]) of cells up
      * @return a new slider
      */
     fun shiftUp(rowCount: Int): GridSlider
 
     /**
-     * move the slider a number ([rowCount]) of row down, this will increase the visible row range by v unit
+     * move the slider a number ([rowCount]) of row down
      * @return a new slider
      */
     fun shiftDown(rowCount: Int): GridSlider

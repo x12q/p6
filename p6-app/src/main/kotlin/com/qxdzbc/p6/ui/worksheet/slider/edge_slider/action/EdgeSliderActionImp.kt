@@ -13,9 +13,9 @@ class EdgeSliderActionImp @Inject constructor(
     private val internalEdgeSliderAction: InternalEdgeSliderAction
 ) : EdgeSliderAction {
 
-    override fun onAction(actionType: EdgeSliderActionType) {
+    override fun runAction(actionType: EdgeSliderActionType) {
         when (actionType) {
-            is EdgeSliderActionType.Drag -> internalEdgeSliderAction.run(actionType)
+            is EdgeSliderActionType.Drag -> internalEdgeSliderAction.drag(actionType)
         }
     }
 }

@@ -209,7 +209,7 @@ sealed class AbsEdgeSliderState(
             return rt
         }
 
-    override fun projectThumbPositionToIndex(indexRange: IntRange): Int {
+    override fun convertThumbPositionToIndex(indexRange: IntRange): Int {
         val range = indexRange.last - indexRange.first
         val position = (range * thumbScrollRatio).toInt()
         return position + indexRange.first

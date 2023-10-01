@@ -17,14 +17,14 @@ class ComputeSliderSizeActionImp @Inject constructor(
     val stateCont: StateContainer,
 ) : ComputeSliderSizeAction {
 
-    override fun computeSliderProperties(
+    override fun computeSliderPropertiesForAvailableSpace(
         wsState: WorksheetState,
         availableSpace: DpSize,
     ) {
         val newSlider = computeSliderProperties(
             oldGridSlider = wsState.slider,
-            sizeConstraint = availableSpace,
-            anchorCell = wsState.cursorState.mainCell,
+            availableSpace = availableSpace,
+            anchorCell = wsState.slider.topLeftCell,
             getColWidth = wsState::getColumnWidthOrDefault,
             getRowHeight = wsState::getRowHeightOrDefault,
         )
@@ -33,18 +33,17 @@ class ComputeSliderSizeActionImp @Inject constructor(
 
     fun computeSliderProperties(
         oldGridSlider: GridSlider,
-        sizeConstraint: DpSize,
+        availableSpace: DpSize,
         /**
-         * [anchorCell] should be the main cell of the cell cursor so that
-         * the computed slider can guarantee that the main cell of the cursor is always shown
+         * [anchorCell] should be the top-left cell of the current slider
          **/
         anchorCell: CellAddress,
         getColWidth: (colIndex: Int) -> Dp,
         getRowHeight: (rowIndex: Int) -> Dp,
     ): GridSlider {
 
-        val limitWidth = sizeConstraint.width
-        val limitHeight = sizeConstraint.height
+        val limitWidth = availableSpace.width
+        val limitHeight = availableSpace.height
 
         val rowResult = computeRow(
             oldGridSlider = oldGridSlider,
@@ -114,7 +113,7 @@ class ComputeSliderSizeActionImp @Inject constructor(
     /**
      * Compute visible row range including margin row to be used in a grid slider
      */
-    fun computeRow(
+    private fun computeRow(
         oldGridSlider: GridSlider,
         anchorCell: CellAddress,
         limitHeight: Dp,

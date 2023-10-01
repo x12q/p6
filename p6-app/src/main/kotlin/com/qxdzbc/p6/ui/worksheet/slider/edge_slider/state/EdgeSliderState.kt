@@ -9,7 +9,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.OnDragThumbData
 /**
  * This state consist of the state of a rail, and a thumb of an edge slider
  */
-sealed interface EdgeSliderState : ProjectThumbPosition{
+sealed interface EdgeSliderState : ThumbPositionConverter{
 
     val type:EdgeSliderType
 

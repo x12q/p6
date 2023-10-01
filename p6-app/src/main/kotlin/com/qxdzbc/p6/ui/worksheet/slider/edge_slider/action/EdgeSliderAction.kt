@@ -8,5 +8,5 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.internal_action.Inte
  * This layer route the data and action signal to [InternalEdgeSliderAction] where the actual actions happen.
  */
 interface EdgeSliderAction {
-    fun onAction(actionType: EdgeSliderActionType)
+    fun runAction(actionType: EdgeSliderActionType)
 }
