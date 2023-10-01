@@ -14,8 +14,8 @@ import com.qxdzbc.common.compose.view.HSpacer
 import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalScrollBarState
 
 
 /**
@@ -23,7 +23,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderSta
  */
 @Composable
 fun VerticalScrollBar(
-    state: EdgeSliderState,
+    state: ScrollBarState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
     onDrag: (OnDragThumbData) -> Unit,
@@ -41,7 +41,7 @@ fun Preview_VerticalScrollBar() {
 
     val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
     val state = remember {
-        VerticalEdgeSliderState()
+        VerticalScrollBarState()
     }
 
     var dragRatio: OnDragThumbData? by rms(null)

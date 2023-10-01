@@ -8,7 +8,7 @@ import com.qxdzbc.common.compose.StateUtils
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.ScrollBarConstants
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.ForVerticalWsEdgeSlider
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -18,8 +18,8 @@ import javax.inject.Inject
  */
 @WsScope
 @ForVerticalWsEdgeSlider
-@ContributesBinding(scope = WsAnvilScope::class, boundType = EdgeSliderState::class)
-class VerticalEdgeSliderState(
+@ContributesBinding(scope = WsAnvilScope::class, boundType = ScrollBarState::class)
+class VerticalScrollBarState(
     thumbLengthRatioMs: Ms<Float>,
     thumbPositionRatioMs: Ms<Float>,
     maxLengthRatio: Float,
@@ -28,7 +28,7 @@ class VerticalEdgeSliderState(
     moveBackRatio: Float,
     thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
     railLayoutCoorMs: Ms<P6LayoutCoor?>
-) : AbsEdgeSliderState(
+) : AbsScrollBarState(
     thumbLengthRatioMs = thumbLengthRatioMs,
     thumbPositionRatioMs = thumbPositionRatioMs,
     maxLengthRatio = maxLengthRatio,
@@ -41,14 +41,14 @@ class VerticalEdgeSliderState(
 
     @Inject
     constructor() : this(
-        thumbLengthRatioMs = StateUtils.ms(EdgeSliderConstants.maxLength),
-        maxLengthRatio = EdgeSliderConstants.maxLength,
-        minLengthRatio = EdgeSliderConstants.minLength,
-        reductionRatio = EdgeSliderConstants.reductionRate,
-        moveBackRatio = EdgeSliderConstants.moveBackRatio,
+        thumbLengthRatioMs = StateUtils.ms(ScrollBarConstants.maxLength),
+        maxLengthRatio = ScrollBarConstants.maxLength,
+        minLengthRatio = ScrollBarConstants.minLength,
+        reductionRatio = ScrollBarConstants.reductionRate,
+        moveBackRatio = ScrollBarConstants.moveBackRatio,
         thumbLayoutCoorMs = StateUtils.ms(null),
         railLayoutCoorMs = StateUtils.ms(null),
-        thumbPositionRatioMs = StateUtils.ms(EdgeSliderConstants.startingThumbPositionRatio)
+        thumbPositionRatioMs = StateUtils.ms(ScrollBarConstants.startingThumbPositionRatio)
     )
 
     override val thumbStartInParentPx: Float?
@@ -66,8 +66,8 @@ class VerticalEdgeSliderState(
     override val railStartInWindowPx: Float?
         get() = railLayoutCoor?.boundInWindow?.top
 
-    override val type: EdgeSliderType
-        get() = EdgeSliderType.Vertical
+    override val type: ScrollBarType
+        get() = ScrollBarType.Vertical
 
     override val railLengthPx: Float?
         get() = railLayoutCoor?.boundInWindow?.height

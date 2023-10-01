@@ -1,22 +1,11 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state
 
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
-import com.qxdzbc.common.compose.layout_coor_wrapper.DummyP6LayoutCoor
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.common.test_util.TestSplitter
-import io.kotest.matchers.booleans.shouldBeTrue
-import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
-import io.kotest.matchers.shouldBe
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import kotlin.test.*
 
-class VerticalEdgeSliderStateTest : TestSplitter() {
+class VerticalScrollBarStateTest : TestSplitter() {
 
-    lateinit var state: VerticalEdgeSliderState
+    lateinit var state: VerticalScrollBarState
 
     @BeforeTest
     fun bt() {

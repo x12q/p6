@@ -17,9 +17,9 @@ import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderRail
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderThumb
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalEdgeSliderState
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalScrollBarState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalScrollBarState
 
 /**
  * Edge slider is a slider at the edge of a worksheet.
@@ -35,7 +35,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderSta
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ScrollBar(
-    state: EdgeSliderState,
+    state: ScrollBarState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
     onDrag: (positionRatio: OnDragThumbData) -> Unit,
@@ -66,8 +66,8 @@ fun ScrollBar(
                     pte.changes.firstOrNull()?.position?.also { clickPointOffset ->
 
                         val clickPosition = when(state){
-                            is HorizontalEdgeSliderState -> clickPointOffset.x
-                            is VerticalEdgeSliderState -> clickPointOffset.y
+                            is HorizontalScrollBarState -> clickPointOffset.x
+                            is VerticalScrollBarState -> clickPointOffset.y
                         }
 
                         state.computePositionRatioOnFullRail(clickPosition)?.let { ratio ->
@@ -82,8 +82,8 @@ fun ScrollBar(
     ) {
         val dragOrientation = remember {
             when (state) {
-                is HorizontalEdgeSliderState -> Orientation.Horizontal
-                is VerticalEdgeSliderState -> Orientation.Vertical
+                is HorizontalScrollBarState -> Orientation.Horizontal
+                is VerticalScrollBarState -> Orientation.Vertical
             }
         }
 

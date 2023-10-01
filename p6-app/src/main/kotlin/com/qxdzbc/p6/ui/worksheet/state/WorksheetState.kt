@@ -19,7 +19,7 @@ import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarState
 
 /**
  * Worksheet + UI data
@@ -68,7 +68,7 @@ interface WorksheetState : WbWsSt {
     val cellFormatTable: CellFormatTable
 
 
-    val verticalEdgeSliderState:EdgeSliderState
+    val verticalScrollBarState:ScrollBarState
 
 
     /**

@@ -25,7 +25,7 @@ import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.ForVerticalWsEdgeSlider
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -65,7 +65,7 @@ data class WorksheetStateImp @Inject constructor(
     @WsRedoStack
     override val redoStackMs: Ms<CommandStack>,
     @ForVerticalWsEdgeSlider
-    override val verticalEdgeSliderState: EdgeSliderState,
+    override val verticalScrollBarState: ScrollBarState,
     override val localAction: WorksheetLocalActions,
 ) : BaseWorksheetState() {
 

@@ -11,23 +11,23 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.theme.P6Theme
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderType
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarType
 
 @Composable
 internal fun SliderThumb(
     length: Dp,
     offset: DpOffset,
-    type:EdgeSliderType,
+    type:ScrollBarType,
     modifier: Modifier = Modifier,
     color: Color = P6Theme.color.uiColor.sliderThumbColor,
 
-) {
+    ) {
 
     val sizeMod = when(type){
-        EdgeSliderType.Vertical ->Modifier
+        ScrollBarType.Vertical ->Modifier
             .height(length)
             .fillMaxWidth()
-        EdgeSliderType.Horizontal -> Modifier
+        ScrollBarType.Horizontal -> Modifier
             .width(length)
             .fillMaxHeight()
     }
@@ -46,7 +46,7 @@ internal fun SliderThumb(
 fun Preview_Slider() {
 
     MBox(Modifier.size(30.dp,150.dp)) {
-        SliderThumb(20.dp, DpOffset(20.dp,30.dp),type=EdgeSliderType.Vertical)
+        SliderThumb(20.dp, DpOffset(20.dp,30.dp),type=ScrollBarType.Vertical)
     }
 
 

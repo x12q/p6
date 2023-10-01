@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider
 
-object EdgeSliderConstants {
+object ScrollBarConstants {
     /**
      * A slider's maximum length percentage. Percentage of the rail
      */
@@ -15,7 +15,10 @@ object EdgeSliderConstants {
 
     const val startingThumbPositionRatio = 0f
 
-    const val moveBackRatio = 0.7f
+    /**
+     * How much to move the thumb of a scrollbar back when it reaches the rail end. Must be between [0,1]
+     */
+    const val moveBackRatio = 0.65f
 
     /**
      * how much (by %) to move the thumb when user click on the edge slider rail

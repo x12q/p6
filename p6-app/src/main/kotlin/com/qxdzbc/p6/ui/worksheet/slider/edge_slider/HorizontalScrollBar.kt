@@ -13,8 +13,8 @@ import com.qxdzbc.common.compose.view.HSpacer
 import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalEdgeSliderState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarState
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalScrollBarState
 
 
 /**
@@ -22,15 +22,15 @@ import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.HorizontalEdgeSliderS
  */
 @Composable
 fun HorizontalScrollBar(
-    state: EdgeSliderState,
+    state: ScrollBarState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
     onDrag: (data:OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
-    allowComputationAtBot: () -> Boolean = { true },
+    allowComputationAtBottom: () -> Boolean = { true },
 ) {
     ScrollBar(
-        state,railModifier,thumbModifier,onDrag,onClickOnRail,allowComputationAtBot
+        state,railModifier,thumbModifier,onDrag,onClickOnRail,allowComputationAtBottom
     )
 }
 
@@ -40,7 +40,7 @@ fun Preview_HorizontalBar() {
 
     val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
     val state = remember {
-        HorizontalEdgeSliderState()
+        HorizontalScrollBarState()
     }
 
     var dragRatio: OnDragThumbData? by rms(null)

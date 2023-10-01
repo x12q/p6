@@ -92,7 +92,7 @@ fun WorksheetView(
             val vEdgeSliderAction = localAction.edgeSliderAction
 
             VerticalScrollBar(
-                state=wsState.verticalEdgeSliderState,
+                state=wsState.verticalScrollBarState,
                 onDrag = {dragData->
                     vEdgeSliderAction.runAction(EdgeSliderActionType.Drag(dragData))
                 },

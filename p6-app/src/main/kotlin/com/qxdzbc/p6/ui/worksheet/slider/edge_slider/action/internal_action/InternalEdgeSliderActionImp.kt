@@ -8,7 +8,6 @@ import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderActionType
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.ForVerticalWsEdgeSlider
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ThumbPositionConverter
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateGetter
 import com.squareup.anvil.annotations.ContributesBinding

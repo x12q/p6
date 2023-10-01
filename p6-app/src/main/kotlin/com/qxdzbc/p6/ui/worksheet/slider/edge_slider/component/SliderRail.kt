@@ -10,23 +10,23 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.theme.P6Theme
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderType
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.ScrollBarType
 
 @Composable
 internal fun SliderRail(
     width: Dp = 30.dp,
     modifier: Modifier = Modifier,
     color: Color = P6Theme.color.uiColor.sliderRailBackground,
-    type:EdgeSliderType,
+    type:ScrollBarType,
     content: @Composable () -> Unit,
 ) {
 
     val sizeMod = when(type){
-        EdgeSliderType.Vertical -> Modifier
+        ScrollBarType.Vertical -> Modifier
             .width(width)
             .fillMaxHeight()
 
-        EdgeSliderType.Horizontal -> Modifier
+        ScrollBarType.Horizontal -> Modifier
             .height(width)
             .fillMaxWidth()
     }
@@ -46,7 +46,7 @@ internal fun SliderRail(
 @Composable
 fun Preview_SliderRail() {
     MBox(Modifier.size(30.dp,100.dp)) {
-        SliderRail(type=EdgeSliderType.Vertical){}
+        SliderRail(type=ScrollBarType.Vertical){}
     }
 
 }

@@ -9,7 +9,7 @@ import com.qxdzbc.common.FloatUtils.guardFloat01
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants.moveThumbByClickRatio
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.ScrollBarConstants.moveThumbByClickRatio
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.OnDragThumbData
 import kotlin.math.max
 
@@ -18,7 +18,7 @@ import kotlin.math.max
  * This contains implementation for function that is common to both vertical and horizontal edge slider state.
  */
 @WsScope
-sealed class AbsEdgeSliderState(
+sealed class AbsScrollBarState(
     private val thumbLengthRatioMs: Ms<Float>,
     private val thumbPositionRatioMs: Ms<Float>,
     val maxLengthRatio: Float,
@@ -27,7 +27,7 @@ sealed class AbsEdgeSliderState(
     val moveBackRatio: Float,
     private val thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
     private val railLayoutCoorMs: Ms<P6LayoutCoor?>,
-) : EdgeSliderState {
+) : ScrollBarState {
 
     protected abstract val railEndInWindowPx: Float?
 

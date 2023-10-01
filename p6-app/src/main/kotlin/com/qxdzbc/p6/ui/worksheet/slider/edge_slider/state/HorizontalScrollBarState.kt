@@ -6,11 +6,11 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.EdgeSliderConstants
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.ScrollBarConstants
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.di.qualifiers.HorizontalWsEdgeSliderStateQualifier
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -20,8 +20,8 @@ import javax.inject.Inject
  */
 @WsScope
 @HorizontalWsEdgeSliderStateQualifier
-@ContributesBinding(scope = WsAnvilScope::class, boundType = EdgeSliderState::class)
-class HorizontalEdgeSliderState(
+@ContributesBinding(scope = WsAnvilScope::class, boundType = ScrollBarState::class)
+class HorizontalScrollBarState(
     thumbLengthRatioMs: Ms<Float>,
     thumbPositionRatioMs: Ms<Float>,
     maxLengthRatio: Float,
@@ -30,7 +30,7 @@ class HorizontalEdgeSliderState(
     moveBackRatio: Float,
     thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
     railLayoutCoorMs: Ms<P6LayoutCoor?>
-) : AbsEdgeSliderState(
+) : AbsScrollBarState(
     thumbLengthRatioMs = thumbLengthRatioMs,
     thumbPositionRatioMs = thumbPositionRatioMs,
     maxLengthRatio = maxLengthRatio,
@@ -43,15 +43,24 @@ class HorizontalEdgeSliderState(
 
     @Inject
     constructor() : this(
-        thumbLengthRatioMs = StateUtils.ms(EdgeSliderConstants.maxLength),
-        maxLengthRatio = EdgeSliderConstants.maxLength,
-        minLengthRatio = EdgeSliderConstants.minLength,
-        reductionRatio = EdgeSliderConstants.reductionRate,
-        moveBackRatio = EdgeSliderConstants.moveBackRatio,
-        thumbLayoutCoorMs = StateUtils.ms(null),
-        railLayoutCoorMs = StateUtils.ms(null),
-        thumbPositionRatioMs = StateUtils.ms(EdgeSliderConstants.startingThumbPositionRatio)
+        thumbLengthRatioMs = ms(ScrollBarConstants.maxLength),
+        maxLengthRatio = ScrollBarConstants.maxLength,
+        minLengthRatio = ScrollBarConstants.minLength,
+        reductionRatio = ScrollBarConstants.reductionRate,
+        moveBackRatio = ScrollBarConstants.moveBackRatio,
+        thumbLayoutCoorMs = ms(null),
+        railLayoutCoorMs = ms(null),
+        thumbPositionRatioMs = ms(ScrollBarConstants.startingThumbPositionRatio)
     )
+
+    init{
+        require(maxLengthRatio in 0.0 .. 1.0)
+        require(minLengthRatio in 0.0 .. 1.0)
+        require(reductionRatio in 0.0 .. 1.0)
+        require(moveBackRatio in 0.0 .. 1.0)
+        require(thumbLengthRatioMs.value in 0.0 .. 1.0)
+        require(thumbPositionRatioMs.value in 0.0 .. 1.0)
+    }
 
     override val thumbStartInParentPx: Float?
         get() = thumbLayoutCoor?.layout?.boundsInParent()?.left
@@ -68,8 +77,8 @@ class HorizontalEdgeSliderState(
     override val railStartInWindowPx: Float?
         get() = railLayoutCoor?.layout?.boundsInWindow()?.left
 
-    override val type: EdgeSliderType
-        get() = EdgeSliderType.Horizontal
+    override val type: ScrollBarType
+        get() = ScrollBarType.Horizontal
 
     override val railLengthPx: Float?
         get() = railLayoutCoor?.layout?.boundsInWindow()?.width
