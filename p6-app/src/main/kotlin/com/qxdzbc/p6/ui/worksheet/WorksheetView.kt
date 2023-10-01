@@ -22,7 +22,7 @@ import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.VerticalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.action.EdgeSliderActionType
 
 
@@ -91,7 +91,7 @@ fun WorksheetView(
 
             val vEdgeSliderAction = localAction.edgeSliderAction
 
-            VerticalEdgeSlider(
+            VerticalScrollBar(
                 state=wsState.verticalEdgeSliderState,
                 onDrag = {dragData->
                     vEdgeSliderAction.runAction(EdgeSliderActionType.Drag(dragData))

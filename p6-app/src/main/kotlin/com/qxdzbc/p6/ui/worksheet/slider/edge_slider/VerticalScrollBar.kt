@@ -1,40 +1,28 @@
 package com.qxdzbc.p6.ui.worksheet.slider.edge_slider
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.HSpacer
 import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderRail
-import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.component.SliderThumb
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.EdgeSliderState
 import com.qxdzbc.p6.ui.worksheet.slider.edge_slider.state.VerticalEdgeSliderState
 
 
 /**
- * [EdgeSlider] but on the vertical axis.
+ * [ScrollBar] but on the vertical axis.
  */
 @Composable
-fun VerticalEdgeSlider(
+fun VerticalScrollBar(
     state: EdgeSliderState,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
@@ -42,14 +30,14 @@ fun VerticalEdgeSlider(
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
     allowComputationAtBot: () -> Boolean = { true },
 ) {
-    EdgeSlider(
+    ScrollBar(
         state,railModifier,thumbModifier,onDrag,onClickOnRail,allowComputationAtBot
     )
 }
 
 @Preview
 @Composable
-fun Preview_VerticalEdgeSlider() {
+fun Preview_VerticalScrollBar() {
 
     val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
     val state = remember {
@@ -60,7 +48,7 @@ fun Preview_VerticalEdgeSlider() {
     var clickRatio: Float? by rms(null)
 
     Row {
-        VerticalEdgeSlider(
+        VerticalScrollBar(
             state = state,
             onDrag = {
                 dragRatio = it
@@ -88,6 +76,6 @@ fun Preview_VerticalEdgeSlider() {
 
 fun main() {
     testApp {
-        Preview_VerticalEdgeSlider()
+        Preview_VerticalScrollBar()
     }
 }
