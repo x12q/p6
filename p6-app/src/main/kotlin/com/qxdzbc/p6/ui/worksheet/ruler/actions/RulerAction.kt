@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.ruler.actions
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeAction
 import com.qxdzbc.p6.ui.worksheet.ruler.RulerSig
@@ -24,7 +24,7 @@ interface RulerAction : ChangeRowAndColumnSizeAction {
     fun startDragSelection(mousePosition: Offset, rulerSig: RulerSig)
     fun makeMouseDragSelectionIfPossible(mousePosition: Offset, rulerSig: RulerSig)
     fun stopDragSelection(rulerSig: RulerSig)
-    fun updateItemLayout(itemIndex: Int, itemLayout: P6LayoutCoor, rulerSig: RulerSig)
+    fun updateItemLayout(itemIndex: Int, itemLayout: P6Layout, rulerSig: RulerSig)
     fun updateRulerLayout(layout: LayoutCoordinates, rulerSig: RulerSig)
     fun shiftClick(itemIndex: Int, rulerSig: RulerSig)
     fun ctrlClick(itemIndex: Int, rulerSig: RulerSig)

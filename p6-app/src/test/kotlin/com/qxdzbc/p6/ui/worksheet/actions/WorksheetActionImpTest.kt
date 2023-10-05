@@ -8,7 +8,7 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddresses
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetActionImp
 import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
@@ -33,7 +33,7 @@ internal class WorksheetActionImpTest {
     val cursorState: CursorState get() = this.wsState.cursorStateMs.value
     val slider: GridSlider get() = this.wsState.slider
     val mockOffset = Offset(0F, 0F)
-    lateinit var layoutMap: MutableMap<CellAddress, P6LayoutCoor>
+    lateinit var layoutMap: MutableMap<CellAddress, P6Layout>
     lateinit var posMap: MutableMap<CellAddress, Rect>
     lateinit var wb: Workbook
     lateinit var moveSlideraction:MoveSliderAction
@@ -63,7 +63,7 @@ internal class WorksheetActionImpTest {
                         )
                     )
                     val cellAddress = CellAddress(c, r)
-                    val mockLayout: P6LayoutCoor = mock {
+                    val mockLayout: P6Layout = mock {
                         whenever(it.boundInWindowOrZero).thenReturn(rect)
                         whenever(it.refreshVar) doReturn false
                     }

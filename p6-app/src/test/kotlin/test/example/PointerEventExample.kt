@@ -18,13 +18,13 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.PointerEventUtils.consumeAllPressed
 import com.qxdzbc.common.compose.PointerEventUtils.hasPressedChanges
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 
 //import androidx.compose.ui.input.pointer.pointerInteropFilter
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    P6TestApp(size = DpSize(300.dp, 300.dp)) {
+    testApp (dpSize = DpSize(300.dp, 300.dp)) {
         val focusRequester: FocusRequester = remember { FocusRequester() }
 
         Box(modifier = Modifier

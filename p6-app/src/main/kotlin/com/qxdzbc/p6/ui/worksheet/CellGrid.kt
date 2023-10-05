@@ -15,7 +15,7 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 import com.qxdzbc.common.compose.view.MBox
@@ -57,7 +57,7 @@ fun CellGrid(
             .fillMaxSize()
             .onGloballyPositioned { layoutCoor ->
                 val newLayout = wsState.cellGridLayoutCoorWrapper?.setLayout(layoutCoor)
-                    ?: layoutCoor.toP6LayoutCoor()
+                    ?: layoutCoor.toP6Layout()
                 wsState.setCellGridLayoutCoorWrapper(newLayout)
             }
             .onPointerEvent(PointerEventType.Press) {

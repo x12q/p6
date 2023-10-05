@@ -13,8 +13,8 @@ import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
 
 @Composable
-internal fun SliderRail(
-    width: Dp = 30.dp,
+internal fun Rail(
+    thickness: Dp = 30.dp,
     modifier: Modifier = Modifier,
     color: Color = P6Theme.color.uiColor.sliderRailBackground,
     type:ScrollBarType,
@@ -23,11 +23,11 @@ internal fun SliderRail(
 
     val sizeMod = when(type){
         ScrollBarType.Vertical -> Modifier
-            .width(width)
+            .width(thickness)
             .fillMaxHeight()
 
         ScrollBarType.Horizontal -> Modifier
-            .height(width)
+            .height(thickness)
             .fillMaxWidth()
     }
 
@@ -46,7 +46,7 @@ internal fun SliderRail(
 @Composable
 fun Preview_SliderRail() {
     MBox(Modifier.size(30.dp,100.dp)) {
-        SliderRail(type=ScrollBarType.Vertical){}
+        Rail(type=ScrollBarType.Vertical){}
     }
 
 }

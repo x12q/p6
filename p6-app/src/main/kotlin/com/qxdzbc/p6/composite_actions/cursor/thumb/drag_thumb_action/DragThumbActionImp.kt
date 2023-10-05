@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
 import com.github.michaelbull.result.onSuccess
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6AnvilScope
@@ -26,7 +26,7 @@ class DragThumbActionImp @Inject constructor(
 
     val sc  = stateContainerSt
 
-    private fun forTest(wbws: WbWsSt, cellAddress: CellAddress, f: (cellLayoutCoor: P6LayoutCoor) -> Unit) {
+    private fun forTest(wbws: WbWsSt, cellAddress: CellAddress, f: (cellLayoutCoor: P6Layout) -> Unit) {
         sc.getThumbStateMsRs(wbws)
             .onSuccess { thumbStateMs ->
                 val ts by thumbStateMs

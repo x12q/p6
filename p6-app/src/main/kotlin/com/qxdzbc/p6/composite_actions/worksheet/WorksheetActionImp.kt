@@ -1,8 +1,7 @@
 package com.qxdzbc.p6.composite_actions.worksheet
 
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
-import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.range.range_to_clipboard.RangeToClipboardAction
 import com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size.ComputeSliderSizeAction
@@ -13,7 +12,6 @@ import com.qxdzbc.p6.composite_actions.worksheet.release_focus.RestoreWindowFocu
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -63,7 +61,7 @@ class WorksheetActionImp @Inject constructor(
         layoutCoordinates: LayoutCoordinates,
         wsLoc: WbWsSt
     ) {
-        sc.getWsState(wsLoc)?.addCellLayoutCoor(cellAddress, layoutCoordinates.toP6LayoutCoor())
+        sc.getWsState(wsLoc)?.addCellLayoutCoor(cellAddress, layoutCoordinates.toP6Layout())
     }
 
     override fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt) {
@@ -76,13 +74,13 @@ class WorksheetActionImp @Inject constructor(
 
     override fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
         val wsState = sc.getWsState(wsLoc)
-        wsState?.setCellGridLayoutCoorWrapper(newLayoutCoordinates.toP6LayoutCoor())
+        wsState?.setCellGridLayoutCoorWrapper(newLayoutCoordinates.toP6Layout())
     }
 
     override fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
         val wsState = sc.getWsState(
             wsLoc
         )
-        wsState?.setWsLayoutCoorWrapper(newLayoutCoordinates.toP6LayoutCoor())
+        wsState?.setWsLayoutCoorWrapper(newLayoutCoordinates.toP6Layout())
     }
 }

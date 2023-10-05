@@ -12,15 +12,14 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
 import com.qxdzbc.common.compose.SizeUtils.toDpSize
 
-data class P6LayoutCoorImp(
+data class P6LayoutImp(
     override val layout: LayoutCoordinates,
     override val refreshVar: Boolean = true
-) : P6LayoutCoor {
+) : P6Layout {
 
-    override fun setLayout(i: LayoutCoordinates): P6LayoutCoor {
+    override fun setLayout(i: LayoutCoordinates): P6Layout {
         return this.copy(
             layout = i,
             refreshVar = !refreshVar
@@ -86,24 +85,24 @@ data class P6LayoutCoorImp(
             return layout.isAttached
         }
 
-    override fun ifAttached(f: (lc: P6LayoutCoor) -> Unit) {
+    override fun ifAttached(f: (lc: P6Layout) -> Unit) {
         if (this.layout.isAttached) {
             f(this)
         }
     }
 
     @Composable
-    override fun ifAttachedComposable(f: @Composable (lc: P6LayoutCoor) -> Unit) {
+    override fun ifAttachedComposable(f: @Composable (lc: P6Layout) -> Unit) {
         if (this.layout.isAttached) {
             f(this)
         }
     }
 
-    override fun forceRefresh(i: Boolean): P6LayoutCoor {
+    override fun forceRefresh(i: Boolean): P6Layout {
         return this.copy(refreshVar = i)
     }
 
-    override fun forceRefresh(): P6LayoutCoor {
+    override fun forceRefresh(): P6Layout {
         return this.copy(refreshVar = !refreshVar)
     }
 }

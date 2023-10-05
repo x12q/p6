@@ -4,8 +4,8 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor.Companion.replaceWith
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout.Companion.replaceWith
 import com.qxdzbc.p6.command.CommandStack
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
@@ -24,6 +24,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalWsEdgeSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalWsEdgeSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 import com.squareup.anvil.annotations.ContributesBinding
@@ -42,11 +43,11 @@ data class WorksheetStateImp @Inject constructor(
     override val colRulerStateMs: Ms<RulerState>,
     @ForRow
     override val rowRulerStateMs: Ms<RulerState>,
-    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6LayoutCoor>>,
+    override val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6Layout>>,
     @CellGridLayoutMs
-    override val cellGridLayoutCoorWrapperMs: Ms<P6LayoutCoor?>,
+    override val cellGridLayoutCoorWrapperMs: Ms<P6Layout?>,
     @WsLayoutMs
-    override val wsLayoutCoorWrapperMs: Ms<P6LayoutCoor?>,
+    override val wsLayoutCoorWrapperMs: Ms<P6Layout?>,
     @DefaultCellStateContainer
     val cellStateContMs: Ms<CellStateContainer>,
     @DefaultSelectRectStateMs
@@ -66,6 +67,8 @@ data class WorksheetStateImp @Inject constructor(
     override val redoStackMs: Ms<CommandStack>,
     @ForVerticalWsEdgeSlider
     override val verticalScrollBarState: ScrollBarState,
+    @ForHorizontalWsEdgeSlider
+    override val horizontalScrollBarState: ScrollBarState,
     override val localAction: WorksheetLocalActions,
 ) : BaseWorksheetState() {
 
@@ -80,8 +83,8 @@ data class WorksheetStateImp @Inject constructor(
 
     //----- implement new functions below this line -----//
 
-    override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: P6LayoutCoor) {
-        val oldLayout: P6LayoutCoor? = this.cellLayoutCoorMap[cellAddress]
+    override fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: P6Layout) {
+        val oldLayout: P6Layout? = this.cellLayoutCoorMap[cellAddress]
         val newLayout = oldLayout.replaceWith(layoutCoor) ?: layoutCoor
         val newMap = this.cellLayoutCoorMap + (cellAddress to newLayout)
         this.cellLayoutCoorMapMs.value = newMap
@@ -221,15 +224,15 @@ data class WorksheetStateImp @Inject constructor(
 
     override val wbKey: WorkbookKey get() = this.id.wbKey
 
-    override val cellGridLayoutCoorWrapper: P6LayoutCoor? by cellGridLayoutCoorWrapperMs
+    override val cellGridLayoutCoorWrapper: P6Layout? by cellGridLayoutCoorWrapperMs
 
-    override fun setCellGridLayoutCoorWrapper(i: P6LayoutCoor) {
+    override fun setCellGridLayoutCoorWrapper(i: P6Layout) {
         this.cellGridLayoutCoorWrapperMs.value = i
     }
 
-    override val wsLayoutCoorWrapper: P6LayoutCoor? by wsLayoutCoorWrapperMs
+    override val wsLayoutCoorWrapper: P6Layout? by wsLayoutCoorWrapperMs
 
-    override fun setWsLayoutCoorWrapper(i: P6LayoutCoor) {
+    override fun setWsLayoutCoorWrapper(i: P6Layout) {
         wsLayoutCoorWrapperMs.value = i
     }
 

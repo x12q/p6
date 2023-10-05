@@ -5,7 +5,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.document_data_layer.cell.CellContentImp
 import com.qxdzbc.p6.document_data_layer.cell.CellValue.Companion.toCellValue
 import com.qxdzbc.p6.document_data_layer.cell.IndCellImp
@@ -100,7 +100,7 @@ class WorksheetStateImpTest : BaseAppStateTest() {
                 wbKeySt = wb0.keyMs
             )
         )
-        val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6LayoutCoor>> = ms(emptyMap())
+        val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6Layout>> = ms(emptyMap())
         val cursorIdMs: Ms<CursorId> = ms(CursorIdImp(wsStateIDMs = wssIdMs))
         val mainCellMs = ms(CellAddresses.A1)
         wsStateForWb0Sheet1 = wsStateFactory.create(

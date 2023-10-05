@@ -1,5 +1,7 @@
 package com.qxdzbc.p6.ui.worksheet.slider.scroll_bar
 
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
+
 /**
  * Position data for on drag-thumb event
  * [realPositionRatio] is the position ratio of the top of the thumb. It indicates the real position of the thumb. This number is between [0,1], but it never reaches 1
@@ -10,6 +12,7 @@ data class OnDragThumbData(
     val realPositionRatio: Float,
     val virtualPositionRatio:Float,
     private val scaleRatio:Float,
+    val scrollBarType: ScrollBarType
 ){
     /**
      * Give caller an idea of how fast the thumb is moving.

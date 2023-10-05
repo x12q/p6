@@ -7,11 +7,11 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBarConstants
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.HorizontalWsEdgeSliderStateQualifier
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalWsEdgeSlider
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ import javax.inject.Inject
  * State for horizontal edge slider. Exist as a singleton under [WsScope]
  */
 @WsScope
-@HorizontalWsEdgeSliderStateQualifier
+@ForHorizontalWsEdgeSlider
 @ContributesBinding(scope = WsAnvilScope::class, boundType = ScrollBarState::class)
 class HorizontalScrollBarState(
     thumbLengthRatioMs: Ms<Float>,
@@ -28,8 +28,8 @@ class HorizontalScrollBarState(
     minLengthRatio: Float,
     reductionRatio: Float,
     moveBackRatio: Float,
-    thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
-    railLayoutCoorMs: Ms<P6LayoutCoor?>
+    thumbLayoutCoorMs: Ms<P6Layout?>,
+    railLayoutCoorMs: Ms<P6Layout?>
 ) : AbsScrollBarState(
     thumbLengthRatioMs = thumbLengthRatioMs,
     thumbPositionRatioMs = thumbPositionRatioMs,
@@ -53,40 +53,43 @@ class HorizontalScrollBarState(
         thumbPositionRatioMs = ms(ScrollBarConstants.startingThumbPositionRatio)
     )
 
-    init{
-        require(maxLengthRatio in 0.0 .. 1.0)
-        require(minLengthRatio in 0.0 .. 1.0)
-        require(reductionRatio in 0.0 .. 1.0)
-        require(moveBackRatio in 0.0 .. 1.0)
-        require(thumbLengthRatioMs.value in 0.0 .. 1.0)
-        require(thumbPositionRatioMs.value in 0.0 .. 1.0)
+    init {
+        require(maxLengthRatio in 0.0..1.0)
+        require(minLengthRatio in 0.0..1.0)
+        require(reductionRatio in 0.0..1.0)
+        require(moveBackRatio in 0.0..1.0)
+        require(thumbLengthRatioMs.value in 0.0..1.0)
+        require(thumbPositionRatioMs.value in 0.0..1.0)
     }
 
     override val thumbStartInParentPx: Float?
-        get() = thumbLayoutCoor?.layout?.boundsInParent()?.left
-
-    override val railEndInWindowPx: Float?
-        get() = railLayoutCoor?.layout?.boundsInWindow()?.right
+        get() = thumbLayoutCoor?.boundInParent?.left
 
     override val thumbEndInWindowPx: Float?
-        get() = thumbLayoutCoor?.layout?.boundsInWindow()?.right
+        get() = thumbLayoutCoor?.boundInWindow?.right
 
     override val thumbStartInWindowPx: Float?
-        get() = thumbLayoutCoor?.layout?.boundsInWindow()?.left
+        get() = thumbLayoutCoor?.boundInWindow?.left
+
+    override val railEndInWindowPx: Float?
+        get() = railLayoutCoor?.boundInWindow?.right
 
     override val railStartInWindowPx: Float?
-        get() = railLayoutCoor?.layout?.boundsInWindow()?.left
+        get() = railLayoutCoor?.boundInWindow?.left
 
-    override val type: ScrollBarType
-        get() = ScrollBarType.Horizontal
+    override val type: ScrollBarType = ScrollBarType.Horizontal
 
     override val railLengthPx: Float?
-        get() = railLayoutCoor?.layout?.boundsInWindow()?.width
+        get() = railLayoutCoor?.boundInWindow?.width
 
     override fun computeThumbOffset(density: Density): DpOffset {
-        val rt= DpOffset(
-            y= 0.dp,
-            x = with(density) { thumbPositionInPx.toDp() },
+
+        val rt = DpOffset(
+            x = with(density) {
+                val xx = thumbPositionInPx.toDp()
+                xx
+            },
+            y = 0.dp,
         )
         return rt
     }

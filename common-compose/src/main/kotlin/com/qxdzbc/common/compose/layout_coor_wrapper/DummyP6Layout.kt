@@ -10,13 +10,13 @@ import androidx.compose.ui.unit.IntSize
 
 /**
  */
-class DummyP6LayoutCoor(
+class DummyP6Layout(
     private val _size: IntSize? = IntSize.Zero,
     override val boundInWindow: Rect? = Rect.Zero,
     override val posInWindow: Offset? = Offset.Zero,
     override val isAttached: Boolean = true,
     override val boundInParent: Rect? = Rect.Zero,
-) : P6LayoutCoor {
+) : P6Layout {
 
     override val boundInWindowOrZero: Rect get() = boundInWindow ?: Rect.Zero
     override val posInWindowOrZero: Offset get() = posInWindow ?: Offset.Zero
@@ -42,7 +42,7 @@ class DummyP6LayoutCoor(
 
     override val refreshVar: Boolean get() = throw UnsupportedOperationException()
     override val layout: LayoutCoordinates get() = throw UnsupportedOperationException()
-    override fun setLayout(i: LayoutCoordinates): P6LayoutCoor {
+    override fun setLayout(i: LayoutCoordinates): P6Layout {
         TODO("Not yet implemented")
     }
 
@@ -54,19 +54,19 @@ class DummyP6LayoutCoor(
         throw UnsupportedOperationException()
     }
 
-    override fun ifAttached(f: (lc: P6LayoutCoor) -> Unit) {
+    override fun ifAttached(f: (lc: P6Layout) -> Unit) {
         throw UnsupportedOperationException()
     }
     @Composable
-    override fun ifAttachedComposable(f:@Composable (lc: P6LayoutCoor) -> Unit) {
+    override fun ifAttachedComposable(f:@Composable (lc: P6Layout) -> Unit) {
         throw UnsupportedOperationException()
     }
 
-    override fun forceRefresh(i: Boolean): P6LayoutCoor {
+    override fun forceRefresh(i: Boolean): P6Layout {
         throw UnsupportedOperationException()
     }
 
-    override fun forceRefresh(): P6LayoutCoor {
+    override fun forceRefresh(): P6Layout {
         throw UnsupportedOperationException()
     }
 }

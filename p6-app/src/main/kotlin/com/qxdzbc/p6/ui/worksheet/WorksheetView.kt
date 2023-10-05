@@ -22,6 +22,7 @@ import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.HorizontalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.VerticalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.EdgeSliderActionType
 
@@ -47,60 +48,71 @@ fun WorksheetView(
     Surface(modifier = Modifier.onGloballyPositioned {
         wsActions.updateWsLayoutCoors(it, wsState)
     }) {
-        Row{
-            Column(Modifier.fillMaxHeight().weight(1f)) {
-                Row {
-                    CellRangeIndicator(cursorState.mainCell.label)
-                    ColumRulerView(
-                        state = wsState.colRulerState,
-                        rulerAction = worksheetActionTable.colRulerAction,
-                        size = WorksheetConstants.defaultRowHeight
-                    )
-                }
-                Row {
-                    RowRulerView(
-                        state = wsState.rowRulerState,
-                        rulerAction = worksheetActionTable.rowRulerAction,
-                        size = WorksheetConstants.rowRulerWidth
-                    )
-
-                    MBox{
-                        CellGrid(
-                            wsState = wsState,
-                            wsActions = wsActions,
-                            modifier = Modifier
-                                .onPointerEvent(PointerEventType.Scroll) { pointerEvent ->
-                                    val x: Int = pointerEvent.changes.first().scrollDelta.x.toInt()
-                                    val y: Int = pointerEvent.changes.first().scrollDelta.y.toInt()
-                                    wsActions.onMouseScroll(x, y, wsState)
-                                }
-                                .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
-                        )
-
-                        CellCursor(
-                            state = wsState.cursorState,
-                            currentDisplayedRange = wsState.slider.currentDisplayedRange,
-                            action = worksheetActionTable.cursorAction,
-                            focusState = focusState,
-                            modifier = Modifier
-                                .then(addTestTag(enableTestTag, makeCursorTestTag(wsName))),
+        Column{
+            Row(Modifier.weight(1f)) {
+                Column(Modifier.weight(1f)) {
+                    Row {
+                        CellRangeIndicator(cursorState.mainCell.label)
+                        ColumRulerView(
+                            state = wsState.colRulerState,
+                            rulerAction = worksheetActionTable.colRulerAction,
+                            size = WorksheetConstants.defaultRowHeight
                         )
                     }
+                    Row {
+                        RowRulerView(
+                            state = wsState.rowRulerState,
+                            rulerAction = worksheetActionTable.rowRulerAction,
+                            size = WorksheetConstants.rowRulerWidth
+                        )
+
+                        MBox {
+                            CellGrid(
+                                wsState = wsState,
+                                wsActions = wsActions,
+                                modifier = Modifier
+                                    .onPointerEvent(
+                                        PointerEventType.Scroll
+                                    ) { pointerEvent ->
+                                        val x: Int = pointerEvent.changes.first().scrollDelta.x.toInt()
+                                        val y: Int = pointerEvent.changes.first().scrollDelta.y.toInt()
+                                        wsActions.onMouseScroll(x, y, wsState)
+                                    }
+                                    .then(addTestTag(enableTestTag, makeWorksheetTestTag(ws))),
+                            )
+
+                            CellCursor(
+                                state = wsState.cursorState,
+                                currentDisplayedRange = wsState.slider.currentDisplayedRange,
+                                action = worksheetActionTable.cursorAction,
+                                focusState = focusState,
+                                modifier = Modifier
+                                    .then(addTestTag(enableTestTag, makeCursorTestTag(wsName))),
+                            )
+                        }
+                    }
                 }
+
+                VerticalScrollBar(
+                    state = wsState.verticalScrollBarState,
+                    onDrag = { dragData ->
+                        localAction.verticalScrollBarAction.runAction(EdgeSliderActionType.Drag(dragData))
+                    },
+                    onClickOnRail = {
+                        // TODO
+                    }
+                )
             }
 
-            val vEdgeSliderAction = localAction.edgeSliderAction
-
-            VerticalScrollBar(
-                state=wsState.verticalScrollBarState,
+            HorizontalScrollBar(
+                state = wsState.horizontalScrollBarState,
                 onDrag = {dragData->
-                    vEdgeSliderAction.runAction(EdgeSliderActionType.Drag(dragData))
+                    localAction.horizontalScrollBarAction.runAction(EdgeSliderActionType.Drag(dragData))
                 },
-                onClickOnRail = {
-                    // TODO
-                }
+                onClickOnRail = {}
             )
         }
+
         MBox {
             ResizeBar(
                 state = wsState.colResizeBarState

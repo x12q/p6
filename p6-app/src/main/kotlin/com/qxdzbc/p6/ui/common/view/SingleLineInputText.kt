@@ -13,7 +13,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.common.compose.view.testApp
+
 import com.qxdzbc.p6.ui.theme.P6Theme
 import com.qxdzbc.p6.ui.theme.UseP6TextSelectionColor
 
@@ -58,7 +59,7 @@ fun SingleLineInputText(
 }
 
 fun main() {
-    P6TestApp {
+    testApp {
         SingleLineInputText("TExt")
     }
 }

@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.IntSize
  * The purpose of this interface is to provide an easily mock-able abstraction layer,
  * so that classes relying on LayoutCoordinates can depend on this instead.
  */
-interface P6LayoutCoor {
+interface P6Layout {
     val layout: LayoutCoordinates
-    fun setLayout(i:LayoutCoordinates):P6LayoutCoor
+    fun setLayout(i:LayoutCoordinates):P6Layout
 
     val pixelSizeOrZero:IntSize
     val pixelSize:IntSize?
@@ -64,13 +64,13 @@ interface P6LayoutCoor {
     /**
      * If [layout] is attached, invoke the function [f]
      */
-    fun ifAttached(f:(lc: P6LayoutCoor)->Unit)
+    fun ifAttached(f:(lc: P6Layout)->Unit)
 
     /**
      * If [layout] is attached, invoke the composable [f]
      */
     @Composable
-    fun ifAttachedComposable(f:@Composable (lc: P6LayoutCoor)->Unit)
+    fun ifAttachedComposable(f:@Composable (lc: P6Layout)->Unit)
 
 
     /**
@@ -82,19 +82,19 @@ interface P6LayoutCoor {
      * To force re-composition, call this function with [i] being the opposite of [refreshVar] of this wrapper or the wrapper to be replaced by this wrapper.
      * Still not fixed in compose 1.4
      */
-    fun forceRefresh(i:Boolean):P6LayoutCoor
+    fun forceRefresh(i:Boolean):P6Layout
 
     /**
      * for refresh by reversing [refreshVar]
      * Still not fixed in compose 1.4
      */
-    fun forceRefresh():P6LayoutCoor
+    fun forceRefresh():P6Layout
 
     companion object{
         /**
-         * Replace a [P6LayoutCoor] with another. If they are the same, force refresh.
+         * Replace a [P6Layout] with another. If they are the same, force refresh.
          */
-        fun P6LayoutCoor?.replaceWith(i: P6LayoutCoor?): P6LayoutCoor? {
+        fun P6Layout?.replaceWith(i: P6Layout?): P6Layout? {
             if (i != this) {
                 return i
             } else {

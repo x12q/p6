@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.FloatUtils.guardFloat01
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBarConstants.moveThumbByClickRatio
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.OnDragThumbData
@@ -25,8 +25,8 @@ sealed class AbsScrollBarState(
     val minLengthRatio: Float,
     val reductionRatio: Float,
     val moveBackRatio: Float,
-    private val thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
-    private val railLayoutCoorMs: Ms<P6LayoutCoor?>,
+    private val thumbLayoutCoorMs: Ms<P6Layout?>,
+    private val railLayoutCoorMs: Ms<P6Layout?>,
 ) : ScrollBarState {
 
     protected abstract val railEndInWindowPx: Float?
@@ -40,15 +40,16 @@ sealed class AbsScrollBarState(
 
     private var _thumbLengthRatio by thumbLengthRatioMs
 
-    override var thumbLayoutCoor: P6LayoutCoor? by thumbLayoutCoorMs
+    override var thumbLayoutCoor: P6Layout? by thumbLayoutCoorMs
 
-    override var railLayoutCoor: P6LayoutCoor? by railLayoutCoorMs
+    override var railLayoutCoor: P6Layout? by railLayoutCoorMs
 
     override val thumbPositionInPx: Float by derivedStateOf {
-        (railLengthPx ?: 0f) * thumbPositionRatio
+        val rt = (railLengthPx ?: 0f) * thumbPositionRatio
+        rt
     }
 
-    val thumbLengthInPx: Float by derivedStateOf {
+    private val thumbLengthInPx: Float by derivedStateOf {
         (railLengthPx ?: 0f) * _thumbLengthRatio
     }
 
@@ -67,23 +68,23 @@ sealed class AbsScrollBarState(
     /**
      * When thumb is dragged by [dragDelta] px, change the offset ratio of the thumb so that it follow the pointer.
      */
-    fun computeThumbOffsetWhenDrag(dragDelta: Float) {
+    private fun computeThumbOffsetWhenDrag(dragDelta: Float) {
         /**
          * thumb position ratio = thumb top offset / (rail length - thumb length).
          */
         val newThumbPositionRatio = railLengthPx?.let { rl ->
-            val newThumbOffsetPx = max((thumbStartInParentPx ?: 0f) + dragDelta, 0f)
-            val q = newThumbOffsetPx / rl
-            q
+            val thumbStart = thumbStartInParentPx ?: 0f
+            val newThumbOffsetPx = max(thumbStart + dragDelta, 0f)
+            val ratio = newThumbOffsetPx / rl
+            ratio
         }?.coerceIn(0f, 1f) ?: 0f
-
         thumbPositionRatioMs.value = newThumbPositionRatio
     }
 
     /**
      * Shorten thumb length and move it back up when thumb reaches rail bottom
      */
-    fun recomputeStateWhenThumbReachRailBottom() {
+    private fun recomputeStateWhenThumbReachRailBottom() {
 
         _thumbLengthRatio = max(_thumbLengthRatio * reductionRatio, minLengthRatio)
 
@@ -95,7 +96,7 @@ sealed class AbsScrollBarState(
     /**
      * Prevent the thumb moving pass bottom
      */
-    fun stuckTheThumbAtBot() {
+    private fun stuckTheThumbAtBot() {
         val rl = railLengthPx
         if (rl != null && rl > 0f) {
             val thumbBot = thumbEndInWindowPx
@@ -113,11 +114,15 @@ sealed class AbsScrollBarState(
     /**
      * When reach the top, reset the thumb length to the max value
      */
-    fun recomputeStateWhenThumbReachRailTop() {
+    private fun recomputeStateWhenThumbReachRailTop() {
         _thumbLengthRatio = maxLengthRatio
     }
 
+    /**
+     * When the thumb is dragged, recompute the entire scroll bar state so that the thumb position, size, and other things reflect the drag action.
+     */
     override fun recomputeStateWhenThumbIsDragged(delta: Float, allowRecomputationWhenReachBot: Boolean) {
+
         computeThumbOffsetWhenDrag(delta)
 
         if (thumbReachRailEnd) {
@@ -136,13 +141,19 @@ sealed class AbsScrollBarState(
     override val thumbPositionRatio: Float by thumbPositionRatioMs
 
     override val thumbScrollRatio: Float get() {
+        println("thumbPositionRatio ${thumbPositionRatio}")
+        TODO("x11q thumbPositionRatio this is always 0")
         val thumbYTop = railLengthPx?.times(thumbPositionRatio)
+        println("thumbYTop $thumbYTop")
         val effectiveRL = effectiveRailLengthPx
-        if (thumbYTop != null && effectiveRL != null && effectiveRL != 0f) {
-            return thumbYTop / effectiveRL
+        println("effectiveRL $effectiveRL")
+        val rt = if (thumbYTop != null && effectiveRL != null && effectiveRL != 0f) {
+            println("thumbYTop / effectiveRL: ${thumbYTop / effectiveRL}")
+            thumbYTop / effectiveRL
         } else {
-            return 0f
+            0f
         }
+        return rt
     }
 
     override fun computePositionRatioOnFullRail(yPx: Float): Float? {
@@ -150,21 +161,20 @@ sealed class AbsScrollBarState(
     }
 
     override fun performMoveThumbWhenClickOnRail(point: Float) {
-        guardFloat01(point, "point")
-        if (point >= thumbPositionRatio) {
-            moveThumbByPercent(moveThumbByClickRatio)
-        } else {
-            moveThumbByPercent(-moveThumbByClickRatio)
-        }
-    }
 
-    fun moveThumbByPercent(percent: Float) {
+        guardFloat01(point, "point")
+
+        val percent = if (point >= thumbPositionRatio) {
+            moveThumbByClickRatio
+        } else {
+            -moveThumbByClickRatio
+        }
         val newRatio = (thumbPositionRatio + percent).coerceIn(0f, 1f)
         thumbPositionRatioMs.value = newRatio
     }
 
 
-    fun computePositionRatioWithOffset(yPx: Float, offset: Float): Float? {
+    private fun computePositionRatioWithOffset(yPx: Float, offset: Float): Float? {
         val ratio =
             railEndInWindowPx?.let { railBotY ->
                 if (railBotY != 0f) {
@@ -210,8 +220,11 @@ sealed class AbsScrollBarState(
         }
 
     override fun convertThumbPositionToIndex(indexRange: IntRange): Int {
+        println("indexRange $indexRange")
         val range = indexRange.last - indexRange.first
         val position = (range * thumbScrollRatio).toInt()
+        println("position = $range * $thumbScrollRatio")
+
         return position + indexRange.first
     }
 
@@ -220,6 +233,7 @@ sealed class AbsScrollBarState(
             realPositionRatio = thumbPositionRatio,
             virtualPositionRatio = thumbScrollRatio,
             scaleRatio = this._thumbLengthRatio,
+            scrollBarType = type
         )
     }
 }

@@ -7,7 +7,7 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddresses
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
@@ -31,7 +31,7 @@ import javax.inject.Inject
 @ContributesBinding(WsAnvilScope::class, boundType = CursorState::class)
 data class CursorStateImp @Inject constructor(
     override val idMs: Ms<CursorId>,
-    override val cellLayoutCoorsMapSt: St<@JvmSuppressWildcards Map<CellAddress, P6LayoutCoor>>,
+    override val cellLayoutCoorsMapSt: St<@JvmSuppressWildcards Map<CellAddress, P6Layout>>,
     override val thumbStateMs: Ms<ThumbState>,
     @MainCellState
     val mainCellMs: Ms<CellAddress> = ms(CellAddresses.A1),
@@ -68,7 +68,7 @@ data class CursorStateImp @Inject constructor(
     companion object {
         fun forTest(
             cursorIdMs: Ms<CursorId>,
-            cellLayoutCoorsMapSt: St<Map<CellAddress, P6LayoutCoor>>,
+            cellLayoutCoorsMapSt: St<Map<CellAddress, P6Layout>>,
             thumbStateMs: Ms<ThumbState>,
             mainCellMs:Ms<CellAddress> = ms(CellAddresses.A1)
         ): CursorStateImp {
@@ -97,7 +97,7 @@ data class CursorStateImp @Inject constructor(
 
         fun default2(
             worksheetIDMs: Ms<WorksheetId>,
-            cellLayoutCoorsMapSt: St<Map<CellAddress, P6LayoutCoor>>,
+            cellLayoutCoorsMapSt: St<Map<CellAddress, P6Layout>>,
             thumbStateMs: Ms<ThumbState>,
         ): CursorStateImp {
             return forTest(
@@ -124,7 +124,7 @@ data class CursorStateImp @Inject constructor(
 
     override var id: CursorId by idMs
 
-    override val cellLayoutCoorsMap: Map<CellAddress, P6LayoutCoor> by cellLayoutCoorsMapSt
+    override val cellLayoutCoorsMap: Map<CellAddress, P6Layout> by cellLayoutCoorsMapSt
     override var thumbState: ThumbState by thumbStateMs
 
     override fun up(): CursorState {

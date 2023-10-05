@@ -10,7 +10,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
@@ -71,7 +71,7 @@ fun Drag(
                 )
             }
             .onGloballyPositioned {
-                internalStateMs.value = state.addDragLayoutCoorWrapper(identifier, it.toP6LayoutCoor())
+                internalStateMs.value = state.addDragLayoutCoorWrapper(identifier, it.toP6Layout())
             }
     ) {
         content()

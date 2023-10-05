@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 import com.qxdzbc.common.compose.view.MBox
 
 /**
@@ -31,7 +31,7 @@ fun main() {
         keySelector = { it },
         valueTransform = { "v${it}" }
     )
-    P6TestApp {
+    testApp {
         var mouseDown by rms(false)
         var text by rms("")
         var awtText by rms("")

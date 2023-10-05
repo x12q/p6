@@ -8,6 +8,7 @@ import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.EdgeSliderActionType
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalWsEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ThumbPositionConverter
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateGetter
 import com.squareup.anvil.annotations.ContributesBinding
@@ -25,17 +26,37 @@ class InternalEdgeSliderActionImp @Inject constructor(
     private var slider by sliderMs
 
     override fun drag(data: EdgeSliderActionType.Drag) {
+        when(data.data.scrollBarType){
+            ScrollBarType.Vertical -> {
+                val edgeRowRange = slider.edgeSliderRowRange
+                val newEdgeRow = thumbPositionConverter.convertThumbPositionToIndex(edgeRowRange)
 
-        val edgeRowRange = slider.edgeSliderRowRange
-        val newEdgeRow = thumbPositionConverter.convertThumbPositionToIndex(edgeRowRange)
+                // move the top row to this
+                val shiftCount = newEdgeRow - slider.topLeftCell.rowIndex
 
-        // move the top row to this
-        val shiftCount = newEdgeRow - slider.topLeftCell.rowIndex
-        val newSlider = slider.shiftDown(shiftCount)
+                if(shiftCount!=0){
+                    val newSlider = slider.shiftDown(shiftCount)
+                    wsStateGetter.get()?.setSliderAndRefreshDependentStates(newSlider)
+                    slider = newSlider
+                }
+            }
+            ScrollBarType.Horizontal -> {
+                println(data.data)
+                val edgeColRange = slider.edgeSliderColRange
+                val newEdgeCol = thumbPositionConverter.convertThumbPositionToIndex(edgeColRange)
+                println("newEdgeCol ${newEdgeCol}")
 
-        if (newSlider != slider) {
-            wsStateGetter.get()?.setSliderAndRefreshDependentStates(newSlider)
+                // move the left col to this
+                val shiftCount = newEdgeCol - slider.topLeftCell.colIndex
+                println("shiftCount $shiftCount")
+
+                if(shiftCount!=0){
+                    println(shiftCount)
+                    val newSlider = slider.shiftRight(shiftCount)
+                    wsStateGetter.get()?.setSliderAndRefreshDependentStates(newSlider)
+                    slider = newSlider
+                }
+            }
         }
-        slider = newSlider
     }
 }

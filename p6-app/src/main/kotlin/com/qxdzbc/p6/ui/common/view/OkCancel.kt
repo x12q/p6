@@ -7,7 +7,8 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.common.compose.view.testApp
+
 
 
 @Composable
@@ -50,7 +51,7 @@ fun OkCancel(
 
 
 fun main() {
-    P6TestApp {
+    testApp {
         OkCancel()
     }
 }

@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 import com.qxdzbc.p6.ui.common.view.BorderBox
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    P6TestApp(size = DpSize(300.dp, 300.dp)) {
+    testApp (dpSize = DpSize(300.dp, 300.dp)) {
 
         var width by rms(50.dp)
         var anchorWidth by rms(50.dp)

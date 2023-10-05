@@ -1,13 +1,12 @@
 package com.qxdzbc.p6.ui.worksheet.di
 
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.command.CommandStack
-import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.workbook.di.DefaultCommandStackMs
@@ -40,7 +39,7 @@ interface WsModule {
 
     @Binds
     @WsScope
-    fun cellLayoutMapSt(i: Ms<Map<CellAddress, P6LayoutCoor>>): St<Map<CellAddress, P6LayoutCoor>>
+    fun cellLayoutMapSt(i: Ms<Map<CellAddress, P6Layout>>): St<Map<CellAddress, P6Layout>>
 
 
     @Binds
@@ -117,7 +116,7 @@ interface WsModule {
 
         @Provides
         @WsScope
-        fun defaultCellLayoutMap(): Ms<Map<CellAddress, P6LayoutCoor>> {
+        fun defaultCellLayoutMap(): Ms<Map<CellAddress, P6Layout>> {
             return ms(emptyMap())
         }
 
@@ -173,12 +172,12 @@ interface WsModule {
         @Provides
         @WsScope
         @CellGridLayoutMs
-        fun cellGridLayoutCoorWrapperMs(): Ms<P6LayoutCoor?> = ms(null)
+        fun cellGridLayoutCoorWrapperMs(): Ms<P6Layout?> = ms(null)
 
         @Provides
         @WsScope
         @WsLayoutMs
-        fun wsLayoutCoorWrapperMs(): Ms<P6LayoutCoor?> = ms(null)
+        fun wsLayoutCoorWrapperMs(): Ms<P6Layout?> = ms(null)
 
         @Provides
         @WsScope

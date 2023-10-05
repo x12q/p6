@@ -11,22 +11,23 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.SliderRail
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.SliderThumb
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.Rail
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.Thumb
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.HorizontalScrollBarState
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.VerticalScrollBarState
 
 /**
- * Edge slider is a slider at the edge of a worksheet.
+ * Scroll bar is a slider at the edge of a worksheet.
  * User can drag on this slider to scroll the worksheet vertically or horizontally.
- * An edge slider consist of a [SliderRail] and a [SliderThumb].
- * - [SliderRail] takes up the entire length of the slider,
- * - [SliderThumb] resides on top of the rail, and can move back and fort.
+ * A scroll bar consist of a [Rail] and a [Thumb].
+ * - [Rail] takes up the entire length of the slider,
+ * - [Thumb] resides on top of the rail, and can move back and fort.
  * A [ScrollBar] give its consumer the following information:
  * - in [onDrag], callers get access to position data of thumb on the rail. This data can be translated into position at the caller's end.
  * - in [onClickOnRail], callers get access to the position ratio [0,1] of the click position on the rail.
@@ -47,11 +48,11 @@ fun ScrollBar(
     var isPressed by rms(false)
     var isDragged by rms(false)
 
-    SliderRail(
+    Rail(
         type = state.type,
         modifier = railModifier
             .onGloballyPositioned {
-                state.railLayoutCoor = it.toP6LayoutCoor(state.thumbLayoutCoor?.refreshVar)
+                state.railLayoutCoor = it.toP6Layout(state.thumbLayoutCoor?.refreshVar)
             }
             .onPointerEvent(PointerEventType.Press) {
                 isPressed = true
@@ -65,9 +66,12 @@ fun ScrollBar(
                 if (!isDragged) {
                     pte.changes.firstOrNull()?.position?.also { clickPointOffset ->
 
-                        val clickPosition = when(state){
+                        val clickPosition = when (state) {
                             is HorizontalScrollBarState -> clickPointOffset.x
                             is VerticalScrollBarState -> clickPointOffset.y
+                            else -> {
+                                TODO()
+                            }
                         }
 
                         state.computePositionRatioOnFullRail(clickPosition)?.let { ratio ->
@@ -84,16 +88,19 @@ fun ScrollBar(
             when (state) {
                 is HorizontalScrollBarState -> Orientation.Horizontal
                 is VerticalScrollBarState -> Orientation.Vertical
+                else -> {
+                    TODO()
+                }
             }
         }
 
-        SliderThumb(
+        Thumb(
             type = state.type,
             length = state.computeThumbLength(density),
             offset = state.computeThumbOffset(density),
             modifier = thumbModifier
-                .onGloballyPositioned {
-                    state.thumbLayoutCoor = it.toP6LayoutCoor(state.thumbLayoutCoor?.refreshVar)
+                .onGloballyPositioned { layout ->
+                    state.thumbLayoutCoor = layout.toP6Layout(state.thumbLayoutCoor)
                 }
                 .draggable(
                     orientation = dragOrientation,

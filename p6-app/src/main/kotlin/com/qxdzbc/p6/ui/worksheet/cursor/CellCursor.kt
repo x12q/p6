@@ -18,10 +18,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.common.key_event.P6KeyEvent.Companion.toP6KeyEvent
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
@@ -51,9 +51,9 @@ fun CellCursor(
     focusState: CursorFocusStatePerWindow,
     modifier: Modifier = Modifier,
 ) {
-    val cellLayoutCoorsMap: Map<CellAddress, P6LayoutCoor> = state.cellLayoutCoorsMap
+    val cellLayoutCoorsMap: Map<CellAddress, P6Layout> = state.cellLayoutCoorsMap
     val mainCell: CellAddress = state.mainCell
-    var boundLayoutCoorsWrapper: P6LayoutCoor? by rms(null)
+    var boundLayoutCoorsWrapper: P6Layout? by rms(null)
     val density = LocalDensity.current
 
     LaunchedEffect(Unit) {
@@ -73,7 +73,7 @@ fun CellCursor(
     MBox(modifier = Modifier
         .fillMaxSize()
         .onGloballyPositioned {
-            boundLayoutCoorsWrapper = it.toP6LayoutCoor()
+            boundLayoutCoorsWrapper = it.toP6Layout()
         }) {
         val layout = boundLayoutCoorsWrapper
         val mainCellOffset: IntOffset = if (layout != null && layout.isAttached) {

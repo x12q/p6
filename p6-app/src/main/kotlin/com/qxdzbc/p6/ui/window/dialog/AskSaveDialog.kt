@@ -10,7 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.common.compose.view.testApp
+
 import com.qxdzbc.p6.ui.common.view.MButton
 import com.qxdzbc.p6.ui.common.view.CenterAlignRow
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
@@ -47,7 +48,7 @@ fun AskSaveDialog(
 
 
 fun main() {
-    P6TestApp {
+    testApp {
         AskSaveDialog(
             wbName = "wb1.qwe",
             onDontSave = {},

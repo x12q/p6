@@ -1,12 +1,16 @@
 package test
 
 import androidx.compose.ui.graphics.Color
+import com.qxdzbc.common.compose.StateUtils.toSt
 import com.qxdzbc.common.test_util.TestSplitter
+import io.mockk.mockk
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.channelFlow
+import java.lang.instrument.Instrumentation
+import java.util.UUID
 import kotlin.test.Test
 
  fun main(){
@@ -56,12 +60,10 @@ class QWE{
         }
     }
 }
+
+
 class TestBench :TestSplitter(){
-    @JvmInline
-    value class MyAny(val i:Any?)
-    data class Q(val i:Int, val s:String)
-    @JvmInline
-    value class Vl2(val i: Q)
+
 
     @Test
     fun q(){
@@ -70,13 +72,7 @@ class TestBench :TestSplitter(){
 
     @Test
     fun t() {
-        val ma = MyAny(123)
-        val ma2 = MyAny(ma)
-        val q = Q(123,"abc")
-        val ma3 = MyAny(q)
-        println(ma)
-        println(ma2)
-        println(ma3)
+
     }
 }
 

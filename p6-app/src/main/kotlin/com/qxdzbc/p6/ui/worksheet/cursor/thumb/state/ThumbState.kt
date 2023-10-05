@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.cursor.thumb.state
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpSize
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorId
@@ -21,7 +21,7 @@ interface ThumbState {
     val cursorId: CursorId
     val mainCell:CellAddress
 
-    val cellLayoutCoorMap: Map<CellAddress, P6LayoutCoor>
+    val cellLayoutCoorMap: Map<CellAddress, P6Layout>
 
     val isShowingSelectedRange:Boolean
 

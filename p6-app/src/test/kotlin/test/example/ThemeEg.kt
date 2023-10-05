@@ -7,11 +7,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.common.compose.view.testApp
+
 import com.qxdzbc.p6.ui.common.view.BorderBox
 
 fun main(){
-    P6TestApp{
+    testApp{
         Row{
             MaterialTheme {
                 BorderBox {

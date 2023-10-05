@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.OffsetUtils.rawConvertToIntOffset
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.common.compose.view.MBox
 
 /**
@@ -41,9 +41,9 @@ fun main() = application {
         var pos: IntOffset? by rms(null)
         var isClicked by rms(false)
 
-        val greenBoxPosMs: Ms<P6LayoutCoor?> = rms(null)
-        val redBoxPosMs: Ms<P6LayoutCoor?> = rms(null)
-        var dragHostCoorWrapper: P6LayoutCoor? by rms(null)
+        val greenBoxPosMs: Ms<P6Layout?> = rms(null)
+        val redBoxPosMs: Ms<P6Layout?> = rms(null)
+        var dragHostCoorWrapper: P6Layout? by rms(null)
 
         // drag host
         Surface(color = Color.Black, modifier = Modifier
@@ -62,14 +62,14 @@ fun main() = application {
                     gb.overlaps(rb)
                 }
             } ?: false
-            Column(modifier = Modifier.onGloballyPositioned { dragHostCoorWrapper = it.toP6LayoutCoor() }) {
+            Column(modifier = Modifier.onGloballyPositioned { dragHostCoorWrapper = it.toP6Layout() }) {
                 Text("Overlap: $isOverlap", color = Color.White)
                 Box(modifier = Modifier.fillMaxSize()) {
                     // drag target
                     MBox(
                         modifier = Modifier.size(120.dp, 30.dp).offset(0.dp, 100.dp).background(Color.Red)
                             .onGloballyPositioned {
-                                redBoxPosMs.value = it.toP6LayoutCoor()
+                                redBoxPosMs.value = it.toP6Layout()
                             }
                     )
 
@@ -89,7 +89,7 @@ fun main() = application {
                                     pos = null
                                 }
                             }.onGloballyPositioned {
-                                greenBoxPosMs.value = it.toP6LayoutCoor()
+                                greenBoxPosMs.value = it.toP6Layout()
                             })
                 }
             }

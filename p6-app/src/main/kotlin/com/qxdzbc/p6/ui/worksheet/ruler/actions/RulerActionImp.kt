@@ -6,7 +6,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInWindow
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.composite_actions.cell_editor.update_range_selector_text.RefreshRangeSelectorText
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeAction
@@ -258,7 +258,7 @@ class RulerActionImp @Inject constructor(
                 if (selectedItems.isNotEmpty()) {
                     val mergedRange:RangeAddress = selectedItems.fold(
                         makeWholeColOrRowAddress(selectedItems.first().key, rulerState.type)
-                    ) { acc:RangeAddress, (i:Int, l:P6LayoutCoor) ->
+                    ) { acc:RangeAddress, (i:Int, l:P6Layout) ->
                         acc.mergeWith(makeWholeColOrRowAddress(i, rulerState.type))
                     }
                     val newAnchorCell: CellAddress = if (cursorState.mainCell in mergedRange) {
@@ -285,7 +285,7 @@ class RulerActionImp @Inject constructor(
         }
     }
 
-    override fun updateItemLayout(itemIndex: Int, itemLayout: P6LayoutCoor, rulerSig: RulerSig) {
+    override fun updateItemLayout(itemIndex: Int, itemLayout: P6Layout, rulerSig: RulerSig) {
         sc.getRulerStateMs(rulerSig)?.also {
             it.value = it.value.addItemLayout(itemIndex, itemLayout)
             val srMs = it.value.itemSelectRectMs

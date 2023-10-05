@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import com.qxdzbc.p6.err.ErrMsg
 import com.qxdzbc.common.error.ErrorHeader
 import com.qxdzbc.common.error.SingleErrorReport
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 import com.qxdzbc.p6.ui.common.view.dialog.error.ErrorDialogWithStackTrace
 
 
-fun main() = P6TestApp {
+fun main() = testApp {
     ErrorDialogWithStackTrace(
         errMsg = ErrMsg.Error(
             SingleErrorReport(

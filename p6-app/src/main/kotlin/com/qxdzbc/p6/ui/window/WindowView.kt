@@ -29,11 +29,10 @@ fun WindowView(
 ) {
     val executionScope = rememberCoroutineScope()
     val launchOnMain = remember { CoroutineUtils.makeLaunchOnMain(executionScope) }
-    val iState = rememberWindowState(
-        placement = WindowPlacement.Floating
-    )
     Window(
-        state = iState,
+        state = rememberWindowState(
+            placement = WindowPlacement.Floating
+        ),
         onCloseRequest = {
             windowAction.closeWindow(state)
         },

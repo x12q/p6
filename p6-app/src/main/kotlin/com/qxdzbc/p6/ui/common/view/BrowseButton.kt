@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.theme.P6Theme
 
 @Composable
@@ -41,7 +41,7 @@ fun BrowseButton(
 }
 
 fun main() {
-    P6TestApp {
+    testApp {
         BrowseButton { }
     }
 }

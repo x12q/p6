@@ -6,5 +6,6 @@ import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.EdgeSliderAction
  * contains action object for local view within a Worksheet
  */
 interface WorksheetLocalActions {
-    val edgeSliderAction: EdgeSliderAction
+    val verticalScrollBarAction: EdgeSliderAction
+    val horizontalScrollBarAction: EdgeSliderAction
 }

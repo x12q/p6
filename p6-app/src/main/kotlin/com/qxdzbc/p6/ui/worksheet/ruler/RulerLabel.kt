@@ -5,11 +5,12 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.common.compose.view.testApp
 
 @Composable
-fun RulerLabelView(
+fun RulerLabel(
     label: String,
     itemModifier: Modifier = Modifier,
 ) {
@@ -20,7 +21,7 @@ fun RulerLabelView(
 
 
 fun main() {
-    P6TestApp {
-        RulerLabelView("AAAA")
+    testApp {
+        RulerLabel("AAAA")
     }
 }

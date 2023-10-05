@@ -10,12 +10,12 @@ fun ColumRulerView(
     state: RulerState,
     rulerAction: RulerAction,
     size: Dp,
-    rulerModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
 ) {
     RulerView(
         state = state,
         rulerAction = rulerAction,
         size = size,
-        rulerModifier = rulerModifier
+        modifier = modifier
     )
 }

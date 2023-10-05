@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBarConstants
@@ -26,8 +26,8 @@ class VerticalScrollBarState(
     minLengthRatio: Float,
     reductionRatio: Float,
     moveBackRatio: Float,
-    thumbLayoutCoorMs: Ms<P6LayoutCoor?>,
-    railLayoutCoorMs: Ms<P6LayoutCoor?>
+    thumbLayoutCoorMs: Ms<P6Layout?>,
+    railLayoutCoorMs: Ms<P6Layout?>
 ) : AbsScrollBarState(
     thumbLengthRatioMs = thumbLengthRatioMs,
     thumbPositionRatioMs = thumbPositionRatioMs,
@@ -54,20 +54,19 @@ class VerticalScrollBarState(
     override val thumbStartInParentPx: Float?
         get() = thumbLayoutCoor?.boundInParent?.top
 
-    override val railEndInWindowPx: Float?
-        get() = railLayoutCoor?.boundInWindow?.bottom
-
     override val thumbEndInWindowPx: Float?
         get() = thumbLayoutCoor?.boundInWindow?.bottom
 
     override val thumbStartInWindowPx: Float?
         get() = thumbLayoutCoor?.boundInWindow?.top
 
+    override val railEndInWindowPx: Float?
+        get() = railLayoutCoor?.boundInWindow?.bottom
+
     override val railStartInWindowPx: Float?
         get() = railLayoutCoor?.boundInWindow?.top
 
-    override val type: ScrollBarType
-        get() = ScrollBarType.Vertical
+    override val type: ScrollBarType = ScrollBarType.Vertical
 
     override val railLengthPx: Float?
         get() = railLayoutCoor?.boundInWindow?.height

@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
-import com.qxdzbc.common.compose.layout_coor_wrapper.P6LayoutCoor
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.OnDragThumbData
 
 /**
@@ -23,12 +23,12 @@ sealed interface ScrollBarState : ThumbPositionConverter{
     /**
      * Layout of the thumb in this edge slider
      */
-    var thumbLayoutCoor:P6LayoutCoor?
+    var thumbLayoutCoor:P6Layout?
 
     /**
      * Layout of the rail in this edge slider
      */
-    var railLayoutCoor:P6LayoutCoor?
+    var railLayoutCoor:P6Layout?
 
     /**
      * compute thumb length relative to rail length
@@ -69,7 +69,7 @@ sealed interface ScrollBarState : ThumbPositionConverter{
     val thumbPositionRatio: Float
 
     /**
-     * this tells the actual % of the scroll.
+     * this tells the actual % of the thumb position.
      */
     val thumbScrollRatio:Float
 

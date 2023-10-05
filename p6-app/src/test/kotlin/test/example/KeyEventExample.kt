@@ -15,12 +15,12 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 import com.qxdzbc.p6.ui.common.view.BorderBox
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    P6TestApp(size = DpSize(150.dp,150.dp)) {
+    testApp (dpSize = DpSize(150.dp,150.dp)) {
         val focusRequester = remember{FocusRequester()}
         BorderBox(
             modifier = Modifier

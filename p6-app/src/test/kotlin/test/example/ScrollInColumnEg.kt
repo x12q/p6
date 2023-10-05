@@ -10,11 +10,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 
 @OptIn(ExperimentalMaterialApi::class)
 fun main(){
-    P6TestApp {
+    testApp {
         AlertDialog(
             modifier =Modifier.height(300.dp).width(300.dp),
             onDismissRequest = {},

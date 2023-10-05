@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.onGloballyPositioned
-import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6LayoutCoor
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
@@ -55,7 +55,7 @@ fun DragDropHost(
     ) {
         MBox(
             modifier = Modifier.onGloballyPositioned {
-                internalStateMs.value = state.setHostLayoutCoorWrapper(it.toP6LayoutCoor())
+                internalStateMs.value = state.setHostLayoutCoorWrapper(it.toP6Layout())
             }
         ) {
             content(internalStateMs)

@@ -12,10 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.document_data_layer.cell.Cell
 import com.qxdzbc.p6.document_data_layer.cell.IndCellImp
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 import com.qxdzbc.p6.ui.cell.state.CellState
 import com.qxdzbc.p6.ui.cell.state.CellStateImp
 import com.qxdzbc.p6.ui.cell.state.format.text.CellFormat
@@ -54,7 +55,7 @@ fun CellView(
     }
 }
 
-fun main() = P6TestApp {
+fun main() = testApp {
     val address = CellAddress(1, 1)
     Column {
 

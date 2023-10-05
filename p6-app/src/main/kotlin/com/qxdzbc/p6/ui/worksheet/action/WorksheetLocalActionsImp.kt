@@ -10,5 +10,6 @@ import javax.inject.Inject
 @ContributesBinding(scope= WsAnvilScope::class)
 @WsScope
 class WorksheetLocalActionsImp @Inject constructor(
-    override val edgeSliderAction: EdgeSliderAction
+    override val verticalScrollBarAction: EdgeSliderAction,
+    override val horizontalScrollBarAction: EdgeSliderAction,
 ) : WorksheetLocalActions
