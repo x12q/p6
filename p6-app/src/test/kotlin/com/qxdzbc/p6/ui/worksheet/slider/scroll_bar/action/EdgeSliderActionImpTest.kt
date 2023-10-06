@@ -30,7 +30,7 @@ class EdgeSliderActionImpTest : BaseAppStateTest(){
         action = InternalEdgeSliderActionImp(
             wsStateGetter = WorksheetStateGetter { TODO() },
             sliderMs = gridSliderMs,
-            thumbPositionConverter =dummyProjecter
+            thumbPositionConverterForVerticalScrollBar =dummyProjecter
         )
     }
 

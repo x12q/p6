@@ -7,6 +7,7 @@ import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.EdgeSliderActionType
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalWsEdgeSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalWsEdgeSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ThumbPositionConverter
@@ -20,7 +21,9 @@ class InternalEdgeSliderActionImp @Inject constructor(
     private val wsStateGetter: WorksheetStateGetter,
     private val sliderMs: Ms<GridSlider>,
     @ForVerticalWsEdgeSlider
-    private val thumbPositionConverter: ThumbPositionConverter,
+    private val thumbPositionConverterForVerticalScrollBar: ThumbPositionConverter,
+    @ForHorizontalWsEdgeSlider
+    private val thumbPositionConverterForHorizontalScrollBar:ThumbPositionConverter
 ) : InternalEdgeSliderAction {
 
     private var slider by sliderMs
@@ -29,7 +32,7 @@ class InternalEdgeSliderActionImp @Inject constructor(
         when(data.data.scrollBarType){
             ScrollBarType.Vertical -> {
                 val edgeRowRange = slider.edgeSliderRowRange
-                val newEdgeRow = thumbPositionConverter.convertThumbPositionToIndex(edgeRowRange)
+                val newEdgeRow = thumbPositionConverterForVerticalScrollBar.convertThumbPositionToIndex(edgeRowRange)
 
                 // move the top row to this
                 val shiftCount = newEdgeRow - slider.topLeftCell.rowIndex
@@ -41,14 +44,14 @@ class InternalEdgeSliderActionImp @Inject constructor(
                 }
             }
             ScrollBarType.Horizontal -> {
-                println(data.data)
+//                println(data.data)
                 val edgeColRange = slider.edgeSliderColRange
-                val newEdgeCol = thumbPositionConverter.convertThumbPositionToIndex(edgeColRange)
-                println("newEdgeCol ${newEdgeCol}")
+                val newEdgeCol = thumbPositionConverterForHorizontalScrollBar.convertThumbPositionToIndex(edgeColRange)
+//                println("newEdgeCol ${newEdgeCol}")
 
                 // move the left col to this
                 val shiftCount = newEdgeCol - slider.topLeftCell.colIndex
-                println("shiftCount $shiftCount")
+//                println("shiftCount $shiftCount")
 
                 if(shiftCount!=0){
                     println(shiftCount)

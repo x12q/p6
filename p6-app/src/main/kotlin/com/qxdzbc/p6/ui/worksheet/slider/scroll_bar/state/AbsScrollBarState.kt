@@ -64,7 +64,6 @@ sealed class AbsScrollBarState(
     override val effectiveRailLengthPx: Float? by derivedStateOf { railLengthPx?.minus(thumbLengthInPx) }
 
 
-
     /**
      * When thumb is dragged by [dragDelta] px, change the offset ratio of the thumb so that it follow the pointer.
      */
@@ -140,21 +139,17 @@ sealed class AbsScrollBarState(
 
     override val thumbPositionRatio: Float by thumbPositionRatioMs
 
-    override val thumbScrollRatio: Float get() {
-        println("thumbPositionRatio ${thumbPositionRatio}")
-        TODO("x11q thumbPositionRatio this is always 0")
-        val thumbYTop = railLengthPx?.times(thumbPositionRatio)
-        println("thumbYTop $thumbYTop")
-        val effectiveRL = effectiveRailLengthPx
-        println("effectiveRL $effectiveRL")
-        val rt = if (thumbYTop != null && effectiveRL != null && effectiveRL != 0f) {
-            println("thumbYTop / effectiveRL: ${thumbYTop / effectiveRL}")
-            thumbYTop / effectiveRL
-        } else {
-            0f
+    override val thumbScrollRatio: Float
+        get() {
+            val thumbStart = railLengthPx?.times(thumbPositionRatio)
+            val effectiveRL = effectiveRailLengthPx
+            val rt = if (thumbStart != null && effectiveRL != null && effectiveRL != 0f) {
+                thumbStart / effectiveRL
+            } else {
+                0f
+            }
+            return rt
         }
-        return rt
-    }
 
     override fun computePositionRatioOnFullRail(yPx: Float): Float? {
         return computePositionRatioWithOffset(yPx, 0f)
@@ -194,15 +189,16 @@ sealed class AbsScrollBarState(
      * if the thumb has reached the bottom of the rail or not.
      * A thumb is considered "reach rail bottom" if its bottom edge touch the bottom edge of the rail
      */
-    override val thumbReachRailEnd: Boolean get() {
-        val thumbYBottom = thumbEndInWindowPx
-        val railYBottom = railEndInWindowPx
-        if (thumbYBottom != null && railYBottom != null) {
-            return thumbYBottom >= railYBottom
-        } else {
-            return false
+    override val thumbReachRailEnd: Boolean
+        get() {
+            val thumbYBottom = thumbEndInWindowPx
+            val railYBottom = railEndInWindowPx
+            if (thumbYBottom != null && railYBottom != null) {
+                return thumbYBottom >= railYBottom
+            } else {
+                return false
+            }
         }
-    }
 
     protected abstract val thumbStartInWindowPx: Float?
     protected abstract val railStartInWindowPx: Float?
@@ -220,12 +216,10 @@ sealed class AbsScrollBarState(
         }
 
     override fun convertThumbPositionToIndex(indexRange: IntRange): Int {
-        println("indexRange $indexRange")
         val range = indexRange.last - indexRange.first
         val position = (range * thumbScrollRatio).toInt()
-        println("position = $range * $thumbScrollRatio")
-
-        return position + indexRange.first
+        val rt = position + indexRange.first
+        return rt
     }
 
     override val onDragData: OnDragThumbData by derivedStateOf {
