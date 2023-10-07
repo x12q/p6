@@ -95,14 +95,19 @@ sealed class AbsScrollBarState(
      * Prevent the thumb moving pass bottom
      */
     private fun stuckTheThumbAtBot() {
-        val rl = railLengthPx
-        if (rl != null && rl > 0f) {
-            val thumbBot = thumbEndInWindowPx
-            val railBot = railEndInWindowPx
-            if (thumbBot != null && railBot != null) {
-                if (thumbBot >= railBot) {
-                    // reset thumb position ratio so that thumb bot is equal rail bot
-                    val newThumbPositionRatio = (railBot - thumbLengthInPx) / rl
+        val railLen = railLengthPx
+        if (railLen != null && railLen > 0f) {
+            val thumbEnd = thumbEndInWindowPx
+            val railEnd = railEndInWindowPx
+            if (thumbEnd != null && railEnd != null) {
+                if (thumbEnd >= railEnd) {
+                    // reset thumb position ratio so that thumb bot is equal to rail bot
+                    val newThumbPositionRatio = (railEnd - thumbLengthInPx) / railLen
+                    if(thumbReachRailEnd){
+                        println("stuckTheThumbAtBot: $newThumbPositionRatio")
+                    }else{
+                        println("illegal: $newThumbPositionRatio")
+                    }
                     thumbPositionRatioMs.value = newThumbPositionRatio
                 }
             }
@@ -138,7 +143,7 @@ sealed class AbsScrollBarState(
 
     override val thumbPositionRatio: Float by thumbPositionRatioMs
 
-    override val thumbScrollRatio: Float
+    override val effectiveThumbPositionRatio: Float
         get() {
             val thumbStart = railLengthPx?.times(thumbPositionRatio)
             val effectiveRL = effectiveRailLengthPx
@@ -216,35 +221,18 @@ sealed class AbsScrollBarState(
 
     override fun convertThumbPositionToIndex(indexRange: IntRange): Int {
         val range = indexRange.last - indexRange.first
-        val position = (range * thumbScrollRatio).toInt()
+        val position = (range * effectiveThumbPositionRatio).toInt()
         val rt = position + indexRange.first
         return rt
     }
 
-    override val onDragData: OnDragThumbData by derivedStateOf(
-//        policy = object : SnapshotMutationPolicy<OnDragThumbData> {
-//            override fun equivalent(a: OnDragThumbData, b: OnDragThumbData): Boolean {
-//                return a == b
-//            }
-//
-//            override fun merge(
-//                previous: OnDragThumbData,
-//                current: OnDragThumbData,
-//                applied: OnDragThumbData
-//            ): OnDragThumbData {
-//                return current.copy(
-//                    justRecomputed = previous.justRecomputed != current.justRecomputed
-//                )
-//            }
-//        },
-        calculation = {
-            OnDragThumbData(
-                realPositionRatio = thumbPositionRatio,
-                virtualPositionRatio = thumbScrollRatio,
-                scaleRatio = this._thumbLengthRatio,
-                scrollBarType = type,
-                thumbReachRailEnd = thumbReachRailEnd
-            )
-        }
-    )
+    override val onDragData: OnDragThumbData by derivedStateOf {
+        OnDragThumbData(
+            realPositionRatio = thumbPositionRatio,
+            virtualPositionRatio = effectiveThumbPositionRatio,
+            scaleRatio = this._thumbLengthRatio,
+            scrollBarType = type,
+            thumbReachRailEnd = thumbReachRailEnd
+        )
+    }
 }

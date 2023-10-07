@@ -1,8 +1,11 @@
 package com.qxdzbc.p6.ui.worksheet.slider.scroll_bar
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -14,8 +17,14 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
+import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
+import com.qxdzbc.common.compose.view.HSpacer
+import com.qxdzbc.common.compose.view.testApp
+import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.Rail
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.Thumb
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
@@ -110,5 +119,90 @@ fun ScrollBar(
                     }
                 )
         )
+    }
+}
+
+
+@Preview
+@Composable
+fun Preview_VerticalScrollBar() {
+
+    val state = remember {
+        VerticalScrollBarState()
+    }
+
+    var dragRatio: OnDragThumbData? by rms(null)
+    var clickRatio: Float? by rms(null)
+
+    Row {
+        ScrollBar(
+            state = state,
+            onDrag = {
+                dragRatio = it
+            },
+            onClickOnRail = {
+                clickRatio = it
+            },
+            allowComputationAtEnd = false,
+        )
+        HSpacer(50.dp)
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text("Click ratio: ${clickRatio}")
+
+            Text("Drag ratio: ${dragRatio}")
+
+            Text("Thumb position ratio: ${state.thumbPositionRatio}")
+
+            Text("Thumb scroll ratio: ${state.effectiveThumbPositionRatio}")
+
+
+        }
+
+    }
+
+}
+
+
+
+@Preview
+@Composable
+fun Preview_HorizontalBar() {
+
+    val sliderState: Ms<GridSlider> = rms(GridSliderImp.forPreview())
+    val state = remember {
+        HorizontalScrollBarState()
+    }
+
+    var dragRatio: OnDragThumbData? by rms(null)
+    var clickRatio: Float? by rms(null)
+
+    Column {
+        ScrollBar(
+            state = state,
+            onDrag = {
+                dragRatio = it
+            },
+            onClickOnRail = {
+                clickRatio = it
+            },
+            allowComputationAtEnd = true,
+        )
+        HSpacer(50.dp)
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text("Click ratio: ${clickRatio}")
+
+            Text("Drag ratio: ${dragRatio}")
+
+            Text("Thumb position ratio: ${state.thumbPositionRatio}")
+
+            Text("${sliderState}")
+        }
+
+    }
+
+}
+fun main() {
+    testApp {
+        Preview_VerticalScrollBar()
     }
 }

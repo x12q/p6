@@ -41,6 +41,7 @@ internal fun Thumb(
             .then(sizeMod)
             .background(color)
             .then(modifier)
+
     ) {
         thumbContent()
     }

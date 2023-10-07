@@ -83,11 +83,9 @@ class HorizontalScrollBarState(
         get() = railLayoutCoor?.boundInWindow?.width
 
     override fun computeThumbOffset(density: Density): DpOffset {
-
         val rt = DpOffset(
             x = with(density) {
-                val xx = thumbPositionInPx.toDp()
-                xx
+                thumbPositionInPx.toDp()
             },
             y = 0.dp,
         )

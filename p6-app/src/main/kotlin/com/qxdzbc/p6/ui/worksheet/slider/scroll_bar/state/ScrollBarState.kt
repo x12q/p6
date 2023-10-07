@@ -16,7 +16,7 @@ sealed interface ScrollBarState : ThumbPositionConverter{
     val onDragData:OnDragThumbData
 
     /**
-     * rail length in px
+     * the real rail length in px
      */
     val railLengthPx:Float?
 
@@ -38,7 +38,7 @@ sealed interface ScrollBarState : ThumbPositionConverter{
     fun setThumbLengthRatio(ratio:Float)
 
     /**
-     * Offset of the thumb from the start of the rail, in px
+     * Offset of the start of the thumb from the start of the rail, in px
      */
     val thumbPositionInPx:Float
 
@@ -61,18 +61,19 @@ sealed interface ScrollBarState : ThumbPositionConverter{
     val thumbReachRailStart: Boolean
 
     /**
-     * This tells how far the thumb is away from the top of the rail in percentage (%).
+     * This tells how far the top of the thumb is away from the top of the rail in percentage (%).
      * - 0.0 (or 0%) means the thumb is at the top.
      * - 1.0 (or 100%) means the thumb is at the bottom.
-     * [thumbPositionRatio] is for displaying thumb on the view layer
+     * * [thumbPositionRatio] is for displaying thumb on the view layer
      * * [thumbPositionRatio] is always in [0,1] range.
+     * * [thumbPositionRatio] can never reach 1 (or 100%) because the top of the thumb can never reach the bot of the rail.
      */
     val thumbPositionRatio: Float
 
     /**
-     * this tells the actual % of the thumb position.
+     * this tells the actual % of the thumb position. This is computed using [effectiveRailLengthPx]
      */
-    val thumbScrollRatio:Float
+    val effectiveThumbPositionRatio:Float
 
     /**
      * Compute the position ratio of a point with offset [yPx] from the top of the rail against the full rail length

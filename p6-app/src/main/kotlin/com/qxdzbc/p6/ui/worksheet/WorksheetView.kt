@@ -22,9 +22,7 @@ import com.qxdzbc.p6.ui.window.focus_state.WindowFocusState
 import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.HorizontalScrollBar
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.VerticalScrollBar
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionType
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBar
 
 
 /**
@@ -93,25 +91,26 @@ fun WorksheetView(
                     }
                 }
 
-                VerticalScrollBar(
+                ScrollBar(
                     state = wsState.verticalScrollBarState,
+//                    state = remember{VerticalScrollBarState()},
                     onDrag = { dragData ->
-                        localAction.verticalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
+//                        localAction.verticalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                     },
                     onClickOnRail = {
                         // TODO
                     },
-                    allowComputationAtBot = true,
+                    allowComputationAtEnd = true,
                 )
             }
 
-            HorizontalScrollBar(
+            ScrollBar(
                 state = wsState.horizontalScrollBarState,
                 onDrag = {dragData->
-                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
+//                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                 },
                 onClickOnRail = {},
-                allowComputationAtBottom = true,
+                allowComputationAtEnd = false,
             )
         }
 
