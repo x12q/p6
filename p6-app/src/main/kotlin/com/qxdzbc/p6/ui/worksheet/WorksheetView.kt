@@ -100,7 +100,6 @@ fun WorksheetView(
                     onClickOnRail = {
                         // TODO
                     },
-                    allowComputationAtEnd = false,
                 )
             }
 
@@ -110,7 +109,6 @@ fun WorksheetView(
                     localAction.horizontalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                 },
                 onClickOnRail = {},
-                allowComputationAtEnd = false,
             )
         }
 

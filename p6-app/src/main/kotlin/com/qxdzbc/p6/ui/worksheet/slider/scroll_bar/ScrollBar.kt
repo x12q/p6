@@ -49,7 +49,6 @@ fun ScrollBar(
     thumbModifier: Modifier = Modifier,
     onDrag: (positionRatio: OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
-    allowComputationAtEnd: Boolean,
 ) {
     val density = LocalDensity.current
 
@@ -84,6 +83,8 @@ fun ScrollBar(
                             onClickOnRail(ratio)
                         }
                     }
+                }else{
+                    state.recomputeThumbStateWhenThumbIsReleasedFromDrag()
                 }
                 isPressed = false
                 isDragged = false
@@ -109,7 +110,7 @@ fun ScrollBar(
                 .draggable(
                     orientation = dragOrientation,
                     state = rememberDraggableState { delta ->
-                        state.recomputeStateWhenThumbIsDragged(delta, allowComputationAtEnd)
+                        state.recomputeStateWhenThumbIsDragged(delta)
                         onDrag(state.onDragData)
                     }
                 )
@@ -138,7 +139,6 @@ fun Preview_VerticalScrollBar() {
             onClickOnRail = {
                 clickRatio = it
             },
-            allowComputationAtEnd = false,
         )
         HSpacer(50.dp)
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -180,7 +180,6 @@ fun Preview_HorizontalBar() {
             onClickOnRail = {
                 clickRatio = it
             },
-            allowComputationAtEnd = true,
         )
         HSpacer(50.dp)
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {

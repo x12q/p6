@@ -31,6 +31,7 @@ import test.di.TestComponent
 
 
 class TestSample : TestAppScope {
+    val mockDensity = MockObjects.mockDensity
     val activeWindowPointer get() = comp.activeWindowPointer
 
     val wb1Ws1St get() = this.sc.getWbWsSt(wbKey1, wsn1)!!

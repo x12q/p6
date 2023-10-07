@@ -25,8 +25,8 @@ sealed class AbsScrollBarState(
     val minLengthRatio: Float,
     val reductionRatio: Float,
     val moveBackRatio: Float,
-    private val thumbLayoutCoorMs: Ms<P6Layout?>,
-    private val railLayoutCoorMs: Ms<P6Layout?>,
+    val thumbLayoutCoorMs: Ms<P6Layout?>,
+    val railLayoutCoorMs: Ms<P6Layout?>,
 ) : ScrollBarState {
 
     protected abstract val railEndInWindowPx: Float?
@@ -61,7 +61,20 @@ sealed class AbsScrollBarState(
         _thumbLengthRatio = ratio
     }
 
-    override val effectiveRailLengthPx: Float? by derivedStateOf { railLengthPx?.minus(thumbLengthInPx) }
+    override fun setThumbPositionRatioViaEffectivePositionRatio(effectivePositionRatio: Float) {
+        railLengthPx?.also { rlPx ->
+            val newThumbPositionRatio = effectiveRailLengthPx
+                ?.times(effectivePositionRatio)
+                ?.div(rlPx)
+            newThumbPositionRatio?.also {
+                thumbPositionRatioMs.value = newThumbPositionRatio
+            }
+        }
+    }
+
+    override val effectiveRailLengthPx: Float? by derivedStateOf {
+        railLengthPx?.minus(thumbLengthInPx)
+    }
 
     /**
      * When thumb is dragged by [dragDelta] px, change the offset ratio of the thumb so that it follow the pointer.
@@ -83,18 +96,14 @@ sealed class AbsScrollBarState(
      * Shorten thumb length and move it back up when thumb reaches rail bottom
      */
     private fun recomputeStateWhenThumbReachRailBottom() {
-
         _thumbLengthRatio = max(_thumbLengthRatio * reductionRatio, minLengthRatio)
-
-        thumbPositionRatioMs.value = moveBackRatio
-
     }
 
 
     /**
-     * Prevent the thumb moving pass bottom
+     * Prevent thumb from moving pass rail end
      */
-    private fun stuckTheThumbAtBot() {
+    private fun preventThumbMovingPassRailEnd() {
         val railLen = railLengthPx
         if (railLen != null && railLen > 0f) {
             val thumbEnd = thumbEndInWindowPx
@@ -119,20 +128,12 @@ sealed class AbsScrollBarState(
     /**
      * When the thumb is dragged, recompute the entire scroll bar state so that the thumb position, size, and other things reflect the drag action.
      */
-    override fun recomputeStateWhenThumbIsDragged(delta: Float, allowRecomputationWhenReachBot: Boolean) {
+    override fun recomputeStateWhenThumbIsDragged(delta: Float) {
 
         computeThumbOffsetWhenDrag(delta)
 
-        if (thumbReachRailEnd) {
-            if (allowRecomputationWhenReachBot) {
-                recomputeStateWhenThumbReachRailBottom()
-            } else {
-                if (delta > 0f) {
-                    stuckTheThumbAtBot()
-                }
-            }
-        } else if (thumbReachRailStart) {
-            recomputeStateWhenThumbReachRailTop()
+        if (thumbReachRailEnd && delta > 0f) {
+            preventThumbMovingPassRailEnd()
         }
     }
 
@@ -167,6 +168,15 @@ sealed class AbsScrollBarState(
         thumbPositionRatioMs.value = newRatio
     }
 
+
+    override fun recomputeThumbStateWhenThumbIsReleasedFromDrag() {
+        if (thumbReachRailEnd) {
+            recomputeStateWhenThumbReachRailBottom()
+        } else if (thumbReachRailStart) {
+            recomputeStateWhenThumbReachRailTop()
+        }
+
+    }
 
     private fun computePositionRatioWithOffset(yPx: Float, offset: Float): Float? {
         val ratio =

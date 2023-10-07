@@ -1,24 +1,58 @@
 package com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.compose.layout_coor_wrapper.DummyP6Layout
 import com.qxdzbc.common.test_util.TestSplitter
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import test.BaseAppStateTest
 import kotlin.test.*
 
-class VerticalScrollBarStateTest : TestSplitter() {
+class VerticalScrollBarStateTest : BaseAppStateTest() {
 
     lateinit var state: VerticalScrollBarState
 
     @BeforeTest
     fun bt() {
-//        state = VerticalEdgeSliderState()
-//        state.thumbLayoutCoorMs.value = DummyP6LayoutCoor(
-//                boundInWindow = Rect(Offset.Zero,size= Size(width=10f,height=10f)),
-//                boundInParent = Rect(Offset.Zero,size= Size(width=10f,height=10f)),
-//            )
+        state = VerticalScrollBarState()
+        state.thumbLayoutCoorMs.value = DummyP6Layout(
+                boundInWindow = Rect(Offset.Zero,size= Size(width=10f,height=10f)),
+                boundInParent = Rect(Offset.Zero,size= Size(width=10f,height=10f)),
+            )
 //
-//        state.railLayoutCoorMs.value = DummyP6LayoutCoor(
-//            boundInWindow = Rect(Offset.Zero,size= Size(width=10f,height=100f)),
-//            boundInParent = null,
-//        )
+        state.railLayoutCoorMs.value = DummyP6Layout(
+            boundInWindow = Rect(Offset.Zero,size= Size(width=10f,height=100f)),
+            boundInParent = null,
+        )
+    }
+
+    @Test
+    fun setThumbPositionRatioViaEffectivePositionRatio(){
+        state.railLayoutCoorMs.value = DummyP6Layout(
+            boundInWindow = Rect(Offset.Zero,size= Size(width=10f,height=100f)),
+            boundInParent = Rect(Offset.Zero,size= Size(width=10f,height=100f)),
+        )
+        state.thumbLayoutCoorMs.value = DummyP6Layout(
+            boundInWindow = Rect(Offset(0f,30f),size= Size(width=10f,height=20f)),
+            boundInParent = Rect(Offset(0f,30f),size= Size(width=10f,height=20f)),
+        )
+
+        state.setThumbLengthRatio(20f/100f)
+
+        state.thumbPositionRatio shouldBe 0f
+        (state.computeThumbLength(ts.mockDensity) > 0.dp).shouldBeTrue()
+
+        println(state.effectiveThumbPositionRatio)
+        println(state.thumbPositionRatio)
+        println("====")
+        state.setThumbPositionRatioViaEffectivePositionRatio(0.3f)
+        state.effectiveThumbPositionRatio shouldBe 0.3f
+        state.thumbPositionRatio shouldBe 0.3f*80/100
+
     }
 
     @Test
