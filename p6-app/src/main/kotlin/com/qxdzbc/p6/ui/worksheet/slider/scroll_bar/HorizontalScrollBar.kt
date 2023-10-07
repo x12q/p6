@@ -27,7 +27,7 @@ fun HorizontalScrollBar(
     thumbModifier: Modifier = Modifier,
     onDrag: (data:OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
-    allowComputationAtBottom: () -> Boolean = { true },
+    allowComputationAtBottom: Boolean,
 ) {
     ScrollBar(
         state,railModifier,thumbModifier,onDrag,onClickOnRail,allowComputationAtBottom
@@ -54,7 +54,8 @@ fun Preview_HorizontalBar() {
             },
             onClickOnRail = {
                 clickRatio = it
-            }
+            },
+            allowComputationAtBottom = true,
         )
         HSpacer(50.dp)
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {

@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.worksheet.action
 
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.EdgeSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarAction
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -10,6 +10,6 @@ import javax.inject.Inject
 @ContributesBinding(scope= WsAnvilScope::class)
 @WsScope
 class WorksheetLocalActionsImp @Inject constructor(
-    override val verticalScrollBarAction: EdgeSliderAction,
-    override val horizontalScrollBarAction: EdgeSliderAction,
+    override val verticalScrollBarAction: ScrollBarAction,
+    override val horizontalScrollBarAction: ScrollBarAction,
 ) : WorksheetLocalActions

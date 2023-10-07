@@ -63,10 +63,8 @@ interface WsModule {
         @Provides
         @WsScope
         fun wsStateGetter(stateContainer: StateContainer,wsIdProvider: Provider<WorksheetId>):WorksheetStateGetter{
-            return object : WorksheetStateGetter {
-                override fun get(): WorksheetState? {
-                    return stateContainer.getWsState(wsIdProvider.get())
-                }
+            return WorksheetStateGetter {
+                stateContainer.getWsState(wsIdProvider.get())
             }
         }
 

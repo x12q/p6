@@ -12,7 +12,8 @@ data class OnDragThumbData(
     val realPositionRatio: Float,
     val virtualPositionRatio:Float,
     private val scaleRatio:Float,
-    val scrollBarType: ScrollBarType
+    val scrollBarType: ScrollBarType,
+    val thumbReachRailEnd:Boolean,
 ){
     /**
      * Give caller an idea of how fast the thumb is moving.

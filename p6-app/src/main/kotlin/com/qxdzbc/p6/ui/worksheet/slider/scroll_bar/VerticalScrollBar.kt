@@ -28,7 +28,7 @@ fun VerticalScrollBar(
     thumbModifier: Modifier = Modifier,
     onDrag: (OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
-    allowComputationAtBot: () -> Boolean = { true },
+    allowComputationAtBot: Boolean,
 ) {
     ScrollBar(
         state,railModifier,thumbModifier,onDrag,onClickOnRail,allowComputationAtBot
@@ -55,7 +55,8 @@ fun Preview_VerticalScrollBar() {
             },
             onClickOnRail = {
                 clickRatio = it
-            }
+            },
+            allowComputationAtBot = true,
         )
         HSpacer(50.dp)
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {

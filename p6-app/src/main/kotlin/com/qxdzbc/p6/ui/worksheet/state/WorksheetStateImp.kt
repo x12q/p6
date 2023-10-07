@@ -156,7 +156,7 @@ data class WorksheetStateImp @Inject constructor(
                 slider.containAddressInVisibleRange(cellAddress)
             }
     }
-    override fun setSliderAndRefreshDependentStates(i: GridSlider) {
+    override fun updateSliderAndRefreshDependentStates(i: GridSlider) {
         sliderMs.value = i
 //        removeAllCellLayoutCoor()
         reScanCellLayout()

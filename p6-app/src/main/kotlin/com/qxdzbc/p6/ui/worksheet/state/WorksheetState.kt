@@ -128,7 +128,7 @@ interface WorksheetState : WbWsSt {
      *  - ruler states
      *  - cell layouts
      */
-    fun setSliderAndRefreshDependentStates(i: GridSlider)
+    fun updateSliderAndRefreshDependentStates(i: GridSlider)
 
     /**
      * State of the select rectangle used for selecting multiple cells at once by dragging the mouse on this worksheet

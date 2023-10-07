@@ -41,7 +41,7 @@ fun ScrollBar(
     thumbModifier: Modifier = Modifier,
     onDrag: (positionRatio: OnDragThumbData) -> Unit,
     onClickOnRail: (clickPositionRatio: Float) -> Unit,
-    allowComputationAtEnd: () -> Boolean = { true },
+    allowComputationAtEnd: Boolean,
 ) {
     val density = LocalDensity.current
 
@@ -105,7 +105,7 @@ fun ScrollBar(
                 .draggable(
                     orientation = dragOrientation,
                     state = rememberDraggableState { delta ->
-                        state.recomputeStateWhenThumbIsDragged(delta, allowComputationAtEnd())
+                        state.recomputeStateWhenThumbIsDragged(delta, allowComputationAtEnd)
                         onDrag(state.onDragData)
                     }
                 )

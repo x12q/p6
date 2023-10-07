@@ -38,7 +38,7 @@ class MoveSliderActionImp @Inject constructor(
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.followCell(cellAddr)
             if (newSlider != oldSlider) {
-                wsState.setSliderAndRefreshDependentStates(newSlider)
+                wsState.updateSliderAndRefreshDependentStates(newSlider)
             }
             Ok(Unit)
         }
@@ -62,7 +62,7 @@ class MoveSliderActionImp @Inject constructor(
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.shiftDown(rowCount).shiftRight(colCount)
             if (newSlider != oldSlider) {
-                wsState.setSliderAndRefreshDependentStates(newSlider)
+                wsState.updateSliderAndRefreshDependentStates(newSlider)
             }
             Ok(Unit)
         }

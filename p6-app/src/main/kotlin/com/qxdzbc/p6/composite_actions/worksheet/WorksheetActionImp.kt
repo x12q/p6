@@ -47,7 +47,7 @@ class WorksheetActionImp @Inject constructor(
                 newSlider = newSlider.shiftDown(y)
             }
             if (newSlider != sliderState) {
-                wsState.setSliderAndRefreshDependentStates(newSlider)
+                wsState.updateSliderAndRefreshDependentStates(newSlider)
 //                wsState.cellLayoutCoorMapMs.value = wsState.cellLayoutCoorMap
 //                    .filter { (cellAddress, _) ->
 //                        sliderState.containAddressInVisibleRange(cellAddress)

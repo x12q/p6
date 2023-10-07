@@ -44,6 +44,7 @@ sealed interface ScrollBarState : ThumbPositionConverter{
 
     /**
      * Recompute this state when thumb is dragged, including thumb position and thumb size.
+     * [allowRecomputationWhenReachBot] means allow recomputing the scroll bar when the thumb reach the bottom of the rail or not. Normally, thumb size and position would be recomputed to allow infinite scrolling, but when the hosting worksheet reach its col and row limit, the re-computation is no longer needed.
      */
     fun recomputeStateWhenThumbIsDragged(delta: Float,allowRecomputationWhenReachBot:Boolean)
 

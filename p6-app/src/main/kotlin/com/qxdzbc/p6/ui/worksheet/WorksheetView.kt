@@ -24,7 +24,7 @@ import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.HorizontalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.VerticalScrollBar
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.EdgeSliderActionType
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionType
 
 
 /**
@@ -96,20 +96,22 @@ fun WorksheetView(
                 VerticalScrollBar(
                     state = wsState.verticalScrollBarState,
                     onDrag = { dragData ->
-                        localAction.verticalScrollBarAction.runAction(EdgeSliderActionType.Drag(dragData))
+                        localAction.verticalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                     },
                     onClickOnRail = {
                         // TODO
-                    }
+                    },
+                    allowComputationAtBot = true,
                 )
             }
 
             HorizontalScrollBar(
                 state = wsState.horizontalScrollBarState,
                 onDrag = {dragData->
-                    localAction.horizontalScrollBarAction.runAction(EdgeSliderActionType.Drag(dragData))
+                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                 },
-                onClickOnRail = {}
+                onClickOnRail = {},
+                allowComputationAtBottom = true,
             )
         }
 

@@ -63,7 +63,6 @@ sealed class AbsScrollBarState(
 
     override val effectiveRailLengthPx: Float? by derivedStateOf { railLengthPx?.minus(thumbLengthInPx) }
 
-
     /**
      * When thumb is dragged by [dragDelta] px, change the offset ratio of the thumb so that it follow the pointer.
      */
@@ -222,12 +221,30 @@ sealed class AbsScrollBarState(
         return rt
     }
 
-    override val onDragData: OnDragThumbData by derivedStateOf {
-        OnDragThumbData(
-            realPositionRatio = thumbPositionRatio,
-            virtualPositionRatio = thumbScrollRatio,
-            scaleRatio = this._thumbLengthRatio,
-            scrollBarType = type
-        )
-    }
+    override val onDragData: OnDragThumbData by derivedStateOf(
+//        policy = object : SnapshotMutationPolicy<OnDragThumbData> {
+//            override fun equivalent(a: OnDragThumbData, b: OnDragThumbData): Boolean {
+//                return a == b
+//            }
+//
+//            override fun merge(
+//                previous: OnDragThumbData,
+//                current: OnDragThumbData,
+//                applied: OnDragThumbData
+//            ): OnDragThumbData {
+//                return current.copy(
+//                    justRecomputed = previous.justRecomputed != current.justRecomputed
+//                )
+//            }
+//        },
+        calculation = {
+            OnDragThumbData(
+                realPositionRatio = thumbPositionRatio,
+                virtualPositionRatio = thumbScrollRatio,
+                scaleRatio = this._thumbLengthRatio,
+                scrollBarType = type,
+                thumbReachRailEnd = thumbReachRailEnd
+            )
+        }
+    )
 }
