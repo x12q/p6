@@ -46,17 +46,17 @@ class ScrollBarActionImpTest : BaseAppStateTest(){
         dummyProjecter.i = 55
 
         println(gs.visibleRowRangeIncludeMargin)
-        println(gs.edgeSliderRowRange)
+        println(gs.scrollBarRowRange)
 
         println("=====")
         dummyProjecter.i=200
         println(gs.visibleRowRangeIncludeMargin)
-        println(gs.edgeSliderRowRange)
+        println(gs.scrollBarRowRange)
 
         println("=====")
         dummyProjecter.i=1
         println(gs.visibleRowRangeIncludeMargin)
-        println(gs.edgeSliderRowRange)
+        println(gs.scrollBarRowRange)
 
     }
 

@@ -35,14 +35,14 @@ internal class GridSliderImpTest {
             colLimit = IntRange(0, 100),
             rowLimit = IntRange(0, 120),
         ).copy(
-            edgeSliderCol = 1000,
-            edgeSliderRow = 800,
+            scrollBarLastCol = 1000,
+            scrollBarLastRow = 800,
         )
 
         val margin = 20
         val s1 = s0.updateEdgeSliderLimit(margin)
-        s1.edgeSliderCol shouldBe 100+20
-        s1.edgeSliderRow shouldBe 120+20
+        s1.scrollBarLastCol shouldBe 100+20
+        s1.scrollBarLastRow shouldBe 120+20
     }
 
     @Test
@@ -55,14 +55,14 @@ internal class GridSliderImpTest {
             colLimit = IntRange(0, 100),
             rowLimit = IntRange(0, 120),
         ).copy(
-            edgeSliderCol = 100,
-            edgeSliderRow = 100,
+            scrollBarLastCol = 100,
+            scrollBarLastRow = 100,
         )
 
         val margin = 20
         val s1 = s0.updateEdgeSliderLimit(margin)
-        s1.edgeSliderCol shouldBe 100+20
-        s1.edgeSliderRow shouldBe 120+20
+        s1.scrollBarLastCol shouldBe 100+20
+        s1.scrollBarLastRow shouldBe 120+20
     }
 
     @Test
@@ -75,8 +75,8 @@ internal class GridSliderImpTest {
             colLimit = IntRange(0, 100),
             rowLimit = IntRange(0, 120),
         ).copy(
-            edgeSliderCol = 170,
-            edgeSliderRow = 180,
+            scrollBarLastCol = 170,
+            scrollBarLastRow = 180,
         )
 
         val margin = 20

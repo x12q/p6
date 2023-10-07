@@ -35,7 +35,7 @@ class InternalScrollBarActionImp @Inject constructor(
         if(!data.data.thumbReachRailEnd) {
             when (data.data.scrollBarType) {
                 ScrollBarType.Vertical -> {
-                    val edgeRowRange = slider.edgeSliderRowRange
+                    val edgeRowRange = slider.scrollBarRowRange
                     val newEdgeRow =
                         thumbPositionConverterForVerticalScrollBar.convertThumbPositionToIndex(edgeRowRange)
 
@@ -50,7 +50,7 @@ class InternalScrollBarActionImp @Inject constructor(
                 }
 
                 ScrollBarType.Horizontal -> {
-                    val edgeColRange = slider.edgeSliderColRange
+                    val edgeColRange = slider.scrollBarColRange
                     val newEdgeCol =
                         thumbPositionConverterForHorizontalScrollBar.convertThumbPositionToIndex(edgeColRange)
 

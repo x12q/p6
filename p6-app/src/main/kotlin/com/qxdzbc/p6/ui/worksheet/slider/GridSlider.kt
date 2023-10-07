@@ -21,26 +21,26 @@ interface GridSlider {
     val rowLimit: IntRange
 
     /**
-     * the last row of the row range used by vertical edge slider
+     * the last row of the row range used by vertical scroll bar, this is not in the visible row range
      */
-    val edgeSliderRow:Int
+    val scrollBarLastRow:Int
 
     /**
-     * This is this range: (1,[edgeSliderRow]).
+     * This is this range: (1,[scrollBarLastRow]).
      * This range is always larger than the [visibleRowRangeIncludeMargin] and is expanded when [visibleRowRangeIncludeMargin] reach this limit.
      */
-    val edgeSliderRowRange:IntRange
+    val scrollBarRowRange:IntRange
 
     /**
-     * the last col of the col range used by vertical edge slider
+     * the last col of the col range used by vertical scroll bar, this is not in the visible col range
      */
-    val edgeSliderCol:Int
+    val scrollBarLastCol:Int
 
     /**
-     * This is this range: (1,[edgeSliderCol])
+     * This is this range: (1,[scrollBarLastCol])
      * This range is always larger than the [visibleColRangeIncludeMargin] and is expanded whenever [visibleColRangeIncludeMargin] reach this limit.
      */
-    val edgeSliderColRange:IntRange
+    val scrollBarColRange:IntRange
 
     val currentDisplayedRange:RangeAddress
 

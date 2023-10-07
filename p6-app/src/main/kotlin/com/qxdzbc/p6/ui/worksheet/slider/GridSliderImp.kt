@@ -23,8 +23,8 @@ data class GridSliderImp(
     override val rowLimit: IntRange,
     override val marginRow: Int?,
     override val marginCol: Int?,
-    override val edgeSliderRow: Int,
-    override val edgeSliderCol: Int,
+    override val scrollBarLastRow: Int,
+    override val scrollBarLastCol: Int,
 ) : BaseSlider(), GridSlider {
 
     @Inject
@@ -40,8 +40,8 @@ data class GridSliderImp(
         rowLimit = rowLimit,
         marginRow = null,
         marginCol = null,
-        edgeSliderCol = GridSliderConstants.startingEdgeSliderCol,
-        edgeSliderRow = GridSliderConstants.startingEdgeSliderRow,
+        scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol,
+        scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow,
     )
 
 
@@ -56,9 +56,9 @@ data class GridSliderImp(
         }
     }
 
-    override val edgeSliderRowRange: IntRange get() = IntRange(1, edgeSliderRow)
+    override val scrollBarRowRange: IntRange get() = IntRange(1, scrollBarLastRow)
 
-    override val edgeSliderColRange: IntRange get() = IntRange(1, edgeSliderCol)
+    override val scrollBarColRange: IntRange get() = IntRange(1, scrollBarLastCol)
 
     override val firstVisibleCol: Int get() = slider.firstVisibleCol
 
@@ -161,18 +161,26 @@ data class GridSliderImp(
     }
 
     /**
-     * expand or shrink [edgeSliderCol] and [edgeSliderRow] if [slider] reaches or goes out of those limits.
+     * expand or shrink [scrollBarLastCol] and [scrollBarLastRow] if [slider] reaches or goes out of those limits.
      */
     fun updateEdgeSliderLimit(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSliderImp {
 
         var rt = this
 
-        if (slider.lastVisibleCol >= edgeSliderCol || edgeSliderCol - slider.lastVisibleCol > margin) {
-            rt = rt.copy(edgeSliderCol = slider.lastVisibleCol + margin)
+        val wentOutOfColLimit =
+            slider.lastVisibleCol >= scrollBarLastCol
+                || scrollBarLastCol - slider.lastVisibleCol > margin
+
+        if (wentOutOfColLimit) {
+            rt = rt.copy(scrollBarLastCol = slider.lastVisibleCol + margin)
         }
 
-        if (slider.lastVisibleRow >= edgeSliderRow || edgeSliderRow - slider.lastVisibleRow > margin) {
-            rt = rt.copy(edgeSliderRow = slider.lastVisibleRow + margin)
+        val wentOutOfRowLimit =
+            slider.lastVisibleRow >= scrollBarLastRow
+                || scrollBarLastRow - slider.lastVisibleRow > margin
+
+        if (wentOutOfRowLimit) {
+            rt = rt.copy(scrollBarLastRow = slider.lastVisibleRow + margin)
         }
 
         return rt
