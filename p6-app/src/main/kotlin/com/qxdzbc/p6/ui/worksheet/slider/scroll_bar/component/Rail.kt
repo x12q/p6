@@ -39,7 +39,6 @@ internal fun Rail(
             .then(modifier)
     ) {
         content()
-        Box(Modifier.fillMaxWidth().height(5.dp).align(Alignment.BottomCenter).background(Color.Red))
     }
 }
 

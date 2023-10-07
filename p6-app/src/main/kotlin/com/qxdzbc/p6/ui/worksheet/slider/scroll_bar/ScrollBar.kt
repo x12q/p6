@@ -77,9 +77,6 @@ fun ScrollBar(
                         val clickPosition = when (state) {
                             is HorizontalScrollBarState -> clickPointOffset.x
                             is VerticalScrollBarState -> clickPointOffset.y
-                            else -> {
-                                TODO()
-                            }
                         }
 
                         state.computePositionRatioOnFullRail(clickPosition)?.let { ratio ->
@@ -96,9 +93,6 @@ fun ScrollBar(
             when (state) {
                 is HorizontalScrollBarState -> Orientation.Horizontal
                 is VerticalScrollBarState -> Orientation.Vertical
-                else -> {
-                    TODO()
-                }
             }
         }
 

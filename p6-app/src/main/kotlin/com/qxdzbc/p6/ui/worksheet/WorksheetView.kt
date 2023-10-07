@@ -94,7 +94,6 @@ fun WorksheetView(
 
                 ScrollBar(
                     state = wsState.verticalScrollBarState,
-//                    state = remember{VerticalScrollBarState()},
                     onDrag = { dragData ->
                         localAction.verticalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                     },
