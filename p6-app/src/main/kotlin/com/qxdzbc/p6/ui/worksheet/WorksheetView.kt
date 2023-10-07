@@ -23,6 +23,7 @@ import com.qxdzbc.p6.ui.worksheet.range_indicator.CellRangeIndicator
 import com.qxdzbc.p6.ui.worksheet.ruler.ColumRulerView
 import com.qxdzbc.p6.ui.worksheet.ruler.RowRulerView
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBar
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionType
 
 
 /**
@@ -95,19 +96,19 @@ fun WorksheetView(
                     state = wsState.verticalScrollBarState,
 //                    state = remember{VerticalScrollBarState()},
                     onDrag = { dragData ->
-//                        localAction.verticalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
+                        localAction.verticalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                     },
                     onClickOnRail = {
                         // TODO
                     },
-                    allowComputationAtEnd = true,
+                    allowComputationAtEnd = false,
                 )
             }
 
             ScrollBar(
                 state = wsState.horizontalScrollBarState,
                 onDrag = {dragData->
-//                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
+                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionType.Drag(dragData))
                 },
                 onClickOnRail = {},
                 allowComputationAtEnd = false,

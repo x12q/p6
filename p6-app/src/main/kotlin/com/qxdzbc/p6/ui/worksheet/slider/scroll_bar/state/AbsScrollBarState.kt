@@ -102,12 +102,7 @@ sealed class AbsScrollBarState(
             if (thumbEnd != null && railEnd != null) {
                 if (thumbEnd >= railEnd) {
                     // reset thumb position ratio so that thumb bot is equal to rail bot
-                    val newThumbPositionRatio = (railEnd - thumbLengthInPx) / railLen
-                    if(thumbReachRailEnd){
-                        println("stuckTheThumbAtBot: $newThumbPositionRatio")
-                    }else{
-                        println("illegal: $newThumbPositionRatio")
-                    }
+                    val newThumbPositionRatio = (railLen - thumbLengthInPx) / railLen
                     thumbPositionRatioMs.value = newThumbPositionRatio
                 }
             }
