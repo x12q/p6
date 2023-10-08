@@ -6,7 +6,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBarConstants
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ReleaseFromDragData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalWsEdgeSlider
@@ -76,7 +75,7 @@ class InternalScrollBarActionImp @Inject constructor(
         resizeThumb(data.state, slider)
 
         // re-position thumb
-        repositionThumb(data.state, slider)
+        repositionThumbWhenReachEnd(data.state, slider)
     }
 
     fun resizeThumb(scrollBarState: ScrollBarState, slider: GridSlider) {
@@ -89,7 +88,7 @@ class InternalScrollBarActionImp @Inject constructor(
                     ScrollBarType.Vertical -> {
                         val numberOfDisplayRow = slider.visibleRowRangeIncludeMargin.count()
                         val numberOfScrollBarRow = slider.scrollBarRowRange.count()
-                        computeThumbLengthRatioFormula(
+                        shrinkThumbLengthRatioFormula(
                             numberOfVisibleItem = numberOfDisplayRow,
                             numberOfScrollBarItem = numberOfScrollBarRow,
                             currentLengthRatio = sbt.thumbLengthRatio
@@ -99,7 +98,7 @@ class InternalScrollBarActionImp @Inject constructor(
                     ScrollBarType.Horizontal -> {
                         val numberOfDisplayCol = slider.visibleColRangeIncludeMargin.count()
                         val numberOfScrollBarCol = slider.scrollBarColRange.count()
-                        computeThumbLengthRatioFormula(
+                        shrinkThumbLengthRatioFormula(
                             numberOfVisibleItem = numberOfDisplayCol,
                             numberOfScrollBarItem = numberOfScrollBarCol,
                             currentLengthRatio = sbt.thumbLengthRatio
@@ -111,19 +110,38 @@ class InternalScrollBarActionImp @Inject constructor(
         }
     }
 
-    private fun computeThumbLengthRatioFormula(
+
+    private fun repositionThumbWhenReachEnd(scrollBarState: ScrollBarState, slider: GridSlider) {
+        val sbt = scrollBarState
+        if(sbt.thumbReachRailEnd){
+            val r = when(sbt.type){
+                ScrollBarType.Vertical -> {
+                    val numberOfDisplayRow = slider.visibleRowRangeIncludeMargin.last
+                    val numberOfScrollBarRow = slider.scrollBarRowRange.last
+                    numberOfDisplayRow.toFloat()/numberOfScrollBarRow
+                }
+                ScrollBarType.Horizontal -> {
+                    sbt.effectiveThumbPositionRatio
+                }
+            }
+            sbt.setThumbPositionRatioViaEffectivePositionRatio(r)
+        }
+
+    }
+
+    /**
+     * A formula to shrink thumb length with certain constraint and easing
+     */
+    private fun shrinkThumbLengthRatioFormula(
         numberOfVisibleItem: Int,
         numberOfScrollBarItem: Int,
         currentLengthRatio: Float,
+        easingFactor:Int = 15,
+        minimumReductionRate:Float = 0.1f,
     ): Float {
         // adjustment factor is here so that the thumb does not shrink too fast.
-        val adjustmentFactor = 15
-        val minimumReductionRate = 0.1f
-        val effectivePosRatio = numberOfVisibleItem.toFloat() * adjustmentFactor / numberOfScrollBarItem
+        val effectivePosRatio = numberOfVisibleItem.toFloat() * easingFactor / numberOfScrollBarItem
         return min(effectivePosRatio, currentLengthRatio * (1f - minimumReductionRate))
     }
 
-    fun repositionThumb(scrollBarState: ScrollBarState, slider: GridSlider) {
-
-    }
 }
