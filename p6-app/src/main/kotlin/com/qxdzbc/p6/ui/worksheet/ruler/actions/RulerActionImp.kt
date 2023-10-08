@@ -6,7 +6,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInWindow
 import com.qxdzbc.common.compose.density_converter.FloatToDpConverter
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.composite_actions.cell_editor.update_range_selector_text.RefreshRangeSelectorText
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeAction
@@ -14,7 +14,7 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddresses
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddressUtils
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.ruler.RulerSig
@@ -258,7 +258,7 @@ class RulerActionImp @Inject constructor(
                 if (selectedItems.isNotEmpty()) {
                     val mergedRange:RangeAddress = selectedItems.fold(
                         makeWholeColOrRowAddress(selectedItems.first().key, rulerState.type)
-                    ) { acc:RangeAddress, (i:Int, l:LayoutCoorWrapper) ->
+                    ) { acc:RangeAddress, (i:Int, l:P6Layout) ->
                         acc.mergeWith(makeWholeColOrRowAddress(i, rulerState.type))
                     }
                     val newAnchorCell: CellAddress = if (cursorState.mainCell in mergedRange) {
@@ -285,7 +285,7 @@ class RulerActionImp @Inject constructor(
         }
     }
 
-    override fun updateItemLayout(itemIndex: Int, itemLayout: LayoutCoorWrapper, rulerSig: RulerSig) {
+    override fun updateItemLayout(itemIndex: Int, itemLayout: P6Layout, rulerSig: RulerSig) {
         sc.getRulerStateMs(rulerSig)?.also {
             it.value = it.value.addItemLayout(itemIndex, itemLayout)
             val srMs = it.value.itemSelectRectMs

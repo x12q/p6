@@ -4,7 +4,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.BasicTextElement
 import com.qxdzbc.p6.translator.partial_text_element_extractor.text_element.TextElement
 import com.squareup.anvil.annotations.ContributesBinding

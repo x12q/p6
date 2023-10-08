@@ -8,7 +8,7 @@ import com.qxdzbc.p6.rpc.workbook.WorkbookRpcMsgErrors
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdWithIndexPrt
 import com.qxdzbc.p6.ui.app.state.DocumentContainer
 import com.qxdzbc.p6.ui.app.state.StateContainer

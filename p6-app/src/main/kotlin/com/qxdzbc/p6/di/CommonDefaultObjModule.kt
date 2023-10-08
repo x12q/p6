@@ -5,7 +5,6 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.command.CommandStack
 import com.qxdzbc.p6.command.CommandStacks
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.qualifiers.*
 import com.qxdzbc.p6.ui.workbook.di.DefaultCommandStackMs
 import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
@@ -14,10 +13,6 @@ import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultRowRangeQualifier
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultSelectRectState
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultSelectRectStateMs
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
-import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectStateImp
-import com.squareup.anvil.annotations.ContributesBinding
-import com.squareup.anvil.annotations.ContributesTo
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 

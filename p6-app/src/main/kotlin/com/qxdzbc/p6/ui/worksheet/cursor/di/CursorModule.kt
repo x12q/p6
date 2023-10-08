@@ -12,7 +12,7 @@ import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.worksheet.cursor.di.qualifiers.MainCellState
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorId
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorIdImp
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsScope
+import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.*
 import com.qxdzbc.p6.ui.worksheet.state.RangeConstraint
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetId

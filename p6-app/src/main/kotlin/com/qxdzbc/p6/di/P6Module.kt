@@ -8,7 +8,6 @@ import com.qxdzbc.common.file_util.FileUtilImp
 import com.qxdzbc.p6.app_context.AppContext
 import com.qxdzbc.p6.app_context.AppContextImp
 import com.qxdzbc.p6.common.utils.Utils
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.qualifiers.*
 import com.qxdzbc.p6.ui.app.di.AppStateModule
 import com.qxdzbc.p6.ui.window.status_bar.di.StatusBarModule

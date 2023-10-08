@@ -5,7 +5,7 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.document_data_layer.cell.CellId
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.qxdzbc.p6.ui.worksheet.cursor.thumb.state.ThumbState
@@ -18,9 +18,9 @@ interface CursorState : WbWsSt {
     val idMs:Ms<CursorId>
     var id:CursorId
 
-    val cellLayoutCoorsMapSt:St<Map<CellAddress, LayoutCoorWrapper>>
+    val cellLayoutCoorsMapSt:St<Map<CellAddress, P6Layout>>
 
-    val cellLayoutCoorsMap: Map<CellAddress, LayoutCoorWrapper>
+    val cellLayoutCoorsMap: Map<CellAddress, P6Layout>
 
     val thumbStateMs:Ms<ThumbState>
 

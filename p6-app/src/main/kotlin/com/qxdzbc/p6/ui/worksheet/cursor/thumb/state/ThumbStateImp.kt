@@ -6,13 +6,13 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.ui.worksheet.cursor.di.qualifiers.MainCellState
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultSelectRectState
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorId
-import com.qxdzbc.p6.ui.worksheet.di.comp.WsAnvilScope
+import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -22,7 +22,7 @@ data class ThumbStateImp @Inject constructor(
     private val cursorIdSt: St<@JvmSuppressWildcards CursorId>,
     @MainCellState
     private val mainCellSt: St<@JvmSuppressWildcards CellAddress>,
-    private val cellLayoutCoorMapSt: St<@JvmSuppressWildcards Map<CellAddress, LayoutCoorWrapper>>,
+    private val cellLayoutCoorMapSt: St<@JvmSuppressWildcards Map<CellAddress, P6Layout>>,
     @DefaultSelectRectState
     override val selectRectState: SelectRectState,
 ) : ThumbState {
@@ -34,20 +34,20 @@ data class ThumbStateImp @Inject constructor(
 
     override val mainCell: CellAddress by mainCellSt
 
-    override val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> by cellLayoutCoorMapSt
+    override val cellLayoutCoorMap: Map<CellAddress, P6Layout> by cellLayoutCoorMapSt
 
     override val isShowingSelectedRange: Boolean get() = selectRectState.isShow
 
 
-    fun getCellAtTheCross(): Map<CellAddress, LayoutCoorWrapper> {
+    fun getCellAtTheCross(): Map<CellAddress, P6Layout> {
         return cellLayoutCoorMap.filterKeys {
             it.colIndex == mainCell.colIndex || it.rowIndex == mainCell.rowIndex
         }
     }
 
-    fun getRelevantCells(): Map<CellAddress, LayoutCoorWrapper> {
+    fun getRelevantCells(): Map<CellAddress, P6Layout> {
         val crossCells = getCellAtTheCross()
-        val relevantCells: Map<CellAddress, LayoutCoorWrapper> = with(selectRectState)
+        val relevantCells: Map<CellAddress, P6Layout> = with(selectRectState)
         {
             val ratio = 1.0
             if (isMovingDownward(ratio)) {

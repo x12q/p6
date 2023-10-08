@@ -1,15 +1,15 @@
 package com.qxdzbc.common.compose.drag_drop
 
 import androidx.compose.ui.geometry.Offset
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper.Companion.replaceWith
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout.Companion.replaceWith
 
 data class DragAndDropHostInternalStateImp(
     override val isDragging: Boolean = false,
     override val mousePositionInWindow: Offset? = null,
-    override val hostCoorWrapper: LayoutCoorWrapper? = null,
-    override val dragMap: Map<Any, LayoutCoorWrapper?> = emptyMap(),
-    override val dropMap: Map<Any, LayoutCoorWrapper?> = emptyMap(),
+    override val hostCoorWrapper: P6Layout? = null,
+    override val dragMap: Map<Any, P6Layout?> = emptyMap(),
+    override val dropMap: Map<Any, P6Layout?> = emptyMap(),
     override val currentDrag: Any? = null,
 ) : DragAndDropHostInternalState {
 
@@ -37,7 +37,7 @@ data class DragAndDropHostInternalStateImp(
         )
     }
 
-    override fun addDragLayoutCoorWrapper(key: Any, layoutCoorWrapper: LayoutCoorWrapper): DragAndDropHostInternalStateImp {
+    override fun addDragLayoutCoorWrapper(key: Any, layoutCoorWrapper: P6Layout): DragAndDropHostInternalStateImp {
         if(dragMap.containsKey(key)){
             return this.copy(dragMap = this.dragMap.updateLayoutMap(key, layoutCoorWrapper))
         }else{
@@ -52,14 +52,14 @@ data class DragAndDropHostInternalStateImp(
     }
 
     override fun setAcceptableDragIds(ids: Set<Any>): DragAndDropHostInternalStateImp {
-        val newMap: Map<Any, LayoutCoorWrapper?> = ids.associateWith { null }
+        val newMap: Map<Any, P6Layout?> = ids.associateWith { null }
         return this.copy(dragMap = newMap)
     }
 
     override val acceptableDragIds: Set<Any>
         get() = dragMap.keys
 
-    override fun addDropLayoutCoorWrapper(key: Any, layoutCoorWrapper: LayoutCoorWrapper): DragAndDropHostInternalStateImp {
+    override fun addDropLayoutCoorWrapper(key: Any, layoutCoorWrapper: P6Layout): DragAndDropHostInternalStateImp {
         if(dropMap.containsKey(key)){
             return this.copy(dropMap = this.dropMap.updateLayoutMap(key, layoutCoorWrapper))
         }else{
@@ -74,14 +74,14 @@ data class DragAndDropHostInternalStateImp(
     }
 
     override fun setAcceptableDropIds(ids: Set<Any>): DragAndDropHostInternalState {
-        val newMap: Map<Any, LayoutCoorWrapper?> = ids.associateWith { null }
+        val newMap: Map<Any, P6Layout?> = ids.associateWith { null }
         return this.copy(dropMap = newMap)
     }
 
     override val acceptableDropIds: Set<Any>
         get() = dropMap.keys
 
-    override fun setHostLayoutCoorWrapper(i: LayoutCoorWrapper?): DragAndDropHostInternalStateImp {
+    override fun setHostLayoutCoorWrapper(i: P6Layout?): DragAndDropHostInternalStateImp {
         return this.copy(hostCoorWrapper = hostCoorWrapper.replaceWith(i))
     }
 
@@ -145,12 +145,12 @@ data class DragAndDropHostInternalStateImp(
 
     companion object {
         /**
-         * Update a layout map with a pair of [key] and a [LayoutCoorWrapper]
+         * Update a layout map with a pair of [key] and a [P6Layout]
          */
-        fun Map<Any, LayoutCoorWrapper?>.updateLayoutMap(
+        fun Map<Any, P6Layout?>.updateLayoutMap(
             key: Any,
-            layoutCoorWrapper: LayoutCoorWrapper
-        ): Map<Any, LayoutCoorWrapper?> {
+            layoutCoorWrapper: P6Layout
+        ): Map<Any, P6Layout?> {
             val currentLayout = this[key]
             val replacement = currentLayout.replaceWith(layoutCoorWrapper)
             if (replacement != null) {

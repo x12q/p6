@@ -18,9 +18,10 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.p6.build.DebugFunctions.debug
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+
 import com.qxdzbc.p6.ui.common.view.BorderBox
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.common.compose.view.testApp
 import java.util.*
 /**
  * A ResizableBox is a box that can be resized by dragging its edges with a mouse. Mouse icon also change when it hovers over the edges of this box.
@@ -134,7 +135,7 @@ fun ResizableBox(
 }
 
 private fun main() {
-    P6TestApp(size = DpSize(300.dp, 300.dp)) {
+    testApp (dpSize = DpSize(300.dp, 300.dp)) {
         BorderBox(modifier = Modifier.fillMaxHeight()) {
             BorderBox (modifier = Modifier.align(Alignment.BottomCenter)){
                 ResizableBox(style = ResizeStyle.TOP, /*modifier = Modifier.fillMaxHeight()*/) { }

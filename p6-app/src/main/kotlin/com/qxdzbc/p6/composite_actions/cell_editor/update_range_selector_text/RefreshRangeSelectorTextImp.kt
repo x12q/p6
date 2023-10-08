@@ -6,7 +6,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.composite_actions.cell_editor.color_formula.ColorFormulaInCellEditorAction
 import com.qxdzbc.p6.composite_actions.worksheet.make_cell_editor_display_text.GenerateCellEditorTextAction
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.tree_extractor.TreeExtractor
 import com.qxdzbc.p6.ui.app.cell_editor.state.CellEditorState
 import com.squareup.anvil.annotations.ContributesBinding

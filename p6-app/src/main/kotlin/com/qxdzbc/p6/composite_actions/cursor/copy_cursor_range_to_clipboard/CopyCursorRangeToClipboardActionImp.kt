@@ -7,7 +7,7 @@ import com.qxdzbc.p6.composite_actions.range.range_to_clipboard.RangeToClipboard
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.document_data_layer.worksheet.WorksheetErrors
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState

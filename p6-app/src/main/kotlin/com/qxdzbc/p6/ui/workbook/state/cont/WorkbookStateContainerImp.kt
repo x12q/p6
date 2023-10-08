@@ -10,7 +10,7 @@ import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.workbook.state.factory.WorkbookStateFactory
 import com.squareup.anvil.annotations.ContributesBinding

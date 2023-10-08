@@ -19,15 +19,11 @@ enum class BorderStyleValue {
         val LEFT_RIGHT = EnumSet.of(__LEFT, __RIGHT)
         val NONE = EnumSet.of(__NONE)
 
-        fun EnumSet<BorderStyleValue>.debugAll(): EnumSet<BorderStyleValue> {
-            return debug(ALL)
-        }
-
         fun EnumSet<BorderStyleValue>.debug(debugValue: EnumSet<BorderStyleValue>): EnumSet<BorderStyleValue> {
             return if (BuildConfig.buildVariant == BuildVariant.DEBUG) {
                 debugValue
             } else {
-                NONE
+                this
             }
         }
     }

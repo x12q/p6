@@ -18,9 +18,10 @@ import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.LayoutCoorsUtils.ifAttached
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils.rms
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
+
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.view.MBox
+import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.common.view.tree_view.state.TreeNodeState
 import com.qxdzbc.p6.ui.common.view.tree_view.state.TreeNodeStateImp
 
@@ -157,7 +158,7 @@ fun TreeNode2(
                     },
                 ).onGloballyPositioned {
                     it.ifAttached { i ->
-                        state.setLayoutCoorWrapper(i.wrap())
+                        state.setLayoutCoorWrapper(i.toP6Layout())
                     }
                 }
         ) {
@@ -191,8 +192,8 @@ fun TreeNode2(
 
 @OptIn(ExperimentalFoundationApi::class)
 private fun main() {
-    P6TestApp(
-        size = DpSize(100.dp, 300.dp)
+    testApp (
+        dpSize = DpSize(100.dp, 300.dp)
     ) {
         val s: Ms<TreeNodeState> = rms(TreeNodeStateImp(isExpandable = true, isExpanded = false))
         TreeNode2(

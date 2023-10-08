@@ -5,6 +5,7 @@ import androidx.compose.foundation.PointerMatcher
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -14,7 +15,9 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.common.compose.OtherComposeFunctions.isNonePressed
+import com.qxdzbc.common.compose.SizeUtils.toDpSize
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
 import com.qxdzbc.p6.build.BuildConfig
@@ -40,13 +43,22 @@ fun CellGrid(
     modifier: Modifier = Modifier,
 ) {
     val slider by wsState.sliderMs
-   val density = LocalDensity.current
+    val density = LocalDensity.current
+
+    LaunchedEffect(wsState.cellGridLayoutCoorWrapper) {
+        wsState.cellGridLayoutCoorWrapper?.layout?.size?.also { availableSize ->
+            // this action is invoke here so that the slider is redrawn whenever the whole cell grid is re-rendered upon resizing or something similar.
+            wsActions.computeSliderPropertiesForAvailableSpace(wsState, availableSize.toDpSize(density))
+        }
+    }
+
     MBox(
         modifier = modifier
             .fillMaxSize()
-            .onGloballyPositioned {
-                wsActions.updateCellGridLayoutCoors(it, wsState)
-                wsActions.computeSliderSize(wsState,density)
+            .onGloballyPositioned { layoutCoor ->
+                val newLayout = wsState.cellGridLayoutCoorWrapper?.setLayout(layoutCoor)
+                    ?: layoutCoor.toP6Layout()
+                wsState.setCellGridLayoutCoorWrapper(newLayout)
             }
             .onPointerEvent(PointerEventType.Press) {
                 if (it.buttons.isPrimaryPressed && it.keyboardModifiers.isNonePressed) {
@@ -82,7 +94,7 @@ fun CellGrid(
                 align = Alignment.TopStart
             )
         ) {
-            for (colIndex: Int in slider.visibleColRange) {
+            for (colIndex: Int in slider.visibleColRangeIncludeMargin) {
                 val colWidth = wsState.getColumnWidthOrDefault(colIndex)
                 Column(
                     modifier = Modifier
@@ -91,10 +103,10 @@ fun CellGrid(
                             align = Alignment.TopStart
                         )
                 ) {
-                    for (rowIndex: Int in slider.visibleRowRange) {
+                    for (rowIndex: Int in slider.visibleRowRangeIncludeMargin) {
                         val cellAddress = CellAddress(colIndex, rowIndex)
                         val cellState: CellState? = wsState.getCellState(colIndex, rowIndex)
-                        val rowHeight = wsState.getRowHeight(rowIndex) ?: WorksheetConstants.defaultRowHeight
+                        val rowHeight = wsState.getRowHeightOrDefault(rowIndex)
 
                         // x: pick border style base on the cell position
                         val borderStyle =
@@ -119,7 +131,7 @@ fun CellGrid(
                             onClick = {
                                 wsActions.shiftClickSelectRange(cellAddress, wsState)
                             }
-                        ).padding(start=1.dp, end = 1.dp, top=1.dp,bottom=1.dp)
+                        ).padding(start = 1.dp, end = 1.dp, top = 1.dp, bottom = 1.dp)
 
                         BorderBox(
                             borderStyle = borderStyle,
@@ -135,7 +147,7 @@ fun CellGrid(
                             if (cellState != null) {
                                 CellView(
                                     state = cellState,
-                                    format=format,
+                                    format = format,
                                     boxModifier = cellBoxMod
                                 )
                             } else {
@@ -150,19 +162,18 @@ fun CellGrid(
             }
         }
 
-        MBox {// this Mbox is for preventing massive cells re-drawing
-            val gridLayoutCoors = wsState.cellGridLayoutCoors
-            val pos = if (gridLayoutCoors != null && gridLayoutCoors.isAttached) {
-                gridLayoutCoors.windowToLocal(wsState.selectRectState.rect.topLeft)
-            } else {
-                wsState.selectRectState.rect.topLeft
-            }
-            if (BuildConfig.buildVariant == BuildVariant.DEBUG) {
-                SelectRect(
-                    wsState.selectRectStateMs.value,
-                    position = pos
-                )
-            }
+        val gridLayoutCoors = wsState.cellGridLayoutCoors
+        val pos = if (gridLayoutCoors != null && gridLayoutCoors.isAttached) {
+            gridLayoutCoors.windowToLocal(wsState.selectRectState.rect.topLeft)
+        } else {
+            wsState.selectRectState.rect.topLeft
         }
+        if (BuildConfig.buildVariant == BuildVariant.DEBUG) {
+            SelectRect(
+                wsState.selectRectStateMs.value,
+                position = pos
+            )
+        }
+
     }
 }

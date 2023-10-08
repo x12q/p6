@@ -10,9 +10,9 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.composite_actions.cell_editor.run_formula.RunFormulaOrSaveValueToCellAction
-import com.qxdzbc.p6.composite_actions.cursor.on_cursor_changed_reactor.CommonReactionOnCursorChanged
+import com.qxdzbc.p6.composite_actions.cursor.on_cursor_changed_reactor.CommonSideEffectWhenCursorChanged
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
@@ -27,7 +27,7 @@ class ClickOnCellActionImp @Inject constructor(
     private val restoreWindowFocusState: RestoreWindowFocusState,
     private val refreshRangeSelectorText: RefreshRangeSelectorText,
     private val runFormulaAction: RunFormulaOrSaveValueToCellAction,
-    private val commonReactionOnCursorChanged: CommonReactionOnCursorChanged,
+    private val commonSideEffectWhenCursorChanged: CommonSideEffectWhenCursorChanged,
 ) : ClickOnCellAction {
 
     fun clickOnCell(cellAddress: CellAddress, cursorStateMs:Ms<CursorState>?) {
@@ -50,7 +50,7 @@ class ClickOnCellActionImp @Inject constructor(
                 runFormulaAction.runFormulaOrSaveValueToCell(true)
                 editorStateMs.value=editorState.close()
             }
-            commonReactionOnCursorChanged.onCursorChanged(cursorStateMs.value.id)
+            commonSideEffectWhenCursorChanged.run(cursorStateMs.value.id)
         }
     }
 

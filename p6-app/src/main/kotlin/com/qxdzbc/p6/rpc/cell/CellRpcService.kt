@@ -8,7 +8,7 @@ import com.qxdzbc.p6.document_data_layer.cell.CellContent
 import com.qxdzbc.p6.document_data_layer.cell.CellContentImp
 import com.qxdzbc.p6.document_data_layer.cell.CellValue
 import com.qxdzbc.p6.di.qualifiers.ActionDispatcherDefault
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.proto.CellProtos
 import com.qxdzbc.p6.proto.CommonProtos

@@ -6,7 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.common.compose.view.testApp
+
 import com.qxdzbc.p6.ui.theme.P6Theme
 
 /**
@@ -36,7 +37,7 @@ fun DirTextField(
 }
 
 fun main() {
-    P6TestApp {
+    testApp {
         P6Theme {
 //            DirTextField(
 //                "ABC",Modifier,true,

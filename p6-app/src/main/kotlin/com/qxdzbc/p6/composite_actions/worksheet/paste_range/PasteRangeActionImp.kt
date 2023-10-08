@@ -18,7 +18,7 @@ import com.qxdzbc.p6.command.Command
 import com.qxdzbc.p6.document_data_layer.range.RangeCopy
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.document_data_layer.range.copy_paste.ClipboardReader
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM
 import com.qxdzbc.p6.rpc.worksheet.msg.WorksheetIdDM
 import com.qxdzbc.p6.ui.app.state.StateContainer

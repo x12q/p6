@@ -14,7 +14,8 @@ import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.common.compose.view.MBox
-import com.qxdzbc.p6.ui.common.compose.P6TestApp
+import com.qxdzbc.common.compose.view.testApp
+
 import com.qxdzbc.p6.ui.common.view.dialog.Dialogs
 
 @Composable
@@ -44,6 +45,6 @@ fun ColorDialog(
 }
 
 
-fun main() = P6TestApp {
+fun main() = testApp {
     ColorDialog()
 }

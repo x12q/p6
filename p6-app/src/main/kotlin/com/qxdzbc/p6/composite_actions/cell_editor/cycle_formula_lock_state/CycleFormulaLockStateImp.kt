@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.di.qualifiers.PartialCellRangeExtractorQ
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.partial_text_element_extractor.TextElementResult

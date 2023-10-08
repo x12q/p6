@@ -14,7 +14,6 @@ import com.qxdzbc.p6.ui.app.action.AppAction
 import com.qxdzbc.p6.ui.app.action.AppActionTable
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
 import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope
 import com.qxdzbc.p6.di.qualifiers.EventServerPort
 import com.qxdzbc.p6.di.qualifiers.Username
@@ -42,7 +41,7 @@ import javax.inject.Singleton
     scope = P6AnvilScope::class,
     modules = [
         P6Module::class,
-        ModuleForSubComponentsForP6Component::class,
+        ModuleContainSubComponentsForP6Component::class,
         WindowFocusStateModule::class,
     ],
 )

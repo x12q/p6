@@ -3,9 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.select_rect
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import com.qxdzbc.common.compose.RectUtils.makeRect
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
-import com.qxdzbc.p6.di.qualifiers.DefaultZeroOffset
-import com.qxdzbc.p6.di.qualifiers.False
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.qualifiers.DefaultSelectRectState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject

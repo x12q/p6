@@ -6,7 +6,7 @@ import com.qxdzbc.common.compose.StateUtils.toMs
 import com.qxdzbc.p6.document_data_layer.cell.CellContentImp
 import com.qxdzbc.p6.document_data_layer.cell.IndCellImp
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 
 import com.qxdzbc.p6.rpc.common_data_structure.IndependentCellDM

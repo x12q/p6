@@ -11,32 +11,6 @@ data class CR(
     val n: Int,
     val isLocked: Boolean = false,
 ) : Number() {
-    companion object {
-        fun fromLabel(label: String): CR? {
-            val isCol = RangeAddressUtils.singleWholeColAddressPattern.matchEntire(label) != null
-            if (isCol) {
-                val isFixed = label[0] == '$'
-                val n=if(isFixed){
-                    CellLabelNumberSystem.labelToNumber(label.substring(1))
-                }else{
-                    CellLabelNumberSystem.labelToNumber(label)
-                }
-                return CR(n, isFixed)
-            }
-
-            val isRow = RangeAddressUtils.singleWholeRowAddressPattern.matchEntire(label) != null
-            if (isRow) {
-                val isFixed = label[0] == '$'
-                val n = if(isFixed){
-                    label.substring(1).toInt()
-                }else{
-                    label.toInt()
-                }
-                return CR(n, isFixed)
-            }
-            return null
-        }
-    }
 
     val isNotLocked get()=!isLocked
 
@@ -83,4 +57,32 @@ data class CR(
     override fun toShort(): Short {
         return n.toShort()
     }
+
+    companion object {
+        fun fromLabel(label: String): CR? {
+            val isCol = RangeAddressUtils.singleWholeColAddressPattern.matchEntire(label) != null
+            if (isCol) {
+                val isFixed = label[0] == '$'
+                val n=if(isFixed){
+                    CellLabelNumberSystem.labelToNumber(label.substring(1))
+                }else{
+                    CellLabelNumberSystem.labelToNumber(label)
+                }
+                return CR(n, isFixed)
+            }
+
+            val isRow = RangeAddressUtils.singleWholeRowAddressPattern.matchEntire(label) != null
+            if (isRow) {
+                val isFixed = label[0] == '$'
+                val n = if(isFixed){
+                    label.substring(1).toInt()
+                }else{
+                    label.toInt()
+                }
+                return CR(n, isFixed)
+            }
+            return null
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.qxdzbc.p6.composite_actions.app.process_save_path
 
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.window.file_dialog.WithFileExtension
 import com.squareup.anvil.annotations.ContributesBinding
 import org.apache.commons.io.FilenameUtils

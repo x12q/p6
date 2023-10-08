@@ -1,29 +1,29 @@
 package test
 
 import androidx.compose.runtime.getValue
-import com.qxdzbc.common.Rs
 import com.qxdzbc.common.ResultUtils.toOk
+import com.qxdzbc.common.Rs
+import com.qxdzbc.common.compose.Ms
+import com.qxdzbc.common.compose.St
+import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.common.compose.StateUtils.toMs
+import com.qxdzbc.common.error.ErrorHeader
+import com.qxdzbc.common.error.SingleErrorReport
+import com.qxdzbc.p6.ColdInit
 import com.qxdzbc.p6.composite_actions.common_data_structure.ErrorIndicator
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookImp
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.document_data_layer.worksheet.WorksheetImp
-import com.qxdzbc.common.error.ErrorHeader
-import com.qxdzbc.common.error.SingleErrorReport
 import com.qxdzbc.p6.translator.P6Translator
 import com.qxdzbc.p6.translator.formula.execution_unit.ExUnit
+import com.qxdzbc.p6.translator.formula.execution_unit.primitive.BoolUnit.Companion.TRUE
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.St
-import com.qxdzbc.common.compose.StateUtils.toMs
-import com.qxdzbc.common.compose.StateUtils.ms
+import com.qxdzbc.p6.ui.window.state.OuterWindowState
+import com.qxdzbc.p6.ui.window.state.WindowState
 import com.qxdzbc.p6.ui.workbook.state.WorkbookState
 import com.qxdzbc.p6.ui.workbook.state.cont.WorkbookStateContainer
-import com.qxdzbc.p6.ui.window.state.WindowState
-import com.qxdzbc.p6.ColdInit
-import com.qxdzbc.p6.translator.formula.execution_unit.primitive.BoolUnit.Companion.TRUE
-import com.qxdzbc.p6.ui.window.state.OuterWindowState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import test.di.DaggerTestComponent
@@ -31,6 +31,7 @@ import test.di.TestComponent
 
 
 class TestSample : TestAppScope {
+    val mockDensity = MockObjects.mockDensity
     val activeWindowPointer get() = comp.activeWindowPointer
 
     val wb1Ws1St get() = this.sc.getWbWsSt(wbKey1, wsn1)!!
@@ -84,11 +85,11 @@ class TestSample : TestAppScope {
     val window1Id: String get() = sc.windowStateMsList[0].id
     val window2Id: String get() = sc.windowStateMsList[1].id
 
-    val kernelCoroutineScope: CoroutineScope = GlobalScope
+    val coroutineScope: CoroutineScope = GlobalScope
 
     override val comp: TestComponent = DaggerTestComponent.builder()
         .username("user_name")
-        .applicationCoroutineScope(kernelCoroutineScope)
+        .applicationCoroutineScope(coroutineScope)
         .applicationScope(null)
         .build()
 

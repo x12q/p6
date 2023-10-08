@@ -34,7 +34,7 @@ import com.qxdzbc.p6.common.formatter.RangeAddressFormatter
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookFactory
 import com.qxdzbc.p6.file.loader.P6FileLoader
 import com.qxdzbc.p6.di.*
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser
 import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaTranslatorFactory
 import com.qxdzbc.p6.translator.jvm_translator.ExUnitFormulaVisitorFactory
@@ -46,12 +46,15 @@ import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.ruler.actions.RulerAction
 import com.qxdzbc.p6.composite_actions.cell.update_cell_format.UpdateCellFormatActionImp
 import com.qxdzbc.p6.composite_actions.workbook.rename_ws.RenameWorksheetActionImp
-import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
+import com.qxdzbc.p6.composite_actions.worksheet.WorksheetActionImp
+import com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size.ComputeSliderSizeActionImp
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.composite_actions.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.composite_actions.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeActionImp
 import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope
 import com.qxdzbc.p6.di.qualifiers.Username
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
+import com.qxdzbc.p6.ui.window.di.WindowFocusStateModule
 import com.qxdzbc.p6.ui.window.menu.action.FileMenuActionImp
 import com.qxdzbc.p6.ui.window.tool_bar.color_selector.action.TextColorSelectorAction
 import com.qxdzbc.p6.ui.window.tool_bar.text_size_selector.action.TextSizeSelectorActionImp
@@ -67,12 +70,13 @@ import javax.inject.Singleton
     modules = [
         P6Module::class,
         WindowStateModuleForTest::class,
-        ModuleForSubComponentsForP6Component::class,
+        ModuleContainSubComponentsForP6Component::class,
     ],
 )
 @Singleton
 interface TestComponent : P6Component {
 
+    val moveSliderAction: MoveSliderAction
     val activeWindowPointer: ActiveWindowPointer
     val stateContainer:StateContainer
 
@@ -141,7 +145,8 @@ interface TestComponent : P6Component {
     fun loadWorkbookActionImp(): LoadWorkbookActionImp
     fun renameWorksheetActionImp(): RenameWorksheetActionImp
     fun changeRowAndColSizeActionImp(): ChangeRowAndColumnSizeActionImp
-    fun worksheetAction(): WorksheetAction
+    fun worksheetActionImp(): WorksheetActionImp
+    fun computeSliderSizeActionImp(): ComputeSliderSizeActionImp
 
     @Component.Builder
     interface Builder {

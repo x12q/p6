@@ -21,8 +21,6 @@ import com.qxdzbc.p6.common.utils.Utils
 import com.qxdzbc.p6.err.ErrMsg
 import com.qxdzbc.common.compose.StateUtils.rms
 import com.qxdzbc.p6.ui.common.view.BorderBox
-import com.qxdzbc.p6.ui.common.view.BorderStyleValue
-import com.qxdzbc.p6.ui.common.view.BorderStyleValue.Companion.debugAll
 import com.qxdzbc.common.compose.view.MBox
 import com.qxdzbc.p6.ui.common.view.BorderStyle
 import com.qxdzbc.p6.ui.common.view.dialog.ErrorDialogWithStackTraceState

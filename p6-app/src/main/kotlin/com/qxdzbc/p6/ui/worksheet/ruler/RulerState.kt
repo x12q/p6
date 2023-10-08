@@ -2,7 +2,7 @@ package com.qxdzbc.p6.ui.worksheet.ruler
 
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
@@ -22,15 +22,15 @@ interface RulerState: WbWsSt,RulerSig {
     fun addResizerLayout(itemIndex: Int,layoutCoordinates: LayoutCoordinates):RulerState
     fun clearResizerLayoutCoorsMap():RulerState
 
-    val rulerLayout: LayoutCoorWrapper?
+    val rulerLayout: P6Layout?
     fun setLayout(layout: LayoutCoordinates): RulerState
-    fun setLayout(layout: LayoutCoorWrapper): RulerState
+    fun setLayout(layout: P6Layout): RulerState
 
     val itemSelectRectMs: Ms<SelectRectState>
     val itemSelectRect: SelectRectState get() = itemSelectRectMs.value
 
-    val itemLayoutMap: Map<Int, LayoutCoorWrapper>
-    fun addItemLayout(itemIndex: Int, layoutCoordinates: LayoutCoorWrapper): RulerState
+    val itemLayoutMap: Map<Int, P6Layout>
+    fun addItemLayout(itemIndex: Int, layoutCoordinates: P6Layout): RulerState
     fun clearItemLayoutCoorsMap(): RulerState
 
     val defaultItemSize: Dp

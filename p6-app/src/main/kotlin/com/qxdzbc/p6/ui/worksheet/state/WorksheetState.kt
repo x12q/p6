@@ -3,7 +3,7 @@ package com.qxdzbc.p6.ui.worksheet.state
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.compose.Ms
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.command.Command
 import com.qxdzbc.p6.command.CommandStack
@@ -18,14 +18,23 @@ import com.qxdzbc.p6.ui.worksheet.ruler.RulerType
 import com.qxdzbc.p6.ui.worksheet.select_rect.SelectRectState
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
+import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 
 /**
  * Worksheet + UI data
  * store + expose ms object of slider, cursor
  * provide method to lookup cell state + ms
  * store + expose ms object of cell state
+ *
+ * See [WorksheetStateImp] for implementation.
+ *
+ * To create a [WorksheetState], use [WorksheetStateFactory].
+ *
+ * [WorksheetStateFactory] is available as a singleton in the global DI container.
  */
 interface WorksheetState : WbWsSt {
+
 
     /**
      * TODO Reconsider this id obj. This contains duplicated information.
@@ -37,6 +46,8 @@ interface WorksheetState : WbWsSt {
      * Produce a [WorksheetProto] from this worksheet
      */
     fun toProto():WorksheetProto
+
+    val localAction:WorksheetLocalActions
 
     /**
      * A stack of [Command], for undoing actions
@@ -55,6 +66,12 @@ interface WorksheetState : WbWsSt {
      */
     val cellFormatTableMs: Ms<CellFormatTable>
     val cellFormatTable: CellFormatTable
+
+
+    val verticalScrollBarState:ScrollBarState
+
+    val horizontalScrollBarState: ScrollBarState
+
 
     /**
      * State of the resizing bar for resizing column
@@ -83,18 +100,18 @@ interface WorksheetState : WbWsSt {
     /**
      * The layout coor of the cell grid
      */
-    val cellGridLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
-    val cellGridLayoutCoorWrapper: LayoutCoorWrapper?
+    val cellGridLayoutCoorWrapperMs: Ms<P6Layout?>
+    val cellGridLayoutCoorWrapper: P6Layout?
     val cellGridLayoutCoors: LayoutCoordinates? get() = cellGridLayoutCoorWrapper?.layout
-    fun setCellGridLayoutCoorWrapper(i: LayoutCoorWrapper)
+    fun setCellGridLayoutCoorWrapper(i: P6Layout)
 
     /**
      * The layout coor of the whole worksheet (including the grid + the ruler)
      */
-    val wsLayoutCoorWrapperMs: Ms<LayoutCoorWrapper?>
-    val wsLayoutCoorWrapper: LayoutCoorWrapper?
+    val wsLayoutCoorWrapperMs: Ms<P6Layout?>
+    val wsLayoutCoorWrapper: P6Layout?
     val wsLayoutCoors: LayoutCoordinates? get() = wsLayoutCoorWrapper?.layout
-    fun setWsLayoutCoorWrapper(i: LayoutCoorWrapper)
+    fun setWsLayoutCoorWrapper(i: P6Layout)
 
     val wsMs: Ms<Worksheet>
     val worksheet: Worksheet
@@ -111,7 +128,7 @@ interface WorksheetState : WbWsSt {
      *  - ruler states
      *  - cell layouts
      */
-    fun setSliderAndRefreshDependentStates(i: GridSlider)
+    fun updateSliderAndRefreshDependentStates(i: GridSlider)
 
     /**
      * State of the select rectangle used for selecting multiple cells at once by dragging the mouse on this worksheet
@@ -217,9 +234,9 @@ interface WorksheetState : WbWsSt {
      */
     fun changeRowHeight(rowIndex: Int, sizeDiff: Dp)
 
-    val cellLayoutCoorMapMs: Ms<Map<CellAddress, LayoutCoorWrapper>>
-    val cellLayoutCoorMap: Map<CellAddress, LayoutCoorWrapper> get() = cellLayoutCoorMapMs.value
-    fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: LayoutCoorWrapper)
+    val cellLayoutCoorMapMs: Ms<Map<CellAddress, P6Layout>>
+    val cellLayoutCoorMap: Map<CellAddress, P6Layout> get() = cellLayoutCoorMapMs.value
+    fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoor: P6Layout)
     fun removeCellLayoutCoor(cellAddress: CellAddress)
     fun removeAllCellLayoutCoor()
 

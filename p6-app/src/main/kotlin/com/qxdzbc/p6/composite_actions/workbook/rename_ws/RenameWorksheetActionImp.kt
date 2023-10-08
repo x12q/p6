@@ -10,7 +10,7 @@ import com.qxdzbc.p6.composite_actions.worksheet.rename_ws.RenameWorksheetRespon
 import com.qxdzbc.p6.command.BaseCommand
 import com.qxdzbc.p6.command.Command
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
 import com.qxdzbc.p6.ui.app.state.AppState
 import com.qxdzbc.p6.ui.app.state.DocumentContainer

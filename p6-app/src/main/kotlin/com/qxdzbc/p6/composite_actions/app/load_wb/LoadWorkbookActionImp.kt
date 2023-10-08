@@ -8,7 +8,7 @@ import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookImp.Companion.toShallowModel
 import com.qxdzbc.p6.file.loader.P6FileLoader
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.proto.DocProtos.WorkbookProto
 
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter

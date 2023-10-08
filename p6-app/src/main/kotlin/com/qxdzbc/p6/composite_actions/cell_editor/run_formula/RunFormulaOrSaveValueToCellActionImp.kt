@@ -11,7 +11,7 @@ import com.qxdzbc.p6.document_data_layer.cell.Cell
 import com.qxdzbc.p6.document_data_layer.cell.CellValue
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.qualifiers.PartialTreeExtractor
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.rpc.cell.msg.CellContentDM
 import com.qxdzbc.p6.rpc.cell.msg.CellIdDM
 import com.qxdzbc.p6.translator.jvm_translator.CellLiteralParser

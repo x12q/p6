@@ -5,10 +5,44 @@ import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 
 /**
- * A slider contains a range of row and a range of col of fixed width.
- * A slider can shift its ranges up, down, left, right, but cannot change the width of the ranges.
+ * A slider contains a range of row and a range of col.
+ * A slider can shift its ranges up, down, left, right.
+ * TODO currently grid slider is presented as a Ms<>. Make it a non-Ms
  */
 interface GridSlider {
+
+    /**
+     * The limit of column, in which the slider can move around
+     */
+    val colLimit: IntRange
+
+    /**
+     * The limit of row, in which the slider can move around
+     */
+    val rowLimit: IntRange
+
+    /**
+     * the last row of the row range used by vertical scroll bar, this is not in the visible row range
+     */
+    val scrollBarLastRow:Int
+
+    /**
+     * This is this range: (1,[scrollBarLastRow]).
+     * This range is always larger than the [visibleRowRangeIncludeMargin] and is expanded when [visibleRowRangeIncludeMargin] reach this limit.
+     */
+    val scrollBarRowRange:IntRange
+
+    /**
+     * the last col of the col range used by vertical scroll bar, this is not in the visible col range
+     */
+    val scrollBarLastCol:Int
+
+    /**
+     * This is this range: (1,[scrollBarLastCol])
+     * This range is always larger than the [visibleColRangeIncludeMargin] and is expanded whenever [visibleColRangeIncludeMargin] reach this limit.
+     */
+    val scrollBarColRange:IntRange
+
     val currentDisplayedRange:RangeAddress
 
     /**
@@ -17,65 +51,76 @@ interface GridSlider {
     val topLeftCell: CellAddress
 
     val firstVisibleCol: Int
+    /**
+     * last visible row is the last col to be seen on screen, it can be the margin col
+     */
     val lastVisibleCol: Int
-    val visibleColRange: IntRange
+
+    val visibleColRangeIncludeMargin: IntRange
     val visibleColRangeExcludeMargin: IntRange
     val lastVisibleColNotMargin: Int
     fun setVisibleColRange(i: IntRange): GridSlider
 
     val firstVisibleRow: Int
+
+    /**
+     * last visible row is the last row to be seen on screen, it can be the margin row
+     */
     val lastVisibleRow: Int
-    val visibleRowRange: IntRange
+    val visibleRowRangeIncludeMargin: IntRange
     val visibleRowRangeExcludeMargin: IntRange
 
+    /**
+     * Margin row is the row at the margin of the sheet. It is only shown partially
+     */
     val marginRow: Int?
     fun setMarginRow(i: Int?): GridSlider
+
+    /**
+     * Margin col is the col at the margin of the sheet. It is only shown partially
+     */
     val marginCol: Int?
     fun setMarginCol(i: Int?): GridSlider
 
     fun setVisibleRowRange(i: IntRange): GridSlider
 
-    fun containCol(col: Int): Boolean {
-        return col in visibleColRange
+    fun containColInVisibleRange(col: Int): Boolean {
+        return col in visibleColRangeIncludeMargin
     }
 
-    fun containRow(row: Int): Boolean {
-        return row in visibleRowRange
+    fun containRowInVisibleRange(row: Int): Boolean {
+        return row in visibleRowRangeIncludeMargin
     }
 
-    fun containAddress(cellAddress: CellAddress): Boolean {
-        return containCol(cellAddress.colIndex) && containRow(cellAddress.rowIndex)
-    }
+    fun containAddressInVisibleRange(cellAddress: CellAddress): Boolean
 
     fun containAddressNotMargin(cellAddress: CellAddress): Boolean
 
-    fun containAddress(col: Int, row: Int): Boolean {
-        return containCol(col) && containRow(row)
-    }
+    fun containAddressInVisibleRange(col: Int, row: Int): Boolean
 
     /**
-     * move the slider [v] unit to the left, this will decrease the visible column range by v unit
+     * move the slider to the left by [colCount] unit
      * @return a new slider
      */
-    fun shiftLeft(v: Int): GridSlider
+    fun shiftLeft(colCount: Int): GridSlider
 
     /**
-     * move the slider [v] unit to the right, this will increase the visible column range by v unit
+     * move the slider to the right by [colCount] unit
      * @return a new slider
      */
-    fun shiftRight(v: Int): GridSlider
+    fun shiftRight(colCount: Int): GridSlider
 
     /**
-     * move the slider a number ([v]) of cells up, this will decrease the visible row range by v unit
+     * move the slider a number ([rowCount]) of cells up
      * @return a new slider
      */
-    fun shiftUp(v: Int): GridSlider
+    fun shiftUp(rowCount: Int): GridSlider
 
     /**
-     * move the slider a number ([v]) of cells down, this will increase the visible row range by v unit
+     * move the slider a number ([rowCount]) of row down
      * @return a new slider
      */
-    fun shiftDown(v: Int): GridSlider
+    fun shiftDown(rowCount: Int): GridSlider
 
     /**
      * move slider in relative to a cursor's main cell
@@ -92,4 +137,29 @@ interface GridSlider {
      */
     fun followCell(cellAddress: CellAddress):GridSlider
     val lastVisibleRowNotMargin: Int
+
+    /**
+     * expand bar limit if needed. If the limits are to increase, increase them by [margin]
+     */
+    fun expandScrollBarLimitIfNeed(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
+    /**
+     * shrink bar limit if the current limit is too large. If the limits are to increase, increase them by [margin]
+     */
+    fun shrinkScrollBarLimitIfNeed(shrinkTo:Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
+
+    /**
+     * Reset the scroll bar limit to the default value
+     */
+    fun resetScrollBarLimit(): GridSlider
+
+    /**
+     * Compute the percentage of row that has been scrolled over compare to the [scrollBarRowRange]
+     */
+    fun computeScrolledRowPercentage():Float
+
+    /**
+     * Compute the percentage of columns that has been scrolled over compare to the [scrollBarRowRange]
+     */
+    fun computeScrolledColPercentage():Float
+
 }

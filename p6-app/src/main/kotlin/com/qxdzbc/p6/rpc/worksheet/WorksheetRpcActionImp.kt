@@ -6,7 +6,7 @@ import com.qxdzbc.p6.composite_actions.worksheet.load_data.LoadDataAction
 import com.qxdzbc.p6.composite_actions.worksheet.paste_range.PasteRangeAction
 import com.qxdzbc.p6.composite_actions.worksheet.remove_all_cell.RemoveAllCellAction
 import com.qxdzbc.p6.composite_actions.cell.cell_update.UpdateCellAction
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -2,20 +2,18 @@ package com.qxdzbc.p6.ui.worksheet.actions
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.IntRangeUtils.add
 import com.qxdzbc.common.IntRangeUtils.dif
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddresses
 import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
-import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
+import com.qxdzbc.p6.composite_actions.worksheet.WorksheetActionImp
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -30,14 +28,15 @@ import kotlin.test.*
 internal class WorksheetActionImpTest {
     lateinit var ws: Worksheet
     lateinit var wsState: WorksheetState
-    lateinit var actions: WorksheetAction
+    lateinit var actions: WorksheetActionImp
     val cursorStateMs get() = this.wsState.cursorStateMs
     val cursorState: CursorState get() = this.wsState.cursorStateMs.value
     val slider: GridSlider get() = this.wsState.slider
     val mockOffset = Offset(0F, 0F)
-    lateinit var layoutMap: MutableMap<CellAddress, LayoutCoorWrapper>
+    lateinit var layoutMap: MutableMap<CellAddress, P6Layout>
     lateinit var posMap: MutableMap<CellAddress, Rect>
     lateinit var wb: Workbook
+    lateinit var moveSlideraction: MoveSliderAction
 
     @BeforeTest
     fun before() {
@@ -45,6 +44,8 @@ internal class WorksheetActionImpTest {
         wb = testSample.wbCont.getWb(testSample.wbKey1)!!
         ws = wb.worksheets[0]
         this.wsState = testSample.sc.getWsState(ws)!!
+
+        moveSlideraction = testSample.comp.moveSliderAction
 
         layoutMap = mutableMapOf()
         // x: create fake cell positions as Rect
@@ -62,7 +63,7 @@ internal class WorksheetActionImpTest {
                         )
                     )
                     val cellAddress = CellAddress(c, r)
-                    val mockLayout: LayoutCoorWrapper = mock {
+                    val mockLayout: P6Layout = mock {
                         whenever(it.boundInWindowOrZero).thenReturn(rect)
                         whenever(it.refreshVar) doReturn false
                     }
@@ -72,40 +73,12 @@ internal class WorksheetActionImpTest {
                 }
             }
         }
-        actions = testSample.comp.worksheetAction()
+        actions = testSample.comp.worksheetActionImp()
         for ((c, l) in layoutMap) {
             this.wsState.addCellLayoutCoor(c, l)
         }
     }
 
-    @Test
-    fun determineSliderSize() {
-        val o = GridSliderImp(
-            visibleColRange = 1..5,
-            visibleRowRange = 1..5,
-        )
-        val n: GridSlider = actions.computeSliderSize(
-            o, DpSize(width = 100.dp, height = 200.dp),
-            anchorCell = CellAddress(3, 2),
-            colWidthGetter = { 30.dp },
-            rowHeightGetter = { 20.dp }
-        )
-        assertEquals(3 .. 6, n.visibleColRange)
-        assertEquals(2 .. 11, n.visibleRowRange)
-        assertNull(n.marginRow)
-        assertEquals(6,n.marginCol)
-
-        val n2: GridSlider = actions.computeSliderSize(
-            o, DpSize(width = 100.dp, height = 200.dp),
-            anchorCell = CellAddress(3, 2),
-            colWidthGetter = { 30.dp },
-            rowHeightGetter = { 30.dp }
-        )
-        assertEquals(3 .. 6, n2.visibleColRange)
-        assertEquals(2 .. 8, n2.visibleRowRange)
-        assertEquals(8,n2.marginRow)
-        assertEquals(6,n2.marginCol)
-    }
 
     @Test
     fun updateSlider() {
@@ -113,28 +86,28 @@ internal class WorksheetActionImpTest {
         val oldSlider = slider
         val newCursor = CursorStateImp.forTest(mock(),mock(), mock()).setMainCell(
             CellAddresses.fromIndices(
-                colIndex = slider.visibleColRange.last + d,
-                rowIndex = slider.visibleRowRange.random()
+                colIndex = slider.visibleColRangeIncludeMargin.last + d,
+                rowIndex = slider.visibleRowRangeIncludeMargin.random()
             )
         )
-        actions.makeSliderFollowCursorMainCell(newCursor, ws)
+        moveSlideraction.makeSliderFollowCursorMainCell(newCursor, ws)
         println(this.wsState.slider)
 
-        assertEquals(oldSlider.visibleColRange.add(d), slider.visibleColRange)
+        assertEquals(oldSlider.visibleColRangeIncludeMargin.add(d), slider.visibleColRangeIncludeMargin)
         assertEquals(oldSlider.firstVisibleCol + d, slider.firstVisibleCol)
         assertEquals(oldSlider.lastVisibleCol + d, slider.lastVisibleCol)
 
         val cursor2 = CursorStateImp.forTest(mock(),mock(),mock()).setMainCell(
             CellAddresses.fromIndices(
-                colIndex = slider.visibleColRange.random(),
-                rowIndex = slider.visibleRowRange.add(d).last
+                colIndex = slider.visibleColRangeIncludeMargin.random(),
+                rowIndex = slider.visibleRowRangeIncludeMargin.add(d).last
             )
         )
 
         val oldSlider2 = slider
-        actions.makeSliderFollowCursorMainCell(cursor2, ws)
+        moveSlideraction.makeSliderFollowCursorMainCell(cursor2, ws)
 
-        assertEquals(oldSlider2.visibleRowRange.add(d), slider.visibleRowRange)
+        assertEquals(oldSlider2.visibleRowRangeIncludeMargin.add(d), slider.visibleRowRangeIncludeMargin)
         assertEquals(oldSlider2.firstVisibleRow + d, slider.firstVisibleRow)
         assertEquals(oldSlider2.lastVisibleRow + d, slider.lastVisibleRow)
     }
@@ -145,27 +118,27 @@ internal class WorksheetActionImpTest {
         actions.addCellLayoutCoor(CellAddresses.fromIndices(1, 2), mock(), ws)
         assertFalse { this.wsState.cellLayoutCoorMap.isEmpty() }
         val (x1, y1) = Pair(3, 7)
-        actions.scroll(x1, y1, ws)
-        assertEquals(oldSlider.visibleRowRange.add(y1), slider.visibleRowRange)
-        assertEquals(oldSlider.visibleColRange.add(x1), slider.visibleColRange)
+        actions.onMouseScroll(x1, y1, ws)
+        assertEquals(oldSlider.visibleRowRangeIncludeMargin.add(y1), slider.visibleRowRangeIncludeMargin)
+        assertEquals(oldSlider.visibleColRangeIncludeMargin.add(x1), slider.visibleColRangeIncludeMargin)
 
         val (x2, y2) = Pair(-2, -4)
         val oldSlider2 = slider
-        actions.scroll(x2, y2, ws)
-        assertEquals(oldSlider2.visibleRowRange.add(y2), slider.visibleRowRange)
-        assertEquals(oldSlider2.visibleColRange.add(x2), slider.visibleColRange)
+        actions.onMouseScroll(x2, y2, ws)
+        assertEquals(oldSlider2.visibleRowRangeIncludeMargin.add(y2), slider.visibleRowRangeIncludeMargin)
+        assertEquals(oldSlider2.visibleColRangeIncludeMargin.add(x2), slider.visibleColRangeIncludeMargin)
 
         val (x3, y3) = Pair(-1000, -2000)
-        actions.scroll(x3, y3, ws)
-        assertEquals(oldSlider.visibleRowRange, slider.visibleRowRange)
-        assertEquals(oldSlider.visibleColRange, slider.visibleColRange)
+        actions.onMouseScroll(x3, y3, ws)
+        assertEquals(oldSlider.visibleRowRangeIncludeMargin, slider.visibleRowRangeIncludeMargin)
+        assertEquals(oldSlider.visibleColRangeIncludeMargin, slider.visibleColRangeIncludeMargin)
 
         val (x4, y4) = Pair(Int.MAX_VALUE, Int.MAX_VALUE)
-        actions.scroll(x4, y4, ws)
+        actions.onMouseScroll(x4, y4, ws)
         assertEquals(this.wsState.colRange.last, slider.lastVisibleCol)
-        assertEquals(this.wsState.colRange.last - oldSlider.visibleColRange.dif(), slider.firstVisibleCol)
+        assertEquals(this.wsState.colRange.last - oldSlider.visibleColRangeIncludeMargin.dif(), slider.firstVisibleCol)
         assertEquals(this.wsState.rowRange.last, slider.lastVisibleRow)
-        assertEquals(this.wsState.rowRange.last - oldSlider.visibleRowRange.dif(), slider.firstVisibleRow)
+        assertEquals(this.wsState.rowRange.last - oldSlider.visibleRowRangeIncludeMargin.dif(), slider.firstVisibleRow)
     }
 //
 //    @Test

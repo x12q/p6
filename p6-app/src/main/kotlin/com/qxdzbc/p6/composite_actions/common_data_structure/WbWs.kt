@@ -3,6 +3,9 @@ package com.qxdzbc.p6.composite_actions.common_data_structure
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.common.compose.St
 
+/**
+ * An interface contain info to identify a worksheet using a [WorkbookKey] and a ws name
+ */
 interface WbWs{
     val wbKey: WorkbookKey
     val wsName:String

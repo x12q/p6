@@ -4,6 +4,7 @@ import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import com.qxdzbc.p6.build.DebugFunctions.debug
 
 /**
  * Color of UI elements in most part of the app other than worksheet. Such as:
@@ -23,6 +24,9 @@ data class UIColor(
     val uiBaseSurface:Color = Color.LightGray,
     val selectedTabBackground: Color = Color.Cyan,
     val rulerBackground: Color= Color.LightGray,
+    val sliderRailBackground:Color = Color.LightGray,
+    val sliderThumbBackgroundColor:Color = Color.Transparent.debug(Color.DarkGray),
+    val sliderThumbContentColor:Color = Color.DarkGray,
     val buttonBorder: Color = Color.Black,
     val resizeBarColor: Color=Color.Black,
 ){

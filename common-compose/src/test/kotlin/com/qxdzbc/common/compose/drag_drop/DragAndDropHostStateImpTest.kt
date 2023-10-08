@@ -2,8 +2,8 @@ package com.qxdzbc.common.compose.drag_drop
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import com.qxdzbc.common.compose.layout_coor_wrapper.DummyLayoutCoorWrapper
-import com.qxdzbc.common.compose.layout_coor_wrapper.LayoutCoorWrapper
+import com.qxdzbc.common.compose.layout_coor_wrapper.DummyP6Layout
+import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.common.test_util.TestSplitter
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -27,13 +27,13 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
     fun detectDrop_3() {
         test("drag r1 overlap drop d1 and d2, mouse outside of both, but also casts shadow over d1") {
             val mousePos: Offset = Offset(200f,18f)
-            val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val r1: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(5f, 22f), Offset(20f, 33f))
             )
-            val d1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val d1: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(0f, 15f), Offset(25f, 25f))
             )
-            val d2: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val d2: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(0f, 30f), Offset(40f, 40f))
             )
             preCondition {
@@ -64,13 +64,13 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
     fun detectDrop_2() {
         test("drag r1 overlap drop d1 and d2, mouse in d2, but also casts shadow over d1 (mouse x or y is in d1's ranges)") {
             val mousePos: Offset = Offset(13f, 36f)
-            val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val r1: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(5f, 22f), Offset(20f, 33f))
             )
-            val d1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val d1: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(0f, 15f), Offset(25f, 25f))
             )
-            val d2: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val d2: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(0f, 30f), Offset(40f, 40f))
             )
             preCondition {
@@ -101,13 +101,13 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
     fun detectDrop_1() {
         test("drag r1 overlap drop d1") {
             val mousePos: Offset = mock()
-            val r1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val r1: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(10f, 10f), Offset(20f, 20f))
             )
-            val d1: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val d1: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(0f, 15f), Offset(25f, 25f))
             )
-            val d2: LayoutCoorWrapper = DummyLayoutCoorWrapper(
+            val d2: P6Layout = DummyP6Layout(
                 boundInWindow = Rect(Offset(0f, 30f), Offset(40f, 40f))
             )
 
@@ -136,7 +136,7 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
     @Test
     fun setDragLayoutCoorWrapper_removeDragLayoutCoorWrapper() {
         val key = "key"
-        val layout: LayoutCoorWrapper = mock()
+        val layout: P6Layout = mock()
 
         val s1 = makeDraggingState()
             .setAcceptableDragIds(setOf(key))
@@ -152,7 +152,7 @@ internal class DragAndDropHostStateImpTest : TestSplitter() {
     @Test
     fun setDropLayoutCoorWrapper_removeDropLayoutCoorWrapper() {
         val key = "key"
-        val layout: LayoutCoorWrapper = mock()
+        val layout: P6Layout = mock()
 
         val s1 = makeDraggingState()
             .setAcceptableDropIds(setOf(key))

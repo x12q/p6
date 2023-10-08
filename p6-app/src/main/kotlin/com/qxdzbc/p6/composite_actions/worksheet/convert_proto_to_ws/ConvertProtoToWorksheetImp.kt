@@ -7,7 +7,7 @@ import com.qxdzbc.p6.document_data_layer.cell.CellImp.Companion.toModel
 import com.qxdzbc.p6.document_data_layer.workbook.toModel
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.p6.document_data_layer.worksheet.WorksheetImp
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 
 
 import com.qxdzbc.p6.proto.DocProtos

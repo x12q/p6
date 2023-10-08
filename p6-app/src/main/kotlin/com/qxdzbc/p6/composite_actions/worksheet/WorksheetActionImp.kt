@@ -1,19 +1,17 @@
 package com.qxdzbc.p6.composite_actions.worksheet
 
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.qxdzbc.common.compose.LayoutCoorsUtils.wrap
-import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs
+import com.qxdzbc.common.compose.LayoutCoorsUtils.toP6Layout
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.range.range_to_clipboard.RangeToClipboardAction
 import com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.composite_actions.worksheet.delete_multi.DeleteMultiCellAction
-import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.composite_actions.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.composite_actions.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
-import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,7 +23,7 @@ class WorksheetActionImp @Inject constructor(
     private val deleteMultiAct: DeleteMultiCellAction,
     private val restoreWindowFocusState: RestoreWindowFocusState,
     val stateCont: StateContainer,
-    private val makeSliderFollowCellAct: MoveSliderAction,
+    private val moveSliderAct: MoveSliderAction,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
     private val mouseOnWsAction: MouseOnWorksheetAction,
 ) : WorksheetAction,
@@ -38,18 +36,7 @@ class WorksheetActionImp @Inject constructor(
 
     private val sc = stateCont
 
-    override fun makeSliderFollowCursorMainCell(newCursor: CursorState, wsLoc: WbWsSt) {
-        makeSliderFollowCellAct.makeSliderFollowCell(wsLoc,newCursor.mainCell)
-    }
-
-    override fun makeSliderFollowCursorMainCell(
-        newCursor: CursorState,
-        wsLoc: WbWs,
-    ) {
-        makeSliderFollowCellAct.makeSliderFollowCell(wsLoc,newCursor.mainCell)
-    }
-
-    override fun scroll(x: Int, y: Int, wsLoc: WbWsSt) {
+    override fun onMouseScroll(x: Int, y: Int, wsLoc: WbWsSt) {
         sc.getWsState(wsLoc)?.also { wsState ->
             val sliderState = wsState.slider
             var newSlider = sliderState
@@ -60,10 +47,11 @@ class WorksheetActionImp @Inject constructor(
                 newSlider = newSlider.shiftDown(y)
             }
             if (newSlider != sliderState) {
-                wsState
-                    .setSliderAndRefreshDependentStates(newSlider)
-                wsState.cellLayoutCoorMapMs.value =
-                    wsState.cellLayoutCoorMap.filter { (cellAddress, _) -> sliderState.containAddress(cellAddress) }
+                wsState.updateSliderAndRefreshDependentStates(newSlider)
+//                wsState.cellLayoutCoorMapMs.value = wsState.cellLayoutCoorMap
+//                    .filter { (cellAddress, _) ->
+//                        sliderState.containAddressInVisibleRange(cellAddress)
+//                    }
             }
         }
     }
@@ -73,7 +61,7 @@ class WorksheetActionImp @Inject constructor(
         layoutCoordinates: LayoutCoordinates,
         wsLoc: WbWsSt
     ) {
-        sc.getWsState(wsLoc)?.addCellLayoutCoor(cellAddress, layoutCoordinates.wrap())
+        sc.getWsState(wsLoc)?.addCellLayoutCoor(cellAddress, layoutCoordinates.toP6Layout())
     }
 
     override fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt) {
@@ -84,16 +72,15 @@ class WorksheetActionImp @Inject constructor(
         sc.getWsState(wsLoc)?.removeAllCellLayoutCoor()
     }
 
-
     override fun updateCellGridLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
         val wsState = sc.getWsState(wsLoc)
-        wsState?.setCellGridLayoutCoorWrapper(newLayoutCoordinates.wrap())
+        wsState?.setCellGridLayoutCoorWrapper(newLayoutCoordinates.toP6Layout())
     }
 
     override fun updateWsLayoutCoors(newLayoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt) {
         val wsState = sc.getWsState(
             wsLoc
         )
-        wsState?.setWsLayoutCoorWrapper(newLayoutCoordinates.wrap())
+        wsState?.setWsLayoutCoorWrapper(newLayoutCoordinates.toP6Layout())
     }
 }

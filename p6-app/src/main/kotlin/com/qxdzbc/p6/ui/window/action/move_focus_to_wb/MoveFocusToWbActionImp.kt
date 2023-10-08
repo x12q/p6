@@ -5,7 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.p6.composite_actions.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 
-import com.qxdzbc.p6.di.anvil.P6AnvilScope
+import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.ActiveWindowPointer
 
 import com.qxdzbc.p6.ui.app.state.StateContainer
