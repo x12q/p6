@@ -12,7 +12,7 @@ import javax.inject.Inject
  */
 @ContributesBinding(WsAnvilScope::class, boundType = GridSlider::class)
 data class GridSliderImp(
-    private val slider: ColRowShifter,
+    private val colRowShifter: ColRowShifter,
     /**
      * 1-> 1 million
      */
@@ -35,7 +35,7 @@ data class GridSliderImp(
         @DefaultRowRangeQualifier
         rowLimit: IntRange,
     ) : this(
-        slider = slider,
+        colRowShifter = slider,
         colLimit = colLimit,
         rowLimit = rowLimit,
         marginRow = null,
@@ -49,10 +49,10 @@ data class GridSliderImp(
      * Conduct check to make sure the initial state is legal
      */
     init {
-        val sliderColOutOfBound = !(slider.firstVisibleCol in colLimit && slider.lastVisibleCol in colLimit)
-        val sliderRowOutOfBound = !(slider.firstVisibleRow in rowLimit && slider.lastVisibleRow in rowLimit)
+        val sliderColOutOfBound = !(colRowShifter.firstVisibleCol in colLimit && colRowShifter.lastVisibleCol in colLimit)
+        val sliderRowOutOfBound = !(colRowShifter.firstVisibleRow in rowLimit && colRowShifter.lastVisibleRow in rowLimit)
         if (sliderColOutOfBound || sliderRowOutOfBound) {
-            throw IllegalArgumentException("slider ${slider} doesn't fit in range (c:${colLimit}, r:${rowLimit})")
+            throw IllegalArgumentException("slider ${colRowShifter} doesn't fit in range (c:${colLimit}, r:${rowLimit})")
         }
     }
 
@@ -60,29 +60,29 @@ data class GridSliderImp(
 
     override val scrollBarColRange: IntRange get() = IntRange(1, scrollBarLastCol)
 
-    override val firstVisibleCol: Int get() = slider.firstVisibleCol
+    override val firstVisibleCol: Int get() = colRowShifter.firstVisibleCol
 
-    override val lastVisibleCol: Int get() = slider.lastVisibleCol
+    override val lastVisibleCol: Int get() = colRowShifter.lastVisibleCol
 
-    override val visibleColRangeIncludeMargin: IntRange get() = slider.visibleColRange
+    override val visibleColRangeIncludeMargin: IntRange get() = colRowShifter.visibleColRange
 
     override fun setVisibleColRange(i: IntRange): GridSlider {
         if (i == this.visibleColRangeIncludeMargin) {
             return this
         } else {
             val rt = this
-                .copy(slider = this.slider.setVisibleColRange(i))
-                .updateScrollBarLimit()
+                .copy(colRowShifter = this.colRowShifter.setVisibleColRange(i))
+                .expandScrollBarLimitIfNeed()
 
             return rt
         }
     }
 
-    override val firstVisibleRow: Int get() = slider.firstVisibleRow
+    override val firstVisibleRow: Int get() = colRowShifter.firstVisibleRow
 
-    override val lastVisibleRow: Int get() = slider.lastVisibleRow
+    override val lastVisibleRow: Int get() = colRowShifter.lastVisibleRow
 
-    override val visibleRowRangeIncludeMargin: IntRange get() = slider.visibleRowRange
+    override val visibleRowRangeIncludeMargin: IntRange get() = colRowShifter.visibleRowRange
 
     override fun setMarginRow(i: Int?): GridSliderImp {
         return this.copy(
@@ -101,8 +101,8 @@ data class GridSliderImp(
             return this
         } else {
             val rt = this
-                .copy(slider = this.slider.setVisibleRowRange(i))
-                .updateScrollBarLimit()
+                .copy(colRowShifter = this.colRowShifter.setVisibleRowRange(i))
+                .expandScrollBarLimitIfNeed()
             return rt
         }
     }
@@ -112,78 +112,73 @@ data class GridSliderImp(
             return this.shiftRight(-colCount)
         }
         val md = minOf(firstVisibleCol - colLimit.first, colCount)
-        val rt = this
-            .copy(slider = slider.shiftLeft(md))
-//            .updateEdgeSliderLimit()
+        val rt = this.copy(colRowShifter = colRowShifter.shiftLeft(md))
         return rt
     }
 
     override fun shiftRight(colCount: Int): GridSliderImp {
 
         if (colCount < 0) {
-            return this
-                .shiftLeft(-colCount)
-//                .updateEdgeSliderLimit()
+            return this.shiftLeft(-colCount)
         }
         val md = minOf(colLimit.last - lastVisibleCol, colCount)
         return this
-            .copy(slider = slider.shiftRight(md))
-//            .updateEdgeSliderLimit()
+            .copy(colRowShifter = colRowShifter.shiftRight(md))
     }
 
     override fun shiftUp(rowCount: Int): GridSliderImp {
         if (rowCount < 0) {
-            return this
-                .shiftDown(-rowCount)
-//                .updateEdgeSliderLimit()
+            return this.shiftDown(-rowCount)
         }
         val md = minOf(firstVisibleRow - rowLimit.first, rowCount)
-        return this
-            .copy(slider = slider.shiftUp(md))
-//            .updateEdgeSliderLimit()
+        return this.copy(colRowShifter = colRowShifter.shiftUp(md))
     }
 
     override fun shiftDown(rowCount: Int): GridSliderImp {
         if (rowCount < 0) {
-            return this
-                .shiftUp(-rowCount)
-//                .updateEdgeSliderLimit()
+            return this.shiftUp(-rowCount)
         }
         /**
          * Can only shift down, if there's still row down to shift.
          */
         val remainingRowToLimit = rowLimit.last - lastVisibleRow
         val shiftableRow = minOf(remainingRowToLimit, rowCount)
-        val rt = this
-            .copy(slider = slider.shiftDown(shiftableRow))
-//            .updateEdgeSliderLimit()
+        val rt = this.copy(colRowShifter = colRowShifter.shiftDown(shiftableRow))
         return rt
     }
 
     /**
-     * expand or shrink [scrollBarLastCol] and [scrollBarLastRow] if [slider] reaches or goes out of those limits.
+     * expand or shrink [scrollBarLastCol] and [scrollBarLastRow] if [colRowShifter] reaches or goes out of those limits.
+     * TODO at the moment, this function does not cover shrinking, only expanding
      */
-    override fun updateScrollBarLimit(margin: Int): GridSliderImp {
+    override fun expandScrollBarLimitIfNeed(margin: Int): GridSliderImp {
 
         var rt = this
 
         val wentOutOfColLimit =
-            slider.lastVisibleCol >= scrollBarLastCol
-                || scrollBarLastCol - slider.lastVisibleCol > margin
+            colRowShifter.lastVisibleCol >= scrollBarLastCol
+                || scrollBarLastCol - colRowShifter.lastVisibleCol > margin
 
         if (wentOutOfColLimit) {
-            rt = rt.copy(scrollBarLastCol = slider.lastVisibleCol + margin)
+            rt = rt.copy(scrollBarLastCol = colRowShifter.lastVisibleCol + margin)
         }
 
         val wentOutOfRowLimit =
-            slider.lastVisibleRow >= scrollBarLastRow
-                || scrollBarLastRow - slider.lastVisibleRow > margin
+            colRowShifter.lastVisibleRow >= scrollBarLastRow
+                || scrollBarLastRow - colRowShifter.lastVisibleRow > margin
 
         if (wentOutOfRowLimit) {
-            rt = rt.copy(scrollBarLastRow = slider.lastVisibleRow + margin)
+            rt = rt.copy(scrollBarLastRow = colRowShifter.lastVisibleRow + margin)
         }
 
         return rt
+    }
+
+    override fun resetScrollBarLimit(): GridSlider {
+        return this.copy(
+            scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol + colRowShifter.lastVisibleCol,
+            scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow + colRowShifter.lastVisibleRow,
+        )
     }
 
     companion object {

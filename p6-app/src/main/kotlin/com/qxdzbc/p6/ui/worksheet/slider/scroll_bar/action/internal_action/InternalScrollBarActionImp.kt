@@ -73,9 +73,18 @@ class InternalScrollBarActionImp @Inject constructor(
     override fun releaseFromDrag(data: ReleaseFromDragData) {
         resizeThumb(data.state, slider)
 
-        slider = slider.updateScrollBarLimit()
+        recomputeScrollbarLimit(data.state)
 
         repositionThumbWhenReachEnd(data.state, slider)
+    }
+
+    private fun recomputeScrollbarLimit(scrollBarState: ScrollBarState){
+        if(scrollBarState.thumbReachRailStart) {
+            slider = slider.resetScrollBarLimit()
+        }
+        if(scrollBarState.thumbReachRailEnd){
+            slider = slider.expandScrollBarLimitIfNeed()
+        }
     }
 
     private fun resizeThumb(scrollBarState: ScrollBarState, slider: GridSlider) {
@@ -113,17 +122,18 @@ class InternalScrollBarActionImp @Inject constructor(
 
     private fun repositionThumbWhenReachEnd(scrollBarState: ScrollBarState, slider: GridSlider) {
         val sbt = scrollBarState
-        if(sbt.thumbReachRailEnd){
-            val r = when(sbt.type){
+        if (sbt.thumbReachRailEnd) {
+            val r = when (sbt.type) {
                 ScrollBarType.Vertical -> {
-                    val numberOfDisplayRow = slider.visibleRowRangeIncludeMargin.last
+                    val numberOfDisplayRow = slider.visibleRowRangeIncludeMargin.last.toFloat()
                     val numberOfScrollBarRow = slider.scrollBarRowRange.last
-                    numberOfDisplayRow.toFloat()/numberOfScrollBarRow
+                    numberOfDisplayRow / numberOfScrollBarRow
                 }
+
                 ScrollBarType.Horizontal -> {
-                    val numberOfDisplayCol = slider.visibleColRangeIncludeMargin.last
+                    val numberOfDisplayCol = slider.visibleColRangeIncludeMargin.last.toFloat()
                     val numberOfScrollBarCol = slider.scrollBarColRange.last
-                    numberOfDisplayCol.toFloat()/numberOfScrollBarCol
+                    numberOfDisplayCol / numberOfScrollBarCol
                 }
             }
             sbt.setThumbPositionRatioViaEffectivePositionRatio(r)
@@ -132,18 +142,21 @@ class InternalScrollBarActionImp @Inject constructor(
     }
 
     /**
-     * A formula to shrink thumb length with certain constraint and easing
+     * A formula to shrink thumb length with certain constraint and easing.
+     *
+     * [easingFactor] is here so that the thumb does not shrink too fast.
+     *
+     * [reductionRate] is how much the thumb length should be reduced based on the current length.
      */
     private fun shrinkThumbLengthRatioFormula(
         numberOfVisibleItem: Int,
         numberOfScrollBarItem: Int,
         currentLengthRatio: Float,
-        easingFactor:Int = 15,
-        minimumReductionRate:Float = 0.1f,
+        easingFactor: Int = 15,
+        reductionRate: Float = 0.1f,
     ): Float {
-        // adjustment factor is here so that the thumb does not shrink too fast.
         val effectivePosRatio = numberOfVisibleItem.toFloat() * easingFactor / numberOfScrollBarItem
-        return min(effectivePosRatio, currentLengthRatio * (1f - minimumReductionRate))
+        return min(effectivePosRatio, currentLengthRatio * (1f - reductionRate))
     }
 
 }
