@@ -7,6 +7,7 @@ import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 /**
  * A slider contains a range of row and a range of col.
  * A slider can shift its ranges up, down, left, right.
+ * TODO currently grid slider is presented as a Ms<>. Make it a non-Ms
  */
 interface GridSlider {
 
@@ -50,6 +51,9 @@ interface GridSlider {
     val topLeftCell: CellAddress
 
     val firstVisibleCol: Int
+    /**
+     * last visible row is the last col to be seen on screen, it can be the margin col
+     */
     val lastVisibleCol: Int
 
     val visibleColRangeIncludeMargin: IntRange
@@ -58,6 +62,10 @@ interface GridSlider {
     fun setVisibleColRange(i: IntRange): GridSlider
 
     val firstVisibleRow: Int
+
+    /**
+     * last visible row is the last row to be seen on screen, it can be the margin row
+     */
     val lastVisibleRow: Int
     val visibleRowRangeIncludeMargin: IntRange
     val visibleRowRangeExcludeMargin: IntRange
@@ -134,9 +142,24 @@ interface GridSlider {
      * expand bar limit if needed. If the limits are to increase, increase them by [margin]
      */
     fun expandScrollBarLimitIfNeed(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
+    /**
+     * shrink bar limit if the current limit is too large. If the limits are to increase, increase them by [margin]
+     */
+    fun shrinkScrollBarLimitIfNeed(shrinkTo:Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
 
     /**
      * Reset the scroll bar limit to the default value
      */
     fun resetScrollBarLimit(): GridSlider
+
+    /**
+     * Compute the percentage of row that has been scrolled over compare to the [scrollBarRowRange]
+     */
+    fun computeScrolledRowPercentage():Float
+
+    /**
+     * Compute the percentage of columns that has been scrolled over compare to the [scrollBarRowRange]
+     */
+    fun computeScrolledColPercentage():Float
+
 }

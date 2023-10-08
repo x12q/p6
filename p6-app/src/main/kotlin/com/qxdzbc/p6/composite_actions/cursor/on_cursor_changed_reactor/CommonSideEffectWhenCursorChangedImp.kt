@@ -2,7 +2,7 @@ package com.qxdzbc.p6.composite_actions.cursor.on_cursor_changed_reactor
 
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.window.tool_bar.UpdateFormatIndicator
-import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding

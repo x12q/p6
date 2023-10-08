@@ -8,8 +8,7 @@ import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ReleaseFromDragData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionData
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalWsEdgeSlider
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalWsEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ThumbPositionConverter
@@ -23,10 +22,10 @@ import kotlin.math.min
 class InternalScrollBarActionImp @Inject constructor(
     private val wsGetter: WorksheetStateGetter,
     private val sliderMs: Ms<GridSlider>,
-    @ForVerticalWsEdgeSlider
+    @ForVerticalScrollBar
     private val thumbPositionConverterForVerticalScrollBar: ThumbPositionConverter,
-    @ForHorizontalWsEdgeSlider
-    private val thumbPositionConverterForHorizontalScrollBar: ThumbPositionConverter
+    @ForVerticalScrollBar
+    private val thumbPositionConverterForHorizontalScrollBar: ThumbPositionConverter,
 ) : InternalScrollBarAction {
 
     private var slider by sliderMs

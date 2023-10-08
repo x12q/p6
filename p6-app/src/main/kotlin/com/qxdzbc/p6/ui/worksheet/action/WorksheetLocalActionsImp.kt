@@ -7,8 +7,8 @@ import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
 
-@ContributesBinding(scope= WsAnvilScope::class)
 @WsScope
+@ContributesBinding(scope= WsAnvilScope::class)
 class WorksheetLocalActionsImp @Inject constructor(
     override val verticalScrollBarAction: ScrollBarAction,
     override val horizontalScrollBarAction: ScrollBarAction,

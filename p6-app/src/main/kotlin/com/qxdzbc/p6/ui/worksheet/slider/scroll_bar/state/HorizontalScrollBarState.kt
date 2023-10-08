@@ -9,7 +9,7 @@ import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBarConstants
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalWsEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalScrollBar
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ import javax.inject.Inject
  * State for horizontal edge slider. Exist as a singleton under [WsScope]
  */
 @WsScope
-@ForHorizontalWsEdgeSlider
+@ForHorizontalScrollBar
 @ContributesBinding(scope = WsAnvilScope::class, boundType = ScrollBarState::class)
 class HorizontalScrollBarState(
     thumbLengthRatioMs: Ms<Float>,

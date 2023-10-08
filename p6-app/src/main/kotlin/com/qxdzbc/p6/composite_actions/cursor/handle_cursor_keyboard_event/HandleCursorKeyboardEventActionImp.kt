@@ -16,7 +16,7 @@ import com.qxdzbc.p6.composite_actions.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.composite_actions.window.tool_bar.UpdateFormatIndicator
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
 import com.qxdzbc.p6.composite_actions.worksheet.delete_multi.DeleteMultiCellAtCursorRequest
-import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.common.key_event.P6KeyEvent
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress

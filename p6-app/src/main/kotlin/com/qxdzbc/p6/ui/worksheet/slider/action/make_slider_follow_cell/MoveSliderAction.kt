@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell
+package com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell
 
 import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWs

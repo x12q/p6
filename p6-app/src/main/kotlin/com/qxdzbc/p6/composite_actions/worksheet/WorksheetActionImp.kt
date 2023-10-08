@@ -6,7 +6,7 @@ import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.composite_actions.range.range_to_clipboard.RangeToClipboardAction
 import com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size.ComputeSliderSizeAction
 import com.qxdzbc.p6.composite_actions.worksheet.delete_multi.DeleteMultiCellAction
-import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.composite_actions.worksheet.mouse_on_ws.MouseOnWorksheetAction
 import com.qxdzbc.p6.composite_actions.worksheet.release_focus.RestoreWindowFocusState
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress

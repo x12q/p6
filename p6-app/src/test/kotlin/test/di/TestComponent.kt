@@ -48,7 +48,7 @@ import com.qxdzbc.p6.composite_actions.cell.update_cell_format.UpdateCellFormatA
 import com.qxdzbc.p6.composite_actions.workbook.rename_ws.RenameWorksheetActionImp
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetActionImp
 import com.qxdzbc.p6.composite_actions.worksheet.compute_slider_size.ComputeSliderSizeActionImp
-import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.composite_actions.worksheet.paste_range.PasteRangeActionImp
 import com.qxdzbc.p6.composite_actions.worksheet.ruler.change_col_row_size.ChangeRowAndColumnSizeActionImp
 import com.qxdzbc.p6.di.qualifiers.AppCoroutineScope

@@ -30,7 +30,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
     @Test
     fun determineSliderSize() {
         val o = GridSliderImp(
-            slider = ColRowShifter(
+            colRowShifter = ColRowShifter(
                 visibleColRange = 1..5,
                 visibleRowRange = 1..5,
             ),
@@ -68,7 +68,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
     @Test
     fun computeSliderSizeQQQ() {
         val o = GridSliderImp(
-            slider = ColRowShifter(
+            colRowShifter = ColRowShifter(
                 visibleColRange = 1..5,
                 visibleRowRange = 1..5,
             ),

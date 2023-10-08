@@ -2,6 +2,7 @@ package com.qxdzbc.p6.ui.worksheet.di
 
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
+import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
 import com.qxdzbc.p6.ui.worksheet.cursor.di.CursorModule
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateFactory
@@ -23,13 +24,15 @@ import dagger.Subcomponent
     ]
 )
 interface WsComponent {
+
+    val localAction: WorksheetLocalActions
+    fun wsState(): WorksheetState
+
     @Subcomponent.Builder
     interface Builder {
         fun setWs(@BindsInstance wsMs: Ms<Worksheet>): Builder
         fun build(): WsComponent
     }
-
-    fun wsState(): WorksheetState
 }
 
 

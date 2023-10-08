@@ -24,8 +24,9 @@ import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalWsEdgeSlider
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalWsEdgeSlider
+import com.qxdzbc.p6.ui.worksheet.di.WsComponent
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalScrollBar
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -65,11 +66,12 @@ data class WorksheetStateImp @Inject constructor(
     override val undoStackMs: Ms<CommandStack>,
     @WsRedoStack
     override val redoStackMs: Ms<CommandStack>,
-    @ForVerticalWsEdgeSlider
+    @ForVerticalScrollBar
     override val verticalScrollBarState: ScrollBarState,
-    @ForHorizontalWsEdgeSlider
+    @ForHorizontalScrollBar
     override val horizontalScrollBarState: ScrollBarState,
     override val localAction: WorksheetLocalActions,
+    private val wsComponent: WsComponent,
 ) : BaseWorksheetState() {
 
     override val worksheet: Worksheet by wsMs
@@ -158,7 +160,6 @@ data class WorksheetStateImp @Inject constructor(
     }
     override fun updateSliderAndRefreshDependentStates(i: GridSlider) {
         sliderMs.value = i
-//        removeAllCellLayoutCoor()
         reScanCellLayout()
 
         colRulerStateMs.value = colRulerState

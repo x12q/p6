@@ -29,19 +29,19 @@ data class GridSliderImp(
 
     @Inject
     constructor(
-        slider: ColRowShifter,
+        colRowShifter: ColRowShifter,
         @DefaultColRangeQualifier
         colLimit: IntRange,
         @DefaultRowRangeQualifier
         rowLimit: IntRange,
     ) : this(
-        colRowShifter = slider,
+        colRowShifter = colRowShifter,
         colLimit = colLimit,
         rowLimit = rowLimit,
         marginRow = null,
         marginCol = null,
-        scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol + slider.lastVisibleCol,
-        scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow + slider.lastVisibleRow,
+        scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol + colRowShifter.lastVisibleCol,
+        scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow + colRowShifter.lastVisibleRow,
     )
 
 
@@ -174,11 +174,50 @@ data class GridSliderImp(
         return rt
     }
 
+    override fun shrinkScrollBarLimitIfNeed(shrinkTo: Int): GridSliderImp {
+
+        val rowDif = (lastVisibleRow - scrollBarLastRow) - shrinkTo
+
+        var rt = this
+
+        if(rowDif>0){
+            rt = rt.copy(
+                scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow + colRowShifter.lastVisibleRow,
+            )
+        }
+
+        val colDif = (lastVisibleCol - scrollBarLastCol) - shrinkTo
+
+        if(colDif>0){
+            rt = rt.copy(
+                scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol + colRowShifter.lastVisibleCol,
+            )
+        }
+        return rt
+    }
+
     override fun resetScrollBarLimit(): GridSlider {
         return this.copy(
             scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol + colRowShifter.lastVisibleCol,
             scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow + colRowShifter.lastVisibleRow,
         )
+    }
+
+    /**
+     * TODO this computation is not perfect. I can't scroll up to 0 because this computation is always non zero.
+     */
+    override fun computeScrolledRowPercentage(): Float {
+        val sliderSize = visibleRowRangeIncludeMargin.count()
+        val lastVisibleRow = visibleRowRangeIncludeMargin.last.toFloat()
+        val scrollRowLimit = scrollBarRowRange.last
+        return lastVisibleRow / scrollRowLimit
+    }
+
+    override fun computeScrolledColPercentage(): Float {
+        val sliderSize = visibleColRangeIncludeMargin.count()
+        val lastVisibleCol = visibleColRangeIncludeMargin.last.toFloat()
+        val scrollColLimit = scrollBarColRange.last
+        return lastVisibleCol / scrollColLimit
     }
 
     companion object {
@@ -189,7 +228,7 @@ data class GridSliderImp(
             rowLimit: IntRange = WorksheetConstants.defaultRowRange,
         ): GridSliderImp {
             return GridSliderImp(
-                slider = ColRowShifter(
+                colRowShifter = ColRowShifter(
                     visibleColRange = visibleColRange,
                     visibleRowRange = visibleRowRange,
                 ),

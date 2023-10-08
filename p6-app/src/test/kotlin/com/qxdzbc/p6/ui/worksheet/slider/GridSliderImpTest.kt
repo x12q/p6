@@ -17,7 +17,7 @@ import kotlin.test.assertNotNull
 internal class GridSliderImpTest {
 
     val s0 = GridSliderImp(
-        slider = ColRowShifter(
+        colRowShifter = ColRowShifter(
             visibleColRange = IntRange(0, 9),
             visibleRowRange = IntRange(3, 20),
         ),
@@ -28,7 +28,7 @@ internal class GridSliderImpTest {
     @Test
     fun `updateEdgeSliderLimit - shrink case`(){
         val s0 = GridSliderImp(
-            slider = ColRowShifter(
+            colRowShifter = ColRowShifter(
                 visibleColRange = IntRange(1,100),
                 visibleRowRange = IntRange(3,120),
             ),
@@ -48,7 +48,7 @@ internal class GridSliderImpTest {
     @Test
     fun `updateEdgeSliderLimit - expanse case`(){
         val s0 = GridSliderImp(
-            slider = ColRowShifter(
+            colRowShifter = ColRowShifter(
                 visibleColRange = IntRange(1,100),
                 visibleRowRange = IntRange(3,120),
             ),
@@ -68,7 +68,7 @@ internal class GridSliderImpTest {
     @Test
     fun `updateEdgeSliderLimit non update`(){
         val s0 = GridSliderImp(
-            slider = ColRowShifter(
+            colRowShifter = ColRowShifter(
                 visibleColRange = IntRange(1,100),
                 visibleRowRange = IntRange(3,120),
             ),
@@ -90,7 +90,7 @@ internal class GridSliderImpTest {
     fun constructor() {
         assertFailsWith<IllegalArgumentException> {
             GridSliderImp(
-                slider = ColRowShifter(
+                colRowShifter = ColRowShifter(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),
@@ -101,7 +101,7 @@ internal class GridSliderImpTest {
 
         assertFailsWith<IllegalArgumentException> {
             GridSliderImp(
-                slider = ColRowShifter(
+                colRowShifter = ColRowShifter(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),
@@ -112,7 +112,7 @@ internal class GridSliderImpTest {
 
         assertFailsWith<IllegalArgumentException> {
             GridSliderImp(
-                slider = ColRowShifter(
+                colRowShifter = ColRowShifter(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),
@@ -122,7 +122,7 @@ internal class GridSliderImpTest {
         }
         assertFailsWith<IllegalArgumentException> {
             GridSliderImp(
-                slider = ColRowShifter(
+                colRowShifter = ColRowShifter(
                     visibleColRange = IntRange(0, 9),
                     visibleRowRange = IntRange(3, 20),
                 ),
@@ -185,7 +185,7 @@ internal class GridSliderImpTest {
     @Test
     fun `followCursor no margin`() {
         val gridSlider = GridSliderImp(
-            slider = ColRowShifter(
+            colRowShifter = ColRowShifter(
                 visibleColRange = IntRange(5, 10),
                 visibleRowRange = IntRange(3, 20),
             ),
@@ -237,7 +237,7 @@ internal class GridSliderImpTest {
     @Test
     fun `followCursorMainCell when main cell is one of the margin cells`() {
         val gridSlider =GridSliderImp(
-            slider = ColRowShifter(
+            colRowShifter = ColRowShifter(
                 visibleColRange = IntRange(5, 10),
                 visibleRowRange = IntRange(3, 20),
             ),

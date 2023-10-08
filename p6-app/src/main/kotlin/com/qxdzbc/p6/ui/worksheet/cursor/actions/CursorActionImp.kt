@@ -9,7 +9,7 @@ import com.qxdzbc.p6.composite_actions.cursor.handle_cursor_keyboard_event.Handl
 import com.qxdzbc.p6.composite_actions.cursor.paste_range_to_cursor.PasteRangeToCursor
 import com.qxdzbc.p6.composite_actions.cursor.undo_on_cursor.UndoRedoAction
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetAction
-import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddress
 import com.qxdzbc.p6.document_data_layer.range.address.RangeAddressUtils
@@ -40,7 +40,7 @@ class CursorActionImp @Inject constructor(
     private val handleKeyboardEventOnWsCursor: HandleKeyboardEventOnWsCursor,
     private val copyCursorRangeToClipboardAction: CopyCursorRangeToClipboardAction,
     private val undoOnCursorAct: UndoRedoAction,
-    private val moveSliderAct:MoveSliderAction,
+    private val moveSliderAct: MoveSliderAction,
 ) : CursorAction,
     SelectWholeColumnForAllSelectedCellAction by selectWholeCol,
     SelectWholeRowForAllSelectedCellAction by selectWholeRow,

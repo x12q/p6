@@ -246,4 +246,8 @@ sealed class AbsScrollBarState(
             thumbReachRailEnd = thumbReachRailEnd
         )
     }
+
+    override fun resetThumbPosition() {
+        thumbPositionRatioMs.value = 0f
+    }
 }

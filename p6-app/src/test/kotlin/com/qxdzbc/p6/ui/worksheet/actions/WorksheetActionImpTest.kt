@@ -10,7 +10,7 @@ import com.qxdzbc.p6.document_data_layer.workbook.Workbook
 import com.qxdzbc.p6.document_data_layer.worksheet.Worksheet
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.composite_actions.worksheet.WorksheetActionImp
-import com.qxdzbc.p6.composite_actions.worksheet.make_slider_follow_cell.MoveSliderAction
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_slider_follow_cell.MoveSliderAction
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorStateImp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
@@ -36,7 +36,7 @@ internal class WorksheetActionImpTest {
     lateinit var layoutMap: MutableMap<CellAddress, P6Layout>
     lateinit var posMap: MutableMap<CellAddress, Rect>
     lateinit var wb: Workbook
-    lateinit var moveSlideraction:MoveSliderAction
+    lateinit var moveSlideraction: MoveSliderAction
 
     @BeforeTest
     fun before() {

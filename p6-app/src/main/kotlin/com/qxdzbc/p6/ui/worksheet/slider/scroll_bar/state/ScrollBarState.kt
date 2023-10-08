@@ -123,4 +123,5 @@ sealed interface ScrollBarState : ThumbPositionConverter {
      */
 
     fun resetThumbLength()
+    fun resetThumbPosition()
 }

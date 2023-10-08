@@ -12,4 +12,5 @@ interface WorksheetStateFactory {
      * Create a [WorksheetState] for [wsMs]
      */
     fun create(wsMs: Ms<Worksheet>): WorksheetState
+
 }
