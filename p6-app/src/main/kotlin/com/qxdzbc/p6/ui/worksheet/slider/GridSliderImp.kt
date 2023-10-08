@@ -12,7 +12,7 @@ import javax.inject.Inject
  */
 @ContributesBinding(WsAnvilScope::class, boundType = GridSlider::class)
 data class GridSliderImp(
-    private val slider: InternalGridSlider,
+    private val slider: ColRowShifter,
     /**
      * 1-> 1 million
      */
@@ -29,7 +29,7 @@ data class GridSliderImp(
 
     @Inject
     constructor(
-        slider: InternalGridSlider,
+        slider: ColRowShifter,
         @DefaultColRangeQualifier
         colLimit: IntRange,
         @DefaultRowRangeQualifier
@@ -194,7 +194,7 @@ data class GridSliderImp(
             rowLimit: IntRange = WorksheetConstants.defaultRowRange,
         ): GridSliderImp {
             return GridSliderImp(
-                slider = InternalGridSlider(
+                slider = ColRowShifter(
                     visibleColRange = visibleColRange,
                     visibleRowRange = visibleRowRange,
                 ),

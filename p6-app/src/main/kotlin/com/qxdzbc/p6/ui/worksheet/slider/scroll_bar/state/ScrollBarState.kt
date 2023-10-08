@@ -115,10 +115,6 @@ sealed interface ScrollBarState : ThumbPositionConverter {
 
     /**
      * TWO task:
-     * T1: when I release the thumb after drag, I must:
-     *  - shrink the thumb -> by how much -> determine by the range of item in grid slider
-     *  - reposition the thumb -> by how much -> determine by the range of item in grid slider
-     *      - scroll bar state need access to grid slider state: already
      * T2: when I scroll the gridSlider, I must move and resize the thumb as well
      *  - move: by how much
      *  - resize: by how much

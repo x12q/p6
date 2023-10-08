@@ -7,14 +7,12 @@ import javax.inject.Inject
 
 
 /**
- * A simple grid slider containing:
+ * This class is used inside [GridSliderImp] to handle the col and row shifting aspect of worksheet grid sliders.
  * [visibleRowRange] denoting visible row range.
  * [visibleColRange] denoting visible col range.
  * This class provide functions to shift these two range.
- *
- * This class is used inside [GridSliderImp] to handle the col shifting and row shifting aspect of worksheet grid sliders.
  */
-data class InternalGridSlider @Inject constructor(
+data class ColRowShifter @Inject constructor(
     @DefaultVisibleColRange
     val visibleColRange: IntRange,
     @DefaultVisibleRowRange
@@ -27,7 +25,7 @@ data class InternalGridSlider @Inject constructor(
     val firstVisibleRow: Int get() = visibleRowRange.first
     val lastVisibleRow: Int get() = visibleRowRange.last
 
-    fun setVisibleColRange(i: IntRange): InternalGridSlider {
+    fun setVisibleColRange(i: IntRange): ColRowShifter {
         if (i == this.visibleColRange) {
             return this
         } else {
@@ -35,7 +33,7 @@ data class InternalGridSlider @Inject constructor(
         }
     }
 
-    fun setVisibleRowRange(i: IntRange): InternalGridSlider {
+    fun setVisibleRowRange(i: IntRange): ColRowShifter {
         if (i == this.visibleRowRange) {
             return this
         } else {
@@ -43,7 +41,7 @@ data class InternalGridSlider @Inject constructor(
         }
     }
 
-    fun shiftLeft(colCount: Int): InternalGridSlider {
+    fun shiftLeft(colCount: Int): ColRowShifter {
         val i = MathUtils.addIntOrDefault(firstVisibleCol, -colCount)
         val w = MathUtils.addIntOrDefault(lastVisibleCol, -colCount)
         return this.copy(
@@ -51,15 +49,15 @@ data class InternalGridSlider @Inject constructor(
         )
     }
 
-    fun shiftRight(colCount: Int): InternalGridSlider {
+    fun shiftRight(colCount: Int): ColRowShifter {
         return this.shiftLeft(-colCount)
     }
 
-    fun shiftUp(rowCount: Int): InternalGridSlider {
+    fun shiftUp(rowCount: Int): ColRowShifter {
         return this.shiftDown(-rowCount)
     }
 
-    fun shiftDown(rowCount: Int): InternalGridSlider {
+    fun shiftDown(rowCount: Int): ColRowShifter {
         val i = MathUtils.addIntOrDefault(firstVisibleRow, rowCount)
         val w = MathUtils.addIntOrDefault(lastVisibleRow, rowCount)
         return this.copy(

@@ -4,9 +4,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-internal class InternalGridSliderTest {
+internal class ColRowShifterTest {
 
-    val slider = InternalGridSlider(
+    val slider = ColRowShifter(
         visibleColRange = IntRange(5, 10),
         visibleRowRange = IntRange(3, 20),
     )

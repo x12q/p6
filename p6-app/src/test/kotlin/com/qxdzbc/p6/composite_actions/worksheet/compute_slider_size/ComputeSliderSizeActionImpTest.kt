@@ -6,7 +6,7 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.ui.worksheet.WorksheetConstants
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
-import com.qxdzbc.p6.ui.worksheet.slider.InternalGridSlider
+import com.qxdzbc.p6.ui.worksheet.slider.ColRowShifter
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import test.BaseAppStateTest
@@ -30,7 +30,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
     @Test
     fun determineSliderSize() {
         val o = GridSliderImp(
-            slider = InternalGridSlider(
+            slider = ColRowShifter(
                 visibleColRange = 1..5,
                 visibleRowRange = 1..5,
             ),
@@ -68,7 +68,7 @@ class ComputeSliderSizeActionImpTest : BaseAppStateTest() {
     @Test
     fun computeSliderSizeQQQ() {
         val o = GridSliderImp(
-            slider = InternalGridSlider(
+            slider = ColRowShifter(
                 visibleColRange = 1..5,
                 visibleRowRange = 1..5,
             ),
