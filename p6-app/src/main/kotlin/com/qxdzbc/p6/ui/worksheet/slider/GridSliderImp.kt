@@ -72,7 +72,7 @@ data class GridSliderImp(
         } else {
             val rt = this
                 .copy(slider = this.slider.setVisibleColRange(i))
-                .updateEdgeSliderLimit()
+                .updateScrollBarLimit()
 
             return rt
         }
@@ -102,7 +102,7 @@ data class GridSliderImp(
         } else {
             val rt = this
                 .copy(slider = this.slider.setVisibleRowRange(i))
-                .updateEdgeSliderLimit()
+                .updateScrollBarLimit()
             return rt
         }
     }
@@ -114,7 +114,7 @@ data class GridSliderImp(
         val md = minOf(firstVisibleCol - colLimit.first, colCount)
         val rt = this
             .copy(slider = slider.shiftLeft(md))
-            .updateEdgeSliderLimit()
+//            .updateEdgeSliderLimit()
         return rt
     }
 
@@ -123,31 +123,31 @@ data class GridSliderImp(
         if (colCount < 0) {
             return this
                 .shiftLeft(-colCount)
-                .updateEdgeSliderLimit()
+//                .updateEdgeSliderLimit()
         }
         val md = minOf(colLimit.last - lastVisibleCol, colCount)
         return this
             .copy(slider = slider.shiftRight(md))
-            .updateEdgeSliderLimit()
+//            .updateEdgeSliderLimit()
     }
 
     override fun shiftUp(rowCount: Int): GridSliderImp {
         if (rowCount < 0) {
             return this
                 .shiftDown(-rowCount)
-                .updateEdgeSliderLimit()
+//                .updateEdgeSliderLimit()
         }
         val md = minOf(firstVisibleRow - rowLimit.first, rowCount)
         return this
             .copy(slider = slider.shiftUp(md))
-            .updateEdgeSliderLimit()
+//            .updateEdgeSliderLimit()
     }
 
     override fun shiftDown(rowCount: Int): GridSliderImp {
         if (rowCount < 0) {
             return this
                 .shiftUp(-rowCount)
-                .updateEdgeSliderLimit()
+//                .updateEdgeSliderLimit()
         }
         /**
          * Can only shift down, if there's still row down to shift.
@@ -156,14 +156,14 @@ data class GridSliderImp(
         val shiftableRow = minOf(remainingRowToLimit, rowCount)
         val rt = this
             .copy(slider = slider.shiftDown(shiftableRow))
-            .updateEdgeSliderLimit()
+//            .updateEdgeSliderLimit()
         return rt
     }
 
     /**
      * expand or shrink [scrollBarLastCol] and [scrollBarLastRow] if [slider] reaches or goes out of those limits.
      */
-    fun updateEdgeSliderLimit(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSliderImp {
+    override fun updateScrollBarLimit(margin: Int): GridSliderImp {
 
         var rt = this
 

@@ -129,4 +129,9 @@ interface GridSlider {
      */
     fun followCell(cellAddress: CellAddress):GridSlider
     val lastVisibleRowNotMargin: Int
+
+    /**
+     * recompute and update scroll bar limit if needed
+     */
+    fun updateScrollBarLimit(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSliderImp
 }

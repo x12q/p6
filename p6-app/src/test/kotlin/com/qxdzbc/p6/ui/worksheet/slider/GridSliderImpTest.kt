@@ -40,7 +40,7 @@ internal class GridSliderImpTest {
         )
 
         val margin = 20
-        val s1 = s0.updateEdgeSliderLimit(margin)
+        val s1 = s0.updateScrollBarLimit(margin)
         s1.scrollBarLastCol shouldBe 100+20
         s1.scrollBarLastRow shouldBe 120+20
     }
@@ -60,7 +60,7 @@ internal class GridSliderImpTest {
         )
 
         val margin = 20
-        val s1 = s0.updateEdgeSliderLimit(margin)
+        val s1 = s0.updateScrollBarLimit(margin)
         s1.scrollBarLastCol shouldBe 100+20
         s1.scrollBarLastRow shouldBe 120+20
     }
@@ -80,7 +80,7 @@ internal class GridSliderImpTest {
         )
 
         val margin = 20
-        val s1 = s0.updateEdgeSliderLimit(margin)
+        val s1 = s0.updateScrollBarLimit(margin)
         s1 shouldBe s0
 
     }

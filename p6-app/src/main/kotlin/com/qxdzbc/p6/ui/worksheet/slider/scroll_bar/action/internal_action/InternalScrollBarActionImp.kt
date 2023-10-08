@@ -71,14 +71,14 @@ class InternalScrollBarActionImp @Inject constructor(
     }
 
     override fun releaseFromDrag(data: ReleaseFromDragData) {
-        // resize
         resizeThumb(data.state, slider)
 
-        // re-position thumb
+        slider = slider.updateScrollBarLimit()
+
         repositionThumbWhenReachEnd(data.state, slider)
     }
 
-    fun resizeThumb(scrollBarState: ScrollBarState, slider: GridSlider) {
+    private fun resizeThumb(scrollBarState: ScrollBarState, slider: GridSlider) {
         val sbt = scrollBarState
         if (sbt.thumbReachRailStart) {
             scrollBarState.resetThumbLength()
@@ -121,7 +121,9 @@ class InternalScrollBarActionImp @Inject constructor(
                     numberOfDisplayRow.toFloat()/numberOfScrollBarRow
                 }
                 ScrollBarType.Horizontal -> {
-                    sbt.effectiveThumbPositionRatio
+                    val numberOfDisplayCol = slider.visibleColRangeIncludeMargin.last
+                    val numberOfScrollBarCol = slider.scrollBarColRange.last
+                    numberOfDisplayCol.toFloat()/numberOfScrollBarCol
                 }
             }
             sbt.setThumbPositionRatioViaEffectivePositionRatio(r)
