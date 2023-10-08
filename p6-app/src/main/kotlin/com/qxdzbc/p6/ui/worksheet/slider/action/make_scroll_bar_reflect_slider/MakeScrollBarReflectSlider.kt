@@ -11,7 +11,7 @@ interface MakeScrollBarReflectSlider{
         scrollBarState: ScrollBarState,
         slider: GridSlider,
         easingFactor: Int = 15,
-        reductionRate: Float = 0.1f
+        isIncreasing:Boolean
     )
 
     fun reflectPosition(
@@ -31,6 +31,6 @@ interface MakeScrollBarReflectSlider{
         scrollBarState: ScrollBarState,
         slider: GridSlider,
         easingFactor: Int = 15,
-        reductionRate: Float = 0.1f
+        reductionRate: Float = 0.1f,
     )
 }

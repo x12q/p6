@@ -24,21 +24,21 @@ import javax.inject.Singleton
 @Singleton
 @ContributesBinding(P6AnvilScope::class)
 class MoveSliderActionImp @Inject constructor(
-    val stateCont:StateContainer,
+    val stateCont: StateContainer,
     val errorRouter: ErrorRouter,
     val makeScrollBarReflectSlider: MakeScrollBarReflectSlider,
 ) : MoveSliderAction {
 
-    private val sc  = stateCont
+    private val sc = stateCont
 
     override fun makeSliderFollowCell(wbws: WbWs, cellAddr: CellAddress, publishErr: Boolean): Rse<Unit> {
         return sc.getWbWsStRs(wbws).map {
-            this.makeSliderFollowCell(it,cellAddr, publishErr)
+            this.makeSliderFollowCell(it, cellAddr, publishErr)
         }
     }
 
     override fun makeSliderFollowCell(wbwsSt: WbWsSt, cellAddr: CellAddress, publishErr: Boolean): Rse<Unit> {
-        val rs=sc.getWsStateRs(wbwsSt).flatMap { wsState->
+        val rs = sc.getWsStateRs(wbwsSt).flatMap { wsState ->
             val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.followCell(cellAddr)
@@ -48,32 +48,46 @@ class MoveSliderActionImp @Inject constructor(
 
                 wsState.updateSliderAndRefreshDependentStates(newSlider)
 
-                if(newSlider.visibleColRangeIncludeMargin != oldSlider.visibleColRangeIncludeMargin){
-                    makeScrollBarReflectSlider.reflectAll(wsState.horizontalScrollBarState,newSlider, easingFactor = 15, reductionRate = 0.0008f)
+                if (newSlider.visibleRowRangeIncludeMargin != oldSlider.visibleRowRangeIncludeMargin) {
+
+                    val isMovingDown = newSlider.lastVisibleRow > oldSlider.lastVisibleRow
+
+                    makeScrollBarReflectSlider.reflectAll(
+                        scrollBarState = wsState.verticalScrollBarState,
+                        slider = newSlider,
+                        isIncreasing = isMovingDown
+                    )
                 }
 
-                if(newSlider.visibleRowRangeIncludeMargin!=oldSlider.visibleRowRangeIncludeMargin){
-                    makeScrollBarReflectSlider.reflectAll(wsState.verticalScrollBarState,newSlider,easingFactor = 15,reductionRate = 0.0008f)
+                if (newSlider.visibleColRangeIncludeMargin != oldSlider.visibleColRangeIncludeMargin) {
+
+                    val isMovingRight = newSlider.lastVisibleCol > oldSlider.lastVisibleCol
+
+                    makeScrollBarReflectSlider.reflectAll(
+                        scrollBarState = wsState.horizontalScrollBarState,
+                        slider = newSlider,
+                        isIncreasing = isMovingRight
+                    )
                 }
             }
             Ok(Unit)
         }
-        if(publishErr){
-            rs.publishErrIfNeedSt(errorRouter,null,wbwsSt.wbKeySt)
+        if (publishErr) {
+            rs.publishErrIfNeedSt(errorRouter, null, wbwsSt.wbKeySt)
         }
         return rs
     }
 
     override fun makeSliderFollowCursorMainCell(cursorState: CursorState, wsLoc: WbWsSt) {
-        makeSliderFollowCell(wsLoc,cursorState.mainCell)
+        makeSliderFollowCell(wsLoc, cursorState.mainCell)
     }
 
     override fun makeSliderFollowCursorMainCell(cursorState: CursorState, wsLoc: WbWs) {
-        makeSliderFollowCell(wsLoc,cursorState.mainCell)
+        makeSliderFollowCell(wsLoc, cursorState.mainCell)
     }
 
     override fun shiftSlider(cursorLoc: WbWsSt, rowCount: Int, colCount: Int, publishErr: Boolean) {
-        val rs=sc.getWsStateRs(cursorLoc).flatMap { wsState->
+        val rs = sc.getWsStateRs(cursorLoc).flatMap { wsState ->
             val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.shiftDown(rowCount).shiftRight(colCount)
@@ -82,8 +96,8 @@ class MoveSliderActionImp @Inject constructor(
             }
             Ok(Unit)
         }
-        if(publishErr){
-            rs.publishErrIfNeedSt(errorRouter,null,cursorLoc.wbKeySt)
+        if (publishErr) {
+            rs.publishErrIfNeedSt(errorRouter, null, cursorLoc.wbKeySt)
         }
     }
 }

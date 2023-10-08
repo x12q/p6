@@ -7,6 +7,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.abs
 import kotlin.math.min
 
 
@@ -18,10 +19,15 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
         scrollBarState: ScrollBarState,
         slider: GridSlider,
         easingFactor: Int,
-        reductionRate: Float
+        isIncreasing:Boolean
     ) {
         reflectPosition(scrollBarState, slider)
-        reflectThumbSize(scrollBarState, slider, easingFactor, reductionRate)
+        val rr = if(isIncreasing){
+            0.008f
+        }else{
+            -0.008f
+        }
+        reflectThumbSize(scrollBarState, slider, easingFactor,rr)
     }
 
     override fun reflectPosition(scrollBarState: ScrollBarState, slider: GridSlider) {
@@ -50,11 +56,11 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
         scrollBarState: ScrollBarState,
         slider: GridSlider,
         easingFactor: Int,
-        reductionRate: Float
+        reductionRate: Float,
     ) {
 
         require(easingFactor != 0)
-        require(reductionRate in 0f..1f)
+        require(abs(reductionRate) in 0f..1f)
 
         when (scrollBarState.type) {
             ScrollBarType.Vertical -> {
@@ -106,4 +112,15 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
         val effectivePosRatio = numberOfVisibleItem.toFloat() * easingFactor / numberOfScrollBarItem
         return min(effectivePosRatio, currentLengthRatio * (1f - reductionRate))
     }
+
+//    private fun expandThumbLengthRatioFormula(
+//        numberOfVisibleItem: Int,
+//        numberOfScrollBarItem: Int,
+//        currentLengthRatio: Float,
+//        easingFactor: Int = 15,
+//        incrementRate: Float = 0.1f,
+//    ): Float {
+//        val effectivePosRatio = numberOfVisibleItem.toFloat() * easingFactor / numberOfScrollBarItem
+//        return min(effectivePosRatio,currentLengthRatio*(1+incrementRate))
+//    }
 }

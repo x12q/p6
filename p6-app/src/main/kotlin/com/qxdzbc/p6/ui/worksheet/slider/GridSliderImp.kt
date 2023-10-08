@@ -207,16 +207,16 @@ data class GridSliderImp(
      * TODO this computation is not perfect. I can't scroll up to 0 because this computation is always non zero.
      */
     override fun computeScrolledRowPercentage(): Float {
-        val sliderSize = visibleRowRangeIncludeMargin.count()
-        val lastVisibleRow = visibleRowRangeIncludeMargin.last.toFloat()
-        val scrollRowLimit = scrollBarRowRange.last
+        val visibleRowCount = visibleRowRangeIncludeMargin.count()
+        val lastVisibleRow = visibleRowRangeIncludeMargin.last.toFloat() - visibleRowCount
+        val scrollRowLimit = scrollBarRowRange.last - visibleRowCount
         return lastVisibleRow / scrollRowLimit
     }
 
     override fun computeScrolledColPercentage(): Float {
-        val sliderSize = visibleColRangeIncludeMargin.count()
-        val lastVisibleCol = visibleColRangeIncludeMargin.last.toFloat()
-        val scrollColLimit = scrollBarColRange.last
+        val visibleColCount = visibleColRangeIncludeMargin.count()
+        val lastVisibleCol = visibleColRangeIncludeMargin.last.toFloat() - visibleColCount
+        val scrollColLimit = scrollBarColRange.last - visibleColCount
         return lastVisibleCol / scrollColLimit
     }
 
