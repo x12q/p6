@@ -8,5 +8,5 @@ import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.internal_action.Inter
  * This layer route the data and action signal to [InternalScrollBarAction] where the actual actions happen.
  */
 interface ScrollBarAction {
-    fun runAction(actionType: ScrollBarActionType)
+    fun runAction(data: ScrollBarActionData)
 }

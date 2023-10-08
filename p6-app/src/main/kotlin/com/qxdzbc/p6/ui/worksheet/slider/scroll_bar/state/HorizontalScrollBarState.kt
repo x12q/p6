@@ -1,7 +1,5 @@
 package com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state
 
-import androidx.compose.ui.layout.boundsInParent
-import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -27,7 +25,6 @@ class HorizontalScrollBarState(
     maxLengthRatio: Float,
     minLengthRatio: Float,
     reductionRatio: Float,
-    moveBackRatio: Float,
     thumbLayoutCoorMs: Ms<P6Layout?>,
     railLayoutCoorMs: Ms<P6Layout?>
 ) : AbsScrollBarState(
@@ -36,18 +33,16 @@ class HorizontalScrollBarState(
     maxLengthRatio = maxLengthRatio,
     minLengthRatio = minLengthRatio,
     reductionRatio = reductionRatio,
-    moveBackRatio = moveBackRatio,
     thumbLayoutCoorMs = thumbLayoutCoorMs,
     railLayoutCoorMs = railLayoutCoorMs
 ) {
 
     @Inject
     constructor() : this(
-        thumbLengthRatioMs = ms(ScrollBarConstants.maxLength),
-        maxLengthRatio = ScrollBarConstants.maxLength,
+        thumbLengthRatioMs = ms(ScrollBarConstants.maxLengthRatio),
+        maxLengthRatio = ScrollBarConstants.maxLengthRatio,
         minLengthRatio = ScrollBarConstants.minLength,
         reductionRatio = ScrollBarConstants.reductionRate,
-        moveBackRatio = ScrollBarConstants.moveBackRatio,
         thumbLayoutCoorMs = ms(null),
         railLayoutCoorMs = ms(null),
         thumbPositionRatioMs = ms(ScrollBarConstants.startingThumbPositionRatio)
@@ -57,7 +52,6 @@ class HorizontalScrollBarState(
         require(maxLengthRatio in 0.0..1.0)
         require(minLengthRatio in 0.0..1.0)
         require(reductionRatio in 0.0..1.0)
-        require(moveBackRatio in 0.0..1.0)
         require(thumbLengthRatioMs.value in 0.0..1.0)
         require(thumbPositionRatioMs.value in 0.0..1.0)
     }

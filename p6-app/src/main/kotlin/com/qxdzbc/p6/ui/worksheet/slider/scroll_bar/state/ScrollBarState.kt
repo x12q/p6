@@ -5,13 +5,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.OnDragThumbData
-import org.jetbrains.skia.svg.SVGPreserveAspectRatio
 
 /**
  * This state consist of the state of a rail, and a thumb of an edge slider
  */
 sealed interface ScrollBarState : ThumbPositionConverter {
 
+    val thumbLengthRatio: Float
     val type: ScrollBarType
 
     val onDragData: OnDragThumbData
@@ -52,7 +52,9 @@ sealed interface ScrollBarState : ThumbPositionConverter {
     val thumbPositionRatio: Float
 
     /**
-     * this tells the actual % of the thumb position. This is computed using [effectiveRailLengthPx]
+     * this tells the effective % of the thumb position. This is not a real number, but one computed from thumb real position, thumb length, and rail length.
+     * This number is between [0,1] with 0 mean the thumb is at the start of the rail, and 1 means the thumb is at the end of the rail. This is called "effective" because the real thumb position can never reach 1.
+     * The purpose of this number is to give caller a basis to determine the semantic poisition of the thumb. So, caller should use this number instead of [thumbPositionRatio]
      */
     val effectiveThumbPositionRatio: Float
 
@@ -108,6 +110,21 @@ sealed interface ScrollBarState : ThumbPositionConverter {
     /**
      * recomputes the thumb state when the thumb is released from drag
      */
-    fun recomputeThumbStateWhenThumbIsReleasedFromDrag()
+    @Deprecated("for now only, must be replaced by a version that use value from slider")
+    fun naiveRecomputeThumbStateWhenThumbIsReleasedFromDrag()
 
+    /**
+     * TWO task:
+     * T1: when I release the thumb after drag, I must:
+     *  - shrink the thumb -> by how much -> determine by the range of item in grid slider
+     *  - reposition the thumb -> by how much -> determine by the range of item in grid slider
+     *      - scroll bar state need access to grid slider state: already
+     * T2: when I scroll the gridSlider, I must move and resize the thumb as well
+     *  - move: by how much
+     *  - resize: by how much
+     *      - grid slider must have access to scrollbar state to mutate scroll bar state
+     *
+     */
+
+    fun resetThumbLength()
 }

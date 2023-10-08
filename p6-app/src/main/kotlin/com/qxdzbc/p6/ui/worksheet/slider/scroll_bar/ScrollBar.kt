@@ -24,6 +24,10 @@ import com.qxdzbc.common.compose.view.HSpacer
 import com.qxdzbc.common.compose.view.testApp
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.GridSliderImp
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ReleaseFromDragData
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarAction
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionDoNothing
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.Rail
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.component.Thumb
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
@@ -45,6 +49,7 @@ import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.VerticalScrollBarState
 @Composable
 fun ScrollBar(
     state: ScrollBarState,
+    actions:ScrollBarAction,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
     onDrag: (positionRatio: OnDragThumbData) -> Unit,
@@ -84,7 +89,8 @@ fun ScrollBar(
                         }
                     }
                 }else{
-                    state.recomputeThumbStateWhenThumbIsReleasedFromDrag()
+//                    state.naiveRecomputeThumbStateWhenThumbIsReleasedFromDrag()
+                    actions.runAction(ScrollBarActionData.ReleaseFromDrag(ReleaseFromDragData(state)))
                 }
                 isPressed = false
                 isDragged = false
@@ -133,6 +139,7 @@ fun Preview_VerticalScrollBar() {
     Row {
         ScrollBar(
             state = state,
+            actions = ScrollBarActionDoNothing,
             onDrag = {
                 dragRatio = it
             },
@@ -177,6 +184,7 @@ fun Preview_HorizontalBar() {
             onDrag = {
                 dragRatio = it
             },
+            actions = ScrollBarActionDoNothing,
             onClickOnRail = {
                 clickRatio = it
             },

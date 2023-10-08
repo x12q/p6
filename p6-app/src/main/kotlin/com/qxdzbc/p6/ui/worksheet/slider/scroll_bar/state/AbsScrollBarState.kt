@@ -24,7 +24,6 @@ sealed class AbsScrollBarState(
     val maxLengthRatio: Float,
     val minLengthRatio: Float,
     val reductionRatio: Float,
-    val moveBackRatio: Float,
     val thumbLayoutCoorMs: Ms<P6Layout?>,
     val railLayoutCoorMs: Ms<P6Layout?>,
 ) : ScrollBarState {
@@ -39,6 +38,8 @@ sealed class AbsScrollBarState(
     protected abstract val thumbStartInParentPx: Float?
 
     private var _thumbLengthRatio by thumbLengthRatioMs
+
+    override val thumbLengthRatio: Float get() = _thumbLengthRatio
 
     override var thumbLayoutCoor: P6Layout? by thumbLayoutCoorMs
 
@@ -58,7 +59,7 @@ sealed class AbsScrollBarState(
     }
 
     override fun setThumbLengthRatio(ratio: Float) {
-        _thumbLengthRatio = ratio
+        _thumbLengthRatio = max(ratio, minLengthRatio)
     }
 
     override fun setThumbPositionRatioViaEffectivePositionRatio(effectivePositionRatio: Float) {
@@ -95,7 +96,7 @@ sealed class AbsScrollBarState(
     /**
      * Shorten thumb length and move it back up when thumb reaches rail bottom
      */
-    private fun recomputeStateWhenThumbReachRailBottom() {
+     fun naiveRecomputeThumbLengthWhenThumbReachRailBottom() {
         _thumbLengthRatio = max(_thumbLengthRatio * reductionRatio, minLengthRatio)
     }
 
@@ -121,8 +122,8 @@ sealed class AbsScrollBarState(
     /**
      * When reach the top, reset the thumb length to the max value
      */
-    private fun recomputeStateWhenThumbReachRailTop() {
-        _thumbLengthRatio = maxLengthRatio
+    override fun resetThumbLength() {
+        setThumbLengthRatio(maxLengthRatio)
     }
 
     /**
@@ -169,11 +170,12 @@ sealed class AbsScrollBarState(
     }
 
 
-    override fun recomputeThumbStateWhenThumbIsReleasedFromDrag() {
+    @Deprecated("for now only, must be replaced by a version that use value from slider")
+    override fun naiveRecomputeThumbStateWhenThumbIsReleasedFromDrag() {
         if (thumbReachRailEnd) {
-            recomputeStateWhenThumbReachRailBottom()
+            naiveRecomputeThumbLengthWhenThumbReachRailBottom()
         } else if (thumbReachRailStart) {
-            recomputeStateWhenThumbReachRailTop()
+            resetThumbLength()
         }
 
     }

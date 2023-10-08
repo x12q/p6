@@ -6,7 +6,7 @@ object ScrollBarConstants {
      *
      * 0.5 = 50%
      */
-    const val maxLength = 0.5f
+    const val maxLengthRatio = 0.5f
 
     /**
      * A slider's minimum length percentage. Percentage of the rail.

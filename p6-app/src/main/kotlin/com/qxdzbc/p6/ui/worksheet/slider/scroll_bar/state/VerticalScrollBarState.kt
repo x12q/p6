@@ -25,7 +25,6 @@ class VerticalScrollBarState(
     maxLengthRatio: Float,
     minLengthRatio: Float,
     reductionRatio: Float,
-    moveBackRatio: Float,
     thumbLayoutCoorMs: Ms<P6Layout?>,
     railLayoutCoorMs: Ms<P6Layout?>
 ) : AbsScrollBarState(
@@ -34,18 +33,16 @@ class VerticalScrollBarState(
     maxLengthRatio = maxLengthRatio,
     minLengthRatio = minLengthRatio,
     reductionRatio = reductionRatio,
-    moveBackRatio = moveBackRatio,
     thumbLayoutCoorMs = thumbLayoutCoorMs,
     railLayoutCoorMs = railLayoutCoorMs
 ) {
 
     @Inject
     constructor() : this(
-        thumbLengthRatioMs = StateUtils.ms(ScrollBarConstants.maxLength),
-        maxLengthRatio = ScrollBarConstants.maxLength,
+        thumbLengthRatioMs = StateUtils.ms(ScrollBarConstants.maxLengthRatio),
+        maxLengthRatio = ScrollBarConstants.maxLengthRatio,
         minLengthRatio = ScrollBarConstants.minLength,
         reductionRatio = ScrollBarConstants.reductionRate,
-        moveBackRatio = ScrollBarConstants.moveBackRatio,
         thumbLayoutCoorMs = StateUtils.ms(null),
         railLayoutCoorMs = StateUtils.ms(null),
         thumbPositionRatioMs = StateUtils.ms(ScrollBarConstants.startingThumbPositionRatio)

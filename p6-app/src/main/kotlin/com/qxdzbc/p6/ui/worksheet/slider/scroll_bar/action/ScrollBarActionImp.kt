@@ -13,9 +13,10 @@ class ScrollBarActionImp @Inject constructor(
     private val internalEdgeSliderAction: InternalScrollBarAction
 ) : ScrollBarAction {
 
-    override fun runAction(actionType: ScrollBarActionType) {
-        when (actionType) {
-            is ScrollBarActionType.Drag -> internalEdgeSliderAction.drag(actionType)
+    override fun runAction(data: ScrollBarActionData) {
+        when (data) {
+            is ScrollBarActionData.Drag -> internalEdgeSliderAction.drag(data)
+            is ScrollBarActionData.ReleaseFromDrag -> internalEdgeSliderAction.releaseFromDrag(data.data)
         }
     }
 }

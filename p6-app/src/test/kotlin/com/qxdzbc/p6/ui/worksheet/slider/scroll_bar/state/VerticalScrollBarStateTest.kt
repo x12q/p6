@@ -5,10 +5,8 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.layout_coor_wrapper.DummyP6Layout
-import com.qxdzbc.common.test_util.TestSplitter
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import test.BaseAppStateTest
 import kotlin.test.*
 
