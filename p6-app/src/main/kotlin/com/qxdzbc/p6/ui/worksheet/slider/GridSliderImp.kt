@@ -40,8 +40,8 @@ data class GridSliderImp(
         rowLimit = rowLimit,
         marginRow = null,
         marginCol = null,
-        scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol,
-        scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow,
+        scrollBarLastCol = GridSliderConstants.startingEdgeSliderCol + slider.lastVisibleCol,
+        scrollBarLastRow = GridSliderConstants.startingEdgeSliderRow + slider.lastVisibleRow,
     )
 
 

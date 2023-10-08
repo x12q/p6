@@ -148,7 +148,7 @@ sealed class AbsScrollBarState(
                 thumbStart / effectiveRL
             } else {
                 0f
-            }
+            }.coerceIn(0f,1f)
             return rt
         }
 
@@ -227,9 +227,14 @@ sealed class AbsScrollBarState(
         }
 
     override fun convertThumbPositionToIndex(indexRange: IntRange): Int {
-        val range = indexRange.last - indexRange.first
-        val position = (range * effectiveThumbPositionRatio).toInt()
+//        val range = indexRange.last - indexRange.first
+        val range = indexRange.last
+        val posRatio = effectiveThumbPositionRatio
+
+        val position = (range * posRatio).toInt()
         val rt = position + indexRange.first
+
+        println("effectiveThumbPositionRatio: $posRatio\nrange: $range\nrt=$rt")
         return rt
     }
 
