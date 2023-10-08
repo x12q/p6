@@ -25,14 +25,13 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
     }
 
     override fun reflectPosition(scrollBarState: ScrollBarState, slider: GridSlider) {
-        val sbt = scrollBarState
-        when (sbt.type) {
+        when (scrollBarState.type) {
             ScrollBarType.Vertical -> {
                 if (slider.firstVisibleRow == 1) {
                     scrollBarState.resetThumbPosition()
                 } else {
                     val r = slider.computeScrolledRowPercentage()
-                    sbt.setThumbPositionRatioViaEffectivePositionRatio(r)
+                    scrollBarState.setThumbPositionRatioViaEffectivePositionRatio(r)
                 }
             }
 
@@ -41,7 +40,7 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
                     scrollBarState.resetThumbPosition()
                 } else {
                     val r = slider.computeScrolledColPercentage()
-                    sbt.setThumbPositionRatioViaEffectivePositionRatio(r)
+                    scrollBarState.setThumbPositionRatioViaEffectivePositionRatio(r)
                 }
             }
         }
