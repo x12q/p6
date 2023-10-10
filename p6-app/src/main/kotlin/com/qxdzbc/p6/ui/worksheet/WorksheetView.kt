@@ -96,9 +96,9 @@ fun WorksheetView(
                     state = wsState.verticalScrollBarState,
                     actions = localAction.verticalScrollBarAction,
                     onDrag = { dragData ->
-                        localAction.verticalScrollBarAction.runAction(ScrollBarActionData.Drag(dragData))
+                        localAction.verticalScrollBarAction.runAction(ScrollBarActionData.Drag(dragData.onDragData))
                     },
-                    onClickOnRail = {
+                    onClickOnRail = {_,_->
                         // TODO
                     },
                 )
@@ -108,9 +108,9 @@ fun WorksheetView(
                 state = wsState.horizontalScrollBarState,
                 actions = localAction.horizontalScrollBarAction,
                 onDrag = {dragData->
-                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionData.Drag(dragData))
+                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionData.Drag(dragData.onDragData))
                 },
-                onClickOnRail = {},
+                onClickOnRail = {_,_->},
             )
         }
 

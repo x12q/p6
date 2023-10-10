@@ -51,8 +51,8 @@ fun ScrollBar(
     actions:ScrollBarAction,
     railModifier: Modifier = Modifier,
     thumbModifier: Modifier = Modifier,
-    onDrag: (positionRatio: OnDragThumbData) -> Unit,
-    onClickOnRail: (clickPositionRatio: Float) -> Unit,
+    onDrag: (ScrollBarState) -> Unit,
+    onClickOnRail: (clickPositionRatio: Float,ScrollBarState) -> Unit,
 ) {
     val density = LocalDensity.current
 
@@ -85,7 +85,7 @@ fun ScrollBar(
 
                         state.computePositionRatioOnFullRail(clickPosition)?.let { ratio ->
                             state.performMoveThumbWhenClickOnRail(ratio)
-                            onClickOnRail(ratio)
+                            onClickOnRail(ratio,state)
                         }
                     }
                 }else{
@@ -117,7 +117,7 @@ fun ScrollBar(
                     orientation = dragOrientation,
                     state = rememberDraggableState { delta ->
                         state.recomputeStateWhenThumbIsDragged(delta)
-                        onDrag(state.onDragData)
+                        onDrag(state)
                     }
                 )
         )
@@ -133,7 +133,7 @@ fun Preview_VerticalScrollBar() {
         VerticalScrollBarState()
     }
 
-    var dragRatio: OnDragThumbData? by rms(null)
+    var onDragData: ScrollBarState? by rms(null)
     var clickRatio: Float? by rms(null)
 
     Row {
@@ -141,17 +141,17 @@ fun Preview_VerticalScrollBar() {
             state = state,
             actions = ScrollBarActionDoNothing,
             onDrag = {
-                dragRatio = it
+                onDragData = it
             },
-            onClickOnRail = {
-                clickRatio = it
+            onClickOnRail = {cr,dragData->
+                clickRatio = cr
             },
         )
         HSpacer(50.dp)
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text("Click ratio: ${clickRatio}")
 
-            Text("Drag ratio: ${dragRatio}")
+            Text("Drag ratio: ${onDragData}")
 
             Text("Thumb position ratio: ${state.thumbPositionRatio}")
 
@@ -175,25 +175,25 @@ fun Preview_HorizontalBar() {
         HorizontalScrollBarState()
     }
 
-    var dragRatio: OnDragThumbData? by rms(null)
+    var onDragData: ScrollBarState? by rms(null)
     var clickRatio: Float? by rms(null)
 
     Column {
         ScrollBar(
             state = state,
             onDrag = {
-                dragRatio = it
+                onDragData = it
             },
             actions = ScrollBarActionDoNothing,
-            onClickOnRail = {
-                clickRatio = it
+            onClickOnRail = {cr,data->
+                clickRatio = cr
             },
         )
         HSpacer(50.dp)
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text("Click ratio: ${clickRatio}")
 
-            Text("Drag ratio: ${dragRatio}")
+            Text("Drag ratio: ${onDragData}")
 
             Text("Thumb position ratio: ${state.thumbPositionRatio}")
 
