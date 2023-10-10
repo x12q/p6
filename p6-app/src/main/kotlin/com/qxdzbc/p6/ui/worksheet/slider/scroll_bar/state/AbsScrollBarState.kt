@@ -17,7 +17,6 @@ import kotlin.math.max
 /**
  * This contains implementation for function that is common to both vertical and horizontal edge slider state.
  */
-@WsScope
 sealed class AbsScrollBarState(
     private val thumbLengthRatioMs: Ms<Float>,
     private val thumbPositionRatioMs: Ms<Float>,

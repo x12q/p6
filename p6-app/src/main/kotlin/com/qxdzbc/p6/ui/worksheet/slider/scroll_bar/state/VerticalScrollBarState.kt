@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.StateUtils
+import com.qxdzbc.common.compose.StateUtils.ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
@@ -39,13 +40,13 @@ class VerticalScrollBarState(
 
     @Inject
     constructor() : this(
-        thumbLengthRatioMs = StateUtils.ms(ScrollBarConstants.maxLengthRatio),
+        thumbLengthRatioMs = ms(ScrollBarConstants.maxLengthRatio),
         maxLengthRatio = ScrollBarConstants.maxLengthRatio,
         minLengthRatio = ScrollBarConstants.minLength,
         reductionRatio = ScrollBarConstants.reductionRate,
-        thumbLayoutCoorMs = StateUtils.ms(null),
-        railLayoutCoorMs = StateUtils.ms(null),
-        thumbPositionRatioMs = StateUtils.ms(ScrollBarConstants.startingThumbPositionRatio)
+        thumbLayoutCoorMs = ms(null),
+        railLayoutCoorMs = ms(null),
+        thumbPositionRatioMs = ms(ScrollBarConstants.startingThumbPositionRatio)
     )
 
     override val thumbStartInParentPx: Float?

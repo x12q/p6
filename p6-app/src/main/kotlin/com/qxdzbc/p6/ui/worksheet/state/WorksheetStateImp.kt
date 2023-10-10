@@ -25,6 +25,7 @@ import com.qxdzbc.p6.ui.format.CellFormatTable
 import com.qxdzbc.p6.ui.worksheet.action.WorksheetLocalActions
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsComponent
+import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState

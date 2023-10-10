@@ -9,7 +9,7 @@ import dagger.Module
 
 
 @Module
-interface EdgeSliderModule {
+interface ScrollBarModule {
 
     @Binds
     @ForVerticalScrollBar

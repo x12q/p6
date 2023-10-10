@@ -43,7 +43,6 @@ import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.VerticalScrollBarState
  * A [ScrollBar] give its consumer the following information:
  * - in [onDrag], callers get access to position data of thumb on the rail. This data can be translated into position at the caller's end.
  * - in [onClickOnRail], callers get access to the position ratio [0,1] of the click position on the rail.
- * - a [allowComputationAtEnd] TODO ??
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -81,6 +80,7 @@ fun ScrollBar(
                         val clickPosition = when (state) {
                             is HorizontalScrollBarState -> clickPointOffset.x
                             is VerticalScrollBarState -> clickPointOffset.y
+                            else->TODO()
                         }
 
                         state.computePositionRatioOnFullRail(clickPosition)?.let { ratio ->
@@ -89,7 +89,6 @@ fun ScrollBar(
                         }
                     }
                 }else{
-//                    state.naiveRecomputeThumbStateWhenThumbIsReleasedFromDrag()
                     actions.runAction(ScrollBarActionData.ReleaseFromDrag(ReleaseFromDragData(state)))
                 }
                 isPressed = false
@@ -100,6 +99,7 @@ fun ScrollBar(
             when (state) {
                 is HorizontalScrollBarState -> Orientation.Horizontal
                 is VerticalScrollBarState -> Orientation.Vertical
+                else->TODO()
             }
         }
 
