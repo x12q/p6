@@ -1,7 +1,7 @@
 package com.qxdzbc.p6.command
 
 /**
- * The base class of all [Command]
+ * The base class of all [Command].
  */
 abstract class BaseCommand : Command {
     override fun reverse(): Command {

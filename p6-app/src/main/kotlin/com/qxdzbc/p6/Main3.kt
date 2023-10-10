@@ -40,7 +40,7 @@ fun main() {
         application {
             val appScope = this
             var starting by rms(true)
-            // x: initialize the app
+            // initialize the app
             LaunchedEffect(Unit) {
                 val kernelCoroutineScope: CoroutineScope = cs
 

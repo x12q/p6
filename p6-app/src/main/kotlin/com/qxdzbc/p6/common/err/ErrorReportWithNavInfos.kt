@@ -9,7 +9,7 @@ object ErrorReportWithNavInfos{
     /**
      * remove nav info from [ErrorReportWithNavInfo]
      */
-    fun <T> Result<T, com.qxdzbc.p6.common.err.ErrorReportWithNavInfo>.noNav(): Rse<T> {
+    fun <T> Result<T, ErrorReportWithNavInfo>.noNav(): Rse<T> {
         when(this){
             is Ok -> return this
             is Err -> return Err(this.error.errorReport)

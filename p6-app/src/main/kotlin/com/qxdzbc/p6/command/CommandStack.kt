@@ -16,6 +16,9 @@ interface CommandStack : HaveSize {
      */
     fun peek(): Command?
 
+    /**
+     * Remove the top [Command]
+     */
     fun removeTop(): CommandStack
 
     operator fun contains(command: Command):Boolean
