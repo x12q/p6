@@ -8,6 +8,7 @@ import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ReleaseFromDragData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionData
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
@@ -24,7 +25,7 @@ class InternalScrollBarActionImp @Inject constructor(
     private val sliderMs: Ms<GridSlider>,
     @ForVerticalScrollBar
     private val thumbPositionConverterForVerticalScrollBar: ThumbPositionConverter,
-    @ForVerticalScrollBar
+    @ForHorizontalScrollBar
     private val thumbPositionConverterForHorizontalScrollBar: ThumbPositionConverter,
 ) : InternalScrollBarAction {
 
