@@ -47,7 +47,7 @@ fun WorksheetView(
     Surface(modifier = Modifier.onGloballyPositioned {
         wsActions.updateWsLayoutCoors(it, wsState)
     }) {
-        Column{
+        Column {
             Row(Modifier.weight(1f)) {
                 Column(Modifier.weight(1f)) {
                     Row {
@@ -95,11 +95,11 @@ fun WorksheetView(
                 ScrollBar(
                     state = wsState.verticalScrollBarState,
                     actions = localAction.verticalScrollBarAction,
-                    onDrag = { dragData ->
-                        localAction.verticalScrollBarAction.runAction(ScrollBarActionData.Drag(dragData.onDragData))
+                    onDrag = { data ->
+                        localAction.verticalScrollBarAction.runAction(data)
                     },
-                    onClickOnRail = {_,_->
-                        // TODO
+                    onClickOnRail = { data ->
+                        localAction.verticalScrollBarAction.runAction(data)
                     },
                 )
             }
@@ -107,10 +107,12 @@ fun WorksheetView(
             ScrollBar(
                 state = wsState.horizontalScrollBarState,
                 actions = localAction.horizontalScrollBarAction,
-                onDrag = {dragData->
-                    localAction.horizontalScrollBarAction.runAction(ScrollBarActionData.Drag(dragData.onDragData))
+                onDrag = { data ->
+                    localAction.horizontalScrollBarAction.runAction(data)
                 },
-                onClickOnRail = {_,_->},
+                onClickOnRail = { data ->
+                    localAction.horizontalScrollBarAction.runAction(data)
+                },
             )
         }
 

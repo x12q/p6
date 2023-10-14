@@ -14,11 +14,4 @@ data class OnDragThumbData(
     private val scaleRatio:Float,
     val scrollBarType: ScrollBarType,
     val thumbReachRailEnd:Boolean,
-){
-    /**
-     * Give caller an idea of how fast the thumb is moving.
-     * - The larger [scrollSpeedRatio] is, the more content should be scrolled.
-     * - [scrollSpeedRatio] is between 0 and 1, and is capped at a certain value that is decided by the slider producing this data object.
-     */
-    val scrollSpeedRatio:Float = 1-scaleRatio
-}
+)
