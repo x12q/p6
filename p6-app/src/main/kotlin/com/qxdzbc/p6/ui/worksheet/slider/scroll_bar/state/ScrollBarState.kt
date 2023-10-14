@@ -90,7 +90,6 @@ sealed interface ScrollBarState : ThumbPositionConverter {
     val thumbReachRailStart: Boolean
 
 
-
     /**
      * Compute the position ratio of a point with offset [yPx] from the top of the rail against the full rail length
      */
@@ -108,20 +107,12 @@ sealed interface ScrollBarState : ThumbPositionConverter {
     fun computeThumbOffset(density: Density): DpOffset
 
     /**
-     * recomputes the thumb state when the thumb is released from drag
+     * Reset thumb length to default length
      */
-    @Deprecated("for now only, must be replaced by a version that use value from slider")
-    fun naiveRecomputeThumbStateWhenThumbIsReleasedFromDrag()
+    fun resetThumbLength()
 
     /**
-     * TWO task:
-     * T2: when I scroll the gridSlider, I must move and resize the thumb as well
-     *  - move: by how much
-     *  - resize: by how much
-     *      - grid slider must have access to scrollbar state to mutate scroll bar state
-     *
+     * Reset thumb position to the start position
      */
-
-    fun resetThumbLength()
     fun resetThumbPosition()
 }

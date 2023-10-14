@@ -6,18 +6,18 @@ import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.worksheet.di.WsAnvilScope
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ReleaseFromDragData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForHorizontalScrollBar
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.di.qualifiers.ForVerticalScrollBar
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ThumbPositionConverter
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.*
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateGetter
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import kotlin.math.min
 
+/**
+ * TODO need test
+ */
 @WsScope
 @ContributesBinding(scope = WsAnvilScope::class)
 class InternalScrollBarActionImp @Inject constructor(
@@ -70,7 +70,7 @@ class InternalScrollBarActionImp @Inject constructor(
         }
     }
 
-    override fun releaseFromDrag(data: ReleaseFromDragData) {
+    override fun releaseFromDrag(data: ScrollBarActionData.ReleaseFromDrag) {
         resizeThumb(data.state, slider)
 
         recomputeScrollbarLimit(data.state)
@@ -78,6 +78,9 @@ class InternalScrollBarActionImp @Inject constructor(
         repositionThumbWhenReachEnd(data.state, slider)
     }
 
+    /**
+     * Recompute scroll bar limit of [slider] in case scroll bar thumbs reach the start or the end of its rail.
+     */
     private fun recomputeScrollbarLimit(scrollBarState: ScrollBarState){
         if(scrollBarState.thumbReachRailStart) {
             slider = slider.resetScrollBarLimit()
@@ -87,6 +90,9 @@ class InternalScrollBarActionImp @Inject constructor(
         }
     }
 
+    /**
+     * Resize the thumb so that it reflects the current state of [slider].
+     */
     private fun resizeThumb(scrollBarState: ScrollBarState, slider: GridSlider) {
         val sbt = scrollBarState
         if (sbt.thumbReachRailStart) {
@@ -120,23 +126,25 @@ class InternalScrollBarActionImp @Inject constructor(
     }
 
 
+    /**
+     * When a thumb reach the end of its rail, it has to be pulled back, so that users can drag further down. This function computes how much to pull the thumb back.
+     */
     private fun repositionThumbWhenReachEnd(scrollBarState: ScrollBarState, slider: GridSlider) {
-        val sbt = scrollBarState
-        if (sbt.thumbReachRailEnd) {
-            val r = when (sbt.type) {
-                ScrollBarType.Vertical -> {
+        if (scrollBarState.thumbReachRailEnd) {
+            val pullBackPosition = when (scrollBarState) {
+                is VerticalScrollBarState -> {
                     val numberOfDisplayRow = slider.visibleRowRangeIncludeMargin.last.toFloat()
                     val numberOfScrollBarRow = slider.scrollBarRowRange.last
                     numberOfDisplayRow / numberOfScrollBarRow
                 }
 
-                ScrollBarType.Horizontal -> {
+                is HorizontalScrollBarState -> {
                     val numberOfDisplayCol = slider.visibleColRangeIncludeMargin.last.toFloat()
                     val numberOfScrollBarCol = slider.scrollBarColRange.last
                     numberOfDisplayCol / numberOfScrollBarCol
                 }
             }
-            sbt.setThumbPositionRatioViaEffectivePositionRatio(r)
+            scrollBarState.setThumbPositionRatioViaEffectivePositionRatio(pullBackPosition)
         }
 
     }

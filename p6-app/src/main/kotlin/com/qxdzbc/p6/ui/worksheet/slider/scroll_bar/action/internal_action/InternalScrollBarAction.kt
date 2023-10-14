@@ -18,6 +18,6 @@ interface InternalScrollBarAction {
     /**
      * React to the action of user release the thumb while dragging it
      */
-    fun releaseFromDrag(data: ReleaseFromDragData)
+    fun releaseFromDrag(data: ScrollBarActionData.ReleaseFromDrag)
 
 }

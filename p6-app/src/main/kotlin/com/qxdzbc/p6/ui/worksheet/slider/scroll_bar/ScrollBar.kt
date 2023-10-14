@@ -80,7 +80,6 @@ fun ScrollBar(
                         val clickPosition = when (state) {
                             is HorizontalScrollBarState -> clickPointOffset.x
                             is VerticalScrollBarState -> clickPointOffset.y
-                            else->TODO()
                         }
 
                         state.computePositionRatioOnFullRail(clickPosition)?.let { ratio ->
@@ -89,7 +88,12 @@ fun ScrollBar(
                         }
                     }
                 }else{
-                    actions.runAction(ScrollBarActionData.ReleaseFromDrag(ReleaseFromDragData(state)))
+                    /**
+                     * This one will handle:
+                     * - release thumb drag midway
+                     * - release thumb when thumb touch the start or the end of the rail
+                     */
+                    actions.runAction(ScrollBarActionData.ReleaseFromDrag(state))
                 }
                 isPressed = false
                 isDragged = false
@@ -99,7 +103,6 @@ fun ScrollBar(
             when (state) {
                 is HorizontalScrollBarState -> Orientation.Horizontal
                 is VerticalScrollBarState -> Orientation.Vertical
-                else->TODO()
             }
         }
 

@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.Dp
 import com.qxdzbc.common.FloatUtils.guardFloat01
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.common.compose.layout_coor_wrapper.P6Layout
-import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.ScrollBarConstants.moveThumbByClickRatio
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.OnDragThumbData
 import kotlin.math.max
@@ -18,8 +17,8 @@ import kotlin.math.max
  * This contains implementation for function that is common to both vertical and horizontal edge slider state.
  */
 sealed class AbsScrollBarState(
-    private val thumbLengthRatioMs: Ms<Float>,
-    private val thumbPositionRatioMs: Ms<Float>,
+    val thumbLengthRatioMs: Ms<Float>,
+    val thumbPositionRatioMs: Ms<Float>,
     val maxLengthRatio: Float,
     val minLengthRatio: Float,
     val reductionRatio: Float,
@@ -79,7 +78,7 @@ sealed class AbsScrollBarState(
     /**
      * When thumb is dragged by [dragDelta] px, change the offset ratio of the thumb so that it follow the pointer.
      */
-    private fun computeThumbOffsetWhenDrag(dragDelta: Float) {
+    fun computeThumbOffsetWhenDrag(dragDelta: Float) {
         /**
          * thumb position ratio = thumb top offset / (rail length - thumb length).
          */
@@ -91,14 +90,6 @@ sealed class AbsScrollBarState(
         }?.coerceIn(0f, 1f) ?: 0f
         thumbPositionRatioMs.value = newThumbPositionRatio
     }
-
-    /**
-     * Shorten thumb length and move it back up when thumb reaches rail bottom
-     */
-     fun naiveRecomputeThumbLengthWhenThumbReachRailBottom() {
-        _thumbLengthRatio = max(_thumbLengthRatio * reductionRatio, minLengthRatio)
-    }
-
 
     /**
      * Prevent thumb from moving pass rail end
@@ -169,16 +160,6 @@ sealed class AbsScrollBarState(
     }
 
 
-    @Deprecated("for now only, must be replaced by a version that use value from slider")
-    override fun naiveRecomputeThumbStateWhenThumbIsReleasedFromDrag() {
-        if (thumbReachRailEnd) {
-            naiveRecomputeThumbLengthWhenThumbReachRailBottom()
-        } else if (thumbReachRailStart) {
-            resetThumbLength()
-        }
-
-    }
-
     private fun computePositionRatioWithOffset(yPx: Float, offset: Float): Float? {
         val ratio =
             railEndInWindowPx?.let { railBotY ->
@@ -227,10 +208,9 @@ sealed class AbsScrollBarState(
 
     override fun convertThumbPositionToIndex(indexRange: IntRange): Int {
 
-        val range = indexRange.last
+        val last = indexRange.last
         val posRatio = effectiveThumbPositionRatio
-
-        val position = (range * posRatio).toInt()
+        val position = (last * posRatio).toInt()
         val rt = position + indexRange.first
 
         return rt

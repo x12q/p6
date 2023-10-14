@@ -16,7 +16,7 @@ class ScrollBarActionImp @Inject constructor(
     override fun runAction(data: ScrollBarActionData) {
         when (data) {
             is ScrollBarActionData.Drag -> internalEdgeSliderAction.drag(data)
-            is ScrollBarActionData.ReleaseFromDrag -> internalEdgeSliderAction.releaseFromDrag(data.data)
+            is ScrollBarActionData.ReleaseFromDrag -> internalEdgeSliderAction.releaseFromDrag(data)
         }
     }
 }
