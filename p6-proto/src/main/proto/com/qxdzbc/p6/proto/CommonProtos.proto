@@ -1,0 +1,28 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+import "google/protobuf/struct.proto";
+
+message EmptyProto{}
+
+message ErrorReportProto{
+  string errorCode = 1;
+  string errorMessage = 2;
+  optional string data = 3;
+}
+
+message ErrorIndicatorProto{
+  bool isError = 1;
+  optional ErrorReportProto errorReport = 2;
+}
+
+message SingleSignalResponseProto{
+  optional ErrorReportProto errorReport = 1;
+}
+
+message BoolMsgProto{
+  bool v = 1;
+}
+message StrMsgProto{
+  string v = 1;
+}

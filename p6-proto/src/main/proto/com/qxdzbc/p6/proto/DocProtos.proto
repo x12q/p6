@@ -1,0 +1,174 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+
+
+message WorksheetIdProto{
+  WorkbookKeyProto wbKey = 1;
+  string wsName = 2;
+}
+
+message WorksheetProto{
+  string name = 1;
+  WorkbookKeyProto wbKey=2;
+  repeated CellProto cells = 3;
+  optional CellFormatTableProto cellFormatTable=4;
+  map<int32,int32> columnWidthMap = 5;
+  map<int32,int32> rowHeightMap = 6;
+}
+
+message IndWorksheetProto{
+  WorksheetIdProto id = 1;
+  repeated IndCellProto cells = 2;
+}
+
+message RangeAddressProto {
+  CellAddressProto topLeft = 1;
+  CellAddressProto botRight = 2;
+}
+
+message RangeIdProto{
+  RangeAddressProto rangeAddress = 1;
+  WorkbookKeyProto wbKey = 2;
+  string wsName = 3;
+}
+
+message WsWbProto{
+  WorkbookKeyProto workbookKey = 2;
+  string worksheetName = 3;
+}
+
+message CellAddressProto{
+  int32 col = 1;
+  int32 row = 2;
+}
+
+message CellProto{
+    CellIdProto id = 1;
+    CellContentProto content = 2;
+}
+message CellContentProto{
+  optional CellValueProto cellValue = 1;
+  optional string formula = 2;
+  optional string originalText=3;
+}
+
+message IndCellProto{
+  CellAddressProto address = 1;
+  CellContentProto content = 2;
+}
+
+message CellValueProto{
+  optional string str=1;
+  optional double num=2;
+  optional bool bool=3;
+}
+
+message WorkbookKeyProto{
+  string name=1;
+  optional string path = 2;
+}
+
+message WorkbookProto {
+  WorkbookKeyProto wbKey = 1;
+  repeated WorksheetProto worksheet = 2;
+}
+
+message CellIdProto{
+  CellAddressProto cellAddress=1;
+  WorkbookKeyProto wbKey=2;
+  string wsName = 3;
+}
+
+message RangeAddressSetProto {
+  repeated RangeAddressProto ranges = 1;
+}
+// ==== for text size
+
+message FloatFormatEntryProto {
+  RangeAddressSetProto rangeAddressSet = 1;
+  optional float formatValue = 2;
+}
+
+message FloatFormatEntrySetProto{
+  repeated FloatFormatEntryProto validEntries = 1;
+  repeated FloatFormatEntryProto invalidEntries = 2;
+}
+
+message FloatFormatTableProto{
+  repeated FloatFormatEntryProto entries = 1;
+}
+
+//====== for crossed, underlined
+message BoolFormatEntryProto {
+  RangeAddressSetProto rangeAddressSet = 1;
+  optional bool formatValue = 2;
+}
+
+message BoolFormatEntrySetProto{
+  repeated BoolFormatEntryProto validEntries = 1;
+  repeated BoolFormatEntryProto invalidEntries = 2;
+}
+
+message BoolFormatTableProto{
+  repeated BoolFormatEntryProto entries = 1;
+}
+//====== for color
+message UInt64FormatEntryProto {
+  RangeAddressSetProto rangeAddressSet = 1;
+  optional uint64 formatValue = 2;
+}
+
+message UInt64FormatEntrySetProto{
+  repeated UInt64FormatEntryProto validEntries = 1;
+  repeated UInt64FormatEntryProto invalidEntries = 2;
+}
+
+message UInt64FormatTableProto{
+  repeated UInt64FormatEntryProto entries = 1;
+}
+
+//====
+/**
+Int format entry is used for fontweight, fontstyle,text horizontal/vertical alignment,
+ */
+message IntFormatEntryProto {
+  RangeAddressSetProto rangeAddressSet = 1;
+  optional int32 formatValue = 2;
+}
+
+message IntFormatEntrySetProto{
+  repeated IntFormatEntryProto validEntries = 1;
+  repeated IntFormatEntryProto invalidEntries = 2;
+}
+
+message IntFormatTableProto{
+  repeated IntFormatEntryProto entries = 1;
+}
+//====
+message FormatConfigProto{
+  FloatFormatEntrySetProto textSizeConfig = 1;
+  UInt64FormatEntrySetProto textColorConfig = 2;
+  BoolFormatEntrySetProto textUnderlinedConfig = 3;
+  BoolFormatEntrySetProto textCrossedConfig = 4;
+  IntFormatEntrySetProto fontWeightConfig = 5;
+  IntFormatEntrySetProto fontStyleConfig = 6;
+  IntFormatEntrySetProto horizontalAlignmentConfig = 7;
+  IntFormatEntrySetProto verticalAlignmentConfig = 8;
+  UInt64FormatEntrySetProto backgroundColorConfig = 9;
+}
+
+// ====
+
+message CellFormatTableProto{
+  FloatFormatTableProto textSizeTable = 1;
+  UInt64FormatTableProto textColorTable = 2;
+  BoolFormatTableProto textUnderlinedTable = 3;
+  BoolFormatTableProto textCrossedTable = 4;
+  IntFormatTableProto fontWeightTable = 5;
+  IntFormatTableProto fontStyleTable = 6;
+  IntFormatTableProto textVerticalAlignmentTable = 7;
+  IntFormatTableProto  textHorizontalAlignmentTable = 8;
+  UInt64FormatTableProto cellBackgroundColorTable = 9;
+}

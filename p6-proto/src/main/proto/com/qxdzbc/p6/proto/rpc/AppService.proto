@@ -1,0 +1,20 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto.rpc;
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "com/qxdzbc/p6/proto/WorksheetProtos.proto";
+import "com/qxdzbc/p6/proto/AppProtos.proto";
+
+
+service AppService{
+  rpc getWorkbook(GetWorkbookRequestProto) returns (WorkbookKeyWithErrorResponseProto) {}
+  rpc createNewWorkbook(CreateNewWorkbookRequestProto) returns (CreateNewWorkbookResponseProto) {}
+  rpc getActiveWorkbook(EmptyProto) returns (WorkbookKeyWithErrorResponseProto){}
+  rpc setActiveWorkbook(WorkbookKeyProto) returns (SingleSignalResponseProto) {}
+  rpc getActiveWorksheet(EmptyProto) returns (GetWorksheetResponseProto){}
+  rpc saveWorkbookAtPath(SaveWorkbookRequestProto) returns (SaveWorkbookResponseProto){}
+  rpc loadWorkbook(LoadWorkbookRequestProto) returns (LoadWorkbookResponseProto){}
+  rpc closeWorkbook(WorkbookKeyProto) returns (SingleSignalResponseProto){}
+  rpc checkWbExistence(WorkbookKeyProto) returns (BoolMsgProto){}
+  rpc getAllWorkbooks(EmptyProto) returns (GetAllWorkbookResponseProto){}
+}

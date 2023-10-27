@@ -1,0 +1,18 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+
+message CellUpdateRequestProto{
+  CellIdProto cellId = 1;
+  CellContentProto cellContent = 2;
+}
+
+
+message CopyCellRequestProto{
+  CellIdProto fromCell = 1;
+  CellIdProto toCell = 2;
+  bool shiftRange = 3;
+  bool undoable = 4;
+}

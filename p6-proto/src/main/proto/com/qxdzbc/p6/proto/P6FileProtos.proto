@@ -1,0 +1,23 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "com/qxdzbc/p6/proto/ScriptProtos.proto";
+/**
+These protos make up the file structure
+ */
+
+message P6FileMetaInfoProto{
+  int64 date = 1;
+}
+
+message P6FileContentProto{
+  P6FileMetaInfoProto meta = 1;
+  WorkbookProto workbook = 2;
+}
+
+message P6FileProto{
+  string version = 1;
+  bytes content = 2;
+}

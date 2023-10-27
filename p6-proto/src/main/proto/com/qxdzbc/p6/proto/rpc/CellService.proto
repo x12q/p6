@@ -1,0 +1,16 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto.rpc;
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/CellProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+service CellService{
+  rpc getDisplayText(CellIdProto) returns (StrMsgProto){}
+  rpc getFormula(CellIdProto) returns (StrMsgProto){}
+  rpc getCellValue(CellIdProto) returns (CellValueProto){}
+  rpc getCellContent(CellIdProto) returns (CellContentProto){}
+  rpc copyFrom(CopyCellRequestProto) returns(SingleSignalResponseProto){};
+  rpc updateCellContent(CellUpdateRequestProto) returns (SingleSignalResponseProto){}
+}
+

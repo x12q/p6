@@ -1,0 +1,33 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "com/qxdzbc/p6/proto/WorksheetProtos.proto";
+
+/**
+Common request structure for requesting to do something with a range
+ */
+message RangeOperationRequestProto{
+  RangeIdProto rangeId = 1;
+  optional string windowId = 2;
+}
+
+message RangeToClipboardResponseProto{
+  ErrorIndicatorProto errorIndicator = 1;
+  RangeIdProto rangeId = 2;
+  optional string windowId = 3;
+}
+/**
+for storing a copied range in the clipboard
+ */
+message RangeCopyProto{
+  RangeIdProto id = 1;
+  repeated CellProto cell = 2;
+}
+
+message PasteRangeRequestProto{
+  CellAddressProto anchorCell = 1;
+  WsWbProto wsWb = 2;
+  optional string windowId = 3;
+}

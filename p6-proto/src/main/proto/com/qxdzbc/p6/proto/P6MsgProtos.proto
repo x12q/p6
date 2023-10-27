@@ -1,0 +1,30 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+
+message P6EventProto{
+  string code = 1;
+  string name = 2;
+}
+
+message P6MessageHeaderProto{
+  string msgId = 1;
+  P6EventProto eventType = 2;
+}
+
+message P6MessageProto{
+  P6MessageHeaderProto header = 1;
+  bytes data = 2;
+}
+
+
+message P6ResponseProto{
+  P6MessageHeaderProto header = 1;
+  enum Status{
+      INVALID = 0;
+      OK = 1;
+      ERROR = 2;
+  };
+  Status status = 2;
+  bytes data = 3;
+}

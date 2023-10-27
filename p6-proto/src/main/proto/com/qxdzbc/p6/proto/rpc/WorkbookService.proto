@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.qxdzbc.p6.proto.rpc;
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/WorksheetProtos.proto";
+import "com/qxdzbc/p6/proto/WorkbookProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+service WorkbookService {
+  rpc wsCount(WorkbookKeyProto) returns (google.protobuf.Int64Value) {}
+  rpc setWbKey(SetWbKeyRequestProto) returns (SingleSignalResponseProto) {}
+  rpc getAllWorksheets(WorkbookKeyProto) returns (GetAllWorksheetsResponseProto) {}
+  rpc setActiveWorksheet(WorksheetIdWithIndexProto) returns(SingleSignalResponseProto) {}
+  rpc getActiveWorksheet(WorkbookKeyProto) returns (GetWorksheetResponseProto) {}
+  rpc getWorksheet(WorksheetIdWithIndexProto) returns (GetWorksheetResponseProto) {}
+  rpc createNewWorksheet(CreateNewWorksheetRequestProto) returns (WorksheetWithErrorReportMsgProto){}
+  rpc removeWorksheet(WorksheetIdWithIndexProto) returns (SingleSignalResponseProto) {}
+  rpc removeAllWorksheet(WorkbookKeyProto) returns (SingleSignalResponseProto) {}
+  rpc addWorksheet(AddWorksheetRequestProto) returns (SingleSignalResponseProto) {}
+  rpc renameWorksheet(RenameWorksheetRequestProto) returns (SingleSignalResponseProto) {}
+}

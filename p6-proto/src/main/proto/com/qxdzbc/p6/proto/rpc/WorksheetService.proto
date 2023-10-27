@@ -1,0 +1,23 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto.rpc;
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "com/qxdzbc/p6/proto/WorksheetProtos.proto";
+service WorksheetService {
+  rpc getCell(CellIdProto) returns (SingleSignalResponseProto) {}
+  rpc getAllCell(WorksheetIdProto) returns (GetAllCellResponseProto) {}
+  rpc getCellCount(WorksheetIdProto) returns (CellCountResponseProto) {}
+  rpc getUsedRangeAddress(WorksheetIdProto) returns (GetUsedRangeResponseProto) {}
+  rpc paste(CellIdProto) returns (SingleSignalResponseProto) {}
+  rpc addCell(CellProto) returns (SingleSignalResponseProto){}
+
+  rpc removeCell(CellIdProto) returns (SingleSignalResponseProto){}
+  rpc removeAllCell(WorksheetIdProto) returns (SingleSignalResponseProto){}
+
+  rpc removeRange(RangeIdProto) returns (SingleSignalResponseProto){}
+  rpc containAddress(CheckContainAddressRequestProto) returns (BoolMsgProto){}
+  rpc loadData(LoadDataRequestProto) returns (SingleSignalResponseProto){}
+  rpc updateMultiCellContent(MultiCellUpdateRequestProto) returns (SingleSignalResponseProto){}
+}

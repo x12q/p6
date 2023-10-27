@@ -1,0 +1,33 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+
+
+message ScriptEntryKeyProto{
+  string name = 1;
+  WorkbookKeyProto workbookKey = 2;
+}
+
+message ScriptEntryProto{
+  ScriptEntryKeyProto key = 1;
+  string script = 2;
+}
+
+/**
+For synchronizing script between backend and front end
+ */
+message ScriptChangeRequestProto{
+  string newScript = 2;
+  ScriptEntryKeyProto key = 1;
+}
+
+message NewScriptRequestProto{
+  ScriptEntryProto scriptEntry = 1;
+}
+
+message NewScriptNotificationProto{
+  repeated ScriptEntryProto scriptEntries = 1;
+  ErrorIndicatorProto errorIndicator = 2;
+}

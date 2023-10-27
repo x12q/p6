@@ -1,0 +1,7 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto.rpc;
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "com/qxdzbc/p6/proto/RangeProtos.proto";
+service RangeService{
+}

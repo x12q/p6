@@ -1,0 +1,78 @@
+syntax = "proto3";
+package com.qxdzbc.p6.proto;
+
+import "com/qxdzbc/p6/proto/CommonProtos.proto";
+import "com/qxdzbc/p6/proto/DocProtos.proto";
+import "com/qxdzbc/p6/proto/CellProtos.proto";
+
+message GetWorksheetResponseProto{
+  optional WorksheetIdProto wsId = 1;
+}
+
+message RenameWorksheetResponseProto{
+  WorkbookKeyProto workbookKey = 1;
+  string oldName = 2;
+  string newName = 3;
+  bool isError = 4;
+  ErrorReportProto errorReport = 5;
+}
+
+
+message DeleteCellRequestProto{
+  WorkbookKeyProto workbookKey = 1;
+  string worksheetName = 2;
+  CellAddressProto cellAddress = 3;
+}
+
+message DeleteCellResponseProto{
+  WorkbookKeyProto workbookKey = 1;
+  string worksheetName = 2;
+  CellAddressProto cellAddress = 3;
+  WorkbookProto newWorkbook = 4;
+  bool isError = 5;
+  ErrorReportProto errorReport = 6;
+}
+
+/**
+ delete multiple cells and ranges at once
+ */
+message DeleteMultiRequestProto{
+  repeated RangeAddressProto range = 1;
+  repeated CellAddressProto cell = 2;
+  WorkbookKeyProto workbookKey = 3;
+  string worksheetName = 4;
+}
+
+message WorksheetIdWithIndexProto{
+  WorkbookKeyProto wbKey = 1;
+  optional string wsName = 2;
+  optional int32 wsIndex = 3;
+}
+
+message CellCountResponseProto{
+  int64 count = 1;
+}
+message GetAllCellResponseProto{
+  repeated CellAddressProto cellAddressList = 1;
+}
+message CheckContainAddressRequestProto{
+  WorksheetIdProto wsId = 1;
+  CellAddressProto cellAddress=2;
+}
+message GetUsedRangeResponseProto{
+  optional RangeAddressProto rangeAddress = 1;
+}
+
+message LoadDataRequestProto{
+  enum LoadTypeProto{
+    OVERWRITE = 0;
+    KEEP_OLD_DATA_IF_COLLIDE = 1;
+  }
+  LoadTypeProto loadType = 1;
+  IndWorksheetProto ws = 2;
+}
+
+message MultiCellUpdateRequestProto{
+  WorksheetIdProto wsId = 1;
+  repeated IndCellProto updateEntries = 2;
+}
