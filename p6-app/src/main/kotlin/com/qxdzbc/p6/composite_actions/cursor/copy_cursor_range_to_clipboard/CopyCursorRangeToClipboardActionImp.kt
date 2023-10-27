@@ -36,10 +36,13 @@ class CopyCursorRangeToClipboardActionImp @Inject constructor(
     }
     fun copyCursorRangeToClipboard(cursorState: CursorState?){
         if(cursorState!=null){
-            val mergeAllCursorState = cursorState.attemptToMergeAllIntoOne()
-            if (mergeAllCursorState.fragmentedCells.isNotEmpty() || mergeAllCursorState.fragmentedRanges.isNotEmpty()) {
+            val mergeAllCursorState = cursorState.attemptToMergeAllRangeIntoOne()
+            if (mergeAllCursorState.containFragment) {
                 // raise error
-                errorRouter.publishToWindow(WorksheetErrors.CantCopyOnFragmentedSelection, cursorState.id.wbKey)
+                errorRouter.publishToWindow(
+                    errorReport = WorksheetErrors.CantCopyOnFragmentedSelection,
+                    workbookKey = cursorState.id.wbKey
+                )
             } else {
                 val targetRange = mergeAllCursorState.mainRange
                 if (targetRange != null) {
@@ -53,7 +56,6 @@ class CopyCursorRangeToClipboardActionImp @Inject constructor(
                             windowId = sc.getWindowStateMsByWbKey(cursorState.id.wbKey)?.id
                         )
                     )
-
                 } else {
                     wsAction.rangeToClipboard(
                         RangeToClipboardRequest(

@@ -1,4 +1,4 @@
-package com.qxdzbc.p6.composite_actions.cursor.undo_on_cursor
+package com.qxdzbc.p6.composite_actions.cursor.undo_redo
 
 import androidx.compose.runtime.getValue
 import com.qxdzbc.common.compose.Ms

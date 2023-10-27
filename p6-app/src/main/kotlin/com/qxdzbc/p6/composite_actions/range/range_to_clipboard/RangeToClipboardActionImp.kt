@@ -23,11 +23,11 @@ class RangeToClipboardActionImp @Inject constructor(
 ) : RangeToClipboardAction {
 
     override fun rangeToClipboard(request: RangeToClipboardRequest): RseNav<RangeToClipboardResponse2> {
-        val res = copyRangeToClipboard2(request)
+        val res = copyRangeToClipboard_internal(request)
         return applyRes(res)
     }
 
-    fun copyRangeToClipboard2(request: RangeToClipboardRequest): RseNav<RangeToClipboardResponse2> {
+    private fun copyRangeToClipboard_internal(request: RangeToClipboardRequest): RseNav<RangeToClipboardResponse2> {
         val rt = docCont
             .getRangeRs(request.rangeId)
             .flatMap { range ->
@@ -45,7 +45,7 @@ class RangeToClipboardActionImp @Inject constructor(
     }
 
 
-    fun applyRes(res: RseNav<RangeToClipboardResponse2>): RseNav<RangeToClipboardResponse2> {
+    private fun applyRes(res: RseNav<RangeToClipboardResponse2>): RseNav<RangeToClipboardResponse2> {
         res.onFailure {
             errorRouter.publish(it)
         }.onSuccess {

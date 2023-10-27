@@ -56,6 +56,8 @@ dependencies {
     implementation(project(":common-compose"))
     implementation(project(":common-test"))
 
+    implementation ("com.google.code.gson:gson:2.10.1")
+
 }
 
 tasks.test {

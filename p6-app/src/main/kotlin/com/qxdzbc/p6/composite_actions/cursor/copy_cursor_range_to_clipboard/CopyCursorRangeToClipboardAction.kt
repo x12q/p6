@@ -5,8 +5,11 @@ import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 
 interface CopyCursorRangeToClipboardAction{
     /**
-     * Compute a range from a cursor's state (often the main range), and copy it to clipboard
+     * Compute a range (often the main range) from a cursor's state at [wbws], and copy it to clipboard
      */
     fun copyCursorRangeToClipboard(wbws: WbWs)
+    /**
+     * Compute a range (often the main range) from a cursor's state at [wbwsSt], and copy it to clipboard
+     */
     fun copyCursorRangeToClipboard(wbwsSt: WbWsSt)
 }

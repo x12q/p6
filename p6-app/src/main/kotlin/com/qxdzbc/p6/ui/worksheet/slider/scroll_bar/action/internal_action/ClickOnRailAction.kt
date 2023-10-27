@@ -9,6 +9,9 @@ import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 import com.qxdzbc.p6.ui.worksheet.state.WorksheetStateGetter
 import javax.inject.Inject
 
+/**
+ * TODO Click-on-rail action is still very buggy. Need fixing.
+ */
 @WsScope
 class ClickOnRailAction @Inject constructor(
     private val wsGetter: WorksheetStateGetter,

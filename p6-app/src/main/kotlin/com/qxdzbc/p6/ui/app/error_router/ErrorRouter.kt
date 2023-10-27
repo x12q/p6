@@ -16,7 +16,7 @@ interface ErrorRouter {
     fun publishToApp(errorReport: ErrorReport?)
 
     /**
-     * attempt to move an error to window, if no window is available, publish the err to app
+     * attempt to publish an error to window, if no window is available, publish the err to app
      */
     fun publishToWindow(errorReport: ErrorReport?, windowId:String?)
     fun publishToWindow(errorReport: ErrorReport?, workbookKey:WorkbookKey?)

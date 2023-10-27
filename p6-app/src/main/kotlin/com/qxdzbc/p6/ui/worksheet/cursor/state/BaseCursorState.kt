@@ -15,7 +15,10 @@ abstract class BaseCursorState : CursorState {
     override val mainCellId: CellId
         get() = CellId(mainCell,id)
 
-    override fun attemptToMergeAllIntoOne(): CursorState {
+    override val containFragment: Boolean
+        get() = fragmentedCells.isNotEmpty() || fragmentedRanges.isNotEmpty()
+
+    override fun attemptToMergeAllRangeIntoOne(): CursorState {
         val newMain = this.mergeAllIntoOne()
         if (newMain != null) {
             return this.removeAllExceptMainCell().setMainRange(newMain)

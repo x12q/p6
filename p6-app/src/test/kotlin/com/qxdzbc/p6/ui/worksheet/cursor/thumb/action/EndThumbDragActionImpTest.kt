@@ -64,7 +64,7 @@ internal class EndThumbDragActionImpTest : BaseAppStateTest() {
 
         // drag from B1->B2
         val endCell = CellAddress("B2")
-        act.invokeSuitableAction(
+        act.onEndDrag(
             wbws = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!,
             startCell = CellAddress("B1"),
             endCell = endCell,
@@ -128,7 +128,7 @@ internal class EndThumbDragActionImpTest : BaseAppStateTest() {
             row = startCell.rowIndex + count*rowSide
         )
         assertEquals(startValue, ts.sc.getCellOrDefault(startCellId)!!.currentValue)
-        act.invokeSuitableAction(
+        act.onEndDrag(
             wbws = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!,
             startCell = startCell,
             endCell = endCell,
@@ -158,7 +158,7 @@ internal class EndThumbDragActionImpTest : BaseAppStateTest() {
             row = startCell.rowIndex + count*rowSide
         )
         assertEquals(startValue, ts.sc.getCellOrDefault(startCellId)!!.currentValue)
-        act.invokeSuitableAction(
+        act.onEndDrag(
             wbws = ts.sc.getWbWsSt(ts.wbKey1, ts.wsn1)!!,
             startCell = startCell,
             endCell = endCell,

@@ -4,6 +4,9 @@ import androidx.compose.ui.geometry.Offset
 import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 
+/**
+ * Action for the thumb of a ws cursor.
+ */
 interface DragThumbAction {
     fun startDrag_forTest(wbws: WbWsSt, cellAddress: CellAddress)
     fun startDrag(wbws: WbWsSt, mouseWindowOffset:Offset)

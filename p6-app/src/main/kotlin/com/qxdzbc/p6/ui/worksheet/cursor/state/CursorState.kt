@@ -176,5 +176,10 @@ interface CursorState : WbWsSt {
      * Attempt to merge everything this cursor pointing to into one range
      */
     fun mergeAllIntoOne(): RangeAddress?
-    fun attemptToMergeAllIntoOne(): CursorState
+    fun attemptToMergeAllRangeIntoOne(): CursorState
+
+    /**
+     * true if this cursor contains either fragment cell or fragment range
+     */
+    val containFragment:Boolean
 }

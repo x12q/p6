@@ -20,7 +20,7 @@ class CommonSideEffectWhenCursorChangedImp @Inject constructor(
     private val sc  = stateContainerSt
 
     /**
-     * This function will do:
+     * This function does:
      * - update format indicators on toolbar, such as text color selector, cell background color selector to reflect the format state of the main cell of the updated cursor.
      * - make worksheet sliders follow the cursor
      */

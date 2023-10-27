@@ -26,7 +26,12 @@ class EndThumbDragActionImp @Inject constructor(
 
     val sc  = stateContainerSt
 
-    override fun invokeSuitableAction(wbws: WbWsSt, startCell: CellAddress, endCell: CellAddress, isCtrPressed: Boolean) {
+    /**
+     * When release drag on ws cursor, depend on the content of the main cell of the cursor, do the following:
+     * - if the main cell is numeric -> generate a sequence of numbers, and paste them into the selected cells.
+     * - otherwise, copy the content of the main cell to the selected cells.
+     */
+    override fun onEndDrag(wbws: WbWsSt, startCell: CellAddress, endCell: CellAddress, isCtrPressed: Boolean) {
         if(startCell!=endCell){
             val cell = sc.getCellOrDefault(wbws,startCell)
             val currentStartCellValue:Any? = cell?.currentValue
@@ -40,6 +45,11 @@ class EndThumbDragActionImp @Inject constructor(
         }
     }
 
+    /**
+     * Generate a list of number starting from [startNum] with increase step = 1.
+     *
+     * Then paste the sequence of number into the range from [startCell] to [endCell].
+     */
     private fun generateNumberSequenceAndPutInCells(
         wbws: WbWsSt,
         startNum:Double,
@@ -70,7 +80,10 @@ class EndThumbDragActionImp @Inject constructor(
         multiCellUpdateAct.updateMultiCell(updateRequest,true)
     }
 
-    fun copyContent(wbws: WbWsSt, startCell: CellAddress, endCell: CellAddress) {
+    /**
+     * Copy content of [startCell] to all the cell within the range from [startCell] to [endCell].
+     */
+    private fun copyContent(wbws: WbWsSt, startCell: CellAddress, endCell: CellAddress) {
         val targetCells:List<CellAddress> = if(startCell.colIndex != endCell.colIndex){
             startCell.generateCellSequenceToCol(endCell.colIndex,false)
         }else{

@@ -104,7 +104,7 @@ class DragThumbActionImp @Inject constructor(
                             .hide()
                     )
                 val (startCell, endCell) = thumbStateMs.value.getStartEndCells()
-                endThumbDragAction.invokeSuitableAction(wbws, startCell, endCell, isCtrPressed)
+                endThumbDragAction.onEndDrag(wbws, startCell, endCell, isCtrPressed)
             }
         }
     }
