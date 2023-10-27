@@ -7,7 +7,7 @@ import com.qxdzbc.p6.composite_actions.common_data_structure.WbWsSt
  * Select all columns of the currently selected cells
  */
 interface SelectWholeColumnForAllSelectedCellAction {
-    fun selectWholeColForAllSelectedCells(wbws: WbWsSt)
+    fun selectWholeColForAllSelectedCells(wbwsSt: WbWsSt)
     fun selectWholeColForAllSelectedCells(wbws: WbWs)
 }
 

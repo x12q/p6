@@ -45,8 +45,8 @@ class SelectWholeColumnForAllSelectedCellActionImp @Inject constructor(
             cursorStateMs.value = newCursorState
         }
     }
-    override fun selectWholeColForAllSelectedCells(wbws: WbWsSt) {
-        selectWholeColForAllSelectedCells(sc.getWsState(wbws))
+    override fun selectWholeColForAllSelectedCells(wbwsSt: WbWsSt) {
+        selectWholeColForAllSelectedCells(sc.getWsState(wbwsSt))
     }
 
     override fun selectWholeColForAllSelectedCells(wbws: WbWs) {

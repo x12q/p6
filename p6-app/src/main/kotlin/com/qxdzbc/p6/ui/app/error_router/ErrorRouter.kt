@@ -1,5 +1,6 @@
 package com.qxdzbc.p6.ui.app.error_router
 
+import com.qxdzbc.common.Rs
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.p6.common.utils.RseNav
 import com.qxdzbc.p6.common.err.ErrorReportWithNavInfo
@@ -10,6 +11,28 @@ import com.qxdzbc.common.error.ErrorReport
  * moves errors to the correct place.
  */
 interface ErrorRouter {
+    fun <T> publishErrIfNeed(
+        rs: Rs<T, ErrorReport>,
+        windowId: String? = null,
+        wbKey: WorkbookKey? = null
+    )
+
+    fun <T> publishErrIfNeedForWbKeySt(
+        rs: Rs<T, ErrorReport>,
+        windowId: String? = null,
+        wbKeySt: St<WorkbookKey>? = null
+    )
+
+    fun <T> publishErrToWindowIfNeed(
+        rs: Rs<T, ErrorReport>,
+        windowId: String? = null
+    )
+
+    fun <T> publishErrToWindowIfNeed(
+        rs: Rs<T, ErrorReport>,
+        wbKey: WorkbookKey?
+    )
+
     /**
      * move an error to app
      */
@@ -18,14 +41,14 @@ interface ErrorRouter {
     /**
      * attempt to publish an error to window, if no window is available, publish the err to app
      */
-    fun publishToWindow(errorReport: ErrorReport?, windowId:String?)
-    fun publishToWindow(errorReport: ErrorReport?, workbookKey:WorkbookKey?)
+    fun publishToWindow(errorReport: ErrorReport?, windowId: String?)
+    fun publishToWindow(errorReport: ErrorReport?, workbookKey: WorkbookKey?)
 
     /**
      * Attempt to search for window state obj using both window id and workbook key
      */
-    fun publishToWindow(errorReport: ErrorReport?, windowId:String?, workbookKey:WorkbookKey?)
-    fun publishToWindow(errorReport: ErrorReport?, windowId:String?, wbKeySt:St<WorkbookKey>?)
+    fun publishToWindow(errorReport: ErrorReport?, windowId: String?, workbookKey: WorkbookKey?)
+    fun publishToWindow(errorReport: ErrorReport?, windowId: String?, wbKeySt: St<WorkbookKey>?)
 
     fun publish(errorReport: ErrorReportWithNavInfo)
     fun <T> publishIfPossible(resNav: RseNav<T>)

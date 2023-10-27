@@ -10,13 +10,9 @@ import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.error_router.ErrorRouters.publishErrIfNeedSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.worksheet.cursor.state.CursorState
-import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
 import com.qxdzbc.p6.ui.worksheet.slider.action.make_scroll_bar_reflect_slider.MakeScrollBarReflectSlider
-import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
-import com.qxdzbc.p6.ui.worksheet.state.WorksheetState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -73,7 +69,7 @@ class MoveSliderActionImp @Inject constructor(
             Ok(Unit)
         }
         if (publishErr) {
-            rs.publishErrIfNeedSt(errorRouter, null, wbwsSt.wbKeySt)
+            errorRouter.publishErrIfNeedForWbKeySt(rs,null,wbwsSt.wbKeySt)
         }
         return rs
     }
@@ -97,7 +93,7 @@ class MoveSliderActionImp @Inject constructor(
             Ok(Unit)
         }
         if (publishErr) {
-            rs.publishErrIfNeedSt(errorRouter, null, cursorLoc.wbKeySt)
+            errorRouter.publishErrIfNeedForWbKeySt(rs,null,cursorLoc.wbKeySt)
         }
     }
 }

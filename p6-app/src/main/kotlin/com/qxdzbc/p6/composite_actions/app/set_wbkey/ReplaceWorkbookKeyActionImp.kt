@@ -6,7 +6,6 @@ import com.qxdzbc.common.Rse
 import com.qxdzbc.p6.di.P6AnvilScope
 
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.error_router.ErrorRouters.publishErrIfNeedSt
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
@@ -16,8 +15,6 @@ class ReplaceWorkbookKeyActionImp @Inject constructor(
     val errorRouter: ErrorRouter,
 ) : ReplaceWorkbookKeyAction {
 
-   
-
     override fun replaceWbKey(req: SetWbKeyRequest) : Rse<Unit> {
         val oldKey = req.wbKey
         val newKey = req.newWbKey
@@ -25,7 +22,7 @@ class ReplaceWorkbookKeyActionImp @Inject constructor(
             val qRs = stateCont.wbStateCont.replaceKeyRs(oldKey,newKey)
             qRs
         }
-        rs.publishErrIfNeedSt(errorRouter,)
+        errorRouter.publishErrIfNeedForWbKeySt(rs)
         return rs.map { Unit }
 
     }

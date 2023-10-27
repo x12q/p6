@@ -6,6 +6,8 @@ import com.qxdzbc.p6.common.err.ErrorReportWithNavInfo
 import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.common.compose.Ms
 import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.onFailure
+import com.qxdzbc.common.Rs
 import com.qxdzbc.common.compose.St
 import com.qxdzbc.common.error.ErrorReport
 import com.qxdzbc.p6.err.ErrorContainer
@@ -18,6 +20,29 @@ class ErrorRouterImp @Inject constructor(
     @AppErrorContMs
     val errorContainerMs: Ms<ErrorContainer>,
 ) : ErrorRouter {
+    override fun <T> publishErrIfNeed(rs: Rs<T, ErrorReport>, windowId: String?, wbKey: WorkbookKey?) {
+        rs.onFailure {
+            publishToWindow(it,windowId,wbKey)
+        }
+    }
+
+    override fun <T> publishErrIfNeedForWbKeySt(rs: Rs<T, ErrorReport>, windowId: String?, wbKeySt: St<WorkbookKey>?) {
+        rs.onFailure {
+            publishToWindow(it,windowId,wbKeySt)
+        }
+    }
+
+    override fun <T> publishErrToWindowIfNeed(rs: Rs<T, ErrorReport>, windowId: String?) {
+        rs.onFailure {
+            publishToWindow(it,windowId)
+        }
+    }
+
+    override fun <T> publishErrToWindowIfNeed(rs: Rs<T, ErrorReport>, wbKey: WorkbookKey?) {
+        rs.onFailure {
+            publishToWindow(it,wbKey)
+        }
+    }
 
     override fun publishToApp(errorReport: ErrorReport?) {
         errorContainerMs.value = errorContainerMs.value.addErrorReport(errorReport)

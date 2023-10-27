@@ -9,7 +9,6 @@ import com.qxdzbc.p6.document_data_layer.workbook.WorkbookKey
 import com.qxdzbc.p6.file.saver.P6Saver
 import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.error_router.ErrorRouter
-import com.qxdzbc.p6.ui.app.error_router.ErrorRouters.publishErrToWindowIfNeed
 import com.qxdzbc.p6.ui.app.state.StateContainer
 import com.qxdzbc.p6.ui.file.P6FileSaverErrors
 import com.squareup.anvil.annotations.ContributesBinding
@@ -93,8 +92,8 @@ class SaveWorkbookActionImp @Inject constructor(
 
                             sc.getWindowStateByWbKey(wbKey)?.also { windowState ->
                                 val windowId = windowState.id
-                                replaceWbKeyAct.replaceWbKey(SetWbKeyRequest(wbKey, newWbKey, windowId))
-                                    .publishErrToWindowIfNeed(errorRouter, windowId)
+                                val rs = replaceWbKeyAct.replaceWbKey(SetWbKeyRequest(wbKey, newWbKey, windowId))
+                                errorRouter.publishErrToWindowIfNeed(rs, windowId)
                             }
 
                             wbStateMs.needSave = false

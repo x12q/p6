@@ -148,8 +148,7 @@ data class GridSliderImp(
     }
 
     /**
-     * expand or shrink [scrollBarLastCol] and [scrollBarLastRow] if [colRowShifter] reaches or goes out of those limits.
-     * TODO at the moment, this function does not cover shrinking, only expanding
+     * expand [scrollBarLastCol] and [scrollBarLastRow] if [colRowShifter] reaches or goes out of those limits.
      */
     override fun expandScrollBarLimitIfNeed(margin: Int): GridSliderImp {
 

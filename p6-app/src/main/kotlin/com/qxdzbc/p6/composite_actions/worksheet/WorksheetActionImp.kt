@@ -48,10 +48,6 @@ class WorksheetActionImp @Inject constructor(
             }
             if (newSlider != sliderState) {
                 wsState.updateSliderAndRefreshDependentStates(newSlider)
-//                wsState.cellLayoutCoorMapMs.value = wsState.cellLayoutCoorMap
-//                    .filter { (cellAddress, _) ->
-//                        sliderState.containAddressInVisibleRange(cellAddress)
-//                    }
             }
         }
     }

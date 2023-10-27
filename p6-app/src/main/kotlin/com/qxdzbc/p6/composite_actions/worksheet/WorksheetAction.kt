@@ -19,6 +19,9 @@ interface WorksheetAction :
      */
     fun addCellLayoutCoor(cellAddress: CellAddress, layoutCoordinates: LayoutCoordinates, wsLoc: WbWsSt)
 
+    /**
+     * For when user scroll their mouse on a worksheet.
+     */
     fun onMouseScroll(x:Int, y:Int, wsLoc: WbWsSt)
 
     fun removeCellLayoutCoor(cellAddress: CellAddress, wsLoc: WbWsSt)
