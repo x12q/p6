@@ -5,6 +5,7 @@ import androidx.compose.runtime.setValue
 import com.qxdzbc.common.compose.Ms
 import com.qxdzbc.p6.ui.worksheet.di.WsScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_scroll_bar_reflect_slider.MakeScrollBarReflectSlider
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.action.ScrollBarActionData
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.*
 import javax.inject.Inject
@@ -16,27 +17,29 @@ import kotlin.math.min
 @WsScope
 class ReleaseThumbFromDrag @Inject constructor(
     private val sliderMs: Ms<GridSlider>,
+    val reflect: MakeScrollBarReflectSlider,
 )  {
 
-    private var slider by sliderMs
+    private var sliderQ by sliderMs
 
     fun run(data: ScrollBarActionData.ReleaseFromDrag) {
-        resizeThumb(data.state, slider)
+
+        resizeThumb(data.state, sliderQ)
 
         recomputeScrollbarLimit(data.state)
 
-        repositionThumbWhenReachEnd(data.state, slider)
+        repositionThumbWhenReachEnd(data.state, sliderQ)
     }
 
     /**
-     * Recompute scroll bar limit of [slider] in case scroll bar thumbs reach the start or the end of its rail.
+     * Recompute scroll bar limit of [sliderQ] in case scroll bar thumbs reach the start or the end of its rail.
      */
     private fun recomputeScrollbarLimit(scrollBarState: ScrollBarState){
         if(scrollBarState.thumbReachRailStart) {
-            slider = slider.resetScrollBarLimit()
+            sliderQ = sliderQ.resetScrollBarLimit()
         }
         if(scrollBarState.thumbReachRailEnd){
-            slider = slider.expandScrollBarLimitsIfNeed()
+            sliderQ = sliderQ.expandScrollBarLimitsIfNeed()
         }
     }
 
@@ -81,22 +84,8 @@ class ReleaseThumbFromDrag @Inject constructor(
      */
     private fun repositionThumbWhenReachEnd(scrollBarState: ScrollBarState, slider: GridSlider) {
         if (scrollBarState.thumbReachRailEnd) {
-            val pullBackPosition = when (scrollBarState) {
-                is VerticalScrollBarState -> {
-                    val numberOfDisplayRow = slider.visibleRowRangeIncludeMargin.last.toFloat()
-                    val numberOfScrollBarRow = slider.scrollBarRowRange.last
-                    numberOfDisplayRow / numberOfScrollBarRow
-                }
-
-                is HorizontalScrollBarState -> {
-                    val numberOfDisplayCol = slider.visibleColRangeIncludeMargin.last.toFloat()
-                    val numberOfScrollBarCol = slider.scrollBarColRange.last
-                    numberOfDisplayCol / numberOfScrollBarCol
-                }
-            }
-            scrollBarState.setThumbPositionRatioViaEffectivePositionRatio(pullBackPosition)
+            reflect.reflectThumbPosition(scrollBarState, slider)
         }
-
     }
 
     /**

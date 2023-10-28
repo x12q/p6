@@ -17,4 +17,9 @@ interface MakeScrollBarReflectSlider{
         oldSlider: GridSlider,
         newSlider: GridSlider,
     )
+
+    /**
+     * Recompute the thumb position of [scrollBarState] based on the data in [slider]
+     */
+    fun reflectThumbPosition(scrollBarState: ScrollBarState, slider: GridSlider)
 }

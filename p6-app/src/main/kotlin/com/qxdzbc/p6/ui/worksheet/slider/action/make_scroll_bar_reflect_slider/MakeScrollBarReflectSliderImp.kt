@@ -42,7 +42,7 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
     /**
      *  Reflect data from [slider] onto the thumb in [scrollBarState]
      */
-    private fun reflectThumbPosition(scrollBarState: ScrollBarState, slider: GridSlider) {
+    override fun reflectThumbPosition(scrollBarState: ScrollBarState, slider: GridSlider) {
         when (scrollBarState.type) {
             ScrollBarType.Vertical -> {
                 if (slider.firstVisibleRow == 1) {
@@ -71,7 +71,7 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
      *
      * [reductionRate] is how much the thumb length should be reduced based on the current length. Must be between [0,1]
      */
-    private fun reflectThumbSize(
+    fun reflectThumbSize(
         scrollBarState: ScrollBarState,
         slider: GridSlider,
         easingFactor: Int,
