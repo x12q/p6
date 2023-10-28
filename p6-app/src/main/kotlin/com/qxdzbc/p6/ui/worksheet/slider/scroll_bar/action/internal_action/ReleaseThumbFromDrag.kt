@@ -13,11 +13,13 @@ import kotlin.math.min
 
 /**
  * TODO need test
+ * Although this action contains a lot of logic similar to [MakeScrollBarReflectSlider], it is slightly different from [MakeScrollBarReflectSlider] in these aspect:
+ * - Dragging on a thumb of scrollbar does not cause a resizing of the thumb unless the thumb reaches the start or the end of the scrollbar.
+ * - Dragging on the thumb cause the source of truth lies with the scrollbar, not the slider. While in [MakeScrollBarReflectSlider], the source of truth lies with the slider.
  */
 @WsScope
 class ReleaseThumbFromDrag @Inject constructor(
     private val sliderMs: Ms<GridSlider>,
-    val reflect: MakeScrollBarReflectSlider,
 )  {
 
     private var sliderQ by sliderMs
@@ -84,7 +86,22 @@ class ReleaseThumbFromDrag @Inject constructor(
      */
     private fun repositionThumbWhenReachEnd(scrollBarState: ScrollBarState, slider: GridSlider) {
         if (scrollBarState.thumbReachRailEnd) {
-            reflect.reflectThumbPosition(scrollBarState, slider)
+            val pullBackPosition = when (scrollBarState) {
+                is VerticalScrollBarState -> {
+//                    val numberOfDisplayRow = slider.visibleRowRangeIncludeMargin.last.toFloat()
+//                    val numberOfScrollBarRow = slider.scrollBarRowRange.last
+//                    numberOfDisplayRow / numberOfScrollBarRow
+                    slider.computeScrolledRowPercentage()
+                }
+
+                is HorizontalScrollBarState -> {
+//                    val numberOfDisplayCol = slider.visibleColRangeIncludeMargin.last.toFloat()
+//                    val numberOfScrollBarCol = slider.scrollBarColRange.last
+//                    numberOfDisplayCol / numberOfScrollBarCol
+                    slider.computeScrolledColPercentage()
+                }
+            }
+            scrollBarState.setThumbPositionRatioViaEffectivePositionRatio(pullBackPosition)
         }
     }
 
