@@ -22,7 +22,7 @@ import javax.inject.Singleton
 class MoveSliderActionImp @Inject constructor(
     val stateCont: StateContainer,
     val errorRouter: ErrorRouter,
-    val makeScrollBarReflectSlider: MakeScrollBarReflectSlider,
+    val reflecto: MakeScrollBarReflectSlider,
 ) : MoveSliderAction {
 
     private val sc = stateCont
@@ -45,7 +45,7 @@ class MoveSliderActionImp @Inject constructor(
                 wsState.updateSliderAndRefreshDependentStates(newSlider)
 
                 if (newSlider.visibleRowRangeIncludeMargin != oldSlider.visibleRowRangeIncludeMargin) {
-                    makeScrollBarReflectSlider.reflect(
+                    reflecto.reflect(
                         scrollBarState = wsState.verticalScrollBarState,
                         oldSlider = oldSlider,
                         newSlider = newSlider,
@@ -53,7 +53,7 @@ class MoveSliderActionImp @Inject constructor(
                 }
 
                 if (newSlider.visibleColRangeIncludeMargin != oldSlider.visibleColRangeIncludeMargin) {
-                    makeScrollBarReflectSlider.reflect(
+                    reflecto.reflect(
                         scrollBarState = wsState.horizontalScrollBarState,
                         oldSlider = oldSlider,
                         newSlider = newSlider,
@@ -76,13 +76,30 @@ class MoveSliderActionImp @Inject constructor(
         makeSliderFollowCell(wsLoc, cursorState.mainCell)
     }
 
-    override fun shiftSlider(cursorLoc: WbWsSt, rowCount: Int, colCount: Int, publishErr: Boolean) {
+    override fun shiftSlider(
+        cursorLoc: WbWsSt,
+        rowCount: Int,
+        colCount: Int,
+        publishErr: Boolean,
+    ) {
         val rs = sc.getWsStateRs(cursorLoc).flatMap { wsState ->
-            val sliderMs = wsState.sliderMs
-            val oldSlider = sliderMs.value
-            val newSlider = oldSlider.shiftDown(rowCount).shiftRight(colCount)
+            val oldSlider = wsState.sliderMs.value
+            var newSlider = oldSlider
+                .shiftDown(rowCount)
+                .shiftRight(colCount)
             if (newSlider != oldSlider) {
+
+                newSlider = newSlider.expandOrShrinkScrollBarLimitsIfNeed()
+
                 wsState.updateSliderAndRefreshDependentStates(newSlider)
+
+                if (newSlider.visibleRowRangeIncludeMargin != oldSlider.visibleRowRangeIncludeMargin) {
+                    reflecto.reflect(wsState.verticalScrollBarState, oldSlider, newSlider)
+                }
+
+                if (newSlider.visibleColRangeIncludeMargin != oldSlider.visibleColRangeIncludeMargin) {
+                    reflecto.reflect(wsState.horizontalScrollBarState, oldSlider, newSlider)
+                }
             }
             Ok(Unit)
         }
