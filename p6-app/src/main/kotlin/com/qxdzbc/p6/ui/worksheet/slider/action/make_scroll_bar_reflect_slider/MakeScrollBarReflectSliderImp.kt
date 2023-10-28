@@ -2,8 +2,10 @@ package com.qxdzbc.p6.ui.worksheet.slider.action.make_scroll_bar_reflect_slider
 
 import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.worksheet.slider.GridSlider
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.HorizontalScrollBarState
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
 import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarType
+import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.VerticalScrollBarState
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,17 +19,24 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
 
     override fun reflect(
         scrollBarState: ScrollBarState,
-        slider: GridSlider,
-        easingFactor: Int,
-        isIncreasing:Boolean
+        oldSlider: GridSlider,
+        newSlider: GridSlider,
     ) {
-        reflectThumbPosition(scrollBarState, slider)
+        reflectThumbPosition(scrollBarState, newSlider)
+        val isIncreasing = when(scrollBarState){
+            is HorizontalScrollBarState -> {
+                newSlider.lastVisibleCol > oldSlider.lastVisibleCol
+            }
+            is VerticalScrollBarState -> {
+                newSlider.lastVisibleRow > oldSlider.lastVisibleRow
+            }
+        }
         val reductionRate = if(isIncreasing){
             0.008f
         }else{
             -0.008f
         }
-        reflectThumbSize(scrollBarState, slider, easingFactor,reductionRate)
+        reflectThumbSize(scrollBarState, newSlider, 15,reductionRate)
     }
 
     /**

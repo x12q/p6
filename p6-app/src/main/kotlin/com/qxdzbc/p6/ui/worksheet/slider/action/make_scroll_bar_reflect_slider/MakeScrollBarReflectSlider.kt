@@ -7,10 +7,14 @@ import com.qxdzbc.p6.ui.worksheet.slider.scroll_bar.state.ScrollBarState
  * This reads a [GridSlider] and make a [ScrollBarState] reflect the state of the [GridSlider]
  */
 interface MakeScrollBarReflectSlider{
+    /**
+     * Reflect a [GridSlider] state onto a [ScrollBarState], this include:
+     * - the data in [newSlider]
+     * - the transition from [oldSlider] to [newSlider]
+     */
     fun reflect(
         scrollBarState: ScrollBarState,
-        slider: GridSlider,
-        easingFactor: Int = 15,
-        isIncreasing:Boolean
+        oldSlider: GridSlider,
+        newSlider: GridSlider,
     )
 }

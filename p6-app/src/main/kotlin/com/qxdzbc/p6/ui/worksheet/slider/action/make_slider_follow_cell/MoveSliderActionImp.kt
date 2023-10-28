@@ -46,23 +46,23 @@ class MoveSliderActionImp @Inject constructor(
 
                 if (newSlider.visibleRowRangeIncludeMargin != oldSlider.visibleRowRangeIncludeMargin) {
 
-                    val isMovingDown = newSlider.lastVisibleRow > oldSlider.lastVisibleRow
+//                    val isMovingDown = newSlider.lastVisibleRow > oldSlider.lastVisibleRow
 
                     makeScrollBarReflectSlider.reflect(
                         scrollBarState = wsState.verticalScrollBarState,
-                        slider = newSlider,
-                        isIncreasing = isMovingDown
+                        oldSlider = oldSlider,
+                        newSlider = newSlider
                     )
                 }
 
                 if (newSlider.visibleColRangeIncludeMargin != oldSlider.visibleColRangeIncludeMargin) {
 
-                    val isMovingRight = newSlider.lastVisibleCol > oldSlider.lastVisibleCol
+//                    val isMovingRight = newSlider.lastVisibleCol > oldSlider.lastVisibleCol
 
                     makeScrollBarReflectSlider.reflect(
                         scrollBarState = wsState.horizontalScrollBarState,
-                        slider = newSlider,
-                        isIncreasing = isMovingRight
+                        oldSlider = oldSlider,
+                        newSlider = newSlider
                     )
                 }
             }
