@@ -12,12 +12,13 @@ import com.qxdzbc.p6.composite_actions.worksheet.release_focus.RestoreWindowFocu
 import com.qxdzbc.p6.document_data_layer.cell.address.CellAddress
 import com.qxdzbc.p6.di.P6AnvilScope
 import com.qxdzbc.p6.ui.app.state.StateContainer
+import com.qxdzbc.p6.ui.worksheet.slider.action.make_scroll_bar_reflect_slider.MakeScrollBarReflectSlider
 import com.squareup.anvil.annotations.ContributesBinding
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@ContributesBinding(P6AnvilScope::class,boundType =WorksheetAction::class)
+@ContributesBinding(P6AnvilScope::class, boundType = WorksheetAction::class)
 class WorksheetActionImp @Inject constructor(
     private val rangeToClipboardAction: RangeToClipboardAction,
     private val deleteMultiAct: DeleteMultiCellAction,
@@ -26,29 +27,39 @@ class WorksheetActionImp @Inject constructor(
     private val moveSliderAct: MoveSliderAction,
     private val computeSliderSizeAction: ComputeSliderSizeAction,
     private val mouseOnWsAction: MouseOnWorksheetAction,
+    private val reflectSlider: MakeScrollBarReflectSlider,
 ) : WorksheetAction,
     RangeToClipboardAction by rangeToClipboardAction,
     DeleteMultiCellAction by deleteMultiAct,
     RestoreWindowFocusState by restoreWindowFocusState,
     ComputeSliderSizeAction by computeSliderSizeAction,
-    MouseOnWorksheetAction by mouseOnWsAction
-{
+    MouseOnWorksheetAction by mouseOnWsAction {
 
     private val sc = stateCont
 
     override fun onMouseScroll(x: Int, y: Int, wsLoc: WbWsSt) {
         sc.getWsState(wsLoc)?.also { wsState ->
-            val sliderState = wsState.slider
-            var newSlider = sliderState
+            val oldSlider = wsState.slider
+            var newSlider = oldSlider
             if (x != 0) {
                 newSlider = newSlider.shiftRight(x)
             }
             if (y != 0) {
                 newSlider = newSlider.shiftDown(y)
             }
-            if (newSlider != sliderState) {
+            if (newSlider != oldSlider) {
+
+                newSlider = newSlider.expandOrShrinkScrollBarLimitsIfNeed()
+
                 wsState.updateSliderAndRefreshDependentStates(newSlider)
-                // TODO x9c scroll bar need to reflect the state of the slider here.
+
+                if (newSlider.visibleRowRangeIncludeMargin != oldSlider.visibleRowRangeIncludeMargin) {
+                    reflectSlider.reflect(wsState.verticalScrollBarState, oldSlider, newSlider)
+                }
+
+                if (newSlider.visibleColRangeIncludeMargin != oldSlider.visibleColRangeIncludeMargin) {
+                    reflectSlider.reflect(wsState.horizontalScrollBarState, oldSlider, newSlider)
+                }
             }
         }
     }

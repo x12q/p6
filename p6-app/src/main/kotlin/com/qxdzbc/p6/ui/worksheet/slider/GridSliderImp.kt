@@ -147,6 +147,12 @@ data class GridSliderImp(
         return rt
     }
 
+    override fun expandOrShrinkScrollBarLimitsIfNeed(margin: Int): GridSlider {
+        return this
+            .expandScrollBarLimitsIfNeed(margin)
+            .shrinkScrollBarLimitsIfNeed(margin)
+    }
+
     /**
      * expand [scrollBarLastCol] and [scrollBarLastRow] if [colRowShifter] reaches or goes out of those limits.
      */

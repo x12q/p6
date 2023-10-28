@@ -139,6 +139,11 @@ interface GridSlider {
     val lastVisibleRowNotMargin: Int
 
     /**
+     * expand or shrink bar limit if needed. If the limits are to increase, increase them by [margin]
+     */
+    fun expandOrShrinkScrollBarLimitsIfNeed(margin: Int = GridSliderConstants.edgeAdditionItemCount):GridSlider
+
+    /**
      * expand bar limit if needed. If the limits are to increase, increase them by [margin]
      */
     fun expandScrollBarLimitsIfNeed(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
