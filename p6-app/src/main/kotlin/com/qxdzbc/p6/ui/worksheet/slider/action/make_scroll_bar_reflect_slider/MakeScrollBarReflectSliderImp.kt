@@ -122,15 +122,4 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
         val effectivePosRatio = numberOfVisibleItem.toFloat() * easingFactor / numberOfScrollBarItem
         return min(effectivePosRatio, currentLengthRatio * (1f - reductionRate))
     }
-
-//    private fun expandThumbLengthRatioFormula(
-//        numberOfVisibleItem: Int,
-//        numberOfScrollBarItem: Int,
-//        currentLengthRatio: Float,
-//        easingFactor: Int = 15,
-//        incrementRate: Float = 0.1f,
-//    ): Float {
-//        val effectivePosRatio = numberOfVisibleItem.toFloat() * easingFactor / numberOfScrollBarItem
-//        return min(effectivePosRatio,currentLengthRatio*(1+incrementRate))
-//    }
 }
