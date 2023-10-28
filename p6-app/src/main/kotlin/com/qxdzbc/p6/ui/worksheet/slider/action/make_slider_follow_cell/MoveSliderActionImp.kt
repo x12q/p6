@@ -48,7 +48,7 @@ class MoveSliderActionImp @Inject constructor(
 
                     val isMovingDown = newSlider.lastVisibleRow > oldSlider.lastVisibleRow
 
-                    makeScrollBarReflectSlider.reflectAll(
+                    makeScrollBarReflectSlider.reflect(
                         scrollBarState = wsState.verticalScrollBarState,
                         slider = newSlider,
                         isIncreasing = isMovingDown
@@ -59,7 +59,7 @@ class MoveSliderActionImp @Inject constructor(
 
                     val isMovingRight = newSlider.lastVisibleCol > oldSlider.lastVisibleCol
 
-                    makeScrollBarReflectSlider.reflectAll(
+                    makeScrollBarReflectSlider.reflect(
                         scrollBarState = wsState.horizontalScrollBarState,
                         slider = newSlider,
                         isIncreasing = isMovingRight

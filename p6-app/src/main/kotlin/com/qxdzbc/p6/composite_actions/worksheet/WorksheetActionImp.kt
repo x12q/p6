@@ -48,6 +48,7 @@ class WorksheetActionImp @Inject constructor(
             }
             if (newSlider != sliderState) {
                 wsState.updateSliderAndRefreshDependentStates(newSlider)
+                // TODO x9c scroll bar need to reflect the state of the slider here.
             }
         }
     }

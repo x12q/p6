@@ -15,22 +15,25 @@ import kotlin.math.min
 @ContributesBinding(P6AnvilScope::class)
 class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflectSlider {
 
-    override fun reflectAll(
+    override fun reflect(
         scrollBarState: ScrollBarState,
         slider: GridSlider,
         easingFactor: Int,
         isIncreasing:Boolean
     ) {
-        reflectPosition(scrollBarState, slider)
-        val rr = if(isIncreasing){
+        reflectThumbPosition(scrollBarState, slider)
+        val reductionRate = if(isIncreasing){
             0.008f
         }else{
             -0.008f
         }
-        reflectThumbSize(scrollBarState, slider, easingFactor,rr)
+        reflectThumbSize(scrollBarState, slider, easingFactor,reductionRate)
     }
 
-    override fun reflectPosition(scrollBarState: ScrollBarState, slider: GridSlider) {
+    /**
+     *  Reflect data from [slider] onto the thumb in [scrollBarState]
+     */
+    private fun reflectThumbPosition(scrollBarState: ScrollBarState, slider: GridSlider) {
         when (scrollBarState.type) {
             ScrollBarType.Vertical -> {
                 if (slider.firstVisibleRow == 1) {
@@ -51,8 +54,15 @@ class MakeScrollBarReflectSliderImp @Inject constructor() : MakeScrollBarReflect
             }
         }
     }
-
-    override fun reflectThumbSize(
+    /**
+     * make thumb size of [scrollBarState] reflect the state of grid slider.
+     * The more col/row is scrolled, the smaller the thumb. And vise versa.
+     *
+     * [easingFactor] is to prevent the thumb from shrinking too fast. The bigger the [easingFactor], the slower it shrinks. Must be non-zero.
+     *
+     * [reductionRate] is how much the thumb length should be reduced based on the current length. Must be between [0,1]
+     */
+    private fun reflectThumbSize(
         scrollBarState: ScrollBarState,
         slider: GridSlider,
         easingFactor: Int,
