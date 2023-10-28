@@ -141,11 +141,11 @@ interface GridSlider {
     /**
      * expand bar limit if needed. If the limits are to increase, increase them by [margin]
      */
-    fun expandScrollBarLimitIfNeed(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
+    fun expandScrollBarLimitsIfNeed(margin: Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
     /**
      * shrink bar limit if the current limit is too large. If the limits are to increase, increase them by [margin]
      */
-    fun shrinkScrollBarLimitIfNeed(shrinkTo:Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
+    fun shrinkScrollBarLimitsIfNeed(shrinkTo:Int = GridSliderConstants.edgeAdditionItemCount): GridSlider
 
     /**
      * Reset the scroll bar limit to the default value

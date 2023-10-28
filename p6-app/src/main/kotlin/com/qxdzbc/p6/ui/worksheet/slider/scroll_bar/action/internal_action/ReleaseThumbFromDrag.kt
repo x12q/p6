@@ -36,7 +36,7 @@ class ReleaseThumbFromDrag @Inject constructor(
             slider = slider.resetScrollBarLimit()
         }
         if(scrollBarState.thumbReachRailEnd){
-            slider = slider.expandScrollBarLimitIfNeed()
+            slider = slider.expandScrollBarLimitsIfNeed()
         }
     }
 

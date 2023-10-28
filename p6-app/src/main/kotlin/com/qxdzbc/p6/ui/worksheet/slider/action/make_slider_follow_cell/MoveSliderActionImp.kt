@@ -38,8 +38,8 @@ class MoveSliderActionImp @Inject constructor(
             val sliderMs = wsState.sliderMs
             val oldSlider = sliderMs.value
             val newSlider = oldSlider.followCell(cellAddr)
-                .expandScrollBarLimitIfNeed()
-                .shrinkScrollBarLimitIfNeed()
+                .expandScrollBarLimitsIfNeed()
+                .shrinkScrollBarLimitsIfNeed()
             if (newSlider != oldSlider) {
 
                 wsState.updateSliderAndRefreshDependentStates(newSlider)

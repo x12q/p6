@@ -72,7 +72,7 @@ data class GridSliderImp(
         } else {
             val rt = this
                 .copy(colRowShifter = this.colRowShifter.setVisibleColRange(i))
-                .expandScrollBarLimitIfNeed()
+                .expandScrollBarLimitsIfNeed()
 
             return rt
         }
@@ -102,7 +102,7 @@ data class GridSliderImp(
         } else {
             val rt = this
                 .copy(colRowShifter = this.colRowShifter.setVisibleRowRange(i))
-                .expandScrollBarLimitIfNeed()
+                .expandScrollBarLimitsIfNeed()
             return rt
         }
     }
@@ -150,7 +150,7 @@ data class GridSliderImp(
     /**
      * expand [scrollBarLastCol] and [scrollBarLastRow] if [colRowShifter] reaches or goes out of those limits.
      */
-    override fun expandScrollBarLimitIfNeed(margin: Int): GridSliderImp {
+    override fun expandScrollBarLimitsIfNeed(margin: Int): GridSliderImp {
 
         var rt = this
 
@@ -173,7 +173,7 @@ data class GridSliderImp(
         return rt
     }
 
-    override fun shrinkScrollBarLimitIfNeed(shrinkTo: Int): GridSliderImp {
+    override fun shrinkScrollBarLimitsIfNeed(shrinkTo: Int): GridSliderImp {
 
         val rowDif = (lastVisibleRow - scrollBarLastRow) - shrinkTo
 
