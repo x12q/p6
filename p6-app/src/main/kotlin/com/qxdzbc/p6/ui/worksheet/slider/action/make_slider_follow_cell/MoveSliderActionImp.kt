@@ -48,7 +48,7 @@ class MoveSliderActionImp @Inject constructor(
                     makeScrollBarReflectSlider.reflect(
                         scrollBarState = wsState.verticalScrollBarState,
                         oldSlider = oldSlider,
-                        newSlider = newSlider
+                        newSlider = newSlider,
                     )
                 }
 
@@ -56,7 +56,7 @@ class MoveSliderActionImp @Inject constructor(
                     makeScrollBarReflectSlider.reflect(
                         scrollBarState = wsState.horizontalScrollBarState,
                         oldSlider = oldSlider,
-                        newSlider = newSlider
+                        newSlider = newSlider,
                     )
                 }
             }
