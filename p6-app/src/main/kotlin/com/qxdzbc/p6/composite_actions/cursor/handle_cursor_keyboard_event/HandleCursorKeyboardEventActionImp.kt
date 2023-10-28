@@ -342,8 +342,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
         return rt
     }
 
-    fun _ctrlUp(wsState: WorksheetState?) {
-        wsState?.also {wsState->
+    private fun _ctrlUp(wsState: WorksheetState?) {
+        wsState?.also {
             val cursorStateMs = wsState.cursorStateMs
             // go to the nearest non-empty cell on the same col of anchor cell
             val newCursorState = ctrlUpNoUpdate(wsState)
@@ -381,8 +381,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
         return rt
     }
 
-    fun _ctrlDown(wsState: WorksheetState?) {
-        wsState?.also {wsState->
+    private fun _ctrlDown(wsState: WorksheetState?) {
+        wsState?.also {
             val cursorStateMs = wsState.cursorStateMs
             val newCursor = ctrlDownNoUpdate(wsState)
             if (newCursor != null) {
@@ -401,8 +401,8 @@ class HandleCursorKeyboardEventActionImp @Inject constructor(
     }
 
 
-    fun _ctrlRight(wsState: WorksheetState?) {
-        wsState?.also {wsState->
+    private fun _ctrlRight(wsState: WorksheetState?) {
+        wsState?.also {
             val cursorStateMs = wsState.cursorStateMs
             val newCursorState = ctrlRightNoUpdate(wsState)
             if (newCursorState != null) {
