@@ -13,7 +13,7 @@ import kotlin.math.min
 
 /**
  * TODO need test
- * Although this action contains a lot of logic similar to [MakeScrollBarReflectSlider], it is slightly different from [MakeScrollBarReflectSlider] in these aspect:
+ * Although this action contains a lot of logic similar to [MakeScrollBarReflectSlider], it is slightly different from [MakeScrollBarReflectSlider] in these aspects:
  * - Dragging on a thumb of scrollbar does not cause a resizing of the thumb unless the thumb reaches the start or the end of the scrollbar.
  * - Dragging on the thumb cause the source of truth lies with the scrollbar, not the slider. While in [MakeScrollBarReflectSlider], the source of truth lies with the slider.
  */
