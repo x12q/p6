@@ -1,7 +1,8 @@
 package com.qxdzbc.common.compose
 
 import androidx.compose.runtime.*
-
+import com.qxdzbc.common.compose.TFMutableState.Companion.tf
+import com.qxdzbc.common.compose.TFMutableState.Companion.tfMutableStateOf
 
 
 object StateUtils {
@@ -9,13 +10,13 @@ object StateUtils {
      * a convenient function for mutableStateOf
      */
     inline fun <T> ms(f: () -> T): Ms<T> {
-        return mutableStateOf(f())
+        return tfMutableStateOf(f())
     }
     /**
      * a convenient function for mutableStateOf
      */
     fun <T> ms(o: T): Ms<T> {
-        return mutableStateOf(o)
+        return tfMutableStateOf(o)
     }
 
     fun <T : Any?> T.toMs(): Ms<T> {
@@ -31,7 +32,7 @@ object StateUtils {
      */
     @Composable
     fun <T> rms(o: T): Ms<T> {
-        return remember { mutableStateOf(o) }
+        return remember { ms(o) }
     }
 
     /**
@@ -39,6 +40,6 @@ object StateUtils {
      */
     @Composable
     fun <T> rms(f: () -> T): Ms<T> {
-        return remember { mutableStateOf(f()) }
+        return remember { ms(f()) }
     }
 }
